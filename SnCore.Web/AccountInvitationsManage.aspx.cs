@@ -98,6 +98,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
                 invitation.Code = Guid.NewGuid().ToString();
                 invitation.Email = email;
                 invitation.Message = inputMessage.Text;
+                invitation.AccountId = SessionManager.AccountId;
                 SessionManager.CreateOrUpdate<TransitAccountInvitation>(
                     invitation, SessionManager.AccountService.CreateOrUpdateAccountInvitation);
                 invitations.Add(email);

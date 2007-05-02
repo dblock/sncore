@@ -495,10 +495,13 @@ namespace SnCore.WebServices
         {
             if (invitation.Id == 0)
             {
-                TransitAccountInvitation t_instance = GetAccountInvitationByEmail(ticket, invitation.AccountId, invitation.Email);
+                TransitAccountInvitation t_instance = GetAccountInvitationByEmail(
+                    ticket, invitation.AccountId, invitation.Email);
+                
                 if (t_instance != null)
                 {
-                    throw new Exception("Existing Invitation Pending");
+                    throw new SoapException("Existing invitation pending",
+                        SoapException.ClientFaultCode);
                 }
             }
 
@@ -1356,8 +1359,9 @@ namespace SnCore.WebServices
 
                 if (ppg == null)
                 {
-                    throw new Exception(string.Format(
-                        "No property group with the name \"{0}\" found.", groupname));
+                    throw new SoapException(string.Format(
+                        "No property group with the name \"{0}\" found.", groupname),
+                        SoapException.ClientFaultCode);
                 }
 
                 AccountProperty pp = (AccountProperty)session.CreateCriteria(typeof(AccountProperty))
@@ -1367,8 +1371,9 @@ namespace SnCore.WebServices
 
                 if (pp == null)
                 {
-                    throw new Exception(string.Format(
-                        "No property with the name \"{0}\" found.", propertyname));
+                    throw new SoapException(string.Format(
+                        "No property with the name \"{0}\" found.", propertyname),
+                        SoapException.ClientFaultCode);
                 }
 
                 AccountPropertyValue ppv = (AccountPropertyValue)session.CreateCriteria(typeof(AccountPropertyValue))
@@ -1378,9 +1383,10 @@ namespace SnCore.WebServices
 
                 if (ppv == null)
                 {
-                    throw new Exception(string.Format(
+                    throw new SoapException(string.Format(
                         "No property value for \"{0}\" of account \"{0}\" of group \"{0}\" found.",
-                        propertyname, accountid, groupname));
+                        propertyname, accountid, groupname),
+                        SoapException.ClientFaultCode);
                 }
 
                 ManagedAccountPropertyValue result = new ManagedAccountPropertyValue(session, ppv);

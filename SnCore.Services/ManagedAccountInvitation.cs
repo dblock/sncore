@@ -17,7 +17,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mEmail;
             }
             set
@@ -32,7 +31,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCode;
             }
             set
@@ -47,7 +45,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMessage;
             }
             set
@@ -62,7 +59,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -77,7 +73,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mModified;
             }
             set
@@ -92,7 +87,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountId;
             }
             set
@@ -107,7 +101,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountName;
             }
             set
