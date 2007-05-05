@@ -123,7 +123,7 @@
         </member>
         <member name="T:NHibernate.DomainModel.NHSpecific.NullableInt32">
             <summary>
-            An <see cref="!:INullableType"/> that wraps an <see cref="T:System.Int32"/> value.
+            A nullable type that wraps an <see cref="T:System.Int32"/> value.
             </summary>
         </member>
         <member name="T:NHibernate.DomainModel.NHSpecific.NullableInt32Type">
@@ -192,6 +192,11 @@
             Holder for name
             </summary>
         </member>
+        <member name="F:NHibernate.DomainModel.A._anotherName">
+            <summary>
+            Holder for anotherName
+            </summary>
+        </member>
         <member name="F:NHibernate.DomainModel.A._forward">
             <summary>
             Holder for forward
@@ -216,6 +221,11 @@
         <member name="P:NHibernate.DomainModel.A.Name">
             <summary>
             Get/set for name
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.A.AnotherName">
+            <summary>
+            Get/set for anotherName
             </summary>
         </member>
         <member name="T:NHibernate.DomainModel.Foo">

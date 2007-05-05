@@ -295,7 +295,7 @@
         </member>
         <member name="M:NHibernate.Tool.hbm2net.FinderRenderer.render(System.String,System.String,NHibernate.Tool.hbm2net.ClassMapping,System.Collections.IDictionary,System.IO.StreamWriter)">
             <summary> Render finder classes.</summary>
-            <exception>Exception</exception>
+            <exception cref="T:System.Exception">Exception</exception>
         </member>
         <member name="M:NHibernate.Tool.hbm2net.FinderRenderer.doFinders(NHibernate.Tool.hbm2net.ClassMapping,System.Collections.IDictionary,System.IO.StringWriter)">
             <summary>  Create finders for properties that have the <meta atttribute="finder-method">

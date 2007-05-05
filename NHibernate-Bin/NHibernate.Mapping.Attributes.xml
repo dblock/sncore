@@ -72,6 +72,9 @@
         <member name="P:NHibernate.Mapping.Attributes.AnyAttribute.Index">
             <summary> </summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.AnyAttribute.UniqueKey">
+            <summary> </summary>
+        </member>
         <member name="T:NHibernate.Mapping.Attributes.ArrayAttribute">
             <summary> </summary>
         </member>
@@ -104,6 +107,12 @@
         </member>
         <member name="P:NHibernate.Mapping.Attributes.ArrayAttribute.Where">
             <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.ArrayAttribute.OptimisticLock">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.ArrayAttribute.OptimisticLockSpecified">
+            <summary> Tells if OptimisticLock has been specified. </summary>
         </member>
         <member name="T:NHibernate.Mapping.Attributes.AttributeIdentifierAttribute">
             <summary> Use this attribute to give a value to a field identified in a mapping attribute. </summary>
@@ -191,6 +200,12 @@
         </member>
         <member name="P:NHibernate.Mapping.Attributes.BagAttribute.CollectionTypeType">
             <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.BagAttribute.OptimisticLock">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.BagAttribute.OptimisticLockSpecified">
+            <summary> Tells if OptimisticLock has been specified. </summary>
         </member>
         <member name="P:NHibernate.Mapping.Attributes.BagAttribute.Generic">
             <summary>The concrete collection should use a generic version or an object-based version.</summary>
@@ -1301,6 +1316,12 @@
         <member name="P:NHibernate.Mapping.Attributes.IdBagAttribute.CollectionTypeType">
             <summary> </summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.IdBagAttribute.OptimisticLock">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.IdBagAttribute.OptimisticLockSpecified">
+            <summary> Tells if OptimisticLock has been specified. </summary>
+        </member>
         <member name="P:NHibernate.Mapping.Attributes.IdBagAttribute.Generic">
             <summary>The concrete collection should use a generic version or an object-based version.</summary>
         </member>
@@ -1634,6 +1655,12 @@
         <member name="P:NHibernate.Mapping.Attributes.ListAttribute.CollectionTypeType">
             <summary> </summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.ListAttribute.OptimisticLock">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.ListAttribute.OptimisticLockSpecified">
+            <summary> Tells if OptimisticLock has been specified. </summary>
+        </member>
         <member name="P:NHibernate.Mapping.Attributes.ListAttribute.Generic">
             <summary>The concrete collection should use a generic version or an object-based version.</summary>
         </member>
@@ -1787,6 +1814,12 @@
         <member name="P:NHibernate.Mapping.Attributes.ManyToOneAttribute.UniqueSpecified">
             <summary> Tells if Unique has been specified. </summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.ManyToOneAttribute.UniqueKey">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.ManyToOneAttribute.Index">
+            <summary> </summary>
+        </member>
         <member name="P:NHibernate.Mapping.Attributes.ManyToOneAttribute.Cascade">
             <summary> </summary>
         </member>
@@ -1885,6 +1918,12 @@
         </member>
         <member name="P:NHibernate.Mapping.Attributes.MapAttribute.CollectionTypeType">
             <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.MapAttribute.OptimisticLock">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.MapAttribute.OptimisticLockSpecified">
+            <summary> Tells if OptimisticLock has been specified. </summary>
         </member>
         <member name="P:NHibernate.Mapping.Attributes.MapAttribute.Generic">
             <summary>The concrete collection should use a generic version or an object-based version.</summary>
@@ -2240,8 +2279,29 @@
         <member name="P:NHibernate.Mapping.Attributes.PropertyAttribute.Formula">
             <summary>only supported for properties of a class (not component)</summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.PropertyAttribute.UniqueKey">
+            <summary> </summary>
+        </member>
         <member name="P:NHibernate.Mapping.Attributes.PropertyAttribute.Index">
             <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.PropertyAttribute.Generated">
+            <summary> </summary>
+        </member>
+        <member name="T:NHibernate.Mapping.Attributes.PropertyGeneration">
+            <summary> </summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.PropertyGeneration.Unspecified">
+            <summary>Default value (don't use it)</summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.PropertyGeneration.Never">
+            <summary>never</summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.PropertyGeneration.Insert">
+            <summary>insert</summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.PropertyGeneration.Always">
+            <summary>always</summary>
         </member>
         <member name="T:NHibernate.Mapping.Attributes.QueryAttribute">
             <summary> </summary>
@@ -2453,6 +2513,12 @@
         <member name="P:NHibernate.Mapping.Attributes.SetAttribute.CollectionTypeType">
             <summary> </summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.SetAttribute.OptimisticLock">
+            <summary> </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.SetAttribute.OptimisticLockSpecified">
+            <summary> Tells if OptimisticLock has been specified. </summary>
+        </member>
         <member name="P:NHibernate.Mapping.Attributes.SetAttribute.Generic">
             <summary>The concrete collection should use a generic version or an object-based version.</summary>
         </member>
@@ -2648,6 +2714,9 @@
         <member name="P:NHibernate.Mapping.Attributes.TimestampAttribute.UnsavedValueObject">
             <summary>undefined|any|none|null|0|-1|... </summary>
         </member>
+        <member name="P:NHibernate.Mapping.Attributes.TimestampAttribute.Generated">
+            <summary> </summary>
+        </member>
         <member name="T:NHibernate.Mapping.Attributes.TypeAttribute">
             <summary> </summary>
         </member>
@@ -2707,6 +2776,21 @@
         </member>
         <member name="P:NHibernate.Mapping.Attributes.VersionAttribute.UnsavedValueObject">
             <summary>undefined|any|none|null|0|-1|... </summary>
+        </member>
+        <member name="P:NHibernate.Mapping.Attributes.VersionAttribute.Generated">
+            <summary> </summary>
+        </member>
+        <member name="T:NHibernate.Mapping.Attributes.VersionGeneration">
+            <summary> </summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.VersionGeneration.Unspecified">
+            <summary>Default value (don't use it)</summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.VersionGeneration.Never">
+            <summary>never</summary>
+        </member>
+        <member name="F:NHibernate.Mapping.Attributes.VersionGeneration.Always">
+            <summary>always</summary>
         </member>
     </members>
 </doc>
