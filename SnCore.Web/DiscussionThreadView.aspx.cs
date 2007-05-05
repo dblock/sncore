@@ -28,6 +28,12 @@ public partial class DiscussionThreadView : Page
             TransitDiscussionThread t = SessionManager.DiscussionService.GetDiscussionThreadById(
                 SessionManager.Ticket, RequestId);
 
+            if (t == null)
+            {
+                ReportWarning("Discussion has been deleted or invalid discussion thread.");
+                return;
+            }
+
             TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
                 SessionManager.Ticket, t.DiscussionId);
 
