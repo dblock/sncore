@@ -113,6 +113,13 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             Delete(GetAdminTicket(), t_instance.Id);
         }
 
+        [Test]
+        public void SearchPlacesEmptyTest()
+        {
+            WebPlaceService.TransitPlace[] t_found = EndPoint.SearchPlaces(
+                GetUserTicket(), string.Empty, null);
+            Assert.AreEqual(0, t_found.Length);
+        }
 
         [Test]
         protected void CreateOrUpdatePlaceWithPropertyValuesTest()

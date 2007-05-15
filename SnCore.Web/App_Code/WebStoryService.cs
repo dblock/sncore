@@ -144,6 +144,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Return stories matching a query.", CacheDuration = 60)]
         public List<TransitAccountStory> SearchAccountStories(string ticket, string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountStory>();
+
             int maxsearchresults = 128;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {

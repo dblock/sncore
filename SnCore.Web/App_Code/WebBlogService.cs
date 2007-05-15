@@ -281,6 +281,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Search blog posts.", CacheDuration = 60)]
         public List<TransitAccountBlogPost> SearchAccountBlogPosts(string ticket, string s, ServiceQueryOptions options)
         {
+            if (string.IsNullOrEmpty(s))
+                return new List<TransitAccountBlogPost>();
+
             int maxsearchresults = 128;
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {

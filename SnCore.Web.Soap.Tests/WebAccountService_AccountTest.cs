@@ -70,6 +70,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsTrue(new TransitServiceCollection<WebAccountService.TransitAccount>(accounts).ContainsId(GetAdminAccount().Id));
         }
 
+        [Test]
+        public void SearchAccountsEmptyTest()
+        {
+            WebAccountService.TransitAccount[] accounts = EndPoint.SearchAccounts(
+                GetUserTicket(), string.Empty, null);
+            Assert.AreEqual(0, accounts.Length);
+        }
+
         public override object[] GetDeleteArgs(string ticket, int id)
         {
             object[] args = { ticket, id, string.Empty };

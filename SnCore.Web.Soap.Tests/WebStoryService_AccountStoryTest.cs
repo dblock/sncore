@@ -55,6 +55,14 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         }
 
         [Test]
+        public void SearchStoriesEmptyTest()
+        {
+            WebStoryService.TransitAccountStory[] searchresults = EndPoint.SearchAccountStories(
+                GetAdminTicket(), string.Empty, null);
+            Assert.AreEqual(0, searchresults.Length);
+        }
+
+        [Test]
         public void SearchStoriesTest()
         {
             WebStoryService.TransitAccountStory t_instance = GetTransitInstance();

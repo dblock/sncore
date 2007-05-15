@@ -57,6 +57,14 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         }
 
         [Test]
+        public void SearchAccountFeedItemsEmptyTest()
+        {
+            WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.SearchAccountFeedItems(
+                GetUserTicket(), string.Empty, null);
+            Assert.AreEqual(0, items.Length);
+        }
+
+        [Test]
         public void SearchAccountFeedItemsTest()
         {
             string s = GetNewString();

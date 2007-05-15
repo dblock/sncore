@@ -88,6 +88,14 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
+        public void SearchDiscussionPostsEmptyTest()
+        {
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.SearchDiscussionPosts(
+                GetUserTicket(), string.Empty, null);
+            Assert.AreEqual(0, posts.Length);
+        }
+
+        [Test]
         public void SearchDiscussionPostsTest()
         {
             WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();

@@ -54,6 +54,14 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         }
 
         [Test]
+        public void SearchAccountBlogPostsEmptyTest()
+        {
+            WebBlogService.TransitAccountBlogPost[] posts = EndPoint.SearchAccountBlogPosts(
+                GetAdminTicket(), string.Empty, null);
+            Assert.AreEqual(0, posts.Length);
+        }
+
+        [Test]
         public void SearchAccountBlogPostsTest()
         {
             WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
