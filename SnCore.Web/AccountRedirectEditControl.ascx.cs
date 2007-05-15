@@ -70,6 +70,10 @@ public partial class AccountRedirectEditControl : Control
             RedirectId = 0;
             ReportInfo("Redirect deleted, it may take a few seconds to de-activate.");
         }
+        else if (string.IsNullOrEmpty(inputSource.Text) && (RedirectId == 0))
+        {
+            // nothing to do
+        }
         else
         {
             RedirectId = redirect.Id = SessionManager.CreateOrUpdate<TransitAccountRedirect>(
