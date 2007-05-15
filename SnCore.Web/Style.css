@@ -50,7 +50,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_message_unread { border: solid 2px black; }
 .sncore_message_read { border: solid 1px silver; }
 .sncore_message_header { padding: 10px; }
-.sncore_message_subject { font-size: large; margin-bottom: 5px;}
+.sncore_message_subject { font-size: large; margin-bottom: 5px; }
 .sncore_message_table { padding: 10px; margin: 5px 0px 5px 0px; border: solid 1px #bbb; }
 .sncore_message_body { padding: 5px; margin: 5px 0px 5px 0px; }
 .sncore_message_left { margin: 0px 0px 10px 0px; padding: 3px; } 
@@ -117,5 +117,5 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_master_content { overflow: hidden; margin: auto; width: 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color: White; text-align: left; }
 .sncore_master_footer { overflow: hidden; margin: auto; width: 827px; font-family: Tahoma; font-size: 8pt; color: Silver; background-color: White; text-align: center; padding-top: 10px; padding-bottom: 10px; }
 .sncore_master_form { overflow: hidden; width: 100%; text-align: center; }
-.sncore_title_panel { height: 42; overflow: hidden; }
+.sncore_title_panel { height: 42px; overflow: hidden; }
 .sncore_collapsed_div { height: 0px; overflow: hidden; }
