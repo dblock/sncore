@@ -310,9 +310,8 @@ namespace SnCore.WebServices
                             ")", pid);
                     }
 
-
-                    IQuery query = session.CreateSQLQuery(squery.ToString(), "Account", typeof(Account));
-                    IList list = query.List();
+                    ISQLQuery query = session.CreateSQLQuery(squery.ToString());
+                    IList<Account> list = query.List<Account>();
 
                     foreach (Account account in list)
                     {

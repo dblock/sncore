@@ -701,7 +701,7 @@ namespace SnCore.WebServices
             {
 
                 int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
+                ISQLQuery query = session.CreateSQLQuery(
 
                         "CREATE TABLE #Results ( Place_Id int, RANK int )\n" +
                         "CREATE TABLE #Unique_Results ( Place_Id int, RANK int )\n" +
@@ -735,10 +735,7 @@ namespace SnCore.WebServices
                         "ORDER BY #Unique_Results.RANK DESC\n" +
 
                         "DROP TABLE #Results\n" +
-                        "DROP TABLE #Unique_Results\n",
-
-                        "Place",
-                        typeof(Place));
+                        "DROP TABLE #Unique_Results");
 
                 places = query.List<Place>(); 
             }
@@ -1347,7 +1344,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
-                IQuery q = session.CreateSQLQuery(
+                ISQLQuery q = session.CreateSQLQuery(
                     "CREATE TABLE #fav (	[Id] [int],	[Score] [int] )\n" +
                     "INSERT INTO #fav ( [Id], [Score] ) " +
                     " SELECT Place_Id, 1 FROM AccountPlaceFavorite " +
@@ -1360,9 +1357,7 @@ namespace SnCore.WebServices
                     " ON #pl.Id = Place.Place_Id" +
                     " ORDER BY [Score] DESC\n" +
                     "DROP TABLE #pl\n" +
-                    "DROP TABLE #fav ",
-                    "Place",
-                    typeof(Place));
+                    "DROP TABLE #fav ");
 
                 //if (serviceoptions != null)
                 //{

@@ -1082,7 +1082,7 @@ namespace SnCore.WebServices
             if (accounts.Count == 0)
             {
                 int maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
-                IQuery query = session.CreateSQLQuery(
+                ISQLQuery query = session.CreateSQLQuery(
 
                         "CREATE TABLE #Results ( Account_Id int, RANK int )\n" +
                         "CREATE TABLE #Unique_Results ( Account_Id int, RANK int )\n" +
@@ -1115,10 +1115,7 @@ namespace SnCore.WebServices
                         "ORDER BY #Unique_Results.RANK DESC\n" +
 
                         "DROP TABLE #Results\n" +
-                        "DROP TABLE #Unique_Results\n",
-
-                        "Account",
-                        typeof(Account));
+                        "DROP TABLE #Unique_Results\n");
 
                 accounts = query.List<Account>();
             }
