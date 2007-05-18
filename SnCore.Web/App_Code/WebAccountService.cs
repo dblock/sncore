@@ -1115,7 +1115,8 @@ namespace SnCore.WebServices
                         "ORDER BY #Unique_Results.RANK DESC\n" +
 
                         "DROP TABLE #Results\n" +
-                        "DROP TABLE #Unique_Results\n");
+                        "DROP TABLE #Unique_Results\n")
+                        .AddEntity("Account", typeof(Account));
 
                 accounts = query.List<Account>();
             }

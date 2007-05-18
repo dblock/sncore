@@ -139,7 +139,7 @@ namespace SnCore.Data.Tests
         [Test]
         public void TestSelectWithTempTable()
         {
-            IQuery q = Session.CreateSQLQuery(
+            ISQLQuery q = Session.CreateSQLQuery(
                 "CREATE TABLE #fav (	[Id] [int],	[Score] [int] )\n" +
                 "INSERT INTO #fav ( [Id], [Score] ) " +
                 " SELECT Place_Id, 1 FROM AccountPlaceFavorite " +
@@ -151,9 +151,8 @@ namespace SnCore.Data.Tests
                 " ON #pl.Id = Place.Place_Id" +
                 " ORDER BY [Score] DESC\n" +
                 "DROP TABLE #pl\n" +
-                "DROP TABLE #fav ",
-                "Place",
-                typeof(Place));
+                "DROP TABLE #fav ")
+            .AddEntity("Place", typeof(Place));
 
             //q.SetMaxResults(10);
             //q.SetFirstResult(1);

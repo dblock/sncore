@@ -735,7 +735,8 @@ namespace SnCore.WebServices
                         "ORDER BY #Unique_Results.RANK DESC\n" +
 
                         "DROP TABLE #Results\n" +
-                        "DROP TABLE #Unique_Results");
+                        "DROP TABLE #Unique_Results")
+                        .AddEntity("Place", typeof(Place));
 
                 places = query.List<Place>(); 
             }
@@ -1357,7 +1358,8 @@ namespace SnCore.WebServices
                     " ON #pl.Id = Place.Place_Id" +
                     " ORDER BY [Score] DESC\n" +
                     "DROP TABLE #pl\n" +
-                    "DROP TABLE #fav ");
+                    "DROP TABLE #fav ")
+                    .AddEntity("Place", typeof(Place));
 
                 //if (serviceoptions != null)
                 //{

@@ -310,7 +310,9 @@ namespace SnCore.WebServices
                             ")", pid);
                     }
 
-                    ISQLQuery query = session.CreateSQLQuery(squery.ToString());
+                    ISQLQuery query = session.CreateSQLQuery(squery.ToString())
+                        .AddEntity("Account", typeof(Account));
+                    
                     IList<Account> list = query.List<Account>();
 
                     foreach (Account account in list)
