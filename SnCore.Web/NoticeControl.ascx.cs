@@ -21,6 +21,7 @@ public partial class NoticeControl : Control
     private string mStyle = string.Empty;
     private bool mHtmlEncode = true;
     private string mMessage = string.Empty;
+    private string mDetail = string.Empty;
     private NoticeKind mNoticeKind = NoticeKind.Info;
 
     public enum NoticeKind
@@ -106,11 +107,14 @@ public partial class NoticeControl : Control
         set
         {
             Kind = NoticeKind.Error;
-#if DEBUG
-            string message = value.Message;
-#else
+
+            string detail = value.Message;
             string message = value.Message.Split('\n')[0];
-#endif
+
+            if (value.InnerException != null)
+            {
+                detail = detail + "\n" + value.InnerException.Message;
+            }
 
             string reportbugurl;
             if (SessionManager.IsLoggedIn)
@@ -120,7 +124,7 @@ public partial class NoticeControl : Control
                        SessionManager.GetCachedConfiguration(
                             "SnCore.Bug.ProjectId", "0"),
                     Renderer.UrlEncode(Request.Url.PathAndQuery),
-                    Renderer.UrlEncode(message));
+                    Renderer.UrlEncode(detail));
             }
             else
             {
@@ -128,13 +132,15 @@ public partial class NoticeControl : Control
                        SessionManager.GetCachedConfiguration(
                             "SnCore.Admin.EmailAddress", "admin@localhost.com"),
                             Renderer.UrlEncode(Request.Url.PathAndQuery),
-                            Renderer.UrlEncode(message));
+                            Renderer.UrlEncode(detail));
             }
 
             HtmlEncode = false;
 
             Message = string.Format("{0}<br><small>This may be a bug. If you believe you should not be getting this error, " +
                 "please <a href={1}>click here</a> to report it.</small>", message, reportbugurl);
+
+            Detail = detail;
 
             StringBuilder s = new StringBuilder();
             s.AppendFormat("User-raised exception from {0}: {1}\n{2}", value.Source, value.Message, value.StackTrace);
@@ -180,6 +186,36 @@ public partial class NoticeControl : Control
 
             panelNotice.Visible = !string.IsNullOrEmpty(value);
             labelMessage.Text = HtmlEncode ? Render(Message) : Message;
+        }
+    }
+
+    protected string Detail
+    {
+        get
+        {
+            if (EnableViewState)
+            {
+                return ViewStateUtility.GetViewStateValue<string>(
+                    ViewState, "Detail", mDetail);
+            }
+            else
+            {
+                return mDetail;
+            }
+        }
+        set
+        {
+            if (EnableViewState)
+            {
+                ViewState["Detail"] = value;
+            }
+            else
+            {
+                mDetail = value;
+            }
+
+            panelNotice.Visible = !string.IsNullOrEmpty(value);
+            labelDetail.Text = HtmlEncode ? Render(Detail) : Detail;
         }
     }
 
