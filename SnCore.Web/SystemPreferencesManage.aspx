@@ -42,10 +42,16 @@
    </td>
    <td valign="top" width="50%">
     <div class="sncore_h2">
+     People
+    </div>
+    <table>
+     <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="SystemAccountsManage.aspx">Accounts</a></td></tr>
+    </table>
+    <div class="sncore_h2">
      Places
     </div>
     <table>
-     <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="PlacesManage.aspx">Places</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="PlacesManage.aspx">Places</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="PlaceTypesManage.aspx">Place Types</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPlaceTypesManage.aspx">Property Types</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPlaceRequestsManage.aspx">Property Requests</a></td></tr>
@@ -66,7 +72,7 @@
      Statistics
     </div>
     <table>
-     <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemStatsHits.aspx">Hit Stats</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/stats.gif" /></td><td width="*"><a href="SystemStatsHits.aspx">Hit Stats</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererHosts.aspx">Referer Hosts</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererQueries.aspx">Referer Queries</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererHostDupsManage.aspx">Host Dups</a></td></tr>

@@ -377,6 +377,19 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Find all accounts by e-mail address.
+        /// </summary>
+        /// <param name="emailaddress">e-mail address</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Find an account by e-mail address.")]
+        public List<TransitAccount> FindAllByEmail(string ticket, string emailaddress, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetListFromIds(
+                ticket, options, string.Format("SELECT AccountEmail.Account.Id FROM AccountEmail AccountEmail" +
+                    " WHERE AccountEmail.Address = '{0}'", Renderer.SqlEncode(emailaddress)));
+        }
+
         #endregion
 
         #region AccountInvitation

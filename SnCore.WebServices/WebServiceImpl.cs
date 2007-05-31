@@ -212,7 +212,7 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                IQuery query = session.CreateSQLQuery(sqlquery, returnalias, typeof(DataType));
+                IQuery query = session.CreateSQLQuery(sqlquery).AddEntity(returnalias, typeof(DataType));
                 if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
                 if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
                 return GetTransformedList(session, sec, query.List<DataType>(), functor);

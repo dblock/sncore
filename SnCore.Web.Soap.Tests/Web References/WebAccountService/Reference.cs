@@ -85,6 +85,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback FindByEmailOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FindAllByEmailOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateAccountWithInvitationAndLoginOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateAccountWithInvitationOperationCompleted;
@@ -406,6 +408,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event FindByEmailCompletedEventHandler FindByEmailCompleted;
+        
+        /// <remarks/>
+        public event FindAllByEmailCompletedEventHandler FindAllByEmailCompleted;
         
         /// <remarks/>
         public event CreateAccountWithInvitationAndLoginCompletedEventHandler CreateAccountWithInvitationAndLoginCompleted;
@@ -1303,6 +1308,39 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.FindByEmailCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.FindByEmailCompleted(this, new FindByEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/FindAllByEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount[] FindAllByEmail(string ticket, string emailaddress, ServiceQueryOptions options) {
+            object[] results = this.Invoke("FindAllByEmail", new object[] {
+                        ticket,
+                        emailaddress,
+                        options});
+            return ((TransitAccount[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FindAllByEmailAsync(string ticket, string emailaddress, ServiceQueryOptions options) {
+            this.FindAllByEmailAsync(ticket, emailaddress, options, null);
+        }
+        
+        /// <remarks/>
+        public void FindAllByEmailAsync(string ticket, string emailaddress, ServiceQueryOptions options, object userState) {
+            if ((this.FindAllByEmailOperationCompleted == null)) {
+                this.FindAllByEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFindAllByEmailOperationCompleted);
+            }
+            this.InvokeAsync("FindAllByEmail", new object[] {
+                        ticket,
+                        emailaddress,
+                        options}, this.FindAllByEmailOperationCompleted, userState);
+        }
+        
+        private void OnFindAllByEmailOperationCompleted(object arg) {
+            if ((this.FindAllByEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FindAllByEmailCompleted(this, new FindAllByEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -7877,6 +7915,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccount)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void FindAllByEmailCompletedEventHandler(object sender, FindAllByEmailCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FindAllByEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FindAllByEmailCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount[])(this.results[0]));
             }
         }
     }

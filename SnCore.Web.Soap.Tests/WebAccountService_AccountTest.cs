@@ -129,5 +129,15 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsNotNull(t_instance);
             Assert.IsTrue(t_instance.IsAdministrator);
         }
+
+        [Test]
+        public void FindAllByEmailTest()
+        {
+            WebAccountService.TransitAccount[] t_instances = EndPoint.FindAllByEmail(
+                GetAdminTicket(), "user@localhost.com", null);
+            Console.WriteLine("Results: {0}", t_instances.Length);
+            Assert.AreNotEqual(0, t_instances.Length);
+        }
+
     }
 }
