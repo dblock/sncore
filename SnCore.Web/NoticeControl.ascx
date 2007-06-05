@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="NoticeControl.ascx.cs" Inherits="NoticeControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<!-- NOEMAIL-START -->
 <SnCoreWebControls:PersistentPanel id="panelNotice" runat="server" Visible="false">
- <!-- NOEMAIL-START -->
  <script language="javascript">
   function CollapseExpandDetail(id)
   {
@@ -9,11 +9,10 @@
    panel.style.cssText = (panel.style.cssText == "") ? "display: none;" : "";
   }
  </script>
- <!-- NOEMAIL-END -->
  <table width="100%">
   <tr>
    <td>
-    <a href="#" onclick="CollapseExpandDetail('<% Response.Write(divDetail.ClientID); %>')">
+    <a href="#" onclick="CollapseExpandDetail('ctl00_noticeMenu_divDetail')">
      <asp:Image ID="imageMessage" BorderWidth="0" Width="24" Height="24" runat="server" />
     </a>
    </td>
@@ -26,3 +25,4 @@
   </tr>
  </table>
 </SnCoreWebControls:PersistentPanel>
+<!-- NOEMAIL-END -->
