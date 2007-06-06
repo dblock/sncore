@@ -44,25 +44,24 @@ public abstract class SearchControl : Control
     protected override void OnLoad(EventArgs e)
     {
         Grid.OnGetDataSource += new EventHandler(Grid_OnGetDataSource);
-
-        if (!IsPostBack)
-        {
-            Grid.CurrentPageIndex = 0;
-            Grid.VirtualItemCount = ResultsCount;
-            if (string.IsNullOrEmpty(SearchQuery))
-            {
-                Label.Text = "Nothing to search";
-            }
-            else
-            {
-                Label.Text = string.Format("Searching for \"<b>{0}</b>\": {1} result{2}",
-                    Renderer.Render(SearchQuery),
-                    Grid.VirtualItemCount == 0 ? "no" : Grid.VirtualItemCount.ToString(),
-                    Grid.VirtualItemCount == 1 ? string.Empty : "s");
-            }
-        }
-
         base.OnLoad(e);
+    }
+
+    void DataBindCount()
+    {
+        Grid.CurrentPageIndex = 0;
+        Grid.VirtualItemCount = ResultsCount;
+        if (string.IsNullOrEmpty(SearchQuery))
+        {
+            Label.Text = "Nothing to search";
+        }
+        else
+        {
+            Label.Text = string.Format("Searching for \"<b>{0}</b>\": {1} result{2}",
+                Renderer.Render(SearchQuery),
+                Grid.VirtualItemCount == 0 ? "no" : Grid.VirtualItemCount.ToString(),
+                Grid.VirtualItemCount == 1 ? string.Empty : "s");
+        }
     }
 
     void Grid_OnGetDataSource(object sender, EventArgs e)
@@ -72,6 +71,7 @@ public abstract class SearchControl : Control
 
     public override void DataBind()
     {
+        DataBindCount();
         Grid.DataSource = GetResults();
         Grid.DataBind();
         base.DataBind();
@@ -85,7 +85,7 @@ public abstract class SearchControl : Control
         return options;
     }
 
-    protected abstract int GetResultsCount();    
+    protected abstract int GetResultsCount();
     protected abstract IPagedControl Grid { get; }
     protected abstract IEnumerable GetResults();
     protected abstract Label Label { get; }

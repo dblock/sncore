@@ -759,12 +759,7 @@ namespace SnCore.WebServices
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 IList<Place> places = InternalSearchPlaces(session, s, options);
-                List<TransitPlace> result = new List<TransitPlace>(places.Count);
-                foreach (Place p in places)
-                {
-                    result.Add(new ManagedPlace(session, p).GetTransitInstance(sec));
-                }
-                return result;
+                return WebServiceImpl<TransitPlace, ManagedPlace, Place>.GetTransformedList(session, sec, places);
             }
         }
 
