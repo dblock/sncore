@@ -138,6 +138,5 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Console.WriteLine("Results: {0}", t_instances.Length);
             Assert.AreNotEqual(0, t_instances.Length);
         }
-
     }
 }

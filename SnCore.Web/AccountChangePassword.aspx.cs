@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountChangePassword : AuthenticatedPage
 {
@@ -23,6 +24,18 @@ public partial class AccountChangePassword : AuthenticatedPage
 
         if (!string.IsNullOrEmpty(PasswordHash))
         {
+            int account_id = (RequestId > 0) ? RequestId : SessionManager.Account.Id;
+
+            if (!SessionManager.AccountService.IsPasswordValidMd5(
+                SessionManager.Ticket,
+                account_id,
+                PasswordHash))
+            {
+                Redirect(string.Format("AccountChangePassword.aspx?ReturnUrl={0}", 
+                    Renderer.UrlEncode(ReturnUrl)));
+                return;
+            }
+
             panelOldPassword.Visible = false;
         }
 
@@ -55,32 +68,46 @@ public partial class AccountChangePassword : AuthenticatedPage
 
     protected void changePassword_Click(object sender, EventArgs e)
     {
-        if (inputNewPassword.Text != inputNewPassword2.Text)
+        try
         {
-            throw new ArgumentException("Passwords don't match.");
-        }
+            if (inputNewPassword.Text != inputNewPassword2.Text)
+            {
+                throw new ArgumentException("Passwords don't match.");
+            }
 
-        if (!string.IsNullOrEmpty(PasswordHash))
-        {
-            SessionManager.AccountService.ChangePasswordMd5(
-                SessionManager.Ticket,
-                (RequestId > 0) ? RequestId : SessionManager.Account.Id,
-                PasswordHash, inputNewPassword.Text);
-        }
-        else
-        {
-            SessionManager.AccountService.ChangePassword(
-                SessionManager.Ticket,
-                (RequestId > 0) ? RequestId : SessionManager.Account.Id,
-                inputOldPassword.Text, inputNewPassword.Text);
-        }
+            int account_id = (RequestId > 0) ? RequestId : SessionManager.Account.Id;
 
-        ReportInfo("Password changed.");
-        panelChangePassword.Visible = false;
+            if (!string.IsNullOrEmpty(PasswordHash))
+            {
+                SessionManager.AccountService.ChangePasswordMd5(
+                    SessionManager.Ticket,
+                    account_id,
+                    PasswordHash,
+                    inputNewPassword.Text);
+            }
+            else
+            {
+                SessionManager.AccountService.ChangePassword(
+                    SessionManager.Ticket,
+                    account_id,
+                    inputOldPassword.Text,
+                    inputNewPassword.Text);
+            }
 
-        if (!string.IsNullOrEmpty(ReturnUrl))
+            ReportInfo("Password changed.");
+            panelChangePassword.Visible = false;
+
+            if (!string.IsNullOrEmpty(ReturnUrl))
+            {
+                Redirect(ReturnUrl);
+            }
+        }
+        catch
         {
-            Redirect(ReturnUrl);
+            inputOldPassword.Attributes["value"] = inputOldPassword.Text;
+            inputNewPassword.Attributes["value"] = inputNewPassword.Text;
+            inputNewPassword2.Attributes["value"] = inputNewPassword2.Text;
+            throw;
         }
     }
 

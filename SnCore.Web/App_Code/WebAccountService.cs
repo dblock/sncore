@@ -789,6 +789,46 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Check password.
+        /// </summary>
+        /// <param name="ticket">athentication ticket</param>
+        /// <param name="password">current password</param>
+        /// <param name="accountid">account id</param>
+        [WebMethod(Description = "Check password.")]
+        public bool IsPasswordValid(string ticket, int accountid, string password)
+        {
+            return IsPasswordValidMd5(ticket, accountid, ManagedAccount.GetPasswordHash(password));
+        }
+
+        /// <summary>
+        /// Check password with an Md5 hash.
+        /// </summary>
+        /// <param name="ticket">athentication ticket</param>
+        /// <param name="password">current password hash</param>
+        /// <param name="accountid">account id</param>
+        [WebMethod(Description = "Check password with an existing Md5 hash.")]
+        public bool IsPasswordValidMd5(string ticket, int accountid, string password)
+        {
+            int userid = GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                if (userid != accountid)
+                {
+                    ManagedAccount requester = new ManagedAccount(session, userid);
+                    if (!requester.IsAdministrator())
+                    {
+                        throw new ManagedAccount.AccessDeniedException();
+                    }
+                }
+
+                ManagedAccount account = new ManagedAccount(session, accountid);
+                return account.IsPasswordValidMd5(password);
+            }
+        }
+
+        /// <summary>
         /// Reset password.
         /// </summary>
         [WebMethod(Description = "Reset password.")]

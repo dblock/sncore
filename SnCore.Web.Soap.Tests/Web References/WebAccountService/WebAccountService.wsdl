@@ -588,6 +588,38 @@
       <s:element name="ChangePasswordMd5Response">
         <s:complexType />
       </s:element>
+      <s:element name="IsPasswordValid">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsPasswordValidResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPasswordValidResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsPasswordValidMd5">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsPasswordValidMd5Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsPasswordValidMd5Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ResetPassword">
         <s:complexType>
           <s:sequence>
@@ -2695,6 +2727,18 @@
   <wsdl:message name="ChangePasswordMd5SoapOut">
     <wsdl:part name="parameters" element="tns:ChangePasswordMd5Response" />
   </wsdl:message>
+  <wsdl:message name="IsPasswordValidSoapIn">
+    <wsdl:part name="parameters" element="tns:IsPasswordValid" />
+  </wsdl:message>
+  <wsdl:message name="IsPasswordValidSoapOut">
+    <wsdl:part name="parameters" element="tns:IsPasswordValidResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsPasswordValidMd5SoapIn">
+    <wsdl:part name="parameters" element="tns:IsPasswordValidMd5" />
+  </wsdl:message>
+  <wsdl:message name="IsPasswordValidMd5SoapOut">
+    <wsdl:part name="parameters" element="tns:IsPasswordValidMd5Response" />
+  </wsdl:message>
   <wsdl:message name="ResetPasswordSoapIn">
     <wsdl:part name="parameters" element="tns:ResetPassword" />
   </wsdl:message>
@@ -3463,6 +3507,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Change password with an existing Md5 hash.</wsdl:documentation>
       <wsdl:input message="tns:ChangePasswordMd5SoapIn" />
       <wsdl:output message="tns:ChangePasswordMd5SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsPasswordValid">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check password.</wsdl:documentation>
+      <wsdl:input message="tns:IsPasswordValidSoapIn" />
+      <wsdl:output message="tns:IsPasswordValidSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsPasswordValidMd5">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check password with an existing Md5 hash.</wsdl:documentation>
+      <wsdl:input message="tns:IsPasswordValidMd5SoapIn" />
+      <wsdl:output message="tns:IsPasswordValidMd5SoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ResetPassword">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reset password.</wsdl:documentation>
@@ -4274,6 +4328,24 @@
     </wsdl:operation>
     <wsdl:operation name="ChangePasswordMd5">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/ChangePasswordMd5" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsPasswordValid">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/IsPasswordValid" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsPasswordValidMd5">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/IsPasswordValidMd5" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5483,6 +5555,24 @@
     </wsdl:operation>
     <wsdl:operation name="ChangePasswordMd5">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ChangePasswordMd5" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsPasswordValid">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/IsPasswordValid" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsPasswordValidMd5">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/IsPasswordValidMd5" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

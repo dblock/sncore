@@ -395,9 +395,10 @@ namespace SnCore.Services
                 RefererHostDup duphost = (RefererHostDup)
                     Session.CreateSQLQuery(
                         "SELECT {R.*} FROM RefererHostDup {R}" +
-                        " WHERE '" + Renderer.SqlEncode(refereruri.Host) + "' LIKE Host",
-                        "R",
-                        typeof(RefererHostDup)).SetMaxResults(1).UniqueResult();
+                        " WHERE '" + Renderer.SqlEncode(refereruri.Host) + "' LIKE Host")
+                        .AddEntity("R", typeof(RefererHostDup))
+                        .SetMaxResults(1)
+                        .UniqueResult();
 
                 if (duphost != null)
                 {

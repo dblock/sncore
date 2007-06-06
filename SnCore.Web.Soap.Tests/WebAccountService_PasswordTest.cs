@@ -95,5 +95,20 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             EndPoint.DeleteAccount(GetAdminTicket(), user_id, string.Empty);
         }
+
+        [Test]
+        public void IsPasswordValidTest()
+        {
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
+            DateTime dateofbirth = DateTime.UtcNow.AddYears(-10);
+            int user_id = CreateUser(email, password, dateofbirth);
+            Assert.IsTrue(user_id > 0);
+            string ticket = EndPoint.Login(email, password);
+            Assert.IsFalse(string.IsNullOrEmpty(ticket));
+            Assert.IsTrue(EndPoint.IsPasswordValid(ticket, user_id, password), "Password should be valid.");
+            Assert.IsFalse(EndPoint.IsPasswordValid(ticket, user_id, GetNewString()), "Password should be invalid.");
+            EndPoint.DeleteAccount(GetAdminTicket(), user_id, string.Empty);
+        }
     }
 }

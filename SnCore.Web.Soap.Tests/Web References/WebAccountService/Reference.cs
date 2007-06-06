@@ -121,6 +121,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback ChangePasswordMd5OperationCompleted;
         
+        private System.Threading.SendOrPostCallback IsPasswordValidOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback IsPasswordValidMd5OperationCompleted;
+        
         private System.Threading.SendOrPostCallback ResetPasswordOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountEmailOperationCompleted;
@@ -462,6 +466,12 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event ChangePasswordMd5CompletedEventHandler ChangePasswordMd5Completed;
+        
+        /// <remarks/>
+        public event IsPasswordValidCompletedEventHandler IsPasswordValidCompleted;
+        
+        /// <remarks/>
+        public event IsPasswordValidMd5CompletedEventHandler IsPasswordValidMd5Completed;
         
         /// <remarks/>
         public event ResetPasswordCompletedEventHandler ResetPasswordCompleted;
@@ -1878,6 +1888,72 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.ChangePasswordMd5Completed != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ChangePasswordMd5Completed(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/IsPasswordValid", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool IsPasswordValid(string ticket, int accountid, string password) {
+            object[] results = this.Invoke("IsPasswordValid", new object[] {
+                        ticket,
+                        accountid,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void IsPasswordValidAsync(string ticket, int accountid, string password) {
+            this.IsPasswordValidAsync(ticket, accountid, password, null);
+        }
+        
+        /// <remarks/>
+        public void IsPasswordValidAsync(string ticket, int accountid, string password, object userState) {
+            if ((this.IsPasswordValidOperationCompleted == null)) {
+                this.IsPasswordValidOperationCompleted = new System.Threading.SendOrPostCallback(this.OnIsPasswordValidOperationCompleted);
+            }
+            this.InvokeAsync("IsPasswordValid", new object[] {
+                        ticket,
+                        accountid,
+                        password}, this.IsPasswordValidOperationCompleted, userState);
+        }
+        
+        private void OnIsPasswordValidOperationCompleted(object arg) {
+            if ((this.IsPasswordValidCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.IsPasswordValidCompleted(this, new IsPasswordValidCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/IsPasswordValidMd5", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool IsPasswordValidMd5(string ticket, int accountid, string password) {
+            object[] results = this.Invoke("IsPasswordValidMd5", new object[] {
+                        ticket,
+                        accountid,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void IsPasswordValidMd5Async(string ticket, int accountid, string password) {
+            this.IsPasswordValidMd5Async(ticket, accountid, password, null);
+        }
+        
+        /// <remarks/>
+        public void IsPasswordValidMd5Async(string ticket, int accountid, string password, object userState) {
+            if ((this.IsPasswordValidMd5OperationCompleted == null)) {
+                this.IsPasswordValidMd5OperationCompleted = new System.Threading.SendOrPostCallback(this.OnIsPasswordValidMd5OperationCompleted);
+            }
+            this.InvokeAsync("IsPasswordValidMd5", new object[] {
+                        ticket,
+                        accountid,
+                        password}, this.IsPasswordValidMd5OperationCompleted, userState);
+        }
+        
+        private void OnIsPasswordValidMd5OperationCompleted(object arg) {
+            if ((this.IsPasswordValidMd5Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.IsPasswordValidMd5Completed(this, new IsPasswordValidMd5CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -8254,6 +8330,58 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
     public delegate void ChangePasswordMd5CompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void IsPasswordValidCompletedEventHandler(object sender, IsPasswordValidCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class IsPasswordValidCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal IsPasswordValidCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    public delegate void IsPasswordValidMd5CompletedEventHandler(object sender, IsPasswordValidMd5CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class IsPasswordValidMd5CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal IsPasswordValidMd5CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.42")]

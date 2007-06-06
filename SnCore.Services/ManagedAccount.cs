@@ -446,6 +446,11 @@ namespace SnCore.Services
             return mInstance.Password == GetPasswordHash(password);
         }
 
+        public bool IsPasswordValidMd5(string password)
+        {
+            return mInstance.Password == password;
+        }
+
 #if DEBUG
         private static bool _encrypttickets = true;
 
