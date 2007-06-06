@@ -12,7 +12,7 @@
  <table width="100%">
   <tr>
    <td>
-    <a href="#" onclick="CollapseExpandDetail('ctl00_noticeMenu_divDetail')">
+    <a href="#" runat="server" id="linkCollapseExpand">
      <asp:Image ID="imageMessage" BorderWidth="0" Width="24" Height="24" runat="server" />
     </a>
    </td>

@@ -61,7 +61,7 @@ public partial class NoticeControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        linkCollapseExpand.Attributes["onclick"] = string.Format("CollapseExpandDetail('{0}')", divDetail.ClientID);
     }
 
     public string Style
