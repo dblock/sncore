@@ -57,25 +57,36 @@ public partial class AccountFeedItemPicture : PicturePage
 
         // fetch the image to get its size
         WebClient client = new WebClient();
-        byte[] data = client.DownloadData(url);
-
-        if (data == null)
-        {
-            throw new Exception("Missing file data.");
-        }
-
         result = new TransitPicture();
-        result.Bitmap = new ThumbnailBitmap(data, new Size(0, 0)).Bitmap;
         result.Name = url;
 
-        string created = (string)client.ResponseHeaders["Created"];
-        if (string.IsNullOrEmpty(created)) created = (string)client.ResponseHeaders["Date"];
-        if (string.IsNullOrEmpty(created) || !DateTime.TryParse(created, out result.Created))
-            result.Created = DateTime.Now;
+        try
+        {
+            byte[] data = client.DownloadData(url);
 
-        string modified = (string)client.ResponseHeaders["Modified"];
-        if (string.IsNullOrEmpty(modified) || !DateTime.TryParse(modified, out result.Modified))
-            result.Modified = DateTime.Now;
+            if (data == null)
+            {
+                throw new Exception("Missing file data.");
+            }
+
+            result.Bitmap = new ThumbnailBitmap(data, new Size(0, 0)).Bitmap;
+
+            string created = (string)client.ResponseHeaders["Created"];
+            if (string.IsNullOrEmpty(created)) created = (string)client.ResponseHeaders["Date"];
+            if (string.IsNullOrEmpty(created) || !DateTime.TryParse(created, out result.Created))
+                result.Created = DateTime.Now;
+
+            string modified = (string)client.ResponseHeaders["Modified"];
+            if (string.IsNullOrEmpty(modified) || !DateTime.TryParse(modified, out result.Modified))
+                result.Modified = DateTime.Now;
+        }
+        catch(Exception ex)
+        {
+            string message = string.Format("This image cannot be displayed.\n{0}\n{1}",
+                ex.Message, url);
+            result.Bitmap = ThumbnailBitmap.GetBitmapDataFromText(message, 8, 0, 0);
+            result.Modified = result.Created = DateTime.Now;
+        }
 
         Cache.Insert(key, result, null, Cache.NoAbsoluteExpiration,
             SessionManager.DefaultCacheTimeSpan);

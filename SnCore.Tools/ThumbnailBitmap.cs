@@ -403,6 +403,9 @@ namespace SnCore.Tools.Drawing
             int nWidth = (int)hGraphics.MeasureString(message, hFont).Width;
             int nHeight = (int)hGraphics.MeasureString(message, hFont).Height;
 
+            if (width <= 0) width = nWidth;
+            if (height <= 0) height = nHeight;
+
             result = new Bitmap(result, new Size(width, height));
 
             hGraphics = Graphics.FromImage(result);
