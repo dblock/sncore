@@ -45,6 +45,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
             string feedtype = Request.Params["type"];
             if (!string.IsNullOrEmpty(feedtype))
             {
+                inputFeedType.ClearSelection();
                 ListItem item = inputFeedType.Items.FindByValue(feedtype);
                 if (item != null) item.Selected = true;
             }
@@ -66,6 +67,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (tf.UpdateFrequency > 0)
                 {
+                    inputUpdateFrequency.ClearSelection();
                     ListItem item = inputUpdateFrequency.Items.FindByValue(
                         tf.UpdateFrequency.ToString());
 
@@ -82,6 +84,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (!string.IsNullOrEmpty(tf.FeedType))
                 {
+                    inputFeedType.ClearSelection();
                     inputFeedType.Items.FindByValue(tf.FeedType).Selected = true;
                 }
 
@@ -118,6 +121,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (Request.Params["type"] != null)
                 {
+                    inputFeedType.ClearSelection();
                     ListItem item = inputFeedType.Items.FindByValue(Request.Params["type"]);
                     if (item != null)
                     {
