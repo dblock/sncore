@@ -24,6 +24,11 @@
      to confirm that this address is correct.
     </p>
     <p style="font-size: smaller;">
+     If the above link doesn't work you may be prompted to enter the confirmation code 
+     <b><% Response.Write(this.AccountEmailConfirmation.Code); %></b>
+     manually.
+    </p>
+    <p style="font-size: smaller;">
      If you have not added this e-mail to your account or believe that this is an error, please delete it from 
      <a href="AccountEmailsManage.aspx">your e-mail addresses</a> and <a href="<% Response.Write(this.MailtoAdministrator); %>">
       notify the administrator
