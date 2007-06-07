@@ -265,7 +265,7 @@ namespace SnCore.Services
             get
             {
                 string website = ManagedConfiguration.GetValue(Session, "SnCore.WebSite.Url", "http://localhost/SnCore");
-                return string.Format("{0}/AccountBlog.aspx?id={1}", website, mInstance.Id);
+                return string.Format("{0}/AccountBlogView.aspx?id={1}", website, mInstance.Id);
             }
         }
 
