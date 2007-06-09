@@ -17,7 +17,7 @@
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
-     <asp:Panel CssClass="sncore_nopicture_table" ID="accountNoPicture" runat="server" Visible="false">
+     <asp:Panel ID="accountNoPicture" runat="server" Visible="false">
       <img border="0" src="AccountGroupPictureThumbnail.aspx" />
      </asp:Panel>
      <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
@@ -102,7 +102,8 @@
      <SnCore:AccountsView runat="server" ID="accountsView" />
      <SnCore:PlacesView runat="server" ID="placesView" />
      <a name="discuss"></a>
-     <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" CssClass="sncore_account_table" />
+     <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" 
+      OuterWidth="472" CssClass="sncore_account_table" />
     </td>
    </tr>
   </table>

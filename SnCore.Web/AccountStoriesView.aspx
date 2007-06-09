@@ -87,7 +87,7 @@
          <a href="AccountStoryView.aspx?id=<%# Eval("Id") %>">&#187; <%# GetComments((int) Eval("CommentCount")) %></a>
         </div>
         <div class="sncore_description">
-          posted on <%# base.Adjust(Eval("Created")).ToString("d") %>     
+          posted <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
         </div>
        </td>
       </tr>

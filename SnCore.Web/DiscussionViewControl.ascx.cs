@@ -31,6 +31,18 @@ public partial class DiscussionViewControl : Control
         }
     }
 
+    public int OuterWidth
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<int>(ViewState, "OuterWidth", 680);
+        }
+        set
+        {
+            ViewState["OuterWidth"] = value;
+        }
+    }
+
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;

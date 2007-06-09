@@ -8,7 +8,7 @@
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
-   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
+   <td class="sncore_table_tr_td_images">
     <asp:Image ID="placeImage" runat="server" />
    </td>
    <td valign="top" width="*">
@@ -41,8 +41,7 @@
         OnSelectedIndexChanged="listGroups_OnSelectedIndexChanged" />
       </td>
      </tr>
-    </table>
-    
+    </table>    
    </td>
   </tr>
  </table>

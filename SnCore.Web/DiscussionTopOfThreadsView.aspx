@@ -39,38 +39,45 @@
  </div>
  <asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>
-   <SnCoreWebControls:PagedList BorderWidth="0px" CellPadding="2" runat="server" ID="gridManage"
+   <SnCoreWebControls:PagedList BorderWidth="0px" runat="server" ID="gridManage"
     AllowCustomPaging="true" RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
-    <ItemStyle CssClass="sncore_table_tr_td" Width="25%" />
+    <ItemStyle CssClass="sncore_message_tr_td" />
     <ItemTemplate>
-     <table class="sncore_message_table" width="100%" cellspacing="0" cellpadding="0">
-      <tr>
-       <td width="28">
-        <img src="images/account/discussions.gif" />
-       </td>
-       <td>
-        <div>
-         <a class="sncore_message_subject" href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
-          <%# base.Render(Eval("Subject")) %>
-         </a>
-        </div>
-        <div class="sncore_link">
-         <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>">&#187; read</a>
-         &#187; posted on <%# base.Adjust(Eval("Created")).ToString("d") %>
-         by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
-         in <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'><%# Renderer.Render(Eval("DiscussionName")) %></a>
-        </div>
-       </td>
-       <td width="150" align="center" valign="top" class="sncore_message_right">
-        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="height:50px;" />
-        </a>
-       </td>
-      </tr>
-     </table>
+     <div class="sncore_message">
+      <div class="sncore_message_subject">
+       <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
+        <%# base.Render(Eval("Subject")) %>
+       </a>
+      </div>
+      <div class="sncore_person">
+       <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="width: 50px;"/>
+       </a>
+      </div>
+      <div class="sncore_header">
+       posted 
+       by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
+       in <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'><%# Renderer.Render(Eval("DiscussionName")) %></a>
+       <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+        &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
+       </span>
+      </div>
+      <div class="sncore_content">
+       <div class="sncore_message_body">
+        <%# RenderEx(Eval("Body")) %>
+       </div>
+      </div>
+      <div class="sncore_footer">
+       <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>">&#187; read</a>
+       <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+        &#187; reply</a>
+       <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+        &#187; quote</a>
+      </div>
+     </div>
     </ItemTemplate>    
    </SnCoreWebControls:PagedList>
   </ContentTemplate>

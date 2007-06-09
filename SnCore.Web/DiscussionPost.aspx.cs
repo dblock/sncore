@@ -115,12 +115,13 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 TransitDiscussionPost rp = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
                 panelReplyTo.Visible = true;
                 replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
-                replytoSenderName.Text = replytoAccount.Text = Renderer.Render(rp.AccountName);
+                replytoSenderName.Text = Renderer.Render(rp.AccountName);
                 replyToBody.Text = base.RenderEx(rp.Body);
                 replytoCreated.Text = rp.Created.ToString();
                 replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.AccountPictureId.ToString();
                 replytoSubject.Text = Renderer.Render(rp.Subject);
                 inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
+                rowsubject.Attributes["style"] = "display: none;";
 
                 if (Quote)
                 {

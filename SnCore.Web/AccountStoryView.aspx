@@ -93,7 +93,7 @@
     </table>
     <!-- NOEMAIL-START -->
     <a name="comments"></a>
-    <SnCore:DiscussionFullView runat="server" ID="storyComments" PostNewText="&#187; Post a Comment" />
+    <SnCore:DiscussionFullView runat="server" ID="storyComments" OuterWidth="624" PostNewText="&#187; Post a Comment" />
     <!-- NOEMAIL-END -->
    </td>
   </tr>

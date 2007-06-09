@@ -82,6 +82,18 @@ public partial class DiscussionFullViewControl : Control
         }
     }
 
+    public int OuterWidth
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<int>(ViewState, "OuterWidth", 472);
+        }
+        set
+        {
+            ViewState["OuterWidth"] = value;
+        }
+    }
+
     public int DiscussionId
     {
         get
@@ -146,20 +158,5 @@ public partial class DiscussionFullViewControl : Control
         {
             ViewState["ReturnUrl"] = value;
         }
-    }
-
-    public string GetCssClass(DateTime ts)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow) ? "sncore_message" : "sncore_new_message";
-    }
-
-    public string GetCssStyle(DateTime ts)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow) ? "display: none;" : string.Empty;
-    }
-
-    public string GetCssPictureStyle(DateTime ts, int len)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow || len < 64) ? "height: 50px;" : string.Empty;
     }
 }

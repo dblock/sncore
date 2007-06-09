@@ -480,7 +480,7 @@ namespace SnCore.Services
             return acl;
         }
 
-        public const int DefaultHourlyLimit = 10; // TODO: export into configuration settings
+        public const int DefaultHourlyLimit = 30; // TODO: export into configuration settings
 
         // messages sent by this user to those who aren't this user's friends
         public static IList<DiscussionPost> GetDiscussionPosts(ISession session, int account_id, DateTime limit)

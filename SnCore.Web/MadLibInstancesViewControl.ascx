@@ -23,38 +23,35 @@
  OnItemCommand="madlibs_ItemCommand">
  <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
   prevpagetext="Prev" horizontalalign="Center" />
+ <ItemStyle CssClass="sncore_message_tr_td" />
  <ItemTemplate>
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-     <td align="left" valign="top" width="*" class='<%# GetCssClass((DateTime) Eval("Created")) %>_left_border'>
-      <div class="sncore_message_header">
-       <div class="sncore_description">
-        posted <%# base.Adjust(Eval("Created")).ToString() %>
-       </div>
-       <div class="sncore_description">
-        <asp:HyperLink ID="linkEdit" runat="server" Text="&#187; edit"
-         NavigateUrl='<%# GetEditUrl((int) Eval("Id"), (int) Eval("MadLibId")) %>' 
-         Visible='<%# SessionManager.IsLoggedIn && ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
-        <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" 
-         OnClientClick="return confirm('Are you sure you want to do this?')" CommandArgument='<%# Eval("Id") %>'
-         Visible='<%# SessionManager.IsLoggedIn && ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
-       </div>
-       <div class="sncore_message_body">
-        <%# RenderMadLib(Renderer.Render((string)Eval("Text")))%>
-       </div>
-      </div>
-     </td>
-     <td width="150" align="center" valign="top" class='<%# GetCssClass((DateTime) Eval("Created")) %>_right_border'>
-      <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-       <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
-      </a>
-      <div class="sncore_link_description">
-       <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-        <%# base.Render(Eval("AccountName")) %>
-       </a>
-      </div>
-     </td>
-    </tr>
-  </table>
+  <div class="sncore_message">
+   <div class="sncore_person">
+    <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+     <img border="0" width="50px" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+    </a>
+   </div>
+   <div class="sncore_header">
+    posted by
+    <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+     <%# base.Render(Eval("AccountName")) %>
+    </a>
+    on
+    <%# base.Adjust(Eval("Created")).ToString() %>
+   </div>
+   <div class="sncore_content_madlib">
+    <div class="sncore_message_body">
+     <%# RenderMadLib(Renderer.Render((string)Eval("Text")))%>
+    </div>
+   </div>
+   <div class="sncore_footer">
+    <asp:HyperLink ID="linkEdit" runat="server" Text="&#187; edit"
+     NavigateUrl='<%# GetEditUrl((int) Eval("Id"), (int) Eval("MadLibId")) %>' 
+     Visible='<%# SessionManager.IsLoggedIn && ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
+    <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" 
+     OnClientClick="return confirm('Are you sure you want to do this?')" CommandArgument='<%# Eval("Id") %>'
+     Visible='<%# SessionManager.IsLoggedIn && ((int) Eval("AccountId")) == SessionManager.Account.Id || SessionManager.IsAdministrator %>' />
+   </div>
+  </div> 
  </ItemTemplate>
 </SnCoreWebControls:PagedList>

@@ -16,7 +16,7 @@
    </div>
    <table cellspacing="0" cellpadding="4" class="sncore_table">
     <tr>
-     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
+     <td class="sncore_table_tr_td_images">
       <SnCoreWebControls:PagedList OnItemCommand="picturesView_ItemCommand" runat="server" ID="picturesView"
        RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
@@ -77,7 +77,8 @@
        </tr>
       </table>
       <a name="comments"></a>
-      <SnCore:DiscussionFullView runat="server" ID="discussionComments" Text="Comments" PostNewText="&#187; Post a Comment" />  
+      <SnCore:DiscussionFullView runat="server" ID="discussionComments" Text="Comments" 
+       OuterWidth="472" PostNewText="&#187; Post a Comment" />  
      </td>
     </tr>
    </table>

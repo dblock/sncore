@@ -673,6 +673,21 @@ public class SessionManager
         return dt.AddHours(-BrowserUtcOffset);
     }
 
+    public string ToAdjustedString(DateTime dt)
+    {
+        TimeSpan ts = DateTime.UtcNow.Subtract(dt);
+        if (ts.TotalMinutes <= 1)
+            return string.Format("{0} second{1} ago", ts.Seconds, ts.Seconds != 1 ? "s" : string.Empty);
+        else if (ts.TotalHours <= 1)
+            return string.Format("{0} minute{1} ago", ts.Minutes, ts.Minutes != 1 ? "s" : string.Empty);
+        else if (ts.TotalDays <= 1)
+            return string.Format("{0} hour{1} ago", ts.Hours, ts.Hours != 1 ? "s" : string.Empty);
+        else if (ts.TotalDays <= 7)
+            return string.Format("{0} day{1} ago", ts.Days, ts.Days != 1 ? "s" : string.Empty);
+        else
+            return string.Format("{0}", Adjust(dt).ToString("d"));
+    }
+
     public string AdjustToRFC822(DateTime dt)
     {
         if ((IsLoggedIn) && (Account.TimeZone >= 0))

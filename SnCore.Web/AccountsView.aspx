@@ -160,7 +160,7 @@
      </div>
      <div>
       last seen:
-      <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
+      <%# SessionManager.ToAdjustedString((DateTime) Eval("LastLogin")) %>
      </div>
      <div>
       <%# base.Render(Eval("City")) %>

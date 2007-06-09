@@ -105,8 +105,7 @@
             <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
              <%# base.Render(GetValue(Eval("AccountFeedName"), "Untitled")) %>
             </a>
-            on
-            <%# base.Adjust(Eval("Created")).ToString("d") %>
+            &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>            
            </div>
           </div>
           <div class="sncore_message_body">

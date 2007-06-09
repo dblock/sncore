@@ -22,12 +22,12 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_inner_table { margin: 10px; border: solid 1px #eee; }
 .sncore_calendar { margin: 5px; height: 0px; overflow: hidden; }
 .sncore_inner_div { margin: 5px; }
-.sncore_nopicture_table { margin: 10px; }
 .sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_half_inner_table { width: 95%; }
 .sncore_featured_table { width: 200px; }
 .sncore_featured_tr_td { font-size: 10pt; padding: 2px; padding-top: 10px; text-align: center; }
+.sncore_table_tr_td_images { font-size: 10pt; padding: 2px; text-align: center; vertical-align: top; width: 150px; }
 .sncore_table_tr_td { font-size: 10pt; padding: 2px; }
 .sncore_table_tr_th { padding: 2px; font-weight: bold; background-color: #E5EDFB; font-size: 8pt;  }
 .sncore_table_pager { padding: 2px; font-size: 8pt; font-weight: bold; }
@@ -119,3 +119,21 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_master_form { overflow: hidden; width: 100%; text-align: center; }
 .sncore_title_panel { height: 42px; overflow: hidden; }
 .sncore_collapsed_div { height: 0px; overflow: hidden; }
+.sncore_title_table { margin-top: 10px; overflow: hidden; width: 827px; }
+.sncore_datetime_highlight { color: Red; font-weight: bold; }
+
+body span.sncore_message_tr_td_span { padding-top: 10px; padding-bottom: 5px; border-bottom: dotted 1px silver; float: left; }
+body td.sncore_message_tr_td_halftable { border-bottom: dotted 1px silver; padding-bottom: 2px; padding-top: 5px; }
+body td.sncore_message_tr_td { border-bottom: dotted 1px silver; padding-bottom: 5px; padding-top: 10px; }
+body tr.sncore_message_tr td { border-bottom: dotted 1px silver; padding-bottom: 5px; padding-top: 10px; }
+body div.sncore_message { display: inline; }
+body div.sncore_message div.sncore_message_subject { font-size: 16px; font-weight: bold; }
+body div.sncore_message div.sncore_content_madlib { float: left; width: 472px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
+body div.sncore_message div.sncore_content_account { float: left; width: 480px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
+body div.sncore_message div.sncore_content { float: left; width: 680px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
+body div.sncore_message div.sncore_content_halftable { float: left; width: 210px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
+body div.sncore_message div.sncore_message_body { margin-left: 10px; background-color: #e5ebff; }
+body div.sncore_message div.sncore_message_body_halftable { margin-top: 5px; font-size: smaller; margin-left: 10px; background-color: #e5ebff; }
+body div.sncore_message div.sncore_person { float: left; text-align: center; margin-top: 10px; width: 95px; }
+body div.sncore_message div.sncore_footer { color: Silver; float: right; font-size: 10px; margin-right: 20px; width: 95%; text-align: right; }
+body div.sncore_message div.sncore_header { position: relative; left: 10px; font-size: 10px; }

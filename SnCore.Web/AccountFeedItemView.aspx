@@ -59,7 +59,7 @@
  </table>
  <!-- NOEMAIL-START -->
  <a name="comments"></a>
- <SnCore:DiscussionFullView runat="server" ID="FeedItemComments" PostNewText="&#187; Post a Comment"
+ <SnCore:DiscussionFullView runat="server" ID="FeedItemComments" OuterWidth="682" PostNewText="&#187; Post a Comment"
   Text="Comments" />
  <!-- NOEMAIL-END -->
 </asp:Content>

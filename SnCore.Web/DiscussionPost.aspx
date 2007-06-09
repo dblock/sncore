@@ -7,39 +7,32 @@
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel ID="panelPost" runat="server">
-  <asp:Panel ID="panelReplyTo" runat="server" Visible="false">
-   <table width="100%">
+  <asp:Panel ID="panelReplyTo" runat="server" Visible="false">  
+   <div class="sncore_h2">
+    In Response To
+   </div>
+   <table style="margin-left: 10px;">
     <tr>
      <td>
-      <div class="sncore_h2">
-       In Response To
-      </div>
-     </td>
-    </tr>
-   </table>
-   <table class="sncore_table">
-    <tr>
-     <td align="center" valign="top" class="sncore_table_tr_td" style="padding-top: 10px;
-      width: 120px;">
-      <a runat="server" id="accountlink">
-       <asp:Image Width="100px" runat="server" ID="replytoImage" />
-       <div class="sncore_link">
-        <asp:Label ID="replytoAccount" runat="server" />
+      <div class="sncore_message">
+       <div class="sncore_message_subject">
+        <asp:Label ID="replytoSubject" runat="server" />
        </div>
-      </a>
-     </td>
-     <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
-      <div class="sncore_message_subject">
-       <asp:Label ID="replytoSubject" runat="server" />
-      </div>
-      <div class="sncore_description">
-       posted by
-       <asp:HyperLink ID="replytoSenderName" runat="server" />
-       on
-       <asp:Label ID="replytoCreated" runat="server" />
-      </div>
-      <div style="margin: 10px 0px 10px 0px;">
-       <asp:Label ID="replyToBody" runat="server" />
+       <div class="sncore_person">
+        <a runat="server" id="accountlink">
+         <asp:Image Width="50px" runat="server" ID="replytoImage" />
+        </a>
+       </div>
+       <div class="sncore_header">
+        posted 
+        by <asp:HyperLink ID="replytoSenderName" runat="server" />
+        on <asp:Label ID="replytoCreated" runat="server" />
+       </div>
+       <div class="sncore_content">
+        <div class="sncore_message_body">
+         <asp:Label ID="replyToBody" runat="server" />
+        </div>
+       </div>
       </div>
      </td>
     </tr>
@@ -67,7 +60,7 @@
   </div>
   <asp:HyperLink ID="linkCancel" Text="&#187; Cancel" CssClass="sncore_cancel" runat="server" />
   <table class="sncore_table">
-   <tr>
+   <tr runat="server" id="rowsubject">
     <td class="sncore_form_label">
      subject:
     </td>

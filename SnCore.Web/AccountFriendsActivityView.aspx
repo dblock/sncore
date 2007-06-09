@@ -34,7 +34,7 @@
      </div>
      <div>
       last seen:
-      <%# base.Adjust(Eval("LastLogin")).ToString("d") %>
+      <%# SessionManager.ToAdjustedString((DateTime) Eval("LastLogin")) %>
      </div>
      <div>
       <a href='AccountFriendsView.aspx?id=<%# Eval("Id") %>'>

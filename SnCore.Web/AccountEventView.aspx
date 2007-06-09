@@ -8,12 +8,12 @@
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountEvent" runat="server">
-  <table cellspacing="0" cellpadding="4" class="sncore_table">
+  <table cellspacing="0" class="sncore_table">
    <tr>
-    <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
+    <td class="sncore_table_tr_td_images">
      <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
       <ContentTemplate>
-       <asp:Panel ID="panelNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
+       <asp:Panel ID="panelNoPicture" runat="server" Visible="false">
         <img border="0" src="AccountEventPictureThumbnail.aspx" />
        </asp:Panel>
        <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
@@ -168,7 +168,7 @@
      <!-- NOEMAIL-START -->
      <a name="Comments" />
      <SnCore:DiscussionFullView runat="server" ID="discussionAccountEvents" Text="Reviews"
-      PostNewText="&#187; Post a Review" />
+      OuterWidth="472" PostNewText="&#187; Post a Review" />
      <!-- NOEMAIL-END -->
     </td>
    </tr>

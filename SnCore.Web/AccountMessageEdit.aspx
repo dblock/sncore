@@ -9,25 +9,28 @@
   <div class="sncore_h2">
    In Response To
   </div>
-  <table class="sncore_table">
+  <table style="margin-left: 10px;">
    <tr>
-    <td align="center" style="width: 120px;" class="sncore_table_tr_td">
-     <a runat="server" id="accountlink">
-      <asp:Image Width="100px" runat="server" ID="replytoImage" />
-      <asp:Label ID="replytoAccount" runat="server" />
-     </a>
-    </td>
-    <td style="text-align: left; vertical-align: top;" class="sncore_table_tr_td">
-     <div class="sncore_message_subject">
-      <asp:Label ID="messageSubject" runat="server" />
-     </div>
-     <div class="sncore_description">
-      <asp:Label ID="labelMessageFrom" runat="server" Text="from" /> <asp:HyperLink ID="messageFrom" runat="server" />
-      <asp:Label ID="labelMessageTo" runat="server" Text="to" /> <asp:HyperLink ID="messageTo" runat="server" />
-      on <asp:Label ID="messageSent" runat="server" />        
-     </div>
-     <div style="margin: 10px 0px 10px 0px;">
-      <asp:Label ID="messageBody" runat="server" />
+    <td>
+     <div class="sncore_message">
+      <div class="sncore_message_subject">
+       <asp:Label ID="messageSubject" runat="server" />
+      </div>
+      <div class="sncore_person">
+       <a runat="server" id="accountlink">
+        <asp:Image Width="50px" runat="server" ID="replytoImage" />
+       </a>
+      </div>
+      <div class="sncore_header">
+       <asp:Label ID="labelMessageFrom" runat="server" Text="from" /> <asp:HyperLink ID="messageFrom" runat="server" />
+       <asp:Label ID="labelMessageTo" runat="server" Text="to" /> <asp:HyperLink ID="messageTo" runat="server" />
+       on <asp:Label ID="messageSent" runat="server" />        
+      </div>
+      <div class="sncore_content">
+       <div class="sncore_message_body">
+        <asp:Label ID="messageBody" runat="server" />
+       </div>
+      </div>
      </div>
     </td>
    </tr>

@@ -16,48 +16,44 @@
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:BoundColumn DataField="CanEdit" Visible="false" />
    <asp:BoundColumn DataField="CanDelete" Visible="false" />
-   <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+   <asp:TemplateColumn ItemStyle-CssClass="sncore_message_tr_td">
     <itemtemplate>
-     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-       <td align="left" valign="top" width="*" class="sncore_message_left">
-        <div class="sncore_message_header">
-         <div class="sncore_message_subject">
-          <a href="DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&id=<%# Eval("DiscussionThreadId") %>">
-           <%# base.Render(Eval("Subject"))%>
-          </a>
-         </div>
-         <div class="sncore_description">
-          posted on <%# base.Adjust(Eval("Created")).ToString() %> in
-          <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'>
-           <%# base.Render(Eval("DiscussionName"))%>
-          </a>
-         </div>          
-         <div class="sncore_description">
-          <a href="DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&id=<%# Eval("DiscussionThreadId") %>">
-           &#187; read</a>
-          <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
-           &#187; reply</a>
-          <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
-           &#187; quote</a>
-         </div>
-        </div>
-        <div class="sncore_message_body">
-         <%# base.RenderEx(Eval("Body"))%>
-        </div>
-       </td>
-       <td width="150" align="center" valign="top" class="sncore_message_right">
-        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="<%# (((string) Eval("Body")).Length < 64) ? "height:50px;" : "" %>" />
-        </a>
-        <div class="sncore_link_description">
-         <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-          <%# base.Render(Eval("AccountName")) %>
-         </a>
-        </div>
-       </td>
-      </tr>
-     </table>
+     <div class="sncore_message">
+      <div class="sncore_message_subject">
+       <a href='DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&id=<%# Eval("DiscussionThreadId") %>&ReturnUrl=<%# SnCore.Tools.Web.Renderer.UrlEncode(Request.Url.PathAndQuery) %>'>
+        <%# base.Render(Eval("Subject"))%>
+       </a>
+      </div>
+      <div class="sncore_person">
+       <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+        <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" style="width: 50px;"/>
+       </a>
+      </div>
+      <div class="sncore_header">
+       posted 
+       by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
+       in 
+       <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'>
+        <%# base.Render(Eval("DiscussionName"))%>
+       </a>
+       <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+        &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
+       </span>
+      </div>
+      <div class="sncore_content" style='width: <%# 680 - (int) Eval("Level") * 10 %>px'>
+       <div class="sncore_message_body">
+        <%# RenderEx(Eval("Body")) %>
+       </div>
+      </div>
+      <div class="sncore_footer">
+       <a href="DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&id=<%# Eval("DiscussionThreadId") %>">
+        &#187; read</a>
+       <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+        &#187; reply</a>
+       <a href="DiscussionPost.aspx?did=<%# Eval("DiscussionId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+        &#187; quote</a>
+      </div>
+     </div>      
     </itemtemplate>
    </asp:TemplateColumn>
   </Columns>

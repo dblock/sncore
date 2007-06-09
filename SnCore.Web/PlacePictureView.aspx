@@ -14,9 +14,9 @@
     <asp:HyperLink ID="linkBack" runat="server" Text="&#187; Back" />
     <asp:HyperLink ID="linkComments" runat="server" NavigateUrl="#comments" />
    </div>
-   <table cellspacing="0" cellpadding="4" class="sncore_table">
+   <table cellspacing="0" class="sncore_table">
     <tr>
-     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
+     <td class="sncore_table_tr_td_images">
       <SnCoreWebControls:PagedList OnItemCommand="picturesView_ItemCommand" runat="server" ID="picturesView"
        RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
@@ -32,7 +32,7 @@
        </ItemTemplate>
       </SnCoreWebControls:PagedList>
      </td>
-     <td valign="top" width="*">
+     <td valign="top" class="sncore_table_tr_td">
       <div class="sncore_link" style="text-align: center; margin: 10px;">
        <asp:LinkButton ID="linkPrev" Text="&#171; Prev" runat="server" OnCommand="picturesView_ItemCommand" CommandName="Picture" /> |
        <asp:Label ID="labelIndex" runat="server" />
@@ -79,7 +79,8 @@
        </tr>
       </table>
       <a name="comments"></a>
-      <SnCore:DiscussionFullView runat="server" ID="discussionComments" Text="Comments" PostNewText="&#187; Post a Comment" />  
+      <SnCore:DiscussionFullView runat="server" ID="discussionComments" Text="Comments" 
+       OuterWidth="472" PostNewText="&#187; Post a Comment" />  
      </td>
     </tr>
    </table>

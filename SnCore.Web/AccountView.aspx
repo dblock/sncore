@@ -26,8 +26,8 @@
  <asp:Panel CssClass="panel" ID="pnlAccount" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
-    <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
-     <asp:Panel CssClass="sncore_nopicture_table" ID="accountNoPicture" runat="server" Visible="false">
+    <td class="sncore_table_tr_td_images">
+     <asp:Panel ID="accountNoPicture" runat="server" Visible="false">
       <img border="0" src="AccountPictureThumbnail.aspx" />
      </asp:Panel>
      <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">

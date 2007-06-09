@@ -18,8 +18,8 @@
   <ContentTemplate>
     <table cellspacing="0" cellpadding="4" class="sncore_table">
      <tr>
-      <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 200px;">
-       <asp:Panel ID="placeNoPicture" CssClass="sncore_nopicture_table" runat="server" Visible="false">
+      <td class="sncore_table_tr_td_images">
+       <asp:Panel ID="placeNoPicture" runat="server" Visible="false">
         <img border="0" src="PlacePictureThumbnail.aspx" />
        </asp:Panel>
        <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
@@ -205,7 +205,8 @@
        </div>
        <SnCore:MadLibInstancesView ID="madlibs" runat="server" /> 
        <a name="Comments" />
-       <SnCore:DiscussionFullView runat="server" ID="discussionPlaces" Text="Reviews" PostNewText="&#187; Post a Review" />
+       <SnCore:DiscussionFullView runat="server" ID="discussionPlaces" Text="Reviews" PostNewText="&#187; Post a Review" 
+        OuterWidth="472" />
        <asp:Panel ID="panelSubmit" Visible="False" runat="server">
         <div class="sncore_notice_info">
          <table cellspacing="0" cellpadding="4" class="sncore_inner_table" width="95%">

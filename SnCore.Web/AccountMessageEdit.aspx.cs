@@ -66,7 +66,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 messageFrom.Visible = labelMessageFrom.Visible = (rp.SenderAccountId != SessionManager.Account.Id);
                 messageTo.Visible = labelMessageTo.Visible = (rp.RecepientAccountId != SessionManager.Account.Id);
 
-                replytoAccount.Text = messageFrom.Text = Renderer.Render(rp.SenderAccountName);
+                messageFrom.Text = Renderer.Render(rp.SenderAccountName);
                 messageBody.Text = RenderEx(rp.Body);
                 messageSent.Text = rp.Sent.ToString();
                 replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.SenderAccountPictureId.ToString();

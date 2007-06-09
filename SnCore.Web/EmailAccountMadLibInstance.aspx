@@ -27,8 +27,7 @@
         <a href="AccountView.aspx?id=<% Response.Write(this.MadLibInstance.AccountId); %>">
          <% Response.Write(Renderer.Render(this.MadLibInstance.AccountName)); %>
         </a>
-        on
-        <% Response.Write(Renderer.Render(this.MadLibInstance.Created.ToString("d"))); %>        
+        &#187; <% Response.Write(SessionManager.ToAdjustedString(MadLibInstance.Created)); %>
        </div>
        <div style="margin: 10px 0px 10px 0px;">
         <% Response.Write(RenderMadLib(RenderEx(this.MadLibInstance.Text))); %>

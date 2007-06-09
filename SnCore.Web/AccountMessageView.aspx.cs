@@ -47,7 +47,7 @@ public partial class AccountMessageView : AuthenticatedPage
             }
 
             messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);
-            messageFrom.Text = messageSenderName.Text = Renderer.Render(message.SenderAccountName);
+            messageFrom.Text = Renderer.Render(message.SenderAccountName);
             messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId);
             messageTo.Text = Renderer.Render(message.RecepientAccountName);
             messageSent.Text = message.Sent.ToString();

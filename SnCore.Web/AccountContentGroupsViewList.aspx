@@ -32,8 +32,7 @@
     <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
      <%# base.Render(Eval("AccountName")) %> 
     </a>
-    on 
-    <%# base.Adjust(Eval("Created")).ToString("d") %>
+    &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
    </div>
   </ItemTemplate>
  </asp:DataList>
