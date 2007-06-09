@@ -122,11 +122,6 @@ public partial class MadLibInstancesViewControl : Control
         madlibs.DataBind();
     }
 
-    public string GetCssClass(DateTime ts)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow) ? "sncore_message" : "sncore_new_message";
-    }
-
     public string GetEditUrl(int id, int madlibid)
     {
         return string.Format("AccountMadLibInstanceEdit.aspx?ObjectName={0}&oid={1}&mid={2}&id={3}&ReturnUrl={4}&aid={5}",

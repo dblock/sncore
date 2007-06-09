@@ -145,34 +145,4 @@ public partial class DiscussionThreadViewControl : Control
                 break;
         }
     }
-
-    public string GetSubjectCssClass(int level)
-    {
-        return (level == 0 ? "sncore_message_subject" : "");
-    }
-
-    public string GetBodyCssClass(DateTime ts)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow) ? "sncore_message" : "sncore_new_message";
-    }
-
-    public string GetBodyCssStyle(DateTime ts)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow) ? "display: none;" : string.Empty;
-    }
-
-    public string GetSummaryCssClass(DateTime ts)
-    {
-        return (ts.AddDays(5) >= DateTime.UtcNow) ? "sncore_message" : "sncore_new_message";
-    }
-
-    public string GetSummaryCssStyle(DateTime ts)
-    {
-        return (ts.AddDays(5) >= DateTime.UtcNow) ? "display: none;" : string.Empty;
-    }
-
-    public string GetCssPictureStyle(DateTime ts, int len)
-    {
-        return (ts.AddDays(5) < DateTime.UtcNow || len < 64) ? "height: 50px;" : string.Empty;
-    }
 }
