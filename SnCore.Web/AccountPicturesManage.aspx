@@ -61,5 +61,4 @@
    </SnCoreWebControls:PagedList>
   </ContentTemplate>
  </asp:UpdatePanel>
- <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
 </asp:Content>

@@ -39,6 +39,16 @@ public partial class AccountPreferencesManage : AuthenticatedPage
     {
         if (!IsPostBack)
         {
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+            {
+                noticeVerifiedEmail.HtmlEncode = false;
+                noticeVerifiedEmail.Info = "You don't have a verified e-mail address. " +
+                    "You will only be able to post once you have verified your e-mail. " +
+                    "If you haven't received a confirmation e-mail, please " +
+                    "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
+                    "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
+            }
+
             inputName.Text = SessionManager.Account.Name;
 
             accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));

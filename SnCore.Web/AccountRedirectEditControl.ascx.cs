@@ -51,6 +51,12 @@ public partial class AccountRedirectEditControl : Control
                 inputSource.Text = redirect.SourceUri;
                 linkSource.NavigateUrl = redirect.SourceUri;
             }
+
+            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+            {
+                inputSource.Enabled = false;
+                btnSave.Enabled = false;
+            }
         }
 
         PageManager.SetDefaultButton(btnSave, Controls);

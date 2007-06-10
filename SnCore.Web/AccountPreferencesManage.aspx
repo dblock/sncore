@@ -9,6 +9,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SystemMenu" Src="SystemMenuControl.ascx" %>
+<%@ Register tagprefix="SnCore" tagname="Notice" src="NoticeControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_account_table">
@@ -35,6 +36,7 @@
    </td>
   </tr>
  </table>
+ <SnCore:Notice ID="noticeVerifiedEmail" runat="server" />
  <SnCore:Title ID="titlePreferences" Text="My Preferences" runat="server">  
   <Template>
    <div class="sncore_title_paragraph">
