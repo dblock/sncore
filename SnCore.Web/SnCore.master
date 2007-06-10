@@ -102,7 +102,7 @@
      </td>
      <td width="16">
       <!-- NOEMAIL-START -->
-      <asp:ScriptManager ID="scriptmanager1" EnablePartialRendering="true"
+      <ajaxToolkit:ToolkitScriptManager CombineScripts="true" ID="scriptmanager1" EnablePartialRendering="true"
        runat="Server" />
       <nStuff:UpdateHistory runat="server" ID="updateHistory" />
       <div style="width: 16px;">
