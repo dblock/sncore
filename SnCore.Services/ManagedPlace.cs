@@ -605,11 +605,14 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             acl.Add(new ACLAuthenticatedAllowCreate());
-            acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
-            foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.AccountPlaces))
+            if (mInstance != null)
             {
-                acl.Add(new ACLAccount(relationship.Account,
-                    relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+                acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
+                foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.AccountPlaces))
+                {
+                    acl.Add(new ACLAccount(relationship.Account,
+                        relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+                }
             }
             return acl;
         }

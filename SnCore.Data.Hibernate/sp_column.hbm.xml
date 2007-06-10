@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" schema="dbo">
+    <sql-query name="sp_columns">
+        <return-scalar column="TABLE_QUALIFIER" type="String"/>
+        <return-scalar column="TABLE_OWNER" type="String"/>
+        <return-scalar column="TABLE_NAME" type="String"/>
+        <return-scalar column="COLUMN_NAME" type="String"/>
+        <return-scalar column="DATA_TYPE" type="Int16"/>
+        <return-scalar column="TYPE_NAME" type="String"/>
+        <return-scalar column="PRECISION" type="Int32"/>
+        <return-scalar column="LENGTH" type="Int32"/>
+        <return-scalar column="SCALE" type="Int16"/>
+        <return-scalar column="RADIX" type="Int16"/>
+        <return-scalar column="NULLABLE" type="Int16"/>
+        <return-scalar column="REMARKS" type="String"/>
+        <return-scalar column="COLUMN_DEF" type="String"/>
+        <return-scalar column="SQL_DATA_TYPE" type="Int16"/>
+        <return-scalar column="SQL_DATETIME_SUB" type="Int16"/>
+        <return-scalar column="CHAR_OCTET_LENGTH" type="Int32"/>
+        <return-scalar column="ORDINAL_POSITION" type="Int32"/>
+        <return-scalar column="IS_NULLABLE" type="String"/>
+        <return-scalar column="SS_DATA_TYPE" type="Int16"/>
+        exec sp_columns @table_name = :table_name
+    </sql-query>
+</hibernate-mapping>

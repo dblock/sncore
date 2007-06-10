@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class BugEdit : AuthenticatedPage
 {
@@ -26,6 +27,9 @@ public partial class BugEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
+            DomainClass cs = SessionManager.GetDomainClass("Bug");
+            inputSubject.MaxLength = cs["Subject"].MaxLengthInChars;
+
             selectPriority.DataSource = SessionManager.BugService.GetBugPriorities(
                 SessionManager.Ticket, null);
             selectPriority.DataBind();

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using SnCore.WebServices;
 using Wilco.Web.UI;
+using SnCore.Data.Hibernate;
 
 public partial class AccountRedirectEditControl : Control
 {
@@ -42,6 +43,9 @@ public partial class AccountRedirectEditControl : Control
     {
         if (!IsPostBack)
         {
+            DomainClass cs = SessionManager.GetDomainClass("AccountRedirect");
+            inputSource.MaxLength = cs["SourceUri"].MaxLengthInChars;
+
             TransitAccountRedirect redirect = SessionManager.AccountService.GetAccountRedirectByTargetUri(
                 SessionManager.Ticket, SessionManager.AccountId, TargetUri);
 

@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class SystemPlacePropertyGroupEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Place Property Groups", Request, "SystemPlacePropertyGroupsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("PlacePropertyGroup");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

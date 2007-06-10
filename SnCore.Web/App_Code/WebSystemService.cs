@@ -12,6 +12,7 @@ using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using System.Reflection;
 using System.Web.Services.Protocols;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.WebServices
 {
@@ -195,6 +196,25 @@ namespace SnCore.WebServices
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region DomainModel
+
+        /// <summary>
+        /// Get the underlying domain model for a type.
+        /// </summary>
+        [WebMethod(Description = "Get the underlying domain model for a type.")]
+        public sp_column[] GetTypeColumns(string type)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                DomainClass dc = Session.Model[type];
+                sp_column[] arr = new sp_column[dc.Columns.Count];
+                dc.Columns.CopyTo(arr, 0);
+                return arr;
+            }
         }
 
         #endregion

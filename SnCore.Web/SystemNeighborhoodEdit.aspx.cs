@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemNeighborhoodEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Neighborhoods", Request, "SystemNeighborhoodsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Neighborhood");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
             inputCountry.DataSource = SessionManager.GetCollection<TransitCountry, string>(

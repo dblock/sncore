@@ -20,6 +20,7 @@ namespace SnCore.Data.Hibernate
         private static NHibernate.Cfg.Configuration _config = null;
         private static ISessionFactory _factory = null;
         private static ISessionStorage _sessionsource = null;
+        private static DomainModel _model = null;
         private static bool http = false;
 
         static Session()
@@ -68,6 +69,32 @@ namespace SnCore.Data.Hibernate
             _config = new NHibernate.Cfg.Configuration();
             // Add interceptor, if you need to.
             // _config.Interceptor = new Interceptor();
+        }
+
+        public static DomainModel Model
+        {
+            get
+            {
+                if (_model == null)
+                {
+                    lock (_locker)
+                    {
+                        if (_model == null)
+                        {
+                            _model = new DomainModel(Current);
+                        }
+                    }
+                }
+
+                return _model;
+            }
+            set
+            {
+                lock (_locker)
+                {
+                    _model = value;
+                }
+            }
         }
 
         /// <summary>

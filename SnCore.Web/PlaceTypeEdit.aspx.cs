@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class PlaceTypeEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class PlaceTypeEdit : AuthenticatedPage
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
                 sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Place Types", Request, "PlaceTypesManage.aspx"));
+
+                DomainClass cs = SessionManager.GetDomainClass("PlaceType");
+                inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
                 if (RequestId > 0)
                 {

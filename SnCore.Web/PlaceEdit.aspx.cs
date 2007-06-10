@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class PlaceEdit : AuthenticatedPage
 {
@@ -42,6 +43,19 @@ public partial class PlaceEdit : AuthenticatedPage
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Place");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputStreet.MaxLength = cs["Street"].MaxLengthInChars;
+            inputZip.MaxLength = cs["Zip"].MaxLengthInChars;
+            inputCrossStreet.MaxLength = cs["CrossStreet"].MaxLengthInChars;
+            inputPhone.MaxLength = cs["Phone"].MaxLengthInChars;
+            inputFax.MaxLength = cs["Fax"].MaxLengthInChars;
+            inputEmail.MaxLength = cs["Email"].MaxLengthInChars;
+            inputWebsite.MaxLength = cs["Website"].MaxLengthInChars;
+
+            DomainClass acs = SessionManager.GetDomainClass("PlaceName");
+            inputAltName.MaxLength = acs["Name"].MaxLengthInChars;
 
             gridPlaceNamesManage_OnGetDataSource(sender, e);
             gridPlaceNamesManage.DataBind();

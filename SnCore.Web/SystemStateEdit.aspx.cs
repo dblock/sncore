@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.WebServices;
+using SnCore.Data.Hibernate;
 
 public partial class SystemStateEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class SystemStateEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("States", Request, "SystemStatesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("State");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             int id = RequestId;
 

@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemSurveyQuestionEdit : AuthenticatedPage
 {
@@ -25,6 +26,9 @@ public partial class SystemSurveyQuestionEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Surveys", Request, "SystemSurveysManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(Survey.Name, Request, string.Format("SystemSurveyEdit.aspx?id={0}", SurveyId)));
+
+            DomainClass cs = SessionManager.GetDomainClass("SurveyQuestion");
+            inputQuestion.MaxLength = cs["Question"].MaxLengthInChars;
 
             linkBack.NavigateUrl = "SystemSurveyEdit.aspx?id=" + SurveyId.ToString();
             if (RequestId > 0)

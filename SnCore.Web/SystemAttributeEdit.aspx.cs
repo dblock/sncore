@@ -15,6 +15,7 @@ using System.Drawing;
 using SnCore.Tools.Drawing;
 using System.IO;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemAttributeEdit : AuthenticatedPage
 {
@@ -25,6 +26,10 @@ public partial class SystemAttributeEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, "SystemAttributesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Attribute");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputDefaultUrl.MaxLength = cs["DefaultUrl"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

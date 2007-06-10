@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class MarketingCampaignEdit : AuthenticatedPage
 {
@@ -22,6 +23,12 @@ public partial class MarketingCampaignEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Marketing Campaigns", Request, "MarketingCampaignsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Campaign");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputSenderName.MaxLength = cs["SenderName"].MaxLengthInChars;
+            inputSenderEmail.MaxLength = cs["SenderEmailAddress"].MaxLengthInChars;
+            inputUrl.MaxLength = cs["Url"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

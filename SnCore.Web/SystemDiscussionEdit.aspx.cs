@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemDiscussionEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "SystemDiscussionsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Discussion");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             int id = RequestId;
 

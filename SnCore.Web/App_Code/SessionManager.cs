@@ -19,6 +19,7 @@ using System.Reflection;
 using SnCore.Tools;
 using System.Diagnostics;
 using System.Web.Hosting;
+using SnCore.Data.Hibernate;
 
 public class SessionManager
 {
@@ -737,6 +738,22 @@ public class SessionManager
 
             return tz;
         }
+    }
+
+    #endregion
+
+    #region DomainModel
+    
+    public DomainClass GetDomainClass(string name)
+    {
+        string key = string.Format("DomainClass:{0}", name);
+        DomainClass cs = (DomainClass) Cache.Get(key);
+        if (cs == null)
+        {
+            cs = new DomainClass(name, SystemService.GetTypeColumns(name));
+            Cache.Insert(key, cs);
+        }
+        return cs;
     }
 
     #endregion

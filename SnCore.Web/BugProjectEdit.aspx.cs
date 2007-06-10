@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class BugProjectEdit : AuthenticatedPage
 {
@@ -20,6 +21,9 @@ public partial class BugProjectEdit : AuthenticatedPage
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("BugProject");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

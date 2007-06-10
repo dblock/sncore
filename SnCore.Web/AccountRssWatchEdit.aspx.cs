@@ -17,6 +17,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountRssWatchEdit : AuthenticatedPage
 {
@@ -37,6 +38,10 @@ public partial class AccountRssWatchEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Subscriptions", Request, "AccountRssWatchsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountRssWatch");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputRssWatchUrl.MaxLength = cs["Url"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

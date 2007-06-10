@@ -17,6 +17,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountStoryEdit : AuthenticatedPage
 {
@@ -27,6 +28,9 @@ public partial class AccountStoryEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountStory");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

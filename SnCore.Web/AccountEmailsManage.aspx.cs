@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountEmailsManage : AuthenticatedPage
 {
@@ -26,6 +27,9 @@ public partial class AccountEmailsManage : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("E-Mails", Request.Url));
             StackSiteMap(sitemapdata);
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountEmail");
+            inputEmailAddress.MaxLength = cs["Address"].MaxLengthInChars;
         }
 
         SetDefaultButton(manageAdd);

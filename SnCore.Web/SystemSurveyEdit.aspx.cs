@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemSurveyEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class SystemSurveyEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Surveys", Request, "SystemSurveysManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Survey");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

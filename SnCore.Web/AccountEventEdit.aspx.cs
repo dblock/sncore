@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Net;
 using System.IO;
+using SnCore.Data.Hibernate;
 
 public partial class AccountEventEdit : AuthenticatedPage
 {
@@ -26,6 +27,13 @@ public partial class AccountEventEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountEvent");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputPhone.MaxLength = cs["Phone"].MaxLengthInChars;
+            inputEmail.MaxLength = cs["Email"].MaxLengthInChars;
+            inputWebsite.MaxLength = cs["Website"].MaxLengthInChars;
+            inputCost.MaxLength = cs["Cost"].MaxLengthInChars;
 
             ArrayList types = new ArrayList();
             types.Add(new TransitAccountPlaceType());

@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Text;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountMessageEdit : AuthenticatedPage
 {
@@ -39,6 +40,9 @@ public partial class AccountMessageEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
+            DomainClass cs = SessionManager.GetDomainClass("AccountMessage");
+            inputSubject.MaxLength = cs["Subject"].MaxLengthInChars;
+
             TransitAccount ta = SessionManager.AccountService.GetAccountById(SessionManager.Ticket, RequestId);
 
             if (ta == null)

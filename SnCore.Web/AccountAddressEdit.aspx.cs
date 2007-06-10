@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
+using SnCore.Data.Hibernate;
 
 public partial class AccountAddressEdit : AuthenticatedPage
 {
@@ -23,6 +24,13 @@ public partial class AccountAddressEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Addresses", Request, "AccountAddressesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountAddress");
+            inputApt.MaxLength = cs["Apt"].MaxLengthInChars;
+            inputCity.MaxLength = cs["City"].MaxLengthInChars;
+            inputStreet.MaxLength = cs["Street"].MaxLengthInChars;
+            inputZip.MaxLength = cs["Zip"].MaxLengthInChars;
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             TransitAccountAddress tw = null;
 

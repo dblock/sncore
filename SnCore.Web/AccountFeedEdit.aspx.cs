@@ -17,6 +17,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountFeedEdit : AuthenticatedPage
 {
@@ -37,6 +38,13 @@ public partial class AccountFeedEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountFeed");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputFeedUrl.MaxLength = cs["FeedUrl"].MaxLengthInChars;
+            inputUsername.MaxLength = cs["Username"].MaxLengthInChars;
+            inputPassword.MaxLength = cs["Password"].MaxLengthInChars;
+            inputLinkUrl.MaxLength = cs["LinkUrl"].MaxLengthInChars;
 
             inputFeedType.DataSource = SessionManager.GetCollection<TransitFeedType>(
                 null, SessionManager.SyndicationService.GetFeedTypes);

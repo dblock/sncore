@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemPlacePropertyEdit : AuthenticatedPage
 {
@@ -46,6 +47,9 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Place Property Groups", Request, "SystemPlacePropertyGroupsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemPlacePropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
+
+            DomainClass cs = SessionManager.GetDomainClass("PlaceProperty");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             linkBack.NavigateUrl = string.Format("SystemPlacePropertyGroupEdit.aspx?id={0}", PropertyGroupId);
 

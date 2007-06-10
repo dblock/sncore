@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class BugStatusEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class BugStatusEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Bugs", Request, "BugProjectsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Statuses", Request, "BugStatusesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("BugStatu");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

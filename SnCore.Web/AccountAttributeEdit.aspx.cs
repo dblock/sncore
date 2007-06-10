@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountAttributeEdit : AuthenticatedPage
 {
@@ -35,6 +36,9 @@ public partial class AccountAttributeEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, string.Format("AccountAttributesManage.aspx?id={0}", ta.Id)));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountAttribute");
+            inputUrl.MaxLength = cs["Url"].MaxLengthInChars;
 
             linkBack.NavigateUrl = string.Format("AccountAttributesManage.aspx?id={0}", AccountId);
 

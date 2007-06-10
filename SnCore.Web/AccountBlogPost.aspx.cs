@@ -17,6 +17,7 @@ using System.IO;
 using System.Drawing;
 using SnCore.Tools;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountBlogPostNew : AuthenticatedPage
 {
@@ -41,6 +42,9 @@ public partial class AccountBlogPostNew : AuthenticatedPage
     {
         if (!IsPostBack)
         {
+            DomainClass cs = SessionManager.GetDomainClass("AccountBlogPost");
+            inputTitle.MaxLength = cs["Title"].MaxLengthInChars;
+
             this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
 
             linkBack.NavigateUrl = ReturnUrl;

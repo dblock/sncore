@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemCountryEdit : AuthenticatedPage
 {
@@ -21,6 +22,9 @@ public partial class SystemCountryEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Countries", Request, "SystemCountriesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Country");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             int id = RequestId;
 

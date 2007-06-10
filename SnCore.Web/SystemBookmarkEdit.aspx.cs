@@ -15,6 +15,7 @@ using System.Drawing;
 using SnCore.Tools.Drawing;
 using System.IO;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemBookmarkEdit : AuthenticatedPage
 {
@@ -25,6 +26,10 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Bookmarks", Request, "SystemBookmarksManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Bookmark");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputUrl.MaxLength = cs["Url"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

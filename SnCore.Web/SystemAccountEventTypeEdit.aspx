@@ -1,9 +1,9 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
+<%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true"
  CodeFile="SystemAccountEventTypeEdit.aspx.cs" Inherits="SystemAccountEventTypeEdit" Title="Account Event Type" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
+<asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   Event Type
  </div>
@@ -11,7 +11,7 @@
   runat="server" />
  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
- <table class="sncore_table">
+ <table class="sncore_account_table">
   <tr>
    <td class="sncore_form_label">
     name:

@@ -121,6 +121,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlaceTest.cs" />
+    <Compile Include="DomainModelTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -13,6 +13,7 @@ using System.IO;
 using SnCore.Services;
 using SnCore.SiteMap;
 using Wilco.Web.UI;
+using SnCore.Data.Hibernate;
 
 public partial class FeedTypeEdit : AuthenticatedPage
 {
@@ -44,6 +45,9 @@ public partial class FeedTypeEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Feed Types", Request, "FeedTypesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("FeedType");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

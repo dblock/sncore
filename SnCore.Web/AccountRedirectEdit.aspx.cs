@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountRedirectEdit : AuthenticatedPage
 {
@@ -22,6 +23,10 @@ public partial class AccountRedirectEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Redirects", Request, "AccountRedirectsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountRedirect");
+            inputSourceUri.MaxLength = cs["SourceUri"].MaxLengthInChars;
+            inputTargetUri.MaxLength = cs["TargetUri"].MaxLengthInChars;
 
             int id = RequestId;
 

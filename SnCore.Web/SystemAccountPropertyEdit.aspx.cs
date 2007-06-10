@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemAccountPropertyEdit : AuthenticatedPage
 {
@@ -46,6 +47,9 @@ public partial class SystemAccountPropertyEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Account Property Groups", Request, "SystemAccountPropertyGroupsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(PropertyGroup.Name, Request, string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId)));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountProperty");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             linkBack.NavigateUrl = string.Format("SystemAccountPropertyGroupEdit.aspx?id={0}", PropertyGroupId);
 

@@ -33,6 +33,7 @@ namespace SnCore.Data.Tests
                     mConfiguration.Properties.Add("hibernate.connection.driver_class", "NHibernate.Driver.SqlClientDriver");
                     mConfiguration.Properties.Add("hibernate.connection.connection_string", "Server=localhost;initial catalog=SnCore;Integrated Security=SSPI");
                     mConfiguration.AddAssembly("SnCore.Data");
+                    mConfiguration.AddAssembly("SnCore.Data.Hibernate");
                 }
                 return mConfiguration;
             }

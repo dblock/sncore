@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class PlaceAttributeEdit : AuthenticatedPage
 {
@@ -30,6 +31,9 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
+            DomainClass cs = SessionManager.GetDomainClass("PlaceAttribute");
+            inputUrl.MaxLength = cs["Url"].MaxLengthInChars;
+
             linkBack.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", PlaceId);
 
             List<TransitAttribute> attributes = SessionManager.ObjectService.GetAttributes(

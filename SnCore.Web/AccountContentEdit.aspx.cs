@@ -16,6 +16,7 @@ using SnCore.Tools.Drawing;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
+using SnCore.Data.Hibernate;
 
 public partial class AccountContentEdit : AuthenticatedPage
 {
@@ -32,6 +33,9 @@ public partial class AccountContentEdit : AuthenticatedPage
         SetDefaultButton(linkSave);
         if (!IsPostBack)
         {
+            DomainClass cs = SessionManager.GetDomainClass("AccountContent");
+            inputTag.MaxLength = cs["Tag"].MaxLengthInChars;
+
             if (RequestId > 0)
             {
                 TransitAccountContent tf = SessionManager.ContentService.GetAccountContentById(

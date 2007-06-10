@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class SystemConfigurationEdit : AuthenticatedPage
 {
@@ -22,6 +23,9 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Settings", Request, "SystemConfigurationsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("Configuration");
+            inputName.MaxLength = cs["OptionName"].MaxLengthInChars;
 
             int id = RequestId;
 

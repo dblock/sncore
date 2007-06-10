@@ -17,6 +17,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 public partial class AccountContentGroupEdit : AuthenticatedPage
 {
@@ -29,6 +30,9 @@ public partial class AccountContentGroupEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Content", Request, "AccountContentGroupsManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("AccountContentGroup");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
             if (RequestId > 0)
             {

@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using System.Collections.Generic;
 using System.Web.Caching;
 using SnCore.SiteMap;
+using SnCore.Data.Hibernate;
 
 [SiteMapDataAttribute("Me Me")]
 public partial class AccountPreferencesManage : AuthenticatedPage
@@ -48,6 +49,11 @@ public partial class AccountPreferencesManage : AuthenticatedPage
                     "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
                     "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
             }
+
+            DomainClass cs = SessionManager.GetDomainClass("Account");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+            inputCity.MaxLength = cs["City"].MaxLengthInChars;
+            inputSignature.MaxLength = cs["Signature"].MaxLengthInChars;
 
             inputName.Text = SessionManager.Account.Name;
 
