@@ -19,8 +19,11 @@ public partial class DiscussionPostsNewViewControl : Control
     {
         if (!IsPostBack)
         {
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageNumber = 0;
+            options.PageSize = discussionView.PageSize;
             IList<TransitDiscussionPost> items = SessionManager.GetCollection<TransitDiscussionPost>(
-                (ServiceQueryOptions) null, SessionManager.DiscussionService.GetLatestDiscussionPosts);
+                options, SessionManager.DiscussionService.GetDiscussionTopOfThreads);
             discussionView.DataSource = items;
             discussionView.DataBind();
         }
