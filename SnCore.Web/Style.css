@@ -131,8 +131,10 @@ body div.sncore_message div.sncore_message_subject { font-size: 16px; font-weigh
 body div.sncore_message div.sncore_content_madlib { float: left; width: 472px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
 body div.sncore_message div.sncore_content_account { float: left; width: 480px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
 body div.sncore_message div.sncore_content { float: left; width: 680px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
+body div.sncore_message div.sncore_content_recent { float: left; width: 680px; background: url('images/site/recentquote.gif') 0px 14px no-repeat;  }
 body div.sncore_message div.sncore_content_halftable { float: left; width: 210px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
-body div.sncore_message div.sncore_message_body { margin-left: 10px; background-color: #e5ebff; }
+body div.sncore_message div.sncore_message_body { border: solid 5px #e5ebff; margin-top: 5px; margin-left: 10px; background-color: #e5ebff; }
+body div.sncore_message div.sncore_message_body_recent { border: solid 5px #ffcccc; margin-top: 5px; margin-left: 10px; background-color: #ffcccc; }
 body div.sncore_message div.sncore_message_body_halftable { margin-top: 5px; font-size: smaller; margin-left: 10px; background-color: #e5ebff; }
 body div.sncore_message div.sncore_person { float: left; text-align: center; margin-top: 10px; width: 95px; }
 body div.sncore_message div.sncore_footer { color: Silver; float: right; font-size: 10px; margin-right: 20px; width: 95%; text-align: right; }

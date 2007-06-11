@@ -67,13 +67,15 @@
       </a>
      </div>
      <div class="sncore_header">
-      posted by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
+      started by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
       <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("DiscussionThreadModified")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
-       &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("DiscussionThreadModified")) %>
+       &#187; last post
+       <%# SessionManager.ToAdjustedString((DateTime) Eval("DiscussionThreadModified")) %>
       </span>
      </div>
-     <div class="sncore_content" style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
-      <div class="sncore_message_body">
+      <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("DiscussionThreadModified")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
+       style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
+       <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("DiscussionThreadModified")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
        <%# GetSummary((string) Eval("Body")) %>
       </div>
      </div>

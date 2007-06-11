@@ -36,8 +36,9 @@
         &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
        </span>
       </div>
-      <div class="sncore_content" style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
-       <div class="sncore_message_body">
+      <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
+       style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
+       <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
         <%# RenderEx(Eval("Body")) %>
        </div>
       </div>
