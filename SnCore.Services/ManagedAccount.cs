@@ -112,9 +112,13 @@ namespace SnCore.Services
                 instance.LastLogin = DateTime.UtcNow;
             }
 
-            if (!string.IsNullOrEmpty(State)) instance.State = ManagedState.Find(session, State, Country);
-            if (!string.IsNullOrEmpty(Country)) instance.Country = ManagedCountry.Find(session, Country);
-
+            instance.State = string.IsNullOrEmpty(State) 
+                ? null 
+                : ManagedState.Find(session, State, Country);
+            
+            instance.Country = string.IsNullOrEmpty(Country) 
+                ? null 
+                : ManagedCountry.Find(session, Country);
 
             if (instance.State != null && instance.Country != null)
             {

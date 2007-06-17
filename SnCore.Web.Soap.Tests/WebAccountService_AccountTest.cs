@@ -138,5 +138,27 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Console.WriteLine("Results: {0}", t_instances.Length);
             Assert.AreNotEqual(0, t_instances.Length);
         }
+
+        [Test]
+        public void SetCountryStateTest()
+        {
+            WebAccountService.TransitAccount t_instance = GetTransitInstance();
+            string email = GetNewEmailAddress();
+            t_instance.Id = EndPoint.CreateAccount(string.Empty, email, t_instance);
+            Assert.IsTrue(t_instance.Id > 0);
+            string ticket = EndPoint.Login(email, t_instance.Password);
+            t_instance.State = "New York";
+            t_instance.Country = "United States";
+            EndPoint.CreateOrUpdateAccount(ticket, t_instance);
+            WebAccountService.TransitAccount t_instance2 = EndPoint.GetAccount(ticket, true);
+            Assert.AreEqual(t_instance2.State, t_instance.State);
+            Assert.AreEqual(t_instance2.Country, t_instance.Country);
+            t_instance.State = string.Empty;
+            t_instance.Country = "New Zealand";
+            EndPoint.CreateOrUpdateAccount(ticket, t_instance);
+            WebAccountService.TransitAccount t_instance3 = EndPoint.GetAccount(ticket, true);
+            Assert.AreEqual(t_instance3.State, t_instance.State);
+            Assert.AreEqual(t_instance3.Country, t_instance.Country);
+        }
     }
 }

@@ -482,7 +482,7 @@ namespace SnCore.Services
             if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
             instance.City = (!string.IsNullOrEmpty(City)) 
                 ? ManagedCity.FindOrCreate(session, City, State, Country)
-                : instance.City = null;            
+                : null;            
             instance.Neighborhood = (!string.IsNullOrEmpty(Neighborhood) && !string.IsNullOrEmpty(City)) 
                 ? ManagedNeighborhood.FindOrCreate(session, Neighborhood, City, State, Country)
                 : null;
