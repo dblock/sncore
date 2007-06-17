@@ -134,15 +134,15 @@ public partial class SelectPlaceControl : Control
         Place.Type = selectType.SelectedValue;
         if (string.IsNullOrEmpty(Place.Type))
         {
-            throw new Exception("Missing type.");
+            throw new Exception("Please choose a type for this place.");
         }
         Place.Name = inputName.Text;
         Place.Country = inputCountry.SelectedValue;
         Place.City = inputCity.Text;
         Place.Neighborhood = inputNeighborhood.Text;
-        if (string.IsNullOrEmpty(Place.Name)) throw new Exception("Missing name.");
-        if (string.IsNullOrEmpty(Place.Country)) throw new Exception("Missing country.");
-        if (string.IsNullOrEmpty(Place.City)) throw new Exception("Missing city.");
+        if (string.IsNullOrEmpty(Place.Name)) throw new Exception("Please enter a place name.");
+        if (string.IsNullOrEmpty(Place.Country)) throw new Exception("Please choose a country for this place.");
+        if (string.IsNullOrEmpty(Place.City)) throw new Exception("Please choose a city for this place.");
         Place.State = inputState.Text;
         Place.Street = inputStreet.Text;
         Place.Zip = inputZip.Text;

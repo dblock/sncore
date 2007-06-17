@@ -121,7 +121,7 @@ public partial class AccountEventEdit : AuthenticatedPage
             inputWebsite.Text = "http://" + inputWebsite.Text;
 
         if (string.IsNullOrEmpty(selectType.SelectedValue))
-            throw new Exception("Please choose an event type.");
+            throw new Exception("Please choose a type for this event.");
 
         if (!schedule.IsConfirmed)
             throw new Exception("Please confirm the schedule for this event.");
