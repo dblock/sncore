@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
-<table class="sncore_title_table">
+<table width="100%">
  <tr>
   <td>
    <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
