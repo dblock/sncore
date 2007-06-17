@@ -246,7 +246,7 @@ namespace SnCore.Services
             RequesterPictureId = ManagedAccount.GetRandomAccountPictureId(value.Requester);
             AccountGroupId = value.AccountGroup.Id;
             AccountGroupName = value.AccountGroup.Name;
-            if (! value.AccountGroup.IsPrivate) AccountGroupPictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value.AccountGroup);
+            if (!value.AccountGroup.IsPrivate) AccountGroupPictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value.AccountGroup);
             AccountGroupIsPrivate = value.AccountGroup.IsPrivate;
             Message = value.Message;
             Created = value.Created;
@@ -383,39 +383,43 @@ namespace SnCore.Services
                     mInstance.Requester.Name));
             }
 
-            if (m_group.Instance.IsPrivate && ! m_group.HasAdministratorAccount(mInstance.Requester.Id))
+            // account may already a member (invited twice by different admins, etc.)
+            if (! m_group.HasAccount(mInstance.Account.Id))
             {
-                TransitAccountGroupAccountRequest t_request = new TransitAccountGroupAccountRequest();
-                t_request.AccountGroupId = mInstance.AccountGroup.Id;
-                t_request.AccountId = mInstance.Account.Id;
-                t_request.Message = string.Format("{0} invited {1} to \"{2}\". " +
-                    "The invitation was accepted and needs to be approved by the group administrator.\n{3}",
-                    mInstance.Requester.Name, mInstance.Account.Name, mInstance.AccountGroup.Name, message);                
-                t_request.Submitted = DateTime.UtcNow;
+                if (m_group.Instance.IsPrivate && !m_group.HasAdministratorAccount(mInstance.Requester.Id))
+                {
+                    TransitAccountGroupAccountRequest t_request = new TransitAccountGroupAccountRequest();
+                    t_request.AccountGroupId = mInstance.AccountGroup.Id;
+                    t_request.AccountId = mInstance.Account.Id;
+                    t_request.Message = string.Format("{0} invited {1} to \"{2}\". " +
+                        "The invitation was accepted and needs to be approved by the group administrator.\n{3}",
+                        mInstance.Requester.Name, mInstance.Account.Name, mInstance.AccountGroup.Name, message);
+                    t_request.Submitted = DateTime.UtcNow;
 
-                ManagedAccountGroupAccountRequest m_request = new ManagedAccountGroupAccountRequest(Session);
-                m_request.CreateOrUpdate(t_request, sec);
+                    ManagedAccountGroupAccountRequest m_request = new ManagedAccountGroupAccountRequest(Session);
+                    m_request.CreateOrUpdate(t_request, sec);
+                }
+                else
+                {
+                    AccountGroupAccount account = new AccountGroupAccount();
+                    account.Account = mInstance.Account;
+                    account.AccountGroup = mInstance.AccountGroup;
+                    account.Created = account.Modified = DateTime.UtcNow;
+                    Session.Save(account);
+                    Session.Flush();
+
+                    ManagedAccount account_recepient = new ManagedAccount(Session, mInstance.Account);
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, account_recepient,
+                        string.Format("EmailAccountGroupAccount.aspx?id={0}", account.Id));
+                }
+
+                ManagedAccount recepient = new ManagedAccount(Session, mInstance.Requester);
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session,
+                    recepient,
+                    string.Format("EmailAccountGroupAccountInvitationAccept.aspx?id={0}&aid={1}&message={2}",
+                    this.Id, sec.Account.Id, Renderer.UrlEncode(message)));
             }
-            else
-            {
-                AccountGroupAccount account = new AccountGroupAccount();
-                account.Account = mInstance.Account;
-                account.AccountGroup = mInstance.AccountGroup;
-                account.Created = account.Modified = DateTime.UtcNow;
-                Session.Save(account);
-                Session.Flush();
-
-                ManagedAccount account_recepient = new ManagedAccount(Session, mInstance.Account);
-                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, account_recepient,
-                    string.Format("EmailAccountGroupAccount.aspx?id={0}", account.Id));
-            }
-
-            ManagedAccount recepient = new ManagedAccount(Session, mInstance.Requester);
-            ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                Session,
-                recepient,
-                string.Format("EmailAccountGroupAccountInvitationAccept.aspx?id={0}&aid={1}&message={2}",
-                this.Id, sec.Account.Id, Renderer.UrlEncode(message)));
 
             Session.Delete(mInstance);
         }
