@@ -159,7 +159,7 @@ public partial class PlacesView : Page
 
             GetData(sender, e);
 
-            if (gridManage.VirtualItemCount == 0)
+            if ((gridManage.VirtualItemCount == 0) && (Request.QueryString.Count == 0))
             {
                 LocationSelector.ClearSelection();
                 GetData(sender, e);
