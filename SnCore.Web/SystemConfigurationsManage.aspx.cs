@@ -43,10 +43,10 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
     {
-        int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
         switch (e.CommandName)
         {
             case "Delete":
+                int id = int.Parse(e.CommandArgument.ToString());
                 TransitConfiguration tc = SessionManager.SystemService.GetConfigurationById(
                     SessionManager.Ticket, id);
                 Page.Cache.Remove(string.Format("settings:{0}", tc.Name));

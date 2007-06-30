@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -91,11 +92,12 @@ namespace SnCore.Services
 
     public class ManagedConfiguration : ManagedService<Configuration, TransitConfiguration>
     {
+        private static List<string> s_mSettings = new List<string>();
+
         public ManagedConfiguration()
         {
 
         }
-
 
         public ManagedConfiguration(ISession session)
             : base(session)
@@ -131,8 +133,26 @@ namespace SnCore.Services
             }
         }
 
+        private static bool AddToUndefinedSettings(string name)
+        {
+            if (!s_mSettings.Contains(name))
+            {
+                lock (s_mSettings)
+                {
+                    if (!s_mSettings.Contains(name))
+                    {
+                        s_mSettings.Add(name);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public static bool TryGetConfiguration(ISession session, string name, out Configuration configuration)
         {
+            AddToUndefinedSettings(name);
+
             configuration = session.CreateCriteria(typeof(Configuration))
                 .Add(Expression.Eq("OptionName", name))
                 .UniqueResult<Configuration>();
@@ -146,7 +166,7 @@ namespace SnCore.Services
 
             if (!TryGetConfiguration(session, name, out result))
                 return defaultvalue;
-            
+
             return result.OptionValue;
         }
 
@@ -170,6 +190,38 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             return acl;
+        }
+
+        public static List<Configuration> GetAllConfigurations(ISession session)
+        {
+            List<Configuration> result = new List<Configuration>();
+
+            List<string> settings = new List<string>();
+            settings.AddRange(s_mSettings);
+
+            IList<Configuration> configurations = session.CreateCriteria(typeof(Configuration)).List<Configuration>();
+
+            foreach (Configuration c in configurations)
+            {
+                result.Add(c);
+                settings.Remove(c.OptionName);
+            }
+
+            foreach (string s in settings)
+            {
+                Configuration c = new Configuration();
+                c.OptionName = s;
+                c.Password = false;
+                result.Add(c);
+            }
+
+            return result;
+        }
+
+        public override void Delete(ManagedSecurityContext sec)
+        {
+            AddToUndefinedSettings(Name);
+            base.Delete(sec);
         }
     }
 }

@@ -61,6 +61,8 @@ namespace SnCore.BackEndServices
                 int.Parse(ManagedConfiguration.GetValue(session, "SnCore.Mail.Port", "25")));
             smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
                 ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
+            smtp.PickupDirectoryLocation = ManagedConfiguration.GetValue(
+                session, "SnCore.Mail.PickupDirectoryLocation", string.Empty);
 
             string smtpusername = ManagedConfiguration.GetValue(
                 session, "SnCore.Mail.Username", string.Empty);

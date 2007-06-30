@@ -16,6 +16,7 @@
  <tr><td class="settingLeft">SnCore.Mail.Server</td><td class="settingRight">mail server, eg <em>mail.sncore.com</em></td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Port</td><td class="settingRight">mail port, eg <em>25</em></td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Delivery</td><td class="settingRight">mail delivery method, eg. <em>PickupDirectoryFromIis</em></td></tr>
+ <tr><td class="settingLeft">SnCore.Mail.PickupDirectoryLocation</td><td class="settingRight">pickup directory location when SnCore.Mail.Delivery is <em>SpecifiedPickupDirectory</em></td></tr> 
  <tr><td class="settingLeft">SnCore.Mail.Username</td><td class="settingRight">smtp server username</em></td></tr>
  <tr><td class="settingLeft">SnCore.Mail.Password</td><td class="settingRight">smtp server password</em></td></tr>
  <tr><td class="settingLeft">SnCore.AddContentGroup.Id</td><td class="settingRight">additional content group id to link throughout top links</em></td></tr> 

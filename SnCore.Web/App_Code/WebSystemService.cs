@@ -109,8 +109,11 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all configurations count.")]
         public int GetConfigurationsCount(string ticket)
         {
-            return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetCount(
-                ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                return ManagedConfiguration.GetAllConfigurations(session).Count;
+            }
         }
 
         /// <summary>
@@ -120,8 +123,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all configurations.")]
         public List<TransitConfiguration> GetConfigurations(string ticket, ServiceQueryOptions options)
         {
-            return WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetList(
-                ticket, options);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                return WebServiceQueryOptions<TransitConfiguration>.Apply(options,
+                    WebServiceImpl<TransitConfiguration, ManagedConfiguration, Configuration>.GetTransformedList(
+                        session, sec, ManagedConfiguration.GetAllConfigurations(session)));
+            }
         }
 
         /// <summary>

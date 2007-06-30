@@ -41,6 +41,7 @@ public partial class SystemConfigurationEdit : AuthenticatedPage
             else
             {
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Setting", Request.Url));
+                inputName.Text = Request["name"];
             }
 
             StackSiteMap(sitemapdata);
