@@ -1127,9 +1127,11 @@ namespace SnCore.WebServices
         protected IList<Account> InternalSearchAccounts(ISession session, string s, ServiceQueryOptions options)
         {
             // search for an account matching the name exactly
-            IList<Account> accounts = session.CreateCriteria(typeof(Account))
-                .Add(Expression.Eq("Name", Renderer.SqlEncode(s)))
-                .List<Account>();
+            IList<Account> accounts = session.CreateCriteria(typeof(Account)).Add(
+                Expression.Or(
+                    Expression.Eq("Name", Renderer.SqlEncode(s)),
+                    Expression.Eq("City", Renderer.SqlEncode(s))
+                )).List<Account>();
 
             // search for everything else
             if (accounts.Count == 0)

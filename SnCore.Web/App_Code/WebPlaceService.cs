@@ -724,6 +724,16 @@ namespace SnCore.WebServices
                             maxsearchresults.ToString() + ") AS ft ON placepropertyvalue.PlacePropertyValue_Id = ft.[KEY] \n" +
                         "WHERE placepropertyvalue.Place_Id = place.Place_Id\n" +
 
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, 0 FROM Place place\n" +
+                        "INNER JOIN City city ON place.City_Id = city.City_Id " +
+                        "WHERE City.Name = '" + Renderer.SqlEncode(s) + "'\n" +
+
+                        "INSERT #Results\n" +
+                        "SELECT place.Place_Id, 0 FROM Place place\n" +
+                        "INNER JOIN Neighborhood neighborhood ON place.Neighborhood_Id = neighborhood.Neighborhood_Id " +
+                        "WHERE Neighborhood.Name = '" + Renderer.SqlEncode(s) + "'\n" +
+
                         "INSERT #Unique_Results\n" +
                         "SELECT DISTINCT Place_Id, SUM(RANK)\n" +
                         "FROM #Results GROUP BY Place_Id\n" +
