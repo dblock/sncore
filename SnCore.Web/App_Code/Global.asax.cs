@@ -115,6 +115,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         a.IsPasswordExpired = false;
         a.Created = a.Modified = a.LastLogin = DateTime.UtcNow;
         a.Birthday = DateTime.UtcNow;
+        a.TimeZone = -1;
         session.Save(a);
 
         AccountEmail ae = new AccountEmail();
