@@ -4,10 +4,10 @@
 This page will guide you through the installation process. It's pretty easy.
 
 \section install_req Prerequisites 
-\li Microsoft Windows 2000, 2003 or XP. 
-\li Microsoft SQL Server 2000.
+\li Microsoft Windows 2000, 2003, XP or Vista
+\li Microsoft SQL Server 2005
 \li Microsoft .NET Framework 2.0
-\li Microsoft IIS running ASP.NET 2.0
+\li Microsoft IIS 6.0 or 7.0 running ASP.NET 2.0
 \li Microsoft Web Services Extensions (WSE) 3.0
 
 \section install_howto Installation
@@ -22,7 +22,8 @@ and use the generated drop. See \ref dev for source code.
  <li>Open the <em>SQL Server Enterprise Manager</em>.
  <li>Create a blank database with full text indexing, called <b>SnCore</b> that will host your data. Open 
      <em>SQL Server Group</em>, <em>Local</em>, <em>Databases</em>, right click on <em>Databases</em> and choose 
-     <em>New Database</em>. Make sure to check <em>Use full text indexing</em>.
+     <em>New Database</em>. Make sure to check
+ <em>Use full text indexing</em>.
  <li>Create a full text catalog for full text search. Right click on the database, choose <em>Storage</em>, <em>Full Text Catalogs</em>
      and <em>New Full Text Catalog</em>. Use the name <em>SnCore</em> for your full text catalog.
  <li>Create a login for the ASP.NET user or NT AUTHORITY\\Network Services (Windows 2003). Open <em>SQL Server Group</em>, <em>Security</em>, 
@@ -44,6 +45,8 @@ If you are building the code you may skip this step. Visual Studio 2005 will cre
  <li>Ensure that your web server runs ASP.NET 2.0. If necessary, run <em>aspnet_regiis.exe -i from \\WINDOWS\\Microsoft.NET\\Framework\\v2.0.50727</em>.
  <li>Create a virtual directory in IIS called <em>SnCore</em>. Point the Home Directory to the SnCore.Web directory in the drop.
      This may also be the root of your website. Add Default.aspx to default documents of this site.
+	 On IIS7 you must also run the Virtual Directory with permissions for a specific account that has r/w access to the <em>bin</em>
+	 subdirectory.
 </ol>
      
 \section install_upgrade Upgrading to a Newer Version

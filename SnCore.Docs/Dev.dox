@@ -6,16 +6,14 @@ to get going and it's event easier to write useful code since a large portion of
 for you.
 
 \section dev_req Prerequisites 
-\li Microsoft Windows 2000, 2003 or XP. 
-\li Microsoft SQL Server 2000
+\li Microsoft Windows 2000, 2003, XP or Vista. 
+\li Microsoft SQL Server 2005
 \li Microsoft .NET Framework 2.0
     <br>http://msdn.microsoft.com/netframework/downloads/updates/default.aspx
-\li Microsoft IIS running ASP.NET 2.0
-\li Microsoft Visual Studio 2005
+\li Microsoft IIS 6.0 or 7.0 running ASP.NET 2.0
+\li Microsoft Visual Studio 2005 Service Pack 1
 \li Microsoft Web Services Extension 3.0
     <br>http://msdn.microsoft.com/webservices/downloads/default.aspx
-\li Microsoft Web Deployment Projects
-    <br>http://msdn.microsoft.com/asp.net/reference/infrastructure/wdp/default.aspx
 \li Subversion Client
     <br>http://subversion.tigris.org/
 \li Puzzle Framework (ObjectMapper)
@@ -33,6 +31,9 @@ for you.
 
 Follow the normal \ref install. Visual Studio will create the websites for you, so you can skip that step. Once you have your
 SnCore website running you're ready to go.
+
+On Windows Vista, edit Physical Path Credentials in Advanced Settings and set a specific account to run the virtual
+directory under and set r/w permissions for the <em>NETWORK SERVICE</em> account on the SnCore.Web/Bin directory.
 
 \section dev_datalifecycle Data LifeCycle
 
