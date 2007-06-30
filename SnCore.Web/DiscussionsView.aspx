@@ -82,8 +82,13 @@
          &#187; post new
         </a>
        </span>
+       <div class="sncore_link">
+        <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+         &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Modified")) %>
+        </span>
+       </div>
        <div class="sncore_description">
-       <%# base.Render(Eval("Description")) %>
+        <%# base.Render(Eval("Description")) %>
        </div>
       </itemtemplate>
      </asp:TemplateColumn>
