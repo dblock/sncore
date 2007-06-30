@@ -167,6 +167,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICalParser", "ICalParser.Ne
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data.Script", "SnCore.Data.Script\SnCore.Data.Script.csproj", "{AF50F70B-06AD-41D1-BA82-8C6339C4A271}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -493,6 +499,18 @@ Global
 		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{03BAF2A6-5C24-4450-94EF-F5F792F783E4}.Release|Win32.ActiveCfg = Release|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|.NET.ActiveCfg = Release|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
