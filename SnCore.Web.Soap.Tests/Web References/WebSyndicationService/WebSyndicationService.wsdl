@@ -2071,10 +2071,10 @@
   </wsdl:binding>
   <wsdl:service name="WebSyndicationService">
     <wsdl:port name="WebSyndicationServiceSoap" binding="tns:WebSyndicationServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebSyndicationService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebSyndicationServiceSoap12" binding="tns:WebSyndicationServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebSyndicationService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -808,10 +808,10 @@
   </wsdl:binding>
   <wsdl:service name="WebStoryService">
     <wsdl:port name="WebStoryServiceSoap" binding="tns:WebStoryServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebStoryService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebStoryServiceSoap12" binding="tns:WebStoryServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebStoryService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

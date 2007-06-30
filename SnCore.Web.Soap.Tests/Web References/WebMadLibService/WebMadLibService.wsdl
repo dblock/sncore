@@ -509,10 +509,10 @@
   </wsdl:binding>
   <wsdl:service name="WebMadLibService">
     <wsdl:port name="WebMadLibServiceSoap" binding="tns:WebMadLibServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebMadLibService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebMadLibServiceSoap12" binding="tns:WebMadLibServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebMadLibService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

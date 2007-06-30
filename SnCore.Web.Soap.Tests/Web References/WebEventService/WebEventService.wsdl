@@ -74,6 +74,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="DailyEveryNDays" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Endless" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="NoEndDateTime" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="EndOccurrences" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="MonthlyDay" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="MonthlyExDayIndex" type="s:int" />
@@ -1158,10 +1159,10 @@
   </wsdl:binding>
   <wsdl:service name="WebEventService">
     <wsdl:port name="WebEventServiceSoap" binding="tns:WebEventServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebEventService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebEventServiceSoap12" binding="tns:WebEventServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebEventService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

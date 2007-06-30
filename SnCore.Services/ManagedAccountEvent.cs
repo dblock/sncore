@@ -464,6 +464,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mNoEndDateTime = true;
+
+        public bool NoEndDateTime
+        {
+            get
+            {
+                return mNoEndDateTime;
+            }
+            set
+            {
+                mNoEndDateTime = value;
+            }
+        }
+
         private int mEndOccurrences = 10;
 
         public int EndOccurrences
@@ -791,6 +805,7 @@ namespace SnCore.Services
 
             this.EndDateTime = s.EndDateTime.AddHours(offset);
             this.Endless = s.Endless;
+            this.NoEndDateTime = s.NoEndDateTime;
             this.EndOccurrences = s.EndOccurrences;
             this.StartDateTime = s.StartDateTime.AddHours(offset);
         }

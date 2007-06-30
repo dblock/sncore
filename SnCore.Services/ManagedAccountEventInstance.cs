@@ -419,13 +419,26 @@ namespace SnCore.Services
             }
         }
 
+        private bool mNoEndDateTime;
+
+        public bool NoEndDateTime
+        {
+            get
+            {
+                return mNoEndDateTime;
+            }
+            set
+            {
+                mNoEndDateTime = value;
+            }
+        }
+
         private DateTime mEndDateTime;
 
         public DateTime EndDateTime
         {
             get
             {
-
                 return mEndDateTime;
             }
             set
@@ -492,6 +505,7 @@ namespace SnCore.Services
             StartDateTime = instance.StartDateTime;
             EndDateTime = instance.EndDateTime;
             Instance = instance.Instance;
+            NoEndDateTime = instance.Schedule.NoEndDateTime;
 
             base.SetInstance(instance);
         }

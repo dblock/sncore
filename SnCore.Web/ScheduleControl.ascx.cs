@@ -96,6 +96,8 @@ public partial class ScheduleControl : Control
                 result.YearlyExDayName = (int)at.DayOfWeek;
                 result.YearlyExMonth = (int)at.Month;
 
+                result.NoEndDateTime = true;
+
                 ViewState["Schedule"] = result;
             }
             return result;
@@ -229,6 +231,8 @@ public partial class ScheduleControl : Control
             recStartTime.SelectedTime = base.Adjust(Schedule.StartDateTime).TimeOfDay;
             recEndTime.SelectedTime = base.Adjust(Schedule.EndDateTime).TimeOfDay;
 
+            stdNoEndTime.Checked = recNoEndTime.Checked = Schedule.NoEndDateTime;
+
             UpdateSelection();
 
             if (Schedule.Id != 0)
@@ -257,6 +261,9 @@ public partial class ScheduleControl : Control
         changeclick.Append("}");
 
         stdAllDay.Attributes.Add("onclick", changeclick.ToString());
+        stdNoEndTime.Attributes.Add("onclick", changeclick.ToString());
+        recNoEndTime.Attributes.Add("onclick", changeclick.ToString());
+
         addOneTime.OnClientClick = changeclick.ToString();
         addRecurrent.OnClientClick = changeclick.ToString();
         editCurrent.OnClientClick = changeclick.ToString();
@@ -284,11 +291,16 @@ public partial class ScheduleControl : Control
                         throw new Exception("End date must be same or after start date.");
                     }
                 }
+                else if (Schedule.NoEndDateTime)
+                {
+                    
+                }
                 else
                 {
                     if (Schedule.EndDateTime <= Schedule.StartDateTime)
                     {
-                        throw new Exception("End date/time must be after start date/time.");
+                        throw new Exception(string.Format("End date/time ({0}) must be after start date/time ({1}).",
+                            Schedule.EndDateTime, Schedule.StartDateTime));
                     }
                 }
                 break;
@@ -302,6 +314,12 @@ public partial class ScheduleControl : Control
         if (Schedule.RecurrencePattern == RecurrencePattern.None)
         {
             Schedule.AllDay = stdAllDay.Checked;
+
+            Schedule.NoEndDateTime = stdNoEndTime.Checked;
+            if (Schedule.NoEndDateTime)
+            {
+                Schedule.EndDateTime = base.ToUTC(stdStartDate.SelectedDate.AddDays(1));
+            }
 
             if (Schedule.AllDay)
             {
@@ -317,7 +335,17 @@ public partial class ScheduleControl : Control
         else
         {
             Schedule.StartDateTime = base.ToUTC(recStartDate.SelectedDate.Add(recStartTime.SelectedTime));
-            Schedule.EndDateTime = base.ToUTC(recEndByDate.SelectedDate.Add(recEndTime.SelectedTime));
+
+            Schedule.NoEndDateTime = stdNoEndTime.Checked;
+            if (Schedule.NoEndDateTime)
+            {
+                Schedule.EndDateTime = base.ToUTC(stdStartDate.SelectedDate.AddDays(1));
+            }
+            else
+            {
+                Schedule.EndDateTime = base.ToUTC(recEndByDate.SelectedDate.Add(recEndTime.SelectedTime));
+            }
+
             Schedule.Endless = recNoEndDate.Checked;
             Schedule.EndOccurrences = recEndAfter.Checked ? int.Parse(recEndAfterNOccurences.Text) : 0;
             switch (Schedule.RecurrencePattern)
@@ -368,9 +396,26 @@ public partial class ScheduleControl : Control
         Schedule.AllDay = !Schedule.AllDay;
     }
 
+    public void stdNoEndTime_CheckedChanged(object sender, EventArgs e)
+    {
+        Schedule.NoEndDateTime = !Schedule.NoEndDateTime;
+        recNoEndTime.Checked = Schedule.NoEndDateTime;
+    }
+
+    public void recNoEndTime_CheckedChanged(object sender, EventArgs e)
+    {
+        Schedule.NoEndDateTime = !Schedule.NoEndDateTime;
+        stdNoEndTime.Checked = Schedule.NoEndDateTime;
+    }
+
     protected override void OnPreRender(EventArgs e)
     {
-        stdEndTime.Visible = stdStartTime.Visible = !Schedule.AllDay;
+        stdStartTime.Visible = !Schedule.AllDay;
+        
+        stdEndTime.Visible = !Schedule.AllDay && !Schedule.NoEndDateTime;
+        labelRecEndTime.Visible = labelEndTime.Visible = stdEndDate.Visible = !Schedule.NoEndDateTime;
+        
+        recEndTime.Visible = !Schedule.NoEndDateTime;
 
         HighLevelRecurrencePattern shlrp = SelectedHighLevelRecurrencePattern;
         recDaily.Visible = (shlrp == HighLevelRecurrencePattern.Daily);

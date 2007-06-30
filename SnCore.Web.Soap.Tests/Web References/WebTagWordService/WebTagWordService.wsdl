@@ -387,10 +387,10 @@
   </wsdl:binding>
   <wsdl:service name="WebTagWordService">
     <wsdl:port name="WebTagWordServiceSoap" binding="tns:WebTagWordServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebTagWordService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebTagWordServiceSoap12" binding="tns:WebTagWordServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebTagWordService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

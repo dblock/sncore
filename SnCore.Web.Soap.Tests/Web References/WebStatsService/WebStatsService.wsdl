@@ -1510,10 +1510,10 @@
   </wsdl:binding>
   <wsdl:service name="WebStatsService">
     <wsdl:port name="WebStatsServiceSoap" binding="tns:WebStatsServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebStatsService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebStatsServiceSoap12" binding="tns:WebStatsServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebStatsService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

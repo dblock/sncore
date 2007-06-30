@@ -305,10 +305,10 @@
   </wsdl:binding>
   <wsdl:service name="WebLicenseService">
     <wsdl:port name="WebLicenseServiceSoap" binding="tns:WebLicenseServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebLicenseService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebLicenseServiceSoap12" binding="tns:WebLicenseServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebLicenseService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

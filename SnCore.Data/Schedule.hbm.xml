@@ -34,5 +34,6 @@
       <key column="Schedule_Id" />
       <one-to-many class="ScheduleInstance, SnCore.Data" />
     </bag>
+    <property name="NoEndDateTime" column="NoEndDateTime" type="Boolean" />
   </class>
 </hibernate-mapping>

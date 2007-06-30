@@ -4697,10 +4697,10 @@
   </wsdl:binding>
   <wsdl:service name="WebPlaceService">
     <wsdl:port name="WebPlaceServiceSoap" binding="tns:WebPlaceServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebPlaceService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebPlaceServiceSoap12" binding="tns:WebPlaceServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebPlaceService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

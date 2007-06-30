@@ -78,3 +78,7 @@ REFERENCES [dbo].[Account] ([Account_Id])
 GO
 -- update frequency wasn't properly set
 UPDATE dbo.AccountFeed SET UpdateFrequency = 12 WHERE UpdateFrequency = 0
+-- add a no end date/time to schedules
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Schedule]') AND name = N'NoEndDateTime')
+ALTER TABLE dbo.Schedule ADD [NoEndDateTime] bit NOT NULL DEFAULT 0
+GO

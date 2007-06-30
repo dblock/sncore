@@ -6465,10 +6465,10 @@
   </wsdl:binding>
   <wsdl:service name="WebAccountService">
     <wsdl:port name="WebAccountServiceSoap" binding="tns:WebAccountServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebAccountService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebAccountServiceSoap12" binding="tns:WebAccountServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebAccountService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

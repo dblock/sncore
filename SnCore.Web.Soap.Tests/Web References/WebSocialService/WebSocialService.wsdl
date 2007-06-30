@@ -1002,10 +1002,10 @@
   </wsdl:binding>
   <wsdl:service name="WebSocialService">
     <wsdl:port name="WebSocialServiceSoap" binding="tns:WebSocialServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebSocialService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebSocialServiceSoap12" binding="tns:WebSocialServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebSocialService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

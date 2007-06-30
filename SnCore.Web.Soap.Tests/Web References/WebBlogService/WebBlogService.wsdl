@@ -974,10 +974,10 @@
   </wsdl:binding>
   <wsdl:service name="WebBlogService">
     <wsdl:port name="WebBlogServiceSoap" binding="tns:WebBlogServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebBlogService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebBlogServiceSoap12" binding="tns:WebBlogServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebBlogService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

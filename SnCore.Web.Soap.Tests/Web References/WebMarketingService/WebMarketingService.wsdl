@@ -680,10 +680,10 @@
   </wsdl:binding>
   <wsdl:service name="WebMarketingService">
     <wsdl:port name="WebMarketingServiceSoap" binding="tns:WebMarketingServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebMarketingService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebMarketingServiceSoap12" binding="tns:WebMarketingServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebMarketingService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

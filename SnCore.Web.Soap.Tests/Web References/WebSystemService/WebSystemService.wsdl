@@ -211,6 +211,48 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetTypeColumns">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTypeColumnsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTypeColumnsResult" type="tns:ArrayOfSp_column" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSp_column">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="sp_column" nillable="true" type="tns:sp_column" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="sp_column">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TYPE_NAME" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TABLE_NAME" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TABLE_QUALIFIER" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TABLE_OWNER" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COLUMN_NAME" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DATA_TYPE" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="PRECISION" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LENGTH" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SCALE" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="RADIX" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="NULLABLE" type="s:short" />
+          <s:element minOccurs="0" maxOccurs="1" name="REMARKS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COLUMN_DEF" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SQL_DATA_TYPE" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="SQL_DATETIME_SUB" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="CHAR_OCTET_LENGTH" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORDINAL_POSITION" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="IS_NULLABLE" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SS_DATA_TYPE" type="s:short" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetVersionSoapIn">
@@ -297,6 +339,12 @@
   <wsdl:message name="GetConfigurationByNameWithDefaultSoapOut">
     <wsdl:part name="parameters" element="tns:GetConfigurationByNameWithDefaultResponse" />
   </wsdl:message>
+  <wsdl:message name="GetTypeColumnsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTypeColumns" />
+  </wsdl:message>
+  <wsdl:message name="GetTypeColumnsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTypeColumnsResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebSystemServiceSoap">
     <wsdl:operation name="GetVersion">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">System version.</wsdl:documentation>
@@ -367,6 +415,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration value by name with default.</wsdl:documentation>
       <wsdl:input message="tns:GetConfigurationByNameWithDefaultSoapIn" />
       <wsdl:output message="tns:GetConfigurationByNameWithDefaultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeColumns">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the underlying domain model for a type.</wsdl:documentation>
+      <wsdl:input message="tns:GetTypeColumnsSoapIn" />
+      <wsdl:output message="tns:GetTypeColumnsSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebSystemServiceSoap" type="tns:WebSystemServiceSoap">
@@ -490,6 +543,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetConfigurationByNameWithDefault">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByNameWithDefault" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeColumns">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTypeColumns" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -626,13 +688,22 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetTypeColumns">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTypeColumns" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="WebSystemService">
     <wsdl:port name="WebSystemServiceSoap" binding="tns:WebSystemServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebSystemService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebSystemServiceSoap12" binding="tns:WebSystemServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebSystemService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

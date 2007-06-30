@@ -273,10 +273,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebAccountService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebAccountService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebAccountService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebAccountService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -284,10 +284,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebAccountService_WebAccountService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebBlogService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebBlogService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebBlogService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebBlogService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -295,10 +295,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBlogService_WebBlogService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebBugService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebBugService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebBugService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -306,10 +306,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBugService_WebBugService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebContentService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebContentService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebContentService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -317,10 +317,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebContentService_WebContentService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebDiscussionService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebDiscussionService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebDiscussionService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -328,10 +328,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebDiscussionService_WebDiscussionService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebEventService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebEventService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebEventService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebEventService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -339,10 +339,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebEventService_WebEventService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebLicenseService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebLicenseService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebLicenseService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebLicenseService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -350,10 +350,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebLicenseService_WebLicenseService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebLocationService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebLocationService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebLocationService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -361,10 +361,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebLocationService_WebLocationService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebMadLibService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebMadLibService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebMadLibService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebMadLibService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -372,10 +372,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebMarketingService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebMarketingService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebMarketingService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebMarketingService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -383,10 +383,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebMarketingService_WebMarketingService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebObjectService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebObjectService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebObjectService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebObjectService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebObjectService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -394,10 +394,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebObjectService_WebObjectService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebPlaceService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebPlaceService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebPlaceService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebPlaceService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -405,10 +405,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebPlaceService_WebPlaceService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebSocialService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebSocialService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebSocialService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebSocialService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -416,10 +416,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebSocialService_WebSocialService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebStatsService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebStatsService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebStatsService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebStatsService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -427,10 +427,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebStatsService_WebStatsService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebStoryService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebStoryService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebStoryService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebStoryService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -438,10 +438,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebStoryService_WebStoryService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebSyndicationService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebSyndicationService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebSyndicationService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebSyndicationService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -449,10 +449,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebSyndicationService_WebSyndicationService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebSystemService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebSystemService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebSystemService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebSystemService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -460,10 +460,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebSystemService_WebSystemService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx">
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebTagWordService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebTagWordService\</RelPath>
-      <UpdateFromURL>http://dblock-black.orangebitch.com/SnCoreWeb/WebTagWordService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost/SnCoreWeb/WebTagWordService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -972,6 +972,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebSyndicationService\TransitRssChannelItems.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSystemService\sp_column.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
   </ItemGroup>

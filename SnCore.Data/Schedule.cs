@@ -38,6 +38,7 @@
         private System.DateTime m_Created;
         private System.DateTime m_Modified;
         private System.Collections.Generic.IList<ScheduleInstance> m_ScheduleInstances;
+        private System.Boolean m_NoEndDateTime;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -674,6 +675,31 @@
             set
             {
                 m_ScheduleInstances = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_NoEndDateTime' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'NoEndDateTime' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean NoEndDateTime
+        {
+            get
+            {
+                return m_NoEndDateTime;
+            }
+            set
+            {
+                m_NoEndDateTime = value;
             }
         }
 

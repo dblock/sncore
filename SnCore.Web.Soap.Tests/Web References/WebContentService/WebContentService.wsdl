@@ -592,10 +592,10 @@
   </wsdl:binding>
   <wsdl:service name="WebContentService">
     <wsdl:port name="WebContentServiceSoap" binding="tns:WebContentServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebContentService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebContentServiceSoap12" binding="tns:WebContentServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebContentService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebContentService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

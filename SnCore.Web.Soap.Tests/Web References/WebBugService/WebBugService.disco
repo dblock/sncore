@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx?wsdl" docRef="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" xmlns:q1="http://www.vestris.com/sncore/ns/" binding="q1:WebBugServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" xmlns:q2="http://www.vestris.com/sncore/ns/" binding="q2:WebBugServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://localhost/SnCoreWeb/WebBugService.asmx?wsdl" docRef="http://localhost/SnCoreWeb/WebBugService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://localhost/SnCoreWeb/WebBugService.asmx" xmlns:q1="http://www.vestris.com/sncore/ns/" binding="q1:WebBugServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://localhost/SnCoreWeb/WebBugService.asmx" xmlns:q2="http://www.vestris.com/sncore/ns/" binding="q2:WebBugServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

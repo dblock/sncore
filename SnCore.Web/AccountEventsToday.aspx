@@ -161,7 +161,7 @@
        <div class="sncore_description">
         Starts: <%# base.Adjust(Eval("StartDateTime")).ToString("f") %>
        </div>
-       <div class="sncore_description">
+       <div class="sncore_description" style='<%# (bool) Eval("NoEndDateTime") ? "display: none;" : string.Empty %>'>
         Ends: <%# base.Adjust(Eval("EndDateTime")).ToString("f") %>
        </div>
        <div class="sncore_description">

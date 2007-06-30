@@ -1599,10 +1599,10 @@
   </wsdl:binding>
   <wsdl:service name="WebDiscussionService">
     <wsdl:port name="WebDiscussionServiceSoap" binding="tns:WebDiscussionServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebDiscussionService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebDiscussionServiceSoap12" binding="tns:WebDiscussionServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebDiscussionService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebDiscussionService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

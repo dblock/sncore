@@ -2381,10 +2381,10 @@
   </wsdl:binding>
   <wsdl:service name="WebBugService">
     <wsdl:port name="WebBugServiceSoap" binding="tns:WebBugServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebBugService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebBugServiceSoap12" binding="tns:WebBugServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebBugService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebBugService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

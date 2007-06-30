@@ -85,7 +85,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountId;
             }
             set
@@ -100,7 +99,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAllDay;
             }
             set
@@ -115,7 +113,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mDailyEveryNDays;
             }
             set
@@ -130,7 +127,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mEndDateTime;
             }
             set
@@ -145,12 +141,25 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mEndless;
             }
             set
             {
                 mEndless = value;
+            }
+        }
+
+        private bool mNoEndDateTime = false;
+
+        public bool NoEndDateTime
+        {
+            get
+            {
+                return mNoEndDateTime;
+            }
+            set
+            {
+                mNoEndDateTime = value;
             }
         }
 
@@ -160,7 +169,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mEndOccurrences;
             }
             set
@@ -175,7 +183,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMonthlyDay;
             }
             set
@@ -190,7 +197,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMonthlyExDayIndex;
             }
             set
@@ -205,7 +211,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMonthlyExDayName;
             }
             set
@@ -220,7 +225,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMonthlyExMonth;
             }
             set
@@ -235,7 +239,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMonthlyMonth;
             }
             set
@@ -250,7 +253,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mRecurrencePattern;
             }
             set
@@ -265,7 +267,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mStartDateTime;
             }
             set
@@ -280,7 +281,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mWeeklyDaysOfWeek;
             }
             set
@@ -295,7 +295,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -310,7 +309,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mModified;
             }
             set
@@ -325,7 +323,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mWeeklyEveryNWeeks;
             }
             set
@@ -340,7 +337,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mYearlyDay;
             }
             set
@@ -355,7 +351,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mYearlyExDayIndex;
             }
             set
@@ -370,7 +365,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mYearlyExDayName;
             }
             set
@@ -385,7 +379,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mYearlyExMonth;
             }
             set
@@ -400,7 +393,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mYearlyMonth;
             }
             set
@@ -463,6 +455,7 @@ namespace SnCore.Services
 
             this.EndDateTime = value.EndDateTime;
             this.Endless = value.Endless;
+            this.NoEndDateTime = value.NoEndDateTime;
             this.EndOccurrences = value.EndOccurrences;
             this.StartDateTime = value.StartDateTime;
             base.SetInstance(value);
@@ -475,6 +468,7 @@ namespace SnCore.Services
             instance.DailyEveryNDays = this.DailyEveryNDays;
             instance.EndDateTime = this.EndDateTime;
             instance.Endless = this.Endless;
+            instance.NoEndDateTime = this.NoEndDateTime;
             instance.EndOccurrences = this.EndOccurrences;
             instance.MonthlyDay = this.MonthlyDay;
             instance.MonthlyMonth = this.MonthlyMonth;
@@ -538,7 +532,7 @@ namespace SnCore.Services
             {
                 if (mInstance.AllDay)
                 {
-                    if (start.Date == end.Date)
+                    if (start.Date == end.Date || mInstance.NoEndDateTime)
                     {
                         result.AppendFormat("Runs all day {0}.", start.Date.ToString("dddd, dd MMMM yyyy"));
                     }
@@ -548,6 +542,10 @@ namespace SnCore.Services
                            start.Date.ToString("dddd, dd MMMM yyyy"),
                            end.Date.ToString("dddd, dd MMMM yyyy"));
                     }
+                }
+                else if (mInstance.NoEndDateTime)
+                {
+                    result.AppendFormat("Begins {0}", start.ToString("f"));
                 }
                 else
                 {
@@ -561,9 +559,17 @@ namespace SnCore.Services
                 return result.ToString();
             }
 
-            result.AppendFormat("Occurs from {0}:{1} to {2}:{3} ",
-                start.TimeOfDay.Hours.ToString("00"), start.TimeOfDay.Minutes.ToString("00"),
-                end.TimeOfDay.Hours.ToString("00"), end.TimeOfDay.Minutes.ToString("00"));
+            if (mInstance.NoEndDateTime)
+            {
+                result.AppendFormat("Begins at {0}:{1} ",
+                    start.TimeOfDay.Hours.ToString("00"), start.TimeOfDay.Minutes.ToString("00"));
+            }
+            else
+            {
+                result.AppendFormat("Occurs from {0}:{1} to {2}:{3} ",
+                    start.TimeOfDay.Hours.ToString("00"), start.TimeOfDay.Minutes.ToString("00"),
+                    end.TimeOfDay.Hours.ToString("00"), end.TimeOfDay.Minutes.ToString("00"));
+            }
 
             switch ((RecurrencePattern)mInstance.RecurrencePattern)
             {

@@ -648,6 +648,11 @@
     <property name="ReturningTotal" columns="ReturningTotal" type="System.Int32" />
     <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
   </class>
+  <class name="CounterUniqueMonthly" table="CounterUniqueMonthly">
+    <property name="Id" id="true" columns="CounterUniqueMonthly_Id" type="System.Int32" />
+    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
+    <property name="Total" columns="Total" type="System.Int32" />
+  </class>
   <class name="CounterWeekly" table="CounterWeekly">
     <property name="Id" id="true" columns="CounterWeekly_Id" type="System.Int32" />
     <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
@@ -950,6 +955,7 @@
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="ScheduleInstances" table="ScheduleInstance" id-columns="Schedule_Id" list="true" item-type="ScheduleInstance" slave="true" ref="ManyToOne" inverse="Schedule" inherits-inverse="true" />
+    <property name="NoEndDateTime" columns="NoEndDateTime" type="System.Boolean" />
   </class>
   <class name="ScheduleInstance" table="ScheduleInstance">
     <property name="Id" id="true" columns="ScheduleInstance_Id" type="System.Int32" />
@@ -993,11 +999,6 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
   </class>
-  <class name="CounterUniqueMonthly" table="CounterUniqueMonthly">
-    <property name="Id" id="true" columns="CounterUniqueMonthly_Id" type="System.Int32" />
-    <property name="Timestamp" columns="Timestamp" type="System.DateTime" />
-    <property name="Total" columns="Total" type="System.Int32" />
-  </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
     <table name="Account">
@@ -1006,7 +1007,7 @@
       <column name="City" type="String" prec="64" allow-null="true" length="128" scale="0" />
       <column name="Country_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Country" primary-column="Country_Id" foreign-key="FK_Account_Country" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
-      <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
+      <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
       <column name="IsAdministrator" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
       <column name="IsPasswordExpired" type="Boolean" prec="1" allow-null="true" length="1" scale="0" />
       <column name="LastLogin" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
@@ -1090,8 +1091,8 @@
       <column name="Address" type="AnsiString" prec="64" length="64" scale="0" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
       <column name="Modified" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
-      <column name="Verified" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
-      <column name="Principal" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Verified" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
+      <column name="Principal" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountEmailConfirmation">
       <column name="AccountEmail_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountEmail" primary-column="AccountEmail_Id" foreign-key="FK_AccountEmailConfirmation_AccountEmail" />
@@ -1204,7 +1205,7 @@
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Keen_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFriendRequest_Account1" />
       <column name="Message" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Rejected" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Rejected" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountGroup">
       <column name="AccountGroup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1280,7 +1281,7 @@
       <column name="SenderAccount_Id" type="Int32" prec="10" length="4" scale="0" />
       <column name="Sent" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Subject" type="String" prec="256" length="512" scale="0" />
-      <column name="Unread" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Unread" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
       <column name="RecepientAccount_Id" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="AccountMessageFolder">
@@ -1290,7 +1291,7 @@
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" length="128" scale="0" />
-      <column name="System" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="System" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountOpenId">
       <column name="AccountOpenId_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1519,7 +1520,7 @@
       <column name="Configuration_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="OptionName" type="AnsiString" prec="128" length="128" scale="0" />
       <column name="OptionValue" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Password" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Password" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="Counter">
       <column name="Counter_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1568,6 +1569,11 @@
       <column name="NewTotal" type="Int32" prec="10" length="4" scale="0" />
       <column name="ReturningTotal" type="Int32" prec="10" length="4" scale="0" />
       <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="CounterUniqueMonthly">
+      <column name="CounterUniqueMonthly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="CounterWeekly">
       <column name="CounterWeekly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1623,10 +1629,10 @@
       <column name="FeedType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Name" type="String" prec="64" length="128" scale="0" />
       <column name="Xsl" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="SpanColumns" type="Int32" prec="10" length="4" scale="0" default="(1)" />
-      <column name="SpanRows" type="Int32" prec="10" length="4" scale="0" default="(10)" />
-      <column name="SpanColumnsPreview" type="Int32" prec="10" length="4" scale="0" default="(1)" />
-      <column name="SpanRowsPreview" type="Int32" prec="10" length="4" scale="0" default="(3)" />
+      <column name="SpanColumns" type="Int32" prec="10" length="4" scale="0" default="((1))" />
+      <column name="SpanRows" type="Int32" prec="10" length="4" scale="0" default="((10))" />
+      <column name="SpanColumnsPreview" type="Int32" prec="10" length="4" scale="0" default="((1))" />
+      <column name="SpanRowsPreview" type="Int32" prec="10" length="4" scale="0" default="((3))" />
     </table>
     <table name="MadLib">
       <column name="MadLib_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1792,10 +1798,10 @@
       <column name="DataObject_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="DataObject" primary-column="DataObject_Id" foreign-key="FK_Reminder_DataObject" />
       <column name="DataObjectField" type="AnsiString" prec="64" length="64" scale="0" />
       <column name="DeltaHours" type="Int32" prec="10" length="4" scale="0" />
-      <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Enabled" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
       <column name="LastRun" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
       <column name="LastRunError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Recurrent" type="Boolean" prec="1" length="1" scale="0" default="(1)" />
+      <column name="Recurrent" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
       <column name="Reminder_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Url" type="String" prec="128" length="256" scale="0" />
     </table>
@@ -1837,6 +1843,7 @@
       <column name="YearlyEx_DayIndex" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
       <column name="YearlyEx_DayName" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
       <column name="YearlyEx_Month" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
+      <column name="NoEndDateTime" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="ScheduleInstance">
       <column name="ScheduleInstance_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1863,9 +1870,9 @@
     </table>
     <table name="TagWord">
       <column name="TagWord_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Promoted" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Promoted" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
       <column name="Word" type="String" prec="64" length="128" scale="0" />
-      <column name="Excluded" type="Boolean" prec="1" length="1" scale="0" default="(0)" />
+      <column name="Excluded" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="TagWordAccount">
       <column name="TagWordAccount_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1873,11 +1880,6 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="CounterUniqueMonthly">
-      <column name="CounterUniqueMonthly_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Timestamp" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Total" type="Int32" prec="10" length="4" scale="0" />
     </table>
   </source>
 </domain>

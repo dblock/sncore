@@ -1770,10 +1770,10 @@
   </wsdl:binding>
   <wsdl:service name="WebLocationService">
     <wsdl:port name="WebLocationServiceSoap" binding="tns:WebLocationServiceSoap">
-      <soap:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx" />
+      <soap:address location="http://localhost/SnCoreWeb/WebLocationService.asmx" />
     </wsdl:port>
     <wsdl:port name="WebLocationServiceSoap12" binding="tns:WebLocationServiceSoap12">
-      <soap12:address location="http://dblock-black.orangebitch.com/SnCoreWeb/WebLocationService.asmx" />
+      <soap12:address location="http://localhost/SnCoreWeb/WebLocationService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

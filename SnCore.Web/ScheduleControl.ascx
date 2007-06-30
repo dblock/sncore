@@ -38,7 +38,7 @@
       </tr>
       <tr>
        <td class="sncore_form_label">
-        end time:
+        <asp:Label ID="labelEndTime" runat="server" Text="end time:" />
        </td>
        <td class="sncore_form_value">
         <SnCore:SelectDate PastYears="0" FutureYears="10" RequiresSelection="true" ID="stdEndDate" runat="server" />
@@ -51,6 +51,8 @@
        <td class="sncore_form_value">
         <asp:CheckBox ID="stdAllDay" AutoPostBack="true" OnCheckedChanged="stdAllDay_CheckedChanged"
          runat="server" Text="all day event" />
+        <asp:CheckBox ID="stdNoEndTime" AutoPostBack="true" OnCheckedChanged="stdNoEndTime_CheckedChanged"
+         runat="server" Text="no end time" />
        </td>
       </tr>
      </table>
@@ -58,17 +60,21 @@
     <SnCoreWebControls:PersistentPanel ID="panelRecurrent" runat="server" Visible="false">
      <table class="sncore_account_table">
       <tr>
-       <td class="sncore_form_label">
+       <td class="sncore_form_label" style="width: auto;">
         start time:
        </td>
        <td class="sncore_form_value">
         <SnCore:SelectTime ID="recStartTime" runat="server" />
        </td>
-       <td class="sncore_form_label">
-        end time:
+       <td class="sncore_form_label" style="width: auto;">
+        <asp:Label ID="labelRecEndTime" runat="server" Text="end time:" />
        </td>
        <td class="sncore_form_value">
         <SnCore:SelectTime ID="recEndTime" runat="server" />
+       </td>
+       <td class="sncore_form_value">
+        <asp:CheckBox ID="recNoEndTime" AutoPostBack="true" OnCheckedChanged="recNoEndTime_CheckedChanged"
+         runat="server" Text="no end time" />
        </td>
       </tr>
      </table>
