@@ -101,7 +101,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(ManagedAccount.AccessDeniedException))]
+        [ExpectedException(typeof(ManagedAccount.InvalidUsernamePasswordException))]
         public void LoginInvalid()
         {
             ManagedAccount a = new ManagedAccount(Session);
@@ -120,7 +120,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(ManagedAccount.AccessDeniedException))]
+        [ExpectedException(typeof(ManagedAccount.InvalidUsernamePasswordException))]
         public void LoginEmailUnverified()
         {
             ManagedAccount a = new ManagedAccount(Session);

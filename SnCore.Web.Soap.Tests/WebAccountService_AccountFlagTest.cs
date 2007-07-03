@@ -84,25 +84,16 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             string email = GetNewEmailAddress();
             string password = GetNewString();
-            int user_id = CreateUser(email, password);
-            Assert.IsTrue(user_id > 0);
-            string ticket = Login(email, password);
-            Assert.IsNotEmpty(ticket);
-            Assert.IsFalse(EndPoint.HasVerifiedEmail(ticket, user_id));
-            WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
-            Console.WriteLine("Verified: {0}", verifiedemail);
-            Assert.AreEqual(verifiedemail, email);
-            Assert.IsTrue(EndPoint.HasVerifiedEmail(ticket, user_id));
+            UserInfo user = CreateUserWithVerifiedEmailAddress(email, password);
 
             WebAccountService.TransitAccountMessage t_message = new WebAccountService.TransitAccountMessage();
-            t_message.SenderAccountId = user_id;
+            t_message.SenderAccountId = user.id;
             t_message.RecepientAccountId = t_message.AccountId = GetAdminAccount().Id;
             t_message.Subject = GetNewString();
             t_message.Body = GetNewString();
 
             int message_id = EndPoint.CreateOrUpdateAccountMessage(
-                ticket, t_message);
+                user.ticket, t_message);
 
             Assert.IsTrue(message_id != 0);
 
@@ -123,14 +114,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 t_flag.AccountFlagType = (string)_type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
                 t_flag.AccountId = temp_user_id;
                 t_flag.Description = GetNewString();
-                t_flag.FlaggedAccountId = user_id;
+                t_flag.FlaggedAccountId = user.id;
                 t_flag.Id = EndPoint.CreateOrUpdateAccountFlag(temp_ticket, t_flag);
                 Console.WriteLine("Flag: {0}", t_flag.Id);
 
                 try
                 {
                     int temp_message_id = EndPoint.CreateOrUpdateAccountMessage(
-                        ticket, t_message);
+                        user.ticket, t_message);
                     Console.WriteLine("Message: {0}", temp_message_id);
                     threshold++;
                 }
@@ -143,7 +134,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             Console.WriteLine("Threshold: {0}", threshold);
             Assert.IsTrue(threshold > 0);
-            DeleteUser(user_id);
+            DeleteUser(user.id);
 
             for (int i = 0; i < accounts.Count; i++)
             {

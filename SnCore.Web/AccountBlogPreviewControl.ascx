@@ -2,7 +2,7 @@
  Inherits="AccountBlogPreviewControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
-<SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" ButtonVisible="false" />
+<SnCore:RssLink ID="linkRelRss" runat="server" ButtonVisible="false" />
 <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" RepeatColumns="1"
  RepeatRows="1" ShowHeader="false" AllowCustomPaging="false">
  <pagerstyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"

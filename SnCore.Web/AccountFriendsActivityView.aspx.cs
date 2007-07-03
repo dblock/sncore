@@ -26,9 +26,15 @@ public partial class AccountFriendsActivityView : AccountPersonPage
     public void Page_Load(object sender, EventArgs e)
     {
         gridFriends.OnGetDataSource += new EventHandler(gridFriends_OnGetDataSource);
-
+       
         if (!IsPostBack)
         {
+            if (RequestId == 0)
+            {
+                RedirectToLogin();
+                return;
+            }
+
             TransitAccount ta = SessionManager.GetInstance<TransitAccount, int>(
                 RequestAccountId, SessionManager.AccountService.GetAccountById);
 

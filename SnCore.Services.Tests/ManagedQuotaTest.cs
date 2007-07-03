@@ -15,7 +15,7 @@ namespace SnCore.Services.Tests
             List<Guid> lotsofitems = new List<Guid>();
             for (int i = 0; i < ManagedQuota.DefaultQuotaUpperLimit + 1; i++)
                 lotsofitems.Add(Guid.NewGuid());
-            ManagedQuota.GetDefaultNoQuota().Check(lotsofitems);
+            ManagedQuota.GetDefaultNoQuota().Check<Guid, ManagedAccount.QuotaExceededException>(lotsofitems);
         }
 
         [Test, ExpectedException(typeof(ManagedAccount.QuotaExceededException))]
@@ -24,7 +24,7 @@ namespace SnCore.Services.Tests
             List<Guid> lotsofitems = new List<Guid>();
             for (int i = 0; i < ManagedQuota.DefaultQuotaUpperLimit + 1; i++)
                 lotsofitems.Add(Guid.NewGuid());
-            ManagedQuota.GetDefaultEnabledQuota().Check(lotsofitems);
+            ManagedQuota.GetDefaultEnabledQuota().Check<Guid, ManagedAccount.QuotaExceededException>(lotsofitems);
         }
     }
 }

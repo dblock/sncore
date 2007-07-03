@@ -24,6 +24,28 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
             return t_instance;
         }
 
+        public override void EndToEndTest()
+        {
+            string ticket = GetTestTicket();
+            int count1 = GetCount(ticket);
+            int id1 = Create(ticket);
+            int count2 = GetCount(ticket);
+            Assert.IsTrue(count2 >= 0 && count1 + 1 == count2);
+            int id2 = (int)GetInstancePropertyById(ticket, id1, "Id");
+            Assert.AreEqual(id1, id2);
+            int count3 = GetMany(ticket, null);
+            Assert.IsTrue(count2 == count3);
+            int count4 = GetMany(ticket, GetServiceQueryOptions(0, 0));
+            Assert.IsTrue(count2 == count4);
+            const int page_size = 10;
+            int count5 = GetMany(ticket, GetServiceQueryOptions(0, page_size));
+            Assert.IsTrue(count5 >= 1 && count5 <= page_size);
+            Delete(ticket, id1);
+            int count6 = GetCount(ticket);
+            // deleted configurations are added as unset, count will be the same after delete
+            Assert.IsTrue(count1 == count3);
+        }
+
         [Test]
         public void PasswordValueTest()
         {

@@ -134,23 +134,28 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void GetAccountInvitationsByAccountIdTest()
         {
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
+
             int count1 = EndPoint.GetAccountInvitationsCountByAccountId(
-                GetUserTicket(), GetUserAccount().Id);
+                user.ticket, user.id);
             Console.WriteLine("Count: {0}", count1);
             Assert.IsTrue(count1 >= 0);
-            int id = Create(GetUserTicket());
+            WebAccountService.TransitAccountInvitation t_instance = GetTransitInstance();
+            t_instance.AccountId = user.id;
+            int id = Create(user.ticket, t_instance);
             int count2 = EndPoint.GetAccountInvitationsCountByAccountId(
-                GetUserTicket(), GetUserAccount().Id);
+                user.ticket, user.id);
             Console.WriteLine("Count: {0}", count2);
             Assert.AreEqual(count1 + 1, count2);
             WebAccountService.TransitAccountInvitation[] invitations = EndPoint.GetAccountInvitationsByAccountId(
-                GetUserTicket(), GetUserAccount().Id, null);
+                user.ticket, user.id, null);
             Console.WriteLine("Invitations: {0}", invitations.Length);
             Assert.AreEqual(invitations.Length, count2);
-            Delete(GetUserTicket(), id);
+            Delete(user.ticket, id);
             int count3 = EndPoint.GetAccountInvitationsCountByAccountId(
-                GetUserTicket(), GetUserAccount().Id);
+                user.ticket, user.id);
             Assert.AreEqual(count1, count3);
+            DeleteUser(user.id);
         }
     }
 }

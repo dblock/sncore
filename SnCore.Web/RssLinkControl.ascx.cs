@@ -18,9 +18,12 @@ public partial class RssLinkControl : System.Web.UI.UserControl
     {
         if (!IsPostBack)
         {
-            mLink.Attributes.Add("rel", "alternate");
-            mLink.Attributes.Add("type", "application/rss+xml");
-            Page.Header.Controls.Add(mLink);
+            if (!string.IsNullOrEmpty(mLink.Href))
+            {
+                mLink.Attributes.Add("rel", "alternate");
+                mLink.Attributes.Add("type", "application/rss+xml");
+                Page.Header.Controls.Add(mLink);
+            }
         }
     }
 

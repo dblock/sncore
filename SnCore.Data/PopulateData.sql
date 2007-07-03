@@ -11,3 +11,5 @@ BULK INSERT PictureType FROM 'PictureType.txt' WITH ( KEEPIDENTITY )
 BULK INSERT AccountFlagType FROM 'AccountFlagType.txt' WITH ( KEEPIDENTITY )
 BULK INSERT AccountFlagType FROM 'AccountEventType.txt' WITH ( KEEPIDENTITY )
 BULK INSERT AccountFlagType FROM 'AccountPlaceType.txt' WITH ( KEEPIDENTITY )
+BULK INSERT FeedType FROM 'FeedType.txt' WITH ( KEEPIDENTITY )
+

@@ -98,7 +98,7 @@ namespace SnCore.Tools.Web.Html
             {
                 Uri result = null;
                 if (Uri.TryCreate(baseuri, relativeuri, out result))
-                    return result.ToString();
+                    return result.OriginalString;
             }
             catch (UriFormatException)
             {

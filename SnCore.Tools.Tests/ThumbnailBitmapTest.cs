@@ -21,13 +21,13 @@ namespace SnCore.Tools.Tests
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
             Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            Assert.AreEqual(b.Size, new Size(768, 576));
+            Assert.AreEqual(new Size(768, 576), b.Size);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);
             Console.WriteLine("Size: {0}x{1}", th.Size.Width, th.Size.Height);
             // horizontal bitmap, thumbnail size assumes vertical, thumbnail adjusted to horizontal
-            Assert.AreEqual(th.Size, new Size(ThumbnailBitmap.ThumbnailSize.Height, ThumbnailBitmap.ThumbnailSize.Width));
+            Assert.AreEqual(new Size(ThumbnailBitmap.ThumbnailSize.Height, ThumbnailBitmap.ThumbnailSize.Width), th.Size);
         }
 
         [Test]
@@ -43,12 +43,12 @@ namespace SnCore.Tools.Tests
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
             Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            Assert.AreEqual(b.Size, new Size(320, 240));
+            Assert.AreEqual(new Size(320, 240), b.Size);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);
             Console.WriteLine("Size: {0}x{1}", th.Size.Width, th.Size.Height);
-            Assert.AreEqual(th.Size, new Size(133, 100));
+            Assert.AreEqual(new Size(150, 100), th.Size);
             
             // make sure that the bitmap is still animated            
             Console.WriteLine("Bytes: {0}", b.Bitmap.Length);
@@ -70,13 +70,13 @@ namespace SnCore.Tools.Tests
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
             Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            Assert.AreEqual(b.Size, new Size(592, 350));
+            Assert.AreEqual(new Size(592, 350), b.Size);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);
             Console.WriteLine("Size: {0}x{1}", th.Size.Width, th.Size.Height);
             // horizontal bitmap, thumbnail size assumes vertical, thumbnail adjusted to horizontal
-            Assert.AreEqual(th.Size, new Size(169, 100));
+            Assert.AreEqual(new Size(150, 100), th.Size);
         }
 
         [Test, ExpectedException(typeof(FormatException))]

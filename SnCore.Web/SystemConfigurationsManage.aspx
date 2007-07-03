@@ -27,19 +27,19 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn HeaderText="Name">
       <itemtemplate>
-       <a href='SystemConfigurationEdit.aspx?id=<%# Eval("Id") %><%# (int) Eval("Id") == 0 ? string.Format("&name={0}", Renderer.UrlEncode(Eval("Name"))) : string.Empty %>'>
+       <a href='SystemConfigurationEdit.aspx?<%# (int) Eval("Id") == 0 ? string.Format("name={0}", Renderer.UrlEncode(Eval("Name"))) : string.Format("id={0}", Eval("Id")) %>'>
         <%# Renderer.Render(Eval("Name")) %>
        </a>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn HeaderText="Value" ItemStyle-HorizontalAlign="Left">
       <itemtemplate>
-       <%# Renderer.Render(Eval("Value"))%>
+       <%# (bool) Eval("Password") ? "**********" : Renderer.Render(Eval("Value"))%>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <itemtemplate>
-       <a href='SystemConfigurationEdit.aspx?id=<%# Eval("Id") %><%# (int) Eval("Id") == 0 ? string.Format("&name={0}", Renderer.UrlEncode(Eval("Name"))) : string.Empty %>'>
+       <a href='SystemConfigurationEdit.aspx?<%# (int) Eval("Id") == 0 ? string.Format("name={0}", Renderer.UrlEncode(Eval("Name"))) : string.Format("id={0}", Eval("Id")) %>'>
         Edit
        </a>
       </itemtemplate>

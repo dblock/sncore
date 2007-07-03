@@ -88,10 +88,10 @@ namespace SnCore.Tools.Drawing
         private bool TryLoadJPG(Stream bitmap, Size min)
         {
             long offset = bitmap.Position;
-            Bitmap b = new Bitmap(bitmap);
 
             try
             {
+                Bitmap b = new Bitmap(bitmap);
                 mSize = new Size(b.Width, b.Height);
                 mBitmap = GetResizedImageBytesJPEG(bitmap, ResizeSize, ImageQuality);
                 mThumbnail = GetThumbnailJPEG(bitmap, min);

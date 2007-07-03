@@ -30,7 +30,7 @@
    </td>
    <td align="right" valign="middle">
     <p>
-     <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" />
+     <SnCore:RssLink ID="linkRelRss" runat="server" />
     </p>
     <!-- NOEMAIL-START -->
     <div>

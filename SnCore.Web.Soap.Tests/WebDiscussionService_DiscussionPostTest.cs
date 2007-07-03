@@ -132,17 +132,16 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         [Test]
         public void DiscussionPostQuotaTest()
         {
-            WebAccountService.TransitAccount t_account = null;
-            string ticket;
-            CreateUserWithVerifiedEmail(out t_account, out ticket);
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
 
             List<int> ids = new List<int>();
-            int limit = 10; // ManagedDiscussionPost.DefaultHourlyLimit
+            int limit = 30; // ManagedDiscussionPost.DefaultHourlyLimit
 
             for (int i = 0; i < limit; i++)
             {
                 WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
-                t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(ticket, t_post);
+                t_post.AccountId = user.id;
+                t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
                 Console.WriteLine("{0}: Post: {1}", i, t_post.Id);
                 ids.Add(t_post.Id);
             }
@@ -150,7 +149,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             try
             {
                 WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
-                t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(ticket, t_post);
+                t_post.AccountId = user.id;
+                t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
                 Console.WriteLine("Post: {0}", t_post.Id);
                 Assert.IsTrue(false, "Expected a quota exceeded exception.");
             }
@@ -167,7 +167,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
                 EndPoint.DeleteDiscussionPost(GetAdminTicket(), id);
             }
 
-            DeleteUser(t_account.Id);
+            DeleteUser(user.id);
         }
     }
 }

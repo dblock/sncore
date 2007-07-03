@@ -8,12 +8,27 @@ using SnCore.Tools.Drawing;
 
 namespace SnCore.Web.Soap.Tests
 {
+    public class UserInfo
+    {
+        public int id;
+        public string email;
+        public string password;
+        public string ticket;
+        public WebAccountService.TransitAccount account;
+
+        public UserInfo()
+        {
+
+        }
+    };
+
     public class WebServiceBaseTest<EndPointType>
         where EndPointType : new()
     {
         private EndPointType mEndPoint;
         private string mAdminTicket = string.Empty;
-        private string mUserTicket = string.Empty;
+
+        private UserInfo mUserInfo = null;
 
         public WebServiceBaseTest()
         {
@@ -28,6 +43,46 @@ namespace SnCore.Web.Soap.Tests
             }
         }
 
+        protected UserInfo CreateUserWithVerifiedEmailAddress()
+        {
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
+            return CreateUserWithVerifiedEmailAddress(email, password);
+        }
+
+        protected UserInfo CreateUserWithVerifiedEmailAddress(string email, string password)
+        {
+            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
+
+            UserInfo result = new UserInfo();
+            result.email = email;
+            result.password = password;
+
+            result.id = CreateUser(email, password);
+            Assert.IsTrue(result.id > 0);
+
+            result.ticket = Login(email, password);
+            Assert.IsNotEmpty(result.ticket);
+
+            Assert.IsFalse(endpoint.HasVerifiedEmail(result.ticket, result.id));
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations = endpoint.GetAccountEmailConfirmations(
+                GetAdminTicket(), result.id, null);
+
+            string verifiedemail = endpoint.VerifyAccountEmail(
+                password, confirmations[0].Id, confirmations[0].Code);
+            
+            Console.WriteLine("Verified: {0}", verifiedemail);
+            Assert.AreEqual(verifiedemail, result.email);
+            Assert.IsTrue(endpoint.HasVerifiedEmail(result.ticket, result.id));
+
+            return result;
+        }
+
+        protected WebAccountService.TransitAccount GetUserAccount()
+        {
+            return GetUser().account;
+        }
+
         protected int CreateUser(string email, string password)
         {
             return CreateUser(email, password, DateTime.UtcNow.AddYears(-10));
@@ -40,15 +95,7 @@ namespace SnCore.Web.Soap.Tests
             t_instance.Password = password;
             t_instance.Birthday = dateofbirth;
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-            int id = 0;
-            try
-            {
-                id = account_endpoint.CreateAccount(string.Empty, email, t_instance);
-            }
-            catch
-            {
-                id = account_endpoint.CreateAccount("password", email, t_instance);
-            }
+            int id = account_endpoint.CreateAccount(string.Empty, email, t_instance);
             Console.WriteLine("Created user: {0}", id);
             Assert.IsTrue(id > 0);
             return id;
@@ -62,7 +109,7 @@ namespace SnCore.Web.Soap.Tests
 
         private void CreateUserAccount()
         {
-            CreateUser("user@localhost.com", "password");
+            CreateUserWithVerifiedEmailAddress("user@localhost.com", "password");
         }
 
         public string Login(string email, string password)
@@ -71,34 +118,38 @@ namespace SnCore.Web.Soap.Tests
             return endpoint.Login(email, password);
         }
 
-        public string GetUserTicket()
+        public UserInfo GetUser()
         {
-            if (string.IsNullOrEmpty(mUserTicket))
+            if (mUserInfo == null)
             {
+                mUserInfo = new UserInfo();
                 try
                 {
-                    mUserTicket = Login("user@localhost.com", "password");
+                    mUserInfo.email = "user@localhost.com";
+                    mUserInfo.password = "password";
+                    mUserInfo.ticket = Login(mUserInfo.email, mUserInfo.password);
                 }
                 catch (Exception)
                 {
-                    CreateUserAccount();
-                    mUserTicket = Login("user@localhost.com", "password");
+                    mUserInfo = CreateUserWithVerifiedEmailAddress("user@localhost.com", "password");
                 }
+
+                WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
+                mUserInfo.account = endpoint.GetAccount(mUserInfo.ticket, true);
             }
 
-            return mUserTicket;
-        }
-
-        public WebAccountService.TransitAccount GetUserAccount()
-        {
-            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
-            return endpoint.GetAccount(GetUserTicket(), true);
+            return mUserInfo;
         }
 
         public WebAccountService.TransitAccount GetAdminAccount()
         {
             WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
             return endpoint.GetAccount(GetAdminTicket(), true);
+        }
+
+        public string GetUserTicket()
+        {
+            return GetUser().ticket;
         }
 
         public string GetAdminTicket()
@@ -135,22 +186,6 @@ namespace SnCore.Web.Soap.Tests
             {
                 throw ex.InnerException;
             }
-        }
-
-        public void CreateUserWithVerifiedEmail(out WebAccountService.TransitAccount t_account, out string ticket)
-        {
-            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
-            string email = GetNewEmailAddress();
-            string password = GetNewString();
-            int userid = CreateUser(email, password);
-            ticket = Login(email, password);
-            t_account = endpoint.GetAccountById(ticket, userid);
-            WebAccountService.TransitAccountEmailConfirmation[] confirmations = endpoint.GetAccountEmailConfirmations(
-                GetAdminTicket(), userid, null);
-            Assert.AreEqual(confirmations.Length, 1);
-            string verifiedemail = endpoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
-            Console.WriteLine("Verified e-mail: {0}", verifiedemail);
-            Assert.AreEqual(verifiedemail, email);
         }
 
         public static string GetNewEmailAddress()

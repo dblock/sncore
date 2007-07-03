@@ -118,6 +118,7 @@ namespace SnCore.Web.Tests
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine();
                     Console.WriteLine("{0}: {1}", topofqueue, ex.Message);
                     throw ex;
                 }
@@ -158,7 +159,7 @@ namespace SnCore.Web.Tests
 
                     references.Add(fulluri, topofqueue);
 
-                    // Console.WriteLine("\tAdding {0}.", fulluri);
+                    // Console.WriteLine("\tAdding {0}.", fulluri.OriginalString);
                     queue.Add(fulluri);
                     count++;
                 }
@@ -185,6 +186,7 @@ namespace SnCore.Web.Tests
             foreach(Uri link in links)
             {
                 Console.WriteLine("[{0}]", link);
+                Assert.IsTrue(link.Query.IndexOf("/") < 0);
             }
         }
     }

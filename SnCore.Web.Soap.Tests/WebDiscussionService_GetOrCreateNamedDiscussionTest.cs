@@ -48,17 +48,15 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
 
             Console.WriteLine("Parent name: {0}", t_discussion.ParentObjectName);
 
-            WebAccountService.TransitAccount t_account;
-            string ticket;
-            CreateUserWithVerifiedEmail(out t_account, out ticket);
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
 
             // post to a discussion as a regular user
             WebDiscussionService.TransitDiscussionPost t_post = new WebDiscussionService.TransitDiscussionPost();
             t_post.DiscussionId = discussion_id;
-            t_post.AccountId = t_account.Id;
+            t_post.AccountId = user.id;
             t_post.Body = GetNewString();
             t_post.Subject = GetNewString();
-            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(ticket, t_post);
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
 
             objecttest.Delete(GetAdminTicket(), objecttest_id);
             objecttest.TearDown();
@@ -68,7 +66,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
 
             Assert.IsNull(t_discussion, "Discussion has not been deleted with object.");
 
-            DeleteUser(t_account.Id);
+            DeleteUser(user.id);
         }
 
         [Test]

@@ -21,7 +21,7 @@
   </span>
  </div>
 </asp:Panel>
-<SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountBlogRss.aspx" ButtonVisible="false" />
+<SnCore:RssLink ID="linkRelRss" runat="server" ButtonVisible="false" />
 <table class="sncore_half_table">
  <tr>
   <td class="sncore_table_tr_td">

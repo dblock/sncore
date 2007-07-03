@@ -53,7 +53,14 @@ namespace SnCore.Services.Tests
             t_instance.FlaggedAccountId = _account.Instance.Id;
             t_instance.Description = GetNewString();
             t_instance.AccountFlagType = _type.Instance.Object.Name;
+            t_instance.Url = GetNewUri();
             return t_instance;
+        }
+
+        [Test]
+        public override void TestUpdateAndRetrieve()
+        {
+            
         }
     }
 }

@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Web.Services.Protocols;
 using SnCore.Web.Soap.Tests.WebLocationServiceTests;
 using System.Threading;
+using SnCore.Tools.Drawing;
 
 namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
 {
@@ -78,6 +79,14 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             WebPlaceService.TransitPlace t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebPlaceService.TransitPlacePicture t_picture = new WebPlaceService.TransitPlacePicture();
+            t_picture.AccountId = GetUserAccount().Id;
+            t_picture.Bitmap = GetNewBitmap();
+            t_picture.Description = GetNewString();
+            t_picture.Name = GetNewString();
+            t_picture.PlaceId = t_instance.Id;
+            t_picture.Id = EndPoint.CreateOrUpdatePlacePicture(GetUserTicket(), t_picture);
+            Assert.IsTrue(t_picture.Id > 0);
             WebPlaceService.TransitPlace[] places = EndPoint.GetNewPlaces(GetAdminTicket(), null);
             Assert.IsNotNull(places);
             Console.WriteLine("Places: {0}", places.Length);
