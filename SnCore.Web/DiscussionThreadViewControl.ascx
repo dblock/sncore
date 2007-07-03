@@ -57,12 +57,14 @@
        </div>
       </div>
       <div class="sncore_footer">
-       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&#edit">
+       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
         &#187; reply</a>
-       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true&#edit">
+       <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true">
         &#187; quote</a>
        <a id="linkEdit" runat="server">
         &#187; edit</a>
+       <a href="AccountFlagEdit.aspx?aid=<%# Eval("AccountId") %>&url=<%# Renderer.UrlEncode(string.Format("DiscussionPostView.aspx?id={0}", Eval("Id"))) %>&type=Spam&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
+        &#187; spam</a>
        <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" CommandArgument='<%# Eval("Id") %>'
         OnClientClick="return confirm('Are you sure you want to do this?')" />
       </div>

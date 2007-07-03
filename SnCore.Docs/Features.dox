@@ -8,7 +8,7 @@
  <li>Support for <a href="http://www.openid.net" target="_blank">OpenId</a>.
  <li>Personal content management, including stories, surveys, RSS syndication and blogs.
  <li>Social networking, including invitations, friends, friends of friends, messages and testimonials.
- <li>Discussions framework with threading, highlight and e-mail alerts.
+ <li>Discussions framework with threading, highlight, e-mail alerts and abuse reporting.
  <li>Places framework with full or member ownership and delegation.
  <li>Complete one-time and recurrent events framework, with Microsoft Outlook feature parity.
  <li>Rich groups framework, including private and public groups.

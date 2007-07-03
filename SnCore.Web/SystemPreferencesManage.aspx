@@ -46,6 +46,8 @@
     </div>
     <table>
      <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="SystemAccountsManage.aspx">Accounts</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/flags.gif" /></td><td width="*"><a href="SystemAccountFlagsManage.aspx">Reported Abuse</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountFlagTypesManage.aspx">Flag Types</a></td></tr>
     </table>
     <div class="sncore_h2">
      Places

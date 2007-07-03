@@ -71,6 +71,8 @@
         private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_RequesterAccountGroupAccountInvitations;
         private System.Collections.Generic.IList<AccountEventPicture> m_AccountEventPictures;
         private System.Collections.Generic.IList<AccountRssWatch> m_AccountRssWatchs;
+        private System.Collections.Generic.IList<AccountFlag> m_AccountFlags;
+        private System.Collections.Generic.IList<AccountFlag> m_FlaggedAccountAccountFlags;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1805,6 +1807,68 @@
             set
             {
                 m_AccountRssWatchs = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountFlag'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountFlag.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountFlags' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountFlag' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountFlag> AccountFlags
+        {
+            get
+            {
+                return m_AccountFlags;
+            }
+            set
+            {
+                m_AccountFlags = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountFlag'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountFlag.FlaggedAccount'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_FlaggedAccountAccountFlags' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountFlag' table in the data source.
+        ///The property maps to the identity column 'FlaggedAccount_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountFlag> FlaggedAccountAccountFlags
+        {
+            get
+            {
+                return m_FlaggedAccountAccountFlags;
+            }
+            set
+            {
+                m_FlaggedAccountAccountFlags = value;
             }
         }
 

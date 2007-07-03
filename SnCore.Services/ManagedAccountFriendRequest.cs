@@ -296,7 +296,14 @@ namespace SnCore.Services
             if (t_instance.Id == 0)
             {
                 sec.CheckVerifiedEmail();
-                GetQuota().Check(mInstance.Account.AccountFriendRequests);
+                
+                // check number of account friend requests
+                GetQuota().Check<AccountFriendRequest, ManagedAccount.QuotaExceededException>(
+                    mInstance.Account.AccountFriendRequests);
+
+                // check whether the sender was flagged
+                new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
+                    ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
             }
         }
     }

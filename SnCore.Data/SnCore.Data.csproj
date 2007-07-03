@@ -140,6 +140,12 @@
     <Compile Include="AccountFeedItemMedia.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountFlag.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountFlagType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AccountFriend.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -435,6 +441,8 @@
     <EmbeddedResource Include="AccountFeedItem.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItemImg.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItemMedia.hbm.xml" />
+    <EmbeddedResource Include="AccountFlag.hbm.xml" />
+    <EmbeddedResource Include="AccountFlagType.hbm.xml" />
     <EmbeddedResource Include="AccountFriend.hbm.xml" />
     <EmbeddedResource Include="AccountFriendRequest.hbm.xml" />
     <EmbeddedResource Include="AccountGroup.hbm.xml" />

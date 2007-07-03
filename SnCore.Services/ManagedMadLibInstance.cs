@@ -288,7 +288,15 @@ namespace SnCore.Services
         protected override void Check(TransitMadLibInstance t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+
+            if (t_instance.Id != 0)
+                return;
+
+            sec.CheckVerifiedEmail();
+
+            // check whether the sender was flagged
+            new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
+                ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
         }
     }
 }

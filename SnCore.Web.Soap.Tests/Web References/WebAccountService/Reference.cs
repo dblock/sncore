@@ -27,6 +27,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebAccountServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFlag))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFlagType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmailMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessageFolder))]
@@ -320,6 +322,34 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback GetAccountEmailMessagesCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountEmailMessageOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountFlagTypeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagTypeByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagTypesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagTypesCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountFlagTypeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountFlagOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagsByAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagsByAccountIdCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagsByFlaggedAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFlagsByFlaggedAccountIdCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountFlagOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -766,6 +796,48 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event DeleteAccountEmailMessageCompletedEventHandler DeleteAccountEmailMessageCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountFlagTypeCompletedEventHandler CreateOrUpdateAccountFlagTypeCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagTypeByIdCompletedEventHandler GetAccountFlagTypeByIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagTypesCompletedEventHandler GetAccountFlagTypesCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagTypesCountCompletedEventHandler GetAccountFlagTypesCountCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountFlagTypeCompletedEventHandler DeleteAccountFlagTypeCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountFlagCompletedEventHandler CreateOrUpdateAccountFlagCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagByIdCompletedEventHandler GetAccountFlagByIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagsCompletedEventHandler GetAccountFlagsCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagsCountCompletedEventHandler GetAccountFlagsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagsByAccountIdCompletedEventHandler GetAccountFlagsByAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagsByAccountIdCountCompletedEventHandler GetAccountFlagsByAccountIdCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagsByFlaggedAccountIdCompletedEventHandler GetAccountFlagsByFlaggedAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFlagsByFlaggedAccountIdCountCompletedEventHandler GetAccountFlagsByFlaggedAccountIdCountCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountFlagCompletedEventHandler DeleteAccountFlagCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -5045,6 +5117,438 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFlagType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountFlagType(string ticket, TransitAccountFlagType flagtype) {
+            object[] results = this.Invoke("CreateOrUpdateAccountFlagType", new object[] {
+                        ticket,
+                        flagtype});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountFlagTypeAsync(string ticket, TransitAccountFlagType flagtype) {
+            this.CreateOrUpdateAccountFlagTypeAsync(ticket, flagtype, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountFlagTypeAsync(string ticket, TransitAccountFlagType flagtype, object userState) {
+            if ((this.CreateOrUpdateAccountFlagTypeOperationCompleted == null)) {
+                this.CreateOrUpdateAccountFlagTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountFlagTypeOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountFlagType", new object[] {
+                        ticket,
+                        flagtype}, this.CreateOrUpdateAccountFlagTypeOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountFlagTypeOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountFlagTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountFlagTypeCompleted(this, new CreateOrUpdateAccountFlagTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagTypeById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFlagType GetAccountFlagTypeById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountFlagTypeById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountFlagType)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagTypeByIdAsync(string ticket, int id) {
+            this.GetAccountFlagTypeByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagTypeByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountFlagTypeByIdOperationCompleted == null)) {
+                this.GetAccountFlagTypeByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagTypeByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagTypeById", new object[] {
+                        ticket,
+                        id}, this.GetAccountFlagTypeByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagTypeByIdOperationCompleted(object arg) {
+            if ((this.GetAccountFlagTypeByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagTypeByIdCompleted(this, new GetAccountFlagTypeByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagTypes", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFlagType[] GetAccountFlagTypes(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFlagTypes", new object[] {
+                        ticket,
+                        options});
+            return ((TransitAccountFlagType[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagTypesAsync(string ticket, ServiceQueryOptions options) {
+            this.GetAccountFlagTypesAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagTypesAsync(string ticket, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountFlagTypesOperationCompleted == null)) {
+                this.GetAccountFlagTypesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagTypesOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagTypes", new object[] {
+                        ticket,
+                        options}, this.GetAccountFlagTypesOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagTypesOperationCompleted(object arg) {
+            if ((this.GetAccountFlagTypesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagTypesCompleted(this, new GetAccountFlagTypesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagTypesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountFlagTypesCount(string ticket) {
+            object[] results = this.Invoke("GetAccountFlagTypesCount", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagTypesCountAsync(string ticket) {
+            this.GetAccountFlagTypesCountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagTypesCountAsync(string ticket, object userState) {
+            if ((this.GetAccountFlagTypesCountOperationCompleted == null)) {
+                this.GetAccountFlagTypesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagTypesCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagTypesCount", new object[] {
+                        ticket}, this.GetAccountFlagTypesCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagTypesCountOperationCompleted(object arg) {
+            if ((this.GetAccountFlagTypesCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagTypesCountCompleted(this, new GetAccountFlagTypesCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountFlagType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountFlagType(string ticket, int id) {
+            this.Invoke("DeleteAccountFlagType", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountFlagTypeAsync(string ticket, int id) {
+            this.DeleteAccountFlagTypeAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountFlagTypeAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountFlagTypeOperationCompleted == null)) {
+                this.DeleteAccountFlagTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountFlagTypeOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountFlagType", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountFlagTypeOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountFlagTypeOperationCompleted(object arg) {
+            if ((this.DeleteAccountFlagTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountFlagTypeCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFlag", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountFlag(string ticket, TransitAccountFlag flag) {
+            object[] results = this.Invoke("CreateOrUpdateAccountFlag", new object[] {
+                        ticket,
+                        flag});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountFlagAsync(string ticket, TransitAccountFlag flag) {
+            this.CreateOrUpdateAccountFlagAsync(ticket, flag, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountFlagAsync(string ticket, TransitAccountFlag flag, object userState) {
+            if ((this.CreateOrUpdateAccountFlagOperationCompleted == null)) {
+                this.CreateOrUpdateAccountFlagOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountFlagOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountFlag", new object[] {
+                        ticket,
+                        flag}, this.CreateOrUpdateAccountFlagOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountFlagOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountFlagCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountFlagCompleted(this, new CreateOrUpdateAccountFlagCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFlag GetAccountFlagById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountFlagById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountFlag)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagByIdAsync(string ticket, int id) {
+            this.GetAccountFlagByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountFlagByIdOperationCompleted == null)) {
+                this.GetAccountFlagByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagById", new object[] {
+                        ticket,
+                        id}, this.GetAccountFlagByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagByIdOperationCompleted(object arg) {
+            if ((this.GetAccountFlagByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagByIdCompleted(this, new GetAccountFlagByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlags", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFlag[] GetAccountFlags(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFlags", new object[] {
+                        ticket,
+                        options});
+            return ((TransitAccountFlag[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsAsync(string ticket, ServiceQueryOptions options) {
+            this.GetAccountFlagsAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsAsync(string ticket, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountFlagsOperationCompleted == null)) {
+                this.GetAccountFlagsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlags", new object[] {
+                        ticket,
+                        options}, this.GetAccountFlagsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagsOperationCompleted(object arg) {
+            if ((this.GetAccountFlagsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagsCompleted(this, new GetAccountFlagsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountFlagsCount(string ticket) {
+            object[] results = this.Invoke("GetAccountFlagsCount", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsCountAsync(string ticket) {
+            this.GetAccountFlagsCountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsCountAsync(string ticket, object userState) {
+            if ((this.GetAccountFlagsCountOperationCompleted == null)) {
+                this.GetAccountFlagsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagsCount", new object[] {
+                        ticket}, this.GetAccountFlagsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagsCountOperationCompleted(object arg) {
+            if ((this.GetAccountFlagsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagsCountCompleted(this, new GetAccountFlagsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagsByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFlag[] GetAccountFlagsByAccountId(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFlagsByAccountId", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountFlag[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountFlagsByAccountIdAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountFlagsByAccountIdOperationCompleted == null)) {
+                this.GetAccountFlagsByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagsByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagsByAccountId", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountFlagsByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagsByAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountFlagsByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagsByAccountIdCompleted(this, new GetAccountFlagsByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagsByAccountIdCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountFlagsByAccountIdCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountFlagsByAccountIdCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByAccountIdCountAsync(string ticket, int id) {
+            this.GetAccountFlagsByAccountIdCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByAccountIdCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountFlagsByAccountIdCountOperationCompleted == null)) {
+                this.GetAccountFlagsByAccountIdCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagsByAccountIdCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagsByAccountIdCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountFlagsByAccountIdCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagsByAccountIdCountOperationCompleted(object arg) {
+            if ((this.GetAccountFlagsByAccountIdCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagsByAccountIdCountCompleted(this, new GetAccountFlagsByAccountIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagsByFlaggedAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountFlag[] GetAccountFlagsByFlaggedAccountId(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFlagsByFlaggedAccountId", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountFlag[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByFlaggedAccountIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountFlagsByFlaggedAccountIdAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByFlaggedAccountIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountFlagsByFlaggedAccountIdOperationCompleted == null)) {
+                this.GetAccountFlagsByFlaggedAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagsByFlaggedAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagsByFlaggedAccountId", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountFlagsByFlaggedAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagsByFlaggedAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountFlagsByFlaggedAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagsByFlaggedAccountIdCompleted(this, new GetAccountFlagsByFlaggedAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFlagsByFlaggedAccountIdCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountFlagsByFlaggedAccountIdCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountFlagsByFlaggedAccountIdCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByFlaggedAccountIdCountAsync(string ticket, int id) {
+            this.GetAccountFlagsByFlaggedAccountIdCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFlagsByFlaggedAccountIdCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountFlagsByFlaggedAccountIdCountOperationCompleted == null)) {
+                this.GetAccountFlagsByFlaggedAccountIdCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFlagsByFlaggedAccountIdCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFlagsByFlaggedAccountIdCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountFlagsByFlaggedAccountIdCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFlagsByFlaggedAccountIdCountOperationCompleted(object arg) {
+            if ((this.GetAccountFlagsByFlaggedAccountIdCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFlagsByFlaggedAccountIdCountCompleted(this, new GetAccountFlagsByFlaggedAccountIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountFlag", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountFlag(string ticket, int id) {
+            this.Invoke("DeleteAccountFlag", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountFlagAsync(string ticket, int id) {
+            this.DeleteAccountFlagAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountFlagAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountFlagOperationCompleted == null)) {
+                this.DeleteAccountFlagOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountFlagOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountFlag", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountFlagOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountFlagOperationCompleted(object arg) {
+            if ((this.DeleteAccountFlagCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountFlagCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -5248,6 +5752,140 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountFlag))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountFlag {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFlag : TransitServiceOfAccountFlag {
+        
+        private string descriptionField;
+        
+        private int accountIdField;
+        
+        private int flaggedAccountIdField;
+        
+        private string accountFlagTypeField;
+        
+        private System.DateTime createdField;
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int FlaggedAccountId {
+            get {
+                return this.flaggedAccountIdField;
+            }
+            set {
+                this.flaggedAccountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountFlagType {
+            get {
+                return this.accountFlagTypeField;
+            }
+            set {
+                this.accountFlagTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountFlagType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountFlagType {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFlagType : TransitServiceOfAccountFlagType {
+        
+        private string nameField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
             }
         }
     }
@@ -10468,6 +11106,326 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void DeleteAccountEmailMessageCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void CreateOrUpdateAccountFlagTypeCompletedEventHandler(object sender, CreateOrUpdateAccountFlagTypeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountFlagTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountFlagTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagTypeByIdCompletedEventHandler(object sender, GetAccountFlagTypeByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagTypeByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagTypeByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFlagType Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFlagType)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagTypesCompletedEventHandler(object sender, GetAccountFlagTypesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagTypesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagTypesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFlagType[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFlagType[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagTypesCountCompletedEventHandler(object sender, GetAccountFlagTypesCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagTypesCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagTypesCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void DeleteAccountFlagTypeCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void CreateOrUpdateAccountFlagCompletedEventHandler(object sender, CreateOrUpdateAccountFlagCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountFlagCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountFlagCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagByIdCompletedEventHandler(object sender, GetAccountFlagByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFlag Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFlag)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagsCompletedEventHandler(object sender, GetAccountFlagsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFlag[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFlag[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagsCountCompletedEventHandler(object sender, GetAccountFlagsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagsByAccountIdCompletedEventHandler(object sender, GetAccountFlagsByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagsByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagsByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFlag[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFlag[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagsByAccountIdCountCompletedEventHandler(object sender, GetAccountFlagsByAccountIdCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagsByAccountIdCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagsByAccountIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagsByFlaggedAccountIdCompletedEventHandler(object sender, GetAccountFlagsByFlaggedAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagsByFlaggedAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagsByFlaggedAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountFlag[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountFlag[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFlagsByFlaggedAccountIdCountCompletedEventHandler(object sender, GetAccountFlagsByFlaggedAccountIdCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFlagsByFlaggedAccountIdCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFlagsByFlaggedAccountIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void DeleteAccountFlagCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

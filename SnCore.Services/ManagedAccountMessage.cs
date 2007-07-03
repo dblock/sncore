@@ -398,10 +398,10 @@ namespace SnCore.Services
             try
             {
                 // how many messages within the last hour?
-                new ManagedQuota(DefaultHourlyLimit).Check(
+                new ManagedQuota(DefaultHourlyLimit).Check<AccountMessage, ManagedAccount.QuotaExceededException>(
                     GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddHours(-1)));
                 // how many messages within the last 24 hours?
-                ManagedQuota.GetDefaultEnabledQuota().Check(
+                ManagedQuota.GetDefaultEnabledQuota().Check<AccountMessage, ManagedAccount.QuotaExceededException>(
                     GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddDays(-1)));
             }
             catch (ManagedAccount.QuotaExceededException)
@@ -412,6 +412,10 @@ namespace SnCore.Services
                     string.Format("EmailAccountQuotaExceeded.aspx?id={0}", sender_id));
                 throw;
             }
+
+            // check whether the sender was flagged
+            new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
+                ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sender_id));
         }
     }
 }

@@ -276,7 +276,8 @@ namespace SnCore.Services
             if (t_instance.Id == 0)
             {
                 sec.CheckVerifiedEmail();
-                GetQuota().Check(mInstance.Account.AccountRedirects);
+                GetQuota().Check<AccountRedirect, ManagedAccount.QuotaExceededException>(
+                    mInstance.Account.AccountRedirects);
             }
         }
     }

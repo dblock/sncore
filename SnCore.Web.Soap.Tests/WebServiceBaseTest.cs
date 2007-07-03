@@ -40,7 +40,15 @@ namespace SnCore.Web.Soap.Tests
             t_instance.Password = password;
             t_instance.Birthday = dateofbirth;
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-            int id = account_endpoint.CreateAccount(string.Empty, email, t_instance);
+            int id = 0;
+            try
+            {
+                id = account_endpoint.CreateAccount(string.Empty, email, t_instance);
+            }
+            catch
+            {
+                id = account_endpoint.CreateAccount("password", email, t_instance);
+            }
             Console.WriteLine("Created user: {0}", id);
             Assert.IsTrue(id > 0);
             return id;

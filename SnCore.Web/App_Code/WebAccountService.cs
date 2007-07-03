@@ -165,7 +165,7 @@ namespace SnCore.WebServices
         /// <summary>
         /// Create an account with openid.
         /// </summary>
-        /// <param name="ta">transit account information</param>
+        /// <param name="ta">transit account informatio</param>
         /// <returns>account id</returns>
         [WebMethod(Description = "Create an account with openid.")]
         public int CreateAccountWithOpenId(string betapassword, string consumerurl, TransitAccount ta)
@@ -2394,5 +2394,172 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region AccountFlagType
+
+        /// <summary>
+        /// Create or update an flag type.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="flagtype">transit flag type</param>
+        [WebMethod(Description = "Create or update an flag type.")]
+        public int CreateOrUpdateAccountFlagType(string ticket, TransitAccountFlagType flagtype)
+        {
+            return WebServiceImpl<TransitAccountFlagType, ManagedAccountFlagType, AccountFlagType>.CreateOrUpdate(
+                ticket, flagtype);
+        }
+
+        /// <summary>
+        /// Get an flag type.
+        /// </summary>
+        /// <returns>transit flag type</returns>
+        [WebMethod(Description = "Get an flag type.")]
+        public TransitAccountFlagType GetAccountFlagTypeById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFlagType, ManagedAccountFlagType, AccountFlagType>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all flag types.
+        /// </summary>
+        /// <returns>list of transit flag types</returns>
+        [WebMethod(Description = "Get all flag types.")]
+        public List<TransitAccountFlagType> GetAccountFlagTypes(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountFlagType, ManagedAccountFlagType, AccountFlagType>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all flag types count.
+        /// </summary>
+        /// <returns>list of transit flag types</returns>
+        [WebMethod(Description = "Get all flag types count.")]
+        public int GetAccountFlagTypesCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountFlagType, ManagedAccountFlagType, AccountFlagType>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Delete an flag type
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an flag type.")]
+        public void DeleteAccountFlagType(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountFlagType, ManagedAccountFlagType, AccountFlagType>.Delete(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region AccountFlag
+
+        /// <summary>
+        /// Flag an account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="flag">transit flag</param>
+        [WebMethod(Description = "Flag an account.")]
+        public int CreateOrUpdateAccountFlag(string ticket, TransitAccountFlag flag)
+        {
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.CreateOrUpdate(
+                ticket, flag);
+        }
+
+        /// <summary>
+        /// Get a flagged account.
+        /// </summary>
+        /// <returns>transit flag</returns>
+        [WebMethod(Description = "Get a flagged account.")]
+        public TransitAccountFlag GetAccountFlagById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account flags.
+        /// </summary>
+        /// <returns>list of transit flags</returns>
+        [WebMethod(Description = "Get all account flags.")]
+        public List<TransitAccountFlag> GetAccountFlags(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetList(
+                ticket, options);
+        }
+
+        /// <summary>
+        /// Get all account flags count.
+        /// </summary>
+        /// <returns>number of transit flags</returns>
+        [WebMethod(Description = "Get all account flags count.")]
+        public int GetAccountFlagsCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get all account flags by account id.
+        /// </summary>
+        /// <returns>list of transit flags</returns>
+        [WebMethod(Description = "Get all account flags by account id.")]
+        public List<TransitAccountFlag> GetAccountFlagsByAccountId(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get all account flags count by account id.
+        /// </summary>
+        /// <returns>number of transit flags</returns>
+        [WebMethod(Description = "Get all account flags count by account id.")]
+        public int GetAccountFlagsByAccountIdCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetCount(
+                ticket, string.Format("WHERE AccountFlag.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all account flags by flagged account id.
+        /// </summary>
+        /// <returns>list of transit flags</returns>
+        [WebMethod(Description = "Get all account flags by flagged account id.")]
+        public List<TransitAccountFlag> GetAccountFlagsByFlaggedAccountId(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("FlaggedAccount.Id", id) };
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get all account flags count by flagged account id.
+        /// </summary>
+        /// <returns>number of transit flags</returns>
+        [WebMethod(Description = "Get all account flags count by flagged account id.")]
+        public int GetAccountFlagsByFlaggedAccountIdCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetCount(
+                ticket, string.Format("WHERE AccountFlag.FlaggedAccount.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Delete a flag
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a flag.")]
+        public void DeleteAccountFlag(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.Delete(
+                ticket, id);
+        }
+
+        #endregion
     }
 }

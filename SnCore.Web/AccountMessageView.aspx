@@ -34,6 +34,7 @@
      <div class="sncore_footer">
       <asp:HyperLink id="linkReply" runat="server" text="&#187; reply" />
       <asp:HyperLink id="linkMove" runat="server" text="&#187; move" />
+      <asp:HyperLink id="linkFlag" runat="server" text="&#187; spam" />
       <asp:LinkButton id="linkDelete" OnClick="linkDelete_Click" runat="server" text="&#187; delete" 
        OnClientClick="return confirm('Are you sure you want to do this?')" />
      </div>

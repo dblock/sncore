@@ -144,6 +144,8 @@
     <Compile Include="ManagedAccountFeedItemImgTest.cs" />
     <Compile Include="ManagedAccountFeedItemTest.cs" />
     <Compile Include="ManagedAccountFeedItemMediaTest.cs" />
+    <Compile Include="ManagedAccountFlagTest.cs" />
+    <Compile Include="ManagedAccountFlagTypeTest.cs" />
     <Compile Include="ManagedAccountFriendRequestTest.cs" />
     <Compile Include="ManagedAccountGroupAccountInvitationTest.cs" />
     <Compile Include="ManagedAccountGroupAccountRequestTest.cs" />

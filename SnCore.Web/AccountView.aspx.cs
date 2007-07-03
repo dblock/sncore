@@ -121,7 +121,7 @@ public partial class AccountView : Page
 
             string returnurl = Renderer.UrlEncode(string.Format("AccountView.aspx?id={0}", Account.Id));
 
-            linkNewMessage.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&ReturnUrl={1}&#edit",
+            linkNewMessage.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&ReturnUrl={1}",
                 Account.Id.ToString(), returnurl);
 
             linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
@@ -130,7 +130,7 @@ public partial class AccountView : Page
             discussionTags.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                 typeof(Account).Name, Account.Id, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
-            linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
+            linkLeaveTestimonial.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
                 discussionTags.DiscussionId, returnurl);
 
             redirect.AccountId = AccountId;

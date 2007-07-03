@@ -50,7 +50,7 @@ public partial class AccountMessageView : AuthenticatedPage
             messageFrom.Text = Renderer.Render(message.SenderAccountName);
             messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId);
             messageTo.Text = Renderer.Render(message.RecepientAccountName);
-            messageSent.Text = message.Sent.ToString();
+            messageSent.Text = SessionManager.ToAdjustedString(message.Sent);
             messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
             messageSubject.Text = Renderer.Render(message.Subject);
             messageBody.Text = base.RenderEx(message.Body);
@@ -58,11 +58,15 @@ public partial class AccountMessageView : AuthenticatedPage
             messageFrom.Visible = labelMessageFrom.Visible = (message.SenderAccountId != SessionManager.Account.Id);
             messageTo.Visible = labelMessageTo.Visible = (message.RecepientAccountId != SessionManager.Account.Id);
 
-            linkReply.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&pid={1}&ReturnUrl={2}#edit",
+            linkReply.NavigateUrl = string.Format("AccountMessageEdit.aspx?id={0}&pid={1}&ReturnUrl={2}",
                 message.SenderAccountId, message.Id, UrlEncode(Request.Url.PathAndQuery));
 
             linkMove.NavigateUrl = string.Format("AccountMessageMove.aspx?id={0}&ReturnUrl={1}",
                 message.Id, UrlEncode(ReturnUrl));
+
+            linkFlag.NavigateUrl = string.Format("AccountFlagEdit.aspx?aid={0}&url={1}&type=Spam&ReturnUrl={2}",
+                message.SenderAccountId, Renderer.UrlEncode(string.Format("AccountMessageView.aspx?id={0}", message.Id)),
+                Renderer.UrlEncode(Request.Url.PathAndQuery));
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));

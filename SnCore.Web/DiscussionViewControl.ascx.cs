@@ -74,7 +74,7 @@ public partial class DiscussionViewControl : Control
         PageManager.SetDefaultButton(search, panelSearch.Controls);
         if (!IsPostBack && DiscussionId > 0)
         {
-            postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
+            postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
                 DiscussionId, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
             linkRelRss.NavigateUrl = string.Format("DiscussionRss.aspx?id={0}", DiscussionId);

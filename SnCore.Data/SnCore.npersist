@@ -59,6 +59,8 @@
     <property name="RequesterAccountGroupAccountInvitations" table="AccountGroupAccountInvitation" id-columns="Requester_Id" list="true" item-type="AccountGroupAccountInvitation" slave="true" ref="ManyToOne" inverse="Requester" inherits-inverse="true" />
     <property name="AccountEventPictures" table="AccountEventPicture" id-columns="Account_Id" list="true" item-type="AccountEventPicture" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountRssWatchs" table="AccountRssWatch" id-columns="Account_Id" list="true" item-type="AccountRssWatch" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="AccountFlags" table="AccountFlag" id-columns="Account_Id" list="true" item-type="AccountFlag" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="FlaggedAccountAccountFlags" table="AccountFlag" id-columns="FlaggedAccount_Id" list="true" item-type="AccountFlag" slave="true" ref="ManyToOne" inverse="FlaggedAccount" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -243,6 +245,20 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Type" columns="Type" type="System.String" />
     <property name="Visible" columns="Visible" type="System.Boolean" />
+  </class>
+  <class name="AccountFlag" table="AccountFlag">
+    <property name="Id" id="true" columns="AccountFlag_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountFlags" type="Account" />
+    <property name="AccountFlagType" columns="AccountFlagType_Id" ref="OneToMany" inverse="AccountFlags" type="AccountFlagType" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="FlaggedAccount" columns="FlaggedAccount_Id" ref="OneToMany" inverse="FlaggedAccountAccountFlags" type="Account" />
+    <property name="Url" columns="Url" type="System.String" />
+  </class>
+  <class name="AccountFlagType" table="AccountFlagType">
+    <property name="Id" id="true" columns="AccountFlagType_Id" type="System.Int32" />
+    <property name="AccountFlags" table="AccountFlag" id-columns="AccountFlagType_Id" list="true" item-type="AccountFlag" slave="true" ref="ManyToOne" inverse="AccountFlagType" inherits-inverse="true" />
+    <property name="Name" columns="Name" type="System.String" />
   </class>
   <class name="AccountFriend" table="AccountFriend">
     <property name="Id" id="true" columns="AccountFriend_Id" type="System.Int32" />
@@ -1192,6 +1208,19 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Type" type="String" prec="128" length="256" scale="0" />
       <column name="Visible" type="Boolean" prec="1" length="1" scale="0" />
+    </table>
+    <table name="AccountFlag">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFlag_AccountFlag" />
+      <column name="AccountFlag_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="AccountFlagType_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountFlagType" primary-column="AccountFlagType_Id" foreign-key="FK_AccountFlag_AccountFlagType" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="FlaggedAccount_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFlag_AccountFlagged" />
+      <column name="Url" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
+    </table>
+    <table name="AccountFlagType">
+      <column name="AccountFlagType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
     </table>
     <table name="AccountFriend">
       <column name="AccountFriend_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

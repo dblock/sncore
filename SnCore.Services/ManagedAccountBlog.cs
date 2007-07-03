@@ -325,7 +325,11 @@ namespace SnCore.Services
         protected override void Check(TransitAccountBlog t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountBlogs);
+            if (t_instance.Id == 0)
+            {
+                GetQuota().Check<AccountBlog, ManagedAccount.QuotaExceededException>(
+                    mInstance.Account.AccountBlogs);
+            }
         }
     }
 }

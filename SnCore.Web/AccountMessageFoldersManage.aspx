@@ -115,12 +115,14 @@
            <%# base.Adjust(Eval("Sent")).ToString() %>
           </div>
           <div class="sncore_description">
-           <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+           <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
             &#187; read</a>
-           <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>#edit">
+           <a href="AccountMessageEdit.aspx?id=<%# Eval("SenderAccountId") %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
             &#187; reply</a>
            <a href="AccountMessageMove.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
             &#187; move</a>
+           <a href="AccountFlagEdit.aspx?aid=<%# Eval("SenderAccountId") %>&url=<%# Renderer.UrlEncode(string.Format("AccountMessageView.aspx?id={0}", Eval("Id"))) %>&type=Spam&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
+            &#187; spam</a>
            <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" OnClientClick="return confirm('Are you sure you want to do this?')" />
           </div>
          </td>

@@ -418,7 +418,8 @@ namespace SnCore.Services
         protected override void Check(TransitAccountRssWatch t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountRssWatchs);
+            if (t_instance.Id == 0) GetQuota().Check<AccountRssWatch, ManagedAccount.QuotaExceededException>(
+                mInstance.Account.AccountRssWatchs);
         }
 
         private RssFeed GetFeed()

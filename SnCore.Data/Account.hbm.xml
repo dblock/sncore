@@ -190,5 +190,13 @@
       <key column="Account_Id" />
       <one-to-many class="AccountRssWatch, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountFlags" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountFlag, SnCore.Data" />
+    </bag>
+    <bag lazy="true" name="FlaggedAccountAccountFlags" inverse="true">
+      <key column="FlaggedAccount_Id" />
+      <one-to-many class="AccountFlag, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

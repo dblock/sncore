@@ -396,7 +396,7 @@ namespace SnCore.Services
         public class QuotaExceededException : Exception
         {
             public QuotaExceededException()
-                : base("Quota exceeded")
+                : base("Quota exceeded. An administrator has been notified.")
             {
 
             }
@@ -613,6 +613,9 @@ namespace SnCore.Services
 
                 // delete blog authoring access
                 Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
+
+                // delete flags
+                Session.Delete(string.Format("from AccountFlag af where af.FlaggedAccount.Id = {0}", Id));
 
                 // delete account
                 base.Delete(sec);

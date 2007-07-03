@@ -270,5 +270,23 @@ namespace SnCore.Services
 
             Session.Delete(mInstance);
         }
+
+        protected override void Check(TransitAccountGroupAccountRequest t_instance, ManagedSecurityContext sec)
+        {
+            base.Check(t_instance, sec);
+
+            if (t_instance.Id == 0)
+            {
+                sec.CheckVerifiedEmail();
+
+                // check number of account friend requests
+                GetQuota().Check<AccountGroupAccountRequest, ManagedAccount.QuotaExceededException>(
+                    mInstance.Account.AccountGroupAccountRequests);
+
+                // check whether the sender was flagged
+                new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
+                    ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
+            }
+        }
     }
 }

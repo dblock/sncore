@@ -62,7 +62,7 @@ public partial class DiscussionFullViewControl : Control
             SessionManager.Ticket, DiscussionId, null);
         discussionView.DataBind();
 
-        postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}&#edit",
+        postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
             DiscussionId, Renderer.UrlEncode(ReturnUrl));
     }
 
@@ -136,7 +136,7 @@ public partial class DiscussionFullViewControl : Control
 
                 HtmlAnchor linkEdit = (HtmlAnchor)e.Item.FindControl("linkEdit");
                 linkEdit.Visible = canedit;
-                linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}&#edit",
+                linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}",
                     DiscussionId, id, Renderer.UrlEncode(ReturnUrl));
 
                 LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");

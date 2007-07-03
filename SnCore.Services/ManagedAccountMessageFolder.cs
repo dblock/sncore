@@ -367,7 +367,8 @@ namespace SnCore.Services
         protected override void Check(TransitAccountMessageFolder t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota().Check(mInstance.Account.AccountMessageFolders);
+            if (t_instance.Id == 0) GetQuota().Check<AccountMessageFolder, ManagedAccount.QuotaExceededException>(
+                mInstance.Account.AccountMessageFolders);
         }
 
         public static AccountMessageFolder FindRootFolder(ISession session, int account_id, string name)

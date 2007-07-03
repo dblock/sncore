@@ -306,7 +306,19 @@ namespace SnCore.Services
         protected override void Check(TransitAccountStory t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+
+            if (t_instance.Id == 0)
+            {
+                sec.CheckVerifiedEmail();
+
+                // check number of account friend requests
+                GetQuota().Check<AccountStory, ManagedAccount.QuotaExceededException>(
+                    mInstance.Account.AccountStories);
+
+                // check whether the sender was flagged
+                new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
+                    ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
+            }
         }
     }
 }

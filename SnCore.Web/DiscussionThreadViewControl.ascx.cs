@@ -136,7 +136,7 @@ public partial class DiscussionThreadViewControl : Control
 
                 HtmlAnchor linkEdit = (HtmlAnchor)e.Item.FindControl("linkEdit");
                 linkEdit.Visible = canedit;
-                linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}&#edit",
+                linkEdit.HRef = string.Format("DiscussionPost.aspx?did={0}&id={1}&ReturnUrl={2}",
                     DiscussionId, id, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
                 LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");

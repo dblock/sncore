@@ -249,7 +249,7 @@ namespace SnCore.Services.Tests
 
                 {
                     TransitBugQueryOptions qo = new TransitBugQueryOptions();
-                    IQuery query = Session.CreateSQLQuery(qo.GetQuery(Session), "Bug", typeof(Bug));
+                    IQuery query = Session.CreateSQLQuery(qo.GetQuery(Session)).AddEntity("Bug", typeof(Bug));
                     IList list = query.List();
                     Assert.AreEqual(0, list.Count, "Wrong count on query w/o a project.");
                 }

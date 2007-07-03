@@ -31,7 +31,8 @@ namespace SnCore.Services
             return new ManagedQuota();
         }
 
-        public void Check<TransitType>(IList<TransitType> collection)
+        public void Check<TransitType, ExceptionType>(IList<TransitType> collection) 
+            where ExceptionType : System.Exception, new()
         {
             if (collection == null || collection.Count == 0)
                 return;
@@ -40,7 +41,7 @@ namespace SnCore.Services
                 return;
 
             if (collection.Count >= mUpperLimit.Value)
-                throw new ManagedAccount.QuotaExceededException();            
+                throw new ExceptionType();
         }
     }
 }

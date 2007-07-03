@@ -289,7 +289,8 @@ namespace SnCore.Services
             if (t_instance.Id == 0)
             {
                 sec.CheckVerifiedEmail();
-                GetQuota().Check(mInstance.AccountEvent.AccountEventPictures);
+                GetQuota().Check<AccountEventPicture, ManagedAccount.QuotaExceededException>(
+                    mInstance.AccountEvent.AccountEventPictures);
             }
         }
 

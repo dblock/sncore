@@ -43,8 +43,8 @@
     </table>  
     <p>
      <a href="DiscussionThreadView.aspx?id=<% Response.Write(this.DiscussionPost.DiscussionThreadId); %>">&#187; Read Thread</a>
-     <a href="DiscussionPost.aspx?did=<% Response.Write(this.DiscussionPost.DiscussionId); %>&pid=<% Response.Write(this.DiscussionPost.Id); %>#edit">&#187; Reply</a>
-     <a href="DiscussionPost.aspx?did=<% Response.Write(this.DiscussionPost.DiscussionId); %>&pid=<% Response.Write(this.DiscussionPost.Id); %>&Quote=true#edit">&#187; Quote</a>
+     <a href="DiscussionPost.aspx?did=<% Response.Write(this.DiscussionPost.DiscussionId); %>&pid=<% Response.Write(this.DiscussionPost.Id); %>">&#187; Reply</a>
+     <a href="DiscussionPost.aspx?did=<% Response.Write(this.DiscussionPost.DiscussionId); %>&pid=<% Response.Write(this.DiscussionPost.Id); %>&Quote=true">&#187; Quote</a>
     </p>
    </td>
   </tr>

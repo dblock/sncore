@@ -2509,6 +2509,250 @@
       <s:element name="DeleteAccountEmailMessageResponse">
         <s:complexType />
       </s:element>
+      <s:element name="CreateOrUpdateAccountFlagType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="flagtype" type="tns:TransitAccountFlagType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFlagType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFlagType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFlagType" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountFlagTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFlagTypeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagTypeById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagTypeByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFlagTypeByIdResult" type="tns:TransitAccountFlagType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFlagTypesResult" type="tns:ArrayOfTransitAccountFlagType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFlagType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFlagType" nillable="true" type="tns:TransitAccountFlagType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFlagTypesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagTypesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFlagTypesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFlagType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFlagTypeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFlag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="flag" type="tns:TransitAccountFlag" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFlag">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFlag">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FlaggedAccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFlagType" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFlag" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountFlagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFlagResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFlagByIdResult" type="tns:TransitAccountFlag" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlags">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFlagsResult" type="tns:ArrayOfTransitAccountFlag" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFlag">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFlag" nillable="true" type="tns:TransitAccountFlag" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFlagsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFlagsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFlagsByAccountIdResult" type="tns:ArrayOfTransitAccountFlag" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByAccountIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByAccountIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFlagsByAccountIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByFlaggedAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByFlaggedAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFlagsByFlaggedAccountIdResult" type="tns:ArrayOfTransitAccountFlag" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByFlaggedAccountIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFlagsByFlaggedAccountIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFlagsByFlaggedAccountIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFlag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFlagResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginSoapIn">
@@ -3327,6 +3571,90 @@
   <wsdl:message name="DeleteAccountEmailMessageSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountEmailMessageResponse" />
   </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFlagTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFlagType" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFlagTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFlagTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagTypeByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagTypeById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagTypeByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagTypeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagTypesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagTypesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagTypesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagTypesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFlagTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFlagType" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFlagTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFlagTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFlagSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFlag" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFlagSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFlagResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlags" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByAccountIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByAccountIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByAccountIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByAccountIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByFlaggedAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByFlaggedAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByFlaggedAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByFlaggedAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByFlaggedAccountIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByFlaggedAccountIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFlagsByFlaggedAccountIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFlagsByFlaggedAccountIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFlagSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFlag" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFlagSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFlagResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
     <wsdl:operation name="Login">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login.</wsdl:documentation>
@@ -4007,6 +4335,76 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account e-mail message.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountEmailMessageSoapIn" />
       <wsdl:output message="tns:DeleteAccountEmailMessageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFlagType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an flag type.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFlagTypeSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFlagTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an flag type.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagTypeByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagTypeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all flag types.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagTypesSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all flag types count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagTypesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagTypesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFlagType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an flag type.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFlagTypeSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFlagTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFlag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Flag an account.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFlagSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFlagSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a flagged account.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlags">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account flags.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagsSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account flags count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account flags by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagsByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagsByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByAccountIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account flags count by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagsByAccountIdCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagsByAccountIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByFlaggedAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account flags by flagged account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagsByFlaggedAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagsByFlaggedAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByFlaggedAccountIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account flags count by flagged account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFlagsByFlaggedAccountIdCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFlagsByFlaggedAccountIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFlag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a flag.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFlagSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFlagSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
@@ -5235,6 +5633,132 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFlagType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFlagType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypeById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagTypeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagTypesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFlagType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFlagType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFlag">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFlag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlags">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByAccountIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByFlaggedAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByFlaggedAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByFlaggedAccountIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByFlaggedAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFlag">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFlag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -6455,6 +6979,132 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountEmailMessage">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountEmailMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFlagType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFlagType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypeById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagTypeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagTypesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagTypesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFlagType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFlagType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFlag">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFlag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlags">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlags" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByAccountIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByFlaggedAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByFlaggedAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFlagsByFlaggedAccountIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFlagsByFlaggedAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFlag">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFlag" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
