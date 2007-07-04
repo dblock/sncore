@@ -33,7 +33,8 @@ Follow the normal \ref install. Visual Studio will create the websites for you, 
 SnCore website running you're ready to go.
 
 On Windows Vista, edit Physical Path Credentials in Advanced Settings and set a specific account to run the virtual
-directory under and set r/w permissions for the <em>NETWORK SERVICE</em> account on the SnCore.Web/Bin directory.
+directory under and set r/w permissions for the <em>NETWORK SERVICE</em> account on the SnCore.Web/Bin and the 
+SnCore.Web/IsapiRewrite directories.
 
 \section dev_datalifecycle Data LifeCycle
 

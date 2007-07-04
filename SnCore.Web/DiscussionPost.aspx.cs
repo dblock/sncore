@@ -170,6 +170,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
         tw.DiscussionId = DiscussionId;
         SessionManager.CreateOrUpdate<TransitDiscussionPost>(
             tw, SessionManager.DiscussionService.CreateOrUpdateDiscussionPost);
+        SessionManager.InvalidateCache<TransitDiscussion>();
         Redirect(linkCancel.NavigateUrl);
     }
 

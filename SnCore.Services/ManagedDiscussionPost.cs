@@ -430,8 +430,10 @@ namespace SnCore.Services
 
             if (mInstance.Id == 0)
             {
+                // both discussion thread and discussion board are updated to simplify queries
                 mInstance.Created = mInstance.Modified;
                 mInstance.DiscussionThread.Modified = mInstance.Modified;
+                mInstance.DiscussionThread.Discussion.Modified = mInstance.Modified;
                 Session.Save(mInstance.DiscussionThread);
             }
             base.Save(sec);

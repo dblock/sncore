@@ -683,6 +683,8 @@ public class SessionManager
             return string.Format("{0} minute{1} ago", ts.Minutes, ts.Minutes != 1 ? "s" : string.Empty);
         else if (ts.TotalDays <= 1)
             return string.Format("{0} hour{1} ago", ts.Hours, ts.Hours != 1 ? "s" : string.Empty);
+        else if (ts.TotalDays < 2)
+            return "yesterday";
         else if (ts.TotalDays <= 7)
             return string.Format("{0} day{1} ago", ts.Days, ts.Days != 1 ? "s" : string.Empty);
         else

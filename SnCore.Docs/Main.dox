@@ -34,7 +34,6 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebTagWordService "Tag Word Services"
 \li \subpage SnCore::WebServices::WebSyndicationService "Syndication Services"
 \li \subpage SnCore::WebServices::WebPlaceService "Place Management Services"
-\li \subpage SnCore::BackEndServices::WebBackEndService "System Back-End Services"
 \li \subpage SnCore::WebServices::WebBlogService "Personal Blogging Services"
 \li \subpage SnCore::WebServices::WebStatsService "System Statistics Services"
 \li \subpage SnCore::WebServices::WebContentService "Content Management Services"
