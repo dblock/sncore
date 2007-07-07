@@ -28,6 +28,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebLocationServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfNeighborhood))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountCity))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCity))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfState))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCountry))]
@@ -68,6 +69,10 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         private System.Threading.SendOrPostCallback GetCityByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCitiesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountCitiesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountCitiesCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCitiesCountOperationCompleted;
         
@@ -200,6 +205,12 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         /// <remarks/>
         public event GetCitiesCompletedEventHandler GetCitiesCompleted;
+        
+        /// <remarks/>
+        public event GetAccountCitiesCompletedEventHandler GetAccountCitiesCompleted;
+        
+        /// <remarks/>
+        public event GetAccountCitiesCountCompletedEventHandler GetAccountCitiesCountCompleted;
         
         /// <remarks/>
         public event GetCitiesCountCompletedEventHandler GetCitiesCountCompleted;
@@ -816,6 +827,66 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             if ((this.GetCitiesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetCitiesCompleted(this, new GetCitiesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountCities", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountCity[] GetAccountCities(string ticket, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountCities", new object[] {
+                        ticket,
+                        options});
+            return ((TransitAccountCity[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountCitiesAsync(string ticket, ServiceQueryOptions options) {
+            this.GetAccountCitiesAsync(ticket, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountCitiesAsync(string ticket, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountCitiesOperationCompleted == null)) {
+                this.GetAccountCitiesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountCitiesOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountCities", new object[] {
+                        ticket,
+                        options}, this.GetAccountCitiesOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountCitiesOperationCompleted(object arg) {
+            if ((this.GetAccountCitiesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountCitiesCompleted(this, new GetAccountCitiesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountCitiesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountCitiesCount(string ticket) {
+            object[] results = this.Invoke("GetAccountCitiesCount", new object[] {
+                        ticket});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountCitiesCountAsync(string ticket) {
+            this.GetAccountCitiesCountAsync(ticket, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountCitiesCountAsync(string ticket, object userState) {
+            if ((this.GetAccountCitiesCountOperationCompleted == null)) {
+                this.GetAccountCitiesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountCitiesCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountCitiesCount", new object[] {
+                        ticket}, this.GetAccountCitiesCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountCitiesCountOperationCompleted(object arg) {
+            if ((this.GetAccountCitiesCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountCitiesCountCompleted(this, new GetAccountCitiesCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1599,6 +1670,85 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountCity))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountCity {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountCity : TransitServiceOfAccountCity {
+        
+        private string nameField;
+        
+        private string countryField;
+        
+        private string stateField;
+        
+        private int totalField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Total {
+            get {
+                return this.totalField;
+            }
+            set {
+                this.totalField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitCity))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
@@ -2185,6 +2335,58 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitCity[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountCitiesCompletedEventHandler(object sender, GetAccountCitiesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountCitiesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountCitiesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountCity[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountCity[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountCitiesCountCompletedEventHandler(object sender, GetAccountCitiesCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountCitiesCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountCitiesCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountCity.cs" />
     <Compile Include="Collection.cs" />
     <Compile Include="DomainClass.cs" />
     <Compile Include="DomainModel.cs" />
@@ -50,6 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="sp_column.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AccountCity.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnCore.Data\SnCore.Data.csproj">
+      <Project>{4A323F3C-0EAF-40C9-AB0A-7A03BD7438B8}</Project>
+      <Name>SnCore.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

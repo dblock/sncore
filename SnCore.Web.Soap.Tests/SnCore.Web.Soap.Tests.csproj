@@ -183,6 +183,7 @@
     <Compile Include="WebGroupService_AccountGroupPictureTest.cs" />
     <Compile Include="WebGroupService_AccountGroupPlaceTest.cs" />
     <Compile Include="WebGroupService_AccountGroupTest.cs" />
+    <Compile Include="WebLocationService_AccountCityTest.cs" />
     <Compile Include="WebMarketingService_CampaignTest.cs" />
     <Compile Include="WebMarketingServiceTest.cs" />
     <Compile Include="WebMarketingService_CampaignAccountRecepientTest.cs" />
@@ -977,6 +978,9 @@
     </None>
     <None Include="Web References\WebGroupService\WebGroupService.disco" />
     <None Include="Web References\WebGroupService\WebGroupService.wsdl" />
+    <None Include="Web References\WebLocationService\TransitAccountCity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebSyndicationService\TransitAccountRssWatch.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

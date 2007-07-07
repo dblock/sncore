@@ -167,6 +167,8 @@
        <li><a href="AccountMessageFoldersManage.aspx?folder=sent">Sent</a></li>
        <li><a href="AccountMessageFoldersManage.aspx?folder=trash">Trash</a></li>
       </ul>
+      <li><a href="AccountRedirectsManage.aspx">Redirects</a></li>
+      <li><a href="AccountFlagsManage.aspx">Reported Abuse</a></li>
       <li><a href="AccountDelete.aspx">Leave</a></li>
      </ul>
      <li><a href="Help.aspx">Help</a></li>
@@ -182,6 +184,7 @@
      <li><a href="SystemStatsHits.aspx">Statistics</a></li>
       <ul>
        <li><a href="RefererAccountsView.aspx">Top Traffickers</a></li>
+       <li><a href="AccountCitiesView.aspx">Top Cities</a></li>
        <li><a href="SystemStatsHits.aspx">Page Hits</a></li>
        <li><a href="SystemRefererHosts.aspx">Referer Hosts</a></li>
        <li><a href="SystemRefererQueries.aspx">Referer Queries</a></li>

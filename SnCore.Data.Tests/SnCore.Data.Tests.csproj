@@ -101,6 +101,7 @@
     <Compile Include="AccountAddressTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountCityTest.cs" />
     <Compile Include="AccountEmailMessageTest.cs" />
     <Compile Include="AccountEmailTest.cs">
       <SubType>Code</SubType>

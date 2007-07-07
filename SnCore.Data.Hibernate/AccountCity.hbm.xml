@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" schema="dbo">
+    <sql-query name="GetAccountCities">
+        <return-scalar column="Total" type="Int32"/>
+        <return-scalar column="City" type="String"/>
+        <return-scalar column="State_Id" type="Int32"/>
+        <return-scalar column="Country_Id" type="Int32"/>
+        select sum(1) AS 'Total', City, State_Id, Country_Id FROM Account WHERE City != '' AND Country_Id IS NOT NULL GROUP BY City, Country_Id, State_Id ORDER BY Total DESC
+    </sql-query>
+</hibernate-mapping>

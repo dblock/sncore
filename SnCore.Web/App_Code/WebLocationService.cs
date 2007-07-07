@@ -11,6 +11,7 @@ using NHibernate.Expression;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using SnCore.Tools.Web;
+using SnCore.Data.Hibernate;
 
 namespace SnCore.WebServices
 {
@@ -260,6 +261,27 @@ namespace SnCore.WebServices
             Order[] orders = { Order.Asc("Name") };
             return WebServiceImpl<TransitCity, ManagedCity, City>.GetList(
                 ticket, options, null, orders);
+        }
+
+        /// <summary>
+        /// Get all cities by their account sums.
+        /// </summary>
+        /// <returns>list of transit account cities</returns>
+        [WebMethod(Description = "Get all cities by atheir accounts.")]
+        public List<TransitAccountCity> GetAccountCities(string ticket, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountCity, ManagedAccountCity, AccountCity>.GetListFromNamedQuery(
+                ticket, options, "GetAccountCities");
+        }
+
+        /// <summary>
+        /// Get all cities by their account sums count.
+        /// </summary>
+        /// <returns>list of transit account cities</returns>
+        [WebMethod(Description = "Get all cities by atheir accounts count.")]
+        public int GetAccountCitiesCount(string ticket)
+        {
+            return GetAccountCities(ticket, null).Count;
         }
 
         /// <summary>

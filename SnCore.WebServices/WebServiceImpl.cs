@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SnCore.Services;
 using NHibernate;
+using NHibernate.Transform;
 using NHibernate.Expression;
 
 namespace SnCore.WebServices
@@ -188,6 +189,20 @@ namespace SnCore.WebServices
             }
         }
 
+        public static List<TransitType> GetListFromNamedQuery(string ticket, ServiceQueryOptions options, string namedquery, GetTransformedInstanceDelegate functor)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                IQuery query = session.GetNamedQuery(namedquery);
+                if (options != null && options.PageSize > 0) query.SetMaxResults(options.PageSize);
+                if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
+                query = query.SetResultTransformer(Transformers.AliasToBean(typeof(DataType)));
+                return GetTransformedList(session, sec, query.List<DataType>(), functor);
+            }
+        }
+
         public static List<TransitType> GetListFromIds(string ticket, ServiceQueryOptions options, string sqlquery)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
@@ -217,6 +232,11 @@ namespace SnCore.WebServices
                 if (options != null && options.FirstResult > 0) query.SetFirstResult(options.FirstResult);
                 return GetTransformedList(session, sec, query.List<DataType>(), functor);
             }
+        }
+
+        public static List<TransitType> GetListFromNamedQuery(string ticket, ServiceQueryOptions options, string namedquery)
+        {
+            return GetListFromNamedQuery(ticket, options, namedquery, GetTransformedInstanceFromDataType);
         }
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, ICriterion[] expressions, Order[] orders)
