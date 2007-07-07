@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="Search.aspx.cs" Inherits="Search" Title="Users" %>
+ CodeFile="Search.aspx.cs" Inherits="Search" Title="Search" %>
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
