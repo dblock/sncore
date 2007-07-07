@@ -28,7 +28,7 @@
   <div class="sncore_message">
    <div class="sncore_person">
     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
-     <img border="0" width="50px" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+     <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>&width=75&height=75" />
     </a>
    </div>
    <div class="sncore_header">

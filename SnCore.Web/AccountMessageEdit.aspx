@@ -18,7 +18,7 @@
       </div>
       <div class="sncore_person">
        <a runat="server" id="accountlink">
-        <asp:Image Width="50px" runat="server" ID="replytoImage" />
+        <asp:Image runat="server" ID="replytoImage" />
        </a>
       </div>
       <div class="sncore_header">
@@ -49,7 +49,9 @@
      <a runat="server" ID="linkAccountTo2">
       <asp:Image BorderStyle="None" ID="imageAccountTo" ImageUrl="AccountPictureThumbnail.aspx" runat="server" /><br />
      </a>
-     <asp:HyperLink ID="linkAccountTo" runat="server" />
+     <div class="sncore_link">
+      <asp:HyperLink ID="linkAccountTo" runat="server" />
+     </div>
     </td>
     <td>
      <table>

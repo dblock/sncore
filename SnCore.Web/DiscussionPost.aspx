@@ -20,7 +20,7 @@
        </div>
        <div class="sncore_person">
         <a runat="server" id="accountlink">
-         <asp:Image Width="50px" runat="server" ID="replytoImage" />
+         <asp:Image runat="server" ID="replytoImage" />
         </a>
        </div>
        <div class="sncore_header">

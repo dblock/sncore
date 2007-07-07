@@ -69,7 +69,8 @@ public partial class AccountFeedItemPicture : PicturePage
                 throw new Exception("Missing file data.");
             }
 
-            result.Bitmap = new ThumbnailBitmap(data, new Size(0, 0)).Bitmap;
+            result.Bitmap = new ThumbnailBitmap(new MemoryStream(data), new Size(0, 0), 
+                ThumbnailBitmap.s_FullSize, ThumbnailBitmap.s_ThumbnailSize).Bitmap;
 
             string created = (string)client.ResponseHeaders["Created"];
             if (string.IsNullOrEmpty(created)) created = (string)client.ResponseHeaders["Date"];

@@ -52,7 +52,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 return;
             }
 
-            imageAccountTo.ImageUrl = "AccountPictureThumbnail.aspx?id=" + ta.PictureId.ToString();
+            imageAccountTo.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", ta.PictureId);
             linkAccountTo.Text = Renderer.Render(ta.Name);
             linkAccountTo.NavigateUrl = linkAccountTo2.HRef = "AccountView.aspx?id=" + ta.Id.ToString();
             linkBack.NavigateUrl = ReturnUrl;
@@ -73,7 +73,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 messageFrom.Text = Renderer.Render(rp.SenderAccountName);
                 messageBody.Text = RenderEx(rp.Body);
                 messageSent.Text = rp.Sent.ToString();
-                replytoImage.ImageUrl = "AccountPictureThumbnail.aspx?id=" + rp.SenderAccountPictureId.ToString();
+                replytoImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", rp.SenderAccountPictureId);
                 messageSubject.Text = Renderer.Render(rp.Subject);
                 inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
 

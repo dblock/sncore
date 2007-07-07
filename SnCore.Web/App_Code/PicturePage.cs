@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.IO;
 using SnCore.Tools.Drawing;
+using System.Drawing;
 
 public abstract class PicturePage : Page
 {
@@ -58,6 +59,7 @@ public abstract class PicturePage : Page
     {
         try
         {
+            Nullable<Size> resize = Size;
             Nullable<DateTime> ims = IfModifiedSince;
 
             if (ims.HasValue)
@@ -85,7 +87,9 @@ public abstract class PicturePage : Page
                             p.Id = 0;
                             p.Created = p.Modified = DateTime.Now;
                             p.Name = Guid.NewGuid().ToString();
-                            p.Bitmap = ThumbnailBitmap.GetBitmapDataFromText("?", 72, 100, 150);
+                            if (!resize.HasValue) resize = new Size(100, 150);
+                            p.Bitmap = ThumbnailBitmap.GetBitmapDataFromText("?", 72, 
+                                resize.Value.Width, resize.Value.Height);
                         }
                     }
                     else
@@ -123,6 +127,22 @@ public abstract class PicturePage : Page
 
             p.Name = (string.IsNullOrEmpty(p.Name)) ? p.Id.ToString() + ".jpg" : p.Id.ToString() + "-" + p.Name;
 
+            if (resize.HasValue)
+            {
+                ThumbnailBitmap resized = new ThumbnailBitmap(new MemoryStream(p.Bitmap), new Size(0, 0),
+                    resize.Value, resize.Value);
+
+                switch (PageType)
+                {
+                    case PicturePageType.Bitmap:
+                        p.Bitmap = resized.Bitmap;
+                        break;
+                    case PicturePageType.Thumbnail:
+                        p.Bitmap = resized.Thumbnail;
+                        break;
+                }
+            }
+
             switch (PageType)
             {
                 case PicturePageType.Thumbnail:
@@ -150,6 +170,17 @@ public abstract class PicturePage : Page
             object duration = Request["CacheDuration"];
             if (duration == null) return 60;
             return int.Parse(duration.ToString());
+        }
+    }
+
+    public Nullable<Size> Size
+    {
+        get
+        {
+            object w = Request["Width"];
+            object h = Request["Height"];
+            if (w == null || h == null) return new Nullable<Size>();
+            return new Nullable<Size>(new Size(int.Parse(w.ToString()), int.Parse(h.ToString())));
         }
     }
 

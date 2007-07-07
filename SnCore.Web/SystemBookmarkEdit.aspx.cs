@@ -63,8 +63,10 @@ public partial class SystemBookmarkEdit : AuthenticatedPage
         t.Description = inputDescription.Text;
         t.Url = inputUrl.Text;
         t.Id = RequestId;
-        if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent, new Size(16, 16)).Bitmap;
-        if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16)).Bitmap;
+        if (inputFullBitmap.HasFile) t.FullBitmap = new ThumbnailBitmap(inputFullBitmap.FileContent, new Size(16, 16), 
+            ThumbnailBitmap.s_FullSize, ThumbnailBitmap.s_ThumbnailSize).Bitmap;
+        if (inputLinkBitmap.HasFile) t.LinkBitmap = new ThumbnailBitmap(inputLinkBitmap.FileContent, new Size(16, 16), 
+            ThumbnailBitmap.s_FullSize, ThumbnailBitmap.s_ThumbnailSize).Bitmap;
         SessionManager.CreateOrUpdate<TransitBookmark>(
             t, SessionManager.ObjectService.CreateOrUpdateBookmark);
         Redirect("SystemBookmarksManage.aspx");

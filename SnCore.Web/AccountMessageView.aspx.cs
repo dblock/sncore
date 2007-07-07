@@ -51,7 +51,7 @@ public partial class AccountMessageView : AuthenticatedPage
             messageTo.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.RecepientAccountId);
             messageTo.Text = Renderer.Render(message.RecepientAccountName);
             messageSent.Text = SessionManager.ToAdjustedString(message.Sent);
-            messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", message.SenderAccountPictureId);
+            messageSenderImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", message.SenderAccountPictureId);
             messageSubject.Text = Renderer.Render(message.Subject);
             messageBody.Text = base.RenderEx(message.Body);
 

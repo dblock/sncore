@@ -31,7 +31,7 @@
      <div>
       <asp:Image ID="imageKeen" ImageUrl="AccountPictureThumbnail.aspx" runat="server" />
      </div>
-     <div>
+     <div class="sncore_link">
       <asp:HyperLink ID="linkKeen" runat="server" />
      </div>
     </td>

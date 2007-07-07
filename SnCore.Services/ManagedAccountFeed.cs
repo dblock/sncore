@@ -738,8 +738,8 @@ namespace SnCore.Services
                         x_img.Visible = mInstance.PublishImgs;
 
                         // hide images smaller than the thumbnail size
-                        if (bitmap.Size.Height < ThumbnailBitmap.ThumbnailSize.Height
-                            || bitmap.Size.Width < ThumbnailBitmap.ThumbnailSize.Width)
+                        if (bitmap.FullSize.Height < ThumbnailBitmap.s_ThumbnailSize.Height
+                            || bitmap.FullSize.Width < ThumbnailBitmap.s_ThumbnailSize.Width)
                         {
                             x_img.Visible = false;
                         }

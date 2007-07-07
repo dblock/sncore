@@ -129,7 +129,7 @@
          <td width="150" align="center" valign="top">
           <div style="<%# GetPictureDisplayStyle((bool) Eval("Unread")) %>">
            <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>">
-            <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("SenderAccountPictureId") %>" style="height:50px;" />
+            <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("SenderAccountPictureId") %>&width=50&height=50" />
             <div class="sncore_link_description">
              <%# base.Render(Eval("SenderAccountName")) %>
             </div>

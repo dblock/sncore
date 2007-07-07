@@ -44,7 +44,7 @@ public partial class AccountFlagEdit : AuthenticatedPage
 
             linkKeen.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id.ToString());
             linkKeen.Text = Renderer.Render(account.Name);
-            imageKeen.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", account.PictureId);
+            imageKeen.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", account.PictureId);
 
             inputDescription.Text = string.Format("Dear Administrator,\n\nI would like to report {0} from {1}. Please take a look at {2}.\n\nThx\n{3}",
                 Renderer.Render(Request["type"]), Renderer.Render(account.Name), Renderer.Render(Request["url"]), Renderer.Render(SessionManager.Account.Name));

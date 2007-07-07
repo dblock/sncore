@@ -15,7 +15,7 @@
     <div class="sncore_message">
      <div class="sncore_person">
       <a runat="server" id="flagAccountImageLink">
-       <asp:Image Width="50px" runat="server" ID="flagAccountImage" />
+       <asp:Image runat="server" ID="flagAccountImage" />
       </a>
      </div>
      <div class="sncore_header">

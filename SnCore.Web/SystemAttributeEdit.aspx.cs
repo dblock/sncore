@@ -63,7 +63,8 @@ public partial class SystemAttributeEdit : AuthenticatedPage
         t.DefaultUrl = inputDefaultUrl.Text;
         t.DefaultValue = inputDefaultValue.Text;
         t.Id = RequestId;
-        if (inputBitmap.HasFile) t.Bitmap = new ThumbnailBitmap(inputBitmap.FileContent, new Size(16, 16)).Bitmap;
+        if (inputBitmap.HasFile) t.Bitmap = new ThumbnailBitmap(inputBitmap.FileContent, new Size(16, 16),
+            ThumbnailBitmap.s_FullSize, ThumbnailBitmap.s_ThumbnailSize).Bitmap;
         SessionManager.CreateOrUpdate<TransitAttribute>(
             t, SessionManager.ObjectService.CreateOrUpdateAttribute);
         Redirect("SystemAttributesManage.aspx");

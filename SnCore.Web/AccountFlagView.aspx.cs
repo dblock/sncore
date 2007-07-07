@@ -41,7 +41,7 @@ public partial class AccountFlagView : AuthenticatedPage
 
             flagAccountImageLink.HRef = linkAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", flag.AccountId);
             linkAccount.Text = Renderer.Render(flag.AccountName);
-            flagAccountImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}", flag.AccountPictureId);
+            flagAccountImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", flag.AccountPictureId);
             linkFlaggedAccount.NavigateUrl = string.Format("AccountView.aspx?id={0}", flag.FlaggedAccountId);
             linkFlaggedAccount.Text = Renderer.Render(flag.FlaggedAccountName);
             flagCreated.Text = SessionManager.ToAdjustedString(flag.Created);
