@@ -552,7 +552,7 @@ namespace SnCore.Services
                     TimeSpan delta = (mInstance.EndDateTime - mInstance.StartDateTime);
                     result.AppendFormat("Runs {0} to {1} ({2} hour{3}).",
                         start.ToString("f"),
-                        end.ToString(start.Date == end.Date ? "hh:mm tt" : "f"),
+                        end.ToString(start.Date == end.Date ? "h:mm tt" : "f"),
                         delta.TotalHours,
                         delta.TotalHours != 1 ? "s" : string.Empty);
                 }
@@ -561,20 +561,26 @@ namespace SnCore.Services
 
             if (mInstance.NoEndDateTime)
             {
-                result.AppendFormat("Begins at {0}:{1} ",
-                    start.TimeOfDay.Hours.ToString("00"), start.TimeOfDay.Minutes.ToString("00"));
+                result.AppendFormat("Begins at {0} ",
+                    start.ToString("h:mm tt"));
             }
             else
             {
-                result.AppendFormat("Occurs from {0}:{1} to {2}:{3} ",
-                    start.TimeOfDay.Hours.ToString("00"), start.TimeOfDay.Minutes.ToString("00"),
-                    end.TimeOfDay.Hours.ToString("00"), end.TimeOfDay.Minutes.ToString("00"));
+                result.AppendFormat("Occurs from {0} to {1} ",
+                    start.ToString("h:mm tt"), end.ToString("h:mm tt"));
             }
 
             switch ((RecurrencePattern)mInstance.RecurrencePattern)
             {
                 case RecurrencePattern.Daily_EveryNDays:
-                    result.AppendFormat("every {0} day(s)", mInstance.DailyEveryNDays);
+                    if (mInstance.DailyEveryNDays == 1)
+                    {
+                        result.Append("every day");
+                    }
+                    else
+                    {
+                        result.AppendFormat("every {0} days", mInstance.DailyEveryNDays);
+                    }
                     break;
                 case RecurrencePattern.Daily_EveryWeekday:
                     result.Append("every weekday");
