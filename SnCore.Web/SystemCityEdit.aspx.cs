@@ -44,6 +44,13 @@ public partial class SystemCityEdit : AuthenticatedPage
                 if (!string.IsNullOrEmpty(tc.State)) inputState.Items.FindByValue(tc.State).Selected = true;
                 sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
             }
+            else if (!string.IsNullOrEmpty(Request["city"]))
+            {
+                LocationSelectorCountryState ls = new LocationSelectorCountryState(
+                    this, true, inputCountry, inputState);
+                ls.SelectLocation(sender, new LocationEventArgs(Request));
+                inputName.Text = Request["city"];
+            }
             else
             {
                 inputCountry_SelectedIndexChanged(sender, e);
@@ -61,7 +68,7 @@ public partial class SystemCityEdit : AuthenticatedPage
     public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
     {
         inputState.DataSource = SessionManager.GetCollection<TransitState, string>(
-            inputCountry.SelectedValue, (ServiceQueryOptions) null,
+            inputCountry.SelectedValue, (ServiceQueryOptions)null,
             SessionManager.LocationService.GetStatesByCountryName);
         inputState.DataBind();
     }
@@ -74,7 +81,7 @@ public partial class SystemCityEdit : AuthenticatedPage
         tc.Tag = inputTag.Text;
         tc.Country = inputCountry.SelectedValue;
         tc.State = inputState.SelectedValue;
-        if (string.IsNullOrEmpty(tc.State) && inputState.Items.Count > 0)
+        if (string.IsNullOrEmpty(tc.State) && inputState.Items.Count > 1)
         {
             throw new Exception("State is required.");
         }
@@ -95,11 +102,29 @@ public partial class SystemCityEdit : AuthenticatedPage
     {
         switch (e.CommandName)
         {
-            case "Merge":
-                int count = SessionManager.LocationService.MergeCities(SessionManager.Ticket,
-                    RequestId, int.Parse(e.CommandArgument.ToString()));
-                ReportInfo(string.Format("Merged {0} records.", count));
-                mergeLookup_Click(source, e);
+            case "MergeThis":
+                {
+                    if (RequestId == 0) throw new Exception("You cannot merge a city that hasn't been saved.");
+                    int count = SessionManager.LocationService.MergeCities(SessionManager.Ticket,
+                        RequestId, int.Parse(e.CommandArgument.ToString()));
+                    ReportInfo(string.Format("Merged {0} records.", count));
+                    mergeLookup_Click(source, e);
+                }
+                break;
+            case "MergeTo":
+                {
+                    if (RequestId == 0)
+                    {
+                        int count = SessionManager.LocationService.MergeCitiesByName(SessionManager.Ticket,
+                            int.Parse(e.CommandArgument.ToString()), Request["city"], Request["state"], Request["country"]);
+                    }
+                    else
+                    {
+                        int count = SessionManager.LocationService.MergeCities(SessionManager.Ticket,
+                            int.Parse(e.CommandArgument.ToString()), RequestId);
+                    }
+                    Redirect("SystemCitiesManage.aspx");
+                }
                 break;
         }
     }

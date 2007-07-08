@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -240,17 +241,6 @@ namespace SnCore.Services
 
             City merge = Session.Load<City>(id);
 
-            // update places
-            if (merge.Places != null)
-            {
-                count += merge.Places.Count;
-                foreach (Place place in merge.Places)
-                {
-                    place.City = mInstance;
-                    Session.Save(place);
-                }
-            }
-
             // update accounts
             IList accounts = Session.CreateCriteria(typeof(Account))
                 .Add(Expression.Eq("City", merge.Name))
@@ -275,8 +265,85 @@ namespace SnCore.Services
                 Session.Save(accountaddress);
             }
 
+            // merge neighborhoods
+            foreach (Neighborhood nh in merge.Neighborhoods)
+            {
+                Neighborhood t_nh = Session.CreateCriteria(typeof(Neighborhood))
+                    .Add(Expression.Eq("City.Id", mInstance.Id))
+                    .Add(Expression.Eq("Name", nh.Name))
+                    .UniqueResult<Neighborhood>();
+
+                if (t_nh != null)
+                {
+                    ManagedNeighborhood m_nh = new ManagedNeighborhood(Session, t_nh);
+                    count += m_nh.Merge(sec, nh.Id);
+                }
+                else
+                {
+                    nh.City = mInstance;
+                    Session.Save(nh);
+                }
+            }
+
+            // merge places that don't have a neighborhood
+            if (merge.Places != null)
+            {
+                count += merge.Places.Count;
+                foreach (Place place in merge.Places)
+                {
+                    place.City = mInstance;
+                    Session.Save(place);
+                }
+            }
+
             Session.Delete(merge);
             return count;
+        }
+
+        public int Merge(ManagedSecurityContext sec, string name, string state, string country)
+        {
+            if (!sec.IsAdministrator())
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
+            int count = 0;
+
+            // update accounts
+            ICriteria accounts_criteria = Session.CreateCriteria(typeof(Account)).Add(Expression.Eq("City", name));
+            if (string.IsNullOrEmpty(state)) accounts_criteria.Add(Expression.IsNull("State")); else accounts_criteria.Add(Expression.Eq("State.Id", ManagedState.GetStateId(Session, state, country)));
+            if (string.IsNullOrEmpty(country)) accounts_criteria.Add(Expression.IsNull("Country")); else accounts_criteria.Add(Expression.Eq("Country.Id", ManagedCountry.GetCountryId(Session, country)));
+            IList<Account> accounts = accounts_criteria.List<Account>();
+            count += accounts.Count;
+            foreach (Account account in accounts)
+            {
+                account.City = mInstance.Name;
+                account.Country = mInstance.Country;
+                account.State = mInstance.State;
+                Session.Save(account);
+            }
+
+            // update account addresses
+            ICriteria accountaddresses_criteria = Session.CreateCriteria(typeof(AccountAddress)).Add(Expression.Eq("City", name));
+            if (string.IsNullOrEmpty(state)) accountaddresses_criteria.Add(Expression.IsNull("State")); else accountaddresses_criteria.Add(Expression.Eq("State.Id", ManagedState.GetStateId(Session, state, country)));
+            if (string.IsNullOrEmpty(country)) accountaddresses_criteria.Add(Expression.IsNull("Country")); else accountaddresses_criteria.Add(Expression.Eq("Country.Id", ManagedCountry.GetCountryId(Session, country)));
+            IList<AccountAddress> accountaddresses = accountaddresses_criteria.List<AccountAddress>();
+            count += accountaddresses.Count;
+            foreach (AccountAddress accountaddress in accountaddresses)
+            {
+                accountaddress.City = mInstance.Name;
+                accountaddress.Country = mInstance.Country;
+                accountaddress.State = mInstance.State;
+                Session.Save(accountaddress);
+            }
+
+            return count;
+        }
+
+        public override void Delete(ManagedSecurityContext sec)
+        {
+            Session.Delete(string.Format("FROM Neighborhood nh WHERE nh.City.Id = {0}", Id));
+            base.Delete(sec);
         }
 
         public override ACL GetACL(Type type)
@@ -284,6 +351,24 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             return acl;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            base.Save(sec);
+            
+            // update accounts to match spelling of this city
+            IList<Account> accounts = Session.CreateCriteria(typeof(Account))
+                .Add(Expression.Eq("City", mInstance.Name))
+                .Add(Expression.Eq("State", mInstance.State))
+                .Add(Expression.Eq("Country", mInstance.Country))
+                .List<Account>();
+
+            foreach (Account account in accounts)
+            {
+                account.City = mInstance.Name;
+                Session.Save(account);
+            }
         }
     }
 }

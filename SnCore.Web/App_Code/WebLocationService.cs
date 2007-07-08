@@ -483,6 +483,24 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Merge cities by city name.
+        /// <param name="ticket">authentication ticket</param>
+        /// </summary>
+        [WebMethod(Description = "Merge cities.")]
+        public int MergeCitiesByName(string ticket, int target_id, string name, string state, string country)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedCity m = new ManagedCity(session, target_id);
+                int result = m.Merge(sec, name, state, country);
+                session.Flush();
+                return result;
+            }
+        }
+
         #endregion
 
         #region Neighborhood

@@ -215,6 +215,7 @@ namespace SnCore.Services
                 foreach (Place place in merge.Places)
                 {
                     place.Neighborhood = mInstance;
+                    place.City = mInstance.City;
                     Session.Save(place);
                 }
             }

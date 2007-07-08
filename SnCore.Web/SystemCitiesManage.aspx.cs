@@ -64,7 +64,24 @@ public partial class SystemCitiesManage : AuthenticatedPage
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                 switch (e.CommandName)
                 {
-                    case "Delete":
+                    case "Delete":                        
+                        
+                        TransitCity t_city = SessionManager.LocationService.GetCityById(
+                            SessionManager.Ticket, id);
+                        
+                        // deleting a city may need to orphan places
+                        TransitPlaceQueryOptions t_placeoptions = new TransitPlaceQueryOptions();
+                        t_placeoptions.City = t_city.Name;
+                        t_placeoptions.Country = t_city.Country;
+                        t_placeoptions.State = t_city.State;
+                        t_placeoptions.PicturesOnly = false;
+                        int count = SessionManager.PlaceService.GetPlacesCount(SessionManager.Ticket, t_placeoptions);
+                        if (count > 0) 
+                        {
+                            throw new Exception(string.Format("You must orphan {0} place(s) to delete this city.",
+                                count));
+                        }
+
                         SessionManager.Delete<TransitCity>(id, SessionManager.LocationService.DeleteCity);
                         ReportInfo("City deleted.");
                         gridManage.CurrentPageIndex = 0;

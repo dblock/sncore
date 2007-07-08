@@ -100,5 +100,75 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
             EndPoint.DeleteCity(GetAdminTicket(), id1);
             // TODO: implement a GetCityById that doesn't throw, check that id2 doesn't exist any more
         }
+
+        [Test]
+        public void MergeCitiesWithMatchingNeighborhoodsTest()
+        {
+            // create two cities with a neighborhood each
+            // first city
+            WebLocationService.TransitCity t_instance1 = GetTransitInstance();
+            int id1 = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance1);
+            Console.WriteLine("City 1: {0}", id1);
+            WebLocationService.TransitNeighborhood t_nh1 = new WebLocationService.TransitNeighborhood();
+            t_nh1.City = t_instance1.Name;
+            t_nh1.Country = t_instance1.Country;
+            t_nh1.Name = GetNewString();
+            t_nh1.State = t_instance1.State;
+            int nh1 = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_nh1);
+            Console.WriteLine("Neighborhood 1: {0}", nh1);
+            // second city
+            WebLocationService.TransitCity t_instance2 = GetTransitInstance();
+            int id2 = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance2);
+            Console.WriteLine("City 2: {0}", id2);
+            WebLocationService.TransitNeighborhood t_nh2 = new WebLocationService.TransitNeighborhood();
+            t_nh2.City = t_instance2.Name;
+            t_nh2.Country = t_instance2.Country;
+            t_nh2.Name = t_nh1.Name; // same name, will get merged
+            t_nh2.State = t_instance2.State;
+            int nh2 = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_nh2);
+            Console.WriteLine("Neighborhood 2: {0}", nh2);
+            // merge the two
+            int count = EndPoint.MergeCities(GetAdminTicket(), id1, id2);
+            Console.WriteLine("Merge: {0} records.", count);
+            EndPoint.DeleteCity(GetAdminTicket(), id1);
+        }
+
+        [Test]
+        public void MergeCitiesWithNotMatchingNeighborhoodsTest()
+        {
+            // create two cities with a neighborhood each
+            // first city
+            WebLocationService.TransitCity t_instance1 = GetTransitInstance();
+            int id1 = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance1);
+            Console.WriteLine("City 1: {0}", id1);
+            WebLocationService.TransitNeighborhood t_nh1 = new WebLocationService.TransitNeighborhood();
+            t_nh1.City = t_instance1.Name;
+            t_nh1.Country = t_instance1.Country;
+            t_nh1.Name = GetNewString();
+            t_nh1.State = t_instance1.State;
+            int nh1 = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_nh1);
+            Console.WriteLine("Neighborhood 1: {0}", nh1);
+            // second city
+            WebLocationService.TransitCity t_instance2 = GetTransitInstance();
+            int id2 = EndPoint.CreateOrUpdateCity(GetAdminTicket(), t_instance2);
+            Console.WriteLine("City 2: {0}", id2);
+            WebLocationService.TransitNeighborhood t_nh2 = new WebLocationService.TransitNeighborhood();
+            t_nh2.City = t_instance2.Name;
+            t_nh2.Country = t_instance2.Country;
+            t_nh2.Name = GetNewString(); // new name
+            t_nh2.State = t_instance2.State;
+            int nh2 = EndPoint.CreateOrUpdateNeighborhood(GetAdminTicket(), t_nh2);
+            Console.WriteLine("Neighborhood 2: {0}", nh2);
+            // merge the two
+            int count = EndPoint.MergeCities(GetAdminTicket(), id1, id2);
+            Console.WriteLine("Merge: {0} records.", count);
+            EndPoint.DeleteCity(GetAdminTicket(), id1);
+        }
+
+        [Test]
+        protected void MergeCitiesByNameTest()
+        {
+
+        }
     }
 }

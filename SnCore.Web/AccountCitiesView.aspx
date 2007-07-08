@@ -34,10 +34,10 @@
  <asp:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" UpdateMode="Conditional">
   <ContentTemplate> 
     <SnCoreWebControls:PagedList runat="server" ID="gridManage" BorderWidth="0" AllowCustomPaging="true" 
-     RepeatRows="25" RepeatDirection="Vertical" ShowHeader="false" CssClass="sncore_table">
+     RepeatRows="25" RepeatDirection="Vertical" RepeatColumns="3" ShowHeader="false" CssClass="sncore_table">
      <ItemTemplate>
      <div>
-      <a href='AccountsView.aspx?city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>'>
+      <a href='AccountsView.aspx?city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>&pictures=false'>
        <%# base.Render(Eval("Name")) %>
       </a>
       (<%# base.Render(Eval("Total")) %>)
@@ -50,6 +50,11 @@
       <a href='AccountEventsView.aspx?city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>&pictures=false'>
        <img src="images/account/events.gif" style="border: none; vertical-align: middle;" alt="Places" />
       </a>
+      <span class="sncore_link" style='<%# SessionManager.IsAdministrator ? "" : "display: none;" %>'>
+       <a href='SystemCityEdit.aspx?id=<%# Eval("Id") %>&city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>'>
+        &#187; edit
+       </a>
+      </span>
      </div>
     </ItemTemplate>
    </SnCoreWebControls:PagedList>

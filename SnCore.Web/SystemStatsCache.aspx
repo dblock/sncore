@@ -10,6 +10,7 @@
    </div>
    <div class="sncore_h2sub">
     <asp:Label id="labelCacheDescription" runat="server" />
+    <asp:LinkButton id="linkFlush" runat="server" OnClick="linkFlush_Click" Text="&#187; flush" />
    </div>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridCache" PageSize="10"
     AllowPaging="true" AutoGenerateColumns="false" AllowCustomPaging="false" CssClass="sncore_account_table">

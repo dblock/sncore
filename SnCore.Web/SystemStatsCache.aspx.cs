@@ -214,4 +214,15 @@ public partial class SystemStatsCache : AuthenticatedPage
         gridRolledUpCache_OnGetDataSource(sender, e);
         gridRolledUpCache.DataBind();
     }
+
+    public void linkFlush_Click(object sender, EventArgs e)
+    {
+        IDictionaryEnumerator enumerator = SessionManager.Cache.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            SessionManager.Cache.Remove(enumerator.Key.ToString());
+        }
+
+        GetData(sender, e);
+    }
 }

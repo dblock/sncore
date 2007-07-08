@@ -111,8 +111,14 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn>
        <ItemTemplate>
-        <asp:LinkButton runat="server" id="merge" CommandName="Merge" 
-         Text="Merge" CommandArgument='<%# Eval("Id") %>' />
+        <asp:LinkButton runat="server" id="mergeThis" CommandName="MergeThis" 
+         Text="Merge This" CommandArgument='<%# Eval("Id") %>' />
+       </ItemTemplate>          
+      </asp:TemplateColumn>
+      <asp:TemplateColumn>
+       <ItemTemplate>
+        <asp:LinkButton runat="server" id="mergeTo" CommandName="MergeTo" 
+         Text="Merge To" CommandArgument='<%# Eval("Id") %>' />
        </ItemTemplate>          
       </asp:TemplateColumn>
      </Columns>

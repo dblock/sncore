@@ -103,11 +103,20 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
     {
         switch (e.CommandName)
         {
-            case "Merge":
-                int count = SessionManager.LocationService.MergeNeighborhoods(SessionManager.Ticket,
-                    RequestId, int.Parse(e.CommandArgument.ToString()));
-                ReportInfo(string.Format("Merged {0} records.", count));
-                mergeLookup_Click(source, e);
+            case "MergeThis":
+                {
+                    int count = SessionManager.LocationService.MergeNeighborhoods(SessionManager.Ticket,
+                        RequestId, int.Parse(e.CommandArgument.ToString()));
+                    ReportInfo(string.Format("Merged {0} records.", count));
+                    mergeLookup_Click(source, e);
+                }
+                break;
+            case "MergeTo":
+                {
+                    int count = SessionManager.LocationService.MergeNeighborhoods(SessionManager.Ticket,
+                        int.Parse(e.CommandArgument.ToString()), RequestId);
+                    Redirect("SystemNeighborhoodsManage.aspx");
+                }
                 break;
         }
     }
