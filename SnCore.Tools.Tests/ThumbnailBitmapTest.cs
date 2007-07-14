@@ -20,14 +20,14 @@ namespace SnCore.Tools.Tests
             Stream sm = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Tools.Tests.Images.test.jpg");
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
-            Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            Assert.AreEqual(new Size(768, 576), b.Size);
+            Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
+            Assert.AreEqual(new Size(768, 576), b.FullSize);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);
-            Console.WriteLine("Size: {0}x{1}", th.Size.Width, th.Size.Height);
+            Console.WriteLine("Size: {0}x{1}", th.FullSize.Width, th.FullSize.Height);
             // horizontal bitmap, thumbnail size assumes vertical, thumbnail adjusted to horizontal
-            Assert.AreEqual(new Size(ThumbnailBitmap.ThumbnailSize.Height, ThumbnailBitmap.ThumbnailSize.Width), th.Size);
+            Assert.AreEqual(new Size(ThumbnailBitmap.s_ThumbnailSize.Height, ThumbnailBitmap.s_ThumbnailSize.Width), th.FullSize);
         }
 
         [Test]
@@ -42,13 +42,13 @@ namespace SnCore.Tools.Tests
             sm.Seek(0, SeekOrigin.Begin);
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
-            Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            Assert.AreEqual(new Size(320, 240), b.Size);
+            Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
+            Assert.AreEqual(new Size(320, 240), b.FullSize);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);
-            Console.WriteLine("Size: {0}x{1}", th.Size.Width, th.Size.Height);
-            Assert.AreEqual(new Size(150, 100), th.Size);
+            Console.WriteLine("Size: {0}x{1}", th.FullSize.Width, th.FullSize.Height);
+            Assert.AreEqual(new Size(150, 100), th.FullSize);
             
             // make sure that the bitmap is still animated            
             Console.WriteLine("Bytes: {0}", b.Bitmap.Length);
@@ -69,14 +69,14 @@ namespace SnCore.Tools.Tests
             Stream sm = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Tools.Tests.Images.test.gif");
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
-            Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            Assert.AreEqual(new Size(592, 350), b.Size);
+            Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
+            Assert.AreEqual(new Size(592, 350), b.FullSize);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);
-            Console.WriteLine("Size: {0}x{1}", th.Size.Width, th.Size.Height);
+            Console.WriteLine("Size: {0}x{1}", th.FullSize.Width, th.FullSize.Height);
             // horizontal bitmap, thumbnail size assumes vertical, thumbnail adjusted to horizontal
-            Assert.AreEqual(new Size(150, 100), th.Size);
+            Assert.AreEqual(new Size(150, 100), th.FullSize);
         }
 
         [Test, ExpectedException(typeof(FormatException))]
@@ -84,7 +84,7 @@ namespace SnCore.Tools.Tests
         {
             MemoryStream s = new MemoryStream();
             ThumbnailBitmap b = new ThumbnailBitmap(s);
-            Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
+            Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
         }
 
         [Test, ExpectedException(typeof(InvalidImageSizeException))]
@@ -100,7 +100,7 @@ namespace SnCore.Tools.Tests
             // load in ThumnailBitmap
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
-            Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
+            Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
         }
 
         [Test]
@@ -116,8 +116,8 @@ namespace SnCore.Tools.Tests
             // load in ThumnailBitmap
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
-            Console.WriteLine("Size: {0}x{1}", b.Size.Width, b.Size.Height);
-            // Assert.AreEqual(b.Size, new Size(227, 227));
+            Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
+            // Assert.AreEqual(b.FullSize, new Size(227, 227));
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             // reload in decoder, verify transparency
