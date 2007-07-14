@@ -947,10 +947,7 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);
-                string emailaddress = c.Verify(password, code);
-                SnCore.Data.Hibernate.Session.Flush();
-                return emailaddress;
+                return ManagedAccountEmailConfirmation.Verify(session, password, id, code);
             }
         }
 

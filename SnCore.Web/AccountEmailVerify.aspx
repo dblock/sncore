@@ -33,6 +33,15 @@
     </td>
    </tr>
    <tr>
+    <td class="sncore_form_label">
+    </td>
+    <td class="sncore_form_value">
+     <div class="sncore_link">
+      <a href="AccountResetPassword.aspx">&#187; forgot password</a>
+     </div>
+    </td>
+   </tr>
+   <tr>
     <td>
     </td>
     <td class="sncore_form_value">

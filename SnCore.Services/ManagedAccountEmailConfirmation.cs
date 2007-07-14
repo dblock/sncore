@@ -79,7 +79,7 @@ namespace SnCore.Services
             }
 
             public InvalidCodeException(string code)
-                : base("Invalid Code")
+                : base(string.Format("The verification code '{0}' is invalid", code))
             {
                 Code = code;
             }
@@ -113,7 +113,7 @@ namespace SnCore.Services
         {
             if (mInstance.AccountEmail.Account.Password != ManagedAccount.GetPasswordHash(password))
             {
-                throw new ManagedAccount.AccessDeniedException();
+                throw new ManagedAccount.InvalidPasswordException();
             }
 
             return Verify(code);
@@ -172,6 +172,23 @@ namespace SnCore.Services
             // user himself cannot see the e-mail confirmations, shouldn't be able to retrieve the code
             // acl.Add(new ACLAccount(mInstance.AccountEmail.Account, DataOperation.All));
             return acl;
+        }
+
+        public static string Verify(ISession session, string password, int id, string code)
+        {
+            AccountEmailConfirmation confirmation = session.CreateCriteria(typeof(AccountEmailConfirmation))
+                .Add(Expression.Eq("Id", id))
+                .UniqueResult<AccountEmailConfirmation>();
+
+            if (confirmation == null)
+            {
+                throw new Exception("Error locating confirmation number. Have you already successfully confirmed your e-mail address?");
+            }
+
+            ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);
+            string emailaddress = c.Verify(password, code);
+            SnCore.Data.Hibernate.Session.Flush();
+            return emailaddress;
         }
     }
 }

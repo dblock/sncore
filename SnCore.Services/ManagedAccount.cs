@@ -338,6 +338,15 @@ namespace SnCore.Services
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
 
+        public class InvalidPasswordException : Exception
+        {
+            public InvalidPasswordException()
+                : base("Invalid password")
+            {
+
+            }
+        }
+
         public class InvalidUsernamePasswordException : Exception
         {
             public InvalidUsernamePasswordException() 
