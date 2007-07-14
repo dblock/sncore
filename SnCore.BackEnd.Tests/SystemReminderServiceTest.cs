@@ -164,5 +164,11 @@ namespace SnCore.BackEnd.Tests
         {
             service.RunSubscriptions(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
+
+        [Test]
+        public void TestRunCleanupRefererHosts()
+        {
+            service.RunCleanupRefererHosts(Session, ManagedAccount.GetAdminSecurityContext(Session));
+        }
     }
 }

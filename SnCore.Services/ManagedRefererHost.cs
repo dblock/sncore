@@ -221,6 +221,13 @@ namespace SnCore.Services
                 .Add(Expression.Eq("Host", host))
                 .UniqueResult();
 
+            if (h == null && host.StartsWith("www."))
+            {
+                h = (RefererHost)session.CreateCriteria(typeof(RefererHost))
+                    .Add(Expression.Eq("Host", host.Substring("www.".Length)))
+                    .UniqueResult();
+            }
+
             if (h == null)
             {
                 h = new RefererHost();

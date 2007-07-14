@@ -34,6 +34,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunInvitationReminders));
             AddJob(new SessionJobDelegate(RunSystemReminders));
             AddJob(new SessionJobDelegate(RunUpdateAccountCounters));
+            AddJob(new SessionJobDelegate(RunCleanupRefererHosts));
         }
 
         public void RunUpdateAccountCounters(ISession session, ManagedSecurityContext sec)
@@ -310,6 +311,16 @@ namespace SnCore.BackEndServices
 
                 Thread.Sleep(1000 * InterruptInterval);
             }
+        }
+
+        public void RunCleanupRefererHosts(ISession session, ManagedSecurityContext sec)
+        {
+            session.Delete(string.Format(
+                "FROM RefererHost rh " +
+                " WHERE rh.Total < 3 " +
+                " AND NOT EXISTS ( FROM RefererAccount ra WHERE ra.RefererHost = rh ) " +
+                " AND rh.Updated < '{0}'", DateTime.UtcNow.AddMonths(-1)));
+            session.Flush();
         }
     }
 }
