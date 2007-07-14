@@ -82,3 +82,8 @@ UPDATE dbo.AccountFeed SET UpdateFrequency = 12 WHERE UpdateFrequency = 0
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Schedule]') AND name = N'NoEndDateTime')
 ALTER TABLE dbo.Schedule ADD [NoEndDateTime] bit NOT NULL DEFAULT 0
 GO
+-- set precompute data to 1 for faster FREETEXTTABLE queries
+EXEC sp_configure 'precompute rank', '1';
+GO
+RECONFIGURE;
+GO
