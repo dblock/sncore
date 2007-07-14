@@ -44,6 +44,7 @@ namespace SnCore.Data.Script
                 scripter.Options.IncludeIfNotExists = true;
 
                 UrnCollection c = new UrnCollection();
+                UrnCollection fk = new UrnCollection();
 
                 List<Table> tables = new List<Table>();
                 IEnumerator e = db.Tables.GetEnumerator();
@@ -61,12 +62,17 @@ namespace SnCore.Data.Script
                     foreach (Index index in tb.Indexes)
                         c.Add(index.Urn);
 
+                    // foreign keys are added last since tables are sorted in alphabetical order
+                    // target table may not exist during creation if foreign keys are set before all tables are created
                     foreach (ForeignKey key in tb.ForeignKeys)
-                        c.Add(key.Urn);
+                        fk.Add(key.Urn);
 
                     if (tb.FullTextIndex != null)
                         c.Add(tb.FullTextIndex.Urn);
                 }
+
+                c.AddRange(fk);
+
                 scripter.ScriptingProgress += new ProgressReportEventHandler(scripter_ScriptingProgress);
                 scripter.ScriptingError += new ScriptingErrorEventHandler(scripter_ScriptingError);
                 scripter.Script(c);

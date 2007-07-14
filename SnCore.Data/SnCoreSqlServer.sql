@@ -53,18 +53,6 @@ ALTER TABLE [dbo].[Account] ADD  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
-ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_Country] FOREIGN KEY([Country_Id])
-REFERENCES [dbo].[Country] ([Country_Id])
-GO
-ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_Country]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
-ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_State] FOREIGN KEY([State_Id])
-REFERENCES [dbo].[State] ([State_Id])
-GO
-ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_State]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Account]'))
 CREATE FULLTEXT INDEX ON [dbo].[Account](
 [Name] LANGUAGE [English])
@@ -103,25 +91,6 @@ ALTER TABLE [dbo].[AccountAddress] ADD  CONSTRAINT [PK_AccountAddress] PRIMARY K
 (
 	[AccountAddress_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAddress_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
-ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_AccountAddress_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_AccountAddress_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Address_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
-ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_Address_Country] FOREIGN KEY([Country_Id])
-REFERENCES [dbo].[Country] ([Country_Id])
-GO
-ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_Address_Country]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Address_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
-ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_Address_State] FOREIGN KEY([State_Id])
-REFERENCES [dbo].[State] ([State_Id])
-GO
-ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_Address_State]
 GO
 SET ANSI_NULLS ON
 GO
@@ -177,20 +146,6 @@ CREATE NONCLUSTERED INDEX [UK_AccountAttribute] ON [dbo].[AccountAttribute]
 	[Attribute_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAttribute_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAttribute]'))
-ALTER TABLE [dbo].[AccountAttribute]  WITH CHECK ADD  CONSTRAINT [FK_AccountAttribute_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAttribute_Attribute]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAttribute]'))
-ALTER TABLE [dbo].[AccountAttribute]  WITH CHECK ADD  CONSTRAINT [FK_AccountAttribute_Attribute] FOREIGN KEY([Attribute_Id])
-REFERENCES [dbo].[Attribute] ([Attribute_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Attribute]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -242,13 +197,6 @@ ALTER TABLE [dbo].[AccountBlog] ADD  CONSTRAINT [UK_AccountBlog] UNIQUE NONCLUST
 	[Name] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlog_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlog]'))
-ALTER TABLE [dbo].[AccountBlog]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountBlog] CHECK CONSTRAINT [FK_AccountBlog_AccountBlog]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -289,19 +237,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountBlogAuthor] ON [dbo].[AccountBlogAut
 	[Account_Id] ASC,
 	[AccountBlog_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogAuthor_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogAuthor]'))
-ALTER TABLE [dbo].[AccountBlogAuthor]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogAuthor_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountBlogAuthor] CHECK CONSTRAINT [FK_AccountBlogAuthor_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogAuthor_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogAuthor]'))
-ALTER TABLE [dbo].[AccountBlogAuthor]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogAuthor_AccountBlog] FOREIGN KEY([AccountBlog_Id])
-REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountBlogAuthor] CHECK CONSTRAINT [FK_AccountBlogAuthor_AccountBlog]
 GO
 SET ANSI_NULLS ON
 GO
@@ -354,13 +289,6 @@ ALTER TABLE [dbo].[AccountBlogPost] ADD  CONSTRAINT [PK_AccountBlogPost] PRIMARY
 	[AccountBlogPost_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogPost_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
-ALTER TABLE [dbo].[AccountBlogPost]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogPost_AccountBlog] FOREIGN KEY([AccountBlog_Id])
-REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountBlogPost] CHECK CONSTRAINT [FK_AccountBlogPost_AccountBlog]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountBlogPost](
 [Body] LANGUAGE [English], 
@@ -411,13 +339,6 @@ ALTER TABLE [dbo].[AccountContent] ADD  CONSTRAINT [PK_AccountContent] PRIMARY K
 	[AccountContent_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContent_AccountContentGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContent]'))
-ALTER TABLE [dbo].[AccountContent]  WITH CHECK ADD  CONSTRAINT [FK_AccountContent_AccountContentGroup] FOREIGN KEY([AccountContentGroup_Id])
-REFERENCES [dbo].[AccountContentGroup] ([AccountContentGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountContent] CHECK CONSTRAINT [FK_AccountContent_AccountContentGroup]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -445,13 +366,6 @@ ALTER TABLE [dbo].[AccountContentGroup] ADD  CONSTRAINT [PK_AccountContentGroup]
 (
 	[AccountContentGroup_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContentGroup_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]'))
-ALTER TABLE [dbo].[AccountContentGroup]  WITH CHECK ADD  CONSTRAINT [FK_AccountContentGroup_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountContentGroup] CHECK CONSTRAINT [FK_AccountContentGroup_Account]
 GO
 SET ANSI_NULLS ON
 GO
@@ -492,13 +406,6 @@ ALTER TABLE [dbo].[AccountEmail] ADD  CONSTRAINT [UK_AccountEmail] UNIQUE NONCLU
 	[Address] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
-ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountEmail] CHECK CONSTRAINT [FK_AccountEmail_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -532,13 +439,6 @@ ALTER TABLE [dbo].[AccountEmailConfirmation] ADD  CONSTRAINT [UK_AccountEmailCon
 	[AccountEmail_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmailConfirmation_AccountEmail]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmailConfirmation]'))
-ALTER TABLE [dbo].[AccountEmailConfirmation]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmailConfirmation_AccountEmail] FOREIGN KEY([AccountEmail_Id])
-REFERENCES [dbo].[AccountEmail] ([AccountEmail_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountEmailConfirmation] CHECK CONSTRAINT [FK_AccountEmailConfirmation_AccountEmail]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -569,13 +469,6 @@ ALTER TABLE [dbo].[AccountEmailMessage] ADD  CONSTRAINT [PK_AccountEmailMessage]
 (
 	[AccountEmailMessage_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmailMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmailMessage]'))
-ALTER TABLE [dbo].[AccountEmailMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmailMessage_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountEmailMessage] CHECK CONSTRAINT [FK_AccountEmailMessage_Account]
 GO
 SET ANSI_NULLS ON
 GO
@@ -610,31 +503,6 @@ ALTER TABLE [dbo].[AccountEvent] ADD  CONSTRAINT [PK_AccountEvent] PRIMARY KEY C
 (
 	[AccountEvent_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
-ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_AccountEventType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
-ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_AccountEventType] FOREIGN KEY([AccountEventType_Id])
-REFERENCES [dbo].[AccountEventType] ([AccountEventType_Id])
-GO
-ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_AccountEventType]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
-ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-GO
-ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_Place]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_Schedule]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
-ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_Schedule] FOREIGN KEY([Schedule_Id])
-REFERENCES [dbo].[Schedule] ([Schedule_Id])
-GO
-ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_Schedule]
 GO
 SET ANSI_NULLS ON
 GO
@@ -691,19 +559,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountEventPicture] ON [dbo].[AccountEvent
 	[AccountEvent_Id] ASC,
 	[Name] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEventPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]'))
-ALTER TABLE [dbo].[AccountEventPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountEventPicture_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountEventPicture] CHECK CONSTRAINT [FK_AccountEventPicture_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEventPicture_AccountEvent]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]'))
-ALTER TABLE [dbo].[AccountEventPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountEventPicture_AccountEvent] FOREIGN KEY([AccountEvent_Id])
-REFERENCES [dbo].[AccountEvent] ([AccountEvent_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountEventPicture] CHECK CONSTRAINT [FK_AccountEventPicture_AccountEvent]
 GO
 SET ANSI_NULLS ON
 GO
@@ -773,19 +628,6 @@ ALTER TABLE [dbo].[AccountFeed] ADD  CONSTRAINT [UK_AccountFeed] UNIQUE NONCLUST
 	[Name] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeed_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeed]'))
-ALTER TABLE [dbo].[AccountFeed]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeed_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountFeed] CHECK CONSTRAINT [FK_AccountFeed_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeed_FeedType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeed]'))
-ALTER TABLE [dbo].[AccountFeed]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeed_FeedType] FOREIGN KEY([FeedType_Id])
-REFERENCES [dbo].[FeedType] ([FeedType_Id])
-GO
-ALTER TABLE [dbo].[AccountFeed] CHECK CONSTRAINT [FK_AccountFeed_FeedType]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -835,13 +677,6 @@ ALTER TABLE [dbo].[AccountFeedItem] ADD  CONSTRAINT [PK_AccountFeedItem] PRIMARY
 	[AccountFeedItem_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItem_AccountFeed]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItem]'))
-ALTER TABLE [dbo].[AccountFeedItem]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItem_AccountFeed] FOREIGN KEY([AccountFeed_Id])
-REFERENCES [dbo].[AccountFeed] ([AccountFeed_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountFeedItem] CHECK CONSTRAINT [FK_AccountFeedItem_AccountFeed]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountFeedItem]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountFeedItem](
 [Description] LANGUAGE [English], 
@@ -889,13 +724,6 @@ ALTER TABLE [dbo].[AccountFeedItemImg] ADD  CONSTRAINT [UK_AccountFeedItemImg] U
 (
 	[Url] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItemImg_AccountFeedItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItemImg]'))
-ALTER TABLE [dbo].[AccountFeedItemImg]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItemImg_AccountFeedItem] FOREIGN KEY([AccountFeedItem_Id])
-REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountFeedItemImg] CHECK CONSTRAINT [FK_AccountFeedItemImg_AccountFeedItem]
 GO
 SET ANSI_NULLS ON
 GO
@@ -966,13 +794,6 @@ ALTER TABLE [dbo].[AccountFeedItemMedia] ADD  CONSTRAINT [PK_AccountFeedItemMedi
 	[AccountFeedItemMedia_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItemVideo_AccountFeedItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItemMedia]'))
-ALTER TABLE [dbo].[AccountFeedItemMedia]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItemVideo_AccountFeedItem] FOREIGN KEY([AccountFeedItem_Id])
-REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountFeedItemMedia] CHECK CONSTRAINT [FK_AccountFeedItemVideo_AccountFeedItem]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1024,25 +845,6 @@ ALTER TABLE [dbo].[AccountFlag] ADD  CONSTRAINT [UK_AccountFlag] UNIQUE NONCLUST
 	[Account_Id] ASC,
 	[FlaggedAccount_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFlag_AccountFlag]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFlag]'))
-ALTER TABLE [dbo].[AccountFlag]  WITH CHECK ADD  CONSTRAINT [FK_AccountFlag_AccountFlag] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountFlag] CHECK CONSTRAINT [FK_AccountFlag_AccountFlag]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFlag_AccountFlagged]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFlag]'))
-ALTER TABLE [dbo].[AccountFlag]  WITH CHECK ADD  CONSTRAINT [FK_AccountFlag_AccountFlagged] FOREIGN KEY([FlaggedAccount_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountFlag] CHECK CONSTRAINT [FK_AccountFlag_AccountFlagged]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFlag_AccountFlagType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFlag]'))
-ALTER TABLE [dbo].[AccountFlag]  WITH CHECK ADD  CONSTRAINT [FK_AccountFlag_AccountFlagType] FOREIGN KEY([AccountFlagType_Id])
-REFERENCES [dbo].[AccountFlagType] ([AccountFlagType_Id])
-GO
-ALTER TABLE [dbo].[AccountFlag] CHECK CONSTRAINT [FK_AccountFlag_AccountFlagType]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1112,18 +914,6 @@ ALTER TABLE [dbo].[AccountFriend] ADD  CONSTRAINT [UK_AccountFriend] UNIQUE NONC
 	[Keen_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriend_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriend]'))
-ALTER TABLE [dbo].[AccountFriend]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriend_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountFriend] CHECK CONSTRAINT [FK_AccountFriend_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriend_Account1]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriend]'))
-ALTER TABLE [dbo].[AccountFriend]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriend_Account1] FOREIGN KEY([Keen_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountFriend] CHECK CONSTRAINT [FK_AccountFriend_Account1]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1161,18 +951,6 @@ ALTER TABLE [dbo].[AccountFriendRequest] ADD  CONSTRAINT [UK_AccountFriendReques
 	[Account_Id] ASC,
 	[Keen_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriendRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriendRequest]'))
-ALTER TABLE [dbo].[AccountFriendRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriendRequest_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountFriendRequest] CHECK CONSTRAINT [FK_AccountFriendRequest_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriendRequest_Account1]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriendRequest]'))
-ALTER TABLE [dbo].[AccountFriendRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriendRequest_Account1] FOREIGN KEY([Keen_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountFriendRequest] CHECK CONSTRAINT [FK_AccountFriendRequest_Account1]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1261,19 +1039,6 @@ ALTER TABLE [dbo].[AccountGroupAccount] ADD  CONSTRAINT [UK_AccountGroupAccount]
 	[AccountGroup_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccount_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccount]'))
-ALTER TABLE [dbo].[AccountGroupAccount]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccount_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountGroupAccount] CHECK CONSTRAINT [FK_AccountGroupAccount_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccount_Group]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccount]'))
-ALTER TABLE [dbo].[AccountGroupAccount]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccount_Group] FOREIGN KEY([AccountGroup_Id])
-REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountGroupAccount] CHECK CONSTRAINT [FK_AccountGroupAccount_Group]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1313,25 +1078,6 @@ ALTER TABLE [dbo].[AccountGroupAccountInvitation] ADD  CONSTRAINT [UK_AccountGro
 	[AccountGroup_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountInvitation]'))
-ALTER TABLE [dbo].[AccountGroupAccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountInvitation_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountGroupAccountInvitation] CHECK CONSTRAINT [FK_AccountGroupAccountInvitation_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountInvitation_AccountGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountInvitation]'))
-ALTER TABLE [dbo].[AccountGroupAccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountInvitation_AccountGroup] FOREIGN KEY([AccountGroup_Id])
-REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountGroupAccountInvitation] CHECK CONSTRAINT [FK_AccountGroupAccountInvitation_AccountGroup]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountInvitation_RequesterAccount]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountInvitation]'))
-ALTER TABLE [dbo].[AccountGroupAccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountInvitation_RequesterAccount] FOREIGN KEY([Requester_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountGroupAccountInvitation] CHECK CONSTRAINT [FK_AccountGroupAccountInvitation_RequesterAccount]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1369,19 +1115,6 @@ ALTER TABLE [dbo].[AccountGroupAccountRequest] ADD  CONSTRAINT [UK_AccountGroupA
 	[AccountGroup_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountRequest]'))
-ALTER TABLE [dbo].[AccountGroupAccountRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountRequest_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountGroupAccountRequest] CHECK CONSTRAINT [FK_AccountGroupAccountRequest_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountRequest_AccountGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountRequest]'))
-ALTER TABLE [dbo].[AccountGroupAccountRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountRequest_AccountGroup] FOREIGN KEY([AccountGroup_Id])
-REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
-GO
-ALTER TABLE [dbo].[AccountGroupAccountRequest] CHECK CONSTRAINT [FK_AccountGroupAccountRequest_AccountGroup]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1409,19 +1142,6 @@ ALTER TABLE [dbo].[AccountGroupPicture] ADD  CONSTRAINT [PK_AccountGroupPicture]
 (
 	[AccountGroupPicture_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]'))
-ALTER TABLE [dbo].[AccountGroupPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPicture_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[AccountGroupPicture] CHECK CONSTRAINT [FK_AccountGroupPicture_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPicture_Group]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]'))
-ALTER TABLE [dbo].[AccountGroupPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPicture_Group] FOREIGN KEY([AccountGroup_Id])
-REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountGroupPicture] CHECK CONSTRAINT [FK_AccountGroupPicture_Group]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1458,19 +1178,6 @@ ALTER TABLE [dbo].[AccountGroupPlace] ADD  CONSTRAINT [UK_AccountGroupPlace] UNI
 	[AccountGroup_Id] ASC,
 	[Place_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPlace_Group]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPlace]'))
-ALTER TABLE [dbo].[AccountGroupPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPlace_Group] FOREIGN KEY([AccountGroup_Id])
-REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountGroupPlace] CHECK CONSTRAINT [FK_AccountGroupPlace_Group]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPlace_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPlace]'))
-ALTER TABLE [dbo].[AccountGroupPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPlace_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-GO
-ALTER TABLE [dbo].[AccountGroupPlace] CHECK CONSTRAINT [FK_AccountGroupPlace_Place]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1510,13 +1217,6 @@ ALTER TABLE [dbo].[AccountInvitation] ADD  CONSTRAINT [UK_AccountInvitation] UNI
 	[Email] ASC,
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
-ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_Account]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1558,13 +1258,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountLicense] ON [dbo].[AccountLicense]
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_License_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountLicense]'))
-ALTER TABLE [dbo].[AccountLicense]  WITH CHECK ADD  CONSTRAINT [FK_License_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountLicense] CHECK CONSTRAINT [FK_License_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1593,19 +1286,6 @@ ALTER TABLE [dbo].[AccountMessage] ADD  CONSTRAINT [PK_AccountMessage] PRIMARY K
 (
 	[AccountMessage_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
-ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountMessage] CHECK CONSTRAINT [FK_AccountMessage_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_AccountMessageFolder]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
-ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_AccountMessageFolder] FOREIGN KEY([AccountMessageFolder_Id])
-REFERENCES [dbo].[AccountMessageFolder] ([AccountMessageFolder_Id])
-GO
-ALTER TABLE [dbo].[AccountMessage] CHECK CONSTRAINT [FK_AccountMessage_AccountMessageFolder]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1648,19 +1328,6 @@ ALTER TABLE [dbo].[AccountMessageFolder] ADD  CONSTRAINT [UK_AccountMessageFolde
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessageFolder_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessageFolder]'))
-ALTER TABLE [dbo].[AccountMessageFolder]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessageFolder_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountMessageFolder] CHECK CONSTRAINT [FK_AccountMessageFolder_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessageFolder_AccountMessageFolder]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessageFolder]'))
-ALTER TABLE [dbo].[AccountMessageFolder]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessageFolder_AccountMessageFolder] FOREIGN KEY([AccountMessageFolderParent_Id])
-REFERENCES [dbo].[AccountMessageFolder] ([AccountMessageFolder_Id])
-GO
-ALTER TABLE [dbo].[AccountMessageFolder] CHECK CONSTRAINT [FK_AccountMessageFolder_AccountMessageFolder]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1699,13 +1366,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountOpenId] ON [dbo].[AccountOpenId]
 	[IdentityUrl] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountOpenId_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountOpenId]'))
-ALTER TABLE [dbo].[AccountOpenId]  WITH CHECK ADD  CONSTRAINT [FK_AccountOpenId_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountOpenId] CHECK CONSTRAINT [FK_AccountOpenId_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1733,13 +1393,6 @@ ALTER TABLE [dbo].[AccountPicture] ADD  CONSTRAINT [PK_AccountPicture] PRIMARY K
 (
 	[AccountPicture_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPicture]'))
-ALTER TABLE [dbo].[AccountPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountPicture_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountPicture] CHECK CONSTRAINT [FK_AccountPicture_Account]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1780,25 +1433,6 @@ ALTER TABLE [dbo].[AccountPlace] ADD  CONSTRAINT [UK_AccountPlace] UNIQUE NONCLU
 	[Place_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlace_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlace]'))
-ALTER TABLE [dbo].[AccountPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlace_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlace_AccountPlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlace]'))
-ALTER TABLE [dbo].[AccountPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlace_AccountPlaceType] FOREIGN KEY([Type_Id])
-REFERENCES [dbo].[AccountPlaceType] ([AccountPlaceType_Id])
-GO
-ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_AccountPlaceType]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlace_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlace]'))
-ALTER TABLE [dbo].[AccountPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlace_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-GO
-ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_Place]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1834,19 +1468,6 @@ ALTER TABLE [dbo].[AccountPlaceFavorite] ADD  CONSTRAINT [UK_AccountPlaceFavorit
 	[Account_Id] ASC,
 	[Place_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceFavorite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceFavorite]'))
-ALTER TABLE [dbo].[AccountPlaceFavorite]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceFavorite_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountPlaceFavorite] CHECK CONSTRAINT [FK_AccountPlaceFavorite_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceFavorite_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceFavorite]'))
-ALTER TABLE [dbo].[AccountPlaceFavorite]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceFavorite_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-GO
-ALTER TABLE [dbo].[AccountPlaceFavorite] CHECK CONSTRAINT [FK_AccountPlaceFavorite_Place]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1885,25 +1506,6 @@ ALTER TABLE [dbo].[AccountPlaceRequest] ADD  CONSTRAINT [UK_AccountPlaceRequest]
 	[Account_Id] ASC,
 	[Place_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceRequest]'))
-ALTER TABLE [dbo].[AccountPlaceRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceRequest_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountPlaceRequest] CHECK CONSTRAINT [FK_AccountPlaceRequest_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceRequest_AccountPlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceRequest]'))
-ALTER TABLE [dbo].[AccountPlaceRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceRequest_AccountPlaceType] FOREIGN KEY([Type])
-REFERENCES [dbo].[AccountPlaceType] ([AccountPlaceType_Id])
-GO
-ALTER TABLE [dbo].[AccountPlaceRequest] CHECK CONSTRAINT [FK_AccountPlaceRequest_AccountPlaceType]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceRequest_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceRequest]'))
-ALTER TABLE [dbo].[AccountPlaceRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceRequest_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-GO
-ALTER TABLE [dbo].[AccountPlaceRequest] CHECK CONSTRAINT [FK_AccountPlaceRequest_Place]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1980,13 +1582,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountProperty] ON [dbo].[AccountProperty]
 	[AccountPropertyGroup_Id] ASC,
 	[Name] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountProperty_AccountPropertyGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountProperty]'))
-ALTER TABLE [dbo].[AccountProperty]  WITH CHECK ADD  CONSTRAINT [FK_AccountProperty_AccountPropertyGroup] FOREIGN KEY([AccountPropertyGroup_Id])
-REFERENCES [dbo].[AccountPropertyGroup] ([AccountPropertyGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountProperty] CHECK CONSTRAINT [FK_AccountProperty_AccountPropertyGroup]
 GO
 SET ANSI_NULLS ON
 GO
@@ -2072,20 +1667,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountPropertyValue] ON [dbo].[AccountProp
 	[AccountProperty_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPropertyValue_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
-ALTER TABLE [dbo].[AccountPropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_AccountPropertyValue_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountPropertyValue] CHECK CONSTRAINT [FK_AccountPropertyValue_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPropertyValue_AccountProperty]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
-ALTER TABLE [dbo].[AccountPropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_AccountPropertyValue_AccountProperty] FOREIGN KEY([AccountProperty_Id])
-REFERENCES [dbo].[AccountProperty] ([AccountProperty_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountPropertyValue] CHECK CONSTRAINT [FK_AccountPropertyValue_AccountProperty]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountPropertyValue](
 [Value] LANGUAGE [English])
@@ -2144,13 +1725,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountRedirect] ON [dbo].[AccountRedirect]
 (
 	[SourceUri] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRedirect_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRedirect]'))
-ALTER TABLE [dbo].[AccountRedirect]  WITH CHECK ADD  CONSTRAINT [FK_AccountRedirect_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountRedirect] CHECK CONSTRAINT [FK_AccountRedirect_Account]
 GO
 SET ANSI_NULLS ON
 GO
@@ -2212,13 +1786,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountRssWatch_Url] ON [dbo].[AccountRssWa
 	[Url] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRssWatch_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRssWatch]'))
-ALTER TABLE [dbo].[AccountRssWatch]  WITH CHECK ADD  CONSTRAINT [FK_AccountRssWatch_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountRssWatch] CHECK CONSTRAINT [FK_AccountRssWatch_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2279,13 +1846,6 @@ ALTER TABLE [dbo].[AccountStory] ADD  CONSTRAINT [UK_AccountStory] UNIQUE NONCLU
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStory_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
-ALTER TABLE [dbo].[AccountStory]  WITH CHECK ADD  CONSTRAINT [FK_AccountStory_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountStory] CHECK CONSTRAINT [FK_AccountStory_Account]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountStory](
 [Name] LANGUAGE [English], 
@@ -2320,13 +1880,6 @@ ALTER TABLE [dbo].[AccountStoryPicture] ADD  CONSTRAINT [PK_AccountStoryPicture]
 (
 	[AccountStoryPicture_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStoryPicture_AccountStory]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]'))
-ALTER TABLE [dbo].[AccountStoryPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountStoryPicture_AccountStory] FOREIGN KEY([AccountStory_Id])
-REFERENCES [dbo].[AccountStory] ([AccountStory_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountStoryPicture] CHECK CONSTRAINT [FK_AccountStoryPicture_AccountStory]
 GO
 SET ANSI_NULLS ON
 GO
@@ -2373,19 +1926,6 @@ ALTER TABLE [dbo].[AccountSurveyAnswer] ADD  CONSTRAINT [UK_AccountSurveyAnswer]
 	[SurveyQuestion_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountSurveyAnswer_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
-ALTER TABLE [dbo].[AccountSurveyAnswer]  WITH CHECK ADD  CONSTRAINT [FK_AccountSurveyAnswer_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountSurveyAnswer] CHECK CONSTRAINT [FK_AccountSurveyAnswer_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountSurveyAnswer_SurveyQuestion]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
-ALTER TABLE [dbo].[AccountSurveyAnswer]  WITH CHECK ADD  CONSTRAINT [FK_AccountSurveyAnswer_SurveyQuestion] FOREIGN KEY([SurveyQuestion_Id])
-REFERENCES [dbo].[SurveyQuestion] ([SurveyQuestion_Id])
-GO
-ALTER TABLE [dbo].[AccountSurveyAnswer] CHECK CONSTRAINT [FK_AccountSurveyAnswer_SurveyQuestion]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountSurveyAnswer](
 [Answer] LANGUAGE [English])
@@ -2429,13 +1969,6 @@ ALTER TABLE [dbo].[AccountWebsite] ADD  CONSTRAINT [UK_AccountWebsite] UNIQUE NO
 	[Url] ASC,
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountWebsite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountWebsite]'))
-ALTER TABLE [dbo].[AccountWebsite]  WITH CHECK ADD  CONSTRAINT [FK_AccountWebsite_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountWebsite] CHECK CONSTRAINT [FK_AccountWebsite_Account]
 GO
 SET ANSI_NULLS ON
 GO
@@ -2585,43 +2118,6 @@ ALTER TABLE [dbo].[Bug] ADD  CONSTRAINT [PK_Bug] PRIMARY KEY CLUSTERED
 	[Bug_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugPriority]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
-ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugPriority] FOREIGN KEY([Priority_Id])
-REFERENCES [dbo].[BugPriority] ([BugPriority_Id])
-GO
-ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugPriority]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugProject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
-ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugProject] FOREIGN KEY([Project_Id])
-REFERENCES [dbo].[BugProject] ([BugProject_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugProject]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugResolution]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
-ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugResolution] FOREIGN KEY([Resolution_Id])
-REFERENCES [dbo].[BugResolution] ([BugResolution_Id])
-GO
-ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugResolution]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugSeverity]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
-ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugSeverity] FOREIGN KEY([Severity_Id])
-REFERENCES [dbo].[BugSeverity] ([BugSeverity_Id])
-GO
-ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugSeverity]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugStatus]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
-ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugStatus] FOREIGN KEY([Status_Id])
-REFERENCES [dbo].[BugStatus] ([BugStatus_Id])
-GO
-ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugStatus]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugType]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
-ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugType] FOREIGN KEY([Type_Id])
-REFERENCES [dbo].[BugType] ([BugType_Id])
-GO
-ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugType]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Bug]'))
 CREATE FULLTEXT INDEX ON [dbo].[Bug](
 [Details] LANGUAGE [English], 
@@ -2665,19 +2161,6 @@ ALTER TABLE [dbo].[BugLink] ADD  CONSTRAINT [UK_BugLink] UNIQUE NONCLUSTERED
 	[RelatedBug_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BugLink_Bug]') AND parent_object_id = OBJECT_ID(N'[dbo].[BugLink]'))
-ALTER TABLE [dbo].[BugLink]  WITH CHECK ADD  CONSTRAINT [FK_BugLink_Bug] FOREIGN KEY([Bug_Id])
-REFERENCES [dbo].[Bug] ([Bug_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[BugLink] CHECK CONSTRAINT [FK_BugLink_Bug]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BugLink_Bug1]') AND parent_object_id = OBJECT_ID(N'[dbo].[BugLink]'))
-ALTER TABLE [dbo].[BugLink]  WITH CHECK ADD  CONSTRAINT [FK_BugLink_Bug1] FOREIGN KEY([RelatedBug_Id])
-REFERENCES [dbo].[Bug] ([Bug_Id])
-GO
-ALTER TABLE [dbo].[BugLink] CHECK CONSTRAINT [FK_BugLink_Bug1]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2703,13 +2186,6 @@ ALTER TABLE [dbo].[BugNote] ADD  CONSTRAINT [PK_BugNote] PRIMARY KEY CLUSTERED
 (
 	[BugNote_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BugNote_Bug]') AND parent_object_id = OBJECT_ID(N'[dbo].[BugNote]'))
-ALTER TABLE [dbo].[BugNote]  WITH CHECK ADD  CONSTRAINT [FK_BugNote_Bug] FOREIGN KEY([Bug_Id])
-REFERENCES [dbo].[Bug] ([Bug_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[BugNote] CHECK CONSTRAINT [FK_BugNote_Bug]
 GO
 SET ANSI_NULLS ON
 GO
@@ -3030,20 +2506,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_CampaignAccountRecepient] ON [dbo].[Campaig
 	[Campaign_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CampaignAccountRecepient_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[CampaignAccountRecepient]'))
-ALTER TABLE [dbo].[CampaignAccountRecepient]  WITH CHECK ADD  CONSTRAINT [FK_CampaignAccountRecepient_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CampaignAccountRecepient] CHECK CONSTRAINT [FK_CampaignAccountRecepient_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CampaignAccountRecepient_Campaign]') AND parent_object_id = OBJECT_ID(N'[dbo].[CampaignAccountRecepient]'))
-ALTER TABLE [dbo].[CampaignAccountRecepient]  WITH CHECK ADD  CONSTRAINT [FK_CampaignAccountRecepient_Campaign] FOREIGN KEY([Campaign_Id])
-REFERENCES [dbo].[Campaign] ([Campaign_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[CampaignAccountRecepient] CHECK CONSTRAINT [FK_CampaignAccountRecepient_Campaign]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3082,18 +2544,6 @@ ALTER TABLE [dbo].[City] ADD  CONSTRAINT [UK_City] UNIQUE NONCLUSTERED
 	[Country_Id] ASC,
 	[State_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_City_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[City]'))
-ALTER TABLE [dbo].[City]  WITH NOCHECK ADD  CONSTRAINT [FK_City_Country] FOREIGN KEY([Country_Id])
-REFERENCES [dbo].[Country] ([Country_Id])
-GO
-ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_Country]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_City_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[City]'))
-ALTER TABLE [dbo].[City]  WITH NOCHECK ADD  CONSTRAINT [FK_City_State] FOREIGN KEY([State_Id])
-REFERENCES [dbo].[State] ([State_Id])
-GO
-ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_State]
 GO
 SET ANSI_NULLS ON
 GO
@@ -3638,13 +3088,6 @@ ALTER TABLE [dbo].[Discussion] ADD  CONSTRAINT [UK_Discussion] UNIQUE NONCLUSTER
 	[Object_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3709,19 +3152,6 @@ ALTER TABLE [dbo].[DiscussionPost] ADD  CONSTRAINT [PK_DiscussionPost] PRIMARY K
 	[DiscussionPost_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionPost]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
-ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionPost] FOREIGN KEY([DiscussionPostParent_Id])
-REFERENCES [dbo].[DiscussionPost] ([DiscussionPost_Id])
-GO
-ALTER TABLE [dbo].[DiscussionPost] CHECK CONSTRAINT [FK_DiscussionPost_DiscussionPost]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionThread]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
-ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionThread] FOREIGN KEY([DiscussionThread_Id])
-REFERENCES [dbo].[DiscussionThread] ([DiscussionThread_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[DiscussionPost] CHECK CONSTRAINT [FK_DiscussionPost_DiscussionThread]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
 CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
 [Body] LANGUAGE [English], 
@@ -3753,13 +3183,6 @@ ALTER TABLE [dbo].[DiscussionThread] ADD  CONSTRAINT [PK_DiscussionThread] PRIMA
 (
 	[DiscussionThread_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionThread_Discussion]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionThread]'))
-ALTER TABLE [dbo].[DiscussionThread]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionThread_Discussion] FOREIGN KEY([Discussion_Id])
-REFERENCES [dbo].[Discussion] ([Discussion_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[DiscussionThread] CHECK CONSTRAINT [FK_DiscussionThread_Discussion]
 GO
 SET ANSI_NULLS ON
 GO
@@ -3799,13 +3222,6 @@ ALTER TABLE [dbo].[Feature] ADD  CONSTRAINT [PK_Feature] PRIMARY KEY CLUSTERED
 (
 	[Feature_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Feature_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Feature]'))
-ALTER TABLE [dbo].[Feature]  WITH CHECK ADD  CONSTRAINT [FK_Feature_DataObject] FOREIGN KEY([DataObject_Id])
-REFERENCES [dbo].[DataObject] ([DataObject_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Feature] CHECK CONSTRAINT [FK_Feature_DataObject]
 GO
 SET ANSI_NULLS ON
 GO
@@ -3898,13 +3314,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_MadLib] ON [dbo].[MadLib]
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLib_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLib]'))
-ALTER TABLE [dbo].[MadLib]  WITH CHECK ADD  CONSTRAINT [FK_MadLib_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[MadLib] CHECK CONSTRAINT [FK_MadLib_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3948,19 +3357,6 @@ ALTER TABLE [dbo].[MadLibInstance] ADD  CONSTRAINT [PK_MadLibInstance] PRIMARY K
 	[MadLibInstance_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLibInstance_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLibInstance]'))
-ALTER TABLE [dbo].[MadLibInstance]  WITH CHECK ADD  CONSTRAINT [FK_MadLibInstance_DataObject] FOREIGN KEY([DataObject_Id])
-REFERENCES [dbo].[DataObject] ([DataObject_Id])
-GO
-ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_DataObject]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLibInstance_MadLib]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLibInstance]'))
-ALTER TABLE [dbo].[MadLibInstance]  WITH CHECK ADD  CONSTRAINT [FK_MadLibInstance_MadLib] FOREIGN KEY([MadLib_Id])
-REFERENCES [dbo].[MadLib] ([MadLib_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_MadLib]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3999,13 +3395,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_Neighborhood] ON [dbo].[Neighborhood]
 	[Name] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Neighborhood_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[Neighborhood]'))
-ALTER TABLE [dbo].[Neighborhood]  WITH CHECK ADD  CONSTRAINT [FK_Neighborhood_City] FOREIGN KEY([City_Id])
-REFERENCES [dbo].[City] ([City_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Neighborhood] CHECK CONSTRAINT [FK_Neighborhood_City]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4032,12 +3421,6 @@ ALTER TABLE [dbo].[Picture] ADD  CONSTRAINT [PK_Picture] PRIMARY KEY CLUSTERED
 (
 	[Picture_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Picture_PictureType]') AND parent_object_id = OBJECT_ID(N'[dbo].[Picture]'))
-ALTER TABLE [dbo].[Picture]  WITH CHECK ADD  CONSTRAINT [FK_Picture_PictureType] FOREIGN KEY([Type])
-REFERENCES [dbo].[PictureType] ([PictureType_Id])
-GO
-ALTER TABLE [dbo].[Picture] CHECK CONSTRAINT [FK_Picture_PictureType]
 GO
 SET ANSI_NULLS ON
 GO
@@ -4135,31 +3518,6 @@ ALTER TABLE [dbo].[Place] ADD  CONSTRAINT [PK_Place] PRIMARY KEY CLUSTERED
 	[Place_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
-ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
-ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_City] FOREIGN KEY([City_Id])
-REFERENCES [dbo].[City] ([City_Id])
-GO
-ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_City]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_Neighborhood]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
-ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_Neighborhood] FOREIGN KEY([Neighborhood_Id])
-REFERENCES [dbo].[Neighborhood] ([Neighborhood_Id])
-GO
-ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_Neighborhood]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_PlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
-ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_PlaceType] FOREIGN KEY([Type])
-REFERENCES [dbo].[PlaceType] ([PlaceType_Id])
-GO
-ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_PlaceType]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Place]'))
 CREATE FULLTEXT INDEX ON [dbo].[Place](
 [CrossStreet] LANGUAGE [English], 
@@ -4229,20 +3587,6 @@ CREATE NONCLUSTERED INDEX [UK_PlaceAttribute] ON [dbo].[PlaceAttribute]
 	[Attribute_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceAttribute_Attribute]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceAttribute]'))
-ALTER TABLE [dbo].[PlaceAttribute]  WITH CHECK ADD  CONSTRAINT [FK_PlaceAttribute_Attribute] FOREIGN KEY([Attribute_Id])
-REFERENCES [dbo].[Attribute] ([Attribute_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlaceAttribute] CHECK CONSTRAINT [FK_PlaceAttribute_Attribute]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceAttribute_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceAttribute]'))
-ALTER TABLE [dbo].[PlaceAttribute]  WITH CHECK ADD  CONSTRAINT [FK_PlaceAttribute_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlaceAttribute] CHECK CONSTRAINT [FK_PlaceAttribute_Place]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4290,13 +3634,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_PlaceName] ON [dbo].[PlaceName]
 	[Place_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_PlaceName]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
-ALTER TABLE [dbo].[PlaceName]  WITH CHECK ADD  CONSTRAINT [FK_Place_PlaceName] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlaceName] CHECK CONSTRAINT [FK_Place_PlaceName]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
 CREATE FULLTEXT INDEX ON [dbo].[PlaceName](
 [Name] LANGUAGE [English])
@@ -4331,19 +3668,6 @@ ALTER TABLE [dbo].[PlacePicture] ADD  CONSTRAINT [PK_PlacePicture] PRIMARY KEY C
 (
 	[PlacePicture_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
-ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-GO
-ALTER TABLE [dbo].[PlacePicture] CHECK CONSTRAINT [FK_PlacePicture_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
-ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlacePicture] CHECK CONSTRAINT [FK_PlacePicture_Place]
 GO
 SET ANSI_NULLS ON
 GO
@@ -4386,13 +3710,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_PlaceProperty] ON [dbo].[PlaceProperty]
 	[PlacePropertyGroup_Id] ASC,
 	[Name] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceProperty_PlacePropertyGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceProperty]'))
-ALTER TABLE [dbo].[PlaceProperty]  WITH CHECK ADD  CONSTRAINT [FK_PlaceProperty_PlacePropertyGroup] FOREIGN KEY([PlacePropertyGroup_Id])
-REFERENCES [dbo].[PlacePropertyGroup] ([PlacePropertyGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlaceProperty] CHECK CONSTRAINT [FK_PlaceProperty_PlacePropertyGroup]
 GO
 SET ANSI_NULLS ON
 GO
@@ -4478,20 +3795,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_PlacePropertyValue] ON [dbo].[PlaceProperty
 	[PlaceProperty_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePropertyValue_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
-ALTER TABLE [dbo].[PlacePropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_PlacePropertyValue_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlacePropertyValue] CHECK CONSTRAINT [FK_PlacePropertyValue_Place]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePropertyValue_PlaceProperty]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
-ALTER TABLE [dbo].[PlacePropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_PlacePropertyValue_PlaceProperty] FOREIGN KEY([PlaceProperty_Id])
-REFERENCES [dbo].[PlaceProperty] ([PlaceProperty_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlacePropertyValue] CHECK CONSTRAINT [FK_PlacePropertyValue_PlaceProperty]
-GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
 CREATE FULLTEXT INDEX ON [dbo].[PlacePropertyValue](
 [Value] LANGUAGE [English])
@@ -4555,13 +3858,6 @@ CREATE NONCLUSTERED INDEX [UK_PlaceQueue] ON [dbo].[PlaceQueue]
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceQueue_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceQueue]'))
-ALTER TABLE [dbo].[PlaceQueue]  WITH CHECK ADD  CONSTRAINT [FK_PlaceQueue_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlaceQueue] CHECK CONSTRAINT [FK_PlaceQueue_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4601,19 +3897,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_PlaceQueueItem] ON [dbo].[PlaceQueueItem]
 	[Place_Id] ASC,
 	[PlaceQueue_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceQueueItem_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceQueueItem]'))
-ALTER TABLE [dbo].[PlaceQueueItem]  WITH CHECK ADD  CONSTRAINT [FK_PlaceQueueItem_Place] FOREIGN KEY([Place_Id])
-REFERENCES [dbo].[Place] ([Place_Id])
-GO
-ALTER TABLE [dbo].[PlaceQueueItem] CHECK CONSTRAINT [FK_PlaceQueueItem_Place]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceQueueItem_PlaceQueue]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceQueueItem]'))
-ALTER TABLE [dbo].[PlaceQueueItem]  WITH CHECK ADD  CONSTRAINT [FK_PlaceQueueItem_PlaceQueue] FOREIGN KEY([PlaceQueue_Id])
-REFERENCES [dbo].[PlaceQueue] ([PlaceQueue_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[PlaceQueueItem] CHECK CONSTRAINT [FK_PlaceQueueItem_PlaceQueue]
 GO
 SET ANSI_NULLS ON
 GO
@@ -4754,20 +4037,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_RefererAccount] ON [dbo].[RefererAccount]
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererAccount_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererAccount]'))
-ALTER TABLE [dbo].[RefererAccount]  WITH CHECK ADD  CONSTRAINT [FK_RefererAccount_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererAccount_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererAccount]'))
-ALTER TABLE [dbo].[RefererAccount]  WITH CHECK ADD  CONSTRAINT [FK_RefererAccount_RefererHost] FOREIGN KEY([RefererHost_Id])
-REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_RefererHost]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4871,13 +4140,6 @@ ALTER TABLE [dbo].[RefererHostDup] ADD  CONSTRAINT [UK_RefererHostDup] UNIQUE NO
 	[Host] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererHostDup_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererHostDup]'))
-ALTER TABLE [dbo].[RefererHostDup]  WITH CHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
-REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[RefererHostDup] CHECK CONSTRAINT [FK_RefererHostDup_RefererHost]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4955,12 +4217,6 @@ ALTER TABLE [dbo].[Reminder] ADD  CONSTRAINT [PK_Reminder] PRIMARY KEY CLUSTERED
 	[Reminder_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Reminder_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Reminder]'))
-ALTER TABLE [dbo].[Reminder]  WITH CHECK ADD  CONSTRAINT [FK_Reminder_DataObject] FOREIGN KEY([DataObject_Id])
-REFERENCES [dbo].[DataObject] ([DataObject_Id])
-GO
-ALTER TABLE [dbo].[Reminder] CHECK CONSTRAINT [FK_Reminder_DataObject]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4998,19 +4254,6 @@ ALTER TABLE [dbo].[ReminderAccountProperty] ADD  CONSTRAINT [PK_ReminderAccountP
 (
 	[ReminderAccountProperty_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderAccountProperty_AccountProperty]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderAccountProperty]'))
-ALTER TABLE [dbo].[ReminderAccountProperty]  WITH CHECK ADD  CONSTRAINT [FK_ReminderAccountProperty_AccountProperty] FOREIGN KEY([AccountProperty_Id])
-REFERENCES [dbo].[AccountProperty] ([AccountProperty_Id])
-GO
-ALTER TABLE [dbo].[ReminderAccountProperty] CHECK CONSTRAINT [FK_ReminderAccountProperty_AccountProperty]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderAccountProperty_Reminder]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderAccountProperty]'))
-ALTER TABLE [dbo].[ReminderAccountProperty]  WITH CHECK ADD  CONSTRAINT [FK_ReminderAccountProperty_Reminder] FOREIGN KEY([Reminder_Id])
-REFERENCES [dbo].[Reminder] ([Reminder_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[ReminderAccountProperty] CHECK CONSTRAINT [FK_ReminderAccountProperty_Reminder]
 GO
 SET ANSI_NULLS ON
 GO
@@ -5051,20 +4294,6 @@ CREATE NONCLUSTERED INDEX [UK_ReminderEvent] ON [dbo].[ReminderEvent]
 	[Reminder_Id] ASC,
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderEvent_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderEvent]'))
-ALTER TABLE [dbo].[ReminderEvent]  WITH CHECK ADD  CONSTRAINT [FK_ReminderEvent_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[ReminderEvent] CHECK CONSTRAINT [FK_ReminderEvent_Account]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderEvent_Reminder]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderEvent]'))
-ALTER TABLE [dbo].[ReminderEvent]  WITH CHECK ADD  CONSTRAINT [FK_ReminderEvent_Reminder] FOREIGN KEY([Reminder_Id])
-REFERENCES [dbo].[Reminder] ([Reminder_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[ReminderEvent] CHECK CONSTRAINT [FK_ReminderEvent_Reminder]
 GO
 SET ANSI_NULLS ON
 GO
@@ -5123,13 +4352,6 @@ ALTER TABLE [dbo].[Schedule] ADD  CONSTRAINT [PK_EventSchedule] PRIMARY KEY CLUS
 	[Schedule_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Schedule_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Schedule]'))
-ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Schedule_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_Schedule_Account]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5187,13 +4409,6 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_ScheduleInstance] ON [dbo].[ScheduleInstanc
 	[Instance] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ScheduleInstance_Schedule]') AND parent_object_id = OBJECT_ID(N'[dbo].[ScheduleInstance]'))
-ALTER TABLE [dbo].[ScheduleInstance]  WITH CHECK ADD  CONSTRAINT [FK_ScheduleInstance_Schedule] FOREIGN KEY([Schedule_Id])
-REFERENCES [dbo].[Schedule] ([Schedule_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[ScheduleInstance] CHECK CONSTRAINT [FK_ScheduleInstance_Schedule]
-GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5228,13 +4443,6 @@ ALTER TABLE [dbo].[State] ADD  CONSTRAINT [UK_State] UNIQUE NONCLUSTERED
 	[Name] ASC,
 	[Country_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_State_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[State]'))
-ALTER TABLE [dbo].[State]  WITH NOCHECK ADD  CONSTRAINT [FK_State_Country] FOREIGN KEY([Country_Id])
-REFERENCES [dbo].[Country] ([Country_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[State] CHECK CONSTRAINT [FK_State_Country]
 GO
 SET ANSI_NULLS ON
 GO
@@ -5302,13 +4510,6 @@ ALTER TABLE [dbo].[SurveyQuestion] ADD  CONSTRAINT [UK_SurveyQuestion] UNIQUE NO
 	[Question] ASC,
 	[Survey_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_SurveyQuestion_Survey]') AND parent_object_id = OBJECT_ID(N'[dbo].[SurveyQuestion]'))
-ALTER TABLE [dbo].[SurveyQuestion]  WITH CHECK ADD  CONSTRAINT [FK_SurveyQuestion_Survey] FOREIGN KEY([Survey_Id])
-REFERENCES [dbo].[Survey] ([Survey_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[SurveyQuestion] CHECK CONSTRAINT [FK_SurveyQuestion_Survey]
 GO
 SET ANSI_NULLS ON
 GO
@@ -5394,6 +4595,805 @@ ALTER TABLE [dbo].[TagWordAccount] ADD  CONSTRAINT [UK_TagWordAccount] UNIQUE NO
 	[TagWord_Id] ASC,
 	[Account_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_Country] FOREIGN KEY([Country_Id])
+REFERENCES [dbo].[Country] ([Country_Id])
+GO
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_Country]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Account_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[Account]'))
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_State] FOREIGN KEY([State_Id])
+REFERENCES [dbo].[State] ([State_Id])
+GO
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_State]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAddress_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
+ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_AccountAddress_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_AccountAddress_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Address_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
+ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_Address_Country] FOREIGN KEY([Country_Id])
+REFERENCES [dbo].[Country] ([Country_Id])
+GO
+ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_Address_Country]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Address_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAddress]'))
+ALTER TABLE [dbo].[AccountAddress]  WITH CHECK ADD  CONSTRAINT [FK_Address_State] FOREIGN KEY([State_Id])
+REFERENCES [dbo].[State] ([State_Id])
+GO
+ALTER TABLE [dbo].[AccountAddress] CHECK CONSTRAINT [FK_Address_State]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAttribute_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAttribute]'))
+ALTER TABLE [dbo].[AccountAttribute]  WITH CHECK ADD  CONSTRAINT [FK_AccountAttribute_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAttribute_Attribute]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAttribute]'))
+ALTER TABLE [dbo].[AccountAttribute]  WITH CHECK ADD  CONSTRAINT [FK_AccountAttribute_Attribute] FOREIGN KEY([Attribute_Id])
+REFERENCES [dbo].[Attribute] ([Attribute_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Attribute]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlog_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlog]'))
+ALTER TABLE [dbo].[AccountBlog]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountBlog] CHECK CONSTRAINT [FK_AccountBlog_AccountBlog]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogAuthor_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogAuthor]'))
+ALTER TABLE [dbo].[AccountBlogAuthor]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogAuthor_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountBlogAuthor] CHECK CONSTRAINT [FK_AccountBlogAuthor_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogAuthor_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogAuthor]'))
+ALTER TABLE [dbo].[AccountBlogAuthor]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogAuthor_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountBlogAuthor] CHECK CONSTRAINT [FK_AccountBlogAuthor_AccountBlog]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogPost_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
+ALTER TABLE [dbo].[AccountBlogPost]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogPost_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountBlogPost] CHECK CONSTRAINT [FK_AccountBlogPost_AccountBlog]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContent_AccountContentGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContent]'))
+ALTER TABLE [dbo].[AccountContent]  WITH CHECK ADD  CONSTRAINT [FK_AccountContent_AccountContentGroup] FOREIGN KEY([AccountContentGroup_Id])
+REFERENCES [dbo].[AccountContentGroup] ([AccountContentGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountContent] CHECK CONSTRAINT [FK_AccountContent_AccountContentGroup]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContentGroup_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]'))
+ALTER TABLE [dbo].[AccountContentGroup]  WITH CHECK ADD  CONSTRAINT [FK_AccountContentGroup_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountContentGroup] CHECK CONSTRAINT [FK_AccountContentGroup_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
+ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountEmail] CHECK CONSTRAINT [FK_AccountEmail_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmailConfirmation_AccountEmail]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmailConfirmation]'))
+ALTER TABLE [dbo].[AccountEmailConfirmation]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmailConfirmation_AccountEmail] FOREIGN KEY([AccountEmail_Id])
+REFERENCES [dbo].[AccountEmail] ([AccountEmail_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountEmailConfirmation] CHECK CONSTRAINT [FK_AccountEmailConfirmation_AccountEmail]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmailMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmailMessage]'))
+ALTER TABLE [dbo].[AccountEmailMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmailMessage_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountEmailMessage] CHECK CONSTRAINT [FK_AccountEmailMessage_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
+ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_AccountEventType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
+ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_AccountEventType] FOREIGN KEY([AccountEventType_Id])
+REFERENCES [dbo].[AccountEventType] ([AccountEventType_Id])
+GO
+ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_AccountEventType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
+ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEvent_Schedule]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEvent]'))
+ALTER TABLE [dbo].[AccountEvent]  WITH CHECK ADD  CONSTRAINT [FK_AccountEvent_Schedule] FOREIGN KEY([Schedule_Id])
+REFERENCES [dbo].[Schedule] ([Schedule_Id])
+GO
+ALTER TABLE [dbo].[AccountEvent] CHECK CONSTRAINT [FK_AccountEvent_Schedule]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEventPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]'))
+ALTER TABLE [dbo].[AccountEventPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountEventPicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountEventPicture] CHECK CONSTRAINT [FK_AccountEventPicture_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEventPicture_AccountEvent]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]'))
+ALTER TABLE [dbo].[AccountEventPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountEventPicture_AccountEvent] FOREIGN KEY([AccountEvent_Id])
+REFERENCES [dbo].[AccountEvent] ([AccountEvent_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountEventPicture] CHECK CONSTRAINT [FK_AccountEventPicture_AccountEvent]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeed_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeed]'))
+ALTER TABLE [dbo].[AccountFeed]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeed_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFeed] CHECK CONSTRAINT [FK_AccountFeed_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeed_FeedType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeed]'))
+ALTER TABLE [dbo].[AccountFeed]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeed_FeedType] FOREIGN KEY([FeedType_Id])
+REFERENCES [dbo].[FeedType] ([FeedType_Id])
+GO
+ALTER TABLE [dbo].[AccountFeed] CHECK CONSTRAINT [FK_AccountFeed_FeedType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItem_AccountFeed]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItem]'))
+ALTER TABLE [dbo].[AccountFeedItem]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItem_AccountFeed] FOREIGN KEY([AccountFeed_Id])
+REFERENCES [dbo].[AccountFeed] ([AccountFeed_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFeedItem] CHECK CONSTRAINT [FK_AccountFeedItem_AccountFeed]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItemImg_AccountFeedItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItemImg]'))
+ALTER TABLE [dbo].[AccountFeedItemImg]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItemImg_AccountFeedItem] FOREIGN KEY([AccountFeedItem_Id])
+REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFeedItemImg] CHECK CONSTRAINT [FK_AccountFeedItemImg_AccountFeedItem]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeedItemVideo_AccountFeedItem]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeedItemMedia]'))
+ALTER TABLE [dbo].[AccountFeedItemMedia]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeedItemVideo_AccountFeedItem] FOREIGN KEY([AccountFeedItem_Id])
+REFERENCES [dbo].[AccountFeedItem] ([AccountFeedItem_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFeedItemMedia] CHECK CONSTRAINT [FK_AccountFeedItemVideo_AccountFeedItem]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFlag_AccountFlag]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFlag]'))
+ALTER TABLE [dbo].[AccountFlag]  WITH CHECK ADD  CONSTRAINT [FK_AccountFlag_AccountFlag] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFlag] CHECK CONSTRAINT [FK_AccountFlag_AccountFlag]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFlag_AccountFlagged]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFlag]'))
+ALTER TABLE [dbo].[AccountFlag]  WITH CHECK ADD  CONSTRAINT [FK_AccountFlag_AccountFlagged] FOREIGN KEY([FlaggedAccount_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountFlag] CHECK CONSTRAINT [FK_AccountFlag_AccountFlagged]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFlag_AccountFlagType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFlag]'))
+ALTER TABLE [dbo].[AccountFlag]  WITH CHECK ADD  CONSTRAINT [FK_AccountFlag_AccountFlagType] FOREIGN KEY([AccountFlagType_Id])
+REFERENCES [dbo].[AccountFlagType] ([AccountFlagType_Id])
+GO
+ALTER TABLE [dbo].[AccountFlag] CHECK CONSTRAINT [FK_AccountFlag_AccountFlagType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriend_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriend]'))
+ALTER TABLE [dbo].[AccountFriend]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriend_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountFriend] CHECK CONSTRAINT [FK_AccountFriend_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriend_Account1]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriend]'))
+ALTER TABLE [dbo].[AccountFriend]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriend_Account1] FOREIGN KEY([Keen_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountFriend] CHECK CONSTRAINT [FK_AccountFriend_Account1]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriendRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriendRequest]'))
+ALTER TABLE [dbo].[AccountFriendRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriendRequest_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountFriendRequest] CHECK CONSTRAINT [FK_AccountFriendRequest_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFriendRequest_Account1]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFriendRequest]'))
+ALTER TABLE [dbo].[AccountFriendRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountFriendRequest_Account1] FOREIGN KEY([Keen_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountFriendRequest] CHECK CONSTRAINT [FK_AccountFriendRequest_Account1]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccount_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccount]'))
+ALTER TABLE [dbo].[AccountGroupAccount]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccount_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountGroupAccount] CHECK CONSTRAINT [FK_AccountGroupAccount_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccount_Group]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccount]'))
+ALTER TABLE [dbo].[AccountGroupAccount]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccount_Group] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountGroupAccount] CHECK CONSTRAINT [FK_AccountGroupAccount_Group]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountInvitation]'))
+ALTER TABLE [dbo].[AccountGroupAccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountInvitation_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountGroupAccountInvitation] CHECK CONSTRAINT [FK_AccountGroupAccountInvitation_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountInvitation_AccountGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountInvitation]'))
+ALTER TABLE [dbo].[AccountGroupAccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountInvitation_AccountGroup] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountGroupAccountInvitation] CHECK CONSTRAINT [FK_AccountGroupAccountInvitation_AccountGroup]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountInvitation_RequesterAccount]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountInvitation]'))
+ALTER TABLE [dbo].[AccountGroupAccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountInvitation_RequesterAccount] FOREIGN KEY([Requester_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountGroupAccountInvitation] CHECK CONSTRAINT [FK_AccountGroupAccountInvitation_RequesterAccount]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountRequest]'))
+ALTER TABLE [dbo].[AccountGroupAccountRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountRequest_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountGroupAccountRequest] CHECK CONSTRAINT [FK_AccountGroupAccountRequest_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccountRequest_AccountGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccountRequest]'))
+ALTER TABLE [dbo].[AccountGroupAccountRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccountRequest_AccountGroup] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
+GO
+ALTER TABLE [dbo].[AccountGroupAccountRequest] CHECK CONSTRAINT [FK_AccountGroupAccountRequest_AccountGroup]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]'))
+ALTER TABLE [dbo].[AccountGroupPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[AccountGroupPicture] CHECK CONSTRAINT [FK_AccountGroupPicture_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPicture_Group]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]'))
+ALTER TABLE [dbo].[AccountGroupPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPicture_Group] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountGroupPicture] CHECK CONSTRAINT [FK_AccountGroupPicture_Group]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPlace_Group]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPlace]'))
+ALTER TABLE [dbo].[AccountGroupPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPlace_Group] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountGroupPlace] CHECK CONSTRAINT [FK_AccountGroupPlace_Group]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupPlace_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupPlace]'))
+ALTER TABLE [dbo].[AccountGroupPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupPlace_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[AccountGroupPlace] CHECK CONSTRAINT [FK_AccountGroupPlace_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
+ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_License_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountLicense]'))
+ALTER TABLE [dbo].[AccountLicense]  WITH CHECK ADD  CONSTRAINT [FK_License_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountLicense] CHECK CONSTRAINT [FK_License_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
+ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountMessage] CHECK CONSTRAINT [FK_AccountMessage_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessage_AccountMessageFolder]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessage]'))
+ALTER TABLE [dbo].[AccountMessage]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessage_AccountMessageFolder] FOREIGN KEY([AccountMessageFolder_Id])
+REFERENCES [dbo].[AccountMessageFolder] ([AccountMessageFolder_Id])
+GO
+ALTER TABLE [dbo].[AccountMessage] CHECK CONSTRAINT [FK_AccountMessage_AccountMessageFolder]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessageFolder_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessageFolder]'))
+ALTER TABLE [dbo].[AccountMessageFolder]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessageFolder_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountMessageFolder] CHECK CONSTRAINT [FK_AccountMessageFolder_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountMessageFolder_AccountMessageFolder]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountMessageFolder]'))
+ALTER TABLE [dbo].[AccountMessageFolder]  WITH CHECK ADD  CONSTRAINT [FK_AccountMessageFolder_AccountMessageFolder] FOREIGN KEY([AccountMessageFolderParent_Id])
+REFERENCES [dbo].[AccountMessageFolder] ([AccountMessageFolder_Id])
+GO
+ALTER TABLE [dbo].[AccountMessageFolder] CHECK CONSTRAINT [FK_AccountMessageFolder_AccountMessageFolder]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountOpenId_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountOpenId]'))
+ALTER TABLE [dbo].[AccountOpenId]  WITH CHECK ADD  CONSTRAINT [FK_AccountOpenId_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountOpenId] CHECK CONSTRAINT [FK_AccountOpenId_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPicture]'))
+ALTER TABLE [dbo].[AccountPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountPicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountPicture] CHECK CONSTRAINT [FK_AccountPicture_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlace_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlace]'))
+ALTER TABLE [dbo].[AccountPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlace_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlace_AccountPlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlace]'))
+ALTER TABLE [dbo].[AccountPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlace_AccountPlaceType] FOREIGN KEY([Type_Id])
+REFERENCES [dbo].[AccountPlaceType] ([AccountPlaceType_Id])
+GO
+ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_AccountPlaceType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlace_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlace]'))
+ALTER TABLE [dbo].[AccountPlace]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlace_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[AccountPlace] CHECK CONSTRAINT [FK_AccountPlace_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceFavorite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceFavorite]'))
+ALTER TABLE [dbo].[AccountPlaceFavorite]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceFavorite_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountPlaceFavorite] CHECK CONSTRAINT [FK_AccountPlaceFavorite_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceFavorite_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceFavorite]'))
+ALTER TABLE [dbo].[AccountPlaceFavorite]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceFavorite_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[AccountPlaceFavorite] CHECK CONSTRAINT [FK_AccountPlaceFavorite_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceRequest]'))
+ALTER TABLE [dbo].[AccountPlaceRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceRequest_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountPlaceRequest] CHECK CONSTRAINT [FK_AccountPlaceRequest_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceRequest_AccountPlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceRequest]'))
+ALTER TABLE [dbo].[AccountPlaceRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceRequest_AccountPlaceType] FOREIGN KEY([Type])
+REFERENCES [dbo].[AccountPlaceType] ([AccountPlaceType_Id])
+GO
+ALTER TABLE [dbo].[AccountPlaceRequest] CHECK CONSTRAINT [FK_AccountPlaceRequest_AccountPlaceType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPlaceRequest_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPlaceRequest]'))
+ALTER TABLE [dbo].[AccountPlaceRequest]  WITH CHECK ADD  CONSTRAINT [FK_AccountPlaceRequest_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[AccountPlaceRequest] CHECK CONSTRAINT [FK_AccountPlaceRequest_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountProperty_AccountPropertyGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountProperty]'))
+ALTER TABLE [dbo].[AccountProperty]  WITH CHECK ADD  CONSTRAINT [FK_AccountProperty_AccountPropertyGroup] FOREIGN KEY([AccountPropertyGroup_Id])
+REFERENCES [dbo].[AccountPropertyGroup] ([AccountPropertyGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountProperty] CHECK CONSTRAINT [FK_AccountProperty_AccountPropertyGroup]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPropertyValue_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
+ALTER TABLE [dbo].[AccountPropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_AccountPropertyValue_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountPropertyValue] CHECK CONSTRAINT [FK_AccountPropertyValue_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountPropertyValue_AccountProperty]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
+ALTER TABLE [dbo].[AccountPropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_AccountPropertyValue_AccountProperty] FOREIGN KEY([AccountProperty_Id])
+REFERENCES [dbo].[AccountProperty] ([AccountProperty_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountPropertyValue] CHECK CONSTRAINT [FK_AccountPropertyValue_AccountProperty]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRedirect_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRedirect]'))
+ALTER TABLE [dbo].[AccountRedirect]  WITH CHECK ADD  CONSTRAINT [FK_AccountRedirect_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountRedirect] CHECK CONSTRAINT [FK_AccountRedirect_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRssWatch_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRssWatch]'))
+ALTER TABLE [dbo].[AccountRssWatch]  WITH CHECK ADD  CONSTRAINT [FK_AccountRssWatch_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountRssWatch] CHECK CONSTRAINT [FK_AccountRssWatch_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStory_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStory]'))
+ALTER TABLE [dbo].[AccountStory]  WITH CHECK ADD  CONSTRAINT [FK_AccountStory_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountStory] CHECK CONSTRAINT [FK_AccountStory_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountStoryPicture_AccountStory]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]'))
+ALTER TABLE [dbo].[AccountStoryPicture]  WITH CHECK ADD  CONSTRAINT [FK_AccountStoryPicture_AccountStory] FOREIGN KEY([AccountStory_Id])
+REFERENCES [dbo].[AccountStory] ([AccountStory_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountStoryPicture] CHECK CONSTRAINT [FK_AccountStoryPicture_AccountStory]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountSurveyAnswer_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
+ALTER TABLE [dbo].[AccountSurveyAnswer]  WITH CHECK ADD  CONSTRAINT [FK_AccountSurveyAnswer_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountSurveyAnswer] CHECK CONSTRAINT [FK_AccountSurveyAnswer_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountSurveyAnswer_SurveyQuestion]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
+ALTER TABLE [dbo].[AccountSurveyAnswer]  WITH CHECK ADD  CONSTRAINT [FK_AccountSurveyAnswer_SurveyQuestion] FOREIGN KEY([SurveyQuestion_Id])
+REFERENCES [dbo].[SurveyQuestion] ([SurveyQuestion_Id])
+GO
+ALTER TABLE [dbo].[AccountSurveyAnswer] CHECK CONSTRAINT [FK_AccountSurveyAnswer_SurveyQuestion]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountWebsite_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountWebsite]'))
+ALTER TABLE [dbo].[AccountWebsite]  WITH CHECK ADD  CONSTRAINT [FK_AccountWebsite_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountWebsite] CHECK CONSTRAINT [FK_AccountWebsite_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugPriority]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugPriority] FOREIGN KEY([Priority_Id])
+REFERENCES [dbo].[BugPriority] ([BugPriority_Id])
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugPriority]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugProject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugProject] FOREIGN KEY([Project_Id])
+REFERENCES [dbo].[BugProject] ([BugProject_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugProject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugResolution]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugResolution] FOREIGN KEY([Resolution_Id])
+REFERENCES [dbo].[BugResolution] ([BugResolution_Id])
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugResolution]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugSeverity]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugSeverity] FOREIGN KEY([Severity_Id])
+REFERENCES [dbo].[BugSeverity] ([BugSeverity_Id])
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugSeverity]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugStatus]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugStatus] FOREIGN KEY([Status_Id])
+REFERENCES [dbo].[BugStatus] ([BugStatus_Id])
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugStatus]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Bug_BugType]') AND parent_object_id = OBJECT_ID(N'[dbo].[Bug]'))
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_BugType] FOREIGN KEY([Type_Id])
+REFERENCES [dbo].[BugType] ([BugType_Id])
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_BugType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BugLink_Bug]') AND parent_object_id = OBJECT_ID(N'[dbo].[BugLink]'))
+ALTER TABLE [dbo].[BugLink]  WITH CHECK ADD  CONSTRAINT [FK_BugLink_Bug] FOREIGN KEY([Bug_Id])
+REFERENCES [dbo].[Bug] ([Bug_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[BugLink] CHECK CONSTRAINT [FK_BugLink_Bug]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BugLink_Bug1]') AND parent_object_id = OBJECT_ID(N'[dbo].[BugLink]'))
+ALTER TABLE [dbo].[BugLink]  WITH CHECK ADD  CONSTRAINT [FK_BugLink_Bug1] FOREIGN KEY([RelatedBug_Id])
+REFERENCES [dbo].[Bug] ([Bug_Id])
+GO
+ALTER TABLE [dbo].[BugLink] CHECK CONSTRAINT [FK_BugLink_Bug1]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BugNote_Bug]') AND parent_object_id = OBJECT_ID(N'[dbo].[BugNote]'))
+ALTER TABLE [dbo].[BugNote]  WITH CHECK ADD  CONSTRAINT [FK_BugNote_Bug] FOREIGN KEY([Bug_Id])
+REFERENCES [dbo].[Bug] ([Bug_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[BugNote] CHECK CONSTRAINT [FK_BugNote_Bug]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CampaignAccountRecepient_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[CampaignAccountRecepient]'))
+ALTER TABLE [dbo].[CampaignAccountRecepient]  WITH CHECK ADD  CONSTRAINT [FK_CampaignAccountRecepient_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[CampaignAccountRecepient] CHECK CONSTRAINT [FK_CampaignAccountRecepient_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CampaignAccountRecepient_Campaign]') AND parent_object_id = OBJECT_ID(N'[dbo].[CampaignAccountRecepient]'))
+ALTER TABLE [dbo].[CampaignAccountRecepient]  WITH CHECK ADD  CONSTRAINT [FK_CampaignAccountRecepient_Campaign] FOREIGN KEY([Campaign_Id])
+REFERENCES [dbo].[Campaign] ([Campaign_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[CampaignAccountRecepient] CHECK CONSTRAINT [FK_CampaignAccountRecepient_Campaign]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_City_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[City]'))
+ALTER TABLE [dbo].[City]  WITH NOCHECK ADD  CONSTRAINT [FK_City_Country] FOREIGN KEY([Country_Id])
+REFERENCES [dbo].[Country] ([Country_Id])
+GO
+ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_Country]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_City_State]') AND parent_object_id = OBJECT_ID(N'[dbo].[City]'))
+ALTER TABLE [dbo].[City]  WITH NOCHECK ADD  CONSTRAINT [FK_City_State] FOREIGN KEY([State_Id])
+REFERENCES [dbo].[State] ([State_Id])
+GO
+ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_State]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
+ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionPost]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
+ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionPost] FOREIGN KEY([DiscussionPostParent_Id])
+REFERENCES [dbo].[DiscussionPost] ([DiscussionPost_Id])
+GO
+ALTER TABLE [dbo].[DiscussionPost] CHECK CONSTRAINT [FK_DiscussionPost_DiscussionPost]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionThread]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
+ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionThread] FOREIGN KEY([DiscussionThread_Id])
+REFERENCES [dbo].[DiscussionThread] ([DiscussionThread_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[DiscussionPost] CHECK CONSTRAINT [FK_DiscussionPost_DiscussionThread]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionThread_Discussion]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionThread]'))
+ALTER TABLE [dbo].[DiscussionThread]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionThread_Discussion] FOREIGN KEY([Discussion_Id])
+REFERENCES [dbo].[Discussion] ([Discussion_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[DiscussionThread] CHECK CONSTRAINT [FK_DiscussionThread_Discussion]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Feature_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Feature]'))
+ALTER TABLE [dbo].[Feature]  WITH CHECK ADD  CONSTRAINT [FK_Feature_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Feature] CHECK CONSTRAINT [FK_Feature_DataObject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLib_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLib]'))
+ALTER TABLE [dbo].[MadLib]  WITH CHECK ADD  CONSTRAINT [FK_MadLib_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[MadLib] CHECK CONSTRAINT [FK_MadLib_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLibInstance_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLibInstance]'))
+ALTER TABLE [dbo].[MadLibInstance]  WITH CHECK ADD  CONSTRAINT [FK_MadLibInstance_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+GO
+ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_DataObject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_MadLibInstance_MadLib]') AND parent_object_id = OBJECT_ID(N'[dbo].[MadLibInstance]'))
+ALTER TABLE [dbo].[MadLibInstance]  WITH CHECK ADD  CONSTRAINT [FK_MadLibInstance_MadLib] FOREIGN KEY([MadLib_Id])
+REFERENCES [dbo].[MadLib] ([MadLib_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_MadLib]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Neighborhood_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[Neighborhood]'))
+ALTER TABLE [dbo].[Neighborhood]  WITH CHECK ADD  CONSTRAINT [FK_Neighborhood_City] FOREIGN KEY([City_Id])
+REFERENCES [dbo].[City] ([City_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Neighborhood] CHECK CONSTRAINT [FK_Neighborhood_City]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Picture_PictureType]') AND parent_object_id = OBJECT_ID(N'[dbo].[Picture]'))
+ALTER TABLE [dbo].[Picture]  WITH CHECK ADD  CONSTRAINT [FK_Picture_PictureType] FOREIGN KEY([Type])
+REFERENCES [dbo].[PictureType] ([PictureType_Id])
+GO
+ALTER TABLE [dbo].[Picture] CHECK CONSTRAINT [FK_Picture_PictureType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
+ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
+ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_City] FOREIGN KEY([City_Id])
+REFERENCES [dbo].[City] ([City_Id])
+GO
+ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_City]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_Neighborhood]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
+ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_Neighborhood] FOREIGN KEY([Neighborhood_Id])
+REFERENCES [dbo].[Neighborhood] ([Neighborhood_Id])
+GO
+ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_Neighborhood]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_PlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[Place]'))
+ALTER TABLE [dbo].[Place]  WITH CHECK ADD  CONSTRAINT [FK_Place_PlaceType] FOREIGN KEY([Type])
+REFERENCES [dbo].[PlaceType] ([PlaceType_Id])
+GO
+ALTER TABLE [dbo].[Place] CHECK CONSTRAINT [FK_Place_PlaceType]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceAttribute_Attribute]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceAttribute]'))
+ALTER TABLE [dbo].[PlaceAttribute]  WITH CHECK ADD  CONSTRAINT [FK_PlaceAttribute_Attribute] FOREIGN KEY([Attribute_Id])
+REFERENCES [dbo].[Attribute] ([Attribute_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceAttribute] CHECK CONSTRAINT [FK_PlaceAttribute_Attribute]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceAttribute_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceAttribute]'))
+ALTER TABLE [dbo].[PlaceAttribute]  WITH CHECK ADD  CONSTRAINT [FK_PlaceAttribute_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceAttribute] CHECK CONSTRAINT [FK_PlaceAttribute_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_PlaceName]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
+ALTER TABLE [dbo].[PlaceName]  WITH CHECK ADD  CONSTRAINT [FK_Place_PlaceName] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceName] CHECK CONSTRAINT [FK_Place_PlaceName]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
+ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+GO
+ALTER TABLE [dbo].[PlacePicture] CHECK CONSTRAINT [FK_PlacePicture_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePicture_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePicture]'))
+ALTER TABLE [dbo].[PlacePicture]  WITH CHECK ADD  CONSTRAINT [FK_PlacePicture_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlacePicture] CHECK CONSTRAINT [FK_PlacePicture_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceProperty_PlacePropertyGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceProperty]'))
+ALTER TABLE [dbo].[PlaceProperty]  WITH CHECK ADD  CONSTRAINT [FK_PlaceProperty_PlacePropertyGroup] FOREIGN KEY([PlacePropertyGroup_Id])
+REFERENCES [dbo].[PlacePropertyGroup] ([PlacePropertyGroup_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceProperty] CHECK CONSTRAINT [FK_PlaceProperty_PlacePropertyGroup]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePropertyValue_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
+ALTER TABLE [dbo].[PlacePropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_PlacePropertyValue_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlacePropertyValue] CHECK CONSTRAINT [FK_PlacePropertyValue_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlacePropertyValue_PlaceProperty]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
+ALTER TABLE [dbo].[PlacePropertyValue]  WITH CHECK ADD  CONSTRAINT [FK_PlacePropertyValue_PlaceProperty] FOREIGN KEY([PlaceProperty_Id])
+REFERENCES [dbo].[PlaceProperty] ([PlaceProperty_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlacePropertyValue] CHECK CONSTRAINT [FK_PlacePropertyValue_PlaceProperty]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceQueue_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceQueue]'))
+ALTER TABLE [dbo].[PlaceQueue]  WITH CHECK ADD  CONSTRAINT [FK_PlaceQueue_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceQueue] CHECK CONSTRAINT [FK_PlaceQueue_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceQueueItem_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceQueueItem]'))
+ALTER TABLE [dbo].[PlaceQueueItem]  WITH CHECK ADD  CONSTRAINT [FK_PlaceQueueItem_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[PlaceQueueItem] CHECK CONSTRAINT [FK_PlaceQueueItem_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceQueueItem_PlaceQueue]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceQueueItem]'))
+ALTER TABLE [dbo].[PlaceQueueItem]  WITH CHECK ADD  CONSTRAINT [FK_PlaceQueueItem_PlaceQueue] FOREIGN KEY([PlaceQueue_Id])
+REFERENCES [dbo].[PlaceQueue] ([PlaceQueue_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceQueueItem] CHECK CONSTRAINT [FK_PlaceQueueItem_PlaceQueue]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererAccount_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererAccount]'))
+ALTER TABLE [dbo].[RefererAccount]  WITH CHECK ADD  CONSTRAINT [FK_RefererAccount_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererAccount_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererAccount]'))
+ALTER TABLE [dbo].[RefererAccount]  WITH CHECK ADD  CONSTRAINT [FK_RefererAccount_RefererHost] FOREIGN KEY([RefererHost_Id])
+REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_RefererHost]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererHostDup_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererHostDup]'))
+ALTER TABLE [dbo].[RefererHostDup]  WITH CHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
+REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[RefererHostDup] CHECK CONSTRAINT [FK_RefererHostDup_RefererHost]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Reminder_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Reminder]'))
+ALTER TABLE [dbo].[Reminder]  WITH CHECK ADD  CONSTRAINT [FK_Reminder_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+GO
+ALTER TABLE [dbo].[Reminder] CHECK CONSTRAINT [FK_Reminder_DataObject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderAccountProperty_AccountProperty]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderAccountProperty]'))
+ALTER TABLE [dbo].[ReminderAccountProperty]  WITH CHECK ADD  CONSTRAINT [FK_ReminderAccountProperty_AccountProperty] FOREIGN KEY([AccountProperty_Id])
+REFERENCES [dbo].[AccountProperty] ([AccountProperty_Id])
+GO
+ALTER TABLE [dbo].[ReminderAccountProperty] CHECK CONSTRAINT [FK_ReminderAccountProperty_AccountProperty]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderAccountProperty_Reminder]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderAccountProperty]'))
+ALTER TABLE [dbo].[ReminderAccountProperty]  WITH CHECK ADD  CONSTRAINT [FK_ReminderAccountProperty_Reminder] FOREIGN KEY([Reminder_Id])
+REFERENCES [dbo].[Reminder] ([Reminder_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[ReminderAccountProperty] CHECK CONSTRAINT [FK_ReminderAccountProperty_Reminder]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderEvent_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderEvent]'))
+ALTER TABLE [dbo].[ReminderEvent]  WITH CHECK ADD  CONSTRAINT [FK_ReminderEvent_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[ReminderEvent] CHECK CONSTRAINT [FK_ReminderEvent_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ReminderEvent_Reminder]') AND parent_object_id = OBJECT_ID(N'[dbo].[ReminderEvent]'))
+ALTER TABLE [dbo].[ReminderEvent]  WITH CHECK ADD  CONSTRAINT [FK_ReminderEvent_Reminder] FOREIGN KEY([Reminder_Id])
+REFERENCES [dbo].[Reminder] ([Reminder_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[ReminderEvent] CHECK CONSTRAINT [FK_ReminderEvent_Reminder]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Schedule_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Schedule]'))
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_Schedule_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_Schedule_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ScheduleInstance_Schedule]') AND parent_object_id = OBJECT_ID(N'[dbo].[ScheduleInstance]'))
+ALTER TABLE [dbo].[ScheduleInstance]  WITH CHECK ADD  CONSTRAINT [FK_ScheduleInstance_Schedule] FOREIGN KEY([Schedule_Id])
+REFERENCES [dbo].[Schedule] ([Schedule_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[ScheduleInstance] CHECK CONSTRAINT [FK_ScheduleInstance_Schedule]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_State_Country]') AND parent_object_id = OBJECT_ID(N'[dbo].[State]'))
+ALTER TABLE [dbo].[State]  WITH NOCHECK ADD  CONSTRAINT [FK_State_Country] FOREIGN KEY([Country_Id])
+REFERENCES [dbo].[Country] ([Country_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[State] CHECK CONSTRAINT [FK_State_Country]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_SurveyQuestion_Survey]') AND parent_object_id = OBJECT_ID(N'[dbo].[SurveyQuestion]'))
+ALTER TABLE [dbo].[SurveyQuestion]  WITH CHECK ADD  CONSTRAINT [FK_SurveyQuestion_Survey] FOREIGN KEY([Survey_Id])
+REFERENCES [dbo].[Survey] ([Survey_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[SurveyQuestion] CHECK CONSTRAINT [FK_SurveyQuestion_Survey]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TagWordAccount_TagWord]') AND parent_object_id = OBJECT_ID(N'[dbo].[TagWordAccount]'))
 ALTER TABLE [dbo].[TagWordAccount]  WITH CHECK ADD  CONSTRAINT [FK_TagWordAccount_TagWord] FOREIGN KEY([TagWord_Id])
