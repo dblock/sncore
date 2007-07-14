@@ -93,6 +93,23 @@ public partial class AccountBlogEdit : AuthenticatedPage
         s.Name = inputName.Text;
         s.Description = inputDescription.Text;
         s.AccountId = SessionManager.Account.Id;
+
+        if (s.Id == 0)
+        {
+            List<TransitAccountBlog> blogs = SessionManager.BlogService.GetAccountBlogs(
+                SessionManager.Ticket, SessionManager.AccountId, null);
+
+            foreach (TransitAccountBlog blog in blogs)
+            {
+                if (blog.Name.Trim().ToLower() == s.Name.Trim().ToLower())
+                {
+                    throw new Exception(string.Format("A blog with the same name '{0}' already exists. " +
+                        "Click <a href='AccountBlogEdit.aspx?id={1}'>here</a> to modify it.",
+                        Renderer.Render(blog.Name), blog.Id));
+                }
+            }
+        }
+
         s.Id = SessionManager.CreateOrUpdate<TransitAccountBlog>(
             s, SessionManager.BlogService.CreateOrUpdateAccountBlog);
         // automatically syndicate the blog

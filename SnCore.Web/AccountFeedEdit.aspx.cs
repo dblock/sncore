@@ -178,14 +178,14 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
             foreach (TransitAccountFeed feed in feeds)
             {
-                if (feed.Name.ToLower() == s.Name.ToLower())
+                if (feed.Name.Trim().ToLower() == s.Name.Trim().ToLower())
                 {
                     throw new Exception(string.Format("A syndicated feed with the same name '{0}' already exists. " +
                         "Click <a href='AccountFeedEdit.aspx?id={1}'>here</a> to modify it.", 
                         Renderer.Render(feed.Name), feed.Id));
                 }
 
-                if (feed.FeedUrl.ToLower() == s.FeedUrl.ToLower())
+                if (feed.FeedUrl.Trim().ToLower() == s.FeedUrl.Trim().ToLower())
                 {
                     throw new Exception(string.Format("A syndicated feed with the same feed address already exists. " +
                         "The feed name is '{0}' and the address is '{1}'. " +
