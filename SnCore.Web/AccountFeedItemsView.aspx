@@ -28,7 +28,7 @@
        </Template>
       </SnCore:Title>
       <div class="sncore_h2sub">
-       <a href="AccountFeedsView.aspx">&#187; Blogs</a>
+       <a href="AccountFeedsView.aspx">&#187; Blog Directory</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
@@ -105,7 +105,9 @@
             <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
              <%# base.Render(GetValue(Eval("AccountFeedName"), "Untitled")) %>
             </a>
-            &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>            
+            <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+             &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>            
+            </span>
            </div>
           </div>
           <div class="sncore_message_body">

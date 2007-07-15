@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedsView.aspx.cs"
- Inherits="AccountFeedsView" Title="Blogs" %>
+ Inherits="AccountFeedsView" Title="Blog Directory" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
@@ -12,7 +12,7 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="titleBlogs" Text="Blogs" runat="server">  
+      <SnCore:Title ID="titleBlogs" Text="Blog Directory" runat="server">  
        <Template>
         <div class="sncore_title_paragraph">
          Do you have time to read two hundred blogs? These are <a href="AccountFeedsView.aspx">syndicated blogs</a>.
@@ -30,6 +30,7 @@
        <a href="AccountFeedItemsView.aspx">&#187; Blog Posts</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
+       <a href="AccountFeedWizard.aspx">&#187; Syndicate Yours</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
@@ -46,7 +47,7 @@
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
-    AllowCustomPaging="true" RepeatColumns="2" RepeatRows="4" RepeatDirection="Horizontal"
+    AllowCustomPaging="true" RepeatColumns="2" RepeatRows="6" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false" OnDataBinding="gridManage_DataBinding">
     <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
@@ -56,7 +57,7 @@
       <tr>
        <td width="150px" align="center">
         <a href="AccountFeedView.aspx?id=<%# Eval("Id") %>">
-         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+         <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>&width=75&height=75" />
         </a>
         <div class="sncore_link">
          <a href="AccountFeedView.aspx?id=<%# Eval("Id") %>">
@@ -65,7 +66,7 @@
         </div>
        </td>
        <td width="*" align="left">
-        <div class="sncore_h2">
+        <div>
          <a href='AccountFeedView.aspx?id=<%# Eval("Id") %>'>
           <%# base.Render(Eval("Name")) %>
          </a>
@@ -73,8 +74,8 @@
           <%# Renderer.GetLink(Renderer.Render(Eval("LinkUrl")), "&#187; x-posted") %>
          </span>
         </div>      
-        <div class="sncore_h2sub">
-         <%# base.Render(Eval("Description")) %>
+        <div class="sncore_description">
+         <%# Renderer.GetSummary((string) Eval("Description")) %>
         </div>
        </td>
       </tr>

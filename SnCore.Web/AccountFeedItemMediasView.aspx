@@ -26,7 +26,7 @@
        </Template>
       </SnCore:Title>
       <div class="sncore_h2sub">
-       <a href="AccountFeedsView.aspx">&#187; Blogs</a>
+       <a href="AccountFeedsView.aspx">&#187; Blog Directory</a>
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />

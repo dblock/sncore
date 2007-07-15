@@ -24,7 +24,7 @@
    </td>
    <td>
     <div class="sncore_link">
-     <a href="AccountFeedsView.aspx">&#187; all</a>
+     <a href="AccountFeedsView.aspx">&#187; directory</a>
      <a href="AccountFeedItemImgsView.aspx">&#187; pictures</a>
      <a href="AccountFeedItemMediasView.aspx">&#187; podcasts &amp; videos</a>
     </div>

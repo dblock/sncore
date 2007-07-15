@@ -19,7 +19,7 @@ public partial class AccountFeedsRss : Page
     {
         get
         {
-            return Renderer.Render(string.Format("{0} Feeds",
+            return Renderer.Render(string.Format("{0} Blog Directory",
                 SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
         }
     }

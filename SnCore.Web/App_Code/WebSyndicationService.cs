@@ -226,7 +226,7 @@ namespace SnCore.WebServices
         public int GetAllAccountFeedsCount(string ticket)
         {
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
-                ticket, " WHERE EXISTS ELEMENTS(AccountFeed.AccountFeedItems)");
+                ticket, " WHERE AccountFeed.Publish = 1 AND EXISTS ELEMENTS(AccountFeed.AccountFeedItems)");
         }
 
         /// <summary>
@@ -241,6 +241,7 @@ namespace SnCore.WebServices
                 ticket, options,
                     "SELECT AccountFeed.Id FROM AccountFeed AccountFeed " +
                     "JOIN AccountFeed.AccountFeedItems AccountFeedItem " +
+                    "WHERE AccountFeed.Publish = 1 " +
                     "GROUP BY AccountFeed " +
                     "ORDER BY MAX(AccountFeedItem.Created) DESC");
         }
