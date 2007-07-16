@@ -87,3 +87,6 @@ EXEC sp_configure 'precompute rank', '1';
 GO
 RECONFIGURE;
 GO
+-- delete old constraint for AccountFeed, now two: Name and Uri
+IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'UK_AccountFeed')
+ALTER TABLE [dbo].[AccountFeed] DROP CONSTRAINT [UK_AccountFeed]
