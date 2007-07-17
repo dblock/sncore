@@ -98,26 +98,26 @@ public partial class PlacesRss : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
-            {
-                TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
-                options.SortAscending = Ascending;
-                options.SortOrder = SortOrder;
-                options.Neighborhood = Neighborhood;
-                options.City = City;
-                options.Country = Country;
-                options.State = State;
-                options.Name = Name;
-                options.Type = Type;
+        if (!IsPostBack)
+        {
+            TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
+            options.SortAscending = Ascending;
+            options.SortOrder = SortOrder;
+            options.Neighborhood = Neighborhood;
+            options.City = City;
+            options.Country = Country;
+            options.State = State;
+            options.Name = Name;
+            options.Type = Type;
 
-                ServiceQueryOptions queryoptions = new ServiceQueryOptions();
-                queryoptions.PageNumber = 0;
-                queryoptions.PageSize = 10;
+            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
+            queryoptions.PageNumber = 0;
+            queryoptions.PageSize = 10;
 
-                rssRepeater.DataSource = SessionManager.PlaceService.GetPlaces(
-                    SessionManager.Ticket, options, queryoptions);
-                rssRepeater.DataBind();
-            }
+            rssRepeater.DataSource = SessionManager.PlaceService.GetPlaces(
+                SessionManager.Ticket, options, queryoptions);
+            rssRepeater.DataBind();
+        }
     }
 
     public string WebsiteUrl

@@ -31,7 +31,9 @@
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
        <a href="AccountFeedWizard.aspx">&#187; Syndicate Yours</a>
+       <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+       <asp:Hyperlink id="linkPermalink" NavigateUrl="AccountFeedsView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>
      <td width="200">
@@ -42,6 +44,90 @@
      </td>
     </tr>
    </table>
+  </ContentTemplate>
+ </asp:UpdatePanel>
+ <asp:UpdatePanel runat="server" ID="panelSearch" UpdateMode="Conditional">
+  <ContentTemplate>
+   <SnCoreWebControls:PersistentPanel Visible="False" ID="panelSearchInternal" runat="server" EnableViewState="true">
+    <table class="sncore_table">
+     <tr>
+      <td class="sncore_form_label">
+       name:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       sort by:
+      </td>
+      <td class="sncore_form_value">
+       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
+        <asp:ListItem Text="Name" Value="Name" />
+        <asp:ListItem Text="Date Updated" Selected="True" Value="Updated" />
+        <asp:ListItem Text="Date Created" Value="Created" />
+       </asp:DropDownList>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       order by:
+      </td>
+      <td class="sncore_form_value">
+       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server">
+        <asp:ListItem Selected="True" Text="Descending" Value="false" />
+        <asp:ListItem Text="Ascending" Value="true" />
+       </asp:DropDownList>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       country and state:
+      </td>
+      <td class="sncore_form_value">
+       <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown_small"
+          ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
+          runat="server" />
+         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState"
+          AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       city:
+      </td>
+      <td class="sncore_form_value">
+       <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+          DataValueField="Name" runat="server" AutoPostBack="true" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
+        Text="show blogs with blogger pictures only" Checked="false" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+      </td>
+      <td class="sncore_form_value">
+       <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
+        OnClick="search_Click" EnableViewState="false" />
+      </td>
+     </tr>
+    </table>
+   </SnCoreWebControls:PersistentPanel>
   </ContentTemplate>
  </asp:UpdatePanel>
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">

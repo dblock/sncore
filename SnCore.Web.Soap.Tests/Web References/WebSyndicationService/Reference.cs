@@ -687,24 +687,26 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountFeedsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAllAccountFeedsCount(string ticket) {
+        public int GetAllAccountFeedsCount(string ticket, TransitAccountFeedQueryOptions qopt) {
             object[] results = this.Invoke("GetAllAccountFeedsCount", new object[] {
-                        ticket});
+                        ticket,
+                        qopt});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedsCountAsync(string ticket) {
-            this.GetAllAccountFeedsCountAsync(ticket, null);
+        public void GetAllAccountFeedsCountAsync(string ticket, TransitAccountFeedQueryOptions qopt) {
+            this.GetAllAccountFeedsCountAsync(ticket, qopt, null);
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedsCountAsync(string ticket, object userState) {
+        public void GetAllAccountFeedsCountAsync(string ticket, TransitAccountFeedQueryOptions qopt, object userState) {
             if ((this.GetAllAccountFeedsCountOperationCompleted == null)) {
                 this.GetAllAccountFeedsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountFeedsCountOperationCompleted);
             }
             this.InvokeAsync("GetAllAccountFeedsCount", new object[] {
-                        ticket}, this.GetAllAccountFeedsCountOperationCompleted, userState);
+                        ticket,
+                        qopt}, this.GetAllAccountFeedsCountOperationCompleted, userState);
         }
         
         private void OnGetAllAccountFeedsCountOperationCompleted(object arg) {
@@ -716,25 +718,27 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountFeeds", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountFeed[] GetAllAccountFeeds(string ticket, ServiceQueryOptions options) {
+        public TransitAccountFeed[] GetAllAccountFeeds(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetAllAccountFeeds", new object[] {
                         ticket,
+                        qopt,
                         options});
             return ((TransitAccountFeed[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedsAsync(string ticket, ServiceQueryOptions options) {
-            this.GetAllAccountFeedsAsync(ticket, options, null);
+        public void GetAllAccountFeedsAsync(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetAllAccountFeedsAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedsAsync(string ticket, ServiceQueryOptions options, object userState) {
+        public void GetAllAccountFeedsAsync(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetAllAccountFeedsOperationCompleted == null)) {
                 this.GetAllAccountFeedsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountFeedsOperationCompleted);
             }
             this.InvokeAsync("GetAllAccountFeeds", new object[] {
                         ticket,
+                        qopt,
                         options}, this.GetAllAccountFeedsOperationCompleted, userState);
         }
         
@@ -2679,6 +2683,147 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.commentCountField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFeedQueryOptions {
+        
+        private string sortOrderField;
+        
+        private bool sortAscendingField;
+        
+        private string countryField;
+        
+        private string stateField;
+        
+        private string cityField;
+        
+        private string neighborhoodField;
+        
+        private string nameField;
+        
+        private bool picturesOnlyField;
+        
+        private bool publishedOnlyField;
+        
+        private bool withFeedItemsOnlyField;
+        
+        private int accountIdField;
+        
+        /// <remarks/>
+        public string SortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool SortAscending {
+            get {
+                return this.sortAscendingField;
+            }
+            set {
+                this.sortAscendingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Neighborhood {
+            get {
+                return this.neighborhoodField;
+            }
+            set {
+                this.neighborhoodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool PicturesOnly {
+            get {
+                return this.picturesOnlyField;
+            }
+            set {
+                this.picturesOnlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool PublishedOnly {
+            get {
+                return this.publishedOnlyField;
+            }
+            set {
+                this.publishedOnlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool WithFeedItemsOnly {
+            get {
+                return this.withFeedItemsOnlyField;
+            }
+            set {
+                this.withFeedItemsOnlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
             }
         }
     }

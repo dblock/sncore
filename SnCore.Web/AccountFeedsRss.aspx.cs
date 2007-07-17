@@ -15,7 +15,7 @@ using SnCore.Services;
 
 public partial class AccountFeedsRss : Page
 {
-    public string Name
+    public string RssTitle
     {
         get
         {
@@ -28,12 +28,20 @@ public partial class AccountFeedsRss : Page
     {
         if (!IsPostBack)
         {
+            TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
+            options.SortAscending = Ascending;
+            options.SortOrder = SortOrder;
+            options.City = City;
+            options.Country = Country;
+            options.State = State;
+            options.Name = Name;
+
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
             queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.SyndicationService.GetAllAccountFeeds(
-                SessionManager.Ticket, queryoptions);
+                SessionManager.Ticket, options, queryoptions);
             rssRepeater.DataBind();
         }
     }
@@ -57,6 +65,60 @@ public partial class AccountFeedsRss : Page
         get
         {
             return new Uri(SessionManager.WebsiteUri, "AccountFeedsView.aspx").ToString();
+        }
+    }
+
+    public string SortOrder
+    {
+        get
+        {
+            object o = Request.QueryString["sortorder"];
+            return (o == null ? "Modified" : o.ToString());
+        }
+    }
+
+    public bool Ascending
+    {
+        get
+        {
+            object o = Request.QueryString["asc"];
+            return (o == null ? true : bool.Parse(o.ToString()));
+        }
+    }
+
+    public string City
+    {
+        get
+        {
+            object o = Request.QueryString["city"];
+            return (o == null ? string.Empty : o.ToString());
+        }
+    }
+
+    public string Country
+    {
+        get
+        {
+            object o = Request.QueryString["country"];
+            return (o == null ? string.Empty : o.ToString());
+        }
+    }
+
+    public string State
+    {
+        get
+        {
+            object o = Request.QueryString["state"];
+            return (o == null ? string.Empty : o.ToString());
+        }
+    }
+
+    public string Name
+    {
+        get
+        {
+            object o = Request.QueryString["name"];
+            return (o == null ? string.Empty : o.ToString());
         }
     }
 }

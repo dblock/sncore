@@ -223,10 +223,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>all account feeds count</returns>
         [WebMethod(Description = "Get all account feeds count.", CacheDuration = 60)]
-        public int GetAllAccountFeedsCount(string ticket)
+        public int GetAllAccountFeedsCount(string ticket, TransitAccountFeedQueryOptions qopt)
         {
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
-                ticket, " WHERE AccountFeed.Publish = 1 AND EXISTS ELEMENTS(AccountFeed.AccountFeedItems)");
+                ticket, qopt.CreateCountQuery());
         }
 
         /// <summary>
@@ -234,16 +234,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of updated account feeds</returns>
         [WebMethod(Description = "Get updated account feeds.", CacheDuration = 60)]
-        public List<TransitAccountFeed> GetAllAccountFeeds(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountFeed> GetAllAccountFeeds(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options)
         {
-            // TODO: transform query into returning AccountFeed items
-            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetListFromIds(
-                ticket, options,
-                    "SELECT AccountFeed.Id FROM AccountFeed AccountFeed " +
-                    "JOIN AccountFeed.AccountFeedItems AccountFeedItem " +
-                    "WHERE AccountFeed.Publish = 1 " +
-                    "GROUP BY AccountFeed " +
-                    "ORDER BY MAX(AccountFeedItem.Created) DESC");
+            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetList(
+                ticket, options, qopt.CreateQuery());
         }
 
         /// <summary>

@@ -57,10 +57,10 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         [Test]
         public void GetAllAccountFeedsTest()
         {
-            int count = EndPoint.GetAllAccountFeedsCount(GetUserTicket());
+            WebSyndicationService.TransitAccountFeedQueryOptions options = new WebSyndicationService.TransitAccountFeedQueryOptions();
+            int count = EndPoint.GetAllAccountFeedsCount(GetUserTicket(), options);
             Assert.IsTrue(count >= 0);
-            WebSyndicationService.TransitAccountFeed[] feeds = EndPoint.GetAllAccountFeeds(GetUserTicket(), null);
-
+            WebSyndicationService.TransitAccountFeed[] feeds = EndPoint.GetAllAccountFeeds(GetUserTicket(), options, null);
         }
     }
 }

@@ -98,8 +98,11 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
-        int feedsCount = SessionManager.GetCount<TransitAccountFeed>(
-            SessionManager.SyndicationService.GetAllAccountFeedsCount);
+        TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
+        options.PublishedOnly = false;
+        options.PicturesOnly = false;
+        int feedsCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
+            options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
 
         labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",

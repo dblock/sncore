@@ -20,9 +20,107 @@ using Atom.Core;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web.Html;
 using SnCore.Tools.Drawing;
+using SnCore.Data.Hibernate;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
+    public class TransitAccountFeedQueryOptions
+    {
+        public string SortOrder = "Updated";
+        public bool SortAscending = false;
+        public string Country;
+        public string State;
+        public string City;
+        public string Name;
+        public bool PicturesOnly = false;
+        public bool PublishedOnly = true;
+        public bool WithFeedItemsOnly = true;
+        public int AccountId = 0;
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
+
+        public TransitAccountFeedQueryOptions()
+        {
+
+        }
+
+        public string CreateSubQuery()
+        {
+            StringBuilder b = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(City))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountFeed.Account.City = '{0}'", Renderer.SqlEncode(City));
+            }
+
+            if (!string.IsNullOrEmpty(Country))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountFeed.Account.Country.Name = '{0}'", Renderer.SqlEncode(Country));
+            }
+
+            if (!string.IsNullOrEmpty(State))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountFeed.Account.City = '{0}'", Renderer.SqlEncode(State));
+            }
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountFeed.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+            }
+
+            if (AccountId != 0)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountFeed.Account.Id = {0}", AccountId);
+            }
+
+            if (PicturesOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("EXISTS ELEMENTS(AccountFeed.Account.AccountPictures)");
+            }
+
+            if (WithFeedItemsOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("EXISTS ELEMENTS(AccountFeed.AccountFeedItems)");
+            }
+
+            if (PublishedOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountFeed.Publish = 1");
+            }
+
+            return b.ToString();
+        }
+
+        public string CreateCountQuery()
+        {
+            return CreateSubQuery();
+        }
+
+        public string CreateQuery()
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append("SELECT AccountFeed FROM AccountFeed AccountFeed");
+            b.Append(CreateSubQuery());
+            if (!string.IsNullOrEmpty(SortOrder))
+            {
+                b.AppendFormat(" ORDER BY AccountFeed.{0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+            }
+            return b.ToString();
+        }
+    };
+
     public class TransitAccountFeed : TransitService<AccountFeed>
     {
         private string mName;

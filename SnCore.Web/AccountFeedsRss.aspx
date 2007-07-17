@@ -3,7 +3,7 @@
 
 <rss version="2.0">
   <channel>
-    <title><% Response.Write(Name); %></title>
+    <title><% Response.Write(RssTitle); %></title>
     <description>blog directory</description>
     <link><% Response.Write(Link); %></link>
     <generator>sncore/sncore.vestris.com</generator>

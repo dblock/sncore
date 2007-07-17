@@ -117,7 +117,8 @@ public partial class SiteMap2 : Page
             listAccounts.DataSource = GetPagedList(SessionManager.SocialService.GetAccountActivityCount(SessionManager.Ticket, aaqo));
             listAccounts.DataBind();
 
-            listFeeds.DataSource = GetPagedList(SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket));
+            TransitAccountFeedQueryOptions fqo = new TransitAccountFeedQueryOptions();
+            listFeeds.DataSource = GetPagedList(SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket, fqo));
             listFeeds.DataBind();
 
             TransitPlaceQueryOptions pqo = new TransitPlaceQueryOptions();

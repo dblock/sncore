@@ -25,8 +25,10 @@ public partial class AccountFeedsViewList : Page
             ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
             serviceoptions.PageSize = pagesize;
             serviceoptions.PageNumber = pagenumber;
+
+            TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
             gridManage.DataSource = SessionManager.SyndicationService.GetAllAccountFeeds(
-                SessionManager.Ticket, serviceoptions);
+                SessionManager.Ticket, options, serviceoptions);
             gridManage.DataBind();
 
             if (pagenumber > 0)

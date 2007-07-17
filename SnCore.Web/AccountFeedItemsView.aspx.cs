@@ -65,7 +65,11 @@ public partial class AccountFeedItemsView : Page
             : SessionManager.GetCount<TransitAccountFeedItem, string>(
                 inputSearch.Text, SessionManager.SyndicationService.SearchAccountFeedItemsCount);
 
-        int feedsCount = SessionManager.SyndicationService.GetAllAccountFeedsCount(SessionManager.Ticket);
+        TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
+        options.PublishedOnly = false;
+        options.PicturesOnly = false;
+        int feedsCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
+            options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
 
         labelCount.Text = string.Format("{0} post{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
