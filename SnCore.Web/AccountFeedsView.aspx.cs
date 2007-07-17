@@ -45,6 +45,13 @@ public partial class AccountFeedsView : Page
         ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
         if (!IsPostBack)
         {
+            linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
+            if (SessionManager.IsLoggedIn)
+            {
+                linkLocal.Text = string.Format("&#187; All {0} Blogs", Renderer.Render(SessionManager.Account.City));
+            }
+
             if (LocationSelector.SelectLocation(sender, new LocationEventArgs(Request)))
             {
                 panelSearchInternal.Visible = true;
@@ -196,5 +203,27 @@ public partial class AccountFeedsView : Page
     public void search_Click(object sender, EventArgs e)
     {
         GetData(sender, e);
+    }
+
+    public void linkLocal_Click(object sender, EventArgs e)
+    {
+        if (!SessionManager.IsLoggedIn)
+            return;
+
+        inputName.Text = string.Empty;
+        inputCity.Text = string.Empty;
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+        GetData(sender, e);
+        panelSearch.Update();
+    }
+
+    public void linkAll_Click(object sender, EventArgs e)
+    {
+        inputCountry.ClearSelection();
+        inputState.ClearSelection();
+        inputCity.Text = string.Empty;
+        inputName.Text = string.Empty;
+        GetData(sender, e);
+        panelSearch.Update();
     }
 }

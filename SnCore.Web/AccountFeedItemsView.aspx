@@ -31,6 +31,8 @@
        <a href="AccountFeedsView.aspx">&#187; Blog Directory</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
+       <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Posts" />
+       <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Posts" />
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
        <asp:Hyperlink id="linkPermalink" NavigateUrl="AccountFeedItemsView.aspx" runat="server" Text="&#187; Permalink" />

@@ -47,6 +47,13 @@ public partial class AccountFeedItemsView : Page
         SetDefaultButton(search);
         if (!IsPostBack)
         {
+            linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
+
+            if (SessionManager.IsLoggedIn)
+            {
+                linkLocal.Text = string.Format("&#187; All {0} Posts", Renderer.Render(SessionManager.Account.City));
+            }
+
             if (LocationSelector.SelectLocation(sender, new LocationEventArgs(Request)))
             {
                 panelSearchInternal.Visible = true;
@@ -196,5 +203,27 @@ public partial class AccountFeedItemsView : Page
     public void gridManage_DataBinding(object sender, EventArgs e)
     {
         panelGrid.Update();
+    }
+
+    public void linkLocal_Click(object sender, EventArgs e)
+    {
+        if (!SessionManager.IsLoggedIn)
+            return;
+
+        inputSearch.Text = string.Empty;
+        inputCity.Text = string.Empty;
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+        GetData(sender, e);
+        panelSearch.Update();
+    }
+
+    public void linkAll_Click(object sender, EventArgs e)
+    {
+        inputCountry.ClearSelection();
+        inputState.ClearSelection();
+        inputCity.Text = string.Empty;
+        inputSearch.Text = string.Empty;
+        GetData(sender, e);
+        panelSearch.Update();
     }
 }

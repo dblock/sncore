@@ -141,7 +141,7 @@ public partial class AccountsView : AccountPersonPage
                 linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
             }
 
-            GetData();
+            GetData(sender, e);
         }
     }
 
@@ -165,7 +165,7 @@ public partial class AccountsView : AccountPersonPage
 
     public void search_Click(object sender, EventArgs e)
     {
-        GetData();
+        GetData(sender, e);
         panelGrid.Update();
     }
 
@@ -178,7 +178,7 @@ public partial class AccountsView : AccountPersonPage
         }
     }
 
-    private void GetData()
+    private void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountActivity, AccountActivityQueryOptions>(
@@ -270,7 +270,7 @@ public partial class AccountsView : AccountPersonPage
         inputCity.Text = string.Empty;
         inputName.Text = string.Empty;
         inputEmailAddress.Text = string.Empty;
-        GetData();
+        GetData(sender, e);
         panelSearch.Update();
     }
 
@@ -283,7 +283,7 @@ public partial class AccountsView : AccountPersonPage
         inputCity.Text = string.Empty;
         inputName.Text = string.Empty;
         inputEmailAddress.Text = string.Empty;
-        GetData();
+        GetData(sender, e);
         panelSearch.Update();
     }
 

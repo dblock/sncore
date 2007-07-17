@@ -50,6 +50,9 @@
       <a href='AccountEventsView.aspx?city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>&pictures=false'>
        <img src="images/account/events.gif" style="border: none; vertical-align: middle;" alt="Places" />
       </a>
+      <a href='AccountFeedsView.aspx?city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>'>
+       <img src="images/account/syndication.gif" style="border: none; vertical-align: middle;" alt="Blogs" />
+      </a>
       <span class="sncore_link" style='<%# SessionManager.IsAdministrator ? "" : "display: none;" %>'>
        <a href='SystemCityEdit.aspx?id=<%# Eval("Id") %>&city=<%# base.Render(Eval("Name")) %>&state=<%# base.Render(Eval("State")) %>&country=<%# base.Render(Eval("Country")) %>'>
         &#187; edit

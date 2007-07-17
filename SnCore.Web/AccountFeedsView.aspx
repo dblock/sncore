@@ -30,6 +30,8 @@
        <a href="AccountFeedItemsView.aspx">&#187; Blog Posts</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
+       <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Blogs" />
+       <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Blogs" />
        <a href="AccountFeedWizard.aspx">&#187; Syndicate Yours</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
