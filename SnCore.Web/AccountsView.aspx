@@ -111,7 +111,12 @@
        city:
       </td>
       <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
+       <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+          DataValueField="Name" runat="server" AutoPostBack="true" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>

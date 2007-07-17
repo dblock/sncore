@@ -45,12 +45,22 @@ public partial class AccountFeedsView : Page
         ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
         if (!IsPostBack)
         {
-            LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
+            if (LocationSelector.SelectLocation(sender, new LocationEventArgs(Request)))
+            {
+                panelSearchInternal.Visible = true;
+            }
 
             bool picturesOnly = false;
             if (bool.TryParse(Request["pictures"], out picturesOnly))
             {
                 checkboxPicturesOnly.Checked = picturesOnly;
+                panelSearchInternal.Visible = true;
+            }
+
+            if (!string.IsNullOrEmpty(Request.QueryString["name"]))
+            {
+                inputName.Text = Request.QueryString["name"];
+                panelSearchInternal.Visible = true;
             }
 
             GetData(sender, e);
@@ -115,12 +125,24 @@ public partial class AccountFeedsView : Page
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
             options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
 
-        int feedItemsCount = SessionManager.GetCount<TransitAccountFeedItem>(
-            SessionManager.SyndicationService.GetAllAccountFeedItemsCount);
+        TransitAccountFeedItemQueryOptions feeditem_options = new TransitAccountFeedItemQueryOptions();
+        feeditem_options.City = options.City;
+        feeditem_options.Country = options.Country;
+        feeditem_options.PublishedOnly = options.PublishedOnly;
+        feeditem_options.State = options.State;
 
-        labelCount.Text = string.Format("{0} blog{1} with <a href='AccountFeedItemsView.aspx'>{2} {3}</a>",
+        int feedItemsCount = SessionManager.GetCount<TransitAccountFeedItem, TransitAccountFeedItemQueryOptions>(
+            feeditem_options, SessionManager.SyndicationService.GetAllAccountFeedItemsCount);
+
+        string feeds_queryargs = string.Format("city={0}&country={1}&state={2}",
+            Renderer.UrlEncode(options.City),
+            Renderer.UrlEncode(options.Country),
+            Renderer.UrlEncode(options.State));
+
+        labelCount.Text = string.Format("{0} blog{1} with <a href='AccountFeedItemsView.aspx?{4}'>{2} {3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
-            feedItemsCount, feedItemsCount == 1 ? "post" : "posts");
+            feedItemsCount, feedItemsCount == 1 ? "post" : "posts",
+            feeds_queryargs);
 
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -149,8 +171,7 @@ public partial class AccountFeedsView : Page
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeed, TransitAccountFeedQueryOptions>(
             options, serviceoptions, SessionManager.SyndicationService.GetAllAccountFeeds);
 
-        string args = string.Format("page={0}", gridManage.CurrentPageIndex);
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
 
         panelLinks.Update();
     }

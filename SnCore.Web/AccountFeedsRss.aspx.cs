@@ -73,7 +73,7 @@ public partial class AccountFeedsRss : Page
         get
         {
             object o = Request.QueryString["sortorder"];
-            return (o == null ? "Modified" : o.ToString());
+            return (o == null ? "Updated" : o.ToString());
         }
     }
 

@@ -36,11 +36,14 @@ public partial class AccountFeedItemsNewViewControl : Control
     {
         if (!IsPostBack)
         {
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = 0;
-            options.PageSize = Count;
-            FeedsView.DataSource = SessionManager.GetCollection<TransitAccountFeedItem>(
-               options, SessionManager.SyndicationService.GetAllAccountFeedItems);
+            ServiceQueryOptions queryoptions = new ServiceQueryOptions();
+            queryoptions.PageNumber = 0;
+            queryoptions.PageSize = Count;
+
+            TransitAccountFeedItemQueryOptions options = new TransitAccountFeedItemQueryOptions();
+
+            FeedsView.DataSource = SessionManager.GetCollection<TransitAccountFeedItem, TransitAccountFeedItemQueryOptions>(
+               options, queryoptions, SessionManager.SyndicationService.GetAllAccountFeedItems);
             FeedsView.DataBind();
         }
     }

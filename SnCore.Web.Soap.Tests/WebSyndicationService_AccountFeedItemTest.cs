@@ -78,9 +78,10 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         [Test]
         public void GetAllAccountFeedItemsTest()
         {
-            int count = EndPoint.GetAllAccountFeedItemsCount(GetAdminTicket());
+            WebSyndicationService.TransitAccountFeedItemQueryOptions options = new WebSyndicationService.TransitAccountFeedItemQueryOptions();
+            int count = EndPoint.GetAllAccountFeedItemsCount(GetAdminTicket(), options);
             Console.WriteLine("Count: {0}", count);
-            WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.GetAllAccountFeedItems(GetAdminTicket(), null);
+            WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.GetAllAccountFeedItems(GetAdminTicket(), options, null);
             Console.WriteLine("Length: {0}", items.Length);
             Assert.AreEqual(count, items.Length);
         }

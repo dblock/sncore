@@ -19,21 +19,71 @@ using System.Collections.Specialized;
 [SiteMapDataAttribute("Blogs")]
 public partial class AccountFeedItemsView : Page
 {
+    private LocationSelectorCountryStateCity mLocationSelector = null;
+
+    public LocationSelectorCountryStateCity LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorCountryStateCity(
+                    this, true, inputCountry, inputState, inputCity);
+            }
+
+            return mLocationSelector;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
+
         ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
         SetDefaultButton(search);
         if (!IsPostBack)
         {
-            if (!string.IsNullOrEmpty(Request.QueryString["q"]))
+            if (LocationSelector.SelectLocation(sender, new LocationEventArgs(Request)))
             {
-                inputSearch.Text = Request.QueryString["q"];
+                panelSearchInternal.Visible = true;
             }
 
-            panelSearchInternal.Visible = !string.IsNullOrEmpty(inputSearch.Text);
-            GetData();
+            if (!string.IsNullOrEmpty(Request.QueryString["search"]))
+            {
+                inputSearch.Text = Request.QueryString["search"];
+                panelSearchInternal.Visible = true;
+            }
+
+            GetData(sender, e);
         }
+
+        SetDefaultButton(search);
+    }
+
+    void LocationSelector_StateChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+        panelCity.Update();
+    }
+
+    void LocationSelector_CountryChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+    }
+
+    private TransitAccountFeedItemQueryOptions GetQueryOptions()
+    {
+        TransitAccountFeedItemQueryOptions options = new TransitAccountFeedItemQueryOptions();
+        options.PublishedOnly = true;
+        options.City = inputCity.Text;
+        options.Country = inputCountry.SelectedValue;
+        options.State = inputState.SelectedValue;
+        options.Search = inputSearch.Text;
+        return options;
     }
 
     void History_Navigate(object sender, HistoryEventArgs e)
@@ -55,25 +105,34 @@ public partial class AccountFeedItemsView : Page
         gridManage.DataBind();
     }
 
-    private void GetData()
+    private void GetData(object sender, EventArgs e)
     {
+        TransitAccountFeedItemQueryOptions options = GetQueryOptions();
+
         gridManage.CurrentPageIndex = 0;
 
-        gridManage.VirtualItemCount = string.IsNullOrEmpty(inputSearch.Text)
-            ? SessionManager.GetCount<TransitAccountFeedItem>(
-                SessionManager.SyndicationService.GetAllAccountFeedItemsCount)
-            : SessionManager.GetCount<TransitAccountFeedItem, string>(
-                inputSearch.Text, SessionManager.SyndicationService.SearchAccountFeedItemsCount);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItem, TransitAccountFeedItemQueryOptions>(
+                options, SessionManager.SyndicationService.GetAllAccountFeedItemsCount);
 
-        TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
-        options.PublishedOnly = false;
-        options.PicturesOnly = false;
+        TransitAccountFeedQueryOptions feed_options = new TransitAccountFeedQueryOptions();
+        feed_options.PublishedOnly = false;
+        feed_options.PicturesOnly = false;
+        feed_options.City = options.City;
+        feed_options.State = options.State;
+        feed_options.Country = options.Country;
+        feed_options.WithFeedItemsOnly = true;
         int feedsCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
-            options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
+            feed_options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
 
-        labelCount.Text = string.Format("{0} post{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
+        string feeds_queryargs = string.Format("city={0}&country={1}&state={2}",
+            Renderer.UrlEncode(options.City),
+            Renderer.UrlEncode(options.Country),
+            Renderer.UrlEncode(options.State));
+
+        labelCount.Text = string.Format("{0} post{1} from <a href='AccountFeedsView.aspx?{4}'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",
-            feedsCount, feedsCount == 1 ? string.Empty : "s");
+            feedsCount, feedsCount == 1 ? string.Empty : "s",
+            feeds_queryargs);
 
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
@@ -81,25 +140,36 @@ public partial class AccountFeedItemsView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
+        TransitAccountFeedItemQueryOptions options = GetQueryOptions();
+
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = string.IsNullOrEmpty(inputSearch.Text)
-            ? SessionManager.GetCollection<TransitAccountFeedItem>(
-                serviceoptions, SessionManager.SyndicationService.GetAllAccountFeedItems)
-            : SessionManager.GetCollection<TransitAccountFeedItem, string>(
-                inputSearch.Text, serviceoptions, SessionManager.SyndicationService.SearchAccountFeedItems);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItem, TransitAccountFeedItemQueryOptions>(
+            options, serviceoptions, SessionManager.SyndicationService.GetAllAccountFeedItems);
 
-        string args = string.Format("page={0}&q={1}",
-            gridManage.CurrentPageIndex, Renderer.UrlEncode(inputSearch.Text));
+        string queryargs = string.Format("city={0}&country={1}&state={2}&search={3}&page={4}",
+                Renderer.UrlEncode(options.City),
+                Renderer.UrlEncode(options.Country),
+                Renderer.UrlEncode(options.State),
+                Renderer.UrlEncode(options.Search),
+                gridManage.CurrentPageIndex);
 
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+
+        linkRelRss.NavigateUrl = string.Format("AccountFeedItemsRss.aspx?{0}", queryargs);
+        linkPermalink.NavigateUrl = string.Format("AccountFeedItemsView.aspx?{0}", queryargs);
     }
 
-    protected void search_Click(object sender, EventArgs e)
+    void LocationSelector_CityChanged(object sender, EventArgs e)
     {
-        GetData();
-        panelLinks.Update();
+        panelCountryState.Update();
+        panelCity.Update();
+    }
+
+    public void search_Click(object sender, EventArgs e)
+    {
+        GetData(sender, e);
     }
 
     public string GetComments(int count)

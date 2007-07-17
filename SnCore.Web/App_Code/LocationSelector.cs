@@ -10,6 +10,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
 using SnCore.WebServices;
+using System.Collections.Specialized;
 
 public class CityLocationEventArgs : EventArgs
 {
@@ -66,6 +67,12 @@ public class LocationEventArgs : EventArgs
 
     public LocationEventArgs(HttpRequest request)
         : this(request["country"], request["state"], request["city"], request["neighborhood"])
+    {
+
+    }
+
+    public LocationEventArgs(NameValueCollection coll)
+        : this(coll["country"], coll["state"], coll["city"], coll["neighborhood"])
     {
 
     }
@@ -139,9 +146,11 @@ public class LocationSelectorCountryState : LocationSelector
         }
     }
 
-    public virtual void SelectLocation(object sender, LocationEventArgs e)
+    public virtual bool SelectLocation(object sender, LocationEventArgs e)
     {
-        if (mCountry != null)
+        bool result = false;
+
+        if (mCountry != null && !string.IsNullOrEmpty(e.Country))
         {
             mCountry.ClearSelection();
             ListItem country = mCountry.Items.FindByValue(e.Country);
@@ -149,10 +158,11 @@ public class LocationSelectorCountryState : LocationSelector
             {
                 country.Selected = true;
                 Country_SelectedIndexChanged(sender, e);
+                result = true;
             }
         }
 
-        if (mState != null)
+        if (mState != null && !string.IsNullOrEmpty(e.State))
         {
             mState.ClearSelection();
             ListItem state = mState.Items.FindByValue(e.State);
@@ -160,8 +170,11 @@ public class LocationSelectorCountryState : LocationSelector
             {
                 state.Selected = true;
                 State_SelectedIndexChanged(sender, e);
+                result = true;
             }
         }
+
+        return result;
     }
 
     public void ChangeCountry(object sender, EventArgs e)
@@ -221,14 +234,17 @@ public class LocationSelectorCountryStateCityText : LocationSelectorCountryState
         mCity = city;
     }
 
-    public override void SelectLocation(object sender, LocationEventArgs e)
+    public override bool SelectLocation(object sender, LocationEventArgs e)
     {
-        base.SelectLocation(sender, e);
+        bool result = base.SelectLocation(sender, e);
 
-        if (mCity != null)
+        if (mCity != null && !string.IsNullOrEmpty(e.City))
         {
             mCity.Text = e.City;
+            result = true;
         }
+
+        return result;
     }
 
     public void ChangeCityWithAccountDefault(object sender, CityLocationEventArgs e)
@@ -279,11 +295,11 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         }
     }
 
-    public override void SelectLocation(object sender, LocationEventArgs e)
+    public override bool SelectLocation(object sender, LocationEventArgs e)
     {
-        base.SelectLocation(sender, e);
+        bool result = base.SelectLocation(sender, e);
 
-        if (mCity != null)
+        if (mCity != null && ! string.IsNullOrEmpty(e.City))
         {
             mCity.ClearSelection();
             ListItem city = mCity.Items.FindByValue(e.City);
@@ -291,8 +307,11 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
             {
                 city.Selected = true;
                 City_SelectedIndexChanged(sender, e);
+                result = true;
             }
         }
+
+        return result;
     }
 
     protected override void State_SelectedIndexChanged(object sender, EventArgs e)
@@ -347,19 +366,22 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
         }
     }
 
-    public override void SelectLocation(object sender, LocationEventArgs e)
+    public override bool SelectLocation(object sender, LocationEventArgs e)
     {
-        base.SelectLocation(sender, e);
+        bool result = base.SelectLocation(sender, e);
 
-        if (mNeighborhood != null)
+        if (mNeighborhood != null && !string.IsNullOrEmpty(e.Neighborhood))
         {
             mNeighborhood.ClearSelection();
             ListItem neighborhood = mNeighborhood.Items.FindByValue(e.Neighborhood);
             if (neighborhood != null)
             {
                 neighborhood.Selected = true;
+                result = true;
             }
         }
+
+        return result;
     }
 
     protected override void City_SelectedIndexChanged(object sender, EventArgs e)
@@ -402,14 +424,17 @@ public class LocationSelectorCountryStateCityNeighborhoodText : LocationSelector
         mNeighborhood = neighborhood;
     }
 
-    public override void SelectLocation(object sender, LocationEventArgs e)
+    public override bool SelectLocation(object sender, LocationEventArgs e)
     {
-        base.SelectLocation(sender, e);
+        bool result = base.SelectLocation(sender, e);
 
-        if (mNeighborhood != null)
+        if (mNeighborhood != null && !string.IsNullOrEmpty(e.Neighborhood))
         {
             mNeighborhood.Text = e.Neighborhood;
+            result = true;
         }
+
+        return result;
     }
 
     public override void ClearSelection()

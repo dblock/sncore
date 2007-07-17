@@ -150,18 +150,22 @@ namespace SnCore.Tools.Web
 
         public static NameValueCollection ParseQueryString(string qstring)
         {
-            //simplify our task
-            qstring = qstring + "&";
-
             NameValueCollection outc = new NameValueCollection();
 
-            Regex r = new Regex(@"(?<name>[^=&]+)=(?<value>[^&]+)&", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-            IEnumerator _enum = r.Matches(qstring).GetEnumerator();
-            while (_enum.MoveNext() && _enum.Current != null)
+            if (!string.IsNullOrEmpty(qstring))
             {
-                outc.Add(((Match)_enum.Current).Result("${name}"),
-                        ((Match)_enum.Current).Result("${value}"));
+                //simplify our task
+                qstring = qstring + "&";
+
+
+                Regex r = new Regex(@"(?<name>[^=&]+)=(?<value>[^&]+)&", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+                IEnumerator _enum = r.Matches(qstring).GetEnumerator();
+                while (_enum.MoveNext() && _enum.Current != null)
+                {
+                    outc.Add(((Match)_enum.Current).Result("${name}"),
+                            ((Match)_enum.Current).Result("${value}"));
+                }
             }
 
             return outc;

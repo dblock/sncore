@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 
 public partial class PlacesView : Page
 {
-    public class LocationWithTypeEventArgs : LocationEventArgs
+    public class LocationWithOptionsEventArgs : LocationEventArgs
     {
         private string mType;
 
@@ -36,40 +36,59 @@ public partial class PlacesView : Page
             }
         }
 
-        public LocationWithTypeEventArgs(TransitAccount account)
+        private string mPicturesOnly;
+
+        public string PicturesOnly
+        {
+            get
+            {
+                return mPicturesOnly;
+            }
+            set
+            {
+                mPicturesOnly = value;
+            }
+        }
+
+        public LocationWithOptionsEventArgs(TransitAccount account)
             : base(account)
         {
         }
 
-        public LocationWithTypeEventArgs(HttpRequest request)
+        public LocationWithOptionsEventArgs(HttpRequest request)
             : base(request)
         {
             mType = request["type"];
+            mPicturesOnly = request["pictures"];
         }
 
-        public LocationWithTypeEventArgs(string country, string state, string city, string neighborhood, string type)
-            : base(country, state, city, neighborhood)
+        public LocationWithOptionsEventArgs(NameValueCollection coll)
+            : base(coll)
         {
-            mType = type;
+            mType = coll["type"];
+            mPicturesOnly = coll["pictures"];
         }
     }
 
-    public class LocationSelectorWithType : LocationSelectorCountryStateCityNeighborhood
+    public class LocationSelectorWithOptions : LocationSelectorCountryStateCityNeighborhood
     {
         private DropDownList mType;
+        private CheckBox mPicturesOnly;
 
-        public LocationSelectorWithType(
+        public LocationSelectorWithOptions(
             Page page,
             bool empty,
             DropDownList country,
             DropDownList state,
             DropDownList city,
             DropDownList neighborhood,
-            DropDownList type)
+            DropDownList type,
+            CheckBox picturesonly)
             :
             base(page, empty, country, state, city, neighborhood)
         {
             mType = type;
+            mPicturesOnly = picturesonly;
 
             if (!mPage.IsPostBack)
             {
@@ -82,19 +101,32 @@ public partial class PlacesView : Page
             }
         }
 
-        public void SelectLocation(object sender, LocationWithTypeEventArgs e)
+        public bool SelectLocation(object sender, LocationWithOptionsEventArgs e)
         {
-            base.SelectLocation(sender, e);
+            bool result = base.SelectLocation(sender, e);
 
-            if (mType != null)
+            if (mType != null && ! string.IsNullOrEmpty(e.Type))
             {
                 mType.ClearSelection();
                 ListItem type = mType.Items.FindByValue(e.Type);
                 if (type != null)
                 {
                     type.Selected = true;
+                    result = true;
                 }
             }
+
+            if (mPicturesOnly != null && !string.IsNullOrEmpty(e.PicturesOnly))
+            {
+                bool picturesonly = false;
+                if (bool.TryParse(e.PicturesOnly, out picturesonly))
+                {
+                    mPicturesOnly.Checked = picturesonly;
+                    result = true;
+                }
+            }
+
+            return result;
         }
 
         public override void ClearSelection()
@@ -104,16 +136,16 @@ public partial class PlacesView : Page
         }
     }
 
-    private LocationSelectorWithType mLocationSelector = null;
+    private LocationSelectorWithOptions mLocationSelector = null;
 
-    public LocationSelectorWithType LocationSelector
+    public LocationSelectorWithOptions LocationSelector
     {
         get
         {
             if (mLocationSelector == null)
             {
-                mLocationSelector = new LocationSelectorWithType(
-                    this, true, inputCountry, inputState, inputCity, inputNeighborhood, inputType);
+                mLocationSelector = new LocationSelectorWithOptions(
+                    this, true, inputCountry, inputState, inputCity, inputNeighborhood, inputType, checkboxPicturesOnly);
             }
 
             return mLocationSelector;
@@ -143,15 +175,13 @@ public partial class PlacesView : Page
 
             if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
-                LocationSelector.SelectLocation(sender, new LocationWithTypeEventArgs(SessionManager.Account));
+                LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
             }
             else
             {
-                LocationSelector.SelectLocation(sender, new LocationWithTypeEventArgs(Request));
-                bool picturesOnly = true;
-                if (bool.TryParse(Request["pictures"], out picturesOnly))
+                if (LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(Request)))
                 {
-                    checkboxPicturesOnly.Checked = picturesOnly;
+                    panelSearchInternal.Visible = true;
                 }
             }
 
@@ -161,6 +191,7 @@ public partial class PlacesView : Page
 
             if ((gridManage.VirtualItemCount == 0) && (Request.QueryString.Count == 0))
             {
+                panelSearchInternal.Visible = false;
                 LocationSelector.ClearSelection();
                 GetData(sender, e);
             }
@@ -176,16 +207,11 @@ public partial class PlacesView : Page
 
     void History_Navigate(object sender, HistoryEventArgs e)
     {
-        if (!string.IsNullOrEmpty(e.EntryName))
+        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
+        if (!string.IsNullOrEmpty(s))
         {
-            string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
             NameValueCollection args = Renderer.ParseQueryString(s);
-
-            LocationSelector.SelectLocation(sender, new LocationWithTypeEventArgs(
-                args["country"], args["state"], args["city"], args["neighborhood"], args["type"]));
-
-            checkboxPicturesOnly.Checked = bool.Parse(args["pictures"]);
-
+            LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
             gridManage.CurrentPageIndex = int.Parse(args["page"]);
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
@@ -260,8 +286,6 @@ public partial class PlacesView : Page
     private TransitPlaceQueryOptions GetQueryOptions()
     {
         TransitPlaceQueryOptions options = new TransitPlaceQueryOptions();
-        options.SortAscending = bool.Parse(listboxSelectOrderBy.SelectedValue);
-        options.SortOrder = listboxSelectSortOrder.SelectedValue;
         options.PicturesOnly = checkboxPicturesOnly.Checked;
         options.Neighborhood = inputNeighborhood.Text;
         options.City = inputCity.Text;
@@ -276,9 +300,7 @@ public partial class PlacesView : Page
     {
         TransitPlaceQueryOptions options = GetQueryOptions();
 
-        string args = string.Format("order={0}&asc={1}&city={2}&country={3}&state={4}&name={5}&type={6}&pictures={7}&neighborhood={8}&page={9}",
-                Renderer.UrlEncode(options.SortOrder),
-                Renderer.UrlEncode(options.SortAscending),
+        string args = string.Format("city={0}&country={1}&state={2}&name={3}&type={4}&pictures={5}&neighborhood={6}&page={7}",
                 Renderer.UrlEncode(options.City),
                 Renderer.UrlEncode(options.Country),
                 Renderer.UrlEncode(options.State),

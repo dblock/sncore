@@ -20,81 +20,125 @@ using System.Collections.Specialized;
 [SiteMapDataAttribute("People")]
 public partial class AccountsView : AccountPersonPage
 {
-    public class SelectLocationEventArgs : EventArgs
+    public class LocationWithOptionsEventArgs : LocationEventArgs
     {
         public string Name;
         public string Email;
-        public string Country;
-        public string State;
-        public string City;
-        public bool BloggersOnly = false;
-        public bool PicturesOnly = true;
+        public string BloggersOnly;
+        public string PicturesOnly;
 
-        public SelectLocationEventArgs(TransitAccount account)
+        public LocationWithOptionsEventArgs(TransitAccount account)
+            : base(account)
         {
-            Country = account.Country;
-            State = account.State;
-            City = account.City;
+
         }
 
-        public SelectLocationEventArgs(HttpRequest request)
+        public LocationWithOptionsEventArgs(HttpRequest request)
+            : base(request)
         {
-            Country = request["country"];
-            State = request["state"];
-            City = request["city"];
             Name = request["name"];
             Email = request["email"];
-            if (!string.IsNullOrEmpty(request["bloggers"]))
-                bool.TryParse(request["bloggers"], out BloggersOnly);
-            if (!string.IsNullOrEmpty(request["pictures"]))
-                bool.TryParse(request["pictures"], out PicturesOnly);
+            PicturesOnly = request["pictures"];
+            BloggersOnly = request["bloggers"];
         }
 
-        public SelectLocationEventArgs(NameValueCollection request)
+        public LocationWithOptionsEventArgs(NameValueCollection coll)
+            : base(coll)
         {
-            Country = request["country"];
-            State = request["state"];
-            City = request["city"];
-            Name = request["name"];
-            Email = request["email"];
-            if (!string.IsNullOrEmpty(request["bloggers"]))
-                bool.TryParse(request["bloggers"], out BloggersOnly);
-            if (!string.IsNullOrEmpty(request["pictures"]))
-                bool.TryParse(request["pictures"], out PicturesOnly);
+            Name = coll["name"];
+            Email = coll["email"];
+            PicturesOnly = coll["pictures"];
+            BloggersOnly = coll["bloggers"];
+        }
+    }
+
+    public class LocationSelectorWithOptions : LocationSelectorCountryStateCity
+    {
+        private CheckBox mBloggersOnly;
+        private CheckBox mPicturesOnly;
+
+        public LocationSelectorWithOptions(
+            Page page,
+            bool empty,
+            DropDownList country,
+            DropDownList state,
+            DropDownList city,
+            CheckBox bloggersonly,
+            CheckBox picturesonly)
+            :
+            base(page, empty, country, state, city)
+        {
+            mBloggersOnly = bloggersonly;
+            mPicturesOnly = picturesonly;
         }
 
+        public bool SelectLocation(object sender, LocationWithOptionsEventArgs e)
+        {
+            bool result = base.SelectLocation(sender, e);
+
+            if (mPicturesOnly != null && !string.IsNullOrEmpty(e.PicturesOnly))
+            {
+                bool picturesonly = false;
+                if (bool.TryParse(e.PicturesOnly, out picturesonly))
+                {
+                    mPicturesOnly.Checked = picturesonly;
+                    result = true;
+                }
+            }
+
+            if (mBloggersOnly != null && !string.IsNullOrEmpty(e.BloggersOnly))
+            {
+                bool bloggersonly = false;
+                if (bool.TryParse(e.BloggersOnly, out bloggersonly))
+                {
+                    mBloggersOnly.Checked = bloggersonly;
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+    }
+
+    private LocationSelectorWithOptions mLocationSelector = null;
+
+    public LocationSelectorWithOptions LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorWithOptions(
+                    this, true, inputCountry, inputState, inputCity, checkboxBloggersOnly, checkboxPicturesOnly);
+            }
+
+            return mLocationSelector;
+        }
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
         SetDefaultButton(search);
 
+        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
+
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
 
         if (!IsPostBack)
         {
-            List<TransitCountry> countries = new List<TransitCountry>();
-            countries.Add(new TransitCountry());
-            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
-            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
-                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
-
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-
-            inputCountry.DataSource = countries;
-            inputCountry.DataBind();
-
-            inputState.DataSource = states;
-            inputState.DataBind();
+            if (LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(Request)))
+            {
+                panelSearchInternal.Visible = true;
+            }
 
             linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
 
             if (SessionManager.IsLoggedIn)
             {
                 linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
-                SelectLocation(sender, new SelectLocationEventArgs(Request));
             }
 
             GetData();
@@ -107,21 +151,10 @@ public partial class AccountsView : AccountPersonPage
         if (!string.IsNullOrEmpty(s))
         {
             NameValueCollection args = Renderer.ParseQueryString(s);
-            SelectLocation(sender, new SelectLocationEventArgs(args));
+            LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
             gridManage.CurrentPageIndex = int.Parse(args["page"]);
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();
-        }
-        else
-        {
-            SelectLocation(sender, new SelectLocationEventArgs(Request));
-            if (SessionManager.IsLoggedIn)
-            {
-                linkLocal.Text = string.Format("&#187; All {0} People", Renderer.Render(SessionManager.Account.City));
-                SelectLocation(sender, new SelectLocationEventArgs(Request));
-            }
-
-            GetData();
         }
     }
 
@@ -188,16 +221,16 @@ public partial class AccountsView : AccountPersonPage
         AccountActivityQueryOptions options = GetQueryOptions();
 
         string args = string.Format("order={0}&asc={1}&pictures={2}&city={3}&country={4}&state={5}&name={6}&email={7}&bloggers={8}&page={9}",
-                options.SortOrder,
-                options.SortAscending,
-                options.PicturesOnly,
-                options.City,
-                options.Country,
-                options.State,
-                Renderer.UrlEncode(options.Name),
-                Renderer.UrlEncode(options.Email),
-                options.BloggersOnly,
-                gridManage.CurrentPageIndex);
+            options.SortOrder,
+            options.SortAscending,
+            options.PicturesOnly,
+            options.City,
+            options.Country,
+            options.State,
+            Renderer.UrlEncode(options.Name),
+            Renderer.UrlEncode(options.Email),
+            options.BloggersOnly,
+            gridManage.CurrentPageIndex);
 
         linkRelRss.NavigateUrl = string.Format("AccountsRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("AccountsView.aspx?{0}", args);
@@ -213,27 +246,6 @@ public partial class AccountsView : AccountPersonPage
         panelLinks.Update();
     }
 
-    public void SelectLocation(object sender, SelectLocationEventArgs e)
-    {
-        try
-        {
-            inputName.Text = e.Name;
-            inputEmailAddress.Text = e.Email;
-            checkboxBloggersOnly.Checked = e.BloggersOnly;
-            checkboxPicturesOnly.Checked = e.PicturesOnly;
-            inputCountry.ClearSelection();
-            inputCountry.Items.FindByValue(e.Country).Selected = true;
-            inputCountry_SelectedIndexChanged(sender, e);
-            inputState.ClearSelection();
-            inputState.Items.FindByValue(e.State).Selected = true;
-            inputCity.Text = e.City;
-        }
-        catch
-        {
-
-        }
-    }
-
     public void linkLocal_Click(object sender, EventArgs e)
     {
         if (!SessionManager.IsLoggedIn)
@@ -244,7 +256,7 @@ public partial class AccountsView : AccountPersonPage
         inputName.Text = string.Empty;
         inputCity.Text = string.Empty;
         inputEmailAddress.Text = string.Empty;
-        SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+        LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
         GetData();
         panelSearch.Update();
     }
@@ -273,6 +285,23 @@ public partial class AccountsView : AccountPersonPage
         inputEmailAddress.Text = string.Empty;
         GetData();
         panelSearch.Update();
+    }
+
+    void LocationSelector_CityChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+        panelCity.Update();
+    }
+
+    void LocationSelector_StateChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+        panelCity.Update();
+    }
+
+    void LocationSelector_CountryChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
     }
 
     public void linkSearch_Click(object sender, EventArgs e)

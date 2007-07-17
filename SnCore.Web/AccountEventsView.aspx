@@ -20,6 +20,7 @@
        <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="linkSearch_Click" />
        <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
        <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
+       <asp:Hyperlink id="linkPermalink" NavigateUrl="PlacesView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>
      <td align="right" valign="middle">
@@ -43,37 +44,18 @@
      </tr>
      <tr>
       <td class="sncore_form_label">
-       sort by:
-      </td>
-      <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder"
-        runat="server">
-        <asp:ListItem Text="Name" Value="Name" />
-        <asp:ListItem Text="Date Created" Selected="True" Value="Created" />
-       </asp:DropDownList>
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
-       order by:
-      </td>
-      <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server">
-        <asp:ListItem Selected="True" Text="Descending" Value="false" />
-        <asp:ListItem Text="Ascending" Value="true" />
-       </asp:DropDownList>
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
        country and state:
       </td>
       <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-        ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
-        runat="server" />
-       <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" OnSelectedIndexChanged="inputState_SelectedIndexChanged"
-        AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" />
+       <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown_small"
+          ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
+          runat="server" />
+         <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState"
+          AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>
@@ -81,8 +63,12 @@
        city:
       </td>
       <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
-        DataValueField="Name" runat="server" AutoPostBack="true" OnSelectedIndexChanged="inputCity_SelectedIndexChanged" />
+       <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+          DataValueField="Name" runat="server" AutoPostBack="true" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>
@@ -90,8 +76,12 @@
        neighborhood:
       </td>
       <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
-        DataValueField="Name" runat="server" />
+       <asp:UpdatePanel runat="server" ID="panelNeighborhood" UpdateMode="Conditional">
+        <ContentTemplate>
+         <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
+          DataValueField="Name" runat="server" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>

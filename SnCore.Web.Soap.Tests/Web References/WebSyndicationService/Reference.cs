@@ -781,24 +781,26 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountFeedItemsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAllAccountFeedItemsCount(string ticket) {
+        public int GetAllAccountFeedItemsCount(string ticket, TransitAccountFeedItemQueryOptions qopt) {
             object[] results = this.Invoke("GetAllAccountFeedItemsCount", new object[] {
-                        ticket});
+                        ticket,
+                        qopt});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedItemsCountAsync(string ticket) {
-            this.GetAllAccountFeedItemsCountAsync(ticket, null);
+        public void GetAllAccountFeedItemsCountAsync(string ticket, TransitAccountFeedItemQueryOptions qopt) {
+            this.GetAllAccountFeedItemsCountAsync(ticket, qopt, null);
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedItemsCountAsync(string ticket, object userState) {
+        public void GetAllAccountFeedItemsCountAsync(string ticket, TransitAccountFeedItemQueryOptions qopt, object userState) {
             if ((this.GetAllAccountFeedItemsCountOperationCompleted == null)) {
                 this.GetAllAccountFeedItemsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountFeedItemsCountOperationCompleted);
             }
             this.InvokeAsync("GetAllAccountFeedItemsCount", new object[] {
-                        ticket}, this.GetAllAccountFeedItemsCountOperationCompleted, userState);
+                        ticket,
+                        qopt}, this.GetAllAccountFeedItemsCountOperationCompleted, userState);
         }
         
         private void OnGetAllAccountFeedItemsCountOperationCompleted(object arg) {
@@ -810,25 +812,27 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountFeedItems", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountFeedItem[] GetAllAccountFeedItems(string ticket, ServiceQueryOptions options) {
+        public TransitAccountFeedItem[] GetAllAccountFeedItems(string ticket, TransitAccountFeedItemQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetAllAccountFeedItems", new object[] {
                         ticket,
+                        qopt,
                         options});
             return ((TransitAccountFeedItem[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedItemsAsync(string ticket, ServiceQueryOptions options) {
-            this.GetAllAccountFeedItemsAsync(ticket, options, null);
+        public void GetAllAccountFeedItemsAsync(string ticket, TransitAccountFeedItemQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetAllAccountFeedItemsAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetAllAccountFeedItemsAsync(string ticket, ServiceQueryOptions options, object userState) {
+        public void GetAllAccountFeedItemsAsync(string ticket, TransitAccountFeedItemQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetAllAccountFeedItemsOperationCompleted == null)) {
                 this.GetAllAccountFeedItemsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountFeedItemsOperationCompleted);
             }
             this.InvokeAsync("GetAllAccountFeedItems", new object[] {
                         ticket,
+                        qopt,
                         options}, this.GetAllAccountFeedItemsOperationCompleted, userState);
         }
         
@@ -2693,7 +2697,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitAccountFeedQueryOptions {
+    public partial class TransitAccountFeedItemQueryOptions {
         
         private string sortOrderField;
         
@@ -2705,7 +2709,110 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private string cityField;
         
-        private string neighborhoodField;
+        private string searchField;
+        
+        private bool publishedOnlyField;
+        
+        private int accountIdField;
+        
+        /// <remarks/>
+        public string SortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool SortAscending {
+            get {
+                return this.sortAscendingField;
+            }
+            set {
+                this.sortAscendingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Search {
+            get {
+                return this.searchField;
+            }
+            set {
+                this.searchField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool PublishedOnly {
+            get {
+                return this.publishedOnlyField;
+            }
+            set {
+                this.publishedOnlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFeedQueryOptions {
+        
+        private string sortOrderField;
+        
+        private bool sortAscendingField;
+        
+        private string countryField;
+        
+        private string stateField;
+        
+        private string cityField;
         
         private string nameField;
         
@@ -2764,16 +2871,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.cityField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Neighborhood {
-            get {
-                return this.neighborhoodField;
-            }
-            set {
-                this.neighborhoodField = value;
             }
         }
         

@@ -261,10 +261,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed items count</returns>
         [WebMethod(Description = "Get all account feed items count.", CacheDuration = 60)]
-        public int GetAllAccountFeedItemsCount(string ticket)
+        public int GetAllAccountFeedItemsCount(string ticket, TransitAccountFeedItemQueryOptions qopt)
         {
             return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetCount(
-                ticket, "WHERE AccountFeedItem.AccountFeed.Publish = 1");
+                ticket, qopt.CreateCountQuery());
         }
 
         /// <summary>
@@ -272,11 +272,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account feed items</returns>
         [WebMethod(Description = "Get account feed items.", CacheDuration = 60)]
-        public List<TransitAccountFeedItem> GetAllAccountFeedItems(string ticket, ServiceQueryOptions options)
+        public List<TransitAccountFeedItem> GetAllAccountFeedItems(string ticket, TransitAccountFeedItemQueryOptions qopt, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetList(
-                ticket, options, "SELECT AccountFeedItem FROM AccountFeedItem AccountFeedItem" +
-                 " WHERE AccountFeedItem.AccountFeed.Publish = 1 ORDER BY AccountFeedItem.Created DESC");
+                ticket, options, qopt.CreateQuery());
         }
 
         /// <summary>

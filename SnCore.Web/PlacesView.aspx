@@ -53,28 +53,6 @@
      </tr>
      <tr>
       <td class="sncore_form_label">
-       sort by:
-      </td>
-      <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
-        <asp:ListItem Text="Name" Value="Name" />
-        <asp:ListItem Text="Date Created" Selected="True" Value="Created" />
-       </asp:DropDownList>
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
-       order by:
-      </td>
-      <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server">
-        <asp:ListItem Selected="True" Text="Descending" Value="false" />
-        <asp:ListItem Text="Ascending" Value="true" />
-       </asp:DropDownList>
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
        country and state:
       </td>
       <td class="sncore_form_value">
