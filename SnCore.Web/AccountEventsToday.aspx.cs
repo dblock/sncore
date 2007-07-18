@@ -14,45 +14,112 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 public partial class AccountEventsToday : Page
 {
-    public class SelectLocationEventArgs : EventArgs
+    public class LocationWithOptionsEventArgs : LocationEventArgs
     {
-        public string Country;
-        public string State;
-        public string City;
-        public string Neighborhood;
-        public string Type;
+        private string mType;
 
-        public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City, string.Empty, string.Empty)
+        public string Type
         {
-
+            get
+            {
+                return mType;
+            }
+            set
+            {
+                mType = value;
+            }
         }
 
-        public SelectLocationEventArgs(HttpRequest request)
-            : this(request["country"], request["state"], request["city"], request["neighborhood"], request["type"])
+        public LocationWithOptionsEventArgs(TransitAccount account)
+            : base(account)
         {
-
         }
 
-        public SelectLocationEventArgs(
-            string country,
-            string state,
-            string city,
-            string neighborhood,
-            string type)
+        public LocationWithOptionsEventArgs(HttpRequest request)
+            : base(request)
         {
-            Country = country;
-            State = state;
-            City = city;
-            Neighborhood = neighborhood;
-            Type = type;
+            mType = request["type"];
+        }
+
+        public LocationWithOptionsEventArgs(NameValueCollection coll)
+            : base(coll)
+        {
+            mType = coll["type"];
         }
     }
 
-    private TransitAccountEventInstanceQueryOptions mOptions = null;
+    public class LocationSelectorWithOptions : LocationSelectorCountryStateCityNeighborhood
+    {
+        private DropDownList mType;
+
+        public LocationSelectorWithOptions(
+            Page page,
+            bool empty,
+            DropDownList country,
+            DropDownList state,
+            DropDownList city,
+            DropDownList neighborhood,
+            DropDownList type)
+            :
+            base(page, empty, country, state, city, neighborhood)
+        {
+            mType = type;
+
+            if (!mPage.IsPostBack)
+            {
+                List<TransitAccountEventType> types = new List<TransitAccountEventType>();
+                types.Add(new TransitAccountEventType());
+                types.AddRange(mPage.SessionManager.GetCollection<TransitAccountEventType>(
+                    (ServiceQueryOptions)null, mPage.SessionManager.EventService.GetAccountEventTypes));
+                mType.DataSource = types;
+                mType.DataBind();
+            }
+        }
+
+        public bool SelectLocation(object sender, LocationWithOptionsEventArgs e)
+        {
+            bool result = base.SelectLocation(sender, e);
+
+            if (mType != null && !string.IsNullOrEmpty(e.Type))
+            {
+                mType.ClearSelection();
+                ListItem type = mType.Items.FindByValue(e.Type);
+                if (type != null)
+                {
+                    type.Selected = true;
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        public override void ClearSelection()
+        {
+            mType.ClearSelection();
+            base.ClearSelection();
+        }
+    }
+
+    private LocationSelectorWithOptions mLocationSelector = null;
+
+    public LocationSelectorWithOptions LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorWithOptions(
+                    this, true, inputCountry, inputState, inputCity, inputNeighborhood, inputType);
+            }
+
+            return mLocationSelector;
+        }
+    }
 
     public void Page_Load(object sender, EventArgs e)
     {
@@ -60,21 +127,6 @@ public partial class AccountEventsToday : Page
 
         if (!IsPostBack)
         {
-            List<TransitAccountEventType> types = new List<TransitAccountEventType>();
-            types.Add(new TransitAccountEventType());
-            types.AddRange(SessionManager.GetCollection<TransitAccountEventType>(
-                (ServiceQueryOptions)null, SessionManager.EventService.GetAccountEventTypes));
-            inputType.DataSource = types;
-            inputType.DataBind();
-
-            List<TransitCountry> countries = new List<TransitCountry>();
-            countries.Add(new TransitCountry());
-            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
-            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
-                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
-            inputCountry.DataSource = countries;
-            inputCountry.DataBind();
-
             linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
 
             if (SessionManager.IsLoggedIn)
@@ -82,17 +134,14 @@ public partial class AccountEventsToday : Page
                 linkLocal.Text = string.Format("&#187; {0} Events", Renderer.Render(SessionManager.Account.City));
             }
 
-            //if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
-            //{
-            //    SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-            //}
-            //else
+
+            if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
-                SelectLocation(sender, new SelectLocationEventArgs(Request));
+                LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
             }
 
             SelectWeek();
-            GetData();
+            GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
@@ -118,156 +167,109 @@ public partial class AccountEventsToday : Page
         } while ((adjustedNow.DayOfWeek != DayOfWeek.Monday) || (count < 7));
     }
 
-    private void GetData()
+    private void GetData(object sender, EventArgs e)
     {
-        mOptions = null;
+        TransitAccountEventInstanceQueryOptions options = GetQueryOptions();
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountEventInstance, TransitAccountEventInstanceQueryOptions>(
-            QueryOptions, SessionManager.EventService.GetAccountEventInstancesCount);
+            options, SessionManager.EventService.GetAccountEventInstancesCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = gridManage.CurrentPageIndex;
-        options.PageSize = gridManage.PageSize;
+        TransitAccountEventInstanceQueryOptions options = GetQueryOptions();
+
+        ServiceQueryOptions service_options = new ServiceQueryOptions();
+        service_options.PageNumber = gridManage.CurrentPageIndex;
+        service_options.PageSize = gridManage.PageSize;
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountEventInstance, TransitAccountEventInstanceQueryOptions>(
-            QueryOptions, options, SessionManager.EventService.GetAccountEventInstances);
+            options, service_options, SessionManager.EventService.GetAccountEventInstances);
+
+        Title = titleEvents.Text = (string.IsNullOrEmpty(options.City)
+            ? titleEvents.DefaultText
+            : string.Format("{0}: {1}", titleEvents.DefaultText, options.City));
+
+        if (IsPostBack)
+        {
+            Title = string.Format("{0} - {1}", SessionManager.GetCachedConfiguration(
+                "SnCore.Title", "SnCore"), titleEvents.Text);
+        }
+
+        panelLinks.Update();
     }
 
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
+    void LocationSelector_CityChanged(object sender, EventArgs e)
     {
-        List<TransitState> states = new List<TransitState>();
-        states.Add(new TransitState());
-        states.AddRange(SessionManager.GetCollection<TransitState, string>(
-            inputCountry.SelectedValue, (ServiceQueryOptions) null, SessionManager.LocationService.GetStatesByCountryName));
-        inputState.DataSource = states;
-        inputState.DataBind();
-        inputState_SelectedIndexChanged(sender, e);
         panelCountryState.Update();
-    }
-
-
-    public void inputState_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        List<TransitCity> cities = new List<TransitCity>();
-        cities.Add(new TransitCity());
-        cities.AddRange(SessionManager.GetCollection<TransitCity, string, string>(
-            inputCountry.SelectedValue, inputState.SelectedValue, (ServiceQueryOptions) null,
-            SessionManager.LocationService.GetCitiesByLocation));
-        inputCity.DataSource = cities;
-        inputCity.DataBind();
         panelCity.Update();
-    }
-
-    public void inputCity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
-        neighborhoods.Add(new TransitNeighborhood());
-        neighborhoods.AddRange(SessionManager.GetCollection<TransitNeighborhood, string, string, string>(
-            inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue, (ServiceQueryOptions) null,
-            SessionManager.LocationService.GetNeighborhoodsByLocation));
-        inputNeighborhood.DataSource = neighborhoods;
-        inputNeighborhood.DataBind();
         panelNeighborhood.Update();
     }
 
-    private TransitAccountEventInstanceQueryOptions QueryOptions
+    void LocationSelector_StateChanged(object sender, EventArgs e)
     {
-        get
-        {
-            if (mOptions == null)
-            {
-                mOptions = new TransitAccountEventInstanceQueryOptions();
-                mOptions.Neighborhood = inputNeighborhood.Text;
-                mOptions.City = inputCity.Text;
-                mOptions.Country = inputCountry.SelectedValue;
-                mOptions.State = inputState.SelectedValue;
-                mOptions.Type = inputType.SelectedValue;
-                mOptions.StartDateTime = DateTime.MinValue;
-                mOptions.EndDateTime = DateTime.MaxValue;
-                if (calendarEvents.SelectedDates.Count > 0)
-                {
-                    foreach (DateTime dt in calendarEvents.SelectedDates)
-                    {
-                        DateTime d = base.ToUTC(dt);
-
-                        if (mOptions.StartDateTime == DateTime.MinValue || d < mOptions.StartDateTime)
-                            mOptions.StartDateTime = d;
-
-                        // include the entire day (adddays(1))
-                        if (mOptions.EndDateTime == DateTime.MaxValue || d.AddDays(1) > mOptions.EndDateTime)
-                            mOptions.EndDateTime = d.AddDays(1);
-                    }
-                }
-                else
-                {
-                    mOptions.StartDateTime = mOptions.EndDateTime = calendarEvents.SelectedDate;
-                }
-
-                if (mOptions.StartDateTime == mOptions.EndDateTime)
-                {
-                    mOptions.EndDateTime = mOptions.EndDateTime.AddDays(1);
-                }
-            }
-            return mOptions;
-        }
+        panelCountryState.Update();
+        panelCity.Update();
     }
 
-    public void SelectLocation(object sender, SelectLocationEventArgs e)
+    void LocationSelector_CountryChanged(object sender, EventArgs e)
     {
-        try
-        {
-            inputType.ClearSelection();
-            inputType.Items.FindByValue(e.Type).Selected = true;
-        }
-        catch
-        {
+        panelCountryState.Update();
+    }
 
-        }
-
-        try
+    private TransitAccountEventInstanceQueryOptions GetQueryOptions()
+    {
+        TransitAccountEventInstanceQueryOptions options = new TransitAccountEventInstanceQueryOptions();
+        options.Neighborhood = inputNeighborhood.Text;
+        options.City = inputCity.Text;
+        options.Country = inputCountry.SelectedValue;
+        options.State = inputState.SelectedValue;
+        options.Type = inputType.SelectedValue;
+        options.StartDateTime = DateTime.MinValue;
+        options.EndDateTime = DateTime.MaxValue;
+        if (calendarEvents.SelectedDates.Count > 0)
         {
-            inputCountry.ClearSelection();
-            inputCountry.Items.FindByValue(e.Country).Selected = true;
-            inputCountry_SelectedIndexChanged(sender, e);
-            inputState.ClearSelection();
-            inputState.Items.FindByValue(e.State).Selected = true;
-            inputState_SelectedIndexChanged(sender, e);
-            inputCity.ClearSelection();
-            inputCity.Items.FindByValue(e.City).Selected = true;
-            inputNeighborhood.ClearSelection();
-            inputNeighborhood.Items.FindByValue(e.Neighborhood).Selected = true;
+            foreach (DateTime dt in calendarEvents.SelectedDates)
+            {
+                DateTime d = base.ToUTC(dt);
+
+                if (options.StartDateTime == DateTime.MinValue || d < options.StartDateTime)
+                    options.StartDateTime = d;
+
+                // include the entire day (adddays(1))
+                if (options.EndDateTime == DateTime.MaxValue || d.AddDays(1) > options.EndDateTime)
+                    options.EndDateTime = d.AddDays(1);
+            }
         }
-        catch
+        else
         {
-
+            options.StartDateTime = options.EndDateTime = calendarEvents.SelectedDate;
         }
 
-        panelSearch.Update();
+        if (options.StartDateTime == options.EndDateTime)
+        {
+            options.EndDateTime = options.EndDateTime.AddDays(1);
+        }
+
+        return options;
     }
 
     public void search_Click(object sender, EventArgs e)
     {
-        GetData();
+        GetData(sender, e);
     }
 
     protected void calendarEvents_SelectionChanged(object sender, EventArgs e)
     {
-        GetData();
+        GetData(sender, e);
     }
 
     public void linkShowAll_Click(object sender, EventArgs e)
     {
-        inputCountry.ClearSelection();
-        inputState.ClearSelection();
-        inputCity.ClearSelection();
-        inputNeighborhood.ClearSelection();
-        inputType.ClearSelection();
+        LocationSelector.ClearSelection();
         SelectWeek();
-        GetData();
+        GetData(sender, e);
     }
 
     public void linkLocal_Click(object sender, EventArgs e)
@@ -275,12 +277,21 @@ public partial class AccountEventsToday : Page
         if (!SessionManager.IsLoggedIn)
             return;
 
-        SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
-        GetData();
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+        GetData(sender, e);
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
     {
         panelGrid.Update();
+    }
+
+
+    public void cities_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        NameValueCollection args = Renderer.ParseQueryString(e.CommandArgument.ToString());
+        LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
+        GetData(sender, e);
     }
 }

@@ -176,6 +176,8 @@ public partial class AccountFeedItemsView : Page
 
         linkRelRss.NavigateUrl = string.Format("AccountFeedItemsRss.aspx?{0}", queryargs);
         linkPermalink.NavigateUrl = string.Format("AccountFeedItemsView.aspx?{0}", queryargs);
+
+        panelLinks.Update();
     }
 
     void LocationSelector_CityChanged(object sender, EventArgs e)

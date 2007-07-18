@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Cities" Src="AccountCitiesControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel ID="panelLinks" runat="server" UpdateMode="Conditional" EnableViewState="true">
   <ContentTemplate>
@@ -51,33 +52,33 @@
         <td class="sncore_form_value">
          <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
           <ContentTemplate>
-           <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
+           <asp:DropDownList CssClass="sncore_form_dropdown_small"
             ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
             runat="server" />
-           <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" OnSelectedIndexChanged="inputState_SelectedIndexChanged"
-            AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" /></td>
-           </ContentTemplate>
-          </asp:UpdatePanel>
-        </td>
-       </tr>
-       <tr>
-        <td class="sncore_form_label" style="height: 25px">
-         city:
-        </td>
-        <td class="sncore_form_value" style="height: 25px">
-         <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
-          <ContentTemplate>
-           <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
-            DataValueField="Name" runat="server" AutoPostBack="true" OnSelectedIndexChanged="inputCity_SelectedIndexChanged" />
+           <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState"
+            AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" />
           </ContentTemplate>
          </asp:UpdatePanel>
         </td>
        </tr>
        <tr>
-        <td class="sncore_form_label" style="height: 25px">
+        <td class="sncore_form_label">
+         city:
+        </td>
+        <td class="sncore_form_value">
+         <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
+          <ContentTemplate>
+           <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+            DataValueField="Name" runat="server" AutoPostBack="true" />
+          </ContentTemplate>
+         </asp:UpdatePanel>
+        </td>
+       </tr>
+       <tr>
+        <td class="sncore_form_label">
          neighborhood:
         </td>
-        <td class="sncore_form_value" style="height: 25px">
+        <td class="sncore_form_value">
          <asp:UpdatePanel runat="server" ID="panelNeighborhood" UpdateMode="Conditional">
           <ContentTemplate>
            <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
@@ -124,6 +125,7 @@
    </table>
   </ContentTemplate>
  </asp:UpdatePanel>
+ <SnCore:Cities id="cities" runat="server" OnSelectedChanged="cities_SelectedChanged" />
  <SnCore:AccountTimeZone runat="server" ID="timezone" />
  <asp:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" UpdateMode="Conditional">
   <ContentTemplate>

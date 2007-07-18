@@ -112,8 +112,6 @@ public partial class AccountEventsView : Page
         }
     }
 
-    private TransitAccountEventQueryOptions mOptions = null;
-
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
@@ -144,53 +142,58 @@ public partial class AccountEventsView : Page
 
     private void GetData(object sender, EventArgs e)
     {
-        mOptions = null;
-
+        TransitAccountEventQueryOptions options = GetQueryOptions();
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountEvent, TransitAccountEventQueryOptions>(
-            QueryOptions, SessionManager.EventService.GetAccountEventsCount);
+            options, SessionManager.EventService.GetAccountEventsCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
 
-    private TransitAccountEventQueryOptions QueryOptions
+    private TransitAccountEventQueryOptions GetQueryOptions()
     {
-        get
-        {
-            if (mOptions == null)
-            {
-                mOptions = new TransitAccountEventQueryOptions();
-                mOptions.City = inputCity.Text;
-                mOptions.Country = inputCountry.SelectedValue;
-                mOptions.State = inputState.SelectedValue;
-                mOptions.Neighborhood = inputNeighborhood.SelectedValue;
-                mOptions.Name = inputName.Text;
-                mOptions.Type = inputType.SelectedValue;
-            }
-            return mOptions;
-        }
+        TransitAccountEventQueryOptions options = new TransitAccountEventQueryOptions();
+        options.City = inputCity.Text;
+        options.Country = inputCountry.SelectedValue;
+        options.State = inputState.SelectedValue;
+        options.Neighborhood = inputNeighborhood.SelectedValue;
+        options.Name = inputName.Text;
+        options.Type = inputType.SelectedValue;
+        return options;
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        TransitAccountEventQueryOptions options = QueryOptions;
+        TransitAccountEventQueryOptions options = GetQueryOptions();
 
         string args = string.Format("city={0}&country={1}&state={2}&name={3}&type={4}&neighborhood={5}",
-                Renderer.UrlEncode(QueryOptions.City),
-                Renderer.UrlEncode(QueryOptions.Country),
-                Renderer.UrlEncode(QueryOptions.State),
-                Renderer.UrlEncode(QueryOptions.Name),
-                Renderer.UrlEncode(QueryOptions.Type),
-                Renderer.UrlEncode(QueryOptions.Neighborhood));
+                Renderer.UrlEncode(options.City),
+                Renderer.UrlEncode(options.Country),
+                Renderer.UrlEncode(options.State),
+                Renderer.UrlEncode(options.Name),
+                Renderer.UrlEncode(options.Type),
+                Renderer.UrlEncode(options.Neighborhood));
 
         linkRelRss.NavigateUrl = string.Format("AccountEventsRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("AccountEventsView.aspx?{0}", args);
+
+        Title = titleEvents.Text = (string.IsNullOrEmpty(options.City)
+            ? titleEvents.DefaultText
+            : string.Format("{0}: {1}", titleEvents.DefaultText, options.City));
+
+        if (IsPostBack)
+        {
+            Title = string.Format("{0} - {1}", SessionManager.GetCachedConfiguration(
+                "SnCore.Title", "SnCore"), titleEvents.Text);
+        }
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountEvent, int, TransitAccountEventQueryOptions>(
             SessionManager.UtcOffset, options, serviceoptions, SessionManager.EventService.GetAccountEvents);
+
+        panelLinks.Update();
     }
 
 
@@ -253,5 +256,13 @@ public partial class AccountEventsView : Page
     void LocationSelector_CountryChanged(object sender, EventArgs e)
     {
         panelCountryState.Update();
+    }
+
+    public void cities_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        NameValueCollection args = Renderer.ParseQueryString(e.CommandArgument.ToString());
+        LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
+        GetData(sender, e);
     }
 }
