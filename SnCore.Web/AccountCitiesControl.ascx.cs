@@ -67,11 +67,11 @@ public partial class AccountCitiesControl : Control
     {
         get
         {
-            return ViewStateUtility.GetViewStateValue<int>(ViewState, "Max", 8);
+            return listCities.RepeatColumns;
         }
         set
         {
-            ViewState["Max"] = value;
+            listCities.RepeatColumns = value;
         }
     }
 

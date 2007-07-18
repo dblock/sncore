@@ -12,6 +12,8 @@ using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using System.Collections.Generic;
+using SnCore.Tools.Web;
 
 public partial class AccountEmailsManage : AuthenticatedPage
 {
@@ -133,6 +135,18 @@ public partial class AccountEmailsManage : AuthenticatedPage
 
     public void save_Click(object sender, EventArgs e)
     {
+        IList<TransitAccountEmail> emails = SessionManager.AccountService.GetAccountEmails(
+            SessionManager.Ticket, SessionManager.AccountId, null);
+
+        foreach (TransitAccountEmail email in emails)
+        {
+            if (email.Address.Trim().ToLower() == inputEmailAddress.Text.Trim().ToLower())
+            {
+                throw new Exception(string.Format("You have already added the e-mail address '{0}'.",
+                    Renderer.Render(inputEmailAddress.Text)));
+            }
+        }
+
         TransitAccountEmail te = new TransitAccountEmail();
         te.Address = inputEmailAddress.Text;
         SessionManager.CreateOrUpdate<TransitAccountEmail>(
