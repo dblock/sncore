@@ -55,7 +55,7 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(State))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("AccountFeedItem.AccountFeed.Account.State = '{0}'", Renderer.SqlEncode(State));
+                b.AppendFormat("AccountFeedItem.AccountFeed.Account.State.Name = '{0}'", Renderer.SqlEncode(State));
             }
 
             if (!string.IsNullOrEmpty(Search))
