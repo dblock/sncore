@@ -677,7 +677,9 @@ public class SessionManager
     public string ToAdjustedString(DateTime dt)
     {
         TimeSpan ts = DateTime.UtcNow.Subtract(dt);
-        if (ts.TotalMinutes <= 1)
+        if (ts.TotalSeconds <= 1)
+            return "a second ago";
+        else if (ts.TotalMinutes <= 1)
             return string.Format("{0} second{1} ago", ts.Seconds, ts.Seconds != 1 ? "s" : string.Empty);
         else if (ts.TotalHours <= 1)
             return string.Format("{0} minute{1} ago", ts.Minutes, ts.Minutes != 1 ? "s" : string.Empty);
