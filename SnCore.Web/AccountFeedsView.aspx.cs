@@ -169,6 +169,16 @@ public partial class AccountFeedsView : Page
                 Renderer.UrlEncode(options.PicturesOnly),
                 gridManage.CurrentPageIndex);
 
+        Title = titleBlogs.Text = (string.IsNullOrEmpty(options.City)
+            ? titleBlogs.DefaultText
+            : string.Format("{0}: {1}", titleBlogs.DefaultText, options.City));
+
+        if (IsPostBack)
+        {
+            Title = string.Format("{0} - {1}", SessionManager.GetCachedConfiguration(
+                "SnCore.Title", "SnCore"), titleBlogs.Text);
+        }
+
         linkRelRss.NavigateUrl = string.Format("AccountFeedsRss.aspx?{0}", queryargs);
         linkPermalink.NavigateUrl = string.Format("AccountFeedsView.aspx?{0}", queryargs);
 

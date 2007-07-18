@@ -95,7 +95,7 @@ public partial class PlacesView : Page
                 List<TransitPlaceType> types = new List<TransitPlaceType>();
                 if (InsertEmptySelection) types.Add(new TransitPlaceType());
                 types.AddRange(page.SessionManager.GetCollection<TransitPlaceType>(
-                    (ServiceQueryOptions) null, page.SessionManager.PlaceService.GetPlaceTypes));
+                    (ServiceQueryOptions)null, page.SessionManager.PlaceService.GetPlaceTypes));
                 mType.DataSource = types;
                 mType.DataBind();
             }
@@ -105,7 +105,7 @@ public partial class PlacesView : Page
         {
             bool result = base.SelectLocation(sender, e);
 
-            if (mType != null && ! string.IsNullOrEmpty(e.Type))
+            if (mType != null && !string.IsNullOrEmpty(e.Type))
             {
                 mType.ClearSelection();
                 ListItem type = mType.Items.FindByValue(e.Type);
@@ -310,10 +310,20 @@ public partial class PlacesView : Page
                 Renderer.UrlEncode(options.Neighborhood),
                 gridManage.CurrentPageIndex);
 
+        Title = titlePlaces.Text = (string.IsNullOrEmpty(options.City)
+            ? titlePlaces.DefaultText
+            : string.Format("{0}: {1}", titlePlaces.DefaultText, options.City));
+
+        if (IsPostBack)
+        {
+            Title = string.Format("{0} - {1}", SessionManager.GetCachedConfiguration(
+                "SnCore.Title", "SnCore"), titlePlaces.Text);
+        }
+
         linkRelRss.NavigateUrl = string.Format("PlacesRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("PlacesView.aspx?{0}", args);
 
-        if (! (e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitPlace, TransitPlaceQueryOptions>(

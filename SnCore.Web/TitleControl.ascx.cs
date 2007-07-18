@@ -32,6 +32,7 @@ public partial class TitleControl : Control, INamingContainer
 {
     ITemplate mTemplate;
     TitleContainer mContainer;
+    private string mDefaultText;
 
     [TemplateContainer(typeof(TitleContainer)), PersistenceMode(PersistenceMode.InnerProperty)]
     public virtual ITemplate Template
@@ -77,6 +78,15 @@ public partial class TitleControl : Control, INamingContainer
         set
         {
             labelText.Text = value;
+            if (string.IsNullOrEmpty(mDefaultText)) mDefaultText = value;
+        }
+    }
+
+    public string DefaultText
+    {
+        get
+        {
+            return mDefaultText;
         }
     }
 

@@ -232,6 +232,16 @@ public partial class AccountsView : AccountPersonPage
             options.BloggersOnly,
             gridManage.CurrentPageIndex);
 
+        Title = titlePeople.Text = (string.IsNullOrEmpty(options.City)
+            ? titlePeople.DefaultText
+            : string.Format("{0}: {1}", titlePeople.DefaultText, options.City));
+
+        if (IsPostBack)
+        {
+            Title = string.Format("{0} - {1}", SessionManager.GetCachedConfiguration(
+                "SnCore.Title", "SnCore"), titlePeople.Text);
+        }
+
         linkRelRss.NavigateUrl = string.Format("AccountsRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("AccountsView.aspx?{0}", args);
 

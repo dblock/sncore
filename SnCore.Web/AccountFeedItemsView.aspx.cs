@@ -121,6 +121,16 @@ public partial class AccountFeedItemsView : Page
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItem, TransitAccountFeedItemQueryOptions>(
                 options, SessionManager.SyndicationService.GetAllAccountFeedItemsCount);
 
+        Title = titleBlogPosts.Text = (string.IsNullOrEmpty(options.City)
+            ? titleBlogPosts.DefaultText
+            : string.Format("{0}: {1}", titleBlogPosts.DefaultText, options.City));
+
+        if (IsPostBack)
+        {
+            Title = string.Format("{0} - {1}", SessionManager.GetCachedConfiguration(
+                "SnCore.Title", "SnCore"), titleBlogPosts.Text);
+        }
+
         TransitAccountFeedQueryOptions feed_options = new TransitAccountFeedQueryOptions();
         feed_options.PublishedOnly = true;
         feed_options.PicturesOnly = false;
