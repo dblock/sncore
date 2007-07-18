@@ -342,4 +342,11 @@ public partial class PlacesView : Page
         GetData(sender, e);
         panelSearch.Update();
     }
+
+    public void atoz_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        inputName.Text = e.CommandArgument.ToString();
+        GetData(sender, e);
+    }
 }

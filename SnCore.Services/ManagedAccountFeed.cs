@@ -27,8 +27,8 @@ namespace SnCore.Services
 {
     public class TransitAccountFeedQueryOptions
     {
-        public string SortOrder = "Updated";
-        public bool SortAscending = false;
+        public string SortOrder = "Name";
+        public bool SortAscending = true;
         public string Country;
         public string State;
         public string City;
@@ -73,7 +73,14 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Name))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("AccountFeed.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+                if (Name.Length == 1)
+                {
+                    b.AppendFormat("AccountFeed.Name LIKE '{0}%'", Renderer.SqlEncode(Name));
+                }
+                else
+                {
+                    b.AppendFormat("AccountFeed.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+                }
             }
 
             if (AccountId != 0)

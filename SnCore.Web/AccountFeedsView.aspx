@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AToZ" Src="AToZControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -62,29 +63,6 @@
      </tr>
      <tr>
       <td class="sncore_form_label">
-       sort by:
-      </td>
-      <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectSortOrder" runat="server">
-        <asp:ListItem Text="Name" Value="Name" />
-        <asp:ListItem Text="Date Updated" Selected="True" Value="Updated" />
-        <asp:ListItem Text="Date Created" Value="Created" />
-       </asp:DropDownList>
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
-       order by:
-      </td>
-      <td class="sncore_form_value">
-       <asp:DropDownList CssClass="sncore_form_dropdown" ID="listboxSelectOrderBy" runat="server">
-        <asp:ListItem Selected="True" Text="Descending" Value="false" />
-        <asp:ListItem Text="Ascending" Value="true" />
-       </asp:DropDownList>
-      </td>
-     </tr>
-     <tr>
-      <td class="sncore_form_label">
        country and state:
       </td>
       <td class="sncore_form_value">
@@ -134,6 +112,7 @@
  </asp:UpdatePanel>
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
+   <SnCore:AToZ id="atoz" runat="server" OnSelectedChanged="atoz_SelectedChanged" />
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
     AllowCustomPaging="true" RepeatColumns="2" RepeatRows="6" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false" OnDataBinding="gridManage_DataBinding">

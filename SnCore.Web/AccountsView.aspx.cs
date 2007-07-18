@@ -257,7 +257,7 @@ public partial class AccountsView : AccountPersonPage
         inputCity.Text = string.Empty;
         inputEmailAddress.Text = string.Empty;
         LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
-        GetData();
+        GetData(sender, e);
         panelSearch.Update();
     }
 
@@ -308,5 +308,12 @@ public partial class AccountsView : AccountPersonPage
     {
         panelSearchInternal.PersistentVisible = !panelSearchInternal.PersistentVisible;
         panelSearch.Update();
+    }
+
+    public void atoz_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        inputName.Text = e.CommandArgument.ToString();
+        GetData(sender, e);
     }
 }

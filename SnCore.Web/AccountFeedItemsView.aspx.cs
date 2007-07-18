@@ -51,7 +51,7 @@ public partial class AccountFeedItemsView : Page
 
             if (SessionManager.IsLoggedIn)
             {
-                linkLocal.Text = string.Format("&#187; All {0} Posts", Renderer.Render(SessionManager.Account.City));
+                linkLocal.Text = string.Format("&#187; All {0} Blog Posts", Renderer.Render(SessionManager.Account.City));
             }
 
             if (LocationSelector.SelectLocation(sender, new LocationEventArgs(Request)))
@@ -122,7 +122,7 @@ public partial class AccountFeedItemsView : Page
                 options, SessionManager.SyndicationService.GetAllAccountFeedItemsCount);
 
         TransitAccountFeedQueryOptions feed_options = new TransitAccountFeedQueryOptions();
-        feed_options.PublishedOnly = false;
+        feed_options.PublishedOnly = true;
         feed_options.PicturesOnly = false;
         feed_options.City = options.City;
         feed_options.State = options.State;

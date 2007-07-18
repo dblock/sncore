@@ -95,8 +95,6 @@ public partial class AccountFeedsView : Page
     private TransitAccountFeedQueryOptions GetQueryOptions()
     {
         TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
-        options.SortAscending = bool.Parse(listboxSelectOrderBy.SelectedValue);
-        options.SortOrder = listboxSelectSortOrder.SelectedValue;
         options.PicturesOnly = checkboxPicturesOnly.Checked;
         options.PublishedOnly = true;
         options.WithFeedItemsOnly = true;
@@ -137,6 +135,8 @@ public partial class AccountFeedsView : Page
         feeditem_options.Country = options.Country;
         feeditem_options.PublishedOnly = options.PublishedOnly;
         feeditem_options.State = options.State;
+        feeditem_options.AccountFeedName = options.Name;
+        feeditem_options.AccountFeedName = inputName.Text;
 
         int feedItemsCount = SessionManager.GetCount<TransitAccountFeedItem, TransitAccountFeedItemQueryOptions>(
             feeditem_options, SessionManager.SyndicationService.GetAllAccountFeedItemsCount);
@@ -225,5 +225,12 @@ public partial class AccountFeedsView : Page
         inputName.Text = string.Empty;
         GetData(sender, e);
         panelSearch.Update();
+    }
+
+    public void atoz_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        inputName.Text = e.CommandArgument.ToString();
+        GetData(sender, e);
     }
 }

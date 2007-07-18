@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AToZ" Src="AToZControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel UpdateMode="Conditional" ID="panelLinks" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -148,7 +149,8 @@
   </ContentTemplate>
  </asp:UpdatePanel>
  <asp:UpdatePanel runat="server" ID="panelGrid" RenderMode="Inline" UpdateMode="Conditional">
-  <ContentTemplate> 
+  <ContentTemplate>
+   <SnCore:AToZ id="atoz" runat="server" OnSelectedChanged="atoz_SelectedChanged" />
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" OnDataBinding="gridManage_DataBinding"
     AllowCustomPaging="true" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal"
     CssClass="sncore_table" ShowHeader="false">

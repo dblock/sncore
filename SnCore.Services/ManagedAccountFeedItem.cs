@@ -24,6 +24,7 @@ namespace SnCore.Services
         public string Search;
         public bool PublishedOnly = true;
         public int AccountId = 0;
+        public string AccountFeedName;
 
         public override int GetHashCode()
         {
@@ -73,6 +74,19 @@ namespace SnCore.Services
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.Append("AccountFeedItem.AccountFeed.Publish = 1");
+            }
+
+            if (!string.IsNullOrEmpty(AccountFeedName))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                if (AccountFeedName.Length == 1)
+                {
+                    b.AppendFormat("AccountFeedItem.AccountFeed.Name LIKE '{0}%'", Renderer.SqlEncode(AccountFeedName));
+                }
+                else
+                {
+                    b.AppendFormat("AccountFeedItem.AccountFeed.Name LIKE '%{0}%'", Renderer.SqlEncode(AccountFeedName));
+                }
             }
 
             return b.ToString();

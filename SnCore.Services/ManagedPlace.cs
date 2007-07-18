@@ -104,7 +104,14 @@ namespace SnCore.Services
             if (!string.IsNullOrEmpty(Name))
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Place.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+                if (Name.Length == 1)
+                {
+                    b.AppendFormat("Place.Name LIKE '{0}%'", Renderer.SqlEncode(Name));
+                }
+                else
+                {
+                    b.AppendFormat("Place.Name LIKE '%{0}%'", Renderer.SqlEncode(Name));
+                }
             }
 
             if (!string.IsNullOrEmpty(Type))
