@@ -326,4 +326,12 @@ public partial class AccountsView : AccountPersonPage
         inputName.Text = e.CommandArgument.ToString();
         GetData(sender, e);
     }
+
+    public void cities_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        NameValueCollection args = Renderer.ParseQueryString(e.CommandArgument.ToString());
+        LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
+        GetData(sender, e);
+    }
 }

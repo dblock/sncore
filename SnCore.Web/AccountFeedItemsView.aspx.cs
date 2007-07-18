@@ -236,4 +236,12 @@ public partial class AccountFeedItemsView : Page
         GetData(sender, e);
         panelSearch.Update();
     }
+
+    public void cities_SelectedChanged(object sender, CommandEventArgs e)
+    {
+        panelSearch.Update();
+        NameValueCollection args = Renderer.ParseQueryString(e.CommandArgument.ToString());
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(args));
+        GetData(sender, e);
+    }
 }

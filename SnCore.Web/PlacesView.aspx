@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceNeighborhoodsView" Src="PlaceNeighborhoodsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AToZ" Src="AToZControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Cities" Src="AccountCitiesControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -137,6 +138,7 @@
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
    <SnCore:AToZ id="atoz" runat="server" OnSelectedChanged="atoz_SelectedChanged" />
+   <SnCore:Cities id="cities" runat="server" OnSelectedChanged="cities_SelectedChanged" />
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
     AllowCustomPaging="true" CssClass="sncore_table"
     ShowHeader="false" RepeatColumns="4" RepeatRows="3" RepeatDirection="Horizontal" 

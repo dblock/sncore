@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AutoScroll" Src="AutoScrollControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Cities" Src="AccountCitiesControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
   <ContentTemplate>
@@ -103,6 +104,7 @@
  </asp:UpdatePanel>
  <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
   <ContentTemplate>
+   <SnCore:Cities id="cities" runat="server" OnSelectedChanged="cities_SelectedChanged" />
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"
     AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
     ShowHeader="false" OnDataBinding="gridManage_DataBinding" BorderWidth="0" BorderColor="White">
