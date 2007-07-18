@@ -151,7 +151,8 @@ public partial class AccountEmailsManage : AuthenticatedPage
         te.Address = inputEmailAddress.Text;
         SessionManager.CreateOrUpdate<TransitAccountEmail>(
             te, SessionManager.AccountService.CreateOrUpdateAccountEmail);
-        ReportInfo("A confirmation has ben sent to '" + te.Address + "'.");
+        ReportInfo(string.Format("A confirmation has ben sent to '{0}'.", 
+            Renderer.Render(te.Address)));
         GetData(sender, e);
         inputEmailAddress.Text = string.Empty;
     }

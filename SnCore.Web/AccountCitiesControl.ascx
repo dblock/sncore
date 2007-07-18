@@ -5,7 +5,7 @@
 <asp:UpdatePanel ID="panelAccountCities" runat="server" UpdateMode="Conditional">
  <ContentTemplate>
   <div class="sncore_table_cities">
-   <asp:DataList RepeatLayout="Flow" ID="listCities" runat="server" RepeatColumns="4"
+   <asp:DataList RepeatLayout="Flow" ID="listCities" runat="server" RepeatColumns="8"
     RepeatDirection="Horizontal">
     <ItemTemplate>
      <asp:LinkButton ID="linkCity" runat="server" Text='<%# string.Format("&#187; {0}", Renderer.Render(Eval("Name"))) %>'
