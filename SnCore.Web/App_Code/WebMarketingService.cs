@@ -181,7 +181,7 @@ namespace SnCore.WebServices
                 {
                     foreach (TransitCampaignAccountRecepient recepient in recepients)
                     {
-                        CampaignAccountRecepient existing = (CampaignAccountRecepient) session.CreateCriteria(typeof(CampaignAccountRecepient))
+                        CampaignAccountRecepient existing = (CampaignAccountRecepient)session.CreateCriteria(typeof(CampaignAccountRecepient))
                             .Add(Expression.Eq("Account.Id", recepient.AccountId))
                             .Add(Expression.Eq("Campaign.Id", recepient.CampaignId))
                             .UniqueResult();
@@ -233,19 +233,86 @@ namespace SnCore.WebServices
 
                         if (ma.HasVerifiedEmail(sec))
                         {
-                            if (! verified_emails)
+                            if (!verified_emails)
                                 continue;
                         }
                         else
                         {
-                            if (! unverified_emails)
+                            if (!unverified_emails)
                                 continue;
                         }
 
-                        CampaignAccountRecepient existing = (CampaignAccountRecepient) session.CreateCriteria(typeof(CampaignAccountRecepient))
+                        CampaignAccountRecepient existing = (CampaignAccountRecepient)session.CreateCriteria(typeof(CampaignAccountRecepient))
                             .Add(Expression.Eq("Account.Id", ma.Id))
                             .Add(Expression.Eq("Campaign.Id", campaign_id))
                             .UniqueResult();
+
+                        if (existing != null)
+                            continue;
+
+                        ManagedCampaignAccountRecepient newrecepient = new ManagedCampaignAccountRecepient(session);
+                        TransitCampaignAccountRecepient newtransitrecepient = new TransitCampaignAccountRecepient();
+                        newtransitrecepient.AccountId = ma.Id;
+                        newtransitrecepient.CampaignId = campaign_id;
+                        newtransitrecepient.Created = newtransitrecepient.Modified = DateTime.UtcNow;
+                        newtransitrecepient.Sent = false;
+                        newrecepient.CreateOrUpdate(newtransitrecepient, sec);
+                        count++;
+                    }
+
+                    trans.Commit();
+                    SnCore.Data.Hibernate.Session.Flush();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
+
+                return count;
+            }
+        }
+
+        /// <summary>
+        /// Import accounts into a marketing campaign by location.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        [WebMethod(Description = "Import accounts into a marketing campaign by location.")]
+        public int ImportCampaignAccountLocation(string ticket, int campaign_id, string country, string state, string city)
+        {
+            int userid = ManagedAccount.GetAccountId(ticket);
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+
+                ITransaction trans = session.BeginTransaction();
+
+                AccountActivityQueryOptions options = new AccountActivityQueryOptions();
+                options.City = city;
+                options.Country = country;
+                options.State = state;
+                options.PicturesOnly = false;
+                options.BloggersOnly = false;
+
+                int count = 0;
+
+                try
+                {
+                    IQuery query = session.CreateQuery(options.CreateQuery());
+                    IEnumerator<Account> enumerator = query.Enumerable<Account>().GetEnumerator();
+
+                    while (enumerator.MoveNext())
+                    {
+                        ManagedAccount ma = new ManagedAccount(session, enumerator.Current);
+
+                        if (!ma.HasVerifiedEmail(sec))
+                            continue;
+
+                        CampaignAccountRecepient existing = session.CreateCriteria(typeof(CampaignAccountRecepient))
+                            .Add(Expression.Eq("Account.Id", ma.Id))
+                            .Add(Expression.Eq("Campaign.Id", campaign_id))
+                            .UniqueResult<CampaignAccountRecepient>();
 
                         if (existing != null)
                             continue;
@@ -297,9 +364,9 @@ namespace SnCore.WebServices
                         "SELECT {Account.*} FROM {Account} WHERE Account_Id IN (" +
                         " SELECT Account.Account_Id FROM Account INNER JOIN AccountPropertyValue" +
                         " ON Account.Account_Id = AccountPropertyValue.Account_Id" +
-                        " WHERE AccountPropertyValue.AccountProperty_Id = " + pid.ToString() + 
-                        " AND AccountPropertyValue.Value LIKE '" + Renderer.SqlEncode(value) + "')"); 
-                                           
+                        " WHERE AccountPropertyValue.AccountProperty_Id = " + pid.ToString() +
+                        " AND AccountPropertyValue.Value LIKE '" + Renderer.SqlEncode(value) + "')");
+
                     if (unset)
                     {
                         squery.AppendFormat(
@@ -312,14 +379,14 @@ namespace SnCore.WebServices
 
                     ISQLQuery query = session.CreateSQLQuery(squery.ToString())
                         .AddEntity("Account", typeof(Account));
-                    
+
                     IList<Account> list = query.List<Account>();
 
                     foreach (Account account in list)
                     {
                         ManagedAccount ma = new ManagedAccount(session, account);
 
-                        if (! ma.HasVerifiedEmail(sec))
+                        if (!ma.HasVerifiedEmail(sec))
                             continue;
 
                         CampaignAccountRecepient existing = (CampaignAccountRecepient)session.CreateCriteria(typeof(CampaignAccountRecepient))
@@ -353,7 +420,7 @@ namespace SnCore.WebServices
             }
         }
 
-       #endregion
+        #endregion
 
     }
 }

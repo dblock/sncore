@@ -15,9 +15,29 @@ using SnCore.SiteMap;
 
 public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPage
 {
+    private LocationSelectorCountryStateCity mLocationSelector = null;
+
+    public LocationSelectorCountryStateCity LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorCountryStateCity(
+                    this, true, inputCountry, inputState, inputCity);
+            }
+
+            return mLocationSelector;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
+        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
 
         if (!IsPostBack)
         {
@@ -116,9 +136,12 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
 
     public void inputAccountPropertyGroup_SelectedIndexChanged(object sender, EventArgs e)
     {
-        inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
-            SessionManager.Ticket, int.Parse(inputAccountPropertyGroup.SelectedValue), null);
-        inputAccountProperty.DataBind();
+        if (!string.IsNullOrEmpty(inputAccountPropertyGroup.SelectedValue))
+        {
+            inputAccountProperty.DataSource = SessionManager.AccountService.GetAccountProperties(
+                SessionManager.Ticket, int.Parse(inputAccountPropertyGroup.SelectedValue), null);
+            inputAccountProperty.DataBind();
+        }
     }
 
     public void importAccountProperty_Click(object sender, EventArgs e)
@@ -127,5 +150,30 @@ public partial class MarketingCampaignAccountRecepientsManage : AuthenticatedPag
             int.Parse(inputAccountProperty.SelectedValue), inputAccountPropertyValue.Text, inputAccountPropertyEmpty.Checked);
         GetData(sender, e);
         ReportInfo(string.Format("Successfully imported {0} recepients.", count));
+    }
+
+    public void importUsersByLocation_Click(object sender, EventArgs e)
+    {
+        int count = SessionManager.MarketingService.ImportCampaignAccountLocation(SessionManager.Ticket, RequestId,
+            inputCountry.SelectedValue, inputState.SelectedValue, inputCity.SelectedValue);
+        GetData(sender, e);
+        ReportInfo(string.Format("Successfully imported {0} recepients.", count));
+    }
+
+    void LocationSelector_StateChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+        panelCity.Update();
+    }
+
+    void LocationSelector_CountryChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+    }
+
+    void LocationSelector_CityChanged(object sender, EventArgs e)
+    {
+        panelCountryState.Update();
+        panelCity.Update();
     }
 }

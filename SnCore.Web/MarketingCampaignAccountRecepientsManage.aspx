@@ -95,6 +95,48 @@
     </tr>
    </table>      
    <div class="sncore_h3">
+    Users by Location
+   </div>
+   <table class="sncore_account_table">
+    <tr>
+     <td class="sncore_form_label">
+      country and state:
+     </td>
+     <td class="sncore_form_value">
+      <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
+       <ContentTemplate>
+        <asp:DropDownList CssClass="sncore_form_dropdown_small"
+         ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
+         runat="server" />
+        <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState"
+         AutoPostBack="true" DataTextField="Name" DataValueField="Name" runat="server" />
+       </ContentTemplate>
+      </asp:UpdatePanel>
+     </td>
+    </tr>
+    <tr>
+     <td class="sncore_form_label">
+      city:
+     </td>
+     <td class="sncore_form_value">
+      <asp:UpdatePanel runat="server" ID="panelCity" UpdateMode="Conditional">
+       <ContentTemplate>
+        <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+         DataValueField="Name" runat="server" AutoPostBack="true" />
+       </ContentTemplate>
+      </asp:UpdatePanel>
+     </td>
+    </tr>   
+    <tr>
+     <td>
+     </td>
+     <td class="sncore_form_value">
+      <SnCoreWebControls:Button ID="importUsersByLocation" runat="server" Text="Import" CausesValidation="true" CssClass="sncore_form_button"
+       OnClick="importUsersByLocation_Click" />
+     </td>
+    </tr>
+   </table>
+   <div class="sncore_h3">
     Users w/ Account Property Value
    </div>
    <table class="sncore_account_table">
