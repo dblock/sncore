@@ -257,11 +257,6 @@ public partial class AccountFeedWizard : AuthenticatedPage
     {
         switch (e.CommandName)
         {
-            case "Test":
-                if (string.IsNullOrEmpty(PreviousUrl)) PreviousUrl = inputLinkUrl.Text;
-                inputLinkUrl.Text = e.Item.Cells[(int)Cells.feed].Text;
-                discover_Click(sender, e);
-                break;
             case "Choose":
                 string name = CleanCell(e.Item.Cells[(int)Cells.name].Text);
                 string feed = CleanCell(e.Item.Cells[(int)Cells.feed].Text);

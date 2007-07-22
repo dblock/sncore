@@ -75,8 +75,9 @@
         <%# base.Render(Eval("Name")) %>
        </div>
        <div class="sncore_h2sub">
-        <asp:LinkButton id="linkTest" runat="server" Text="&#187; Test" CommandName="Test" 
-         Visible='<%# string.IsNullOrEmpty(PreviousUrl) %>'/>
+        <a href='<%# string.Format("AccountFeedTest.aspx?url={0}", Renderer.UrlEncode(Eval("FeedUrl"))) %>' target="_blank">
+         &#187; Test
+        </a>
         <asp:LinkButton id="linkChoose" runat="server" Text="&#187; Choose" CommandName="Choose" />
         <asp:LinkButton id="linkItemBack" runat="server" Text="&#187; Cancel" OnClick="linkBack_Click" 
          Visible='<%# ! string.IsNullOrEmpty(PreviousUrl) %>' />
