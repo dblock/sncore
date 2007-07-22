@@ -9,10 +9,18 @@
 <%@ Register TagPrefix="SnCore" TagName="SearchAccountStories" Src="SearchAccountStoriesControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SearchAccountFeedItems" Src="SearchAccountFeedItemsControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SearchAccountBlogPosts" Src="SearchAccountBlogPostsControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_h2">
-  Search
- </div>
+ <SnCore:Title ID="titleSearch" Text="Search" runat="server" ExpandedSize="100">
+  <Template>
+   <div class="sncore_title_paragraph">
+    Search places, people, discussion posts, blogs and more. The smart full text search engine will match
+    exact names first, so it will return a person or a place if you know it. The search will then be expanded
+    to the entire site, going deep into public discussions and blogs. There's no special syntax, just type what
+    you are looking for.
+   </div>
+  </Template>
+ </SnCore:Title>      
  <table class="sncore_table">
   <tr>
    <td class="sncore_form_label">
@@ -51,6 +59,8 @@
     </tr>
    </table>
    <asp:MultiView ID="searchView" runat="server">
+    <asp:View runat="server" ID="viewNothing">
+    </asp:View>
     <asp:View runat="server" ID="viewAccounts">
      <SnCore:SearchAccounts id="searchAccounts" runat="server" />
     </asp:View>

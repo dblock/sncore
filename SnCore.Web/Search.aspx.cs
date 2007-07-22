@@ -49,8 +49,16 @@ public partial class Search : Page
 
         if (!IsPostBack)
         {
-            inputSearch.Text = SearchQuery;
-            searchView.SetActiveView(viewAccounts);
+            if (string.IsNullOrEmpty(SearchQuery))
+            {
+                searchView.SetActiveView(viewNothing);
+            }
+            else
+            {
+                inputSearch.Text = SearchQuery;
+                searchView.SetActiveView(viewAccounts);
+            }
+
             SetDefaultButton(search);
         }
     }
