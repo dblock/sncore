@@ -26,7 +26,7 @@
        <div class="sncore_header">
         posted 
         by <asp:HyperLink ID="replytoSenderName" runat="server" />
-        on <asp:Label ID="replytoCreated" runat="server" />
+        <asp:Label ID="replytoCreated" runat="server" />
        </div>
        <div class="sncore_content">
         <div class="sncore_message_body">

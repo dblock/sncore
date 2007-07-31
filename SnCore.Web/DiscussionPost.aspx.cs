@@ -121,7 +121,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
                 replytoSenderName.Text = Renderer.Render(rp.AccountName);
                 replyToBody.Text = base.RenderEx(rp.Body);
-                replytoCreated.Text = rp.Created.ToString();
+                replytoCreated.Text = SessionManager.ToAdjustedString(rp.Created);
                 replytoImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", rp.AccountPictureId);
                 replytoSubject.Text = Renderer.Render(rp.Subject);
                 inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;

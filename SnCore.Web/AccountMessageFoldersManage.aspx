@@ -111,8 +111,10 @@
              <%# base.Render(Eval("RecepientAccountName")) %>
             </a>
            </span>
-           on
-           <%# base.Adjust(Eval("Sent")).ToString() %>
+           &#187;
+           <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Sent")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+            <%# SessionManager.ToAdjustedString((DateTime) Eval("Sent")) %>
+           </span>
           </div>
           <div class="sncore_description">
            <a href="AccountMessageView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">

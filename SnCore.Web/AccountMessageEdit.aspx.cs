@@ -72,7 +72,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
 
                 messageFrom.Text = Renderer.Render(rp.SenderAccountName);
                 messageBody.Text = RenderEx(rp.Body);
-                messageSent.Text = rp.Sent.ToString();
+                messageSent.Text = SessionManager.ToAdjustedString(rp.Sent);
                 replytoImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", rp.SenderAccountPictureId);
                 messageSubject.Text = Renderer.Render(rp.Subject);
                 inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;

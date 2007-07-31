@@ -43,7 +43,10 @@
            </a>
           </div>
           <div class="sncore_description">
-           posted on <%# base.Adjust(Eval("Created")).ToString() %>
+           posted 
+           <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+            <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
+           </span>
            in <a href='DiscussionView.aspx?id=<%# Eval("DiscussionId") %>'><%# Renderer.Render(Eval("DiscussionName")) %></a>
           </div>
           <div class="sncore_description">

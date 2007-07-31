@@ -22,9 +22,12 @@
        </a>
       </div>
       <div class="sncore_header">
-       <asp:Label ID="labelMessageFrom" runat="server" Text="from" /> <asp:HyperLink ID="messageFrom" runat="server" />
-       <asp:Label ID="labelMessageTo" runat="server" Text="to" /> <asp:HyperLink ID="messageTo" runat="server" />
-       on <asp:Label ID="messageSent" runat="server" />        
+       <asp:Label ID="labelMessageFrom" runat="server" Text="from" />
+       <asp:HyperLink ID="messageFrom" runat="server" />
+       <asp:Label ID="labelMessageTo" runat="server" Text="to" />
+       <asp:HyperLink ID="messageTo" runat="server" />
+       &#187;
+       <asp:Label ID="messageSent" runat="server" />        
       </div>
       <div class="sncore_content">
        <div class="sncore_message_body">
