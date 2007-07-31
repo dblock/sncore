@@ -1901,6 +1901,18 @@
           <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="MergePlaces">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="target" type="tns:TransitPlace" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergePlacesResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="CreateOrUpdatePlaceTypeSoapIn">
@@ -2479,6 +2491,12 @@
   <wsdl:message name="GetPlaceNeighborhoodsSoapOut">
     <wsdl:part name="parameters" element="tns:GetPlaceNeighborhoodsResponse" />
   </wsdl:message>
+  <wsdl:message name="MergePlacesSoapIn">
+    <wsdl:part name="parameters" element="tns:MergePlaces" />
+  </wsdl:message>
+  <wsdl:message name="MergePlacesSoapOut">
+    <wsdl:part name="parameters" element="tns:MergePlacesResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebPlaceServiceSoap">
     <wsdl:operation name="CreateOrUpdatePlaceType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a place type.</wsdl:documentation>
@@ -2959,6 +2977,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place neighborhoods.</wsdl:documentation>
       <wsdl:input message="tns:GetPlaceNeighborhoodsSoapIn" />
       <wsdl:output message="tns:GetPlaceNeighborhoodsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergePlaces">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Merge places.</wsdl:documentation>
+      <wsdl:input message="tns:MergePlacesSoapIn" />
+      <wsdl:output message="tns:MergePlacesSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebPlaceServiceSoap" type="tns:WebPlaceServiceSoap">
@@ -3827,6 +3850,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="MergePlaces">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MergePlaces" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebPlaceServiceSoap12" type="tns:WebPlaceServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -4687,6 +4719,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetPlaceNeighborhoods">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceNeighborhoods" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergePlaces">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MergePlaces" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

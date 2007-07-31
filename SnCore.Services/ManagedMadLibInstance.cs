@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -297,6 +298,24 @@ namespace SnCore.Services
             // check whether the sender was flagged
             new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
                 ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
+        }
+
+        public static void Delete(ISession session, ManagedSecurityContext sec, string table, int id)
+        {
+            IList<MadLibInstance> madlibs = GetMadLibs(session, table, id);
+            foreach (MadLibInstance madlib in madlibs)
+            {
+                ManagedMadLibInstance m_instance = new ManagedMadLibInstance(session, madlib);
+                m_instance.Delete(sec);
+            }
+        }
+
+        public static IList<MadLibInstance> GetMadLibs(ISession session, string table, int id)
+        {
+            return session.CreateCriteria(typeof(MadLibInstance))
+                .Add(Expression.Eq("DataObject.Id", ManagedDataObject.Find(session, table)))
+                .Add(Expression.Eq("ObjectId", id))
+                .List<MadLibInstance>();
         }
     }
 }

@@ -230,6 +230,7 @@ public partial class PlaceView : Page
                 linkAdminEdit.Visible = place.CanWrite || SessionManager.IsAdministrator;
                 linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
                 linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
+                linkMerge.NavigateUrl = string.Format("PlaceMerge.aspx?id={0}", place.Id);
 
                 placeWebsite.NavigateUrl = place.Website;
                 placeWebsite.Visible = !string.IsNullOrEmpty(place.Website);

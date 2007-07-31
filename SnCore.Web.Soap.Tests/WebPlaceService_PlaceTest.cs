@@ -157,5 +157,35 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
                 Delete(GetAdminTicket(), t_instance.Id);
             }
         }
+
+        [Test]
+        public void MergePlacesTest()
+        {
+            WebPlaceService.TransitPlace t_instance1 = GetTransitInstance();
+            t_instance1.Id = Create(GetAdminTicket(), t_instance1);
+            WebPlaceService.TransitPlace t_instance2 = GetTransitInstance();
+            t_instance2.Id = Create(GetAdminTicket(), t_instance2);
+            // merge
+            string oldname = t_instance1.Name;
+            t_instance1.Name = GetNewString();
+            EndPoint.MergePlaces(GetAdminTicket(), t_instance2.Id, t_instance1);
+            WebPlaceService.TransitPlace t_instance_new = EndPoint.GetPlaceById(GetAdminTicket(), t_instance1.Id);
+            Console.WriteLine("Renamed {0} to {1}", oldname, t_instance_new.Name);
+            Assert.AreEqual(t_instance1.Name, t_instance_new.Name);
+            Assert.AreNotEqual(t_instance_new.Name, oldname);
+
+            try
+            {
+                WebPlaceService.TransitPlace t_instance_deleted = EndPoint.GetPlaceById(GetAdminTicket(), t_instance2.Id);
+                Assert.IsFalse(true, "Expected merged place to be deleted.");
+            }
+            catch
+            {
+
+            }
+
+            Delete(GetAdminTicket(), t_instance1.Id);
+        }
+
     }
 }

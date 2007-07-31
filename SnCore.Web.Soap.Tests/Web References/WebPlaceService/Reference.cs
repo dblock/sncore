@@ -238,6 +238,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private System.Threading.SendOrPostCallback GetPlaceNeighborhoodsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback MergePlacesOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -563,6 +565,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event GetPlaceNeighborhoodsCompletedEventHandler GetPlaceNeighborhoodsCompleted;
+        
+        /// <remarks/>
+        public event MergePlacesCompletedEventHandler MergePlacesCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -3585,6 +3590,38 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             if ((this.GetPlaceNeighborhoodsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetPlaceNeighborhoodsCompleted(this, new GetPlaceNeighborhoodsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MergePlaces", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MergePlaces(string ticket, int id, TransitPlace target) {
+            this.Invoke("MergePlaces", new object[] {
+                        ticket,
+                        id,
+                        target});
+        }
+        
+        /// <remarks/>
+        public void MergePlacesAsync(string ticket, int id, TransitPlace target) {
+            this.MergePlacesAsync(ticket, id, target, null);
+        }
+        
+        /// <remarks/>
+        public void MergePlacesAsync(string ticket, int id, TransitPlace target, object userState) {
+            if ((this.MergePlacesOperationCompleted == null)) {
+                this.MergePlacesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMergePlacesOperationCompleted);
+            }
+            this.InvokeAsync("MergePlaces", new object[] {
+                        ticket,
+                        id,
+                        target}, this.MergePlacesOperationCompleted, userState);
+        }
+        
+        private void OnMergePlacesOperationCompleted(object arg) {
+            if ((this.MergePlacesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MergePlacesCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -8160,6 +8197,10 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MergePlacesCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

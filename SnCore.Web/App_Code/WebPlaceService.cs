@@ -748,7 +748,7 @@ namespace SnCore.WebServices
                         "DROP TABLE #Unique_Results")
                         .AddEntity("Place", typeof(Place));
 
-                places = query.List<Place>(); 
+                places = query.List<Place>();
             }
 
             return WebServiceQueryOptions<Place>.Apply(options, places);
@@ -1640,6 +1640,41 @@ namespace SnCore.WebServices
                 }
 
                 return result;
+            }
+        }
+
+        #endregion
+
+        #region Merge
+        /// <summary>
+        /// Merge places.
+        /// </summary>
+        /// <param name="id">id of the place to merge; this place will be deleted</param>
+        /// <param name="target">target place data to merge; this place will be updated</param>
+        /// <param name="ticket">authentication ticket; must have r/w access to the place to be updated and r/d access for the place to merge</param>
+        [WebMethod(Description = "Merge places.", CacheDuration = 60)]
+        public void MergePlaces(string ticket, int id, TransitPlace target)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ITransaction t = session.BeginTransaction();
+                try
+                {
+                    ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                    // update all contents of the target
+                    ManagedPlace m_target = new ManagedPlace(session);
+                    m_target.CreateOrUpdate(target, sec);
+                    // merge child items
+                    m_target.Merge(sec, id);
+                    SnCore.Data.Hibernate.Session.Flush();
+                    t.Commit();
+                }
+                catch
+                {
+                    t.Rollback();
+                    throw;
+                }
             }
         }
 

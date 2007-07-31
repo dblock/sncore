@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.IO;
 using System.Reflection;
 using SnCore.Data;
+using System.Collections.Generic;
 
 namespace SnCore.Services
 {
@@ -171,6 +172,14 @@ namespace SnCore.Services
         {
             return session.Delete(string.Format("from Feature f where f.DataObject.Id = {0} AND f.DataRowId = {1}",
                 ManagedDataObject.Find(session, table), id));
+        }
+
+        public static IList<Feature> GetFeatures(ISession session, string table, int id)
+        {
+            return session.CreateCriteria(typeof(Feature))
+                .Add(Expression.Eq("DataObject.Id", ManagedDataObject.Find(session, table)))
+                .Add(Expression.Eq("DataRowId", id))
+                .List<Feature>();
         }
 
         protected override void Save(ManagedSecurityContext sec)

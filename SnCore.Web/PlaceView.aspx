@@ -122,6 +122,9 @@
            </div>
            <asp:Panel ID="panelAdmin" runat="server">
             <div>
+             <asp:HyperLink runat="server" ID="linkMerge" Text="&#187; Merge Places" />
+            </div>
+            <div>
              <asp:HyperLink runat="server" ID="linkAdminAttributes" Text="&#187; Edit Attributes" />
             </div>
             <div>

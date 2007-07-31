@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -544,6 +545,7 @@ namespace SnCore.Services
                 new ManagedAccountEvent(Session, evt).Delete(sec);
             }
 
+            ManagedMadLibInstance.Delete(Session, sec, "Place", Id);
             Session.Delete(string.Format("FROM AccountPlace f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountPlaceRequest f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountPlaceFavorite f WHERE f.Place.Id = {0}", Id));
@@ -628,6 +630,280 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+        }
+
+        public bool HasAccountGroup(int id)
+        {
+            foreach (AccountGroupPlace curr in mInstance.AccountGroupPlaces)
+            {
+                if (curr.AccountGroup.Id == id)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool HasPlaceAttribute(int id)
+        {
+            foreach (PlaceAttribute curr in mInstance.PlaceAttributes)
+            {
+                if (curr.Attribute.Id == id)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool HasPlaceName(string name)
+        {
+            foreach (PlaceName curr in mInstance.PlaceNames)
+            {
+                if (name.ToLower() == curr.Name.ToLower())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool HasPlacePropertyValue(int property_id)
+        {
+            foreach (PlacePropertyValue curr in mInstance.PlacePropertyValues)
+            {
+                if (curr.PlaceProperty.Id == property_id)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Merge(ManagedSecurityContext sec, int id)
+        {
+            ManagedPlace p = new ManagedPlace(Session, id);
+
+            #region Merge AccountEvents
+            
+            foreach (AccountEvent inst in p.Instance.AccountEvents)
+            {
+                inst.Place = mInstance;
+                Session.Save(inst);
+            }
+
+            #endregion
+
+            #region Merge AccountGroupPlace
+
+            foreach (AccountGroupPlace inst in p.Instance.AccountGroupPlaces)
+            {
+                if (! HasAccountGroup(inst.AccountGroup.Id))
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+
+            #endregion
+
+            #region Merge AccountPlaceFavorite
+
+            foreach (AccountPlaceFavorite inst in p.Instance.AccountPlaceFavorites)
+            {
+                bool found = false;
+                foreach (AccountPlaceFavorite curr in inst.Account.AccountPlaceFavorites)
+                {
+                    if (curr.Place.Id == mInstance.Id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+
+            #endregion
+
+            #region Merge AccountPlaceRequests
+
+            foreach (AccountPlaceRequest inst in p.Instance.AccountPlaceRequests)
+            {
+                bool found = false;
+                foreach (AccountPlaceRequest curr in inst.Account.AccountPlaceRequests)
+                {
+                    if (curr.Place.Id == mInstance.Id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+            
+            #endregion
+
+            #region Merge AccountPlaces
+
+            foreach (AccountPlace inst in p.Instance.AccountPlaces)
+            {
+                bool found = false;
+                foreach (AccountPlace curr in inst.Account.AccountPlaces)
+                {
+                    if (curr.Place.Id == mInstance.Id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+
+            #endregion
+
+            #region Merge PlaceAttribute
+
+            foreach (PlaceAttribute inst in p.Instance.PlaceAttributes)
+            {
+                if (! HasPlaceAttribute(inst.Attribute.Id))
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+            
+            #endregion
+
+            #region Merge PlaceNames
+
+            // merge place names
+            foreach (PlaceName inst in p.Instance.PlaceNames)
+            {
+                if (! HasPlaceName(inst.Name))
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+
+            #endregion
+
+            #region Merge PlacePictures
+
+            foreach (PlacePicture inst in p.Instance.PlacePictures)
+            {
+                inst.Place = mInstance;
+                Session.Save(inst);
+            }
+
+            #endregion
+
+            #region Merge PlacePropertyValues
+
+            foreach (PlacePropertyValue inst in p.Instance.PlacePropertyValues)
+            {
+                if (!HasPlacePropertyValue(inst.PlaceProperty.Id))
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+
+            #endregion
+
+            #region Merge PlaceQueueItems
+
+            foreach (PlaceQueueItem inst in p.Instance.PlaceQueueItems)
+            {
+                bool found = false;
+                foreach (PlaceQueue queue in inst.PlaceQueue.Account.PlaceQueues)
+                {
+                    foreach (PlaceQueueItem curr in queue.PlaceQueueItems)
+                    {
+                        if (curr.Place.Id == mInstance.Id)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found)
+                    {
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    inst.Place = mInstance;
+                    Session.Save(inst);
+                }
+            }
+
+            #endregion
+
+            #region Merge Discussion
+
+            // TODO: move into ManagedDiscussion
+
+            Discussion d_keep = ManagedDiscussion.Find(Session, mInstance.Account.Id, typeof(Place), mInstance.Id, sec);
+            Discussion d_delete = ManagedDiscussion.Find(Session, p.Instance.Account.Id, typeof(Place), p.Instance.Id, sec);
+
+            if (d_keep == null && d_delete != null)
+            {
+                d_delete.ObjectId = mInstance.Id;
+                Session.Save(d_delete);
+            }
+            else if (d_delete != null)
+            {
+                foreach (DiscussionThread t in d_delete.DiscussionThreads)
+                {
+                    t.Discussion = d_keep;
+                    if (t.Modified > d_keep.Modified)
+                    {
+                        d_keep.Modified = t.Modified;
+                        Session.Save(d_keep);
+                    }
+                    Session.Save(t);
+                }
+            }
+
+            #endregion
+
+            #region Merge MadLibs
+
+            IList<MadLibInstance> madlibs = ManagedMadLibInstance.GetMadLibs(Session, "Place", p.Id);
+            foreach (MadLibInstance madlib in madlibs)
+            {
+                madlib.ObjectId = mInstance.Id;
+                Session.Save(madlib);
+            }
+
+            #endregion
+
+            #region Merge Features
+
+            IList<Feature> features = ManagedFeature.GetFeatures(Session, "Place", p.Id);
+            foreach (Feature feature in features)
+            {
+                feature.DataRowId = mInstance.Id;
+                Session.Save(feature);
+            }
+
+            #endregion
+
+            Session.Delete(p.Instance);
         }
     }
 }
