@@ -118,6 +118,12 @@
             <asp:HyperLink id="linkClaimOwnership" runat="server" Text="&#187; I Run this Business" />
            </div>
            <div>
+            <asp:HyperLink id="linkPlaceChangeRequestEdit" runat="server" Text="&#187; Make Changes" />
+           </div>
+           <div>
+            <asp:HyperLink runat="server" ID="linkAdminManageChanges" Text="&#187; Change Requests" />
+           </div>
+           <div>
             <asp:HyperLink runat="server" ID="linkAdminEdit" Text="&#187; Edit Content" />
            </div>
            <asp:Panel ID="panelAdmin" runat="server">

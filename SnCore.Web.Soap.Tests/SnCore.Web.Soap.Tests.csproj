@@ -210,6 +210,7 @@
     <Compile Include="WebPlaceService_AccountPlaceTypeTest.cs" />
     <Compile Include="WebPlaceService_DistinctPlaceNeighborhoodTest.cs" />
     <Compile Include="WebPlaceService_PlaceAttributeTest.cs" />
+    <Compile Include="WebPlaceService_PlaceChangeRequestTest.cs" />
     <Compile Include="WebPlaceService_PlaceNameTest.cs" />
     <Compile Include="WebPlaceService_PlacePictureTest.cs" />
     <Compile Include="WebPlaceService_PlacePropertyGroupTest.cs" />
@@ -979,6 +980,9 @@
     <None Include="Web References\WebGroupService\WebGroupService.disco" />
     <None Include="Web References\WebGroupService\WebGroupService.wsdl" />
     <None Include="Web References\WebLocationService\TransitAccountCity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebPlaceService\TransitPlaceChangeRequest.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebSyndicationService\TransitAccountRssWatch.datasource">

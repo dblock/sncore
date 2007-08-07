@@ -1679,5 +1679,91 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region PlaceChangeRequest
+
+        /// <summary>
+        /// Create or update an account place change request.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="request">transit place change request</param>
+        /// <returns>place id</returns>
+        [WebMethod(Description = "Create or update an account place change request.")]
+        public int CreateOrUpdatePlaceChangeRequest(string ticket, TransitPlaceChangeRequest request)
+        {
+            return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.CreateOrUpdate(
+                ticket, request);
+        }
+
+        /// <summary>
+        /// Get a place change request.
+        /// </summary>
+        /// <returns>transit place change request</returns>
+        [WebMethod(Description = "Get a place change request.")]
+        public TransitPlaceChangeRequest GetPlaceChangeRequestById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get place change requests count.
+        /// </summary>
+        /// <returns>number of transit place change requests</returns>
+        [WebMethod(Description = "Get place change requests count by account id.", CacheDuration = 60)]
+        public int GetPlaceChangeRequestsCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetCount(
+                ticket, string.Format("WHERE PlaceChangeRequest.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get place change requests.
+        /// </summary>
+        /// <returns>list of transit place change requests</returns>
+        [WebMethod(Description = "Get place change requests.", CacheDuration = 60)]
+        public List<TransitPlaceChangeRequest> GetPlaceChangeRequests(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get place change requests count by place id.
+        /// </summary>
+        /// <returns>number of transit place change requests</returns>
+        [WebMethod(Description = "Get place change requests count by place id.", CacheDuration = 60)]
+        public int GetPlaceChangeRequestsCountByPlaceId(string ticket, int id)
+        {
+            return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetCount(
+                ticket, string.Format("WHERE PlaceChangeRequest.Place.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get place change requests by place id.
+        /// </summary>
+        /// <returns>list of transit place change requests</returns>
+        [WebMethod(Description = "Get place change requests by place id.", CacheDuration = 60)]
+        public List<TransitPlaceChangeRequest> GetPlaceChangeRequestsByPlaceId(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
+            return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete a place change request.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a place change request.")]
+        public void DeletePlaceChangeRequest(string ticket, int id)
+        {
+            WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.Delete(
+                ticket, id);
+        }
+
+        #endregion
     }
 }

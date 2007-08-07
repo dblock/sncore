@@ -198,5 +198,9 @@
       <key column="FlaggedAccount_Id" />
       <one-to-many class="AccountFlag, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlaceChangeRequests" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="PlaceChangeRequest, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

@@ -16,5 +16,9 @@
       <key column="City_Id" />
       <one-to-many class="Neighborhood, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlaceChangeRequests" inverse="true">
+      <key column="City_Id" />
+      <one-to-many class="PlaceChangeRequest, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

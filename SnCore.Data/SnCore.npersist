@@ -61,6 +61,7 @@
     <property name="AccountRssWatchs" table="AccountRssWatch" id-columns="Account_Id" list="true" item-type="AccountRssWatch" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountFlags" table="AccountFlag" id-columns="Account_Id" list="true" item-type="AccountFlag" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="FlaggedAccountAccountFlags" table="AccountFlag" id-columns="FlaggedAccount_Id" list="true" item-type="AccountFlag" slave="true" ref="ManyToOne" inverse="FlaggedAccount" inherits-inverse="true" />
+    <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Account_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -609,6 +610,7 @@
     <property name="State" columns="State_Id" ref="OneToMany" inverse="Cities" type="State" />
     <property name="Tag" columns="Tag" type="System.String" />
     <property name="Neighborhoods" table="Neighborhood" id-columns="City_Id" list="true" item-type="Neighborhood" slave="true" ref="ManyToOne" inverse="City" inherits-inverse="true" />
+    <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="City_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="City" inherits-inverse="true" />
   </class>
   <class name="Configuration" table="Configuration">
     <property name="Id" id="true" columns="Configuration_Id" type="System.Int32" />
@@ -763,6 +765,7 @@
     <property name="City" columns="City_Id" ref="OneToMany" inverse="Neighborhoods" type="City" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Places" table="Place" id-columns="Neighborhood_Id" list="true" item-type="Place" slave="true" ref="ManyToOne" inverse="Neighborhood" inherits-inverse="true" />
+    <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Neighborhood_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Neighborhood" inherits-inverse="true" />
   </class>
   <class name="Picture" table="Picture">
     <property name="Id" id="true" columns="Picture_Id" type="System.Int32" />
@@ -805,6 +808,7 @@
     <property name="PlaceQueueItems" table="PlaceQueueItem" id-columns="Place_Id" list="true" item-type="PlaceQueueItem" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="Neighborhood" columns="Neighborhood_Id" ref="OneToMany" inverse="Places" type="Neighborhood" />
     <property name="AccountGroupPlaces" table="AccountGroupPlace" id-columns="Place_Id" list="true" item-type="AccountGroupPlace" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Place_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
   <class name="PlaceAttribute" table="PlaceAttribute">
     <property name="Id" id="true" columns="PlaceAttribute_Id" type="System.Int32" />
@@ -877,6 +881,7 @@
     <property name="Id" id="true" columns="PlaceType_Id" type="System.Int32" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Places" table="Place" id-columns="Type" list="true" item-type="Place" read-only="true" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
+    <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Type" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
   </class>
   <class name="Redirect" table="Redirect">
     <property name="Id" id="true" columns="Redirect_Id" type="System.Int32" />
@@ -1014,6 +1019,25 @@
     <property name="Created" columns="Created" type="System.DateTime" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="TagWord" columns="TagWord_Id" ref="OneToMany" inverse="TagWordAccounts" type="TagWord" />
+  </class>
+  <class name="PlaceChangeRequest" table="PlaceChangeRequest">
+    <property name="Id" id="true" columns="PlaceChangeRequest_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="PlaceChangeRequests" type="Account" />
+    <property name="City" columns="City_Id" ref="OneToMany" inverse="PlaceChangeRequests" type="City" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="CrossStreet" columns="CrossStreet" type="System.String" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Email" columns="Email" type="System.String" />
+    <property name="Fax" columns="Fax" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Neighborhood" columns="Neighborhood_Id" ref="OneToMany" inverse="PlaceChangeRequests" type="Neighborhood" />
+    <property name="Phone" columns="Phone" type="System.String" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceChangeRequests" type="Place" />
+    <property name="Street" columns="Street" type="System.String" />
+    <property name="Type" columns="Type" ref="OneToMany" inverse="PlaceChangeRequests" type="PlaceType" />
+    <property name="Website" columns="Website" type="System.String" />
+    <property name="Zip" columns="Zip" type="System.String" />
   </class>
   <source name="SnCore" type="MSSqlServer" provider="SqlClient" schema="dbo" catalog="SnCore">
     <connection-string>Data Source=localhost;Initial Catalog=SnCore;Integrated Security=SSPI</connection-string>
@@ -1909,6 +1933,25 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="PlaceChangeRequest">
+      <column name="PlaceChangeRequest_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceChangeRequest_Account" />
+      <column name="City_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="City" primary-column="City_Id" foreign-key="FK_PlaceChangeRequest_City" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="CrossStreet" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Email" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
+      <column name="Fax" type="AnsiString" prec="24" allow-null="true" length="24" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Neighborhood_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Neighborhood" primary-column="Neighborhood_Id" foreign-key="FK_PlaceChangeRequest_Neighborhood" />
+      <column name="Phone" type="AnsiString" prec="24" allow-null="true" length="24" scale="0" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceChangeRequest_Place" />
+      <column name="Street" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="Type" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceType" primary-column="PlaceType_Id" foreign-key="FK_PlaceChangeRequest_PlaceType" />
+      <column name="Website" type="AnsiString" prec="128" length="128" scale="0" />
+      <column name="Zip" type="String" prec="24" allow-null="true" length="48" scale="0" />
     </table>
   </source>
 </domain>

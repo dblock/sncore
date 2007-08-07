@@ -61,6 +61,11 @@ public partial class PlaceMerge : AuthenticatedPage
                 return;
             }
 
+            if (MergeId == RequestId)
+            {
+                throw new Exception("Cannot merge place into itself.");
+            }
+
             TransitPlace mergefrom = GetMergeFrom();
             linkMergeFrom.Text = Renderer.Render(mergefrom.Name);
             linkMergeFrom.NavigateUrl = string.Format("PlaceView.aspx?id={0}", mergefrom.Id);
@@ -118,6 +123,7 @@ public partial class PlaceMerge : AuthenticatedPage
             SessionManager.Ticket, MergeId, t_instance);
 
         SessionManager.InvalidateCache<TransitPlace>();
+        SessionManager.InvalidateCache<TransitPlacePicture>();
         Redirect(string.Format("PlaceView.aspx?id={0}", RequestId));
     }
 

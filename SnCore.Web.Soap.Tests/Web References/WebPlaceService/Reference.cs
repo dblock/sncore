@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebPlaceServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceChangeRequest))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceQueueItem))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceQueue))]
@@ -239,6 +240,20 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         private System.Threading.SendOrPostCallback GetPlaceNeighborhoodsOperationCompleted;
         
         private System.Threading.SendOrPostCallback MergePlacesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdatePlaceChangeRequestOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceChangeRequestByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceChangeRequestsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceChangeRequestsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceChangeRequestsCountByPlaceIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceChangeRequestsByPlaceIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeletePlaceChangeRequestOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -568,6 +583,27 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event MergePlacesCompletedEventHandler MergePlacesCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdatePlaceChangeRequestCompletedEventHandler CreateOrUpdatePlaceChangeRequestCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceChangeRequestByIdCompletedEventHandler GetPlaceChangeRequestByIdCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceChangeRequestsCountCompletedEventHandler GetPlaceChangeRequestsCountCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceChangeRequestsCompletedEventHandler GetPlaceChangeRequestsCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceChangeRequestsCountByPlaceIdCompletedEventHandler GetPlaceChangeRequestsCountByPlaceIdCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceChangeRequestsByPlaceIdCompletedEventHandler GetPlaceChangeRequestsByPlaceIdCompleted;
+        
+        /// <remarks/>
+        public event DeletePlaceChangeRequestCompletedEventHandler DeletePlaceChangeRequestCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -3626,6 +3662,226 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceChangeRequest", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdatePlaceChangeRequest(string ticket, TransitPlaceChangeRequest request) {
+            object[] results = this.Invoke("CreateOrUpdatePlaceChangeRequest", new object[] {
+                        ticket,
+                        request});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceChangeRequestAsync(string ticket, TransitPlaceChangeRequest request) {
+            this.CreateOrUpdatePlaceChangeRequestAsync(ticket, request, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceChangeRequestAsync(string ticket, TransitPlaceChangeRequest request, object userState) {
+            if ((this.CreateOrUpdatePlaceChangeRequestOperationCompleted == null)) {
+                this.CreateOrUpdatePlaceChangeRequestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdatePlaceChangeRequestOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdatePlaceChangeRequest", new object[] {
+                        ticket,
+                        request}, this.CreateOrUpdatePlaceChangeRequestOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdatePlaceChangeRequestOperationCompleted(object arg) {
+            if ((this.CreateOrUpdatePlaceChangeRequestCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdatePlaceChangeRequestCompleted(this, new CreateOrUpdatePlaceChangeRequestCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceChangeRequestById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceChangeRequest GetPlaceChangeRequestById(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceChangeRequestById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitPlaceChangeRequest)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestByIdAsync(string ticket, int id) {
+            this.GetPlaceChangeRequestByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceChangeRequestByIdOperationCompleted == null)) {
+                this.GetPlaceChangeRequestByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceChangeRequestByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceChangeRequestById", new object[] {
+                        ticket,
+                        id}, this.GetPlaceChangeRequestByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceChangeRequestByIdOperationCompleted(object arg) {
+            if ((this.GetPlaceChangeRequestByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceChangeRequestByIdCompleted(this, new GetPlaceChangeRequestByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceChangeRequestsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetPlaceChangeRequestsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceChangeRequestsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsCountAsync(string ticket, int id) {
+            this.GetPlaceChangeRequestsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceChangeRequestsCountOperationCompleted == null)) {
+                this.GetPlaceChangeRequestsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceChangeRequestsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceChangeRequestsCount", new object[] {
+                        ticket,
+                        id}, this.GetPlaceChangeRequestsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceChangeRequestsCountOperationCompleted(object arg) {
+            if ((this.GetPlaceChangeRequestsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceChangeRequestsCountCompleted(this, new GetPlaceChangeRequestsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceChangeRequests", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceChangeRequest[] GetPlaceChangeRequests(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetPlaceChangeRequests", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitPlaceChangeRequest[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetPlaceChangeRequestsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetPlaceChangeRequestsOperationCompleted == null)) {
+                this.GetPlaceChangeRequestsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceChangeRequestsOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceChangeRequests", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetPlaceChangeRequestsOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceChangeRequestsOperationCompleted(object arg) {
+            if ((this.GetPlaceChangeRequestsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceChangeRequestsCompleted(this, new GetPlaceChangeRequestsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceChangeRequestsCountByPlaceId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetPlaceChangeRequestsCountByPlaceId(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceChangeRequestsCountByPlaceId", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsCountByPlaceIdAsync(string ticket, int id) {
+            this.GetPlaceChangeRequestsCountByPlaceIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsCountByPlaceIdAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceChangeRequestsCountByPlaceIdOperationCompleted == null)) {
+                this.GetPlaceChangeRequestsCountByPlaceIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceChangeRequestsCountByPlaceIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceChangeRequestsCountByPlaceId", new object[] {
+                        ticket,
+                        id}, this.GetPlaceChangeRequestsCountByPlaceIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceChangeRequestsCountByPlaceIdOperationCompleted(object arg) {
+            if ((this.GetPlaceChangeRequestsCountByPlaceIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceChangeRequestsCountByPlaceIdCompleted(this, new GetPlaceChangeRequestsCountByPlaceIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceChangeRequestsByPlaceId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceChangeRequest[] GetPlaceChangeRequestsByPlaceId(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetPlaceChangeRequestsByPlaceId", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitPlaceChangeRequest[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsByPlaceIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetPlaceChangeRequestsByPlaceIdAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceChangeRequestsByPlaceIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetPlaceChangeRequestsByPlaceIdOperationCompleted == null)) {
+                this.GetPlaceChangeRequestsByPlaceIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceChangeRequestsByPlaceIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceChangeRequestsByPlaceId", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetPlaceChangeRequestsByPlaceIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceChangeRequestsByPlaceIdOperationCompleted(object arg) {
+            if ((this.GetPlaceChangeRequestsByPlaceIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceChangeRequestsByPlaceIdCompleted(this, new GetPlaceChangeRequestsByPlaceIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeletePlaceChangeRequest", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeletePlaceChangeRequest(string ticket, int id) {
+            this.Invoke("DeletePlaceChangeRequest", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceChangeRequestAsync(string ticket, int id) {
+            this.DeletePlaceChangeRequestAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceChangeRequestAsync(string ticket, int id, object userState) {
+            if ((this.DeletePlaceChangeRequestOperationCompleted == null)) {
+                this.DeletePlaceChangeRequestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeletePlaceChangeRequestOperationCompleted);
+            }
+            this.InvokeAsync("DeletePlaceChangeRequest", new object[] {
+                        ticket,
+                        id}, this.DeletePlaceChangeRequestOperationCompleted, userState);
+        }
+        
+        private void OnDeletePlaceChangeRequestOperationCompleted(object arg) {
+            if ((this.DeletePlaceChangeRequestCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeletePlaceChangeRequestCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -3683,6 +3939,265 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlaceChangeRequest))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfPlaceChangeRequest {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitPlaceChangeRequest : TransitServiceOfPlaceChangeRequest {
+        
+        private int placeIdField;
+        
+        private string nameField;
+        
+        private string typeField;
+        
+        private string descriptionField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private string streetField;
+        
+        private string zipField;
+        
+        private string crossStreetField;
+        
+        private string phoneField;
+        
+        private string faxField;
+        
+        private string emailField;
+        
+        private string websiteField;
+        
+        private string neighborhoodField;
+        
+        private string cityField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private int pictureIdField;
+        
+        private int accountIdField;
+        
+        /// <remarks/>
+        public int PlaceId {
+            get {
+                return this.placeIdField;
+            }
+            set {
+                this.placeIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Street {
+            get {
+                return this.streetField;
+            }
+            set {
+                this.streetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Zip {
+            get {
+                return this.zipField;
+            }
+            set {
+                this.zipField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CrossStreet {
+            get {
+                return this.crossStreetField;
+            }
+            set {
+                this.crossStreetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Phone {
+            get {
+                return this.phoneField;
+            }
+            set {
+                this.phoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Fax {
+            get {
+                return this.faxField;
+            }
+            set {
+                this.faxField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Website {
+            get {
+                return this.websiteField;
+            }
+            set {
+                this.websiteField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Neighborhood {
+            get {
+                return this.neighborhoodField;
+            }
+            set {
+                this.neighborhoodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
             }
         }
     }
@@ -8201,6 +8716,166 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void MergePlacesCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void CreateOrUpdatePlaceChangeRequestCompletedEventHandler(object sender, CreateOrUpdatePlaceChangeRequestCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdatePlaceChangeRequestCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdatePlaceChangeRequestCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetPlaceChangeRequestByIdCompletedEventHandler(object sender, GetPlaceChangeRequestByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceChangeRequestByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceChangeRequestByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceChangeRequest Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceChangeRequest)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetPlaceChangeRequestsCountCompletedEventHandler(object sender, GetPlaceChangeRequestsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceChangeRequestsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceChangeRequestsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetPlaceChangeRequestsCompletedEventHandler(object sender, GetPlaceChangeRequestsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceChangeRequestsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceChangeRequestsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceChangeRequest[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceChangeRequest[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetPlaceChangeRequestsCountByPlaceIdCompletedEventHandler(object sender, GetPlaceChangeRequestsCountByPlaceIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceChangeRequestsCountByPlaceIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceChangeRequestsCountByPlaceIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetPlaceChangeRequestsByPlaceIdCompletedEventHandler(object sender, GetPlaceChangeRequestsByPlaceIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceChangeRequestsByPlaceIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceChangeRequestsByPlaceIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceChangeRequest[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceChangeRequest[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void DeletePlaceChangeRequestCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

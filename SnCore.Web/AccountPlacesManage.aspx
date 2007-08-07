@@ -12,8 +12,10 @@
    </div>
   </Template>
  </SnCore:Title>
- <asp:HyperLink ID="linkSuggest" Text="&#187; Suggest a New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
-  runat="server" />
+ <div class="sncore_createnew">
+  <a href="PlaceEdit.aspx">&#187; Suggest a New Place</a>
+  <a href="AccountPlaceChangeRequestsManage.aspx">&#187; Change Requests</a>
+ </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
@@ -46,6 +48,9 @@
         </div>
         <div>
          <a href='SystemAccountPlaceRequestsManage.aspx?id=<%# Eval("Id") %>'>&#187; Requests</a>
+        </div>
+        <div>
+         <a href='PlaceChangeRequestsManage.aspx?id=<%# Eval("Id") %>'>&#187; Changes</a>
         </div>
         <div>
          <asp:LinkButton ID="linkDelete" runat="server" CommandArgument='<%# Eval("Id") %>' CommandName="Delete" 

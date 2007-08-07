@@ -3605,6 +3605,43 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[PlaceChangeRequest](
+	[PlaceChangeRequest_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Place_Id] [int] NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[Type] [int] NOT NULL,
+	[Name] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[City_Id] [int] NOT NULL,
+	[Street] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Zip] [nvarchar](24) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[CrossStreet] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Phone] [varchar](24) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Fax] [varchar](24) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Email] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Website] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+	[Neighborhood_Id] [int] NULL,
+ CONSTRAINT [PK_PlaceChangeRequest] PRIMARY KEY CLUSTERED 
+(
+	[PlaceChangeRequest_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]') AND name = N'PK_PlaceChangeRequest')
+ALTER TABLE [dbo].[PlaceChangeRequest] ADD  CONSTRAINT [PK_PlaceChangeRequest] PRIMARY KEY CLUSTERED 
+(
+	[PlaceChangeRequest_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PlaceName]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[PlaceName](
@@ -5266,6 +5303,37 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[PlaceAttribute] CHECK CONSTRAINT [FK_PlaceAttribute_Place]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_City] FOREIGN KEY([City_Id])
+REFERENCES [dbo].[City] ([City_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_City]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_Neighborhood]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_Neighborhood] FOREIGN KEY([Neighborhood_Id])
+REFERENCES [dbo].[Neighborhood] ([Neighborhood_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_Neighborhood]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_PlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_PlaceType] FOREIGN KEY([Type])
+REFERENCES [dbo].[PlaceType] ([PlaceType_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_PlaceType]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_PlaceName]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
 ALTER TABLE [dbo].[PlaceName]  WITH CHECK ADD  CONSTRAINT [FK_Place_PlaceName] FOREIGN KEY([Place_Id])
 REFERENCES [dbo].[Place] ([Place_Id])
@@ -6071,6 +6139,37 @@ REFERENCES [dbo].[Place] ([Place_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[PlaceAttribute] CHECK CONSTRAINT [FK_PlaceAttribute_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_City] FOREIGN KEY([City_Id])
+REFERENCES [dbo].[City] ([City_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_City]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_Neighborhood]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_Neighborhood] FOREIGN KEY([Neighborhood_Id])
+REFERENCES [dbo].[Neighborhood] ([Neighborhood_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_Neighborhood]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_Place]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_Place] FOREIGN KEY([Place_Id])
+REFERENCES [dbo].[Place] ([Place_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_Place]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_PlaceChangeRequest_PlaceType]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]'))
+ALTER TABLE [dbo].[PlaceChangeRequest]  WITH CHECK ADD  CONSTRAINT [FK_PlaceChangeRequest_PlaceType] FOREIGN KEY([Type])
+REFERENCES [dbo].[PlaceType] ([PlaceType_Id])
+GO
+ALTER TABLE [dbo].[PlaceChangeRequest] CHECK CONSTRAINT [FK_PlaceChangeRequest_PlaceType]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Place_PlaceName]') AND parent_object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
 ALTER TABLE [dbo].[PlaceName]  WITH CHECK ADD  CONSTRAINT [FK_Place_PlaceName] FOREIGN KEY([Place_Id])

@@ -214,6 +214,7 @@
     <Compile Include="ManagedPictureTest.cs" />
     <Compile Include="ManagedPictureTypeTest.cs" />
     <Compile Include="ManagedPlaceAttributeTest.cs" />
+    <Compile Include="ManagedPlaceChangeRequestTest.cs" />
     <Compile Include="ManagedPlaceNameTest.cs" />
     <Compile Include="ManagedPlacePictureTest.cs" />
     <Compile Include="ManagedPlacePropertyGroupTest.cs" />

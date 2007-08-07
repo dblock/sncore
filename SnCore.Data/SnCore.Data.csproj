@@ -354,6 +354,9 @@
     <Compile Include="PlaceAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlaceChangeRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlaceName.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -511,6 +514,7 @@
     <EmbeddedResource Include="PictureType.hbm.xml" />
     <EmbeddedResource Include="Place.hbm.xml" />
     <EmbeddedResource Include="PlaceAttribute.hbm.xml" />
+    <EmbeddedResource Include="PlaceChangeRequest.hbm.xml" />
     <EmbeddedResource Include="PlaceName.hbm.xml" />
     <EmbeddedResource Include="PlacePicture.hbm.xml" />
     <EmbeddedResource Include="PlaceProperty.hbm.xml" />

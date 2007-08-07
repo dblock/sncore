@@ -550,6 +550,7 @@ namespace SnCore.Services
             Session.Delete(string.Format("FROM AccountPlaceRequest f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountPlaceFavorite f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM PlaceQueueItem q WHERE q.Place.Id = {0}", Id));
+            Session.Delete(string.Format("FROM PlaceChangeRequest r WHERE r.Place.Id = {0}", Id));
             ManagedFeature.Delete(Session, "Place", Id);
             base.Delete(sec);
         }
@@ -678,6 +679,11 @@ namespace SnCore.Services
 
         public void Merge(ManagedSecurityContext sec, int id)
         {
+            if (id == mInstance.Id)
+            {
+                throw new Exception("Cannot merge a place into itself.");
+            }
+
             ManagedPlace p = new ManagedPlace(Session, id);
 
             #region Merge AccountEvents

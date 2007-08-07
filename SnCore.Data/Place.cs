@@ -39,6 +39,7 @@
         private System.Collections.Generic.IList<PlaceQueueItem> m_PlaceQueueItems;
         private Neighborhood m_Neighborhood;
         private System.Collections.Generic.IList<AccountGroupPlace> m_AccountGroupPlaces;
+        private System.Collections.Generic.IList<PlaceChangeRequest> m_PlaceChangeRequests;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -759,6 +760,37 @@
             set
             {
                 m_AccountGroupPlaces = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'PlaceChangeRequest'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'PlaceChangeRequest.Place'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PlaceChangeRequests' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'PlaceChangeRequest' table in the data source.
+        ///The property maps to the identity column 'Place_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
+        {
+            get
+            {
+                return m_PlaceChangeRequests;
+            }
+            set
+            {
+                m_PlaceChangeRequests = value;
             }
         }
 

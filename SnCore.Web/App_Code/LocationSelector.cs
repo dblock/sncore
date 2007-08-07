@@ -65,6 +65,12 @@ public class LocationEventArgs : EventArgs
 
     }
 
+    public LocationEventArgs(TransitPlaceChangeRequest request)
+        : this(request.Country, request.State, request.City, request.Neighborhood)
+    {
+
+    }
+
     public LocationEventArgs(HttpRequest request)
         : this(request["country"], request["state"], request["city"], request["neighborhood"])
     {

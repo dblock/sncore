@@ -214,6 +214,7 @@ public partial class PlaceView : Page
 
                 linkManagePictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
                 linkClaimOwnership.NavigateUrl = string.Format("AccountPlaceRequestEdit.aspx?pid={0}", place.Id);
+                linkPlaceChangeRequestEdit.NavigateUrl = string.Format("PlaceChangeRequestEdit.aspx?pid={0}", place.Id);
 
                 if (account != null)
                 {
@@ -227,8 +228,9 @@ public partial class PlaceView : Page
 
                 labelSuggestedOn.Text = Adjust(place.Created).ToString("d");
 
-                linkAdminEdit.Visible = place.CanWrite || SessionManager.IsAdministrator;
+                linkAdminManageChanges.Visible = linkAdminEdit.Visible = place.CanWrite || SessionManager.IsAdministrator;
                 linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);
+                linkAdminManageChanges.NavigateUrl = string.Format("PlaceChangeRequestsManage.aspx?id={0}", place.Id);
                 linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                 linkMerge.NavigateUrl = string.Format("PlaceMerge.aspx?id={0}", place.Id);
 
