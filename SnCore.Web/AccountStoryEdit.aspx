@@ -15,64 +15,61 @@
   <asp:HyperLink ID="linkAddPictures" runat="server" Text="&#187; Add Photos" />
   <asp:HyperLink ID="linkView" runat="server" Text="&#187; Preview" Target="_blank" />
  </div>
- <table class="sncore_table">
-  <tr>
-   <td class="sncore_form_label">
-    title:
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox ID="inputName" runat="server" CssClass="sncore_form_textbox" />
-    <asp:RequiredFieldValidator ID="inputNameValidator" runat="server" ControlToValidate="inputName"
-     CssClass="sncore_form_validator" ErrorMessage="missing title"
-     Display="Dynamic" />
-   </td>
-  </tr>
-  <tr>
-   <td valign="top" class="sncore_form_label">
-    story:
-   </td>
-   <td class="sncore_form_value">
-    <ftb:freetextbox id="inputSummary" runat="Server" />
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td class="sncore_form_value">
-    <asp:CheckBox ID="inputPublish" runat="server" Checked="true" Text="Publish" />
-    <div class="sncore_description">
-     uncheck to save as draft
-    </div>
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td class="sncore_form_value">
-    <div class="sncore_description">
-     <asp:UpdatePanel id="panelLastSaved" UpdateMode="Always" runat="server">
-      <ContentTemplate>
-       <asp:Label id="labelLastSaved" runat="server" />
-      </ContentTemplate>
-     </asp:UpdatePanel>
-    </div>
-   </td>
-  </tr>
-  <tr>
-   <td>
-   </td>
-   <td>
-    <asp:UpdatePanel id="panelEdit" runat="server">
-     <ContentTemplate>
-      <sncorewebcontrols:button id="linkSave" cssclass="sncore_form_button" onclick="save"
-       runat="server" text="Save" OnClientClick="WebForm_OnSubmit();" />
-      <sncorewebcontrols:button id="linkSaveAndContinue" cssclass="sncore_form_button" onclick="saveAndContinue"
-       runat="server" text="Save and Continue Editing" Width="200" OnClientClick="WebForm_OnSubmit();" />
-     </ContentTemplate>
-    </asp:UpdatePanel>
-   </td>
-  </tr>
- </table>
+ <SnCoreWebControls:DirtyPanelExtender ID="panelPostExtender" runat="server" TargetControlID="panelEdit"
+  OnLeaveMessage="Your story has not been saved!" />
+ <asp:Panel id="panelEdit" runat="server">
+  <table class="sncore_table">
+   <tr>
+    <td class="sncore_form_label">
+     title:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox ID="inputName" runat="server" CssClass="sncore_form_textbox" />
+    </td>
+   </tr>
+   <tr>
+    <td valign="top" class="sncore_form_label">
+     story:
+    </td>
+    <td class="sncore_form_value">
+     <ftb:freetextbox id="inputSummary" runat="Server" />
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td class="sncore_form_value">
+     <asp:CheckBox ID="inputPublish" runat="server" Checked="true" Text="Publish" />
+     <div class="sncore_description">
+      uncheck to save as draft
+     </div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td class="sncore_form_value">
+     <div class="sncore_description">
+      <asp:UpdatePanel id="panelLastSaved" UpdateMode="Always" runat="server">
+       <ContentTemplate>
+        <asp:Label id="labelLastSaved" runat="server" />
+       </ContentTemplate>
+      </asp:UpdatePanel>
+     </div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td>
+     <sncorewebcontrols:button id="linkSave" cssclass="sncore_form_button" onclick="save"
+      runat="server" text="Save" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
+     <sncorewebcontrols:button id="linkSaveAndContinue" cssclass="sncore_form_button" onclick="saveAndContinue"
+      runat="server" text="Save and Continue Editing" Width="200" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
  <asp:DataList ItemStyle-HorizontalAlign="center" ItemStyle-Width="200px" RepeatColumns="4"
   runat="server" ID="gridManage" ShowHeader="false" CssClass="sncore_table"
   OnItemCommand="gridManage_ItemCommand">

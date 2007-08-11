@@ -150,7 +150,7 @@
       <li><a href="AccountLicenseEdit.aspx">License</a></li>
       <li><a href="AccountPlaceFavoritesManage.aspx">Favorite Places</a></li>
       <li><a href="AccountPlacesManage.aspx">Places</a></li>
-
+      <li><a href="AccountPlaceChangeRequestsManage.aspx">Change Requests</a></li>
       <li><a href="AccountPlaceQueueManage.aspx">Queue</a></li>
       <li><a href="PlaceFriendsQueueView.aspx">Friends Queue</a></li>
       <li><a href="AccountFriendsManage.aspx">Friends</a></li>

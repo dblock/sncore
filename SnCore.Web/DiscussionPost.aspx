@@ -6,6 +6,8 @@
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
+ <SnCoreWebControls:DirtyPanelExtender ID="panelPostExtender" runat="server" TargetControlID="panelPost"
+  OnLeaveMessage="Your message has not been saved!" />
  <asp:Panel ID="panelPost" runat="server">
   <asp:Panel ID="panelReplyTo" runat="server" Visible="false">  
    <div class="sncore_h2">

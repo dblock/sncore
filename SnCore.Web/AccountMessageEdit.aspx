@@ -39,6 +39,8 @@
    </tr>
   </table>
  </asp:Panel>
+ <SnCoreWebControls:DirtyPanelExtender ID="panelMessageExtender" runat="server" TargetControlID="panelMessage"
+  OnLeaveMessage="Your message has not been saved!" />
  <asp:Panel ID="panelMessage" runat="server">
   <div class="sncore_h2">
    <a name="edit">Send Message</a>

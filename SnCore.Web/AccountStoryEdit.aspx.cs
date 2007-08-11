@@ -119,10 +119,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
     public void saveAndContinue(object sender, EventArgs e)
     {
         int id = saveOnly();
-        if (RequestId == 0)
-        {
-            Redirect(string.Format("AccountStoryEdit.aspx?id={0}", id));
-        }
+        Redirect(string.Format("AccountStoryEdit.aspx?id={0}", id));
     }
 
     public void save(object sender, EventArgs e)
