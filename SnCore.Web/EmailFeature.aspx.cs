@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Services;
+using SnCore.Tools.Web;
 
 public partial class EmailFeature : AuthenticatedPage
 {
@@ -41,7 +42,7 @@ public partial class EmailFeature : AuthenticatedPage
         }
     }
 
-    public string GetDataObjectName()
+    public string GetDataObjectType()
     {
         switch (Feature.DataObjectName)
         {
@@ -56,6 +57,45 @@ public partial class EmailFeature : AuthenticatedPage
         }
 
         return Feature.DataObjectName.ToLower();
+    }
+
+    public string GetDataObjectName()
+    {
+        switch (Feature.DataObjectName)
+        {
+            case "AccountFeed":
+                {
+                    TransitAccountFeed t_instance = SessionManager.GetInstance<TransitAccountFeed, int>(
+                        Feature.DataRowId, SessionManager.SyndicationService.GetAccountFeedById);
+                    return t_instance.Name;
+                }
+            case "AccountFeedItem":
+                {
+                    TransitAccountFeedItem t_instance = SessionManager.GetInstance<TransitAccountFeedItem, int>(
+                        Feature.DataRowId, SessionManager.SyndicationService.GetAccountFeedItemById);
+                    return t_instance.Title;
+                }
+            case "Account":
+                {
+                    TransitAccount t_instance = SessionManager.GetInstance<TransitAccount, int>(
+                        Feature.DataRowId, SessionManager.AccountService.GetAccountById);
+                    return t_instance.Name;
+                }
+            case "AccountEvent":
+                {
+                    TransitAccountEvent t_instance = SessionManager.GetInstance<TransitAccountEvent, int, int>(
+                        Feature.DataRowId, 0, SessionManager.EventService.GetAccountEventById);
+                    return t_instance.Name;
+                }
+            case "Place":
+                {
+                    TransitPlace t_instance = SessionManager.GetInstance<TransitPlace, int>(
+                        Feature.DataRowId, SessionManager.PlaceService.GetPlaceById);
+                    return t_instance.Name;
+                }
+        }
+
+        return string.Empty;
     }
 }
 
