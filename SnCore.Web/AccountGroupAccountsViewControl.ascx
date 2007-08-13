@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountGroupAccountsViewControl.ascx.cs"
+'<%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountGroupAccountsViewControl.ascx.cs"
  Inherits="AccountGroupAccountsViewControl" %>
 <%@Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
@@ -19,6 +19,8 @@
     <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
      <div class="sncore_link_description">
+      <asp:Image id="imgAdministrator" runat="server" ImageUrl="images/account/star.gif" Visible='<%# Eval("IsAdministrator") %>'
+       Align="AbsMiddle" AlternateText="group administrator" />      
       <%# base.Render(Eval("AccountName")) %>
      </div>
     </a>
