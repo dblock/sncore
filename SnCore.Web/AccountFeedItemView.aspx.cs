@@ -15,6 +15,8 @@ using SnCore.SiteMap;
 
 public partial class AccountFeedItemView : Page
 {
+    private TransitFeature mAccountFeedItemFeature = null;
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -56,11 +58,78 @@ public partial class AccountFeedItemView : Page
             FeedItemComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                 typeof(AccountFeedItem).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
+            GetDataFeature(sender, e);
+
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(tfi.AccountFeedName, Request, string.Format("AccountFeedView.aspx?id={0}", tfi.AccountFeedId)));
             sitemapdata.Add(new SiteMapDataAttributeNode(tfi.Title, Request.Url));
             StackSiteMap(sitemapdata);
         }
+    }
+
+    public TransitFeature LatestAccountFeedItemFeature
+    {
+        get
+        {
+            if (mAccountFeedItemFeature == null)
+            {
+                mAccountFeedItemFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "AccountFeedItem", RequestId, SessionManager.ObjectService.FindLatestFeature);
+            }
+
+            return mAccountFeedItemFeature;
+        }
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        linkFeature.Visible = SessionManager.IsAdministrator;
+        linkDeleteFeatures.Visible = SessionManager.IsAdministrator && (LatestAccountFeedItemFeature != null);
+        base.OnPreRender(e);
+    }
+
+    void GetDataFeature(object sender, EventArgs e)
+    {
+        if (SessionManager.IsAdministrator)
+        {
+            linkFeature.Text = (LatestAccountFeedItemFeature != null)
+                ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountFeedItemFeature.Created).ToString("d"))
+                : "Feature &#187; Never Featured";
+        }
+    }
+
+    public void feature_Click(object sender, EventArgs e)
+    {
+        if (!SessionManager.IsAdministrator)
+        {
+            // avoid round-trip
+            throw new Exception("You must be an administrator to feature feed items.");
+        }
+
+        TransitFeature t_feature = new TransitFeature();
+        t_feature.DataObjectName = "AccountFeedItem";
+        t_feature.DataRowId = RequestId;
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
+        GetDataFeature(sender, e);
+        panelAdmin.Update();
+    }
+
+    public void deletefeature_Click(object sender, EventArgs e)
+    {
+        if (!SessionManager.IsAdministrator)
+        {
+            // avoid round-trip
+            throw new Exception("You must be an administrator to feature feed items.");
+        }
+
+        TransitFeature t_feature = new TransitFeature();
+        t_feature.DataObjectName = "AccountFeedItem";
+        t_feature.DataRowId = RequestId;
+        SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
+        GetDataFeature(sender, e);
+        panelAdmin.Update();
     }
 }

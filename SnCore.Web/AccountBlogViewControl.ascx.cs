@@ -18,10 +18,23 @@ using System.Collections.Generic;
 
 public partial class AccountBlogViewControl : Control
 {
+    private int mItemsCollapseAfter = 1;
     private int mItemsShown = 0;
     private int mImagesShown = 0;
     private TransitAccountBlog mAccountBlog = null;
     private ListItemCollection mContentLinkIds = new ListItemCollection();
+
+    public int ItemsCollapseAfter
+    {
+        get
+        {
+            return mItemsCollapseAfter;
+        }
+        set
+        {
+            mItemsCollapseAfter = value;
+        }
+    }
 
     public TransitAccountBlog Blog
     {
@@ -124,7 +137,7 @@ public partial class AccountBlogViewControl : Control
 
     public string GetDescription(string description)
     {
-        if (mItemsShown++ >= 1)
+        if (mItemsShown++ >= mItemsCollapseAfter)
             return string.Empty;
 
         if (string.IsNullOrEmpty(description))
@@ -135,7 +148,7 @@ public partial class AccountBlogViewControl : Control
 
     public string GetImage(string description)
     {
-        if (mImagesShown++ >= 1)
+        if (mImagesShown++ >= mItemsCollapseAfter)
             return string.Empty;
 
         if (string.IsNullOrEmpty(description))

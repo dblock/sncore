@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using SnCore.SiteMap;
 
-public partial class FeaturedAccountFeedsView : Page
+public partial class FeaturedAccountFeedItemsView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
@@ -27,7 +27,7 @@ public partial class FeaturedAccountFeedsView : Page
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Featured", Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Featured Posts", Request.Url));
             StackSiteMap(sitemapdata);
         }
     }
@@ -36,21 +36,21 @@ public partial class FeaturedAccountFeedsView : Page
     {
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.ObjectService.GetFeaturesCount(
-            SessionManager.Ticket, "AccountFeed");
+            SessionManager.Ticket, "AccountFeedItem");
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
         if (gridManage.VirtualItemCount == 0)
         {
-            labelCount.Text = "No Featured Blogs";
+            labelCount.Text = "No Featured Blog Posts";
         }
         else if (gridManage.VirtualItemCount == 1)
         {
-            labelCount.Text = "1 Featured Blog";
+            labelCount.Text = "1 Featured Blog Post";
         }
         else
         {
-            labelCount.Text = string.Format("{0} Featured Blogs!", gridManage.VirtualItemCount);
+            labelCount.Text = string.Format("{0} Featured Blog Posts!", gridManage.VirtualItemCount);
         }
     }
 
@@ -61,12 +61,27 @@ public partial class FeaturedAccountFeedsView : Page
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
 
         gridManage.DataSource = SessionManager.GetCollection<TransitFeature, string>(
-            "AccountFeed", serviceoptions, SessionManager.ObjectService.GetFeatures);
+            "AccountFeedItem", serviceoptions, SessionManager.ObjectService.GetFeatures);
     }
 
-    public TransitAccountFeed GetAccountFeed(int id)
+    public TransitAccountFeedItem GetAccountFeedItem(int id)
     {
-        return SessionManager.GetInstance<TransitAccountFeed, int>(
-            id, SessionManager.SyndicationService.GetAccountFeedById);
+        return SessionManager.GetInstance<TransitAccountFeedItem, int>(
+            id, SessionManager.SyndicationService.GetAccountFeedItemById);
+    }
+
+    public string GetComments(int count)
+    {
+        if (count == 0) return "read and comment";
+        else if (count == 1) return "read 1 comment";
+        else return string.Format("read {0} comments", count);
+    }
+
+    public string GetSummary(string summary, string link)
+    {
+        Uri uri = null;
+        Uri.TryCreate(link, UriKind.Absolute, out uri);
+        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
     }
 }

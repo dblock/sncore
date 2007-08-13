@@ -18,6 +18,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceFeaturedView" Src="PlaceFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedFeaturedView" Src="AccountFeedFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountFeedItemsFeaturedView" Src="AccountFeedItemsFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountEventFeaturedView" Src="AccountEventFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
@@ -30,6 +31,7 @@
       <asp:ListItem>SnCore.AddContentGroup.Id</asp:ListItem>
      </ContentLinkIds>
     </SnCore:BlogView>
+    <SnCore:AccountFeedItemsFeaturedView id="featuredAccountFeedItems" runat="server" />
     <table width="100%" cellpadding="0" cellspacing="0"> 
      <tr>
       <td colspan="2">

@@ -205,9 +205,17 @@ namespace SnCore.Services
             {
                 return (Account) instance;
             }
+            else if (instance is AccountFeedItem)
+            {
+                return ((AccountFeedItem)instance).AccountFeed.Account;
+            }
             else if (instance is IDbObject)
             {
-                return (Account) instance.GetType().BaseType.GetProperty("Account").GetValue(instance, null);
+                PropertyInfo pi = instance.GetType().BaseType.GetProperty("Account");
+                if (pi == null) throw new Exception(string.Format(
+                    "Unsupported type: {0} doesn't have an an Account property", 
+                    instance.GetType().FullName));
+                return (Account) pi.GetValue(instance, null);
             }
             else
             {

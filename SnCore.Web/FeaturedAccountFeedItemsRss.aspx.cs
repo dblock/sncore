@@ -14,13 +14,13 @@ using SnCore.BackEndServices;
 using SnCore.Services;
 using System.Collections.Generic;
 
-public partial class FeaturedAccountFeedsRss : Page
+public partial class FeaturedAccountFeedItemsRss : Page
 {
     public string Name
     {
         get
         {
-            return Renderer.Render(string.Format("{0} Featured Blogs",
+            return Renderer.Render(string.Format("{0} Featured Blog Posts",
                 SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
         }
     }
@@ -33,7 +33,7 @@ public partial class FeaturedAccountFeedsRss : Page
             options.PageNumber = 0;
             options.PageSize = 10;
             rssRepeater.DataSource = SessionManager.GetCollection<TransitFeature, string>(
-                "AccountFeed", options, SessionManager.ObjectService.GetFeatures);
+                "AccountFeedItem", options, SessionManager.ObjectService.GetFeatures);
             rssRepeater.DataBind();
         }
     }
@@ -56,13 +56,21 @@ public partial class FeaturedAccountFeedsRss : Page
     {
         get
         {
-            return new Uri(SessionManager.WebsiteUri, "FeaturedAccountFeedsView.aspx").ToString();
+            return new Uri(SessionManager.WebsiteUri, "FeaturedAccountFeedItemsView.aspx").ToString();
         }
     }
 
-    public TransitAccountFeed GetAccountFeed(int id)
+    public TransitAccountFeedItem GetAccountFeedItem(int id)
     {
-        return SessionManager.GetInstance<TransitAccountFeed, int>(
-            id, SessionManager.SyndicationService.GetAccountFeedById);
+        return SessionManager.GetInstance<TransitAccountFeedItem, int>(
+            id, SessionManager.SyndicationService.GetAccountFeedItemById);
+    }
+
+    public string GetSummary(string summary, string link)
+    {
+        Uri uri = null;
+        Uri.TryCreate(link, UriKind.Absolute, out uri);
+        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
     }
 }

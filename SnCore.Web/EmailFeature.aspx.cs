@@ -47,6 +47,8 @@ public partial class EmailFeature : AuthenticatedPage
         {
             case "AccountFeed":
                 return "syndicated blog";
+            case "AccountFeedItem":
+                return "syndicated blog post";
             case "Account":
                 return "profile";
             case "AccountEvent":

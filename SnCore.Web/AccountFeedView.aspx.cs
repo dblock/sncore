@@ -139,7 +139,7 @@ public partial class AccountFeedView : Page
         if (!SessionManager.IsAdministrator)
         {
             // avoid round-trip
-            throw new Exception("You must be an administrator to feature other users.");
+            throw new Exception("You must be an administrator to feature feeds.");
         }
 
         TransitFeature t_feature = new TransitFeature();

@@ -34,6 +34,14 @@
     <div class="sncore_h2sub">
      <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
     </div>
+    <div class="sncore_h2sub">
+     <asp:UpdatePanel runat="server" ID="panelAdmin" UpdateMode="Conditional">
+      <ContentTemplate>
+       <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
+       <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
+      </ContentTemplate>
+     </asp:UpdatePanel>
+    </div>
    </td>
   </tr>
  </table>

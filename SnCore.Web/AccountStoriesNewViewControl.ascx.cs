@@ -16,8 +16,21 @@ using SnCore.Tools.Web;
 
 public partial class AccountStoriesNewViewControl : Control
 {
+    private int mItemsCollapseAfter = 1;
     private int mItemsShown = 0;
     private int mCount = 5;
+
+    public int ItemsCollapseAfter
+    {
+        get
+        {
+            return mItemsCollapseAfter;
+        }
+        set
+        {
+            mItemsCollapseAfter = value;
+        }
+    }
 
     public int Count
     {
@@ -44,7 +57,7 @@ public partial class AccountStoriesNewViewControl : Control
 
     public string GetDescription(string description)
     {
-        if (mItemsShown++ >= 1)
+        if (mItemsShown++ >= mItemsCollapseAfter)
             return string.Empty;
 
         if (string.IsNullOrEmpty(description))
