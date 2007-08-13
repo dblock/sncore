@@ -110,6 +110,22 @@ public partial class AccountGroupView : Page
             accountgroupName.Text = Renderer.Render(AccountGroup.Name);
             accountgroupDescription.Text = Renderer.RenderEx(AccountGroup.Description);
 
+            // action
+            string action = Request["action"];
+            if (! string.IsNullOrEmpty(action))
+            {
+                switch (action)
+                {
+                    case "join":
+                        linkRequest_Click(sender, e);
+                        break;
+                    case "leave":
+                        linkLeave_Click(sender, e);
+                        break;
+                }
+            }
+
+            // private / public
             if (AccountGroup.IsPrivate && ! fGroupMemberOrAdmin)
             {
                 if (!SessionManager.IsLoggedIn)
@@ -177,7 +193,7 @@ public partial class AccountGroupView : Page
             t_instance.AccountGroupId = AccountGroupId;
             t_instance.IsAdministrator = false;
             SessionManager.GroupService.CreateOrUpdateAccountGroupAccount(SessionManager.Ticket, t_instance);
-            Redirect(Request.Url.PathAndQuery);
+            Redirect(string.Format("AccountGroupView.aspx?id={0}", AccountGroupId));
         }
     }
 
@@ -185,7 +201,7 @@ public partial class AccountGroupView : Page
     {
         TransitAccountGroupAccount t_account = GetAccountGroupAccount();
         SessionManager.GroupService.DeleteAccountGroupAccount(SessionManager.Ticket, t_account.Id);
-        Redirect(Request.Url.PathAndQuery);
+        Redirect(string.Format("AccountGroupView.aspx?id={0}", AccountGroupId));
     }
 
     public void linkDelete_Click(object sender, EventArgs e)
