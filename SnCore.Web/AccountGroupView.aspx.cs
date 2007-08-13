@@ -103,9 +103,12 @@ public partial class AccountGroupView : Page
             linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
             linkInviteFriend.Visible = fGroupMemberOrAdmin;
 
+            linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}", AccountGroupId);
+            panelGroupAdmin.Visible = fGroupAdmin;
+
             // text
             accountgroupName.Text = Renderer.Render(AccountGroup.Name);
-            accountgroupDescription.Text = Renderer.Render(AccountGroup.Description);
+            accountgroupDescription.Text = Renderer.RenderEx(AccountGroup.Description);
 
             if (AccountGroup.IsPrivate && ! fGroupMemberOrAdmin)
             {

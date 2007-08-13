@@ -86,6 +86,9 @@
          <asp:LinkButton ID="linkDelete" runat="server" Text="&#187; Delete this Group" OnClick="linkDelete_Click" 
           OnClientClick="return confirm('Are you sure you want to delete this group?');" />
         </div>
+        <asp:Panel ID="panelGroupAdmin" runat="server">
+         <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group" />
+        </asp:Panel>
        </td>
       </tr>
      </table>
