@@ -35,7 +35,7 @@
      <table cellpadding="0" cellspacing="0" width="100%">
       <tr>
        <td valign="top">
-         <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
+         <a href='AccountFeedItemView.aspx?id=<%# Eval("DataRowId") %>'>
           <%# base.GetImage(GetAccountFeedItem((int)Eval("DataRowId")).Description, GetAccountFeedItem((int)Eval("DataRowId")).AccountFeedLinkUrl)%>
          </a>
        </td>
@@ -57,7 +57,7 @@
           <%# base.Render(GetValue(GetAccountFeedItem((int)Eval("DataRowId")).AccountFeedName, "Untitled"))%>
          </a>
         </div>
-        <div style="margin-top: 10px;">
+        <div class="sncore_feeditem_description">
          <%# base.GetDescription(GetAccountFeedItem((int)Eval("DataRowId")).Description) %>
         </div>
        </td>

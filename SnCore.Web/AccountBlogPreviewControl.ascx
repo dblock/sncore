@@ -13,7 +13,7 @@
     <%# base.GetTitle(Eval("Title")) %>
    </a>
   </div>
-  <div style="font-size: smaller;">
+  <div class="sncore_feeditem_description">
    <%# base.GetDescription(Eval("Body")) %>
   </div>
  </ItemTemplate>

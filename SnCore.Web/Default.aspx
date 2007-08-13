@@ -14,13 +14,9 @@
 <%@ Register TagPrefix="SnCore" TagName="FeedPreview" Src="AccountFeedPreviewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="SearchDefault" Src="SearchDefaultControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountFeaturedView" Src="AccountFeaturedViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="PlaceFeaturedView" Src="PlaceFeaturedViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountFeedFeaturedView" Src="AccountFeedFeaturedViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Featured" Src="FeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedItemsFeaturedView" Src="AccountFeedItemsFeaturedViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountEventFeaturedView" Src="AccountEventFeaturedViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
@@ -32,42 +28,7 @@
      </ContentLinkIds>
     </SnCore:BlogView>
     <SnCore:AccountFeedItemsFeaturedView id="featuredAccountFeedItems" runat="server" />
-    <table width="100%" cellpadding="0" cellspacing="0"> 
-     <tr>
-      <td colspan="2">
-       <SnCore:Title ID="featuredTitle" Text="Featured" runat="server" ExpandedSize="100">  
-        <Template>
-         <div class="sncore_title_paragraph">
-          Do you want to be featured on 
-          <%# Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")) %>?          
-          <br />
-          <asp:LinkButton ID="linkAdministrator" runat="server" Text="Send us an e-mail"
-           OnClientClick="<%# LinkMailToAdministrator %>" /> and tell us why.
-         </div>
-        </Template>
-       </SnCore:Title>
-       <div class="sncore_h2sub">
-        <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
-       </div>
-      </td>
-     </tr>
-     <tr>
-      <td valign="top">
-       <SnCore:AccountFeedFeaturedView ID="accountfeedFeatured" runat="server" />
-      </td>
-      <td valign="top">
-       <SnCore:AccountFeaturedView ID="accountFeatured" runat="server" />
-      </td>
-     </tr>
-     <tr>
-      <td valign="top">
-       <SnCore:PlaceFeaturedView ID="PlaceFeaturedView" runat="server" />
-      </td>
-      <td valign="top">
-       <SnCore:AccountEventFeaturedView ID="accounteventsFeatured" runat="server" />
-      </td>
-     </tr>
-    </table>
+    <SnCore:Featured id="featured" runat="server" />
    </td>
    <td valign="top" width="333">
     <div id="panelRightFront">
