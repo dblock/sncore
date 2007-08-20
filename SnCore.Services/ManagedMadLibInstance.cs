@@ -242,32 +242,34 @@ namespace SnCore.Services
 
         public override int CreateOrUpdate(TransitMadLibInstance instance, ManagedSecurityContext sec)
         {
-            base.CreateOrUpdate(instance, sec);
+            DateTime lastModified = mInstance.Modified;
+            int id = base.CreateOrUpdate(instance, sec);
 
-            if (instance.Id == 0 && instance.ObjectAccountId > 0)
+            if (instance.ObjectAccountId == 0)
+                return id;
+
+            try
             {
-                try
-                {
-                    ManagedAccount ra = new ManagedAccount(Session, instance.AccountId);
-                    ManagedAccount ma = new ManagedAccount(Session, instance.ObjectAccountId);
+                ManagedAccount ra = new ManagedAccount(Session, instance.AccountId);
+                ManagedAccount ma = new ManagedAccount(Session, instance.ObjectAccountId);
 
-                    if (ra.Id != ma.Id)
-                    {
-                        Session.Flush();
-
-                        ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, ma,
-                            string.Format("EmailAccountMadLibInstance.aspx?aid={0}&ObjectName={1}&oid={2}&mid={3}&id={4}&ReturnUrl={5}",
-                                instance.ObjectAccountId, mInstance.DataObject.Name, mInstance.ObjectId,
-                                mInstance.MadLib.Id, mInstance.Id, Renderer.UrlEncode(instance.ObjectUri)));
-                    }
-                }
-                catch (ObjectNotFoundException)
+                // if the author is editing the post, don't notify within 30 minute periods
+                if (ra.Id != ma.Id && (mInstance.Id == 0 || lastModified.AddMinutes(30) > DateTime.UtcNow))
                 {
-                    // replying to an account that does not exist
+                    Session.Flush();
+
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, ma,
+                        string.Format("EmailAccountMadLibInstance.aspx?aid={0}&ObjectName={1}&oid={2}&mid={3}&id={4}&ReturnUrl={5}",
+                            instance.ObjectAccountId, mInstance.DataObject.Name, mInstance.ObjectId,
+                            mInstance.MadLib.Id, mInstance.Id, Renderer.UrlEncode(instance.ObjectUri)));
                 }
             }
+            catch (ObjectNotFoundException)
+            {
+                // replying to an account that does not exist
+            }
 
-            return mInstance.Id;
+            return id;
         }
 
         protected override void Save(ManagedSecurityContext sec)

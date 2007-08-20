@@ -419,6 +419,7 @@ namespace SnCore.Services
 
         protected override void Save(ManagedSecurityContext sec)
         {
+            DateTime lastModified = mInstance.Modified;
             mInstance.Modified = DateTime.UtcNow;
 
             // message cannot span discussions
@@ -446,7 +447,8 @@ namespace SnCore.Services
                     ? mInstance.DiscussionPostParent.AccountId
                     : mInstance.DiscussionThread.Discussion.Account.Id);
 
-                if (ra.Id != ma.Id)
+                // if the author is editing the post, don't notify within 30 minute periods
+                if (ra.Id != ma.Id && (mInstance.Id == 0 || lastModified.AddMinutes(30) > DateTime.UtcNow))
                 {
                     Session.Flush();
 
