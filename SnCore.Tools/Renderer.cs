@@ -289,7 +289,7 @@ namespace SnCore.Tools.Web
 
         public static string GetSummary(string summary)
         {
-            return GetSummary(summary, 196, 256);
+            return GetSummary(summary, 168, 368);
         }
 
         public static string GetSummary(string summary, int min, int max)
@@ -299,7 +299,11 @@ namespace SnCore.Tools.Web
             {
                 result = result.Substring(0, max);
                 int cut = result.LastIndexOf(".");
-                if (cut >= min) result = result.Substring(0, cut + 1);
+                if (cut < min) cut = result.LastIndexOf(" ");
+                if (cut >= min)
+                {
+                    result = result.Substring(0, cut) + " ...";
+                }
             }
             return result;
         }
