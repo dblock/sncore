@@ -471,6 +471,12 @@ namespace SnCore.Services
 
         public override void Delete(ManagedSecurityContext sec)
         {
+            foreach(AccountFeedItem item in Collection<AccountFeedItem>.GetSafeCollection(mInstance.AccountFeedItems))
+            {
+                ManagedAccountFeedItem m_item = new ManagedAccountFeedItem(Session, item);
+                m_item.Delete(sec);
+            }
+
             ManagedFeature.Delete(Session, "AccountFeed", Id);
             base.Delete(sec);
         }
@@ -760,7 +766,10 @@ namespace SnCore.Services
                 if (deleted != null)
                 {
                     foreach (AccountFeedItem item in deleted)
-                        Session.Delete(item);
+                    {
+                        ManagedAccountFeedItem m_item = new ManagedAccountFeedItem(Session, item);
+                        m_item.Delete(sec);
+                    }
                 }
 
                 foreach (AccountFeedItem item in updated)
