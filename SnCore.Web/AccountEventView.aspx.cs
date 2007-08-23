@@ -204,7 +204,7 @@ public partial class AccountEventView : Page
         if (!SessionManager.IsAdministrator)
         {
             // avoid round-trip
-            throw new Exception("You must be an administrator to feature AccountEvents.");
+            throw new Exception("You must be an administrator to feature events.");
         }
 
         TransitFeature t_feature = new TransitFeature();

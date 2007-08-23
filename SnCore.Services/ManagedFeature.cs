@@ -192,35 +192,52 @@ namespace SnCore.Services
             {
                 Session.Flush();
 
-                ManagedAccount acct = new ManagedAccount(Session, GetInstanceAccount());
-                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                    Session, acct, string.Format("EmailFeature.aspx?id={0}&aid={1}", mInstance.Id, acct.Id));
+                IEnumerable<Account> accounts = GetInstanceAccounts();
+                foreach (Account account in accounts)
+                {
+                    ManagedAccount acct = new ManagedAccount(Session, account);
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, acct, string.Format("EmailFeature.aspx?id={0}&aid={1}", mInstance.Id, acct.Id));
+                }
             }
         }
 
-        public Account GetInstanceAccount()
+        public IEnumerable<Account> GetInstanceAccounts()
         {
+            List<Account> result = new List<Account>();
             IDbObject instance = GetInstance();
             if (instance is Account)
             {
-                return (Account) instance;
+                result.Add((Account)instance);
             }
             else if (instance is AccountFeedItem)
             {
-                return ((AccountFeedItem)instance).AccountFeed.Account;
+                result.Add(((AccountFeedItem)instance).AccountFeed.Account);
+            }
+            else if (instance is AccountGroup)
+            {
+                foreach (AccountGroupAccount account in ((AccountGroup)instance).AccountGroupAccounts)
+                {
+                    if (account.IsAdministrator)
+                    {
+                        result.Add(account.Account);
+                    }
+                }
             }
             else if (instance is IDbObject)
             {
                 PropertyInfo pi = instance.GetType().BaseType.GetProperty("Account");
                 if (pi == null) throw new Exception(string.Format(
-                    "Unsupported type: {0} doesn't have an an Account property", 
+                    "Unsupported type: {0} doesn't have an an Account property",
                     instance.GetType().FullName));
-                return (Account) pi.GetValue(instance, null);
+                result.Add((Account)pi.GetValue(instance, null));
             }
             else
             {
                 throw new Exception(string.Format("Unsupported type: {0}", instance.GetType().FullName));
             }
+
+            return result;
         }
 
         public IDbObject GetInstance()

@@ -237,6 +237,7 @@ namespace SnCore.Services
             Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.AccountGroup.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountGroupPlace p WHERE p.AccountGroup.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountRssWatch w WHERE w.Url = 'AccountGroupRss.aspx?id={0}'", Id));
+            ManagedFeature.Delete(Session, "AccountGroup", Id); 
             base.Delete(sec);
         }
 

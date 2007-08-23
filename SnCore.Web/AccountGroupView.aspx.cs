@@ -16,6 +16,7 @@ using SnCore.SiteMap;
 public partial class AccountGroupView : Page
 {
     private TransitAccountGroup mAccountGroup = null;
+    private TransitFeature mAccountGroupFeature = null;
 
     public int AccountGroupId
     {
@@ -125,6 +126,14 @@ public partial class AccountGroupView : Page
                 }
             }
 
+            // feature
+            if (SessionManager.IsAdministrator)
+            {
+                linkFeature.Text = (LatestAccountGroupFeature != null)
+                    ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountGroupFeature.Created).ToString("d"))
+                    : "Feature &#187; Never Featured";
+            }
+
             // private / public
             if (AccountGroup.IsPrivate && ! fGroupMemberOrAdmin)
             {
@@ -208,5 +217,57 @@ public partial class AccountGroupView : Page
     {
         SessionManager.Delete<TransitAccountGroup>(AccountGroupId, SessionManager.GroupService.DeleteAccountGroup);
         Redirect("AccountGroupsView.aspx");
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        panelAdmin.Visible = SessionManager.IsAdministrator;
+        linkDeleteFeatures.Visible = (LatestAccountGroupFeature != null);
+        base.OnPreRender(e);
+    }
+
+    public void feature_Click(object sender, EventArgs e)
+    {
+        if (!SessionManager.IsAdministrator)
+        {
+            // avoid round-trip
+            throw new Exception("You must be an administrator to feature groups.");
+        }
+
+        TransitFeature t_feature = new TransitFeature();
+        t_feature.DataObjectName = "AccountGroup";
+        t_feature.DataRowId = RequestId;
+        SessionManager.CreateOrUpdate<TransitFeature>(
+            t_feature, SessionManager.ObjectService.CreateOrUpdateFeature);
+        Redirect(Request.Url.PathAndQuery);
+    }
+
+    public void deletefeature_Click(object sender, EventArgs e)
+    {
+        if (!SessionManager.IsAdministrator)
+        {
+            // avoid round-trip
+            throw new Exception("You must be an administrator to feature AccountGroups.");
+        }
+
+        TransitFeature t_feature = new TransitFeature();
+        t_feature.DataObjectName = "AccountGroup";
+        t_feature.DataRowId = RequestId;
+        SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
+        SessionManager.InvalidateCache<TransitFeature>();
+        Redirect(Request.Url.PathAndQuery);
+    }
+
+    public TransitFeature LatestAccountGroupFeature
+    {
+        get
+        {
+            if (mAccountGroupFeature == null)
+            {
+                mAccountGroupFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "AccountGroup", RequestId, SessionManager.ObjectService.FindLatestFeature);
+            }
+            return mAccountGroupFeature;
+        }
     }
 }

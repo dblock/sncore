@@ -89,6 +89,15 @@
         <asp:Panel ID="panelGroupAdmin" runat="server">
          <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group" />
         </asp:Panel>
+        <asp:Panel ID="panelAdmin" runat="server">
+         <div>
+          <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="&#187; Feature" />
+         </div>
+         <div>
+          <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures"
+           Text="&#187; Delete Features" />
+         </div>
+        </asp:Panel>
        </td>
       </tr>
      </table>

@@ -112,6 +112,7 @@
        <li><a href="FeaturedAccountsView.aspx">People</a></li>
        <li><a href="FeaturedPlacesView.aspx">Places</a></li>
        <li><a href="FeaturedAccountEventsView.aspx">Events</a></li>
+       <li><a href="FeaturedAccountGroupsView.aspx">Groups</a></li>
       </ul>
       <li><b>RSS Syndication</b></li>
       <ul>
@@ -131,6 +132,7 @@
        <li><a href="FeaturedAccountFeedsRss.aspx">Featured Blogs</a></li>
        <li><a href="FeaturedAccountFeedItemsRss.aspx">Featured Blog Posts</a></li>
        <li><a href="FeaturedAccountEventsRss.aspx">Featured Events</a></li>
+       <li><a href="FeaturedAccountGroupsRss.aspx">Featured Groups</a></li>
       </ul>
       <li><a href="Search.aspx">Search</a></li>
      </ul>

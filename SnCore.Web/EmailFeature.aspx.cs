@@ -54,6 +54,8 @@ public partial class EmailFeature : AuthenticatedPage
                 return "profile";
             case "AccountEvent":
                 return "event";
+            case "AccountGroup":
+                return "group";
         }
 
         return Feature.DataObjectName.ToLower();
@@ -85,6 +87,12 @@ public partial class EmailFeature : AuthenticatedPage
                 {
                     TransitAccountEvent t_instance = SessionManager.GetInstance<TransitAccountEvent, int, int>(
                         Feature.DataRowId, 0, SessionManager.EventService.GetAccountEventById);
+                    return t_instance.Name;
+                }
+            case "AccountGroup":
+                {
+                    TransitAccountGroup t_instance = SessionManager.GetInstance<TransitAccountGroup, int>(
+                        Feature.DataRowId, SessionManager.GroupService.GetAccountGroupById);
                     return t_instance.Name;
                 }
             case "Place":

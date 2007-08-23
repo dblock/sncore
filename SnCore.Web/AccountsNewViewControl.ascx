@@ -23,7 +23,6 @@
      <a href="AccountInvitationsManage.aspx">&#187; invite</a>
      <a href="FeaturedAccountsView.aspx">&#187; featured</a>
      <a href="RefererAccountsView.aspx">&#187; top</a>
-     <a href="AccountGroupsView.aspx">&#187; groups</a>
      <a href="AccountsRss.aspx">&#187; rss</a>
     </div>
    </div>
