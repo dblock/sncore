@@ -97,9 +97,9 @@ public partial class AccountGroupView : Page
             linkRequests.Visible = AccountGroup.IsPrivate && fGroupAdmin;
             linkPictures.NavigateUrl = string.Format("AccountGroupPicturesManage.aspx?id={0}", AccountGroupId);
             linkPictures.Visible = fGroupMemberOrAdmin;
+            linkMembers.NavigateUrl = string.Format("AccountGroupAccountsView.aspx?id={0}", AccountGroupId);
             linkRequest.Visible = ! fGroupMember;
             linkLeave.Visible = fGroupMember;
-            linkDelete.Visible = fGroupAdmin;
             discussionView.Visible = fGroupMemberOrAdmin;
             linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
             linkInviteFriend.Visible = fGroupMemberOrAdmin;

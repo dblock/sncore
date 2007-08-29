@@ -79,14 +79,18 @@
           NavigateUrl="AccountGroupAccountRequestsManage.aspx" />
         </div>
         <div>
-         <asp:HyperLink ID="linkPictures" runat="server" Text="&#187; Upload a Picture" 
-          NavigateUrl="AccountGroupPicturesManage.aspx" />
-        </div>
-        <div>
-         <asp:LinkButton ID="linkDelete" runat="server" Text="&#187; Delete this Group" OnClick="linkDelete_Click" 
-          OnClientClick="return confirm('Are you sure you want to delete this group?');" />
+         <asp:HyperLink ID="linkMembers" runat="server" Text="&#187; Group Members" 
+          NavigateUrl="AccountGroupAccountsView.aspx" />
         </div>
         <asp:Panel ID="panelGroupAdmin" runat="server">
+         <div>
+          <asp:HyperLink ID="linkPictures" runat="server" Text="&#187; Upload a Picture" 
+           NavigateUrl="AccountGroupPicturesManage.aspx" />
+         </div>
+         <div>
+          <asp:LinkButton ID="linkDelete" runat="server" Text="&#187; Delete this Group" OnClick="linkDelete_Click" 
+           OnClientClick="return confirm('Are you sure you want to delete this group?');" />
+         </div>
          <div>
           <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group" />
          </div>
@@ -116,11 +120,12 @@
        </td>
       </tr>
      </table>
-     <SnCore:AccountsView runat="server" ID="accountsView" />
-     <SnCore:PlacesView runat="server" ID="placesView" />
      <a name="discuss"></a>
      <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" 
       OuterWidth="472" CssClass="sncore_account_table" />
+     <a name="members"></a>
+     <SnCore:AccountsView runat="server" ID="accountsView" />
+     <SnCore:PlacesView runat="server" ID="placesView" />
     </td>
    </tr>
   </table>
