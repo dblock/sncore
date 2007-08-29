@@ -90,3 +90,8 @@ GO
 -- delete old constraint for AccountFeed, now two: Name and Uri
 IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'UK_AccountFeed')
 ALTER TABLE [dbo].[AccountFeed] DROP CONSTRAINT [UK_AccountFeed]
+GO
+-- create a DefaultView discussion column that defines how to show a discussion board  by default (2007-08-29)
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Discussion]') AND name = N'DefaultView')
+ALTER TABLE dbo.Discussion ADD [DefaultView] nvarchar(64) NULL
+GO

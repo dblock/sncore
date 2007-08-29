@@ -30,6 +30,15 @@
    </td>
   </tr>
   <tr>
+   <td class="sncore_form_label">
+    default view:
+   </td>
+   <td class="sncore_form_value">
+    <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputDefaultView" DataTextField="Description"
+     DataValueField="View" runat="server" />
+   </td>
+  </tr>
+  <tr>
    <td>
    </td>
    <td class="sncore_form_value">

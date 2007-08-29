@@ -15,5 +15,6 @@
     <property name="Name" column="Name" type="String" />
     <property name="ObjectId" column="Object_Id" type="Int32" />
     <property name="Personal" column="Personal" type="Boolean" />
+    <property name="DefaultView" column="DefaultView" type="String" />
   </class>
 </hibernate-mapping>

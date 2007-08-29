@@ -22,6 +22,7 @@
         private System.String m_Name;
         private System.Int32 m_ObjectId;
         private System.Boolean m_Personal;
+        private System.String m_DefaultView;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -252,6 +253,31 @@
             set
             {
                 m_Personal = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_DefaultView' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'DefaultView' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.String DefaultView
+        {
+            get
+            {
+                return m_DefaultView;
+            }
+            set
+            {
+                m_DefaultView = value;
             }
         }
 

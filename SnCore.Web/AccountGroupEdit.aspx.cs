@@ -23,6 +23,8 @@ public partial class AccountGroupEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Groups", Request, "AccountGroupsManage.aspx"));
 
+            linkBack.NavigateUrl = ReturnUrl;
+
             int id = RequestId;
 
             if (id > 0)
@@ -53,6 +55,16 @@ public partial class AccountGroupEdit : AuthenticatedPage
         tw.Id = RequestId;
         SessionManager.CreateOrUpdate<TransitAccountGroup>(
             tw, SessionManager.GroupService.CreateOrUpdateAccountGroup);
-        Redirect("AccountGroupsManage.aspx");
+        Redirect(ReturnUrl);
+    }
+
+
+    public string ReturnUrl
+    {
+        get
+        {
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? "AccountGroupsManage.aspx" : o.ToString());
+        }
     }
 }

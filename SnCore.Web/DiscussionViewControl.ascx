@@ -67,22 +67,28 @@
       </a>
      </div>
      <div class="sncore_header">
-      started by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
-      <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("DiscussionThreadModified")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
-       &#187; last post
-       <%# SessionManager.ToAdjustedString((DateTime) Eval("DiscussionThreadModified")) %>
+      <%# IsThreaded ? "started" : "posted" %>
+      by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'><%# Renderer.Render(Eval("AccountName")) %></a>
+      <span class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+       &#187; 
+       <%# IsThreaded ? "last post" : "" %>
+       <%# SessionManager.ToAdjustedString(IsThreaded ? (DateTime)Eval("DiscussionThreadModified") : (DateTime)Eval("Created"))%>
       </span>
      </div>
-      <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("DiscussionThreadModified")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
-       style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
-       <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("DiscussionThreadModified")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
-       <%# GetSummary((string) Eval("Body")) %>
-      </div>
+     <div class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
+      style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
+      <div class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
+      <%# IsFull ? Renderer.RenderEx((string)Eval("Body")) : GetSummary((string)Eval("Body"))%>
+     </div>
      </div>
      <div class="sncore_footer">
+      <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
+       &#187; reply</a>
+      <a href="DiscussionPost.aspx?did=<%# base.DiscussionId %>&pid=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>&Quote=true">
+       &#187; quote</a>
       <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
-       <%# Eval("DiscussionThreadCount") %> post<%# (int) Eval("DiscussionThreadCount") != 1 ? "s" : string.Empty %> &#187;
-      </a>        
+       &#187; <%# IsThreaded && (int) Eval("DiscussionThreadCount") > 1 ? string.Format("{0} post{1}", Eval("DiscussionThreadCount"), (int)Eval("DiscussionThreadCount") != 1 ? "s" : string.Empty) : "read thread"%>
+      </a>
      </div>
     </div>
    </ItemTemplate>    

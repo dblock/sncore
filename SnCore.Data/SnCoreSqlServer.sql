@@ -3060,6 +3060,7 @@ CREATE TABLE [dbo].[Discussion](
 	[Modified] [datetime] NOT NULL,
 	[Personal] [bit] NOT NULL CONSTRAINT [DF_Discussion_Private]  DEFAULT ((0)),
 	[Object_Id] [int] NOT NULL,
+	[DefaultView] [nvarchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Discussion] PRIMARY KEY CLUSTERED 
 (
 	[Discussion_Id] ASC

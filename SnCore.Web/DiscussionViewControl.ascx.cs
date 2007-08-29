@@ -45,26 +45,61 @@ public partial class DiscussionViewControl : Control
 
     void GetData(object sender, EventArgs e)
     {
+        if (DiscussionId <= 0)
+            return;
+
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionThreadsCountByDiscussionId(
-            SessionManager.Ticket, DiscussionId);
+
+        DiscussionViewTypes type = GetDiscussionViewType();
+        switch (type)
+        {
+            case DiscussionViewTypes.FlatWithNewestOnTop:
+                gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussionPost, int>(
+                    DiscussionId, SessionManager.DiscussionService.GetDiscussionPostsCount);
+                break;
+            case DiscussionViewTypes.ThreadedWithNewestOnTop:
+            default:
+                gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussionPost, int>(
+                    DiscussionId, SessionManager.DiscussionService.GetDiscussionThreadsCountByDiscussionId);
+                break;
+        }
+
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
 
+    public TransitDiscussion GetDiscussion()
+    {
+        return SessionManager.GetInstance<TransitDiscussion, int>(
+            DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        if (DiscussionId > 0)
+        if (DiscussionId <= 0)
+            return;
+
+        TransitDiscussion d = GetDiscussion();
+        discussionLabel.Text = Renderer.Render(d.Name);
+        discussionDescription.Text = Renderer.Render(d.Description);
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
+
+        DiscussionViewTypes type = GetDiscussionViewType();
+        switch (type)
         {
-            TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
-                SessionManager.Ticket, DiscussionId);
-            discussionLabel.Text = Renderer.Render(d.Name);
-            discussionDescription.Text = Renderer.Render(d.Description);
-            ServiceQueryOptions options = new ServiceQueryOptions();
-            options.PageNumber = gridManage.CurrentPageIndex;
-            options.PageSize = gridManage.PageSize;
-            gridManage.DataSource = SessionManager.DiscussionService.GetDiscussionThreadsByDiscussionId(
-                SessionManager.Ticket, DiscussionId, options);
+            case DiscussionViewTypes.FlatWithNewestOnTop:
+            case DiscussionViewTypes.FlatFullWithNewestOnTop:
+                gridManage.DataSource = SessionManager.GetCollection<TransitDiscussionPost, int>(
+                    DiscussionId, options, SessionManager.DiscussionService.GetLatestDiscussionPostsById);
+                break;
+            case DiscussionViewTypes.ThreadedWithNewestOnTop:
+            case DiscussionViewTypes.ThreadedFullWithNewestOnTop:
+            default:
+                gridManage.DataSource = SessionManager.GetCollection<TransitDiscussionPost, int>(
+                    DiscussionId, options, SessionManager.DiscussionService.GetDiscussionThreadsByDiscussionId);
+                break;
         }
     }
 
@@ -116,4 +151,48 @@ public partial class DiscussionViewControl : Control
             RequestId,
             Renderer.UrlEncode(inputSearch.Text)));
     }
+
+    public bool IsFull
+    {
+        get
+        {
+            DiscussionViewTypes type = GetDiscussionViewType();
+            switch (type)
+            {
+                case DiscussionViewTypes.FlatFullWithNewestOnTop:
+                case DiscussionViewTypes.ThreadedFullWithNewestOnTop:
+                    return true;
+            }
+
+            return false;
+        }
+    }
+
+    public DiscussionViewTypes GetDiscussionViewType()
+    {
+        TransitDiscussion d = GetDiscussion();
+        DiscussionViewTypes type = DiscussionViewTypes.ThreadedWithNewestOnTop;
+        if (!string.IsNullOrEmpty(d.DefaultView))
+        {
+            type = (DiscussionViewTypes)Enum.Parse(typeof(DiscussionViewTypes), d.DefaultView);
+        }
+        return type;
+    }
+
+    public bool IsThreaded
+    {
+        get
+        {
+            DiscussionViewTypes type = GetDiscussionViewType();
+            switch (type)
+            {
+                case DiscussionViewTypes.ThreadedFullWithNewestOnTop:
+                case DiscussionViewTypes.ThreadedWithNewestOnTop:
+                    return true;
+            }
+
+            return false;
+        }
+    }
+
 }

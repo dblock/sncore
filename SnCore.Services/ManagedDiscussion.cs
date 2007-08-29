@@ -232,6 +232,20 @@ namespace SnCore.Services
             }
         }
 
+        private string mDefaultView;
+
+        public string DefaultView
+        {
+            get
+            {
+                return mDefaultView;
+            }
+            set
+            {
+                mDefaultView = value;
+            }
+        }
+
         public TransitDiscussion()
         {
 
@@ -252,6 +266,7 @@ namespace SnCore.Services
             Modified = instance.Modified;
             Personal = instance.Personal;
             ObjectId = instance.ObjectId;
+            DefaultView = instance.DefaultView;
             base.SetInstance(instance);
         }
 
@@ -268,6 +283,7 @@ namespace SnCore.Services
 
             instance.Name = this.Name;
             instance.Description = this.Description;
+            instance.DefaultView = this.DefaultView;
             return instance;
         }
     }

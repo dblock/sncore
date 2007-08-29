@@ -171,6 +171,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
         SessionManager.CreateOrUpdate<TransitDiscussionPost>(
             tw, SessionManager.DiscussionService.CreateOrUpdateDiscussionPost);
         SessionManager.InvalidateCache<TransitDiscussion>();
+        SessionManager.InvalidateCache<TransitDiscussionThread>();
         Redirect(linkCancel.NavigateUrl);
     }
 

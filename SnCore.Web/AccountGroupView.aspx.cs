@@ -104,7 +104,12 @@ public partial class AccountGroupView : Page
             linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
             linkInviteFriend.Visible = fGroupMemberOrAdmin;
 
-            linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}", AccountGroupId);
+            linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}&ReturnUrl={1}", AccountGroupId,
+                Renderer.UrlEncode(Request.Url.PathAndQuery));
+            linkEditGroupDiscussion.NavigateUrl = string.Format("SystemDiscussionEdit.aspx?id={0}&ReturnUrl={1}",
+                SessionManager.DiscussionService.GetOrCreateDiscussionId(SessionManager.Ticket, "AccountGroup", AccountGroupId),
+                Renderer.UrlEncode(Request.Url.PathAndQuery));
+            
             panelGroupAdmin.Visible = fGroupAdmin;
 
             // text

@@ -87,7 +87,12 @@
           OnClientClick="return confirm('Are you sure you want to delete this group?');" />
         </div>
         <asp:Panel ID="panelGroupAdmin" runat="server">
-         <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group" />
+         <div>
+          <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group" />
+         </div>
+         <div>
+          <asp:HyperLink ID="linkEditGroupDiscussion" runat="server" Text="&#187; Edit Group Discussion" />
+         </div>
         </asp:Panel>
         <asp:Panel ID="panelAdmin" runat="server">
          <div>

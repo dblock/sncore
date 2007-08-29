@@ -27,6 +27,11 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
             DomainClass cs = SessionManager.GetDomainClass("Discussion");
             inputName.MaxLength = cs["Name"].MaxLengthInChars;
 
+            inputDefaultView.DataSource = DiscussionViewType.DefaultTypes;
+            inputDefaultView.DataBind();
+
+            linkBack.NavigateUrl = ReturnUrl;
+
             int id = RequestId;
 
             if (id > 0)
@@ -34,7 +39,10 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
                 TransitDiscussion tw = SessionManager.DiscussionService.GetDiscussionById(
                     SessionManager.Ticket, id);
                 inputName.Text = Renderer.Render(tw.Name);
+                if (tw.Personal) inputName.Enabled = false;
                 inputDescription.Text = Renderer.Render(tw.Description);
+                ListItem defaultview = inputDefaultView.Items.FindByValue(tw.DefaultView);
+                if (defaultview != null) { inputDefaultView.ClearSelection(); defaultview.Selected = true; }
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }
             else
@@ -54,9 +62,18 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
         tw.Name = inputName.Text;
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
+        tw.DefaultView = inputDefaultView.SelectedValue;
         SessionManager.CreateOrUpdate<TransitDiscussion>(
             tw, SessionManager.DiscussionService.CreateOrUpdateDiscussion);
-        Redirect("SystemDiscussionsManage.aspx");
+        Redirect(ReturnUrl);
+    }
 
+    public string ReturnUrl
+    {
+        get
+        {
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? "SystemDiscussionsManage.aspx" : o.ToString());
+        }
     }
 }
