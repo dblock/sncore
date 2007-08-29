@@ -16,13 +16,19 @@ using SnCore.SiteMap;
 public partial class AccountFeedItemView : Page
 {
     private TransitFeature mAccountFeedItemFeature = null;
+    private TransitFeature mAccountFeedItemByAccountFeedIdFeature = null;
+
+    private TransitAccountFeedItem GetAccountFeedItem()
+    {
+        return SessionManager.GetInstance<TransitAccountFeedItem, int>(
+            RequestId, SessionManager.SyndicationService.GetAccountFeedItemById);
+    }
 
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            TransitAccountFeedItem tfi = SessionManager.GetInstance<TransitAccountFeedItem, int>(
-                RequestId, SessionManager.SyndicationService.GetAccountFeedItemById);
+            TransitAccountFeedItem tfi = GetAccountFeedItem();
 
             if (tfi == null)
             {
@@ -68,6 +74,25 @@ public partial class AccountFeedItemView : Page
         }
     }
 
+    public TransitFeature LatestAccountFeedItemByAccountFeedIdFeature
+    {
+        get
+        {
+            if (mAccountFeedItemByAccountFeedIdFeature == null)
+            {
+                TransitAccountFeedItem tfi = GetAccountFeedItem();
+
+                if (tfi != null)
+                {
+                    mAccountFeedItemByAccountFeedIdFeature = SessionManager.GetInstance<TransitFeature, int>(
+                        tfi.AccountFeedId, SessionManager.SyndicationService.GetLatestAccountFeedItemFeatureByAccountFeedId);
+                }
+            }
+
+            return mAccountFeedItemByAccountFeedIdFeature;
+        }
+    }
+
     public TransitFeature LatestAccountFeedItemFeature
     {
         get
@@ -93,9 +118,14 @@ public partial class AccountFeedItemView : Page
     {
         if (SessionManager.IsAdministrator)
         {
+
             linkFeature.Text = (LatestAccountFeedItemFeature != null)
                 ? string.Format("Feature &#187; Last on {0}", Adjust(LatestAccountFeedItemFeature.Created).ToString("d"))
                 : "Feature &#187; Never Featured";
+
+            labelAccountFeedItemByAccountFeedIdFeature.Text = (LatestAccountFeedItemByAccountFeedIdFeature != null)
+                ? string.Format("&#187; Last Blog Feature on {0}", Adjust(LatestAccountFeedItemByAccountFeedIdFeature.Created).ToString("d"))
+                : "&#187; Blog Posts Never Featured";
         }
     }
 

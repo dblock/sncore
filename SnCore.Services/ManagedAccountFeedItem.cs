@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -419,6 +420,24 @@ namespace SnCore.Services
             t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
                 Session, mInstance.AccountFeed.Account.Id, typeof(AccountFeedItem), mInstance.Id);
             return t_instance;
+        }
+
+        public static IList<Feature> GetLatestFeaturesByAccountFeedId(ISession session, int id)
+        {
+            return session.GetNamedQuery("GetAccountFeedItemFeaturesByAccountFeedId")
+                .SetInt32("AccountFeed_Id", id)
+                .List<Feature>();
+        }
+
+        public static Feature GetLatestFeatureByAccountFeedId(ISession session, int id)
+        {
+            IList<Feature> features = session.GetNamedQuery("GetAccountFeedItemFeaturesByAccountFeedId")
+                .SetInt32("AccountFeed_Id", id)
+                .SetMaxResults(1)
+                .List<Feature>();
+
+            if (features == null || features.Count == 0) return null;
+            return features[0];
         }
     }
 }

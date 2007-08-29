@@ -608,5 +608,24 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region Feature
+        
+        [WebMethod(Description = "Find the latest feature of an AccountFeed via AccountFeedItems")]
+        public TransitFeature GetLatestAccountFeedItemFeatureByAccountFeedId(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                Feature feature = ManagedAccountFeedItem.GetLatestFeatureByAccountFeedId(session, id);
+                if (feature == null) return null;
+                ManagedFeature m_feature = new ManagedFeature(session, feature);
+                return m_feature.GetTransitInstance(sec);
+            }
+        }
+
+        #endregion
+
     }
 }

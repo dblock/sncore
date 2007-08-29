@@ -85,5 +85,11 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
             Console.WriteLine("Length: {0}", items.Length);
             Assert.AreEqual(count, items.Length);
         }
+
+        [Test]
+        protected void GetLatestAccountFeedItemFeatureByAccountFeedIdTest()
+        {
+
+        }
     }
 }
