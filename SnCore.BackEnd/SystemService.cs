@@ -69,12 +69,26 @@ namespace SnCore.BackEndServices
                     "hibernate.connection.connection_string"));
         }
 
+        public static bool GetAppSetting(string name, bool defaultvalue)
+        {
+            bool result = defaultvalue;
+            object enabled = ConfigurationManager.AppSettings[name];
+            if (enabled != null)
+            {
+                if (!bool.TryParse(enabled.ToString(), out result))
+                {
+                    EventLog.WriteEntry(string.Format("Configuration setting {0}=\"{1}\" is invalid.", name, enabled.ToString()),
+                        EventLogEntryType.Warning);
+                }
+            }
+            return result;
+        }
+
         public static bool SystemServicesEnabled
         {
             get
             {
-                object enabled = ConfigurationManager.AppSettings["SystemServices.Enabled"];
-                return (enabled == null) || bool.Parse(enabled.ToString());
+                return GetAppSetting("SystemServices.Enabled", true);
             }
         }
 
@@ -85,8 +99,26 @@ namespace SnCore.BackEndServices
                 if (!SystemServicesEnabled)
                     return false;
 
-                object enabled = ConfigurationManager.AppSettings[string.Format("{0}.Enabled", GetType().Name)];
-                return (enabled == null) || bool.Parse(enabled.ToString());
+                return GetAppSetting(string.Format("{0}.Enabled", GetType().Name), true);
+            }
+        }
+
+        public static bool SystemServicesDebug
+        {
+            get
+            {
+                return GetAppSetting("SystemServices.Debug", false);
+            }
+        }
+
+        public bool IsDebug
+        {
+            get
+            {
+                if (!SystemServicesDebug)
+                    return false;
+
+                return GetAppSetting(string.Format("{0}.Debug", GetType().Name), false);
             }
         }
 
@@ -111,17 +143,35 @@ namespace SnCore.BackEndServices
 
         public void Stop()
         {
+            if (IsDebug)
+            {
+                EventLog.WriteEntry(string.Format("Service {0} is stopping.", this.GetType().Name),
+                    EventLogEntryType.Information);
+            }
+
             mIsStopping = true;
 
             if (mThread != null)
             {
                 if (mThread.IsAlive)
                 {
+                    if (IsDebug)
+                    {
+                        EventLog.WriteEntry(string.Format("Service {0} is stopping (forcefully).", this.GetType().Name),
+                            EventLogEntryType.Warning);
+                    }
+
                     Thread.Sleep(500);
                     mThread.Abort();
                 }
                 mThread.Join();
-            }            
+
+                if (IsDebug)
+                {
+                    EventLog.WriteEntry(string.Format("Service {0} has been stopped.", this.GetType().Name),
+                        EventLogEntryType.Information);
+                }
+            }
         }
 
         public static void ThreadProc(object service)
@@ -186,9 +236,24 @@ namespace SnCore.BackEndServices
             {
                 foreach (SessionJobDelegate job in mJobs)
                 {
+                    DateTime start = DateTime.UtcNow;
+
+                    if (IsDebug)
+                    {
+                        EventLog.WriteEntry(string.Format("Service {0} is running \"{1}\".", this.GetType().Name, job.Method.Name),
+                            EventLogEntryType.Information);
+                    }
+                    
                     try
                     {
                         RunJob(job);
+
+                        if (IsDebug)
+                        {
+                            EventLog.WriteEntry(string.Format("Service {0} finished running \"{1}\". Total run time was {2}.", 
+                                this.GetType().Name, job.Method.Name, DateTime.UtcNow.Subtract(start)),
+                                EventLogEntryType.Information);
+                        }
                     }
                     catch (ThreadAbortException)
                     {

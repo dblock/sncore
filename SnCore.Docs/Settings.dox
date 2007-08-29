@@ -35,6 +35,8 @@
  <tr><td class="settingLeft">SystemTagWordService.Enabled</td><td class="settingRight">true or false to enable back-end processing tag words service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
  <tr><td class="settingLeft">SystemSyndicationService.Enabled</td><td class="settingRight">true or false to enable back-end processing syndication service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
  <tr><td class="settingLeft">SystemMailMessageService.Enabled</td><td class="settingRight">true or false to enable back-end processing mail message service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
+ <tr><td class="settingLeft">SystemReminderService.Enabled</td><td class="settingRight">true or false to enable back-end processing reminder service, default is <em>true</em>; this setting is ignored if <em>Services.Enabled</em> is <em>false</em></td></tr>
+ <tr><td class="settingLeft">Services.Debug</td><td class="settingRight">true or false to enable more verbose event logging, default is <em>false</em>; it is also possible to set this value for individual services with ServiceName.Debug</td></tr>
  <tr><td class="settingLeft">System.EncryptAppSettings</td><td class="settingRight">true or false to encrypt AppSettings in Web.Config, default is <em>true</em> (implemented but commented out)</td></tr>
 </table>
 

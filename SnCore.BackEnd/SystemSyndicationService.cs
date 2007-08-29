@@ -41,13 +41,16 @@ namespace SnCore.BackEndServices
                 " OR ( DATEDIFF(hour, AccountFeed.Updated, getutcdate()) > AccountFeed.UpdateFrequency )")
             .AddEntity("AccountFeed", typeof(AccountFeed));
 
-            IList<AccountFeed> list = query.List<AccountFeed>();
+            IEnumerator<AccountFeed> list = query.Enumerable<AccountFeed>().GetEnumerator();
 
-            foreach (AccountFeed feed in list)
+            while (list.MoveNext())
             {
+                AccountFeed feed = list.Current;
                 try
                 {
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
+                    EventLog.WriteEntry(string.Format("Syndication service updating {0} ({1}).",
+                        feed.Name, feed.Id), EventLogEntryType.Information);
                     m_feed.Update(sec);
                     m_feed.UpdateImages(sec);
                     m_feed.UpdateMedias(sec);
