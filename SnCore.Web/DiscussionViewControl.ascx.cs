@@ -54,10 +54,12 @@ public partial class DiscussionViewControl : Control
         switch (type)
         {
             case DiscussionViewTypes.FlatWithNewestOnTop:
+            case DiscussionViewTypes.FlatFullWithNewestOnTop:
                 gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussionPost, int>(
                     DiscussionId, SessionManager.DiscussionService.GetDiscussionPostsCount);
                 break;
             case DiscussionViewTypes.ThreadedWithNewestOnTop:
+            case DiscussionViewTypes.ThreadedFullWithNewestOnTop:
             default:
                 gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussionPost, int>(
                     DiscussionId, SessionManager.DiscussionService.GetDiscussionThreadsCountByDiscussionId);

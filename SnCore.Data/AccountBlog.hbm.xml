@@ -17,5 +17,9 @@
     <property name="Description" column="Description" type="StringClob" />
     <property name="Name" column="Name" type="String" />
     <property name="Updated" column="Updated" type="DateTime" />
+    <bag lazy="true" name="AccountGroups" inverse="true">
+      <key column="AccountBlog_Id" />
+      <one-to-many class="AccountGroup, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

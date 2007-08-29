@@ -29,5 +29,6 @@
       <key column="AccountGroup_Id" />
       <one-to-many class="AccountGroupAccountRequest, SnCore.Data" />
     </bag>
+    <many-to-one name="AccountBlog" column="AccountBlog_Id" class="AccountBlog, SnCore.Data" />
   </class>
 </hibernate-mapping>

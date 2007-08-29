@@ -102,6 +102,20 @@ namespace SnCore.Services
             }
         }
 
+        private int mAccountBlogId = 0;
+
+        public int AccountBlogId
+        {
+            get
+            {
+                return mAccountBlogId;
+            }
+            set
+            {
+                mAccountBlogId = value;
+            }
+        }
+
         public TransitAccountGroup()
         {
 
@@ -120,6 +134,7 @@ namespace SnCore.Services
             Created = value.Created;
             Modified = value.Modified;
             IsPrivate = value.IsPrivate;
+            AccountBlogId = (value.AccountBlog != null) ? value.AccountBlog.Id : 0;
             if (! IsPrivate) PictureId = ManagedAccountGroup.GetRandomAccountGroupPictureId(value);
             base.SetInstance(value);
         }
@@ -130,6 +145,7 @@ namespace SnCore.Services
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.IsPrivate = this.IsPrivate;
+            instance.AccountBlog = (this.AccountBlogId > 0) ? session.Load<AccountBlog>(this.AccountBlogId) : null;
             return instance;
         }
     }

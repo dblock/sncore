@@ -33,6 +33,15 @@
   </tr>
   <tr>
    <td class="sncore_form_label">
+    blog:
+   </td>
+   <td class="sncore_form_value">
+    <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputBlog" runat="server" 
+     DataTextField="Name" DataValueField="Id" />
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
    </td>
    <td class="sncore_form_value">
     <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputPrivate" runat="server" Text="Private" />

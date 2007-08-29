@@ -29,7 +29,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -44,7 +43,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mDescription;
             }
             set
@@ -59,7 +57,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -74,7 +71,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mUpdated;
             }
             set
@@ -89,7 +85,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountId;
             }
             set
@@ -104,7 +99,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountPictureId;
             }
             set
@@ -119,7 +113,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountName;
             }
             set
@@ -188,7 +181,15 @@ namespace SnCore.Services
 
         public override void Delete(ManagedSecurityContext sec)
         {
+            // orphan groups
+            foreach (AccountGroup group in Collection<AccountGroup>.GetSafeCollection(mInstance.AccountGroups))
+            {
+                group.AccountBlog = null;
+                Session.Save(group);
+            }
+            // delete features
             ManagedFeature.Delete(Session, "AccountBlog", Id);
+            // delete automatic feeds
             AccountFeed feed = GetSyndicatedFeed();
             if (feed != null) Session.Delete(feed);
             base.Delete(sec);

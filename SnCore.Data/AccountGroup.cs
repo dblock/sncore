@@ -24,6 +24,7 @@
         private System.String m_Name;
         private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_AccountGroupAccountInvitations;
         private System.Collections.Generic.IList<AccountGroupAccountRequest> m_AccountGroupAccountRequests;
+        private AccountBlog m_AccountBlog;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -325,6 +326,33 @@
             set
             {
                 m_AccountGroupAccountRequests = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'AccountBlog'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'AccountBlog.AccountGroups'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountBlog' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'AccountBlog_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public AccountBlog AccountBlog
+        {
+            get
+            {
+                return m_AccountBlog;
+            }
+            set
+            {
+                m_AccountBlog = value;
             }
         }
 

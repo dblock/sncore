@@ -979,6 +979,7 @@ CREATE TABLE [dbo].[AccountGroup](
 	[IsPrivate] [bit] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
+	[AccountBlog_Id] [int] NULL,
  CONSTRAINT [PK_AccountGroup] PRIMARY KEY CLUSTERED 
 (
 	[AccountGroup_Id] ASC
@@ -4870,6 +4871,12 @@ REFERENCES [dbo].[Account] ([Account_Id])
 GO
 ALTER TABLE [dbo].[AccountFriendRequest] CHECK CONSTRAINT [FK_AccountFriendRequest_Account1]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroup_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroup]'))
+ALTER TABLE [dbo].[AccountGroup]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroup_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
+GO
+ALTER TABLE [dbo].[AccountGroup] CHECK CONSTRAINT [FK_AccountGroup_AccountBlog]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccount_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccount]'))
 ALTER TABLE [dbo].[AccountGroupAccount]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccount_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -5706,6 +5713,12 @@ ALTER TABLE [dbo].[AccountFriendRequest]  WITH CHECK ADD  CONSTRAINT [FK_Account
 REFERENCES [dbo].[Account] ([Account_Id])
 GO
 ALTER TABLE [dbo].[AccountFriendRequest] CHECK CONSTRAINT [FK_AccountFriendRequest_Account1]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroup_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroup]'))
+ALTER TABLE [dbo].[AccountGroup]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroup_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
+GO
+ALTER TABLE [dbo].[AccountGroup] CHECK CONSTRAINT [FK_AccountGroup_AccountBlog]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroupAccount_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroupAccount]'))
 ALTER TABLE [dbo].[AccountGroupAccount]  WITH CHECK ADD  CONSTRAINT [FK_AccountGroupAccount_Account] FOREIGN KEY([Account_Id])

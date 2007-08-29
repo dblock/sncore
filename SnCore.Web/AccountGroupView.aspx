@@ -12,6 +12,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountGroupPlacesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -121,6 +122,7 @@
       </tr>
      </table>
      <a name="discuss"></a>
+     <SnCore:BlogView runat="server" ID="blogView" />
      <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" 
       OuterWidth="472" CssClass="sncore_account_table" />
      <a name="members"></a>

@@ -21,6 +21,7 @@
         private System.String m_Description;
         private System.String m_Name;
         private System.DateTime m_Updated;
+        private System.Collections.Generic.IList<AccountGroup> m_AccountGroups;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -233,6 +234,37 @@
             set
             {
                 m_Updated = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountGroup'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountGroup.AccountBlog'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroups' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountGroup' table in the data source.
+        ///The property maps to the identity column 'AccountBlog_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<AccountGroup> AccountGroups
+        {
+            get
+            {
+                return m_AccountGroups;
+            }
+            set
+            {
+                m_AccountGroups = value;
             }
         }
 

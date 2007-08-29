@@ -166,6 +166,11 @@ public partial class AccountGroupView : Page
             }
 
             linkRelRss.NavigateUrl = string.Format("AccountGroupRss.aspx?id={0}", AccountGroupId);
+
+            // blog
+            blogView.Visible = (AccountGroup.AccountBlogId > 0);
+            blogView.BlogId = AccountGroup.AccountBlogId;
+            blogView.DataBind();
         }
     }
 

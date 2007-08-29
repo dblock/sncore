@@ -91,7 +91,15 @@ GO
 IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'UK_AccountFeed')
 ALTER TABLE [dbo].[AccountFeed] DROP CONSTRAINT [UK_AccountFeed]
 GO
--- create a DefaultView discussion column that defines how to show a discussion board  by default (2007-08-29)
+-- create a DefaultView discussion column that defines how to show a discussion board by default (2007-08-29)
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Discussion]') AND name = N'DefaultView')
 ALTER TABLE dbo.Discussion ADD [DefaultView] nvarchar(64) NULL
+GO
+-- create an AccountBlog_Id column that defines a group blog (2007-08-29)
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroup]') AND name = N'AccountBlog_Id')
+ALTER TABLE dbo.AccountGroup ADD [AccountBlog_Id] int NOT NULL
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountGroup_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountGroup]'))
+ALTER TABLE [dbo].[AccountGroup] WITH CHECK ADD CONSTRAINT [FK_AccountGroup_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
 GO

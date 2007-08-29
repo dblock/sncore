@@ -94,6 +94,7 @@
     <property name="Description" columns="Description" type="System.String" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Updated" columns="Updated" type="System.DateTime" />
+    <property name="AccountGroups" table="AccountGroup" id-columns="AccountBlog_Id" list="true" item-type="AccountGroup" slave="true" ref="ManyToOne" inverse="AccountBlog" inherits-inverse="true" />
   </class>
   <class name="AccountBlogAuthor" table="AccountBlogAuthor">
     <property name="Id" id="true" columns="AccountBlogAuthor_Id" type="System.Int32" />
@@ -287,6 +288,7 @@
     <property name="Name" columns="Name" type="System.String" />
     <property name="AccountGroupAccountInvitations" table="AccountGroupAccountInvitation" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountInvitation" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
     <property name="AccountGroupAccountRequests" table="AccountGroupAccountRequest" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountRequest" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" />
+    <property name="AccountBlog" columns="AccountBlog_Id" ref="OneToMany" inverse="AccountGroups" type="AccountBlog" />
   </class>
   <class name="AccountGroupAccount" table="AccountGroupAccount">
     <property name="Id" id="true" columns="AccountGroupAccount_Id" type="System.Int32" />
@@ -1268,6 +1270,7 @@
       <column name="IsPrivate" type="Boolean" prec="1" length="1" scale="0" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="AccountBlog_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="AccountBlog" primary-column="AccountBlog_Id" foreign-key="FK_AccountGroup_AccountBlog" />
     </table>
     <table name="AccountGroupAccount">
       <column name="AccountGroupAccount_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
