@@ -41,11 +41,10 @@ namespace SnCore.BackEndServices
                 " OR ( DATEDIFF(hour, AccountFeed.Updated, getutcdate()) > AccountFeed.UpdateFrequency )")
             .AddEntity("AccountFeed", typeof(AccountFeed));
 
-            IEnumerator<AccountFeed> list = query.Enumerable<AccountFeed>().GetEnumerator();
+            IList<AccountFeed> list = query.List<AccountFeed>();
 
-            while (list.MoveNext())
+            foreach(AccountFeed feed in list)
             {
-                AccountFeed feed = list.Current;
                 try
                 {
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
