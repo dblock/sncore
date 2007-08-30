@@ -15,6 +15,21 @@
      <width>100</width> 
      <height>100</height> 
     </image>    
+    <asp:Repeater id="rssRepeaterDiscussion" runat="server">
+     <ItemTemplate>
+      <item>
+       <title>New Discussion Post: <%# base.Render(Eval("Subject")) %></title>
+       <pubDate><%# base.AdjustToRFC822(Eval("Created")) %></pubDate>
+       <author><%# base.Render(Eval("AccountName")) %></author>
+       <description>
+        <![CDATA[<%# base.RenderEx(Eval("Body")) %>]]>
+       </description>
+       <category>Group Discussion Posts</category>
+       <link><% Response.Write(WebsiteUrl); %>/DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&amp;id=<%# Eval("DiscussionThreadId")%></link>
+       <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/Discussion/<%# Eval("DiscussionId") %>/<%# Eval("Id") %></guid>
+      </item>
+     </ItemTemplate>
+    </asp:Repeater>    
     <asp:Repeater id="rssRepeaterMembers" runat="server">
      <ItemTemplate>
       <item>
@@ -88,20 +103,20 @@
       </item>
      </ItemTemplate>
     </asp:Repeater>
-    <asp:Repeater id="rssRepeaterDiscussion" runat="server">
+    <asp:Repeater id="rssRepeaterBlogItems" runat="server">
      <ItemTemplate>
       <item>
-       <title>New Discussion Post: <%# base.Render(Eval("Subject")) %></title>
+       <title>New Blog Post: <%# base.Render(Eval("Title")) %></title>
        <pubDate><%# base.AdjustToRFC822(Eval("Created")) %></pubDate>
        <author><%# base.Render(Eval("AccountName")) %></author>
        <description>
         <![CDATA[<%# base.RenderEx(Eval("Body")) %>]]>
        </description>
-       <category>Group Discussion Posts</category>
-       <link><% Response.Write(WebsiteUrl); %>/DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&amp;id=<%# Eval("DiscussionThreadId")%></link>
-       <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/Discussion/<%# Eval("DiscussionId") %>/<%# Eval("Id") %></guid>
+       <category />
+       <link><% Response.Write(WebsiteUrl); %>/AccountBlogPostView.aspx?id=<%# Eval("Id") %></link>
+       <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/Blog/<%# Eval("Id") %></guid>
       </item>
      </ItemTemplate>
-    </asp:Repeater>    
+    </asp:Repeater>
   </channel>
 </rss>

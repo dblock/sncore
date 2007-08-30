@@ -69,6 +69,13 @@ public partial class AccountGroupRss : AccountPersonPage
             rssRepeaterDiscussion.DataSource = SessionManager.GetCollection<TransitDiscussionPost, int>(
                 discussion_id, options, SessionManager.DiscussionService.GetLatestDiscussionPostsById);
             rssRepeaterDiscussion.DataBind();
+            // get new blog posts
+            if (AccountGroup.AccountBlogId > 0)
+            {
+                rssRepeaterBlogItems.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
+                    AccountGroup.AccountBlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
+                rssRepeaterBlogItems.DataBind();
+            }
         }
     }
 
