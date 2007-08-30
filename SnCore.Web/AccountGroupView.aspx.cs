@@ -106,10 +106,7 @@ public partial class AccountGroupView : Page
 
             linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}&ReturnUrl={1}", AccountGroupId,
                 Renderer.UrlEncode(Request.Url.PathAndQuery));
-            linkEditGroupDiscussion.NavigateUrl = string.Format("SystemDiscussionEdit.aspx?id={0}&ReturnUrl={1}",
-                SessionManager.DiscussionService.GetOrCreateDiscussionId(SessionManager.Ticket, "AccountGroup", AccountGroupId),
-                Renderer.UrlEncode(Request.Url.PathAndQuery));
-            
+
             panelGroupAdmin.Visible = fGroupAdmin;
 
             // text
@@ -163,6 +160,13 @@ public partial class AccountGroupView : Page
                 placesView.AccountGroupId = AccountGroupId;
                 discussionView.DiscussionId = SessionManager.DiscussionService.GetOrCreateDiscussionId(
                     SessionManager.Ticket, "AccountGroup", RequestId);
+            }
+
+            if (fGroupAdmin)
+            {
+                linkEditGroupDiscussion.NavigateUrl = string.Format("SystemDiscussionEdit.aspx?id={0}&ReturnUrl={1}",
+                    SessionManager.DiscussionService.GetOrCreateDiscussionId(SessionManager.Ticket, "AccountGroup", AccountGroupId),
+                    Renderer.UrlEncode(Request.Url.PathAndQuery));
             }
 
             linkRelRss.NavigateUrl = string.Format("AccountGroupRss.aspx?id={0}", AccountGroupId);
