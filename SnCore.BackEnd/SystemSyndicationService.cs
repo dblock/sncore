@@ -38,7 +38,8 @@ namespace SnCore.BackEndServices
                 "SELECT {AccountFeed.*} FROM AccountFeed" +
                 " WHERE (NOT EXISTS ( SELECT AccountFeedItem_Id FROM AccountFeedItem item WHERE item.AccountFeed_Id = AccountFeed.AccountFeed_Id ))" +
                 " OR ( AccountFeed.LastError NOT LIKE '' )" +
-                " OR ( DATEDIFF(hour, AccountFeed.Updated, getutcdate()) > AccountFeed.UpdateFrequency )")
+                " OR ( DATEDIFF(hour, AccountFeed.Updated, getutcdate()) > AccountFeed.UpdateFrequency )" +
+                " ORDER BY AccountFeed.Updated ASC")
             .AddEntity("AccountFeed", typeof(AccountFeed));
 
             IList<AccountFeed> list = query.List<AccountFeed>();

@@ -279,7 +279,8 @@ namespace SnCore.BackEndServices
             IEnumerable<AccountRssWatch> rsswatchs = session.CreateQuery(
                 "FROM AccountRssWatch AccountRssWatch" +
                 " WHERE AccountRssWatch.Enabled = 1" +
-                " AND DATEDIFF(hour, AccountRssWatch.Sent, getutcdate()) > AccountRssWatch.UpdateFrequency")
+                " AND DATEDIFF(hour, AccountRssWatch.Sent, getutcdate()) > AccountRssWatch.UpdateFrequency" +
+                " ORDER BY AccountRssWatch.Sent ASC")
                 .Enumerable<AccountRssWatch>();
 
             IEnumerator<AccountRssWatch> enumerator = rsswatchs.GetEnumerator();
