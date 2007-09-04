@@ -39,7 +39,7 @@
       <ContentTemplate>
        <asp:LinkButton OnClick="feature_Click" runat="server" ID="linkFeature" Text="Feature" />
        <asp:LinkButton OnClick="deletefeature_Click" runat="server" ID="linkDeleteFeatures" Text="&#187; Delete Features" />
-       <asp:Label runat="server" ID="labelAccountFeedItemByAccountFeedIdFeature" Text="Feed Feature" />
+       <asp:Label runat="server" ID="labelAccountFeedItemByAccountFeedIdFeature" />
       </ContentTemplate>
      </asp:UpdatePanel>
     </div>
