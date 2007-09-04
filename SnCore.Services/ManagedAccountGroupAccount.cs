@@ -304,7 +304,7 @@ namespace SnCore.Services
             int id = base.CreateOrUpdate(t_instance, sec);
 
             if (t_instance.Id == 0)
-            {                
+            {
                 if (mInstance.AccountGroup.AccountGroupAccounts == null)
                     mInstance.AccountGroup.AccountGroupAccounts = new List<AccountGroupAccount>();
                 mInstance.AccountGroup.AccountGroupAccounts.Add(mInstance);
@@ -318,6 +318,7 @@ namespace SnCore.Services
                 t_watch.AccountId = mInstance.Account.Id;
                 ManagedAccountRssWatch m_watch = new ManagedAccountRssWatch(Session);
                 m_watch.CreateOrUpdate(t_watch, ManagedAccount.GetUserSecurityContext(Session, mInstance.Account.Id));
+                Session.Flush();
 
                 // e-mail the user a welcome message
                 ManagedAccount recepient = new ManagedAccount(Session, mInstance.Account);

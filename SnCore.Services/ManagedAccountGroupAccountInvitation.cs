@@ -401,16 +401,12 @@ namespace SnCore.Services
                 }
                 else
                 {
-                    AccountGroupAccount account = new AccountGroupAccount();
-                    account.Account = mInstance.Account;
-                    account.AccountGroup = mInstance.AccountGroup;
-                    account.Created = account.Modified = DateTime.UtcNow;
-                    Session.Save(account);
-                    Session.Flush();
-
-                    ManagedAccount account_recepient = new ManagedAccount(Session, mInstance.Account);
-                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, account_recepient,
-                        string.Format("EmailAccountGroupAccount.aspx?id={0}", account.Id));
+                    TransitAccountGroupAccount t_account = new TransitAccountGroupAccount();
+                    t_account.AccountId = mInstance.Account.Id;
+                    t_account.AccountGroupId = mInstance.AccountGroup.Id;
+                    t_account.Created = t_account.Modified = DateTime.UtcNow;
+                    ManagedAccountGroupAccount m_accountgroupaccount = new ManagedAccountGroupAccount(Session);
+                    m_accountgroupaccount.CreateOrUpdate(t_account, sec);
                 }
 
                 ManagedAccount recepient = new ManagedAccount(Session, mInstance.Requester);

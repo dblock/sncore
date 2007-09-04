@@ -68,9 +68,11 @@ public partial class AccountGroupAccountInvitationsManage : AuthenticatedPage
                         SessionManager.Ticket, id);
                     SessionManager.GroupService.AcceptAccountGroupAccountInvitation(SessionManager.Ticket, id, inputReason.Text);
                     GetData(sender, e);
+                    TransitAccountGroup t_group = SessionManager.GetInstance<TransitAccountGroup, int>(
+                        t_instance.AccountGroupId, SessionManager.GroupService.GetAccountGroupById);
                     ReportInfo(t_instance.AccountGroupIsPrivate && ! t_instance.RequesterIsAdministrator
                         ? "Since this is a private group, your membership must first be approved by the group administrator. A request has been submitted."
-                        : "Invitation accepted.");
+                        : string.Format("Invitation accepted. Click <a href='AccountGroupView.aspx?id={0}'>here</a> for \"{1}\".", t_group.Id, Renderer.Render(t_group.Name)));
                     break;
                 }
             case "Reject":
