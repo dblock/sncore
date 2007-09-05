@@ -439,7 +439,7 @@ namespace SnCore.Services
             {
                 foreach (RssItem item in channel.Items)
                 {
-                    if (item.PubDate >= last)
+                    if (item.PubDate.ToUniversalTime() >= last)
                     {
                         return true;
                     }
