@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -29,6 +30,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mDefaultType = false;
+
+        public bool DefaultType
+        {
+            get
+            {
+                return mDefaultType;
+            }
+            set
+            {
+                mDefaultType = value;
+            }
+        }
+
         public TransitPlaceType()
         {
 
@@ -43,6 +58,7 @@ namespace SnCore.Services
         public override void SetInstance(PlaceType instance)
         {
             Name = instance.Name;
+            DefaultType = instance.DefaultType;
             base.SetInstance(instance);
         }
 
@@ -50,6 +66,7 @@ namespace SnCore.Services
         {
             PlaceType instance = base.GetInstance(session, sec);
             instance.Name = this.Name;
+            instance.DefaultType = this.DefaultType;
             return instance;
         }
     }
@@ -96,6 +113,26 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             return acl;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            base.Save(sec);
+
+            if (mInstance.DefaultType)
+            {
+                IList<PlaceType> instances = Session.CreateCriteria(typeof(PlaceType))
+                    .List<PlaceType>();
+
+                foreach (PlaceType instance in instances)
+                {
+                    if (instance != mInstance && mInstance.DefaultType)
+                    {
+                        instance.DefaultType = false;
+                        Session.Save(instance);
+                    }
+                }
+            }
         }
     }
 }

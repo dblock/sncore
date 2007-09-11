@@ -29,8 +29,7 @@
      </div>
      <div class="sncore_link">
       <a href="AccountPictureView.aspx?id=<%# Eval("Id") %>">
-       <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-        " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
+       <%# GetCommentCount((int)Eval("CommentCount")) %>
       </a>
      </div>
     </ItemTemplate>

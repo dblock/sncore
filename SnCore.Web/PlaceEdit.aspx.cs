@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -63,11 +64,7 @@ public partial class PlaceEdit : AuthenticatedPage
             ppg.PlaceId = RequestId;
             ppg.DataBind();
 
-            ArrayList types = new ArrayList();
-            types.Add(new TransitAccountPlaceType());
-            types.AddRange(SessionManager.PlaceService.GetPlaceTypes(SessionManager.Ticket, null));
-            selectType.DataSource = types;
-            selectType.DataBind();
+            GetPlaceTypes(sender, e);
 
             if (RequestId > 0)
             {
@@ -235,6 +232,34 @@ public partial class PlaceEdit : AuthenticatedPage
         {
             labelLookup.Text = string.Format("No places matching '{0}'.",
                 base.Render(inputName.Text));
+        }
+    }
+
+    private void GetPlaceTypes(object sender, EventArgs e)
+    {
+        List<TransitPlaceType> types = SessionManager.PlaceService.GetPlaceTypes(SessionManager.Ticket, null);
+
+        TransitPlaceType selected = null;
+        foreach (TransitPlaceType Placetype in types)
+        {
+            if (Placetype.DefaultType)
+            {
+                selected = Placetype;
+                break;
+            }
+        }
+
+        if (selected == null)
+        {
+            types.Insert(0, new TransitPlaceType());
+        }
+
+        selectType.DataSource = types;
+        selectType.DataBind();
+
+        if (selected != null)
+        {
+            selectType.Items.FindByValue(selected.Name).Selected = true;
         }
     }
 }

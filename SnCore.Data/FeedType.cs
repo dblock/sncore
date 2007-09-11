@@ -21,6 +21,7 @@
         private System.Int32 m_SpanRows;
         private System.Int32 m_SpanRowsPreview;
         private System.String m_Xsl;
+        private System.Boolean m_DefaultType;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -224,6 +225,31 @@
             set
             {
                 m_Xsl = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_DefaultType' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'DefaultType' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean DefaultType
+        {
+            get
+            {
+                return m_DefaultType;
+            }
+            set
+            {
+                m_DefaultType = value;
             }
         }
 

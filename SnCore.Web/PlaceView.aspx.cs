@@ -140,8 +140,6 @@ public partial class PlaceView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
-
         if (!IsPostBack)
         {
             if (RequestId > 0)
@@ -206,11 +204,12 @@ public partial class PlaceView : Page
                 placeAccounts.PlaceId = RequestId;
                 placeFriends.PlaceId = RequestId;
                 attributesView.PlaceId = RequestId;
+                picturesView.PlaceId = RequestId;
 
                 labelDescription.Text = base.RenderEx(place.Description);
                 panelDescription.Visible = !string.IsNullOrEmpty(labelDescription.Text);
                 placeName.Text = Renderer.Render(place.Name);
-                placeId.Text = "#" + place.Id.ToString();
+                placeId.Text = string.Format("#{0}", place.Id);
 
                 linkManagePictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
                 linkClaimOwnership.NavigateUrl = string.Format("AccountPlaceRequestEdit.aspx?pid={0}", place.Id);
@@ -234,7 +233,15 @@ public partial class PlaceView : Page
                 linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                 linkMerge.NavigateUrl = string.Format("PlaceMerge.aspx?id={0}", place.Id);
 
-                placeWebsite.NavigateUrl = place.Website;
+                if (!string.IsNullOrEmpty(place.Website))
+                {
+                    placeWebsite.NavigateUrl = place.Website;
+                    if (place.Website.Length < 64)
+                    {
+                        placeWebsite.Text = Renderer.Render(place.Website);
+                    }
+                }
+
                 placeWebsite.Visible = !string.IsNullOrEmpty(place.Website);
                 placeAddress.Text = Renderer.Render(place.Street);
                 placeZip.Text = Renderer.Render(place.Zip);
@@ -245,8 +252,6 @@ public partial class PlaceView : Page
                 placeType.Text = Renderer.Render(place.Type);
                 placeEmail.NavigateUrl = string.Format("mailto:{0}", Renderer.Render(place.Email));
                 placeEmail.Visible = !string.IsNullOrEmpty(place.Email);
-
-                GetPicturesData(sender, e);
 
                 discussionPlaces.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                     typeof(Place).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
@@ -293,23 +298,6 @@ public partial class PlaceView : Page
                 linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
             }
         }
-    }
-
-    void GetPicturesData(object sender, EventArgs e)
-    {
-        picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCount<TransitPlacePicture, int>(
-            RequestId, SessionManager.PlaceService.GetPlacePicturesCount);
-        picturesView_OnGetDataSource(sender, e);
-        picturesView.DataBind();
-        placeNoPicture.Visible = (picturesView.Items.Count == 0);
-    }
-
-    void picturesView_OnGetDataSource(object sender, EventArgs e)
-    {
-        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        picturesView.DataSource = SessionManager.GetCollection<TransitPlacePicture, int>(
-            RequestId, options, SessionManager.PlaceService.GetPlacePictures);
     }
 
     public void linkAddToQueue_Click(object sender, EventArgs e)

@@ -25,8 +25,8 @@
         <asp:ImageButton ID="pictureThumbnail" runat="server" CommandName="Picture" CommandArgument='<%# Eval("Id") %>' 
          ImageUrl='<%# string.Format("AccountPictureThumbnail.aspx?id={0}", Eval("Id")) %>' AlternateText='<%# base.Render(Eval("Name")) %>' />
         <div style="font-size: smaller;">
-         <asp:LinkButton runat="server" ID="pictureThumbnailLink" Text='<%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-          " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>' CommandName="Picture" CommandArgument='<%# Eval("Id") %>' />
+         <asp:LinkButton runat="server" ID="pictureThumbnailLink" Text='<%# GetCommentCount((int) Eval("CommentCount")) %>' 
+          CommandName="Picture" CommandArgument='<%# Eval("Id") %>' />
         </div>
        </ItemTemplate>
       </SnCoreWebControls:PagedList>

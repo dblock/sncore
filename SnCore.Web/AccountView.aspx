@@ -22,31 +22,13 @@
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountPicturesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccount" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
     <td class="sncore_table_tr_td_images">
-     <asp:Panel ID="accountNoPicture" runat="server" Visible="false">
-      <img border="0" src="AccountPictureThumbnail.aspx" />
-     </asp:Panel>
-     <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
-      <ContentTemplate>
-       <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
-        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
-         prevpagetext="&#171;" horizontalalign="Center" />
-        <ItemTemplate>
-         <a href='<%# string.Format("AccountPictureView.aspx?id={0}", Eval("Id")) %>'>
-          <img border="0" src='<%# string.Format("AccountPictureThumbnail.aspx?id={0}", Eval("Id")) %>' alt='<%# base.Render(Eval("Name")) %>' />
-          <div style="font-size: smaller;">
-           <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-            " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-          </div>
-         </a>
-        </ItemTemplate>
-       </SnCoreWebControls:PagedList>
-      </ContentTemplate>
-     </asp:UpdatePanel>
+     <SnCore:PicturesView id="picturesView" runat="server" />
     </td>
     <td valign="top" width="*">
      <table class="sncore_inner_table" width="95%">

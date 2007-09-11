@@ -18,19 +18,20 @@
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn>
     <itemtemplate>
-  <img src="images/Item.gif" />
- </itemtemplate>
+     <img src='<%# (bool) Eval("DefaultType") ? "images/account/star.gif" : "images/Item.gif" %>' />
+    </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn HeaderText="Name">
     <itemtemplate>
-  <%# base.Render(Eval("Name")) %>
- </itemtemplate>
+     <%# base.Render(Eval("Name")) %>
+    </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn>
     <itemtemplate>
-  <a href='FeedTypeEdit.aspx?id=<%# Eval("Id") %>'>
-   Edit</a>
- </itemtemplate>
+     <a href='FeedTypeEdit.aspx?id=<%# Eval("Id") %>'>
+      Edit
+     </a>
+    </itemtemplate>
    </asp:TemplateColumn>
    <asp:ButtonColumn ButtonType="LinkButton" ItemStyle-CssClass="sncore_table_tr_td"
     HeaderStyle-CssClass="sncore_table_tr_th" CommandName="Delete" Text="Delete">

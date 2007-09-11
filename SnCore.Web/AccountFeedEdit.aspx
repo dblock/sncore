@@ -48,7 +48,7 @@
     type:
    </td>
    <td class="sncore_form_value">
-    <asp:DropDownList ID="inputFeedType" runat="server" CssClass="sncore_form_dropdown"
+    <asp:DropDownList ID="selectType" runat="server" CssClass="sncore_form_dropdown"
      DataTextField="Name" DataValueField="Name" />
      <div class="sncore_link_small">
       choose <em>Generic RSS</em> if you're unsure

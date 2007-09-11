@@ -18,39 +18,41 @@ public partial class PlaceTypeEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Place Types", Request, "PlaceTypesManage.aspx"));
+
+            DomainClass cs = SessionManager.GetDomainClass("PlaceType");
+            inputName.MaxLength = cs["Name"].MaxLengthInChars;
+
+            if (RequestId > 0)
             {
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-                sitemapdata.Add(new SiteMapDataAttributeNode("Place Types", Request, "PlaceTypesManage.aspx"));
-
-                DomainClass cs = SessionManager.GetDomainClass("PlaceType");
-                inputName.MaxLength = cs["Name"].MaxLengthInChars;
-
-                if (RequestId > 0)
-                {
-                    TransitPlaceType t = SessionManager.PlaceService.GetPlaceTypeById(
-                        SessionManager.Ticket, RequestId);
-                    inputName.Text = t.Name;
-                    sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-                }
-                else
-                {
-                    sitemapdata.Add(new SiteMapDataAttributeNode("New Place Type", Request.Url));
-                }
-                StackSiteMap(sitemapdata);
+                TransitPlaceType t = SessionManager.PlaceService.GetPlaceTypeById(
+                    SessionManager.Ticket, RequestId);
+                inputName.Text = t.Name;
+                inputDefaultType.Checked = t.DefaultType;
+                sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("New Place Type", Request.Url));
+            }
+            StackSiteMap(sitemapdata);
+        }
 
-            SetDefaultButton(manageAdd);
+        SetDefaultButton(manageAdd);
     }
 
     public void save_Click(object sender, EventArgs e)
     {
-            TransitPlaceType t = new TransitPlaceType();
-            t.Name = inputName.Text;
-            t.Id = RequestId;
-            SessionManager.CreateOrUpdate<TransitPlaceType>(
-                t, SessionManager.PlaceService.CreateOrUpdatePlaceType);
-            Redirect("PlaceTypesManage.aspx");
+        TransitPlaceType t = new TransitPlaceType();
+        t.Name = inputName.Text;
+        t.Id = RequestId;
+        t.DefaultType = inputDefaultType.Checked;
+        SessionManager.CreateOrUpdate<TransitPlaceType>(
+            t, SessionManager.PlaceService.CreateOrUpdatePlaceType);
+        Redirect("PlaceTypesManage.aspx");
     }
 }

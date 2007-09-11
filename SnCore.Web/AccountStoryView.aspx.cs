@@ -17,7 +17,6 @@ public partial class AccountStoryView : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        listPictures.OnGetDataSource += new EventHandler(listPictures_OnGetDataSource);
         if (!IsPostBack)
         {
             TransitAccountStory ts = SessionManager.GetInstance<TransitAccountStory, int>(
@@ -27,15 +26,12 @@ public partial class AccountStoryView : Page
                 ts.AccountId, SessionManager.AccountService.GetAccountById);
 
             licenseView.AccountId = acct.Id;
+            picturesView.AccountStoryId = ts.Id;
 
             this.Title = string.Format("{0}'s {1}", Renderer.Render(acct.Name), Renderer.Render(ts.Name));
 
             storyName.Text = Renderer.Render(ts.Name);
             storySummary.Text = RenderEx(ts.Summary);
-
-            listPictures.VirtualItemCount = SessionManager.GetCount<TransitAccountStoryPicture, int>(
-                RequestId, SessionManager.StoryService.GetAccountStoryPicturesCount);
-            listPictures_OnGetDataSource(sender, e);
 
             storyComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                 typeof(AccountStory).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
@@ -53,15 +49,5 @@ public partial class AccountStoryView : Page
             sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request.Url));
             StackSiteMap(sitemapdata);
         }
-    }
-
-    void listPictures_OnGetDataSource(object sender, EventArgs e)
-    {
-        ServiceQueryOptions options = new ServiceQueryOptions();
-        options.PageNumber = listPictures.CurrentPageIndex;
-        options.PageSize = listPictures.PageSize;
-        listPictures.DataSource = SessionManager.GetCollection<TransitAccountStoryPicture, int>(
-            RequestId, options, SessionManager.StoryService.GetAccountStoryPictures);
-        listPictures.DataBind();
     }
 }

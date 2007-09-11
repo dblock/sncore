@@ -9,6 +9,7 @@
 <%@ Register TagPrefix="SnCore" TagName="LicenseView" Src="AccountLicenseViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountStoryPicturesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
   <tr>
@@ -47,26 +48,7 @@
     <table class="sncore_inner_table" width="95%">
      <tr>
       <td class="sncore_table_tr_td" align="center">
-       <asp:UpdatePanel ID="panelPictures" runat="server">
-        <ContentTemplate>
-         <SnCoreWebControls:PagedList runat="server" RepeatDirection="Horizontal"
-          ID="listPictures" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
-          ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="4" RepeatRows="1" AllowCustomPaging="true">
-          <PagerStyle CssClass="sncore_table_pager" Position="Bottom" NextPageText="Next"
-           PrevPageText="Prev" HorizontalAlign="Center" />
-          <ItemStyle VerticalAlign="Middle" />
-          <ItemTemplate>
-           <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
-            <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
-            <div class="sncore_link">
-            <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-             " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-            </div>
-           </a>
-          </ItemTemplate>
-         </SnCoreWebControls:PagedList>
-        </ContentTemplate>
-       </asp:UpdatePanel>
+       <SnCore:PicturesView id="picturesView" runat="server" />
       </td>     
      </tr>
     </table>

@@ -74,13 +74,13 @@ public partial class AccountView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
         if (!IsPostBack)
         {
             linkDelete.NavigateUrl = string.Format("AccountDelete.aspx?id={0}", AccountId);
             linkResetPassword.NavigateUrl = string.Format("AccountChangePassword.aspx?id={0}", AccountId);
             linkAttributes.NavigateUrl = string.Format("AccountAttributesManage.aspx?id={0}", AccountId);
 
+            picturesView.AccountId = AccountId;
             attributesView.AccountId = AccountId;
             placeFavoritesView.AccountId = AccountId;
             placesView.AccountId = AccountId;
@@ -109,8 +109,6 @@ public partial class AccountView : Page
             accountReminder.Visible = (RequestId == 0);
 
             this.Title = Renderer.Render(Account.Name);
-
-            GetPicturesData(sender, e);
 
             accountLastLogin.Text = Adjust(Account.LastLogin).ToString("d");
             accountCity.Text = Renderer.Render(Account.City);
@@ -245,26 +243,5 @@ public partial class AccountView : Page
         SessionManager.ObjectService.DeleteAllFeatures(SessionManager.Ticket, t_feature);
         SessionManager.InvalidateCache<TransitFeature>();
         Redirect(Request.Url.PathAndQuery);
-    }
-
-    void GetPicturesData(object sender, EventArgs e)
-    {
-        AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
-        po.Hidden = false;
-        picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountPicture, int, AccountPicturesQueryOptions>(
-            AccountId, po, SessionManager.AccountService.GetAccountPicturesCount);
-        picturesView_OnGetDataSource(sender, e);
-        picturesView.DataBind();
-        accountNoPicture.Visible = (picturesView.Items.Count == 0);
-    }
-
-    void picturesView_OnGetDataSource(object sender, EventArgs e)
-    {
-        AccountPicturesQueryOptions po = new AccountPicturesQueryOptions();
-        po.Hidden = false;
-        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        picturesView.DataSource = SessionManager.GetCollection<TransitAccountPicture, int, AccountPicturesQueryOptions>(
-            AccountId, po, options, SessionManager.AccountService.GetAccountPictures);
     }
 }

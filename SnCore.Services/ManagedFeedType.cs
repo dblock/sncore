@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -26,6 +27,20 @@ namespace SnCore.Services
             set
             {
                 mName = value;
+            }
+        }
+
+        private bool mDefaultType = false;
+
+        public bool DefaultType
+        {
+            get
+            {
+                return mDefaultType;
+            }
+            set
+            {
+                mDefaultType = value;
             }
         }
 
@@ -123,6 +138,7 @@ namespace SnCore.Services
             SpanColumns = value.SpanColumns;
             SpanRowsPreview = value.SpanRowsPreview;
             SpanColumnsPreview = value.SpanColumnsPreview;
+            DefaultType = value.DefaultType;
             base.SetInstance(value);
         }
 
@@ -135,6 +151,7 @@ namespace SnCore.Services
             instance.SpanColumnsPreview = this.SpanColumnsPreview;
             instance.SpanRowsPreview = this.SpanRowsPreview;
             instance.Xsl = this.Xsl;
+            instance.DefaultType = this.DefaultType;
             return instance;
         }
     }
@@ -193,6 +210,26 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLEveryoneAllowRetrieve());
             return acl;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            base.Save(sec);
+
+            if (mInstance.DefaultType)
+            {
+                IList<FeedType> instances = Session.CreateCriteria(typeof(FeedType))
+                    .List<FeedType>();
+
+                foreach (FeedType instance in instances)
+                {
+                    if (instance != mInstance && mInstance.DefaultType)
+                    {
+                        instance.DefaultType = false;
+                        Session.Save(instance);
+                    }
+                }
+            }
         }
     }
 }

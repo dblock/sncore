@@ -569,6 +569,7 @@ BEGIN
 CREATE TABLE [dbo].[AccountEventType](
 	[AccountEventType_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[DefaultType] [bit] NOT NULL,
  CONSTRAINT [PK_AccountEventType] PRIMARY KEY CLUSTERED 
 (
 	[AccountEventType_Id] ASC
@@ -3253,6 +3254,7 @@ CREATE TABLE [dbo].[FeedType](
 	[SpanColumns] [int] NOT NULL CONSTRAINT [DF_FeedType_SpanColumns]  DEFAULT ((1)),
 	[SpanRowsPreview] [int] NOT NULL CONSTRAINT [DF_FeedType_SpanRowsPreview]  DEFAULT ((3)),
 	[SpanColumnsPreview] [int] NOT NULL CONSTRAINT [DF_FeedType_SpanColumnsPreview]  DEFAULT ((1)),
+	[DefaultType] [bit] NOT NULL,
  CONSTRAINT [PK_FeedType] PRIMARY KEY CLUSTERED 
 (
 	[FeedType_Id] ASC
@@ -3960,6 +3962,7 @@ BEGIN
 CREATE TABLE [dbo].[PlaceType](
 	[PlaceType_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[DefaultType] [bit] NOT NULL,
  CONSTRAINT [PK_PlaceType] PRIMARY KEY CLUSTERED 
 (
 	[PlaceType_Id] ASC

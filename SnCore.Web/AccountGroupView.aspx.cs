@@ -69,7 +69,6 @@ public partial class AccountGroupView : Page
 
     public void Page_Load(object sender, EventArgs e)
     {
-        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
         if (!IsPostBack)
         {
             if (AccountGroup == null)
@@ -151,8 +150,7 @@ public partial class AccountGroupView : Page
                 return; 
             }
 
-            GetPicturesData(sender, e);
-
+            picturesView.AccountGroupId = AccountGroupId;
             accountsView.AccountGroupId = AccountGroupId;
 
             if (fGroupMemberOrAdmin)
@@ -176,23 +174,6 @@ public partial class AccountGroupView : Page
             blogView.BlogId = AccountGroup.AccountBlogId;
             blogView.DataBind();
         }
-    }
-
-    void GetPicturesData(object sender, EventArgs e)
-    {
-        picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountGroupPicture, int>(
-            AccountGroupId, SessionManager.GroupService.GetAccountGroupPicturesCount);
-        picturesView_OnGetDataSource(sender, e);
-        picturesView.DataBind();
-        accountNoPicture.Visible = (picturesView.Items.Count == 0);
-    }
-
-    void picturesView_OnGetDataSource(object sender, EventArgs e)
-    {
-        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        picturesView.DataSource = SessionManager.GetCollection<TransitAccountGroupPicture, int>(
-            AccountGroupId, options, SessionManager.GroupService.GetAccountGroupPictures);
     }
 
     public void linkRequest_Click(object sender, EventArgs e)

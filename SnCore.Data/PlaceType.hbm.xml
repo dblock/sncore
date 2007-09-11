@@ -13,5 +13,6 @@
       <key column="Type" />
       <one-to-many class="PlaceChangeRequest, SnCore.Data" />
     </bag>
+    <property name="DefaultType" column="DefaultType" type="Boolean" />
   </class>
 </hibernate-mapping>

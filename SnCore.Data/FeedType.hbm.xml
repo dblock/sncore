@@ -14,5 +14,6 @@
     <property name="SpanRows" column="SpanRows" type="Int32" />
     <property name="SpanRowsPreview" column="SpanRowsPreview" type="Int32" />
     <property name="Xsl" column="Xsl" type="StringClob" />
+    <property name="DefaultType" column="DefaultType" type="Boolean" />
   </class>
 </hibernate-mapping>

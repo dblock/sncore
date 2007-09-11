@@ -142,4 +142,9 @@ public partial class AccountEventPictureView : Page
             AccountEvent.Id, options, SessionManager.EventService.GetAccountEventPictures);
     }
 
+    public static string GetCommentCount(int count)
+    {
+        if (count == 0) return string.Empty;
+        return string.Format("{0} comment{1}", count, count == 1 ? string.Empty : "s");
+    }
 }

@@ -19,8 +19,8 @@
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn>
     <itemtemplate>
-  <img src="images/Item.gif" />
- </itemtemplate>
+     <img src='<%# (bool) Eval("DefaultType") ? "images/account/star.gif" : "images/Item.gif" %>' />
+    </itemtemplate>
    </asp:TemplateColumn>
    <asp:TemplateColumn HeaderText="Name">
     <itemtemplate>

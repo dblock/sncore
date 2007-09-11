@@ -103,3 +103,24 @@ IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo
 ALTER TABLE [dbo].[AccountGroup] WITH CHECK ADD CONSTRAINT [FK_AccountGroup_AccountBlog] FOREIGN KEY([AccountBlog_Id])
 REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
 GO
+-- create a default type in AccountEventType
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventType]') AND name = N'DefaultType') 
+ALTER TABLE dbo.AccountEventType ADD [DefaultType] bit NULL
+GO
+UPDATE dbo.AccountEventType SET DefaultType = 0 WHERE DefaultType IS NULL
+ALTER TABLE dbo.AccountEventType ALTER COLUMN [DefaultType] bit NOT NULL
+GO
+-- create a default type in PlaceType
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[PlaceType]') AND name = N'DefaultType') 
+ALTER TABLE dbo.PlaceType ADD [DefaultType] bit NULL
+GO
+UPDATE dbo.PlaceType SET DefaultType = 0 WHERE DefaultType IS NULL
+ALTER TABLE dbo.PlaceType ALTER COLUMN [DefaultType] bit NOT NULL
+GO
+-- create a default type in FeedType
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[FeedType]') AND name = N'DefaultType') 
+ALTER TABLE dbo.FeedType ADD [DefaultType] bit NULL
+GO
+UPDATE dbo.FeedType SET DefaultType = 0 WHERE DefaultType IS NULL
+ALTER TABLE dbo.FeedType ALTER COLUMN [DefaultType] bit NOT NULL
+GO

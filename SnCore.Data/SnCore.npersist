@@ -193,6 +193,7 @@
     <property name="Id" id="true" columns="AccountEventType_Id" type="System.Int32" />
     <property name="AccountEvents" table="AccountEvent" id-columns="AccountEventType_Id" list="true" item-type="AccountEvent" read-only="true" slave="true" ref="ManyToOne" inverse="AccountEventType" inherits-inverse="true" />
     <property name="Name" columns="Name" type="System.String" />
+    <property name="DefaultType" columns="DefaultType" type="System.Boolean" />
   </class>
   <class name="AccountFeed" table="AccountFeed">
     <property name="Id" id="true" columns="AccountFeed_Id" type="System.Int32" />
@@ -743,6 +744,7 @@
     <property name="SpanRows" columns="SpanRows" type="System.Int32" />
     <property name="SpanRowsPreview" columns="SpanRowsPreview" type="System.Int32" />
     <property name="Xsl" columns="Xsl" type="System.String" />
+    <property name="DefaultType" columns="DefaultType" type="System.Boolean" />
   </class>
   <class name="MadLib" table="MadLib">
     <property name="Id" id="true" columns="MadLib_Id" type="System.Int32" />
@@ -885,6 +887,7 @@
     <property name="Name" columns="Name" type="System.String" />
     <property name="Places" table="Place" id-columns="Type" list="true" item-type="Place" read-only="true" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
     <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Type" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
+    <property name="DefaultType" columns="DefaultType" type="System.Boolean" />
   </class>
   <class name="Redirect" table="Redirect">
     <property name="Id" id="true" columns="Redirect_Id" type="System.Int32" />
@@ -1184,6 +1187,7 @@
     <table name="AccountEventType">
       <column name="AccountEventType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="DefaultType" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
     </table>
     <table name="AccountFeed">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFeed_Account" />
@@ -1691,6 +1695,7 @@
       <column name="SpanRows" type="Int32" prec="10" length="4" scale="0" default="((10))" />
       <column name="SpanColumnsPreview" type="Int32" prec="10" length="4" scale="0" default="((1))" />
       <column name="SpanRowsPreview" type="Int32" prec="10" length="4" scale="0" default="((3))" />
+      <column name="DefaultType" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="MadLib">
       <column name="MadLib_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1813,6 +1818,7 @@
     <table name="PlaceType">
       <column name="PlaceType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="DefaultType" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="Redirect">
       <column name="Redirect_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

@@ -48,7 +48,14 @@
     <asp:DropDownList ID="inputSpanRowsPreview" runat="server" CssClass="sncore_form_dropdown_small" />
     <asp:DropDownList ID="inputSpanColumnsPreview" runat="server" CssClass="sncore_form_dropdown_small" />
    </td>
-  </tr>     
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+   </td>
+   <td class="sncore_form_value">
+    <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputDefaultType" runat="server" Text="Default" />
+   </td>
+  </tr>
   <tr>
    <td>
    </td>

@@ -50,7 +50,7 @@ namespace SnCore.Services.Tests
             Console.WriteLine("Instance: {0} -> {1}", dbobject.GetType().FullName, dbobject.Id);
             Assert.AreEqual(dbobject.Id, _place.Instance.Id);
             Console.WriteLine("Instance: {0}", m_instance.GetInstance<Place>().Id);
-            IList<Account> accounts = m_instance.GetInstanceAccounts();
+            IList<Account> accounts = new List<Account>(m_instance.GetInstanceAccounts());
             Console.WriteLine("Accounts: {0}", accounts.Count);
             m_instance.Delete(AdminSecurityContext);
         }

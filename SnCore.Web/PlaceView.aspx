@@ -13,32 +13,14 @@
 <%@ Register TagPrefix="SnCore" TagName="MadLibInstancesView" Src="MadLibInstancesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="PlacePicturesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel runat="server" ID="panelPlace" UpdateMode="Conditional">
   <ContentTemplate>
     <table cellspacing="0" cellpadding="4" class="sncore_table">
      <tr>
       <td class="sncore_table_tr_td_images">
-       <asp:Panel ID="placeNoPicture" runat="server" Visible="false">
-        <img border="0" src="PlacePictureThumbnail.aspx" />
-       </asp:Panel>
-       <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
-        <ContentTemplate>
-         <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
-          <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
-           prevpagetext="&#171;" horizontalalign="Center" />
-          <ItemTemplate>
-           <a href="PlacePictureView.aspx?id=<%# Eval("Id") %>">
-            <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
-            <div style="font-size: smaller;">
-            <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-             " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-            </div>
-           </a>
-          </ItemTemplate>
-         </SnCoreWebControls:PagedList>
-        </ContentTemplate>
-       </asp:UpdatePanel>
+       <SnCore:PicturesView id="picturesView" runat="server" />
       </td>
       <td valign="top" width="*">
        <table class="sncore_inner_table" width="95%">

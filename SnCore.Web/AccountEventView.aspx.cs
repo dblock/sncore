@@ -90,27 +90,8 @@ public partial class AccountEventView : Page
         }
     }
 
-    void GetPicturesData(object sender, EventArgs e)
-    {
-        picturesView.CurrentPageIndex = 0;
-        picturesView.VirtualItemCount = SessionManager.GetCount<TransitAccountEventPicture, int>(
-            RequestId, SessionManager.EventService.GetAccountEventPicturesCount);
-        picturesView_OnGetDataSource(sender, e);
-        picturesView.DataBind();
-        panelNoPicture.Visible = (picturesView.Items.Count == 0);
-    }
-
-    void picturesView_OnGetDataSource(object sender, EventArgs e)
-    {
-        ServiceQueryOptions options = new ServiceQueryOptions(picturesView.PageSize, picturesView.CurrentPageIndex);
-        picturesView.DataSource = SessionManager.GetCollection<TransitAccountEventPicture, int>(
-            RequestId, options, SessionManager.EventService.GetAccountEventPictures);
-    }
-
     public void Page_Load(object sender, EventArgs e)
     {
-        picturesView.OnGetDataSource += new EventHandler(picturesView_OnGetDataSource);
-
         if (!IsPostBack)
         {
             if (RequestId > 0)
@@ -130,6 +111,8 @@ public partial class AccountEventView : Page
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
                 StackSiteMap(sitemapdata);
 
+                picturesView.AccountEventId = RequestId;
+
                 this.Title = Renderer.Render(t.Name);
 
                 labelDescription.Text = base.RenderEx(t.Description);
@@ -140,13 +123,21 @@ public partial class AccountEventView : Page
                 linkEdit.NavigateUrl = string.Format("AccountEventEdit.aspx?id={0}", t.Id);
 
                 eventWebsite.NavigateUrl = t.Website;
+                if (!string.IsNullOrEmpty(t.Website))
+                {
+                    eventWebsite.NavigateUrl = t.Website;
+                    if (t.Website.Length < 64)
+                    {
+                        eventWebsite.Text = Renderer.Render(t.Website);
+                    }
+                }
+
+                eventWebsite.Visible = ! string.IsNullOrEmpty(t.Website);
                 eventPhone.Text = Renderer.Render(t.Phone);
                 eventType.Text = Renderer.Render(t.AccountEventType);
                 eventEmail.NavigateUrl = string.Format("mailto:{0}", Renderer.Render(t.Email));
                 eventEmail.Visible = !string.IsNullOrEmpty(t.Email);
                 eventCost.Text = Renderer.Render(t.Cost);
-
-                GetPicturesData(sender, e);
 
                 discussionAccountEvents.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                     typeof(AccountEvent).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);

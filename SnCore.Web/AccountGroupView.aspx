@@ -13,31 +13,13 @@
 <%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountGroupPicturesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
     <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
-     <asp:Panel ID="accountNoPicture" runat="server" Visible="false">
-      <img border="0" src="AccountGroupPictureThumbnail.aspx" />
-     </asp:Panel>
-     <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
-      <ContentTemplate>
-       <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
-        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
-         prevpagetext="&#171;" horizontalalign="Center" />
-        <ItemTemplate>
-         <a href='<%# string.Format("AccountGroupPictureView.aspx?id={0}", Eval("Id")) %>'>
-          <img border="0" src='<%# string.Format("AccountGroupPictureThumbnail.aspx?id={0}", Eval("Id")) %>' alt='<%# base.Render(Eval("Name")) %>' />
-          <div style="font-size: smaller;">
-           <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-            " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-          </div>
-         </a>
-        </ItemTemplate>
-       </SnCoreWebControls:PagedList>
-      </ContentTemplate>
-     </asp:UpdatePanel>
+     <SnCore:PicturesView id="picturesView" runat="server" />
     </td>
     <td valign="top" width="*">
      <table class="sncore_inner_table" width="95%">

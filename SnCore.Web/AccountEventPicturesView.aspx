@@ -7,7 +7,7 @@
   Event Pictures
  </div>
  <div class="sncore_h2sub">
-  <a href='AccountEventPicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>Upload a Picture</a>
+  <a href='AccountEventPicturesManage.aspx?id=<% Response.Write(base.RequestId); %>'>&#187; Upload a Picture</a>
  </div>
  <asp:DataList RepeatColumns="4" runat="server" ID="listView" CssClass="sncore_table">
   <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
@@ -15,8 +15,12 @@
    <a href="AccountEventPictureView.aspx?id=<%# Eval("Id") %>">
     <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>"
      alt="<%# base.Render(Eval("Name")) %>" />
-    <br />
-    <%# base.Render(Eval("Description")) %>
+    <div>
+     <%# base.Render(Eval("Description")) %>
+    </div>
+    <div style="font-size: smaller;">
+     <%# GetCommentCount((int) Eval("CommentCount")) %>
+    </div>
    </a>
   </ItemTemplate>
  </asp:DataList>

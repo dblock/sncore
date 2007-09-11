@@ -150,4 +150,9 @@ public partial class AccountPictureView : Page
             Account.Id, ap, options, SessionManager.AccountService.GetAccountPictures);
     }
 
+    public static string GetCommentCount(int count)
+    {
+        if (count == 0) return string.Empty;
+        return string.Format("{0} comment{1}", count, count == 1 ? string.Empty : "s");
+    }
 }

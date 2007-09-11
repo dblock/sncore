@@ -6,31 +6,13 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountEventPicturesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountEvent" runat="server">
   <table cellspacing="0" class="sncore_table">
    <tr>
     <td class="sncore_table_tr_td_images">
-     <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="panelPictures">
-      <ContentTemplate>
-       <asp:Panel ID="panelNoPicture" runat="server" Visible="false">
-        <img border="0" src="AccountEventPictureThumbnail.aspx" />
-       </asp:Panel>
-       <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
-        <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
-         prevpagetext="&#171;" horizontalalign="Center" />
-        <ItemTemplate>
-         <a href="AccountEventPictureView.aspx?id=<%# Eval("Id") %>">
-          <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>" alt="<%# base.Render(Eval("Name")) %>" />
-          <div class="sncore_link">
-           <%# ((int) Eval("CommentCount") >= 1) ? Eval("CommentCount").ToString() + 
-           " comment" + (((int) Eval("CommentCount") == 1) ? "" : "s") : "" %>
-          </div>
-         </a>
-        </ItemTemplate>
-       </SnCoreWebControls:PagedList>
-      </ContentTemplate>
-     </asp:UpdatePanel>
+     <SnCore:PicturesView id="picturesView" runat="server" />
     </td>
     <td valign="top" width="*">
      <table class="sncore_inner_table" width="95%">
@@ -52,8 +34,8 @@
           <asp:Label ID="eventPhone" runat="server" />
          </div>
          <div>
-          <asp:HyperLink ID="eventWebsite" runat="server" Text="&#187; Website" />
-          <asp:HyperLink ID="eventEmail" runat="server" Text="&#187; E-Mail" />
+          <asp:HyperLink ID="eventWebsite" runat="server" Text="&#187; website" />
+          <asp:HyperLink ID="eventEmail" runat="server" Text="&#187; e-mail" />
          </div>
          <div style="font-weight: bold;">
           <asp:Label ID="eventCost" runat="server" />
@@ -113,8 +95,11 @@
      <asp:Panel ID="panelViews" runat="server">
       <table class="sncore_inner_table" width="95%">
        <tr>
-        <td align="right" style="font-size: smaller;">
+        <td style="font-size: smaller; text-align: right;">
          <% Response.Write(SuggestedBy); %>
+        </td>
+        <td style="font-size: smaller; text-align: right;">
+         <a href="AccountEventEdit.aspx">&#187; post an event</a>
         </td>
        </tr>
       </table>

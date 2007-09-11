@@ -291,6 +291,8 @@ namespace SnCore.Services
             TransitAccountStoryPicture t_instance = base.GetTransitInstance(sec);
             t_instance.Counter = ManagedStats.FindByUri(Session, "AccountStoryPictureView.aspx", mInstance.Id, sec); 
             t_instance.SetWithinCollection(mInstance, mInstance.AccountStory.AccountStoryPictures);
+            t_instance.CommentCount = ManagedDiscussion.GetDiscussionPostCount(
+                Session, mInstance.AccountStory.Account.Id, typeof(AccountStoryPicture), mInstance.Id);
             return t_instance;
         }
 

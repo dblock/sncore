@@ -54,6 +54,7 @@ public partial class FeedTypeEdit : AuthenticatedPage
                 TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeById(
                     SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
+                inputDefaultType.Checked = t.DefaultType;
                 inputSpanColumns.Items.FindByValue(t.SpanColumns.ToString()).Selected = true;
                 inputSpanRows.Items.FindByValue(t.SpanRows.ToString()).Selected = true;
                 inputSpanColumnsPreview.Items.FindByValue(t.SpanColumnsPreview.ToString()).Selected = true;
@@ -86,6 +87,7 @@ public partial class FeedTypeEdit : AuthenticatedPage
     {
         TransitFeedType t = new TransitFeedType();
         t.Name = inputName.Text;
+        t.DefaultType = inputDefaultType.Checked;
         t.Id = RequestId;
         t.SpanColumns = int.Parse(inputSpanColumns.SelectedValue);
         t.SpanRows = int.Parse(inputSpanRows.SelectedValue);

@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -35,11 +36,7 @@ public partial class AccountEventEdit : AuthenticatedPage
             inputWebsite.MaxLength = cs["Website"].MaxLengthInChars;
             inputCost.MaxLength = cs["Cost"].MaxLengthInChars;
 
-            ArrayList types = new ArrayList();
-            types.Add(new TransitAccountPlaceType());
-            types.AddRange(SessionManager.EventService.GetAccountEventTypes(SessionManager.Ticket, null));
-            selectType.DataSource = types;
-            selectType.DataBind();
+            GetAccountEventTypes(sender, e);
 
             linkBack.NavigateUrl = ReturnUrl;
 
@@ -165,4 +162,31 @@ public partial class AccountEventEdit : AuthenticatedPage
         }
     }
 
+    private void GetAccountEventTypes(object sender, EventArgs e)
+    {
+        List<TransitAccountEventType> types = SessionManager.EventService.GetAccountEventTypes(SessionManager.Ticket, null);
+
+        TransitAccountEventType selected = null;
+        foreach (TransitAccountEventType eventtype in types)
+        {
+            if (eventtype.DefaultType)
+            {
+                selected = eventtype;
+                break;
+            }
+        }
+
+        if (selected == null)
+        {
+            types.Insert(0, new TransitAccountEventType());
+        }
+
+        selectType.DataSource = types;
+        selectType.DataBind();
+
+        if (selected != null)
+        {
+            selectType.Items.FindByValue(selected.Name).Selected = true;
+        }
+    }
 }

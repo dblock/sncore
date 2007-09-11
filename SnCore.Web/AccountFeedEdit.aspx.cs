@@ -46,15 +46,13 @@ public partial class AccountFeedEdit : AuthenticatedPage
             inputPassword.MaxLength = cs["Password"].MaxLengthInChars;
             inputLinkUrl.MaxLength = cs["LinkUrl"].MaxLengthInChars;
 
-            inputFeedType.DataSource = SessionManager.GetCollection<TransitFeedType>(
-                null, SessionManager.SyndicationService.GetFeedTypes);
-            inputFeedType.DataBind();
+            GetFeedTypes(sender, e);
 
             string feedtype = Request.Params["type"];
             if (!string.IsNullOrEmpty(feedtype))
             {
-                inputFeedType.ClearSelection();
-                ListItem item = inputFeedType.Items.FindByValue(feedtype);
+                selectType.ClearSelection();
+                ListItem item = selectType.Items.FindByValue(feedtype);
                 if (item != null) item.Selected = true;
             }
 
@@ -92,8 +90,8 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (!string.IsNullOrEmpty(tf.FeedType))
                 {
-                    inputFeedType.ClearSelection();
-                    inputFeedType.Items.FindByValue(tf.FeedType).Selected = true;
+                    selectType.ClearSelection();
+                    selectType.Items.FindByValue(tf.FeedType).Selected = true;
                 }
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
@@ -129,12 +127,12 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (Request.Params["type"] != null)
                 {
-                    inputFeedType.ClearSelection();
-                    ListItem item = inputFeedType.Items.FindByValue(Request.Params["type"]);
+                    selectType.ClearSelection();
+                    ListItem item = selectType.Items.FindByValue(Request.Params["type"]);
                     if (item != null)
                     {
                         item.Selected = true;
-                        inputFeedType.Enabled = false;
+                        selectType.Enabled = false;
                     }
                 }
 
@@ -156,7 +154,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.Name = inputName.Text;
         s.Description = inputDescription.Text;
         s.AccountId = SessionManager.Account.Id;
-        s.FeedType = inputFeedType.SelectedValue;
+        s.FeedType = selectType.SelectedValue;
         s.UpdateFrequency = int.Parse(inputUpdateFrequency.SelectedValue);
 
         if (!string.IsNullOrEmpty(inputFeedUrl.Text) && !Uri.IsWellFormedUriString(inputFeedUrl.Text, UriKind.Absolute))
@@ -203,5 +201,33 @@ public partial class AccountFeedEdit : AuthenticatedPage
     public void linkBack_Click(object sender, EventArgs e)
     {
         Redirect(ReturnUrl);
+    }
+
+    private void GetFeedTypes(object sender, EventArgs e)
+    {
+        List<TransitFeedType> types = SessionManager.SyndicationService.GetFeedTypes(SessionManager.Ticket, null);
+
+        TransitFeedType selected = null;
+        foreach (TransitFeedType Feedtype in types)
+        {
+            if (Feedtype.DefaultType)
+            {
+                selected = Feedtype;
+                break;
+            }
+        }
+
+        if (selected == null)
+        {
+            types.Insert(0, new TransitFeedType());
+        }
+
+        selectType.DataSource = types;
+        selectType.DataBind();
+
+        if (selected != null)
+        {
+            selectType.Items.FindByValue(selected.Name).Selected = true;
+        }
     }
 }

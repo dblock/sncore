@@ -9,5 +9,6 @@
       <one-to-many class="AccountEvent, SnCore.Data" />
     </bag>
     <property name="Name" column="Name" type="String" />
+    <property name="DefaultType" column="DefaultType" type="Boolean" />
   </class>
 </hibernate-mapping>

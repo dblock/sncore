@@ -49,8 +49,11 @@ namespace SnCore.BackEndServices
                 try
                 {
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
-                    EventLog.WriteEntry(string.Format("Syndication service updating {0} ({1}).",
-                        feed.Name, feed.Id), EventLogEntryType.Information);
+                    if (IsDebug)
+                    {
+                        EventLog.WriteEntry(string.Format("Syndication service updating {0} ({1}).",
+                            feed.Name, feed.Id), EventLogEntryType.Information);
+                    }
                     m_feed.Update(sec);
                     m_feed.UpdateImages(sec);
                     m_feed.UpdateMedias(sec);

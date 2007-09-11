@@ -22,6 +22,13 @@
    </td>
   </tr>
   <tr>
+   <td class="sncore_form_label">
+   </td>
+   <td class="sncore_form_value">
+    <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputDefaultType" runat="server" Text="Default" />
+   </td>
+  </tr>
+  <tr>
    <td>
    </td>
    <td class="sncore_form_value">
