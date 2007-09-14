@@ -16,7 +16,7 @@
    <asp:WizardStep StepType="Complete">
     <div style="padding-left: 20px; color: Green; font-weight: bold;">
      Thanks! You can edit these answers <a href="AccountSurveysManage.aspx">here</a>
-     and take new surveys about exciting tasty things!
+     and take new ones!
     </div>
    </asp:WizardStep>
   </WizardSteps>

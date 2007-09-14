@@ -6,7 +6,7 @@
  <div class="sncore_h2">
   States
  </div>
- <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemStateEdit.aspx"
+ <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemStateEdit.aspx"
   runat="server" />
  <asp:UpdatePanel id="panelManageUpdate" runat="server" UpdateMode="Always">
   <ContentTemplate>

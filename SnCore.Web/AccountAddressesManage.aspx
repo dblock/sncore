@@ -6,7 +6,7 @@
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   Account Addresses</div>
- <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountAddressEdit.aspx"
+ <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="AccountAddressEdit.aspx"
   runat="server" />
  <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
   runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"

@@ -7,7 +7,7 @@
  <div class="sncore_h2">
   Attributes
  </div>
- <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemAttributeEdit.aspx"
+ <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemAttributeEdit.aspx"
   runat="server" />
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

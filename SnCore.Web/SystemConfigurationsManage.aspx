@@ -7,7 +7,7 @@
  <div class="sncore_h2">
   Configuration Settings
  </div>
- <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemConfigurationEdit.aspx"
+ <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemConfigurationEdit.aspx"
   runat="server" />
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

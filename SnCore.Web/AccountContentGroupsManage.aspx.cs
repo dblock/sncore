@@ -58,11 +58,10 @@ public partial class AccountContentGroupsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.Delete<TransitAccountContent>(id, SessionManager.ContentService.DeleteAccountContent);
+                SessionManager.Delete<TransitAccountContentGroup>(
+                    id, SessionManager.ContentService.DeleteAccountContentGroup);
                 ReportInfo("Content group deleted.");
-                gridManage.CurrentPageIndex = 0;
-                gridManage_OnGetDataSource(sender, e);
-                gridManage.DataBind();
+                GetData(sender, e);
                 break;
         }
     }

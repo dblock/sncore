@@ -23,7 +23,7 @@ using SnCore.Data.Hibernate;
 
 public class SessionManager
 {
-    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 1, 0); // commit every three minutes
+    static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 2, 0); // commit every two minutes
     private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
     private static List<TransitStatsRequest> s_Requests = new List<TransitStatsRequest>(1024);
     public static TimeSpan DefaultCacheTimeSpan = new TimeSpan(0, 5, 0);

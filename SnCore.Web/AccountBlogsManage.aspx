@@ -18,78 +18,83 @@
    </div>
   </Template>
  </SnCore:Title>
- <asp:HyperLink ID="linkSyndicate" Text="&#187; I Already Have a Blog" CssClass="sncore_createnew"
-  NavigateUrl="AccountFeedWizard.aspx" runat="server" />
- <br />
- <asp:HyperLink ID="HyperLink1" Text="&#187; Start Blogging" CssClass="sncore_createnew"
-  NavigateUrl="AccountBlogEdit.aspx" runat="server" />
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
-  AutoGenerateColumns="false" CssClass="sncore_account_table">
-  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
-    <itemtemplate>
-     <img src="images/account/blogs.gif" />
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn HeaderText="Blog" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
-    <itemtemplate>
-     <a href="AccountBlogView.aspx?id=<%# Eval("Id") %>">
-      <%# base.Render(Eval("Name")) %>
-     </a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href="AccountBlogPost.aspx?bid=<%# Eval("Id") %>">Post</a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href="AccountBlogEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-  </Columns>
- </SnCoreWebControls:PagedGrid>
- <div class="sncore_h2">
-  Contributing Blogs
+ <div class="sncore_createnew">
+  <asp:HyperLink ID="linkSyndicate" Text="&#187; I Already Have a Blog"
+   NavigateUrl="AccountFeedWizard.aspx" runat="server" />
+  <asp:HyperLink ID="linkStartBlogging" Text="&#187; Start a New Blog"
+   NavigateUrl="AccountBlogEdit.aspx" runat="server" />
  </div>
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageAuthor"
-  AutoGenerateColumns="false" CssClass="sncore_account_table">
-  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
-    <itemtemplate>
-     <img src="images/Item.gif" />
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn HeaderText="Blog" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
-    <itemtemplate>
-     <a href="AccountBlogView.aspx?id=<%# Eval("Id") %>">
-      <%# base.Render(Eval("Name")) %>
-     </a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href="AccountBlogPost.aspx?bid=<%# Eval("Id") %>">Post</a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href="AccountBlogEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+ <asp:UpdatePanel id="panelManageUpdate" runat="server" UpdateMode="Always">
+  <ContentTemplate>
+   <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" OnItemCommand="gridManage_ItemCommand"
+    AutoGenerateColumns="false" CssClass="sncore_account_table">
+    <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+    <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+    <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+     PrevPageText="Prev" HorizontalAlign="Center" />
+    <Columns>
+     <asp:BoundColumn DataField="Id" Visible="false" />
+     <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+      <itemtemplate>
+       <img src="images/account/blogs.gif" />
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn HeaderText="Blog" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
+      <itemtemplate>
+       <a href="AccountBlogView.aspx?id=<%# Eval("Id") %>">
+        <%# base.Render(Eval("Name")) %>
+       </a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a href="AccountBlogPost.aspx?bid=<%# Eval("Id") %>">Post</a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a href="AccountBlogEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
+    </Columns>
+   </SnCoreWebControls:PagedGrid>
+   <div class="sncore_h2">
+    Contributing Blogs
+   </div>
+   <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManageAuthor"
+    AutoGenerateColumns="false" CssClass="sncore_account_table">
+    <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+    <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+    <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+     PrevPageText="Prev" HorizontalAlign="Center" />
+    <Columns>
+     <asp:BoundColumn DataField="Id" Visible="false" />
+     <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+      <itemtemplate>
+       <img src="images/Item.gif" />
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn HeaderText="Blog" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left">
+      <itemtemplate>
+       <a href="AccountBlogView.aspx?id=<%# Eval("Id") %>">
+        <%# base.Render(Eval("Name")) %>
+       </a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a href="AccountBlogPost.aspx?bid=<%# Eval("Id") %>">Post</a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a href="AccountBlogEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+    </Columns>
+   </SnCoreWebControls:PagedGrid>
+  </ContentTemplate>
+ </asp:UpdatePanel>
  <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
 </asp:Content>

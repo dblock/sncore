@@ -14,7 +14,7 @@
    </div>
   </Template>
  </SnCore:Title>
- <asp:HyperLink ID="HyperLink1" Text="&#187; Tell a Story" CssClass="sncore_createnew"
+ <asp:HyperLink ID="linkTellAStory" Text="&#187; Tell a Story" CssClass="sncore_createnew"
   NavigateUrl="AccountStoryEdit.aspx" runat="server" />
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

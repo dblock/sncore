@@ -19,7 +19,7 @@
    </div>
   </Template>
  </SnCore:Title>
- <asp:HyperLink ID="HyperLink1" Text="&#187; Syndicate Wizard" CssClass="sncore_createnew"
+ <asp:HyperLink ID="linkSyndicateWizard" Text="&#187; Syndicate Wizard" CssClass="sncore_createnew"
   NavigateUrl="AccountFeedWizard.aspx" runat="server" />
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

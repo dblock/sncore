@@ -26,6 +26,7 @@
     <br />
     <asp:HyperLink ID="linkRefererHosts" runat="server" Text="&#187; Referrer Hosts" NavigateUrl="SystemRefererHosts.aspx" />
     <asp:HyperLink ID="linkRefererQueries" runat="server" Text="&#187; Referrer Queries" NavigateUrl="SystemRefererQueries.aspx" />
+    <asp:HyperLink ID="linkCounters" runat="server" Text="&#187; Counters" NavigateUrl="SystemCounters.aspx" />
     <asp:HyperLink ID="linkCache" runat="server" Text="&#187; Cache" NavigateUrl="SystemStatsCache.aspx" />
    </div>
    <table class="sncore_account_table">

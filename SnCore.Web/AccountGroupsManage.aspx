@@ -13,7 +13,7 @@
   </Template>
  </SnCore:Title>
  <div class="sncore_createnew">
-  <asp:HyperLink ID="HyperLink1" Text="&#187; Create New" NavigateUrl="AccountGroupEdit.aspx" runat="server" />
+  <asp:HyperLink ID="linkNew" Text="&#187; Create New" NavigateUrl="AccountGroupEdit.aspx" runat="server" />
   <asp:HyperLink ID="linkAll" Text="&#187; All Groups" NavigateUrl="AccountGroupsView.aspx" runat="server" />
  </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">

@@ -18,37 +18,41 @@
   <a href="DiscussionsView.aspx">&#187; I Just Want to Post Something</a>
   <a href="AccountDiscussionThreadsView.aspx">&#187; My Posts</a>
  </div>
- <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
-  runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
-  AllowPaging="true" AllowCustomPaging="true" PageSize="10">
-  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:BoundColumn DataField="Name" Visible="false" />
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <img src="images/account/discussions.gif" />
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn HeaderText="Discussion" ItemStyle-HorizontalAlign="Left">
-    <itemtemplate>
-     <a href="DiscussionView.aspx?id=<%# Eval("Id") %>">
-      <%# base.Render(Eval("Name")) %>
-     </a>
-     <div class="sncore_description">
-      <%# base.Render(Eval("Description")) %>
-     </div>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href="SystemDiscussionEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+ <asp:UpdatePanel id="panelManageUpdate" runat="server" UpdateMode="Always">
+  <ContentTemplate>
+   <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
+    runat="server" ID="gridManage" AutoGenerateColumns="false" CssClass="sncore_account_table"
+    AllowPaging="true" AllowCustomPaging="true" PageSize="10">
+    <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
+    <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+    <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
+     PrevPageText="Prev" HorizontalAlign="Center" />
+    <Columns>
+     <asp:BoundColumn DataField="Id" Visible="false" />
+     <asp:BoundColumn DataField="Name" Visible="false" />
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <img src="images/account/discussions.gif" />
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn HeaderText="Discussion" ItemStyle-HorizontalAlign="Left">
+      <itemtemplate>
+       <a href="DiscussionView.aspx?id=<%# Eval("Id") %>">
+        <%# base.Render(Eval("Name")) %>
+       </a>
+       <div class="sncore_description">
+        <%# base.Render(Eval("Description")) %>
+       </div>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <a href="SystemDiscussionEdit.aspx?id=<%# Eval("Id") %>">Edit</a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />
+    </Columns>
+   </SnCoreWebControls:PagedGrid>
+  </ContentTemplate>
+ </asp:UpdatePanel>
 </asp:Content>
