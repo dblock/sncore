@@ -53,6 +53,26 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreWeb/
 		SlnRelativePath = "SnCore.Web\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreMobileWeb/", "http://localhost/SnCoreMobileWeb", "{629A5887-656E-4B93-870F-B5961F7528E2}"
+	ProjectSection(WebsiteProperties) = preProject
+		ProjectReferences = "{53F80219-6028-406B-819A-E79AE4D56995}|SnCore.Tools.dll;{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}|Wilco.Web.dll;{6AA41A44-B048-4370-A084-E7BE64DF2811}|SnCore.WebControls.dll;{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}|SnCore.Services.dll;{437F9693-8C20-49BD-A4FD-68A88E9A92C0}|SnCore.Data.Hibernate.dll;{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}|SnCore.BackEnd.dll;{615D15C5-42A4-4710-A713-D0678F7F7ED1}|SnCore.SiteMap.dll;{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}|SnCore.WebServices.dll;{4A323F3C-0EAF-40C9-AB0A-7A03BD7438B8}|SnCore.Data.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/SnCoreMobileWeb"
+		Debug.AspNetCompiler.PhysicalPath = "SnCore.MobileWeb\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\SnCoreMobileWeb\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/SnCoreMobileWeb"
+		Release.AspNetCompiler.PhysicalPath = "SnCore.MobileWeb\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\SnCoreMobileWeb\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "SnCore.MobileWeb\"
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Tools", "SnCore.Tools\SnCore.Tools.csproj", "{53F80219-6028-406B-819A-E79AE4D56995}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
@@ -173,6 +193,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data.Script", "SnCor
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "SnCore.MobileWeb.Deploy", "SnCore.MobileWeb.Deploy\SnCore.MobileWeb.Deploy.wdproj", "{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -265,6 +291,18 @@ Global
 		{6FDDCDCC-EBEE-405B-86B3-05A418A9B40D}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
 		{6FDDCDCC-EBEE-405B-86B3-05A418A9B40D}.Release|Mixed Platforms.Build.0 = Debug|.NET
 		{6FDDCDCC-EBEE-405B-86B3-05A418A9B40D}.Release|Win32.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Debug|.NET.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Debug|.NET.Build.0 = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Debug|Win32.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Release|.NET.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Release|.NET.Build.0 = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{629A5887-656E-4B93-870F-B5961F7528E2}.Release|Win32.ActiveCfg = Debug|.NET
 		{53F80219-6028-406B-819A-E79AE4D56995}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{53F80219-6028-406B-819A-E79AE4D56995}.Debug|.NET.Build.0 = Debug|Any CPU
 		{53F80219-6028-406B-819A-E79AE4D56995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -511,6 +549,18 @@ Global
 		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AF50F70B-06AD-41D1-BA82-8C6339C4A271}.Release|Win32.ActiveCfg = Release|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Release|.NET.ActiveCfg = Release|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

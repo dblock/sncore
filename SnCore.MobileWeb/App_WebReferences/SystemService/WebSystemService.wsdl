@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTitle">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTitleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTitleResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCopyright">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCopyrightResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCopyrightResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDescription">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDescriptionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUptime">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUptimeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetUptimeResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateConfiguration">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="configuration" type="tns:TransitConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitConfiguration">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfConfiguration">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Password" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfConfiguration" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateConfigurationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateConfigurationResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationByIdResult" type="tns:TransitConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetConfigurationsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetConfigurationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationsResult" type="tns:ArrayOfTransitConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitConfiguration">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitConfiguration" nillable="true" type="tns:TransitConfiguration" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteConfiguration">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteConfigurationResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetConfigurationByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationByNameResult" type="tns:TransitConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationValueResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameValueWithDefault">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="defaultvalue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameValueWithDefaultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationByNameValueWithDefaultResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameWithDefault">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="defaultvalue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameWithDefaultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationByNameWithDefaultResult" type="tns:TransitConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTypeColumns">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTypeColumnsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTypeColumnsResult" type="tns:ArrayOfSp_column" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSp_column">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="sp_column" nillable="true" type="tns:sp_column" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="sp_column">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TYPE_NAME" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TABLE_NAME" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TABLE_QUALIFIER" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TABLE_OWNER" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COLUMN_NAME" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DATA_TYPE" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="PRECISION" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LENGTH" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SCALE" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="RADIX" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="NULLABLE" type="s:short" />
+          <s:element minOccurs="0" maxOccurs="1" name="REMARKS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="COLUMN_DEF" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SQL_DATA_TYPE" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="SQL_DATETIME_SUB" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="CHAR_OCTET_LENGTH" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ORDINAL_POSITION" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="IS_NULLABLE" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SS_DATA_TYPE" type="s:short" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVersion" />
+  </wsdl:message>
+  <wsdl:message name="GetVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTitleSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTitle" />
+  </wsdl:message>
+  <wsdl:message name="GetTitleSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTitleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCopyrightSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCopyright" />
+  </wsdl:message>
+  <wsdl:message name="GetCopyrightSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCopyrightResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDescription" />
+  </wsdl:message>
+  <wsdl:message name="GetDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUptimeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUptime" />
+  </wsdl:message>
+  <wsdl:message name="GetUptimeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUptimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateConfigurationSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateConfigurationSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationById" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurations" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteConfigurationSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="DeleteConfigurationSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByName" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationValueSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationValue" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationValueSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameValueWithDefaultSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameValueWithDefault" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameValueWithDefaultSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameValueWithDefaultResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameWithDefaultSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameWithDefault" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameWithDefaultSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameWithDefaultResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTypeColumnsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTypeColumns" />
+  </wsdl:message>
+  <wsdl:message name="GetTypeColumnsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTypeColumnsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebSystemServiceSoap">
+    <wsdl:operation name="GetVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">System version.</wsdl:documentation>
+      <wsdl:input message="tns:GetVersionSoapIn" />
+      <wsdl:output message="tns:GetVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTitle">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">System title.</wsdl:documentation>
+      <wsdl:input message="tns:GetTitleSoapIn" />
+      <wsdl:output message="tns:GetTitleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCopyright">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Product copyright.</wsdl:documentation>
+      <wsdl:input message="tns:GetCopyrightSoapIn" />
+      <wsdl:output message="tns:GetCopyrightSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDescription">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Product description.</wsdl:documentation>
+      <wsdl:input message="tns:GetDescriptionSoapIn" />
+      <wsdl:output message="tns:GetDescriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUptime">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Product uptime in ticks.</wsdl:documentation>
+      <wsdl:input message="tns:GetUptimeSoapIn" />
+      <wsdl:output message="tns:GetUptimeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateConfiguration">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a configuration.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateConfigurationSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationByIdSoapIn" />
+      <wsdl:output message="tns:GetConfigurationByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all configurations count.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationsCountSoapIn" />
+      <wsdl:output message="tns:GetConfigurationsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurations">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all configurations.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationsSoapIn" />
+      <wsdl:output message="tns:GetConfigurationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfiguration">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a configuration.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteConfigurationSoapIn" />
+      <wsdl:output message="tns:DeleteConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration by name.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationByNameSoapIn" />
+      <wsdl:output message="tns:GetConfigurationByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration value by name.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationValueSoapIn" />
+      <wsdl:output message="tns:GetConfigurationValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByNameValueWithDefault">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration value by name with default.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationByNameValueWithDefaultSoapIn" />
+      <wsdl:output message="tns:GetConfigurationByNameValueWithDefaultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByNameWithDefault">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a configuration value by name with default.</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigurationByNameWithDefaultSoapIn" />
+      <wsdl:output message="tns:GetConfigurationByNameWithDefaultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeColumns">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the underlying domain model for a type.</wsdl:documentation>
+      <wsdl:input message="tns:GetTypeColumnsSoapIn" />
+      <wsdl:output message="tns:GetTypeColumnsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebSystemServiceSoap" type="tns:WebSystemServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTitle">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTitle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCopyright">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCopyright" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDescription">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDescription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUptime">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetUptime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateConfiguration">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurations">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfiguration">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValue">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByNameValueWithDefault">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByNameValueWithDefault" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByNameWithDefault">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByNameWithDefault" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeColumns">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetTypeColumns" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebSystemServiceSoap12" type="tns:WebSystemServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetVersion">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTitle">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTitle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCopyright">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCopyright" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDescription">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDescription" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUptime">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetUptime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateConfiguration">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurations">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteConfiguration">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationValue">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByNameValueWithDefault">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByNameValueWithDefault" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByNameWithDefault">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetConfigurationByNameWithDefault" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTypeColumns">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTypeColumns" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebSystemService">
+    <wsdl:port name="WebSystemServiceSoap" binding="tns:WebSystemServiceSoap">
+      <soap:address location="http://localhost/SnCoreWeb/WebSystemService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebSystemServiceSoap12" binding="tns:WebSystemServiceSoap12">
+      <soap12:address location="http://localhost/SnCoreWeb/WebSystemService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

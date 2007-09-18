@@ -1,0 +1,21 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="SnCore.master.cs" Inherits="SnCoreMasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+ <title>SnCore | sn foundation base</title>
+ <link rel="stylesheet" type="text/css" href="Style.css" />
+ <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body>
+ <div class="sncore_master_sitemappath">
+  <asp:Label ID="accountName" runat="server" />
+  <asp:SiteMapPath runat="server" ID="siteMapPath" />
+ </div>
+ <sncore:notice id="noticeMenu" enableviewstate="false" runat="server" />
+ <form class="sncore_master_form" id="formMain" runat="server">
+  <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+  </asp:ContentPlaceHolder>
+ </form>
+</body>
+</html>

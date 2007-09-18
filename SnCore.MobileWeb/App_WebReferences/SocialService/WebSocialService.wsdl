@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetNewAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetNewAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNewAccountsResult" type="tns:ArrayOfTransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccount" nillable="true" type="tns:TransitAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetActiveAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetActiveAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetActiveAccountsResult" type="tns:ArrayOfTransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountActivityCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryoptions" type="tns:AccountActivityQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountActivityQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="PicturesOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="BloggersOnly" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountActivityCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountActivityCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountActivity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="queryoptions" type="tns:AccountActivityQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountActivityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountActivityResult" type="tns:ArrayOfTransitAccountActivity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountActivity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountActivity" nillable="true" type="tns:TransitAccountActivity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountActivity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="NewFriends" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewPictures" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewDiscussionPosts" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NewSyndicatedContent" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="GetNDegreeCountById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="deg" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNDegreeCountByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNDegreeCountByIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFirstDegreeCountById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFirstDegreeCountByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFirstDegreeCountByIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsAccountActivityCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsAccountActivityCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFriendsAccountActivityCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsAccountActivity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFriendsAccountActivityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFriendsAccountActivityResult" type="tns:ArrayOfTransitAccountActivity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFriendRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="friendid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFriendRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFriendRequestResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptAccountFriendRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptAccountFriendRequestResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RejectAccountFriendRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RejectAccountFriendRequestResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSentAccountFriendRequestsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSentAccountFriendRequestsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetSentAccountFriendRequestsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriendRequestsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriendRequestsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFriendRequestsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSentAccountFriendRequests">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSentAccountFriendRequestsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSentAccountFriendRequestsResult" type="tns:ArrayOfTransitAccountFriendRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFriendRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFriendRequest" nillable="true" type="tns:TransitAccountFriendRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountFriendRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFriendRequest">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="KeenId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="KeenPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="KeenName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFriendRequest" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFriendRequests">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriendRequestsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFriendRequestsResult" type="tns:ArrayOfTransitAccountFriendRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFriendRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFriendRequestResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountFriendRequestById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriendRequestByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFriendRequestByIdResult" type="tns:TransitAccountFriendRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFriend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFriendResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountFriendsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriendsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFriendsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriends">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFriendsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFriendsResult" type="tns:ArrayOfTransitAccountFriend" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFriend">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFriend" nillable="true" type="tns:TransitAccountFriend" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountFriend">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFriend">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="FriendId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="FriendPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="FriendName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFriend" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetNewAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNewAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetNewAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNewAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetActiveAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetActiveAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetActiveAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountActivityCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountActivityCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountActivityCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountActivityCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountActivitySoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountActivity" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountActivitySoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNDegreeCountByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNDegreeCountById" />
+  </wsdl:message>
+  <wsdl:message name="GetNDegreeCountByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNDegreeCountByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFirstDegreeCountByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFirstDegreeCountById" />
+  </wsdl:message>
+  <wsdl:message name="GetFirstDegreeCountByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFirstDegreeCountByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsAccountActivityCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFriendsAccountActivityCount" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsAccountActivityCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFriendsAccountActivityCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsAccountActivitySoapIn">
+    <wsdl:part name="parameters" element="tns:GetFriendsAccountActivity" />
+  </wsdl:message>
+  <wsdl:message name="GetFriendsAccountActivitySoapOut">
+    <wsdl:part name="parameters" element="tns:GetFriendsAccountActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFriendRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFriendRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="AcceptAccountFriendRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:AcceptAccountFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="AcceptAccountFriendRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:AcceptAccountFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="RejectAccountFriendRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:RejectAccountFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="RejectAccountFriendRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:RejectAccountFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSentAccountFriendRequestsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSentAccountFriendRequestsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetSentAccountFriendRequestsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSentAccountFriendRequestsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendRequestsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendRequestsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendRequestsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendRequestsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSentAccountFriendRequestsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSentAccountFriendRequests" />
+  </wsdl:message>
+  <wsdl:message name="GetSentAccountFriendRequestsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSentAccountFriendRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendRequestsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendRequests" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendRequestsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFriendRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFriendRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendRequestByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendRequestById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendRequestByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendRequestByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFriendSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFriend" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFriendSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFriendResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFriends" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFriendsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFriendsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebSocialServiceSoap">
+    <wsdl:operation name="GetNewAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get new accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetNewAccountsSoapIn" />
+      <wsdl:output message="tns:GetNewAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveAccounts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get active accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetActiveAccountsSoapIn" />
+      <wsdl:output message="tns:GetActiveAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountActivityCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account activity count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountActivityCountSoapIn" />
+      <wsdl:output message="tns:GetAccountActivityCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountActivity">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account activity.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountActivitySoapIn" />
+      <wsdl:output message="tns:GetAccountActivitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNDegreeCountById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get n-th degree count.</wsdl:documentation>
+      <wsdl:input message="tns:GetNDegreeCountByIdSoapIn" />
+      <wsdl:output message="tns:GetNDegreeCountByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFirstDegreeCountById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get 1st degree count.</wsdl:documentation>
+      <wsdl:input message="tns:GetFirstDegreeCountByIdSoapIn" />
+      <wsdl:output message="tns:GetFirstDegreeCountByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsAccountActivityCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get friends activity count.</wsdl:documentation>
+      <wsdl:input message="tns:GetFriendsAccountActivityCountSoapIn" />
+      <wsdl:output message="tns:GetFriendsAccountActivityCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsAccountActivity">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get friends activity.</wsdl:documentation>
+      <wsdl:input message="tns:GetFriendsAccountActivitySoapIn" />
+      <wsdl:output message="tns:GetFriendsAccountActivitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFriendRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create a new friend request.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFriendRequestSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFriendRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountFriendRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Accept a friend request.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptAccountFriendRequestSoapIn" />
+      <wsdl:output message="tns:AcceptAccountFriendRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountFriendRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reject a friend request.</wsdl:documentation>
+      <wsdl:input message="tns:RejectAccountFriendRequestSoapIn" />
+      <wsdl:output message="tns:RejectAccountFriendRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSentAccountFriendRequestsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get friend request sent count by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetSentAccountFriendRequestsCountSoapIn" />
+      <wsdl:output message="tns:GetSentAccountFriendRequestsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequestsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get friend request count by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFriendRequestsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFriendRequestsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSentAccountFriendRequests">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get sent friend requests.</wsdl:documentation>
+      <wsdl:input message="tns:GetSentAccountFriendRequestsSoapIn" />
+      <wsdl:output message="tns:GetSentAccountFriendRequestsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequests">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get outstanding friend requests.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFriendRequestsSoapIn" />
+      <wsdl:output message="tns:GetAccountFriendRequestsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFriendRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a friend request.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFriendRequestSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFriendRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequestById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account friend request.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFriendRequestByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFriendRequestByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFriend">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a friend.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFriendSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFriendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get friends count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFriendsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFriendsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriends">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get friends.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFriendsSoapIn" />
+      <wsdl:output message="tns:GetAccountFriendsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebSocialServiceSoap" type="tns:WebSocialServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetNewAccounts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNewAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveAccounts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetActiveAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountActivityCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountActivityCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountActivity">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNDegreeCountById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNDegreeCountById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFirstDegreeCountById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFirstDegreeCountById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsAccountActivityCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsAccountActivityCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsAccountActivity">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsAccountActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFriendRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountFriendRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/AcceptAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountFriendRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/RejectAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSentAccountFriendRequestsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetSentAccountFriendRequestsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequestsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendRequestsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSentAccountFriendRequests">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetSentAccountFriendRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequests">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendRequests" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFriendRequest">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequestById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendRequestById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFriend">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFriend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriends">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriends" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebSocialServiceSoap12" type="tns:WebSocialServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetNewAccounts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNewAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveAccounts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetActiveAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountActivityCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountActivityCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountActivity">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountActivity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNDegreeCountById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNDegreeCountById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFirstDegreeCountById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFirstDegreeCountById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsAccountActivityCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsAccountActivityCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendsAccountActivity">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFriendsAccountActivity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFriendRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptAccountFriendRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/AcceptAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectAccountFriendRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/RejectAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSentAccountFriendRequestsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetSentAccountFriendRequestsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequestsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendRequestsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSentAccountFriendRequests">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetSentAccountFriendRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequests">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFriendRequest">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendRequestById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendRequestById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFriend">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFriend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriendsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriendsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFriends">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFriends" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebSocialService">
+    <wsdl:port name="WebSocialServiceSoap" binding="tns:WebSocialServiceSoap">
+      <soap:address location="http://localhost/SnCoreWeb/WebSocialService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebSocialServiceSoap12" binding="tns:WebSocialServiceSoap12">
+      <soap12:address location="http://localhost/SnCoreWeb/WebSocialService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

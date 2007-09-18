@@ -1,0 +1,99 @@
+﻿<!-- 
+  Microsoft Visual Studio 2005 Web Deployment Project 
+  http://go.microsoft.com/fwlink/?LinkId=55111
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.60403</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}</ProjectGuid>
+    <SourceWebPhysicalPath>..\SnCore.MobileWeb</SourceWebPhysicalPath>
+    <SourceWebProject>{629A5887-656E-4B93-870F-B5961F7528E2}|http://localhost/SnCoreMobileWeb</SourceWebProject>
+    <SourceWebVirtualPath>/SnCoreMobileWeb</SourceWebVirtualPath>
+    <SourceWebMetabasePath>/LM/W3SVC/1/ROOT/SnCoreMobileWeb/</SourceWebMetabasePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.\Debug</OutputPath>
+    <EnableUpdateable>true</EnableUpdateable>
+    <UseMerge>true</UseMerge>
+    <SingleAssemblyName>
+    </SingleAssemblyName>
+    <UseWebConfigReplacement>true</UseWebConfigReplacement>
+    <ContentAssemblyName>SnCore.MobileWeb.Deploy</ContentAssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>.\Release</OutputPath>
+    <EnableUpdateable>true</EnableUpdateable>
+    <UseMerge>true</UseMerge>
+    <SingleAssemblyName>
+    </SingleAssemblyName>
+    <ContentAssemblyName>SnCore.MobileWeb.Deploy</ContentAssemblyName>
+    <UseWebConfigReplacement>true</UseWebConfigReplacement>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <WebConfigReplacementFiles Include="Services.config">
+      <Section>appSettings</Section>
+    </WebConfigReplacementFiles>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <WebConfigReplacementFiles Include="Services.config">
+      <Section>appSettings</Section>
+    </WebConfigReplacementFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnCore.BackEnd\SnCore.BackEnd.csproj">
+      <Project>{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}</Project>
+      <Name>SnCore.BackEnd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
+      <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
+      <Name>SnCore.Data.Hibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data\SnCore.Data.csproj">
+      <Project>{4A323F3C-0EAF-40C9-AB0A-7A03BD7438B8}</Project>
+      <Name>SnCore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Services\SnCore.Services.csproj">
+      <Project>{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}</Project>
+      <Name>SnCore.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.SiteMap\SnCore.SiteMap.csproj">
+      <Project>{615D15C5-42A4-4710-A713-D0678F7F7ED1}</Project>
+      <Name>SnCore.SiteMap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.Tools\SnCore.Tools.csproj">
+      <Project>{53F80219-6028-406B-819A-E79AE4D56995}</Project>
+      <Name>SnCore.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.WebControls\SnCore.WebControls.csproj">
+      <Project>{6AA41A44-B048-4370-A084-E7BE64DF2811}</Project>
+      <Name>SnCore.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SnCore.WebServices\SnCore.WebServices.csproj">
+      <Project>{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}</Project>
+      <Name>SnCore.WebServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wilco.Web\Wilco.Web\Wilco.Web.csproj">
+      <Project>{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}</Project>
+      <Name>Wilco.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v8.0\Microsoft.WebDeployment.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.WebDeployment.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="BeforeMerge">
+  </Target>
+  <Target Name="AfterMerge">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

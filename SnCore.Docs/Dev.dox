@@ -32,9 +32,16 @@ for you.
 Follow the normal \ref install. Visual Studio will create the websites for you, so you can skip that step. Once you have your
 SnCore website running you're ready to go.
 
-On Windows Vista, edit Physical Path Credentials in Advanced Settings and set a specific account to run the virtual
-directory under and set r/w permissions for the <em>NETWORK SERVICE</em> account on the SnCore.Web/Bin and the 
-SnCore.Web/IsapiRewrite directories.
+\subsection dev_install_vista Windows Vista
+
+On Windows Vista, some security restrictions must be lifted.
+
+\li Edit Physical Path Credentials in Advanced Settings and set a specific account to run the virtual
+    directory under.
+\li Set r/w permissions for the <em>NETWORK SERVICE</em> account on the SnCore.Web/Bin, SnCore.MobileWeb,
+    SnCore.Web/IsapiRewrite and SnCore.MobileWeb/IsapiRewrite directories.
+\li In registry, create HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Eventlog\\Application\\<b>SnCoreWeb</b>
+    and <b>SnCoreMobileWeb</b>.
 
 \section dev_datalifecycle Data LifeCycle
 

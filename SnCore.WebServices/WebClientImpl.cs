@@ -20,7 +20,11 @@ namespace SnCore.WebServices
         }
     }
 
-    public abstract class WebClientImpl<TransitType>
+    public abstract class WebClientImpl<TransitType> : WebClientImpl2<TransitType, ServiceQueryOptions>
+    {
+    }
+
+    public abstract class WebClientImpl2<TransitType, ServiceQueryOptionsType>
     {
         #region Cache Keys
 
@@ -85,12 +89,12 @@ namespace SnCore.WebServices
 
         #region Collection
 
-        #region ticket + ServiceQueryOptions
+        #region ticket + ServiceQueryOptionsType
 
-        public delegate IList<TransitType> GetCollectionDelegate(string ticket, ServiceQueryOptions options);
+        public delegate IList<TransitType> GetCollectionDelegate(string ticket, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection(
-            string ticket, ServiceQueryOptions options, GetCollectionDelegate functor, Cache cache, TimeSpan ts)
+            string ticket, ServiceQueryOptionsType options, GetCollectionDelegate functor, Cache cache, TimeSpan ts)
         {
             if (cache == null) return functor(ticket, options);
             object[] args = { options };
@@ -110,13 +114,13 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region ticket + arg1 + ServiceQueryOptions
+        #region ticket + arg1 + ServiceQueryOptionsType
 
         public delegate IList<TransitType> GetCollectionDelegate<TypeArg1>(
-            string ticket, TypeArg1 arg1, ServiceQueryOptions options);
+            string ticket, TypeArg1 arg1, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection<TypeArg1>(
-            string ticket, TypeArg1 arg1, ServiceQueryOptions options, 
+            string ticket, TypeArg1 arg1, ServiceQueryOptionsType options, 
             GetCollectionDelegate<TypeArg1> functor, Cache cache, TimeSpan ts)
         {
             if (cache == null) return functor(ticket, arg1, options);
@@ -137,13 +141,13 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region ticket + arg1 + arg2 + ServiceQueryOptions
+        #region ticket + arg1 + arg2 + ServiceQueryOptionsType
 
         public delegate IList<TransitType> GetCollectionDelegate<TypeArg1, TypeArg2>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptions options);
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection<TypeArg1, TypeArg2>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptions options, 
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptionsType options, 
             GetCollectionDelegate<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts)
         {
             if (cache == null) return functor(ticket, arg1, arg2, options);
@@ -164,13 +168,13 @@ namespace SnCore.WebServices
 
         #endregion
 
-        #region ticket + arg1 + arg2 + arg3 + ServiceQueryOptions
+        #region ticket + arg1 + arg2 + arg3 + ServiceQueryOptionsType
 
         public delegate IList<TransitType> GetCollectionDelegate<TypeArg1, TypeArg2, TypeArg3>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3, ServiceQueryOptions options);
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection<TypeArg1, TypeArg2, TypeArg3>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3, ServiceQueryOptions options,
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3, ServiceQueryOptionsType options,
             GetCollectionDelegate<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts)
         {
             if (cache == null) return functor(ticket, arg1, arg2, arg3, options);
