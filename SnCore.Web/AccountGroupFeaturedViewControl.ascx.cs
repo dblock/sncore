@@ -11,52 +11,54 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Collections.Generic;
 using SnCore.Tools.Web;
+using SnCore.WebServices;
 
 public partial class AccountGroupFeaturedViewControl : Control
 {
-    private TransitFeature mFeature = null;
-    private TransitAccountGroup mAccountGroup = null;
-
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            panelFeatured.Visible = (Feature != null);
-            if (Feature != null && AccountGroup != null)
-            {
-                linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountGroupView.aspx?id={0}", Feature.DataRowId);
-                labelFeatureName.Text = Renderer.Render(AccountGroup.Name);
-                labelFeatureDescription.Text = Renderer.GetSummary(AccountGroup.Description);
-                imgFeature.Src = string.Format("AccountGroupPictureThumbnail.aspx?id={0}", AccountGroup.PictureId);
-            }
+            GetData(sender, e);
+            //panelFeatured.Visible = (Feature != null);
+            //if (Feature != null && AccountGroup != null)
+            //{
+            //    linkFeature2.HRef = linkFeature3.HRef = string.Format("AccountGroupView.aspx?id={0}", Feature.DataRowId);
+            //    labelFeatureName.Text = Renderer.Render(AccountGroup.Name);
+            //    labelFeatureDescription.Text = Renderer.GetSummary(AccountGroup.Description);
+            //    imgFeature.Src = string.Format("AccountGroupPictureThumbnail.aspx?id={0}", AccountGroup.PictureId);
+            //}
         }
     }
 
-    public TransitFeature Feature
-    {
-        get
-        {
-            if (mFeature == null)
-            {
-                mFeature = SessionManager.GetInstance<TransitFeature, string>(
-                    "AccountGroup", SessionManager.ObjectService.GetLatestFeature);
-            }
+    //public TransitFeature Feature
+    //{
+    //    get
+    //    {
+    //        if (mFeature == null)
+    //        {
+    //            mFeature = SessionManager.GetInstance<TransitFeature, string>(
+    //                "AccountGroup", SessionManager.ObjectService.GetLatestFeature);
+    //        }
 
-            return mFeature;
-        }
+    //        return mFeature;
+    //    }
+    //}
+
+    public TransitAccountGroup GetAccountGroup(int id)
+    {
+        return SessionManager.GetInstance<TransitAccountGroup, int>(
+            id, SessionManager.GroupService.GetAccountGroupById);
     }
 
-    public TransitAccountGroup AccountGroup
+    protected void GetData(object sender, EventArgs e)
     {
-        get
-        {
-            if (mAccountGroup == null)
-            {
-                mAccountGroup = SessionManager.GetInstance<TransitAccountGroup, int>(
-                    Feature.DataRowId, SessionManager.GroupService.GetAccountGroupById);
-            }
-
-            return mAccountGroup;
-        }
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = 0;
+        options.PageSize = gridManage.PageSize;
+        gridManage.CurrentPageIndex = 0;
+        gridManage.DataSource = SessionManager.GetCollection<TransitFeature, string>(
+            "AccountGroup", options, SessionManager.ObjectService.GetFeatures);
+        gridManage.DataBind();
     }
 }

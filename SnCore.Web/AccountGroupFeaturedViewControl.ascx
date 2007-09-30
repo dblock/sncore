@@ -1,5 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountGroupFeaturedViewControl.ascx.cs"
  Inherits="AccountGroupFeaturedViewControl" %>
+<%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="FeaturedAccountGroupsRss.aspx" 
@@ -22,24 +23,28 @@
   </span>
  </div>
 </asp:Panel>
-<asp:Panel runat="server" ID="panelFeatured">
- <table cellpadding="2" cellspacing="0" class="sncore_half_table">
-  <tr>
-   <td valign="top">
-    <a runat="server" id="linkFeature2">
-     <img border="0" id="imgFeature" runat="server" />
+<asp:DataGrid CellPadding="2" runat="server" ID="gridManage" PageSize="3"
+ AllowPaging="false" AutoGenerateColumns="false" CssClass="sncore_half_table" ShowHeader="false">
+ <Columns>
+  <asp:BoundColumn DataField="Id" Visible="false" />
+  <asp:TemplateColumn  ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top">
+   <itemtemplate>
+    <a href='<%# string.Format("AccountGroupView.aspx?id={0}", Eval("DataRowId")) %>'>
+     <img border="0" src='<%# string.Format("AccountGroupPictureThumbnail.aspx?id={0}", GetAccountGroup((int) Eval("DataRowId")).PictureId) %>' />
     </a>
-   </td>
-   <td width="*" valign="top">
+   </itemtemplate>
+  </asp:TemplateColumn>
+  <asp:TemplateColumn ItemStyle-VerticalAlign="Top">
+   <itemtemplate>
     <div class="sncore_title">
-     <a runat="server" id="linkFeature3">
-      <asp:Label ID="labelFeatureName" runat="server" />
+     <a href="<%# string.Format("AccountGroupView.aspx?id={0}", Eval("DataRowId")) %>">
+      <%# Renderer.Render(GetAccountGroup((int) Eval("DataRowId")).Name) %>
      </a>
     </div>
     <div class="sncore_description">
-     <asp:Label ID="labelFeatureDescription" runat="server" />
+      <%# Renderer.Render(GetAccountGroup((int)Eval("DataRowId")).Description) %>
     </div>
-   </td>
-  </tr>
- </table>
-</asp:Panel>
+   </itemtemplate>
+  </asp:TemplateColumn>
+ </Columns>
+</asp:DataGrid>
