@@ -14,10 +14,19 @@ public partial class SnCoreMasterPage : MasterPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        if (SessionManager.IsLoggedIn)
+        if (!IsPostBack)
         {
-            accountName.Text = string.Format("{0} &gt;", 
-                Renderer.Render(SessionManager.Account.Name));
+            Page.Title = string.Format("{0} - {1}", 
+                SessionManager.WebsiteTitle, Page.Title);
+
+            siteMapPathRoot.Text = string.Format("{0} &gt;",
+                Renderer.Render(SessionManager.WebsiteName));
+
+            if (SessionManager.IsLoggedIn)
+            {
+                siteMapPathAccountName.Text = string.Format("{0} &gt;",
+                    Renderer.Render(SessionManager.Account.Name));
+            }
         }
     }
 }

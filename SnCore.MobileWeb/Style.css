@@ -11,10 +11,13 @@ body ul.menu li { color: Green; text-decoration: none; list-style-type: none; }
 .sncore_notice_error { margin: 10px; font-weight: bold; color: red; }
 .sncore_notice_warning { margin: 10px; font-weight: bold; color: orange; }
 .sncore_form { border: 1px #eeeeee solid; }
-.sncore_form_label { font-weight: bold; width: 150px; text-align: right; }
+.sncore_form_label { font-weight: bold; width: 100px; text-align: right; }
 .sncore_form_value { text-align: left; }
-.sncore_form_textbox { font-family: Verdana; width: 200px; font-size: 10pt; text-align: left; border: 1px black solid; }
+.sncore_form_textbox { font-family: Verdana; width: 150px; font-size: 10pt; text-align: left; border: 1px black solid; }
 .sncore_form_checkbox { font-family: Verdana; width: 100px; }
 .sncore_form_radiobutton { font-family: Verdana; width: 100px; font-weight: bold; }
-.sncore_form_dropdown { font-family: Verdana; width: 190px; }
+.sncore_form_dropdown { font-family: Verdana; width: 140px; }
 .sncore_form_button { font-family: Verdana; background-color: #dcdcdc; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; width: 100px; }
+.sncore_master_sitemappath { overflow: hidden; font-family: Verdana, Sans-Serif; font-size: 8pt; }
+.sncore_table_cities { margin-left: 5px; font-family: Tahoma; font-size: 8pt; }
+.sncore_place_neighborhoods { margin-left: 10px; font-family: Tahoma; font-size: 8pt; }

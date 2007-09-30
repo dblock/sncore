@@ -70,7 +70,13 @@ public partial class AccountView : Page
             accountState.Text = Renderer.Render(Account.State);
             accountCountry.Text = Renderer.Render(Account.Country);
             accountName.Text = Renderer.Render(Account.Name);
-            accountId.Text = string.Format("account id: #{0}", Account.Id);
+
+            accountImage.Visible = Account.PictureId != 0;
+            accountImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}",
+                Account.PictureId);
+
+            accountLinkPictures.HRef = string.Format("AccountPicturesView.aspx?id={0}",
+                Account.Id);
         }
     }
 }

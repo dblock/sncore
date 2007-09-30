@@ -9,7 +9,8 @@
 </head>
 <body>
  <div class="sncore_master_sitemappath">
-  <asp:Label ID="accountName" runat="server" />
+  <asp:HyperLink ID="siteMapPathRoot" runat="server" NavigateUrl="~/Welcome.aspx" />
+  <asp:Label ID="siteMapPathAccountName" runat="server" />
   <asp:SiteMapPath runat="server" ID="siteMapPath" />
  </div>
  <sncore:notice id="noticeMenu" enableviewstate="false" runat="server" />

@@ -6,7 +6,7 @@
  <table class="sncore_table">
   <tr>
    <td class="sncore_form_label">
-    e-mail address:
+    e-mail:
    </td>
    <td class="sncore_form_value">
     <asp:TextBox CssClass="sncore_form_textbox" ID="loginEmailAddress" runat="server" />

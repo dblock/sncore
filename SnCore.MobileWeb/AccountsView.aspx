@@ -6,7 +6,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <sncorewebcontrols:pagedlist cellpadding="4" runat="server" id="gridManage" 
-  allowcustompaging="true" repeatcolumns="1" repeatrows="10" repeatdirection="Horizontal"
+  allowcustompaging="true" repeatcolumns="1" repeatrows="7" repeatdirection="Horizontal"
   cssclass="sncore_table" showheader="false">
   <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
    prevpagetext="Prev" horizontalalign="Center" />

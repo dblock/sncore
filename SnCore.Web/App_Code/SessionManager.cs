@@ -336,6 +336,14 @@ public class SessionManager
         }
     }
 
+    public WebObjectService ObjectService
+    {
+        get
+        {
+            return CachedWebService<WebObjectService>.GetEndPoint(Cache);
+        }
+    }
+
     public WebBugService BugService
     {
         get
@@ -445,14 +453,6 @@ public class SessionManager
         get
         {
             return CachedWebService<WebBlogService>.GetEndPoint(Cache);
-        }
-    }
-
-    public WebObjectService ObjectService
-    {
-        get
-        {
-            return CachedWebService<WebObjectService>.GetEndPoint(Cache);
         }
     }
 

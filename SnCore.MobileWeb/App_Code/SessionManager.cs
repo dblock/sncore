@@ -67,6 +67,22 @@ public class SessionManager
         }
     }
 
+    public string WebsiteTitle
+    {
+        get
+        {
+            return GetCachedConfiguration("SnCore.Title", "SnCore");
+        }
+    }
+
+    public string WebsiteName
+    {
+        get
+        {
+            return GetCachedConfiguration("SnCore.Name", "SnCore");
+        }
+    }
+
     public string GetCachedConfiguration(string name, string defaultvalue)
     {
         return GetInstance<SystemService.TransitConfiguration, SystemService.ServiceQueryOptions, string, string>(
@@ -286,6 +302,14 @@ public class SessionManager
 
     #region Web Services
 
+    public ObjectService.WebObjectService ObjectService
+    {
+        get
+        {
+            return CachedWebService<ObjectService.WebObjectService>.GetEndPoint(Cache);
+        }
+    }
+
     public AccountService.WebAccountService AccountService
     {
         get
@@ -294,11 +318,27 @@ public class SessionManager
         }
     }
 
+    public PlaceService.WebPlaceService PlaceService
+    {
+        get
+        {
+            return CachedWebService<PlaceService.WebPlaceService>.GetEndPoint(Cache);
+        }
+    }
+
     public SocialService.WebSocialService SocialService
     {
         get
         {
             return CachedWebService<SocialService.WebSocialService>.GetEndPoint(Cache);
+        }
+    }
+
+    public LocationService.WebLocationService LocationService
+    {
+        get
+        {
+            return CachedWebService<LocationService.WebLocationService>.GetEndPoint(Cache);
         }
     }
 
