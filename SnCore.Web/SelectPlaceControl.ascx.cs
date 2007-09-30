@@ -59,18 +59,41 @@ public partial class SelectPlaceControl : Control
         }
     }
 
+    private void GetPlaceTypes(object sender, EventArgs e)
+    {
+        List<TransitPlaceType> types = SessionManager.PlaceService.GetPlaceTypes(SessionManager.Ticket, null);
+
+        TransitPlaceType selected = null;
+        foreach (TransitPlaceType Placetype in types)
+        {
+            if (Placetype.DefaultType)
+            {
+                selected = Placetype;
+                break;
+            }
+        }
+
+        if (selected == null)
+        {
+            types.Insert(0, new TransitPlaceType());
+        }
+
+        selectType.DataSource = types;
+        selectType.DataBind();
+
+        if (selected != null)
+        {
+            selectType.Items.FindByValue(selected.Name).Selected = true;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         PageManager.SetDefaultButton(buttonLookup, panelLookup.Controls);
 
         if (!IsPostBack)
         {
-            List<TransitPlaceType> types = new List<TransitPlaceType>();
-            types.Add(new TransitPlaceType());
-            types.AddRange(SessionManager.GetCollection<TransitPlaceType>(
-                (ServiceQueryOptions) null, SessionManager.PlaceService.GetPlaceTypes));
-            selectType.DataSource = types;
-            selectType.DataBind();
+            GetPlaceTypes(sender, e);
 
             List<TransitCountry> countries = new List<TransitCountry>();
             countries.Add(new TransitCountry());
