@@ -42,7 +42,7 @@
      </a>
     </div>
     <div class="sncore_description">
-      <%# Renderer.Render(GetAccountGroup((int)Eval("DataRowId")).Description) %>
+      <%# Renderer.GetSummary(GetAccountGroup((int)Eval("DataRowId")).Description) %>
     </div>
    </itemtemplate>
   </asp:TemplateColumn>

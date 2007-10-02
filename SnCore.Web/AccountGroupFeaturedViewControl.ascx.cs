@@ -31,20 +31,6 @@ public partial class AccountGroupFeaturedViewControl : Control
         }
     }
 
-    //public TransitFeature Feature
-    //{
-    //    get
-    //    {
-    //        if (mFeature == null)
-    //        {
-    //            mFeature = SessionManager.GetInstance<TransitFeature, string>(
-    //                "AccountGroup", SessionManager.ObjectService.GetLatestFeature);
-    //        }
-
-    //        return mFeature;
-    //    }
-    //}
-
     public TransitAccountGroup GetAccountGroup(int id)
     {
         return SessionManager.GetInstance<TransitAccountGroup, int>(
