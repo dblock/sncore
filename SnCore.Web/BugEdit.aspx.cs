@@ -53,9 +53,16 @@ public partial class BugEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputSubject.Text = bug.Subject;
                 inputDetails.Text = bug.Details;
+
+                selectPriority.ClearSelection();
                 selectPriority.Items.FindByValue(bug.Priority).Selected = true;
+
+                selectSeverity.ClearSelection();
                 selectSeverity.Items.FindByValue(bug.Severity).Selected = true;
+
+                selectType.ClearSelection();
                 selectType.Items.FindByValue(bug.Type).Selected = true;
+
                 linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", bug.Id);
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("#{0}: {1}", bug.Id, bug.Subject), Request.Url));
@@ -63,7 +70,11 @@ public partial class BugEdit : AuthenticatedPage
             else
             {
                 string type = Request.QueryString["type"];
-                if (type != null) selectType.Items.FindByValue(type).Selected = true;
+                if (type != null)
+                {
+                    selectType.ClearSelection();
+                    selectType.Items.FindByValue(type).Selected = true;
+                }
                 linkBack.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", ProjectId);
 
                 if (Request.QueryString["url"] != null)

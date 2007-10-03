@@ -229,4 +229,10 @@ public partial class AccountEventView : Page
         Response.Write(vcsContent);
         Response.End();
     }
+
+    public void linkDelete_Click(object sender, EventArgs e)
+    {
+        SessionManager.Delete<TransitAccountEvent>(RequestId, SessionManager.EventService.DeleteAccountEvent);
+        Redirect("AccountEventsToday.aspx");
+    }
 }

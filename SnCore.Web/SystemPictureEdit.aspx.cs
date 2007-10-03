@@ -34,6 +34,7 @@ public partial class SystemPictureEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputDescription.Text = t.Description;
+                inputType.ClearSelection();
                 inputType.Items.FindByValue(t.Type).Selected = true;
                 imageThumbnail.ImageUrl = string.Format("SystemPictureThumbnail.aspx?id={0}&CacheDuration=0", t.Id);
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));

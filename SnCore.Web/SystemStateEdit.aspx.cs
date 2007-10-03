@@ -39,6 +39,7 @@ public partial class SystemStateEdit : AuthenticatedPage
                 TransitState tw = SessionManager.LocationService.GetStateById(
                     SessionManager.Ticket, id);
                 inputName.Text = Renderer.Render(tw.Name);
+                inputCountry.ClearSelection();
                 inputCountry.Items.FindByValue(tw.Country).Selected = true;
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }

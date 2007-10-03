@@ -71,6 +71,7 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
 
+                inputTypeName.ClearSelection();
                 ListItem typeitem = inputTypeName.Items.FindByValue(t.TypeName);
 
                 if (typeitem == null)

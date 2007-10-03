@@ -174,7 +174,9 @@ public partial class ScheduleControl : Control
         for (int i = 0; i < 7; i++)
         {
             if ((Schedule.WeeklyDaysOfWeek & (short)Math.Pow(2, i)) > 0)
+            {
                 recWeeklyDaysOfWeek.Items.FindByValue(i.ToString()).Selected = true;
+            }
         }
     }
 

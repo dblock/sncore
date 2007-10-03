@@ -55,11 +55,12 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
         TimeSpan ts = (TimeSpan)mSelectedTime;
 
         ListItem item = selecttimeDropdown.Items.FindByValue(ts.Ticks.ToString());
-        
-        if (item == null)
-            return;
 
-        item.Selected = true;
+        if (item != null)
+        {
+            selecttimeDropdown.ClearSelection();
+            item.Selected = true;
+        }
     }
 
     protected override void OnPreRender(EventArgs e)

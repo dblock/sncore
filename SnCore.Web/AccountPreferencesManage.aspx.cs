@@ -114,7 +114,10 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputState.DataSource = states;
             inputState.DataBind();
 
+            inputCountry.ClearSelection();
             inputCountry.Items.FindByValue(SessionManager.Account.Country).Selected = true;
+
+            inputState.ClearSelection();
             inputState.Items.FindByValue(SessionManager.Account.State).Selected = true;
 
             inputSignature.Text = SessionManager.Account.Signature;

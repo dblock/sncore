@@ -67,6 +67,10 @@
           <div>
            <asp:HyperLink runat="server" ID="linkEdit" Text="&#187; Edit Event" />
           </div>
+          <div>
+           <asp:LinkButton runat="server" ID="linkDelete" Text="&#187; Delete Event" OnClick="linkDelete_Click" 
+            OnClientClick="return confirm('Are you sure you want to delete this event?')"/>           
+          </div>
          </asp:Panel>
          <asp:Panel ID="panelAdmin" runat="server">
           <div>

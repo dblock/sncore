@@ -37,10 +37,13 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
                 TransitNeighborhood tc = SessionManager.LocationService.GetNeighborhoodById(
                     SessionManager.Ticket, RequestId);
                 inputName.Text = tc.Name;
+                inputCountry.ClearSelection();
                 inputCountry.Items.FindByValue(tc.Country).Selected = true;
                 inputCountry_SelectedIndexChanged(sender, e);
+                inputState.ClearSelection();
                 inputState.Items.FindByValue(tc.State).Selected = true;
                 inputState_SelectedIndexChanged(sender, e);
+                inputCity.ClearSelection();
                 inputCity.Items.FindByValue(tc.City).Selected = true;
                 sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
             }

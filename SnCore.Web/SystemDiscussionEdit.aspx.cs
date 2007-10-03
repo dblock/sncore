@@ -42,7 +42,11 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
                 if (tw.Personal) inputName.Enabled = false;
                 inputDescription.Text = Renderer.Render(tw.Description);
                 ListItem defaultview = inputDefaultView.Items.FindByValue(tw.DefaultView);
-                if (defaultview != null) { inputDefaultView.ClearSelection(); defaultview.Selected = true; }
+                if (defaultview != null) 
+                { 
+                    inputDefaultView.ClearSelection(); 
+                    defaultview.Selected = true; 
+                }
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }
             else

@@ -37,17 +37,18 @@ public partial class SystemReminderEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputUrl.Text = t.Url;
 
+                inputDeltaHours.ClearSelection();
                 ListItem deltaHoursItem = inputDeltaHours.Items.FindByValue(t.DeltaHours.ToString());
                 if (deltaHoursItem == null)
                 {
                     deltaHoursItem = new ListItem(string.Format("Every {0} Hours", t.DeltaHours), t.DeltaHours.ToString());
                     inputDeltaHours.Items.Add(deltaHoursItem);
                 }
+                deltaHoursItem.Selected = true;
 
+                inputDataObjectField.ClearSelection();
                 inputDataObjectField.Items.FindByValue(t.DataObjectField).Selected = true;
 
-                inputDeltaHours.ClearSelection();
-                deltaHoursItem.Selected = true;
                 inputEnabled.Checked = t.Enabled;
                 inputRecurrent.Checked = t.Recurrent;
 

@@ -25,6 +25,7 @@ public partial class TagWordsManage : AuthenticatedPage
         {
             listboxSelectType.DataSource = Enum.GetNames(typeof(TransitTagWordQueryOptions));
             listboxSelectType.DataBind();
+            listboxSelectType.ClearSelection();
             listboxSelectType.Items.FindByValue("New").Selected = true;
             listboxSelectType_SelectedIndexChanged(sender, e);
 

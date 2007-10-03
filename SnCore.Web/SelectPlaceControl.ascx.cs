@@ -83,6 +83,7 @@ public partial class SelectPlaceControl : Control
 
         if (selected != null)
         {
+            selectType.ClearSelection();
             selectType.Items.FindByValue(selected.Name).Selected = true;
         }
     }

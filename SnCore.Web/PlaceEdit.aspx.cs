@@ -79,6 +79,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 inputStreet.Text = place.Street;
                 inputWebsite.Text = place.Website;
                 inputZip.Text = place.Zip;
+                selectType.ClearSelection();
                 selectType.Items.FindByValue(place.Type).Selected = true;
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
                 linkEditAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
@@ -95,7 +96,11 @@ public partial class PlaceEdit : AuthenticatedPage
                 if (!string.IsNullOrEmpty(type))
                 {
                     ListItem i_type = selectType.Items.FindByValue(type);
-                    if (i_type != null) i_type.Selected = true;
+                    if (i_type != null)
+                    {
+                        selectType.ClearSelection();
+                        i_type.Selected = true;
+                    }
                 }
 
                 string name = Request.QueryString["name"];
@@ -259,6 +264,7 @@ public partial class PlaceEdit : AuthenticatedPage
 
         if (selected != null)
         {
+            selectType.ClearSelection();
             selectType.Items.FindByValue(selected.Name).Selected = true;
         }
     }

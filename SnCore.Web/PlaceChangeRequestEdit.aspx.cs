@@ -84,6 +84,7 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 inputStreet.Text = request.Street;
                 inputWebsite.Text = request.Website;
                 inputZip.Text = request.Zip;
+                selectType.ClearSelection();
                 selectType.Items.FindByValue(request.Type).Selected = true;
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(request));
 
@@ -104,6 +105,7 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 inputStreet.Text = place.Street;
                 inputWebsite.Text = place.Website;
                 inputZip.Text = place.Zip;
+                selectType.ClearSelection();
                 selectType.Items.FindByValue(place.Type).Selected = true;
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
             }

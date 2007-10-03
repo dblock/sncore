@@ -51,6 +51,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                 inputEmail.Text = tav.Email;
                 inputCost.Text = tav.Cost;
                 inputPublish.Checked = tav.Publish;
+                selectType.ClearSelection();
                 selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
                 schedule.Schedule = SessionManager.ObjectService.GetScheduleById(SessionManager.Ticket, tav.ScheduleId);
                 place.Place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
@@ -68,8 +69,11 @@ public partial class AccountEventEdit : AuthenticatedPage
                 inputEmail.Text = emitter.AccountEvent.Email;
                 inputCost.Text = emitter.AccountEvent.Cost;
                 inputPublish.Checked = emitter.AccountEvent.Publish;
-                if (!string.IsNullOrEmpty(emitter.AccountEvent.AccountEventType)) 
+                if (!string.IsNullOrEmpty(emitter.AccountEvent.AccountEventType))
+                {
+                    selectType.ClearSelection();
                     selectType.Items.FindByValue(emitter.AccountEvent.AccountEventType).Selected = true;
+                }
                 schedule.Schedule = emitter.Schedule;
                 place.Place = emitter.Place;
                 titleEvent.Text = Renderer.Render(emitter.AccountEvent.Name);
@@ -186,7 +190,14 @@ public partial class AccountEventEdit : AuthenticatedPage
 
         if (selected != null)
         {
+            selectType.ClearSelection();
             selectType.Items.FindByValue(selected.Name).Selected = true;
         }
+    }
+
+    public void linkDelete_Click(object sender, EventArgs e)
+    {
+        SessionManager.Delete<TransitAccountEvent>(RequestId, SessionManager.EventService.DeleteAccountEvent);
+        Redirect("AccountEventsToday.aspx");
     }
 }

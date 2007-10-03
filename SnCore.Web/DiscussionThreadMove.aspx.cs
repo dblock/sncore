@@ -39,6 +39,7 @@ public partial class DiscussionThreadMove : Page
                 SessionManager.Ticket, null);
             listDiscussions.DataBind();
 
+            listDiscussions.ClearSelection();
             listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

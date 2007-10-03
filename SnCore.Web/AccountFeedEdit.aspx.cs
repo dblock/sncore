@@ -227,6 +227,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
         if (selected != null)
         {
+            selectType.ClearSelection();
             selectType.Items.FindByValue(selected.Name).Selected = true;
         }
     }

@@ -61,6 +61,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
                 inputUrl.Text = Renderer.Render(attribute.Url);
                 inputDefaultUrl.Text = Renderer.Render(attribute.Attribute.DefaultUrl);
                 inputDefaultValue.Text = Renderer.Render(attribute.Attribute.DefaultValue);
+                listAttributes.ClearSelection();
                 listAttributes.Items.FindByValue(attribute.AttributeId.ToString()).Selected = true;
                 listAttributes.Enabled = false;
                 previewImage.ImageUrl = string.Format("SystemAttribute.aspx?id={0}", attribute.AttributeId);

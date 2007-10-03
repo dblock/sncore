@@ -127,7 +127,9 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         if (!IsPostBack && mSelectedDateTime != null)
         {
             DateTime d = (DateTime) mSelectedDateTime;
+            selectdateMonth.ClearSelection();
             selectdateMonth.Items.FindByValue(d.Month.ToString()).Selected = true;
+            selectdateDay.ClearSelection();
             selectdateDay.Items.FindByValue(d.Day.ToString()).Selected = true;
 
             ListItem selectedYearItem = selectdateYear.Items.FindByValue(d.Year.ToString());

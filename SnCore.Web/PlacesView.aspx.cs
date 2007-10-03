@@ -111,6 +111,7 @@ public partial class PlacesView : Page
                 ListItem type = mType.Items.FindByValue(e.Type);
                 if (type != null)
                 {
+                    mType.ClearSelection();
                     type.Selected = true;
                     result = true;
                 }
