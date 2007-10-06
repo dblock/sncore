@@ -295,6 +295,8 @@ public partial class PlaceView : Page
                 panelPropertyGroups.Visible = false;
                 discussionPlaces.Visible = false;
                 madlibs.Visible = false;
+                panelInfo.Visible = false;
+                panelCounter.Visible = false;
                 linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
             }
         }

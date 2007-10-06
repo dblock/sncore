@@ -34,37 +34,41 @@
            <asp:HyperLink ID="placeType" runat="server" />
           </div>
           <div class="sncore_link">
-           <div>
-             <asp:Label ID="placeAddress" runat="server" />
-           </div>
-           <div>
-            <asp:HyperLink ID="placeNeighborhood" runat="server" />
-           </div>
-           <div>
-            <asp:HyperLink ID="placeCity" runat="server" />
-            <asp:HyperLink ID="placeState" runat="server" />
-           </div>
-           <div>
-            <asp:HyperLink ID="placeCountry" runat="server" />
-            <asp:Label ID="placeZip" runat="server" />
-           </div>
-           <div>
-             <asp:Label ID="placeCrossStreet" runat="server" />
-           </div>
-           <div>
-            <asp:Label ID="placePhone" runat="server" />
-           </div>
-           <div>
-            <asp:Label ID="placeFax" runat="server" />
-           </div>
-           <div>
-            <asp:HyperLink ID="placeWebsite" runat="server" Text="&#187; website" Target="_blank" />
-            <asp:HyperLink ID="placeEmail" runat="server" Text="&#187; e-mail" Target="_blank" />
-           </div>
+           <asp:Panel id="panelInfo" runat="server">
+            <div>
+              <asp:Label ID="placeAddress" runat="server" />
+            </div>
+            <div>
+             <asp:HyperLink ID="placeNeighborhood" runat="server" />
+            </div>
+            <div>
+             <asp:HyperLink ID="placeCity" runat="server" />
+             <asp:HyperLink ID="placeState" runat="server" />
+            </div>
+            <div>
+             <asp:HyperLink ID="placeCountry" runat="server" />
+             <asp:Label ID="placeZip" runat="server" />
+            </div>
+            <div>
+              <asp:Label ID="placeCrossStreet" runat="server" />
+            </div>
+            <div>
+             <asp:Label ID="placePhone" runat="server" />
+            </div>
+            <div>
+             <asp:Label ID="placeFax" runat="server" />
+            </div>
+            <div>
+             <asp:HyperLink ID="placeWebsite" runat="server" Text="&#187; website" Target="_blank" />
+             <asp:HyperLink ID="placeEmail" runat="server" Text="&#187; e-mail" Target="_blank" />
+            </div>
+           </asp:Panel>
            <!-- NOEMAIL-START -->
-           <div class="sncore_description">
-            views: <SnCore:CounterView ID="counterProfileViews" runat="server" />
-           </div>
+           <asp:Panel id="panelCounter" runat="server">
+            <div class="sncore_description">
+             views: <SnCore:CounterView ID="counterProfileViews" runat="server" />
+            </div>
+           </asp:Panel>
            <!-- NOEMAIL-END -->
           </div>
          </td>

@@ -125,6 +125,10 @@ public partial class AccountEventsToday : Page
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
+        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
+        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
+
         if (!IsPostBack)
         {
             linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
@@ -134,7 +138,6 @@ public partial class AccountEventsToday : Page
                 linkLocal.Text = string.Format("&#187; {0} Events", Renderer.Render(SessionManager.Account.City));
             }
 
-
             if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
                 LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
@@ -142,6 +145,18 @@ public partial class AccountEventsToday : Page
 
             SelectWeek();
             GetData(sender, e);
+
+            if (gridManage.VirtualItemCount == 0)
+            {
+                LocationSelector.ClearSelection();
+                GetData(sender, e);
+
+                if (gridManage.VirtualItemCount == 0)
+                {
+                    SelectMonth();
+                    GetData(sender, e);
+                }
+            }
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsView.aspx"));
@@ -154,8 +169,8 @@ public partial class AccountEventsToday : Page
 
     private void SelectWeek()
     {
+        calendarEvents.SelectedDates.Clear();
         DateTime adjustedNow = base.Adjust(DateTime.UtcNow);
-
         calendarEvents.VisibleDate = adjustedNow;
 
         int count = 0;
@@ -165,6 +180,20 @@ public partial class AccountEventsToday : Page
             adjustedNow = adjustedNow.AddDays(1);
             count++;
         } while ((adjustedNow.DayOfWeek != DayOfWeek.Monday) || (count < 7));
+    }
+
+    private void SelectMonth()
+    {
+        calendarEvents.SelectedDates.Clear();
+        DateTime adjustedNow = base.Adjust(DateTime.UtcNow);
+        adjustedNow = adjustedNow.AddDays(1 - adjustedNow.Day);
+        calendarEvents.VisibleDate = adjustedNow;
+
+        do
+        {
+            calendarEvents.SelectedDates.Add(adjustedNow.Date);
+            adjustedNow = adjustedNow.AddDays(1);
+        } while (adjustedNow.Day != 1);
     }
 
     private void GetData(object sender, EventArgs e)

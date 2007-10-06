@@ -36,6 +36,7 @@ public partial class PlacePicturesViewControl : Control
         {
             GetPicturesData(sender, e);
             linkUpload.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", PlaceId);
+            linkUpload.Visible = (PlaceId != 0);
         }
     }
 

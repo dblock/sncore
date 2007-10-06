@@ -144,7 +144,9 @@ public class Page : System.Web.UI.Page
     {
         string id = Request.QueryString[querystring];
         if (string.IsNullOrEmpty(id)) return 0;
-        return int.Parse(id);
+        int result = 0;
+        int.TryParse(id, out result);
+        return result;
     }
 
     public string AdjustToRFC822(object dt)
