@@ -6,6 +6,9 @@
  <h3>
   <asp:Label ID="placeName" runat="server" />
  </h3>
+ <div class="sncore_links">
+  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" NavigateUrl="~/PlacesView.aspx" />
+ </div>
  <div>  
   <a id="placeLinkPictures" href="PlacePicturesView.aspx" runat="server">
    <asp:Image ID="placeImage" runat="server" BorderColor="0" />
@@ -32,5 +35,11 @@
   <div>
    <asp:Label ID="placeCountry" runat="server" />
   </div>
+ </div>
+ <div>
+  <ul class="links">
+   <li><asp:HyperLink ID="linkPictures" runat="server" Text="&#187; Pictures" /></li>
+   <li><asp:HyperLink ID="linkReviews" runat="server" Text="&#187; Reviews" /></li>
+  </ul>
  </div>
 </asp:Content>

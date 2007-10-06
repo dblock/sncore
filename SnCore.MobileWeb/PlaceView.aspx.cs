@@ -74,8 +74,18 @@ public partial class PlaceView : Page
             placeImage.ImageUrl = string.Format("PlacePictureThumbnail.aspx?id={0}",
                 Place.PictureId);
 
-            placeLinkPictures.HRef = string.Format("PlacePicturesView.aspx?id={0}",
+            linkPictures.NavigateUrl = placeLinkPictures.HRef = string.Format("PlacePicturesView.aspx?id={0}",
                 Place.Id);
+
+            GetReviews(sender, e);
         }
+    }
+
+    private void GetReviews(object sender, EventArgs e)
+    {
+        int reviews_id = SessionManager.GetCount<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, string, int>(
+            "Place", Place.Id, SessionManager.DiscussionService.GetOrCreateDiscussionId);
+
+        linkReviews.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", reviews_id);
     }
 }

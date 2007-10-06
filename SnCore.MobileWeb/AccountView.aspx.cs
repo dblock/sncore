@@ -77,6 +77,22 @@ public partial class AccountView : Page
 
             accountLinkPictures.HRef = string.Format("AccountPicturesView.aspx?id={0}",
                 Account.Id);
+
+            GetTestimonials(sender, e);
+            GetPictures(sender, e);
         }
+    }
+
+    private void GetPictures(object sender, EventArgs e)
+    {
+        linkPictures.NavigateUrl = string.Format("AccountPicturesView.aspx?id={0}", Account.Id);
+    }
+
+    private void GetTestimonials(object sender, EventArgs e)
+    {
+        int testimonials_id = SessionManager.GetCount<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, string, int>(
+            "Account", Account.Id, SessionManager.DiscussionService.GetOrCreateDiscussionId);
+
+        linkTestimonials.NavigateUrl = string.Format("DiscussionView.aspx?id={0}", testimonials_id);
     }
 }

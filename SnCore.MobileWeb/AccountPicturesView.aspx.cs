@@ -30,6 +30,7 @@ public partial class AccountPicturesView : Page
                 RequestId, SessionManager.AccountService.GetAccountById);
 
             accountName.Text = this.Title = string.Format("{0}'s Pictures", Renderer.Render(a.Name));
+            linkBack.NavigateUrl = string.Format("AccountView.aspx?id={0}", a.Id);
 
             GetData(sender, e);
 

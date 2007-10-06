@@ -6,6 +6,9 @@
  <h3>
   <asp:Label ID="accountName" runat="server" />
  </h3>
+ <div class="sncore_links">
+  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" NavigateUrl="~/AccountsView.aspx" />
+ </div>
  <div>  
   <a id="accountLinkPictures" href="AccountPicturesView.aspx" runat="server">
    <asp:Image ID="accountImage" runat="server" BorderColor="0" />
@@ -22,5 +25,11 @@
   <div>
    <asp:Label ID="accountCountry" runat="server" />
   </div>
+ </div>
+ <div>
+  <ul class="links">
+   <li><asp:HyperLink ID="linkPictures" runat="server" Text="&#187; Pictures" /></li>
+   <li><asp:HyperLink ID="linkTestimonials" runat="server" Text="&#187; Testimonials" /></li>
+  </ul>
  </div>
 </asp:Content>

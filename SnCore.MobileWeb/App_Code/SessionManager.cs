@@ -342,6 +342,14 @@ public class SessionManager
         }
     }
 
+    public DiscussionService.WebDiscussionService DiscussionService
+    {
+        get
+        {
+            return CachedWebService<DiscussionService.WebDiscussionService>.GetEndPoint(Cache);
+        }
+    }
+
     public StatsService.WebStatsService StatsService
     {
         get

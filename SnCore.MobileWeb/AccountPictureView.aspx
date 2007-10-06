@@ -7,6 +7,9 @@
   <asp:Label ID="labelAccountName" runat="server" Text="Account" />
  </h3>
  <div>
+  <asp:HyperLink CssClass="sncore_links" id="linkBack" runat="server" Text="&#187; Back" />
+ </div>
+ <div>
   <img runat="server" id="inputPicture" border="0" src="AccountPictureThumbnail.aspx?id=0" />
  </div>
  <div class="sncore_description">

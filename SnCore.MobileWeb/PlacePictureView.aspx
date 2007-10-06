@@ -6,6 +6,9 @@
  <h3>
   <asp:Label ID="labelPlaceName" runat="server" Text="Place" />
  </h3>
+ <div class="sncore_links">
+  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" />
+ </div>
  <div>
   <img runat="server" id="inputPicture" border="0" src="PlacePictureThumbnail.aspx?id=0" />
  </div>

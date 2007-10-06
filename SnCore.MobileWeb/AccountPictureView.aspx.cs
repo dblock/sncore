@@ -30,6 +30,8 @@ public partial class AccountPictureView : Page
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountPicturesView.aspx?id={0}", a.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
             StackSiteMap(sitemapdata);
+
+            linkBack.NavigateUrl = string.Format("AccountPicturesView.aspx?id={0}", a.Id);
         }
 
     }
