@@ -242,7 +242,8 @@ namespace SnCore.Services
 
         public override int CreateOrUpdate(TransitMadLibInstance instance, ManagedSecurityContext sec)
         {
-            DateTime lastModified = mInstance.Modified;
+            Nullable<DateTime> lastModified = new Nullable<DateTime>();
+            if (mInstance != null) lastModified = mInstance.Modified;
             int id = base.CreateOrUpdate(instance, sec);
 
             if (instance.ObjectAccountId == 0)
@@ -254,7 +255,8 @@ namespace SnCore.Services
                 ManagedAccount ma = new ManagedAccount(Session, instance.ObjectAccountId);
 
                 // if the author is editing the post, don't notify within 30 minute periods
-                if (ra.Id != ma.Id && (mInstance.Id == 0 || lastModified.AddMinutes(30) > DateTime.UtcNow))
+                if (ra.Id != ma.Id && (mInstance.Id == 0 || 
+                    (lastModified.HasValue && lastModified.Value.AddMinutes(30) > DateTime.UtcNow)))
                 {
                     Session.Flush();
 
