@@ -232,11 +232,18 @@ namespace SnCore.Services
             // member can remove and read himself from the group
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.Delete | DataOperation.Retreive));
             // members can edit or see the membership depending on their permissions
-            foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroup.AccountGroupAccounts))
+            foreach (AccountGroupAccount account in Collection<AccountGroupAccount>.GetSafeCollection(
+                mInstance.AccountGroup.AccountGroupAccounts))
             {
                 acl.Add(new ACLAccount(account.Account, account.IsAdministrator
                     ? DataOperation.All
                     : DataOperation.Retreive));
+            }
+            // members with pending invitations can accept it
+            foreach (AccountGroupAccountInvitation invitation in Collection<AccountGroupAccountInvitation>.GetSafeCollection(
+                mInstance.AccountGroup.AccountGroupAccountInvitations))
+            {
+                acl.Add(new ACLAccount(invitation.Account, DataOperation.Create));
             }
             return acl;
         }

@@ -133,7 +133,7 @@ namespace SnCore.Tools.Web
 
             if (parameters != null && parameters.HasOnline)
             {
-                scontent.Insert(0, string.Format("<p style=\"margin: 10px;\"><a href=\"{0}\">can't see message? click here for online version &#187;&#187;</a></p>\n", uri.ToString()));
+                scontent.Insert(0, string.Format("<p style=\"margin: 10px; font-size: 8pt;\">Do not hit 'reply' to this email! <a href=\"{0}\">Can't see message? click here for online version &#187;&#187;</a></p>\n", uri.ToString()));
             }
 
             // insert additional note

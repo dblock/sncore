@@ -42,6 +42,16 @@
     <img src="images/Item.gif" />
    </td>
    <td class="sncore_table_tr_td">
+    <asp:HyperLink ID="linkGraphX" runat="server" NavigateUrl="docs/html/logos.html" Text="Graphics and Logos" />
+    <br />
+    Link to us! Use a picture or logo.
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+    <img src="images/Item.gif" />
+   </td>
+   <td class="sncore_table_tr_td">
     <asp:HyperLink ID="linkReportBug" runat="server" Text="Report a Bug" />
     <br />
     Report a bug. If something is clearly wrong, please report the bug in the tracking

@@ -417,10 +417,42 @@ namespace SnCore.Services
             return result;
         }
 
+        public override int CreateOrUpdate(TransitDiscussionPost t_instance, ManagedSecurityContext sec)
+        {
+            Nullable<DateTime> lastModified = new Nullable<DateTime>();
+            if (mInstance != null) lastModified = mInstance.Modified;
+
+            int id = base.CreateOrUpdate(t_instance, sec);
+
+            try
+            {
+                ManagedAccount ra = new ManagedAccount(Session, mInstance.AccountId);
+                ManagedAccount ma = new ManagedAccount(Session, mInstance.DiscussionPostParent != null
+                    ? mInstance.DiscussionPostParent.AccountId
+                    : mInstance.DiscussionThread.Discussion.Account.Id);
+
+                // if the author is editing the post, don't notify within 30 minute periods
+                if (ra.Id != ma.Id && (mInstance.Id == 0 || 
+                    (lastModified.HasValue && lastModified.Value.AddMinutes(30) > DateTime.UtcNow)))
+                {
+                    Session.Flush();
+
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, ma, string.Format("EmailDiscussionPost.aspx?id={0}", mInstance.Id));
+                }
+            }
+            catch (ObjectNotFoundException)
+            {
+                // replying to an account that does not exist
+            }
+
+            return id;
+        }
+
         protected override void Save(ManagedSecurityContext sec)
         {
-            DateTime lastModified = mInstance.Modified;
             mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
 
             // message cannot span discussions
             if (mInstance.DiscussionPostParent != null &&
@@ -437,29 +469,8 @@ namespace SnCore.Services
                 mInstance.DiscussionThread.Discussion.Modified = mInstance.Modified;
                 Session.Save(mInstance.DiscussionThread);
             }
+
             base.Save(sec);
-            Session.Flush();
-
-            try
-            {
-                ManagedAccount ra = new ManagedAccount(Session, mInstance.AccountId);
-                ManagedAccount ma = new ManagedAccount(Session, mInstance.DiscussionPostParent != null
-                    ? mInstance.DiscussionPostParent.AccountId
-                    : mInstance.DiscussionThread.Discussion.Account.Id);
-
-                // if the author is editing the post, don't notify within 30 minute periods
-                if (ra.Id != ma.Id && (mInstance.Id == 0 || lastModified.AddMinutes(30) > DateTime.UtcNow))
-                {
-                    Session.Flush();
-
-                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                        Session, ma, string.Format("EmailDiscussionPost.aspx?id={0}", mInstance.Id));
-                }
-            }
-            catch (ObjectNotFoundException)
-            {
-                // replying to an account that does not exist
-            }
         }
 
         public override ACL GetACL(Type type)
