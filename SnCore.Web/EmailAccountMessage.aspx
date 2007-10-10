@@ -13,7 +13,9 @@
      Dear <b><% Response.Write(Renderer.Render(this.AccountMessage.RecepientAccountName)); %></b>,
     </p>
     <p>
-     You have a new message in your Inbox.
+     You have a new message in your Inbox. Don't hit <b>reply</b> to this e-mail: 
+     to reply, click
+     <a href="AccountMessageEdit.aspx?id=<% Response.Write(this.AccountMessage.SenderAccountId); %>&pid=<% Response.Write(this.AccountMessage.Id); %>">here</a>.     
     </p>
     <table class="sncore_account_table">
      <tr>
@@ -30,7 +32,7 @@
         <% Response.Write(Renderer.Render(this.AccountMessage.Sent.ToString("d"))); %>        
        </div>
        <div style="margin: 10px 0px 10px 0px;">
-        <% Response.Write(Renderer.RenderEx(this.AccountMessage.Body)); %>
+        <% Response.Write( base.RenderEx(this.AccountMessage.Body)); %>
        </div>
       </td>
      </tr>
