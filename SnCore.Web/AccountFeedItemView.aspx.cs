@@ -58,7 +58,7 @@ public partial class AccountFeedItemView : Page
 
             Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
             FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description,
-                Uri.IsWellFormedUriString(tfi.Link, UriKind.Absolute) ? new Uri(tfi.Link) : null,
+                Uri.IsWellFormedUriString(tfi.AccountFeedLinkUrl, UriKind.Absolute) ? new Uri(tfi.AccountFeedLinkUrl) : null,
                 imgrewriteuri);
 
             FeedItemComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
