@@ -27,6 +27,25 @@ namespace SnCore.WebServices
             }
         }
 
+        public static int[] CreateOrUpdate(string ticket, TransitType[] t_instances)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                List<int> ids = new List<int>(t_instances.Length);
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                foreach (TransitType t_instance in t_instances)
+                {
+                    ManagedType m_instance = new ManagedType();
+                    m_instance.Session = session;
+                    m_instance.CreateOrUpdateDbObject(t_instance, sec);
+                    ids.Add(m_instance.Id);
+                }
+                SnCore.Data.Hibernate.Session.Flush();
+                return ids.ToArray();
+            }
+        }
+
         public static void Delete(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))

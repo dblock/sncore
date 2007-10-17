@@ -221,27 +221,20 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update a place picture.")]
         public int CreateOrUpdatePlacePicture(string ticket, TransitPlacePicture placepicture)
         {
-            int id = WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.CreateOrUpdate(
+            return WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.CreateOrUpdate(
                 ticket, placepicture);
+        }
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                ManagedPlace m_place = new ManagedPlace(session, placepicture.PlaceId);
-
-                // send a message to place owner
-
-                if (sec.Account != null && sec.Account.Id != m_place.Instance.Account.Id)
-                {
-                    ManagedAccount acct = new ManagedAccount(session, m_place.Instance.Account);
-                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                        session, acct,
-                        string.Format("EmailPlacePicture.aspx?id={0}", id));
-                }
-            }
-
-            return id;
+        /// <summary>
+        /// Create or update a place pictures.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="placepictures">transit place pictures</param>
+        [WebMethod(Description = "Create or update place pictures.")]
+        public int[] CreateOrUpdatePlacePictures(string ticket, TransitPlacePicture[] placepictures)
+        {
+            return WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.CreateOrUpdate(
+                ticket, placepictures);
         }
 
         /// <summary>

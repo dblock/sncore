@@ -4,6 +4,7 @@ using System.Collections;
 using System.IO;
 using SnCore.Tools.Drawing;
 using SnCore.Data.Hibernate;
+using System.Collections.Generic;
 
 namespace SnCore.Services
 {
@@ -357,6 +358,60 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+        }
+
+        public IList<Account> GetOwners()
+        {
+            IList<AccountPlace> owners = Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces);
+            List<Account> result = new List<Account>(1 + owners.Count);
+
+            result.Add(mInstance.Account);
+
+            foreach (AccountPlace owner in owners)
+            {
+                bool found = false;
+                foreach (Account existing in result)
+                {
+                    if (existing.Id == owner.Id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    result.Add(owner.Account);
+                }
+            }
+
+            return result;
+        }
+
+        public override int CreateOrUpdate(TransitPlacePicture t_instance, ManagedSecurityContext sec)
+        {
+            int id = base.CreateOrUpdate(t_instance, sec);
+            if (t_instance.Id == 0)
+            {
+                Notify(sec);
+            }
+            return id;
+        }
+
+        public void Notify(ManagedSecurityContext sec)
+        {
+            IList<Account> owners = GetOwners();
+
+            foreach (Account acct in owners)
+            {
+                if (sec.Account != null && sec.Account.Id != acct.Id)
+                {
+                    ManagedAccount m_acct = new ManagedAccount(Session, acct);
+                    ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                        Session, m_acct,
+                        string.Format("EmailPlacePicture.aspx?id={0}", mInstance.Id));
+                }
+            }
         }
     }
 }
