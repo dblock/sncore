@@ -44,6 +44,9 @@ public partial class AccountStoryView : Page
             panelOwner.Visible = SessionManager.IsLoggedIn &&
                 (SessionManager.IsAdministrator || ts.AccountId == SessionManager.Account.Id);
 
+            linkAuthor.NavigateUrl = string.Format("AccountView.aspx?id={0}", ts.AccountId);
+            linkAuthor.Text = string.Format("written by &#187; {0}", Renderer.Render(ts.AccountName));
+
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request.Url));

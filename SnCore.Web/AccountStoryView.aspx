@@ -19,6 +19,7 @@
     </div>
     <!-- NOEMAIL-START -->
     <div class="sncore_h2sub">
+     <asp:HyperLink ID="linkAuthor" runat="server" />
      <a href="AccountStoriesView.aspx">&#187; All Stories</a>
      <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
     </div>
