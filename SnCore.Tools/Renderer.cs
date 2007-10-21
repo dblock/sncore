@@ -109,6 +109,9 @@ namespace SnCore.Tools.Web
                 Html.HtmlReader r = new Html.HtmlReader(html);
                 StringWriter sw = new StringWriter();
                 Html.HtmlWriter w = new Html.HtmlWriter(sw);
+                w.ReduceConsecutiveSpace = true;
+                w.DecodeSpace = true;
+                w.ReplaceQuotes = true;
                 w.BaseHref = basehref;
                 w.RewriteImgSrc = rewriteimgsrc;
                 while (! r.EOF)

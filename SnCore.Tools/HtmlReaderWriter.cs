@@ -60,6 +60,16 @@ namespace SnCore.Tools.Web.Html
         public bool ReduceConsecutiveSpace = false;
 
         /// <summary>
+        /// Decode &nbsp; to regular spaces.
+        /// </summary>
+        public bool DecodeSpace = false;
+
+        /// <summary>
+        /// Replace windows quotes.
+        /// </summary>
+        public bool ReplaceQuotes = false;
+
+        /// <summary>
         /// Set the tag names in lower case which are allowed to go to output
         /// </summary>
         public string[] AllowedTags = new string[] { "p", "b", "i", "u", "em", "big", "small", "strike",
@@ -132,8 +142,17 @@ namespace SnCore.Tools.Web.Html
 
                 // We want to replace consecutive spaces to one space in order to save horizontal
                 // width
-                if (this.ReduceConsecutiveSpace) text = text.Replace("&nbsp;&nbsp;&nbsp;", "&nbsp;");
+                if (this.ReduceConsecutiveSpace) text = text.Replace("&nbsp;&nbsp;", "&nbsp;");
+                if (this.DecodeSpace) text = text.Replace("&nbsp;", " ");
                 if (this.RemoveNewlines) text = text.Replace(Environment.NewLine, " ");
+                
+                // typical word quotes
+                if (this.ReplaceQuotes)
+                {
+                    text = text.Replace("“", "\"");
+                    text = text.Replace("”", "\"");
+                    text = text.Replace("’", "'");
+                }
 
                 base.WriteRaw(text);
             }

@@ -66,6 +66,17 @@
       runat="server" text="Save" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
      <sncorewebcontrols:button id="linkSaveAndContinue" cssclass="sncore_form_button" onclick="saveAndContinue"
       runat="server" text="Save and Continue Editing" Width="200" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
+     <sncorewebcontrols:button id="linkClean" cssclass="sncore_form_button" onclick="clean"
+      runat="server" text="Clean" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
+     <sncorewebcontrols:button id="linkSummarize" cssclass="sncore_form_button" onclick="summarize"
+      runat="server" text="Summarize" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td>
+     <asp:Label ID="labelSummary" runat="server" />
     </td>
    </tr>
   </table>
