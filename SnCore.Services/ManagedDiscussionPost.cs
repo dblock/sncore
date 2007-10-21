@@ -432,7 +432,7 @@ namespace SnCore.Services
                     : mInstance.DiscussionThread.Discussion.Account.Id);
 
                 // if the author is editing the post, don't notify within 30 minute periods
-                if (ra.Id != ma.Id && (mInstance.Id == 0 || 
+                if (ra.Id != ma.Id && (t_instance.Id == 0 || 
                     (lastModified.HasValue && lastModified.Value.AddMinutes(30) > DateTime.UtcNow)))
                 {
                     Session.Flush();
