@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebAccountServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountQuota))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFlag))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFlagType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmailMessage))]
@@ -350,6 +351,18 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback GetAccountFlagsByFlaggedAccountIdCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountFlagOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountQuotaOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountQuotaByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountQuotasOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountQuotasCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountQuotaOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountQuotaByObjectNameOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -838,6 +851,24 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event DeleteAccountFlagCompletedEventHandler DeleteAccountFlagCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountQuotaCompletedEventHandler CreateOrUpdateAccountQuotaCompleted;
+        
+        /// <remarks/>
+        public event GetAccountQuotaByIdCompletedEventHandler GetAccountQuotaByIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountQuotasCompletedEventHandler GetAccountQuotasCompleted;
+        
+        /// <remarks/>
+        public event GetAccountQuotasCountCompletedEventHandler GetAccountQuotasCountCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountQuotaCompletedEventHandler DeleteAccountQuotaCompleted;
+        
+        /// <remarks/>
+        public event GetAccountQuotaByObjectNameCompletedEventHandler GetAccountQuotaByObjectNameCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -5549,6 +5580,195 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountQuota", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountQuota(string ticket, TransitAccountQuota quota) {
+            object[] results = this.Invoke("CreateOrUpdateAccountQuota", new object[] {
+                        ticket,
+                        quota});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountQuotaAsync(string ticket, TransitAccountQuota quota) {
+            this.CreateOrUpdateAccountQuotaAsync(ticket, quota, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountQuotaAsync(string ticket, TransitAccountQuota quota, object userState) {
+            if ((this.CreateOrUpdateAccountQuotaOperationCompleted == null)) {
+                this.CreateOrUpdateAccountQuotaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountQuotaOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountQuota", new object[] {
+                        ticket,
+                        quota}, this.CreateOrUpdateAccountQuotaOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountQuotaOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountQuotaCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountQuotaCompleted(this, new CreateOrUpdateAccountQuotaCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountQuotaById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountQuota GetAccountQuotaById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountQuotaById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountQuota)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotaByIdAsync(string ticket, int id) {
+            this.GetAccountQuotaByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotaByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountQuotaByIdOperationCompleted == null)) {
+                this.GetAccountQuotaByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountQuotaByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountQuotaById", new object[] {
+                        ticket,
+                        id}, this.GetAccountQuotaByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountQuotaByIdOperationCompleted(object arg) {
+            if ((this.GetAccountQuotaByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountQuotaByIdCompleted(this, new GetAccountQuotaByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountQuotas", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountQuota[] GetAccountQuotas(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountQuotas", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountQuota[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotasAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountQuotasAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotasAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountQuotasOperationCompleted == null)) {
+                this.GetAccountQuotasOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountQuotasOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountQuotas", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountQuotasOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountQuotasOperationCompleted(object arg) {
+            if ((this.GetAccountQuotasCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountQuotasCompleted(this, new GetAccountQuotasCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountQuotasCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountQuotasCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountQuotasCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotasCountAsync(string ticket, int id) {
+            this.GetAccountQuotasCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotasCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountQuotasCountOperationCompleted == null)) {
+                this.GetAccountQuotasCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountQuotasCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountQuotasCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountQuotasCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountQuotasCountOperationCompleted(object arg) {
+            if ((this.GetAccountQuotasCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountQuotasCountCompleted(this, new GetAccountQuotasCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountQuota", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountQuota(string ticket, int id) {
+            this.Invoke("DeleteAccountQuota", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountQuotaAsync(string ticket, int id) {
+            this.DeleteAccountQuotaAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountQuotaAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountQuotaOperationCompleted == null)) {
+                this.DeleteAccountQuotaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountQuotaOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountQuota", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountQuotaOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountQuotaOperationCompleted(object arg) {
+            if ((this.DeleteAccountQuotaCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountQuotaCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountQuotaByObjectName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountQuota GetAccountQuotaByObjectName(string ticket, int id, string name) {
+            object[] results = this.Invoke("GetAccountQuotaByObjectName", new object[] {
+                        ticket,
+                        id,
+                        name});
+            return ((TransitAccountQuota)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotaByObjectNameAsync(string ticket, int id, string name) {
+            this.GetAccountQuotaByObjectNameAsync(ticket, id, name, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotaByObjectNameAsync(string ticket, int id, string name, object userState) {
+            if ((this.GetAccountQuotaByObjectNameOperationCompleted == null)) {
+                this.GetAccountQuotaByObjectNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountQuotaByObjectNameOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountQuotaByObjectName", new object[] {
+                        ticket,
+                        id,
+                        name}, this.GetAccountQuotaByObjectNameOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountQuotaByObjectNameOperationCompleted(object arg) {
+            if ((this.GetAccountQuotaByObjectNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountQuotaByObjectNameCompleted(this, new GetAccountQuotaByObjectNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -5757,6 +5977,97 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountQuota))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountQuota {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountQuota : TransitServiceOfAccountQuota {
+        
+        private int accountIdField;
+        
+        private string dataObjectNameField;
+        
+        private int limitField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string DataObjectName {
+            get {
+                return this.dataObjectNameField;
+            }
+            set {
+                this.dataObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Limit {
+            get {
+                return this.limitField;
+            }
+            set {
+                this.limitField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountFlag))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
@@ -5786,15 +6097,35 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAccountFlag : TransitServiceOfAccountFlag {
         
+        private string urlField;
+        
         private string descriptionField;
         
         private int accountIdField;
         
+        private int accountPictureIdField;
+        
         private int flaggedAccountIdField;
+        
+        private int flaggedAccountPictureIdField;
+        
+        private string flaggedAccountNameField;
+        
+        private string accountNameField;
         
         private string accountFlagTypeField;
         
         private System.DateTime createdField;
+        
+        /// <remarks/>
+        public string Url {
+            get {
+                return this.urlField;
+            }
+            set {
+                this.urlField = value;
+            }
+        }
         
         /// <remarks/>
         public string Description {
@@ -5817,12 +6148,52 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        public int AccountPictureId {
+            get {
+                return this.accountPictureIdField;
+            }
+            set {
+                this.accountPictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
         public int FlaggedAccountId {
             get {
                 return this.flaggedAccountIdField;
             }
             set {
                 this.flaggedAccountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int FlaggedAccountPictureId {
+            get {
+                return this.flaggedAccountPictureIdField;
+            }
+            set {
+                this.flaggedAccountPictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FlaggedAccountName {
+            get {
+                return this.flaggedAccountNameField;
+            }
+            set {
+                this.flaggedAccountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
             }
         }
         
@@ -11426,6 +11797,140 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void DeleteAccountFlagCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void CreateOrUpdateAccountQuotaCompletedEventHandler(object sender, CreateOrUpdateAccountQuotaCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountQuotaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountQuotaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountQuotaByIdCompletedEventHandler(object sender, GetAccountQuotaByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountQuotaByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountQuotaByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountQuota Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountQuota)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountQuotasCompletedEventHandler(object sender, GetAccountQuotasCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountQuotasCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountQuotasCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountQuota[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountQuota[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountQuotasCountCompletedEventHandler(object sender, GetAccountQuotasCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountQuotasCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountQuotasCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void DeleteAccountQuotaCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountQuotaByObjectNameCompletedEventHandler(object sender, GetAccountQuotaByObjectNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountQuotaByObjectNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountQuotaByObjectNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountQuota Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountQuota)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

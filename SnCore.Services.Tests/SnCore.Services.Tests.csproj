@@ -170,6 +170,7 @@
     <Compile Include="ManagedAccountPropertyGroupTest.cs" />
     <Compile Include="ManagedAccountPropertyTest.cs" />
     <Compile Include="ManagedAccountPropertyValueTest.cs" />
+    <Compile Include="ManagedAccountQuotaTest.cs" />
     <Compile Include="ManagedAccountRedirectTest.cs" />
     <Compile Include="ManagedAccountStoryPictureTest.cs" />
     <Compile Include="ManagedAccountStoryTest.cs" />

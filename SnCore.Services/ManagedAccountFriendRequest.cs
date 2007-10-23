@@ -298,7 +298,7 @@ namespace SnCore.Services
                 sec.CheckVerifiedEmail();
                 
                 // check number of account friend requests
-                GetQuota().Check<AccountFriendRequest, ManagedAccount.QuotaExceededException>(
+                GetQuota(sec).Check<AccountFriendRequest, ManagedAccount.QuotaExceededException>(
                     mInstance.Account.AccountFriendRequests);
 
                 // check whether the sender was flagged

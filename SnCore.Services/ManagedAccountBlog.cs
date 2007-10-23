@@ -328,7 +328,7 @@ namespace SnCore.Services
             base.Check(t_instance, sec);
             if (t_instance.Id == 0)
             {
-                GetQuota().Check<AccountBlog, ManagedAccount.QuotaExceededException>(
+                GetQuota(sec).Check<AccountBlog, ManagedAccount.QuotaExceededException>(
                     mInstance.Account.AccountBlogs);
             }
         }

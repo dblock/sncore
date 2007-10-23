@@ -418,7 +418,7 @@ namespace SnCore.Services
         protected override void Check(TransitAccountRssWatch t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota().Check<AccountRssWatch, ManagedAccount.QuotaExceededException>(
+            if (t_instance.Id == 0) GetQuota(sec).Check<AccountRssWatch, ManagedAccount.QuotaExceededException>(
                 mInstance.Account.AccountRssWatchs);
         }
 

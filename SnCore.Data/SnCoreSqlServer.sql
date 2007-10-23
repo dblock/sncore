@@ -1694,6 +1694,47 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountQuota]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountQuota](
+	[AccountQuota_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[DataObject_Id] [int] NOT NULL,
+	[Limit] [int] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountQuota] PRIMARY KEY CLUSTERED 
+(
+	[AccountQuota_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountQuota]') AND name = N'UK_AccountQuota')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountQuota] ON [dbo].[AccountQuota] 
+(
+	[Account_Id] ASC,
+	[DataObject_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountQuota]') AND name = N'PK_AccountQuota')
+ALTER TABLE [dbo].[AccountQuota] ADD  CONSTRAINT [PK_AccountQuota] PRIMARY KEY CLUSTERED 
+(
+	[AccountQuota_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountQuota]') AND name = N'UK_AccountQuota')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountQuota] ON [dbo].[AccountQuota] 
+(
+	[Account_Id] ASC,
+	[DataObject_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountRedirect]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountRedirect](
@@ -5077,6 +5118,20 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountPropertyValue] CHECK CONSTRAINT [FK_AccountPropertyValue_AccountProperty]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountQuota_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountQuota]'))
+ALTER TABLE [dbo].[AccountQuota]  WITH CHECK ADD  CONSTRAINT [FK_AccountQuota_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountQuota] CHECK CONSTRAINT [FK_AccountQuota_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountQuota_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountQuota]'))
+ALTER TABLE [dbo].[AccountQuota]  WITH CHECK ADD  CONSTRAINT [FK_AccountQuota_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountQuota] CHECK CONSTRAINT [FK_AccountQuota_DataObject]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRedirect_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRedirect]'))
 ALTER TABLE [dbo].[AccountRedirect]  WITH CHECK ADD  CONSTRAINT [FK_AccountRedirect_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -5919,6 +5974,20 @@ REFERENCES [dbo].[AccountProperty] ([AccountProperty_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountPropertyValue] CHECK CONSTRAINT [FK_AccountPropertyValue_AccountProperty]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountQuota_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountQuota]'))
+ALTER TABLE [dbo].[AccountQuota]  WITH CHECK ADD  CONSTRAINT [FK_AccountQuota_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountQuota] CHECK CONSTRAINT [FK_AccountQuota_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountQuota_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountQuota]'))
+ALTER TABLE [dbo].[AccountQuota]  WITH CHECK ADD  CONSTRAINT [FK_AccountQuota_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountQuota] CHECK CONSTRAINT [FK_AccountQuota_DataObject]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountRedirect_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountRedirect]'))
 ALTER TABLE [dbo].[AccountRedirect]  WITH CHECK ADD  CONSTRAINT [FK_AccountRedirect_Account] FOREIGN KEY([Account_Id])

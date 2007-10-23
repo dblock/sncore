@@ -132,9 +132,25 @@ namespace SnCore.Services
         public virtual int CreateOrUpdate(TransitType t_instance, ManagedSecurityContext sec)
         {
             mInstance = (DatabaseType)t_instance.GetDbObjectInstance(Session, sec);
-            Check(t_instance, sec);
+            CheckQuota(t_instance, sec);
             Save(sec);
             return mInstance.Id;
+        }
+
+        private void CheckQuota(TransitType t_instance, ManagedSecurityContext sec)
+        {
+            try
+            {
+                Check(t_instance, sec);
+            }
+            catch (ManagedAccount.QuotaExceededException)
+            {
+                ManagedAccount admin = new ManagedAccount(Session, ManagedAccount.GetAdminAccount(Session));
+                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
+                    Session, admin,
+                    string.Format("EmailAccountQuotaExceeded.aspx?id={0}", sec.Account.Id));
+                throw;
+            }
         }
 
         protected virtual void Check(TransitType t_instance, ManagedSecurityContext sec)
@@ -143,8 +159,20 @@ namespace SnCore.Services
             GetACL().Check(sec, t_instance.Id > 0 ? DataOperation.Update : DataOperation.Create);
         }
 
-        protected virtual ManagedQuota GetQuota()
+        protected virtual ManagedQuota GetQuota(ManagedSecurityContext sec)
         {
+            // check whether the default quota was overridden
+            IQuery query = Session.CreateQuery(string.Format(
+                "FROM AccountQuota AccountQuota WHERE AccountQuota.Account.Id = {0} AND AccountQuota.DataObject.Name = '{1}'", 
+                sec.Account.Id, typeof(DatabaseType).Name));
+            
+            AccountQuota q = query.UniqueResult<AccountQuota>();
+
+            if (q != null)
+            {
+                return new ManagedQuota(q.Limit);
+            }
+
             return ManagedQuota.GetDefaultEnabledQuota();
         }
 

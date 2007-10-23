@@ -2558,5 +2558,80 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region AccountQuota
+
+        /// <summary>
+        /// Set a quota for an account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="quota">transit quota</param>
+        [WebMethod(Description = "Set a quota for an account.")]
+        public int CreateOrUpdateAccountQuota(string ticket, TransitAccountQuota quota)
+        {
+            return WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.CreateOrUpdate(
+                ticket, quota);
+        }
+
+        /// <summary>
+        /// Get an account quota.
+        /// </summary>
+        /// <returns>transit quota</returns>
+        [WebMethod(Description = "Get a an account quota.")]
+        public TransitAccountQuota GetAccountQuotaById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account quotas by account id.
+        /// </summary>
+        /// <returns>list of transit quotas</returns>
+        [WebMethod(Description = "Get all account quotas by account id.")]
+        public List<TransitAccountQuota> GetAccountQuotas(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get all account quotas count by account id.
+        /// </summary>
+        /// <returns>number of transit quotas</returns>
+        [WebMethod(Description = "Get all account quotas count by account id.")]
+        public int GetAccountQuotasCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.GetCount(
+                ticket, string.Format("WHERE AccountQuota.Account.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Delete a quota
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete a quota.")]
+        public void DeleteAccountQuota(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get account quota by object name and account id.
+        /// </summary>
+        /// <returns>account quota</returns>
+        [WebMethod(Description = "Get account quota by object name and account id.")]
+        public TransitAccountQuota GetAccountQuotaByObjectName(string ticket, int id, string name)
+        {
+            return WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.GetByQuery(
+                ticket, string.Format("FROM AccountQuota AccountQuota" +
+                    " WHERE AccountQuota.Account.Id = {0}" +
+                    " AND AccountQuota.DataObject.Name = '{1}'", id, Renderer.SqlEncode(name)));
+        }
+
+        #endregion
     }
 }

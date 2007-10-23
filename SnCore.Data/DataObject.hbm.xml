@@ -17,5 +17,9 @@
       <key column="DataObject_Id" />
       <one-to-many class="MadLibInstance, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountQuotas" inverse="true">
+      <key column="DataObject_Id" />
+      <one-to-many class="AccountQuota, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

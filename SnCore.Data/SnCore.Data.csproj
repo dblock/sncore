@@ -209,6 +209,9 @@
     <Compile Include="AccountPropertyValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountQuota.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AccountRedirect.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -467,6 +470,7 @@
     <EmbeddedResource Include="AccountProperty.hbm.xml" />
     <EmbeddedResource Include="AccountPropertyGroup.hbm.xml" />
     <EmbeddedResource Include="AccountPropertyValue.hbm.xml" />
+    <EmbeddedResource Include="AccountQuota.hbm.xml" />
     <EmbeddedResource Include="AccountRedirect.hbm.xml" />
     <EmbeddedResource Include="AccountRssWatch.hbm.xml" />
     <EmbeddedResource Include="AccountStory.hbm.xml" />

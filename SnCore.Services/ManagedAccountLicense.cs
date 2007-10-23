@@ -217,7 +217,7 @@ namespace SnCore.Services
         protected override void Check(TransitAccountLicense t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota().Check<AccountLicense, ManagedAccount.QuotaExceededException>(
+            if (t_instance.Id == 0) GetQuota(sec).Check<AccountLicense, ManagedAccount.QuotaExceededException>(
                 mInstance.Account.AccountLicenses);
         }
     }

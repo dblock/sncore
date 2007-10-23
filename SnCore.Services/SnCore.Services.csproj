@@ -136,6 +136,7 @@
     <Compile Include="ManagedAccountProperty.cs" />
     <Compile Include="ManagedAccountPropertyGroup.cs" />
     <Compile Include="ManagedAccountPropertyValue.cs" />
+    <Compile Include="ManagedAccountQuota.cs" />
     <Compile Include="ManagedAccountRedirect.cs" />
     <Compile Include="ManagedAccountStory.cs" />
     <Compile Include="ManagedAccountStoryPicture.cs" />

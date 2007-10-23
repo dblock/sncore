@@ -395,23 +395,12 @@ namespace SnCore.Services
             if (sender.HasFriend(t_instance.RecepientAccountId))
                 return;
 
-            try
-            {
-                // how many messages within the last hour?
-                new ManagedQuota(DefaultHourlyLimit).Check<AccountMessage, ManagedAccount.QuotaExceededException>(
-                    GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddHours(-1)));
-                // how many messages within the last 24 hours?
-                ManagedQuota.GetDefaultEnabledQuota().Check<AccountMessage, ManagedAccount.QuotaExceededException>(
-                    GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddDays(-1)));
-            }
-            catch (ManagedAccount.QuotaExceededException)
-            {
-                ManagedAccount admin = new ManagedAccount(Session, ManagedAccount.GetAdminAccount(Session));
-                ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
-                    Session, admin,
-                    string.Format("EmailAccountQuotaExceeded.aspx?id={0}", sender_id));
-                throw;
-            }
+            // how many messages within the last hour?
+            new ManagedQuota(DefaultHourlyLimit).Check<AccountMessage, ManagedAccount.QuotaExceededException>(
+                GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddHours(-1)));
+            // how many messages within the last 24 hours?
+            ManagedQuota.GetDefaultEnabledQuota().Check<AccountMessage, ManagedAccount.QuotaExceededException>(
+                GetAcountMessages(Session, sender_id, DateTime.UtcNow.AddDays(-1)));
 
             // check whether the sender was flagged
             new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(

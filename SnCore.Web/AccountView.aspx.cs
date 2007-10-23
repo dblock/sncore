@@ -79,6 +79,7 @@ public partial class AccountView : Page
             linkDelete.NavigateUrl = string.Format("AccountDelete.aspx?id={0}", AccountId);
             linkResetPassword.NavigateUrl = string.Format("AccountChangePassword.aspx?id={0}", AccountId);
             linkAttributes.NavigateUrl = string.Format("AccountAttributesManage.aspx?id={0}", AccountId);
+            linkManageQuotas.NavigateUrl = string.Format("SystemAccountQuotasManage.aspx?id={0}", AccountId);
 
             picturesView.AccountId = AccountId;
             attributesView.AccountId = AccountId;

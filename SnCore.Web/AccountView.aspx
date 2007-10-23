@@ -101,6 +101,9 @@
          <div>
           <asp:HyperLink runat="server" ID="linkResetPassword" Text="&#187; Reset Password" />
          </div>
+         <div>
+          <asp:HyperLink runat="server" ID="linkManageQuotas" Text="&#187; Manage Quota" />
+         </div>
         </asp:Panel>
        </td>
       </tr>

@@ -367,7 +367,7 @@ namespace SnCore.Services
         protected override void Check(TransitAccountMessageFolder t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota().Check<AccountMessageFolder, ManagedAccount.QuotaExceededException>(
+            if (t_instance.Id == 0) GetQuota(sec).Check<AccountMessageFolder, ManagedAccount.QuotaExceededException>(
                 mInstance.Account.AccountMessageFolders);
         }
 

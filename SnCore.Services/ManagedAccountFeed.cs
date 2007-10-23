@@ -962,7 +962,7 @@ namespace SnCore.Services
             if (t_instance.Id == 0)
             {
                 sec.CheckVerifiedEmail();
-                GetQuota().Check<AccountFeed, ManagedAccount.QuotaExceededException>(
+                GetQuota(sec).Check<AccountFeed, ManagedAccount.QuotaExceededException>(
                     mInstance.Account.AccountFeeds);
             }
         }
