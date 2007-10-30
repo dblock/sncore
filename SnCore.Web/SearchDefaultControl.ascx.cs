@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using System.Text;
+using SnCore.WebControls;
 
 public partial class SearchDefaultControl : Control
 {

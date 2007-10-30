@@ -61,7 +61,6 @@ public partial class DiscussionThreadView : Page
             sitemapdata.Add(new SiteMapDataAttributeNode("Thread", Request.Url));
             StackSiteMap(sitemapdata);
 
-            discussionLabel.Text = Renderer.Render(td.Name);
             discussionDescription.Text = Renderer.Render(td.Description);
 
             GetData(sender, e);

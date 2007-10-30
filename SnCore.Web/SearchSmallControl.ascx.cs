@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
+using SnCore.WebControls;
 
 public partial class SearchSmallControl : Control
 {

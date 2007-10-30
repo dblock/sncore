@@ -4,9 +4,6 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <h3>
-  <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
- </h3>
  <div class="sncore_description">
   <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
  </div>
@@ -15,7 +12,7 @@
   RepeatColumns="1" RepeatRows="5" RepeatDirection="Horizontal" CssClass="sncore_table"
   ShowHeader="false">
   <pagerstyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" />
+   prevpagetext="Prev" horizontalalign="Center" PageButtonCount="5" />
   <ItemStyle CssClass="sncore_message_tr_td" />
   <ItemTemplate>
    <div class="sncore_message">

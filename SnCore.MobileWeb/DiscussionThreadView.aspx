@@ -4,9 +4,6 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <h3>
-  <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
- </h3>
  <div class="sncore_description">
   <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
  </div>
@@ -14,7 +11,7 @@
   ID="discussionThreadView" AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0"
   AllowPaging="false" AllowCustomPaging="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
+   PrevPageText="Prev" HorizontalAlign="Center" PageButtonCount="5" />
   <Columns>
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:BoundColumn DataField="CanEdit" Visible="false" />

@@ -5,6 +5,8 @@
  <ul>
   <li><a href="AccountsView.aspx">People</a></li>
   <li><a href="PlacesView.aspx">Places</a></li>
+  <li><a href="AccountFeedItemsView.aspx">Blog Roll</a></li>
+  <li><a href="AccountFeedsView.aspx">Blog Directory</a></li>
   <li><asp:LinkButton ID="linkLoginLogout" runat="server" OnClick="linkLoginLogout_Click" /></li>
  </ul>
 </asp:Content>

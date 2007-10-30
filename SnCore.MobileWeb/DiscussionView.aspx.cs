@@ -114,7 +114,6 @@ public partial class DiscussionView : Page
             return;
 
         DiscussionService.TransitDiscussion d = GetDiscussion();
-        discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
         DiscussionService.ServiceQueryOptions options = new DiscussionService.ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;

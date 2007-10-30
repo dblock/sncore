@@ -11,7 +11,7 @@
  <div class="sncore_master_sitemappath">
   <asp:HyperLink ID="siteMapPathRoot" runat="server" NavigateUrl="~/Welcome.aspx" />
   <asp:Label ID="siteMapPathAccountName" runat="server" />
-  <asp:SiteMapPath runat="server" ID="siteMapPath" />
+  <asp:SiteMapPath runat="server" ID="siteMapPath" CurrentNodeStyle-CssClass="sncore_sitemap_current" />
  </div>
  <sncore:notice id="noticeMenu" enableviewstate="false" runat="server" />
  <form class="sncore_master_form" id="formMain" runat="server">

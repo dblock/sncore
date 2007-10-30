@@ -68,7 +68,6 @@ public partial class PlaceView : Page
             placeCity.Text = Renderer.Render(Place.City);
             placeState.Text = Renderer.Render(Place.State);
             placeCountry.Text = Renderer.Render(Place.Country);
-            placeName.Text = Renderer.Render(Place.Name);
 
             placeImage.Visible = Place.PictureId != 0;
             placeImage.ImageUrl = string.Format("PlacePictureThumbnail.aspx?id={0}",

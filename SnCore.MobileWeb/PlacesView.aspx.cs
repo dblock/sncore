@@ -88,7 +88,7 @@ public partial class PlacesView : Page
             mPicturesOnly = picturesonly;
 
             if (!mPage.IsPostBack)
-            {
+            {                
                 List<PlaceService.TransitPlaceType> types = new List<PlaceService.TransitPlaceType>();
                 if (InsertEmptySelection) types.Add(new PlaceService.TransitPlaceType());
                 types.AddRange(page.SessionManager.GetCollection<PlaceService.TransitPlaceType, PlaceService.ServiceQueryOptions>(
@@ -168,6 +168,7 @@ public partial class PlacesView : Page
 
         if (!IsPostBack)
         {
+            SetDefaultButton(search);
             if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
                 LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
@@ -185,7 +186,6 @@ public partial class PlacesView : Page
 
             if ((gridManage.VirtualItemCount == 0) && (Request.QueryString.Count == 0))
             {
-                // panelSearchInternal.Visible = false;
                 LocationSelector.ClearSelection();
                 GetData(sender, e);
             }

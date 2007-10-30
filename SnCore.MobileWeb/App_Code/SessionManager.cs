@@ -63,7 +63,7 @@ public class SessionManager
     {
         get
         {
-            return GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/SnCoreWeb");
+            return GetCachedConfiguration("SnCore.MobileWebSite.Url", "http://localhost/SnCoreMobileWeb");
         }
     }
 
@@ -363,6 +363,14 @@ public class SessionManager
         get
         {
             return CachedWebService<SystemService.WebSystemService>.GetEndPoint(Cache);
+        }
+    }
+
+    public SyndicationService.WebSyndicationService SyndicationService
+    {
+        get
+        {
+            return CachedWebService<SyndicationService.WebSyndicationService>.GetEndPoint(Cache);
         }
     }
 

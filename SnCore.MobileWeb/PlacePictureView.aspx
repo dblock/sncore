@@ -3,9 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <h3>
-  <asp:Label ID="labelPlaceName" runat="server" Text="Place" />
- </h3>
  <div class="sncore_links">
   <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" />
  </div>

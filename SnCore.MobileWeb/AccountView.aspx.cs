@@ -69,7 +69,6 @@ public partial class AccountView : Page
             accountCity.Text = Renderer.Render(Account.City);
             accountState.Text = Renderer.Render(Account.State);
             accountCountry.Text = Renderer.Render(Account.Country);
-            accountName.Text = Renderer.Render(Account.Name);
 
             accountImage.Visible = Account.PictureId != 0;
             accountImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}",

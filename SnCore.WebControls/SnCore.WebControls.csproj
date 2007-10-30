@@ -55,6 +55,7 @@
     <Compile Include="PagedList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PageManager.cs" />
     <Compile Include="PersistentPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pager.cs" />

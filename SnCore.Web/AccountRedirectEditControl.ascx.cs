@@ -12,6 +12,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using Wilco.Web.UI;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountRedirectEditControl : Control
 {

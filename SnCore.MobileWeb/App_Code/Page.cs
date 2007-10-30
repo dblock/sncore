@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Threading;
 using SnCore.SiteMap;
 using SnCore.Services;
+using SnCore.WebControls;
 
 public class Page : System.Web.UI.Page
 {
@@ -258,6 +259,11 @@ public class Page : System.Web.UI.Page
         {
             throw new Exception("Site Map provider is not a data provider");
         }
+    }
+
+    public void SetDefaultButton(System.Web.UI.WebControls.Button button)
+    {
+        PageManager.SetDefaultButton(button, this.Controls);
     }
 }
 

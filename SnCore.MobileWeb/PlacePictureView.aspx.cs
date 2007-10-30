@@ -62,12 +62,6 @@ public partial class PlacePictureView : Page
 
         TransitPlace l = GetPlace();
 
-        labelPlaceName.Text = this.Title = string.Format("{0}: {1}",
-            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
-
-        labelPlaceName.Text = this.Title = string.Format("{0}: {1}",
-            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
-
         //discussionComments.ReturnUrl = string.Format("PlacePictureView.aspx?id={0}", PictureId);
         //discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
         //    typeof(PlacePicture).Name, PictureId, SessionManager.DiscussionService.GetOrCreateDiscussionId);

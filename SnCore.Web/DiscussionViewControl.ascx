@@ -78,7 +78,7 @@
      <div class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
       style='width: <%# base.OuterWidth - (int) Eval("Level") * 10 %>px'>
       <div class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
-      <%# IsFull ? Renderer.RenderEx((string)Eval("Body")) : GetSummary((string)Eval("Body"))%>
+      <%# IsFull ? base.RenderEx((string)Eval("Body")) : GetSummary((string)Eval("Body"))%>
      </div>
      </div>
      <div class="sncore_footer">

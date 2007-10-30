@@ -62,12 +62,6 @@ public partial class AccountPictureView : Page
 
         TransitAccount l = GetAccount();
 
-        labelAccountName.Text = this.Title = string.Format("{0}: {1}",
-            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
-
-        labelAccountName.Text = this.Title = string.Format("{0}: {1}",
-            Renderer.Render(l.Name), string.IsNullOrEmpty(p.Name) ? "Untitled" : Renderer.Render(p.Name));
-
         //discussionComments.ReturnUrl = string.Format("AccountPictureView.aspx?id={0}", PictureId);
         //discussionComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
         //    typeof(AccountPicture).Name, PictureId, SessionManager.DiscussionService.GetOrCreateDiscussionId);

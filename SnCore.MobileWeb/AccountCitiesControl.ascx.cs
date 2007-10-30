@@ -28,6 +28,10 @@ public partial class AccountCitiesControl : Control
 
             List<TransitAccountCity> cities = new List<TransitAccountCity>(Max);
 
+            TransitAccountCity t_all = new TransitAccountCity();
+            t_all.Name = "All";
+            cities.Add(t_all);
+
             if (SessionManager.IsLoggedIn && ! string.IsNullOrEmpty(SessionManager.Account.City))
             {
                 TransitAccountCity t_city = new TransitAccountCity();

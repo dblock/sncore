@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class SystemNeighborhoodEdit : AuthenticatedPage
 {

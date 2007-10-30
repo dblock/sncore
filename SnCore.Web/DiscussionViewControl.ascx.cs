@@ -14,6 +14,7 @@ using Wilco.Web.UI.WebControls;
 using SnCore.Services;
 using System.Collections.Generic;
 using SnCore.WebServices;
+using SnCore.WebControls;
 
 public partial class DiscussionViewControl : Control
 {

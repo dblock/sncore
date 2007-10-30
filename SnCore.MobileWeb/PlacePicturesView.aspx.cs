@@ -29,7 +29,7 @@ public partial class PlacePicturesView : Page
             TransitPlace p = SessionManager.GetInstance<TransitPlace, PlaceService.ServiceQueryOptions, int>(
                 RequestId, SessionManager.PlaceService.GetPlaceById);
 
-            placeName.Text = this.Title = string.Format("{0}'s Pictures", Renderer.Render(p.Name));
+            this.Title = string.Format("{0}'s Pictures", Renderer.Render(p.Name));
             linkBack.NavigateUrl = string.Format("PlaceView.aspx?id={0}", p.Id);
 
             GetData(sender, e);

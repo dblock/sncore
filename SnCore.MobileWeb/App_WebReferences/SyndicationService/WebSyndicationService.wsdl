@@ -1,0 +1,2172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="CreateOrUpdateFeedType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="tns:TransitFeedType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitFeedType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfFeedType">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DefaultType" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Xsl" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="SpanRows" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SpanColumns" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SpanRowsPreview" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="SpanColumnsPreview" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfFeedType" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateFeedTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateFeedTypeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFeedTypeById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFeedTypeByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFeedTypeByIdResult" type="tns:TransitFeedType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFeedTypeByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFeedTypeByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFeedTypeByNameResult" type="tns:TransitFeedType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFeedTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFeedTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFeedTypesResult" type="tns:ArrayOfTransitFeedType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitFeedType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitFeedType" nillable="true" type="tns:TransitFeedType" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFeedTypesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFeedTypesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFeedTypesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFeedType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFeedTypeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeed">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="feed" type="tns:TransitAccountFeed" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFeed">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFeed">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UpdateFrequency" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="FeedUrl" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LinkUrl" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FeedType" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Publish" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PublishImgs" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PublishMedia" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFeed" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountFeedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFeedResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountFeedItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountFeedItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateAccountFeedItemsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountFeedItemImgs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountFeedItemImgsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateAccountFeedItemImgsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountFeedItemMedias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountFeedItemMediasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateAccountFeedItemMediasResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedByIdResult" type="tns:TransitAccountFeed" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFeedsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeeds">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedsResult" type="tns:ArrayOfTransitAccountFeed" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFeed">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFeed" nillable="true" type="tns:TransitAccountFeed" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAllAccountFeedsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFeedQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PicturesOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="PublishedOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="WithFeedItemsOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAllAccountFeedsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAllAccountFeedsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountFeeds">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountFeedsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountFeedsResult" type="tns:ArrayOfTransitAccountFeed" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeed">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeedResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllAccountFeedItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedItemQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFeedItemQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Search" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PublishedOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountFeedName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAllAccountFeedItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAllAccountFeedItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountFeedItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedItemQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountFeedItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountFeedItemsResult" type="tns:ArrayOfTransitAccountFeedItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFeedItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFeedItem" nillable="true" type="tns:TransitAccountFeedItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountFeedItem">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFeedItem">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountFeedId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Link" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFeedLinkUrl" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFeedName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountFeedPublish" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFeedItem" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteAccountFeedItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeedItemResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountFeedItemById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemByIdResult" type="tns:TransitAccountFeedItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFeedItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemsResult" type="tns:ArrayOfTransitAccountFeedItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeedItem">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="item" type="tns:TransitAccountFeedItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeedItemResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFeedItemResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountFeedItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountFeedItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchAccountFeedItemsResult" type="tns:ArrayOfTransitAccountFeedItem" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountFeedItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="s" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchAccountFeedItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SearchAccountFeedItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemImgsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:TransitAccountFeedItemImgQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFeedItemImgQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="VisibleOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="InterestingOnly" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFeedItemImgsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFeedItemImgsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemImgs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedItemImgQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemImgsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemImgsResult" type="tns:ArrayOfTransitAccountFeedItemImg" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFeedItemImg">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFeedItemImg" nillable="true" type="tns:TransitAccountFeedItemImg" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountFeedItemImg">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFeedItemImg">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountFeedId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFeedItemTitle" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFeedName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Thumbnail" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountFeedItemId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Interesting" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Visible" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFeedItemImg" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFeedItemImgById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemImgByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemImgByIdResult" type="tns:TransitAccountFeedItemImg" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeedItemImg">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="img" type="tns:TransitAccountFeedItemImg" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeedItemImgResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFeedItemImgResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeedItemImg">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeedItemImgResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountFeedItemMediasCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:TransitAccountFeedItemMediaQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountFeedItemMediaQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="VisibleOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="InterestingOnly" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFeedItemMediasCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFeedItemMediasCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemMedias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedItemMediaQueryOptions" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemMediasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemMediasResult" type="tns:ArrayOfTransitAccountFeedItemMedia" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFeedItemMedia">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFeedItemMedia" nillable="true" type="tns:TransitAccountFeedItemMedia" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountFeedItemMedia">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFeedItemMedia">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountFeedId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFeedItemTitle" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountFeedName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountFeedItemId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="EmbeddedHtml" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Interesting" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Visible" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFeedItemMedia" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFeedItemMediaById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFeedItemMediaByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFeedItemMediaByIdResult" type="tns:TransitAccountFeedItemMedia" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeedItemMedia">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="img" type="tns:TransitAccountFeedItemMedia" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateAccountFeedItemMediaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountFeedItemMediaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeedItemMedia">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFeedItemMediaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateAccountRssWatch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rsswatch" type="tns:TransitAccountRssWatch" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountRssWatch">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountRssWatch">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Sent" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UpdateFrequency" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Enabled" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountRssWatch" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountRssWatchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountRssWatchResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountRssWatchByIdResult" type="tns:TransitAccountRssWatch" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountRssWatchsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountRssWatchsResult" type="tns:ArrayOfTransitAccountRssWatch" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountRssWatch">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountRssWatch" nillable="true" type="tns:TransitAccountRssWatch" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountRssWatchItemsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchItemsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountRssWatchItemsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountRssWatchItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountRssWatchItemsResult" type="tns:TransitRssChannelItems" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitRssChannelItems">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Channel" type="tns:TransitRssChannel" />
+          <s:element minOccurs="0" maxOccurs="1" name="Items" type="tns:ArrayOfTransitRssItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitRssChannel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Link" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransitRssItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitRssItem" nillable="true" type="tns:TransitRssItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitRssItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Link" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PubDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Author" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteAccountRssWatch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountRssWatchResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLatestAccountFeedItemFeatureByAccountFeedId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLatestAccountFeedItemFeatureByAccountFeedIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLatestAccountFeedItemFeatureByAccountFeedIdResult" type="tns:TransitFeature" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitFeature">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfFeature">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="DataObjectName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DataRowId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfFeature" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateOrUpdateFeedTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateFeedType" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateFeedTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateFeedTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypeByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFeedTypeById" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypeByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFeedTypeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypeByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFeedTypeByName" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypeByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFeedTypeByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFeedTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFeedTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFeedTypesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetFeedTypesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFeedTypesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFeedTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteFeedType" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFeedTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteFeedTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeed" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountFeedItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAccountFeedItems" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountFeedItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAccountFeedItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountFeedItemImgsSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAccountFeedItemImgs" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountFeedItemImgsSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAccountFeedItemImgsResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountFeedItemMediasSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAccountFeedItemMedias" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountFeedItemMediasSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAccountFeedItemMediasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeeds" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeeds" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeed" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedItems" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountFeedItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountFeedItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedItemSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedItem" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedItemSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItems" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedItemSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedItem" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedItemSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountFeedItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchAccountFeedItems" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountFeedItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchAccountFeedItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountFeedItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchAccountFeedItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="SearchAccountFeedItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchAccountFeedItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemImgsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemImgsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemImgsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemImgsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemImgsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemImgs" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemImgsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemImgsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemImgByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemImgById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemImgByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemImgByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedItemImgSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedItemImg" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedItemImgSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedItemImgResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedItemImgSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedItemImg" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedItemImgSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedItemImgResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemMediasCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemMediasCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemMediasCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemMediasCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemMediasSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemMedias" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemMediasSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemMediasResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemMediaByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemMediaById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFeedItemMediaByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFeedItemMediaByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedItemMediaSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedItemMedia" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountFeedItemMediaSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountFeedItemMediaResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedItemMediaSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedItemMedia" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFeedItemMediaSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFeedItemMediaResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountRssWatchSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountRssWatch" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountRssWatchSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountRssWatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchs" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItemsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItemsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItems" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountRssWatchItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountRssWatchItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountRssWatchSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountRssWatch" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountRssWatchSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountRssWatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLatestAccountFeedItemFeatureByAccountFeedIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLatestAccountFeedItemFeatureByAccountFeedId" />
+  </wsdl:message>
+  <wsdl:message name="GetLatestAccountFeedItemFeatureByAccountFeedIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLatestAccountFeedItemFeatureByAccountFeedIdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebSyndicationServiceSoap">
+    <wsdl:operation name="CreateOrUpdateFeedType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account feed type.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateFeedTypeSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateFeedTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account feed type.</wsdl:documentation>
+      <wsdl:input message="tns:GetFeedTypeByIdSoapIn" />
+      <wsdl:output message="tns:GetFeedTypeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypeByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account feed type by name.</wsdl:documentation>
+      <wsdl:input message="tns:GetFeedTypeByNameSoapIn" />
+      <wsdl:output message="tns:GetFeedTypeByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account feed types.</wsdl:documentation>
+      <wsdl:input message="tns:GetFeedTypesSoapIn" />
+      <wsdl:output message="tns:GetFeedTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account feed types count.</wsdl:documentation>
+      <wsdl:input message="tns:GetFeedTypesCountSoapIn" />
+      <wsdl:output message="tns:GetFeedTypesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFeedType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account feed type.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteFeedTypeSoapIn" />
+      <wsdl:output message="tns:DeleteFeedTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeed">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account feed.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFeedSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFeedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account feed.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAccountFeedItemsSoapIn" />
+      <wsdl:output message="tns:UpdateAccountFeedItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItemImgs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update account feed item images.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAccountFeedItemImgsSoapIn" />
+      <wsdl:output message="tns:UpdateAccountFeedItemImgsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItemMedias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update account feed item medias.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAccountFeedItemMediasSoapIn" />
+      <wsdl:output message="tns:UpdateAccountFeedItemMediasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account feed.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feeds count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeeds">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feeds.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedsSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account feeds count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountFeedsCountSoapIn" />
+      <wsdl:output message="tns:GetAllAccountFeedsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeeds">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get updated account feeds.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountFeedsSoapIn" />
+      <wsdl:output message="tns:GetAllAccountFeedsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeed">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account feed.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFeedSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFeedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account feed items count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountFeedItemsCountSoapIn" />
+      <wsdl:output message="tns:GetAllAccountFeedItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed items.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountFeedItemsSoapIn" />
+      <wsdl:output message="tns:GetAllAccountFeedItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account feed item.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFeedItemSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFeedItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed items count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed items.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemsSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItem">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account feed item.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFeedItemSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFeedItemSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountFeedItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search feed items.</wsdl:documentation>
+      <wsdl:input message="tns:SearchAccountFeedItemsSoapIn" />
+      <wsdl:output message="tns:SearchAccountFeedItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountFeedItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return the number of feed items matching a query.</wsdl:documentation>
+      <wsdl:input message="tns:SearchAccountFeedItemsCountSoapIn" />
+      <wsdl:output message="tns:SearchAccountFeedItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item images count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemImgsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemImgsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item images.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemImgsSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemImgsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item image by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemImgByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemImgByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItemImg">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account feed item image.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFeedItemImgSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFeedItemImgSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItemImg">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account feed item.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFeedItemImgSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFeedItemImgSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMediasCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item medias count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemMediasCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemMediasCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMedias">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item medias.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemMediasSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemMediasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMediaById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feed item media by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFeedItemMediaByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFeedItemMediaByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItemMedia">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account feed item media.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountFeedItemMediaSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountFeedItemMediaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItemMedia">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account feed item.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFeedItemMediaSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFeedItemMediaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountRssWatch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an rss watch.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountRssWatchSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountRssWatchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an rss watch.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss watchs count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchs">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss watchs.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchsSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItemsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss items count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchItemsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchItemsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get rss items.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountRssWatchItemsSoapIn" />
+      <wsdl:output message="tns:GetAccountRssWatchItemsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountRssWatch">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an rss watch.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountRssWatchSoapIn" />
+      <wsdl:output message="tns:DeleteAccountRssWatchSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestAccountFeedItemFeatureByAccountFeedId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Find the latest feature of an AccountFeed via AccountFeedItems</wsdl:documentation>
+      <wsdl:input message="tns:GetLatestAccountFeedItemFeatureByAccountFeedIdSoapIn" />
+      <wsdl:output message="tns:GetLatestAccountFeedItemFeatureByAccountFeedIdSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebSyndicationServiceSoap" type="tns:WebSyndicationServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateFeedType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateFeedType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypeById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypeByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypeByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFeedType">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteFeedType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeed">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/UpdateAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItemImgs">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/UpdateAccountFeedItemImgs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItemMedias">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/UpdateAccountFeedItemMedias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeeds">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeeds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeeds">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeeds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeed">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeed" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItem">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeedItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItem">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItem" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountFeedItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountFeedItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountFeedItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemImgsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgs">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemImgs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemImgById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItemImg">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItemImg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItemImg">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeedItemImg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMediasCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemMediasCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMedias">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemMedias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMediaById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemMediaById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItemMedia">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItemMedia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItemMedia">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeedItemMedia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountRssWatch">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountRssWatch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchs">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItemsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItemsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItems">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountRssWatch">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountRssWatch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestAccountFeedItemFeatureByAccountFeedId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetLatestAccountFeedItemFeatureByAccountFeedId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebSyndicationServiceSoap12" type="tns:WebSyndicationServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateFeedType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateFeedType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypeById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypeByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypeByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFeedTypesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetFeedTypesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFeedType">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteFeedType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeed">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/UpdateAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItemImgs">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/UpdateAccountFeedItemImgs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccountFeedItemMedias">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/UpdateAccountFeedItemMedias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeeds">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeeds" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeeds">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeeds" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeed">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeed" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountFeedItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItem">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeedItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItem">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountFeedItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountFeedItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchAccountFeedItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchAccountFeedItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemImgsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgs">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemImgs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemImgById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemImgById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItemImg">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItemImg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItemImg">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeedItemImg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMediasCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemMediasCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMedias">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemMedias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFeedItemMediaById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeedItemMediaById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountFeedItemMedia">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountFeedItemMedia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFeedItemMedia">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFeedItemMedia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountRssWatch">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountRssWatch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchs">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItemsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItemsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountRssWatchItems">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountRssWatchItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountRssWatch">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountRssWatch" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLatestAccountFeedItemFeatureByAccountFeedId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetLatestAccountFeedItemFeatureByAccountFeedId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebSyndicationService">
+    <wsdl:port name="WebSyndicationServiceSoap" binding="tns:WebSyndicationServiceSoap">
+      <soap:address location="http://localhost/SnCoreWeb/WebSyndicationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebSyndicationServiceSoap12" binding="tns:WebSyndicationServiceSoap12">
+      <soap12:address location="http://localhost/SnCoreWeb/WebSyndicationService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

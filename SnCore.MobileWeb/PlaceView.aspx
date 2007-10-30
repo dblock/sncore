@@ -3,9 +3,6 @@
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <h3>
-  <asp:Label ID="placeName" runat="server" />
- </h3>
  <div class="sncore_links">
   <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" NavigateUrl="~/PlacesView.aspx" />
  </div>
