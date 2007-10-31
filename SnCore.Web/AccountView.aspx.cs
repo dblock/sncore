@@ -15,6 +15,11 @@ using SnCore.SiteMap;
 
 public partial class AccountView : Page
 {
+    public AccountView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     private int mAccountId = -1;
     private TransitAccount mAccount = null;
     private TransitFeature mAccountFeature = null;

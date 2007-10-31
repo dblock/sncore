@@ -168,7 +168,6 @@ public partial class PlacesView : Page
 
         if (!IsPostBack)
         {
-            SetDefaultButton(search);
             if (SessionManager.IsLoggedIn && (Request.QueryString.Count == 0))
             {
                 LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(SessionManager.Account));
@@ -254,14 +253,6 @@ public partial class PlacesView : Page
     public void cities_SelectedChanged(object sender, CommandEventArgs e)
     {
         Redirect(string.Format("PlacesView.aspx?{0}", e.CommandArgument));
-        //NameValueCollection args = Renderer.ParseQueryString(e.CommandArgument.ToString());
-        //LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
-        //GetData(sender, e);
-    }
-
-    public void search_Click(object sender, EventArgs e)
-    {
-        GetData(sender, e);
     }
 
     void GetNeighborhoodsData(object sender, EventArgs e)

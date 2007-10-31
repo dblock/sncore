@@ -44,26 +44,12 @@
    </asp:TemplateColumn>
   </Columns>
  </SnCoreWebControls:PagedGrid>
- <div style="display: none;">
-  <div>
-   country:
-   <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name"
-    AutoPostBack="true" DataValueField="Name" runat="server" />
-  </div>
-  <div>
-   state:
-   <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
-    DataTextField="Name" DataValueField="Name" runat="server" />
-  </div>
-  <div>
-   city:
-   <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
-    DataValueField="Name" runat="server" AutoPostBack="true" />
-  </div>
-  <div>
-   neighborhood:
-   <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
-    DataValueField="Name" runat="server" />
-  </div>
- </div>
+ <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name"
+  AutoPostBack="true" DataValueField="Name" runat="server" Visible="false" />
+ <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" AutoPostBack="true"
+  DataTextField="Name" DataValueField="Name" runat="server" Visible="false" />
+ <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputCity" DataTextField="Name"
+  DataValueField="Name" runat="server" AutoPostBack="true" Visible="false" />
+ <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputNeighborhood" DataTextField="Name"
+  DataValueField="Name" runat="server" Visible="false" />
 </asp:Content>

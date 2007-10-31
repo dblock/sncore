@@ -15,6 +15,11 @@ using SnCore.SiteMap;
 
 public partial class DiscussionThreadView : Page
 {
+    public DiscussionThreadView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)

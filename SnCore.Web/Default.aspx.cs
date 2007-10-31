@@ -12,6 +12,11 @@ using SnCore.Tools.Web;
 
 public partial class _Default : Page
 {
+    public _Default()
+    {
+        mIsMobileEnabled = true;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)

@@ -15,6 +15,11 @@ using SnCore.SiteMap;
 
 public partial class AccountPicturesView : Page
 {
+    public AccountPicturesView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (RequestId == 0)

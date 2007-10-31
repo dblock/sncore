@@ -23,6 +23,7 @@ public class Page : System.Web.UI.Page
 {
     private HtmlMeta mMetaDescription = null;
     protected SessionManager mSessionManager = null;
+    protected bool mIsMobileEnabled = false;
 
     protected override void OnInit(EventArgs e)
     {
@@ -329,6 +330,14 @@ public class Page : System.Web.UI.Page
     public void RedirectToLogin()
     {
         RedirectToLogin(Request.Url.PathAndQuery);
+    }
+
+    public bool IsMobileEnabled
+    {
+        get
+        {
+            return mIsMobileEnabled;
+        }
     }
 }
 

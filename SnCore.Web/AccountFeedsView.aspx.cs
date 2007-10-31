@@ -18,6 +18,11 @@ using System.Collections.Specialized;
 
 public partial class AccountFeedsView : Page
 {
+    public AccountFeedsView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     private LocationSelectorCountryStateCity mLocationSelector = null;
 
     public LocationSelectorCountryStateCity LocationSelector

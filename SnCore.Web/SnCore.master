@@ -14,12 +14,16 @@
 <body>
  <!-- NOEMAIL-START -->
  <form class="sncore_master_form" id="formMain" runat="server">
+ <asp:Panel id="panelMobile" Visible="false" runat="server">
+  <asp:HyperLink ID="linkMobile" runat="server" Text="&#187; Switch to Mobile Version" />
+ </asp:Panel>
  <!-- NOEMAIL-END -->
   <div class="sncore_master_top">
    <a href="Default.aspx">
     <img border="0" src="images/site/toplogo.jpg" alt="SnCore!" />
    </a>
   </div>
+  <!-- NOEMAIL-START -->
   <div class="sncore_master_menu">
    <table width="100%">
     <tr>
@@ -102,7 +106,6 @@
       </asp:Panel>
      </td>
      <td width="16">
-      <!-- NOEMAIL-START -->
       <ajaxToolkit:ToolkitScriptManager CombineScripts="true" ID="scriptmanager1" EnablePartialRendering="true"
        runat="Server" />
       <nStuff:UpdateHistory runat="server" ID="updateHistory" />
@@ -119,11 +122,11 @@
        if(visitortime) { document.cookie = "x-VisitorTimeZoneOffset=" + (-visitortime.getTimezoneOffset() / 60); }
       // -->
       </script>
-      <!-- NOEMAIL-END -->
      </td>
     </tr>
    </table>
   </div>
+  <!-- NOEMAIL-END -->
   <div class="sncore_master_sitemappath">
    <SnCore:AccountCity ID="accountCity" runat="server" />
    <asp:SiteMapPath runat="server" ID="siteMapPath" />

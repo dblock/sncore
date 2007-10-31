@@ -46,8 +46,6 @@ public partial class AccountFeedsView : Page
             sitemapdata.Add(new SiteMapDataAttributeNode("All Blogs", Request.Url));
             StackSiteMap(sitemapdata);
         }
-
-        SetDefaultButton(search);
     }
 
     private SyndicationService.TransitAccountFeedQueryOptions GetQueryOptions()
@@ -59,7 +57,8 @@ public partial class AccountFeedsView : Page
         options.City = inputCity.Text;
         options.Country = inputCountry.SelectedValue;
         options.State = inputState.SelectedValue;
-        options.Name = inputSearch.Text;
+        options.SortAscending = true;
+        options.SortOrder = "Name";
         return options;
     }
 
@@ -83,11 +82,6 @@ public partial class AccountFeedsView : Page
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GetCollection<SyndicationService.TransitAccountFeed, SyndicationService.ServiceQueryOptions, SyndicationService.TransitAccountFeedQueryOptions>(
             options, serviceoptions, SessionManager.SyndicationService.GetAllAccountFeeds);
-    }
-
-    public void search_Click(object sender, EventArgs e)
-    {
-        GetData(sender, e);
     }
 
     public void cities_SelectedChanged(object sender, CommandEventArgs e)

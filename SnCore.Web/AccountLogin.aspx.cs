@@ -14,6 +14,11 @@ using SnCore.SiteMap;
 [SiteMapDataAttribute("Login")]
 public partial class AccountLogin : Page
 {
+    public AccountLogin()
+    {
+        mIsMobileEnabled = true;
+    }
+
     public bool AuthenticatedPage
     {
         get

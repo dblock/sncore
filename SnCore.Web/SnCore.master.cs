@@ -29,11 +29,32 @@ public partial class SnCoreMasterPage : MasterPage
                 {
                     siteMapPath.Visible = false;
                 }
+
+                GetMobileWeb(sender, e);
             }
         }
         catch (Exception ex)
         {
             ReportException(ex);
+        }
+    }
+
+    private void GetMobileWeb(object sender, EventArgs e)
+    {
+        if (Request.Browser.IsMobileDevice)
+        {
+            if (!string.IsNullOrEmpty(SessionManager.MobileWebsiteUrl))
+            {
+                string mobileweb = SessionManager.MobileWebsiteUrl;
+                if (((Page)Page).IsMobileEnabled)
+                {
+                    mobileweb = Request.Url.ToString().Replace(
+                        SessionManager.WebsiteUrl, SessionManager.MobileWebsiteUrl);
+                }
+
+                linkMobile.NavigateUrl = mobileweb;
+                panelMobile.Visible = true;
+            }
         }
     }
 

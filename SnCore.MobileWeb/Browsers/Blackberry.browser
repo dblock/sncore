@@ -1,0 +1,62 @@
+<browsers>
+
+  <browser id="BlackBerry" parentID="Default">
+    <identification>
+      <userAgent match="BlackBerry(?'model'\d+)/(?'version'((?'major'\d+).(?'minor'\d+).(?'other'\d+)))" />
+    </identification>
+    <capabilities>
+      <capability name="browser"                    value="BlackBerry" />
+      <capability name="isMobileDevice"             value="true" />
+      <capability name="javascript"                 value="true" />
+      <capability name="ecmascriptversion"          value="1.3" />          
+      <capability name="version"                    value="${version}" />
+      <capability name="majorVersion"               value="${major}" />
+      <capability name="minorVersion"               value="${minor}" />
+      <capability name="supportsCss"                value="true" />
+      <capability name="frames"                     value="false" />
+      <capability name="cookies"                    value="true" />
+      <capability name="mobileDeviceManufacturer"   value="RIM" />
+      <capability name="mobileDeviceModel"          value="${model}" />
+    </capabilities>
+  </browser>
+  
+
+  <browser id="BlackBerry8700" parentID="BlackBerry">
+    <identification>
+      <userAgent match="8700" />
+    </identification>
+    <capabilities>
+      <capability name="inputType"                       value="keyboard" />
+      <capability name="isColor"                         value="true" />
+      <capability name="screenPixelsHeight"              value="240" />
+      <capability name="screenPixelsWidth"               value="320" />
+    </capabilities>
+  </browser>
+  
+
+  <browser id="BlackBerry7290" parentID="BlackBerry">
+    <identification>
+      <userAgent match="7290" />
+    </identification>
+    <capabilities>
+      <capability name="inputType"                       value="keyboard" />
+      <capability name="isColor"                         value="true" />
+      <capability name="screenPixelsHeight"              value="160" />
+      <capability name="screenPixelsWidth"               value="260" />
+    </capabilities>
+  </browser>
+  
+
+  <browser id="BlackBerry7100" parentID="BlackBerry">
+    <identification>
+      <userAgent match="7100" />
+    </identification>
+    <capabilities>
+      <capability name="inputType"                       value="virtualKeyboard" />
+      <capability name="isColor"                         value="true" />
+      <capability name="screenPixelsHeight"              value="260" />
+      <capability name="screenPixelsWidth"               value="240" />
+    </capabilities>
+  </browser>
+  
+</browsers>

@@ -20,6 +20,11 @@ public partial class PlaceView : Page
     private TransitFeature mPlaceFeature = null;
     private TransitAccount mPlaceAccount = null;
 
+    public PlaceView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     public TransitAccount PlaceAccount
     {
         get

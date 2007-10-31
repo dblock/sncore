@@ -15,7 +15,8 @@ public partial class _Default : Page
     {
         if (!IsPostBack)
         {
-            linkLoginLogout.Text = SessionManager.IsLoggedIn ? "Logout" : "Login";            
+            linkLoginLogout.Text = SessionManager.IsLoggedIn ? "Logout" : "Login";
+            linkStandard.NavigateUrl = SessionManager.GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/SnCoreWeb");
         }
     }
 

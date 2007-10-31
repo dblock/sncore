@@ -19,6 +19,11 @@ using System.Collections.Specialized;
 [SiteMapDataAttribute("Blogs")]
 public partial class AccountFeedItemsView : Page
 {
+    public AccountFeedItemsView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     private LocationSelectorCountryStateCity mLocationSelector = null;
 
     public LocationSelectorCountryStateCity LocationSelector

@@ -41,7 +41,6 @@ public partial class AccountsView : Page
         if (!IsPostBack)
         {
             LocationSelector.SelectLocation(sender, new LocationEventArgs(Request));
-            SetDefaultButton(search);
             GetData(sender, e);
         }
     }
@@ -59,7 +58,6 @@ public partial class AccountsView : Page
     private SocialService.AccountActivityQueryOptions GetQueryOptions()
     {
         SocialService.AccountActivityQueryOptions options = new SocialService.AccountActivityQueryOptions();
-        options.Name = inputSearch.Text;
         options.City = inputCity.Text;
         options.State = inputState.Text;
         options.Country = inputCountry.Text;
@@ -75,11 +73,6 @@ public partial class AccountsView : Page
         gridManage.DataSource = SessionManager.GetCollection<
             SocialService.TransitAccountActivity, SocialService.ServiceQueryOptions, SocialService.AccountActivityQueryOptions>(
             options, serviceoptions, SessionManager.SocialService.GetAccountActivity);
-    }
-
-    public void search_Click(object sender, EventArgs e)
-    {
-        GetData(sender, e);
     }
 
     public void cities_SelectedChanged(object sender, CommandEventArgs e)

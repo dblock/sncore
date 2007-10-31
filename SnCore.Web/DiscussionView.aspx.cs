@@ -16,6 +16,11 @@ using System.Collections.Generic;
 
 public partial class DiscussionView : Page
 {
+    public DiscussionView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)

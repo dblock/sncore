@@ -8,5 +8,6 @@
   <li><a href="AccountFeedItemsView.aspx">Blog Roll</a></li>
   <li><a href="AccountFeedsView.aspx">Blog Directory</a></li>
   <li><asp:LinkButton ID="linkLoginLogout" runat="server" OnClick="linkLoginLogout_Click" /></li>
+  <li><asp:HyperLink ID="linkStandard" runat="server" Text="Full Version" /></li>
  </ul>
 </asp:Content>

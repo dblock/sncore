@@ -74,11 +74,27 @@ public class SessionManager
         }
     }
 
+    public Uri MobileWebsiteUri
+    {
+        get
+        {
+            return new Uri(MobileWebsiteUrl.TrimEnd("/".ToCharArray()) + "/");
+        }
+    }
+
     public string WebsiteUrl
     {
         get
         {
             return GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost/SnCoreWeb");
+        }
+    }
+
+    public string MobileWebsiteUrl
+    {
+        get
+        {
+            return GetCachedConfiguration("SnCore.MobileWebSite.Url", string.Empty);
         }
     }
 

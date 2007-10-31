@@ -20,6 +20,11 @@ using System.Collections.Specialized;
 [SiteMapDataAttribute("People")]
 public partial class AccountsView : AccountPersonPage
 {
+    public AccountsView()
+    {
+        mIsMobileEnabled = true;
+    }
+
     public class LocationWithOptionsEventArgs : LocationEventArgs
     {
         public string Name;
