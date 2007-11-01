@@ -12,7 +12,7 @@
   RepeatColumns="1" RepeatRows="5" RepeatDirection="Horizontal" CssClass="sncore_table"
   ShowHeader="false">
   <pagerstyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" PageButtonCount="5" />
+   prevpagetext="Prev" PageButtonCount="5" />
   <ItemStyle CssClass="sncore_message_tr_td" />
   <ItemTemplate>
    <div class="sncore_message">
@@ -44,7 +44,7 @@
     <div class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
      style='width: <%# base.OuterWidth - (int) Eval("Level") * 5 %>px'>
      <div class='<%# (DateTime.UtcNow.Subtract(IsThreaded ? (DateTime) Eval("DiscussionThreadModified") : (DateTime) Eval("Created")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
-      <%# IsFull ? Renderer.RenderEx((string)Eval("Body")) : Renderer.GetSummary((string)Eval("Body"))%>
+      <%# IsFull ? SessionManager.RenderMarkups(Renderer.RenderEx((string)Eval("Body"))) : Renderer.GetSummary((string)Eval("Body"))%>
      </div>
     </div>
    </div>

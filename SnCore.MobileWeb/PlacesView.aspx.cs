@@ -235,6 +235,7 @@ public partial class PlacesView : Page
         options.State = inputState.SelectedValue;
         options.Name = inputName.Text;
         options.Type = inputType.SelectedValue;
+        options.PicturesOnly = true;
         return options;
     }
 

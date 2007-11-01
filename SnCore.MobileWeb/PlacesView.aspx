@@ -13,8 +13,13 @@
   RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal" CssClass="sncore_table"
   ShowHeader="false">
   <pagerstyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" PageButtonCount="5" />
+   prevpagetext="Prev" PageButtonCount="5" />
   <ItemTemplate>
+   <div>
+    <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+     <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+    </a>
+   </div>
    <div>
     <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
      <%# Renderer.Render(Eval("Name")) %>

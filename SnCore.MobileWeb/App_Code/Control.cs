@@ -153,4 +153,12 @@ public class Control : System.Web.UI.UserControl
             ReportException(ex);
         }
     }
+
+    public int RequestId
+    {
+        get
+        {
+            return GetId("id");
+        }
+    }
 }

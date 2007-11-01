@@ -11,8 +11,13 @@
   allowcustompaging="true" repeatcolumns="1" repeatrows="7" repeatdirection="Horizontal"
   cssclass="sncore_table" showheader="false">
   <PagerStyle PageButtonCount="5" cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" />
+   prevpagetext="Prev" />
   <ItemTemplate>
+   <div>
+    <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+     <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
+    </a>
+   </div>
    <div>
     <a href="AccountView.aspx?id=<%# Eval("Id") %>">
      <%# Renderer.Render(Eval("Name")) %>

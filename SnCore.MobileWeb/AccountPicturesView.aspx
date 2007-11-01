@@ -11,8 +11,8 @@
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
   ShowHeader="false" RepeatColumns="1" RepeatRows="5" RepeatDirection="Vertical">
   <pagerstyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" PageButtonCount="5" />
-  <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
+   prevpagetext="Prev" PageButtonCount="5" />
+  <ItemStyle CssClass="sncore_table_tr_td" />
   <ItemTemplate>
    <div>
     <a href="AccountPictureView.aspx?id=<%# Eval("Id") %>">

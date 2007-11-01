@@ -10,6 +10,7 @@ using System.Web.Caching;
 using SnCore.Tools;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
+using System.Text.RegularExpressions;
 
 public class SessionManager
 {
@@ -374,6 +375,22 @@ public class SessionManager
         }
     }
 
+    public StoryService.WebStoryService StoryService
+    {
+        get
+        {
+            return CachedWebService<StoryService.WebStoryService>.GetEndPoint(Cache);
+        }
+    }
+
+    public BlogService.WebBlogService BlogService
+    {
+        get
+        {
+            return CachedWebService<BlogService.WebBlogService>.GetEndPoint(Cache);
+        }
+    }
+
     #endregion
 
     #region Kitchen Sink (TODO: move)
@@ -415,6 +432,93 @@ public class SessionManager
                 int.TryParse(xtz.Value, out tz);
 
             return tz;
+        }
+    }
+
+    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
+        RegexOptions.IgnoreCase);
+
+    private string ReferenceHandler(Match ParameterMatch)
+    {
+        string tag = ParameterMatch.Groups["tag"].Value;
+        string tagname = ParameterMatch.Groups["name"].Value.Trim();
+        string tagvalue = ParameterMatch.Groups["value"].Value.Trim();
+
+        if (tag == "[[")
+        {
+            return string.Format("[{0}:{1}]", tagname, tagvalue);
+        }
+        else if ((tagname == "user") || (tagname == "account"))
+        {
+            int userid = 0;
+            if (int.TryParse(tagvalue, out userid))
+            {
+                AccountService.TransitAccount t_account = GetInstance<AccountService.TransitAccount, AccountService.ServiceQueryOptions, int>(
+                    userid, AccountService.GetAccountById);
+
+                if (t_account != null)
+                {
+                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
+                        WebsiteUrl, t_account.Id, Renderer.Render(t_account.Name));
+                }
+            }
+
+            return string.Format("[invalid user: {0}]", tagvalue);
+        }
+        else
+        {
+            PlaceService.TransitPlace p = GetInstance<PlaceService.TransitPlace, PlaceService.ServiceQueryOptions, string, string>(
+                tagname, tagvalue, PlaceService.FindPlace);
+
+            if (p == null)
+            {
+                return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+            }
+            else
+            {
+                return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
+                    p.Id, Renderer.Render(p.Name), WebsiteUrl);
+            }
+        }
+    }
+
+    public string RenderMarkups(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
+        MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
+        return MarkupExpression.Replace(s, mhd);
+    }
+
+    public string MarkupClearHandler(Match ParameterMatch)
+    {
+        string tag = ParameterMatch.Groups["tag"].Value;
+        string city = ParameterMatch.Groups["name"].Value;
+        string name = ParameterMatch.Groups["value"].Value;
+
+        if (tag == "[[")
+        {
+            return string.Format("[{0}:{1}]", city, name);
+        }
+        else
+        {
+            return name;
+        }
+    }
+
+    public string RemoveMarkups(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return string.Empty;
+        MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
+        return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
+    }
+
+    public static bool ShowAds
+    {
+        get
+        {
+            object ads = ConfigurationManager.AppSettings["Ads.Visible"];
+            return (ads == null) || bool.Parse(ads.ToString());
         }
     }
 

@@ -10,9 +10,9 @@
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
   ShowHeader="false" BorderWidth="0" BorderColor="White">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" PageButtonCount="5" />
-  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
+   PrevPageText="Prev" PageButtonCount="5" />
+  <ItemStyle CssClass="sncore_table_tr_td" />
+  <HeaderStyle CssClass="sncore_table_tr_th" />
   <Columns>
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
@@ -38,7 +38,7 @@
       </span>
      </div>
      <div>
-      <%# Renderer.GetSummary((string) Eval("Description")) %>
+      <%# GetDescription((string) Eval("Description"), (string) Eval("AccountFeedLinkUrl")) %>
      </div>
     </itemtemplate>
    </asp:TemplateColumn>

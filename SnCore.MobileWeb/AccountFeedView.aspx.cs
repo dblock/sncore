@@ -72,4 +72,13 @@ public partial class AccountFeedView : Page
     {
         return string.IsNullOrEmpty(s) ? defaultvalue : s;
     }
+
+    public string GetDescription(string s, string uri)
+    {
+        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+        return Renderer.CleanHtml(
+            s,
+            Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? new Uri(uri) : null,
+            imgrewriteuri);
+    }
 }

@@ -11,7 +11,7 @@
   ID="discussionThreadView" AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0"
   AllowPaging="false" AllowCustomPaging="false">
   <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" PageButtonCount="5" />
+   PrevPageText="Prev" PageButtonCount="5" />
   <Columns>
    <asp:BoundColumn DataField="Id" Visible="false" />
    <asp:BoundColumn DataField="CanEdit" Visible="false" />
@@ -33,7 +33,7 @@
        <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_content_recent" : "sncore_content" %>'
         style='width: <%# base.OuterWidth - (int) Eval("Level") * 5 %>px'>
         <div class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_message_body_recent" : "sncore_message_body" %>'>
-         <%# Renderer.RenderEx(Eval("Body")) %>
+         <%# SessionManager.RenderMarkups(Renderer.RenderEx(Eval("Body"))) %>
         </div>
        </div>
       </div>      

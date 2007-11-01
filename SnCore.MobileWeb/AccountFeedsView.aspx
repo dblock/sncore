@@ -10,7 +10,7 @@
   AllowCustomPaging="true" RepeatRows="7" RepeatDirection="Vertical"
   CssClass="sncore_table" ShowHeader="false">
   <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-   prevpagetext="Prev" horizontalalign="Center" PageButtonCount="5" />
+   prevpagetext="Prev" PageButtonCount="5" />
   <ItemStyle CssClass="sncore_table_tr_td" />
   <ItemTemplate>
    <div>

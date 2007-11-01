@@ -61,6 +61,7 @@ public partial class AccountsView : Page
         options.City = inputCity.Text;
         options.State = inputState.Text;
         options.Country = inputCountry.Text;
+        options.PicturesOnly = true;
         return options;
     }
 

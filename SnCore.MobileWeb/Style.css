@@ -6,6 +6,8 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 body ul.menu li { color: Green; text-decoration: none; list-style-type: none; }
 body ul.links { margin-left: 2px; font-size: 8pt; }
 h3 { margin-bottom: 3px; margin-top: 3px; }
+.sncore_h2 { margin-bottom: 3px; margin-top: 5px; font-weight: bold; }
+.sncore_h2sub{ font-size: smaller; }
 .sncore_description { font-size: smaller; }
 .sncore_table_pager { padding: 2px; font-size: 8pt; font-weight: bold; }
 .sncore_notice_info { margin: 10px; font-weight: bold; color: green; }
