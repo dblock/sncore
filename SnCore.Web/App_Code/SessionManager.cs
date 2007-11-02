@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Web.Hosting;
 using SnCore.Data.Hibernate;
 
-public class SessionManager
+public class SessionManager : HostedSessionManager, IMarkupRendererHandler
 {
     static TimeSpan s_RequestCommitInterval = new TimeSpan(0, 2, 0); // commit every two minutes
     private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
@@ -35,34 +35,14 @@ public class SessionManager
     const string sSnCoreLastVisit = "SnCore.lastvisit";
     const string sSnCoreLastMonthVisit = "SnCore.lastmonthvisit";
 
-    private EventLog mEventLog = null;
-    private Cache mCache = null;
-    private HttpRequest mRequest = null;
-    private HttpResponse mResponse = null;
     private string mTicket = string.Empty;
     private TransitAccount mAccount = null;
 
-    public Cache Cache
+    protected override int SessionTimeZone
     {
         get
         {
-            return mCache;
-        }
-    }
-
-    public HttpRequest Request
-    {
-        get
-        {
-            return mRequest;
-        }
-    }
-
-    public HttpResponse Response
-    {
-        get
-        {
-            return mResponse;
+            return Account.TimeZone;
         }
     }
 
@@ -121,10 +101,9 @@ public class SessionManager
     }
 
     public SessionManager(Cache cache, HttpRequest request, HttpResponse response, bool track)
+        : base(cache, request, response)
     {
-        mCache = cache;
-        mRequest = request;
-        mResponse = response;
+        mMarkupRenderer = new MarkupRenderer<SessionManager>(this);
 
         CacheAuthCookie();
 
@@ -172,7 +151,7 @@ public class SessionManager
 
     #region Login and Impersonate
 
-    public bool IsLoggedIn
+    public override bool IsLoggedIn
     {
         get
         {
@@ -484,96 +463,6 @@ public class SessionManager
 
     #region Kitchen Sink (TODO: move)
 
-    public EventLog EventLog
-    {
-        get
-        {
-            if (mEventLog == null)
-            {
-                mEventLog = HostedApplication.CreateEventLog();
-            }
-            return mEventLog;
-        }
-    }
-
-    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
-        RegexOptions.IgnoreCase);
-
-    private string ReferenceHandler(Match ParameterMatch)
-    {
-        string tag = ParameterMatch.Groups["tag"].Value;
-        string tagname = ParameterMatch.Groups["name"].Value.Trim();
-        string tagvalue = ParameterMatch.Groups["value"].Value.Trim();
-
-        if (tag == "[[")
-        {
-            return string.Format("[{0}:{1}]", tagname, tagvalue);
-        }
-        else if ((tagname == "user") || (tagname == "account"))
-        {
-            int userid = 0;
-            if (int.TryParse(tagvalue, out userid))
-            {
-                TransitAccount t_account = GetInstance<TransitAccount, int>(
-                    userid, AccountService.GetAccountById);
-
-                if (t_account != null)
-                {
-                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
-                        WebsiteUrl, t_account.Id, Renderer.Render(t_account.Name));
-                }
-            }
-
-            return string.Format("[invalid user: {0}]", tagvalue);
-        }
-        else
-        {
-            TransitPlace p = GetInstance<TransitPlace, string, string>(
-                tagname, tagvalue, PlaceService.FindPlace);
-
-            if (p == null)
-            {
-                return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
-            }
-            else
-            {
-                return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
-                    p.Id, Renderer.Render(p.Name), WebsiteUrl);
-            }
-        }
-    }
-
-    public string RenderMarkups(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
-        return MarkupExpression.Replace(s, mhd);
-    }
-
-    public string MarkupClearHandler(Match ParameterMatch)
-    {
-        string tag = ParameterMatch.Groups["tag"].Value;
-        string city = ParameterMatch.Groups["name"].Value;
-        string name = ParameterMatch.Groups["value"].Value;
-
-        if (tag == "[[")
-        {
-            return string.Format("[{0}:{1}]", city, name);
-        }
-        else
-        {
-            return name;
-        }
-    }
-
-    public string RemoveMarkups(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
-        return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
-    }
-
     public static bool ShowAds
     {
         get
@@ -668,62 +557,6 @@ public class SessionManager
         return lastVisit;
     }
 
-    public DateTime Adjust(DateTime dt)
-    {
-        if ((IsLoggedIn) && (Account.TimeZone >= 0))
-        {
-            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-            return tz.FromUniversalTime(dt);
-        }
-
-        return dt.AddHours(BrowserUtcOffset);
-    }
-
-    public DateTime ToUTC(DateTime dt)
-    {
-        if ((IsLoggedIn) && (Account.TimeZone >= 0))
-        {
-            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-            return tz.ToUniversalTime(dt);
-        }
-
-        return dt.AddHours(-BrowserUtcOffset);
-    }
-
-    public string ToAdjustedString(DateTime dt)
-    {
-        TimeSpan ts = DateTime.UtcNow.Subtract(dt);
-        if (ts.TotalSeconds <= 1)
-            return "a second ago";
-        else if (ts.TotalMinutes <= 1)
-            return string.Format("{0} second{1} ago", ts.Seconds, ts.Seconds != 1 ? "s" : string.Empty);
-        else if (ts.TotalHours <= 1)
-            return string.Format("{0} minute{1} ago", ts.Minutes, ts.Minutes != 1 ? "s" : string.Empty);
-        else if (ts.TotalHours <= 6)
-            return string.Format("{0} hour{1} ago", ts.Hours, ts.Hours != 1 ? "s" : string.Empty);
-        else if (ts.TotalDays <= 1)
-            return "today";
-        else if (ts.TotalDays < 2)
-            return "yesterday";
-        else if (ts.TotalDays <= 7)
-            return string.Format("{0} day{1} ago", ts.Days, ts.Days != 1 ? "s" : string.Empty);
-        else
-            return string.Format("{0}", Adjust(dt).ToString("d"));
-    }
-
-    public string AdjustToRFC822(DateTime dt)
-    {
-        if ((IsLoggedIn) && (Account.TimeZone >= 0))
-        {
-            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-            return tz.FromUniversalTime(dt).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-                " " + tz.CurrentUtcBiasHours.ToString("00") + "00";
-        }
-
-        return dt.AddHours(BrowserUtcOffset).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-            " " + BrowserUtcOffset.ToString("00") + "00";
-    }
-
     public string GetValue(string s, string defaultvalue)
     {
         return string.IsNullOrEmpty(s) ? defaultvalue : s;
@@ -732,34 +565,6 @@ public class SessionManager
     public string GetValue(object s, string defaultvalue)
     {
         return (s == null) ? defaultvalue : GetValue(s.ToString(), defaultvalue);
-    }
-
-    public int UtcOffset
-    {
-        get
-        {
-            if ((IsLoggedIn) && (Account.TimeZone >= 0))
-            {
-                TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-                return tz.CurrentUtcBiasHours;
-            }
-
-            return BrowserUtcOffset;
-        }
-    }
-
-    public int BrowserUtcOffset
-    {
-        get
-        {
-            int tz = System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
-
-            HttpCookie xtz = Request.Cookies["x-VisitorTimeZoneOffset"];
-            if (xtz != null && !string.IsNullOrEmpty(xtz.Value))
-                int.TryParse(xtz.Value, out tz);
-
-            return tz;
-        }
     }
 
     #endregion
@@ -935,6 +740,54 @@ public class SessionManager
     }
 
     #endregion
+
+    #endregion
+
+    #region Markup Renderer
+
+    private MarkupRenderer<SessionManager> mMarkupRenderer = null;
+    
+    public string RenderMarkups(string value)
+    {
+        return mMarkupRenderer.Render(value);
+    }
+
+    public string Handle(string tag, string tagname, string tagvalue)
+    {
+        if ((tagname == "user") || (tagname == "account"))
+        {
+            int userid = 0;
+            if (int.TryParse(tagvalue, out userid))
+            {
+                TransitAccount t_account = GetInstance<TransitAccount, int>(
+                    userid, AccountService.GetAccountById);
+
+                if (t_account != null)
+                {
+                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
+                        WebsiteUrl, t_account.Id, Renderer.Render(t_account.Name));
+                }
+            }
+
+            return string.Format("[invalid user: {0}]", tagvalue);
+        }
+        else
+        {
+            TransitPlace p = GetInstance<TransitPlace, string, string>(
+                tagname, tagvalue, PlaceService.FindPlace);
+
+            if (p == null)
+            {
+                return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+            }
+            else
+            {
+                return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
+                    p.Id, Renderer.Render(p.Name), WebsiteUrl);
+            }
+        }
+    }
 
     #endregion
 }

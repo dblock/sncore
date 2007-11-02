@@ -12,7 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using System.Text.RegularExpressions;
 
-public class SessionManager
+public class SessionManager : HostedSessionManager, IMarkupRendererHandler
 {
     public static TimeSpan DefaultCacheTimeSpan = new TimeSpan(0, 5, 0);
 
@@ -21,34 +21,14 @@ public class SessionManager
     const string sSnCoreImpersonateCookieName = "SnCore.impersonatecookie";
     const string sSnCoreRememberLogin = "SnCore.rememberlogin";
 
-    private EventLog mEventLog = null;
-    private Cache mCache = null;
-    private HttpRequest mRequest = null;
-    private HttpResponse mResponse = null;
     private string mTicket = string.Empty;
     private AccountService.TransitAccount mAccount = null;
 
-    public Cache Cache
+    protected override int SessionTimeZone
     {
         get
         {
-            return mCache;
-        }
-    }
-
-    public HttpRequest Request
-    {
-        get
-        {
-            return mRequest;
-        }
-    }
-
-    public HttpResponse Response
-    {
-        get
-        {
-            return mResponse;
+            return Account.TimeZone;
         }
     }
 
@@ -91,21 +71,14 @@ public class SessionManager
     }
 
     public SessionManager(System.Web.UI.Page page)
-        : this(page.Cache, page.Request, page.Response, true)
+        : base(page)
     {
+        CacheAuthCookie();
     }
 
     public SessionManager(System.Web.UI.MasterPage page)
-        : this(page.Cache, page.Request, page.Response, true)
+        : base(page)
     {
-    }
-
-    public SessionManager(Cache cache, HttpRequest request, HttpResponse response, bool track)
-    {
-        mCache = cache;
-        mRequest = request;
-        mResponse = response;
-
         CacheAuthCookie();
     }
 
@@ -147,7 +120,7 @@ public class SessionManager
 
     #region Login and Impersonate
 
-    public bool IsLoggedIn
+    public override bool IsLoggedIn
     {
         get
         {
@@ -395,60 +368,18 @@ public class SessionManager
 
     #region Kitchen Sink (TODO: move)
 
-    public EventLog EventLog
+    #region Markup Renderer
+
+    private MarkupRenderer<SessionManager> mMarkupRenderer = null;
+
+    public string RenderMarkups(string value)
     {
-        get
-        {
-            if (mEventLog == null)
-            {
-                mEventLog = HostedApplication.CreateEventLog();
-            }
-            return mEventLog;
-        }
+        return mMarkupRenderer.Render(value);
     }
 
-    public int UtcOffset
+    public string Handle(string tag, string tagname, string tagvalue)
     {
-        get
-        {
-            if ((IsLoggedIn) && (Account.TimeZone >= 0))
-            {
-                TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-                return tz.CurrentUtcBiasHours;
-            }
-
-            return BrowserUtcOffset;
-        }
-    }
-
-    public int BrowserUtcOffset
-    {
-        get
-        {
-            int tz = System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
-
-            HttpCookie xtz = Request.Cookies["x-VisitorTimeZoneOffset"];
-            if (xtz != null && !string.IsNullOrEmpty(xtz.Value))
-                int.TryParse(xtz.Value, out tz);
-
-            return tz;
-        }
-    }
-
-    static Regex MarkupExpression = new Regex(@"(?<tag>[\[]+)(?<name>[\w\s]*):(?<value>[\w\s\'\-!]*)[\]]+",
-        RegexOptions.IgnoreCase);
-
-    private string ReferenceHandler(Match ParameterMatch)
-    {
-        string tag = ParameterMatch.Groups["tag"].Value;
-        string tagname = ParameterMatch.Groups["name"].Value.Trim();
-        string tagvalue = ParameterMatch.Groups["value"].Value.Trim();
-
-        if (tag == "[[")
-        {
-            return string.Format("[{0}:{1}]", tagname, tagvalue);
-        }
-        else if ((tagname == "user") || (tagname == "account"))
+        if ((tagname == "user") || (tagname == "account"))
         {
             int userid = 0;
             if (int.TryParse(tagvalue, out userid))
@@ -483,35 +414,7 @@ public class SessionManager
         }
     }
 
-    public string RenderMarkups(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mhd = new MatchEvaluator(ReferenceHandler);
-        return MarkupExpression.Replace(s, mhd);
-    }
-
-    public string MarkupClearHandler(Match ParameterMatch)
-    {
-        string tag = ParameterMatch.Groups["tag"].Value;
-        string city = ParameterMatch.Groups["name"].Value;
-        string name = ParameterMatch.Groups["value"].Value;
-
-        if (tag == "[[")
-        {
-            return string.Format("[{0}:{1}]", city, name);
-        }
-        else
-        {
-            return name;
-        }
-    }
-
-    public string RemoveMarkups(string s)
-    {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        MatchEvaluator mhd = new MatchEvaluator(MarkupClearHandler);
-        return Renderer.RemoveMarkups(MarkupExpression.Replace(s, mhd));
-    }
+    #endregion
 
     public static bool ShowAds
     {
@@ -680,63 +583,5 @@ public class SessionManager
 
     #endregion
 
-    #endregion
-
-    #region Timezones
-    public DateTime Adjust(DateTime dt)
-    {
-        if ((IsLoggedIn) && (Account.TimeZone >= 0))
-        {
-            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-            return tz.FromUniversalTime(dt);
-        }
-
-        return dt.AddHours(BrowserUtcOffset);
-    }
-
-    public DateTime ToUTC(DateTime dt)
-    {
-        if ((IsLoggedIn) && (Account.TimeZone >= 0))
-        {
-            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-            return tz.ToUniversalTime(dt);
-        }
-
-        return dt.AddHours(-BrowserUtcOffset);
-    }
-
-    public string ToAdjustedString(DateTime dt)
-    {
-        TimeSpan ts = DateTime.UtcNow.Subtract(dt);
-        if (ts.TotalSeconds <= 1)
-            return "a second ago";
-        else if (ts.TotalMinutes <= 1)
-            return string.Format("{0} second{1} ago", ts.Seconds, ts.Seconds != 1 ? "s" : string.Empty);
-        else if (ts.TotalHours <= 1)
-            return string.Format("{0} minute{1} ago", ts.Minutes, ts.Minutes != 1 ? "s" : string.Empty);
-        else if (ts.TotalHours <= 6)
-            return string.Format("{0} hour{1} ago", ts.Hours, ts.Hours != 1 ? "s" : string.Empty);
-        else if (ts.TotalDays <= 1)
-            return "today";
-        else if (ts.TotalDays < 2)
-            return "yesterday";
-        else if (ts.TotalDays <= 7)
-            return string.Format("{0} day{1} ago", ts.Days, ts.Days != 1 ? "s" : string.Empty);
-        else
-            return string.Format("{0}", Adjust(dt).ToString("d"));
-    }
-
-    public string AdjustToRFC822(DateTime dt)
-    {
-        if ((IsLoggedIn) && (Account.TimeZone >= 0))
-        {
-            TimeZoneInformation tz = TimeZoneInformation.FromIndex(Account.TimeZone);
-            return tz.FromUniversalTime(dt).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-                " " + tz.CurrentUtcBiasHours.ToString("00") + "00";
-        }
-
-        return dt.AddHours(BrowserUtcOffset).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-            " " + BrowserUtcOffset.ToString("00") + "00";
-    }
     #endregion
 }

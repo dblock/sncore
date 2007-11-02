@@ -42,6 +42,7 @@
     <Compile Include="CssAbsoluteLinksWriter.cs" />
     <Compile Include="ExceptionCollection.cs" />
     <Compile Include="HostedApplication.cs" />
+    <Compile Include="HostedSessionManager.cs" />
     <Compile Include="HtmlAbsoluteLinksWriter.cs" />
     <Compile Include="HtmlGenericExtractor.cs" />
     <Compile Include="HtmlLinkExtractor.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="HtmlReaderWriter.cs" />
     <Compile Include="HtmlUriExtractor.cs" />
     <Compile Include="HtmlUrlBasedExtractor.cs" />
+    <Compile Include="MarkupRenderer.cs" />
     <Compile Include="NameValueCollectionSerializer.cs" />
     <Compile Include="PersistentlyHashable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
