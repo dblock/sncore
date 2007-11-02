@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Web.Caching;
 using System.Net;
 using SnCore.SiteMap;
+using SnCore.Tools.Web.Html;
 
 public partial class AccountLicenseEdit : AuthenticatedPage
 {
@@ -67,7 +68,10 @@ public partial class AccountLicenseEdit : AuthenticatedPage
                     license = client.DownloadString(tal.LicenseUrl);
                     license = license.Substring(license.IndexOf("<div id=\"deed\""));
                     license = license.Substring(0, license.LastIndexOf("</div>") + 4);
-                    license = Renderer.CleanHtml(license, new Uri("http://creativecommons.org/"), null);
+
+                    HtmlWriterOptions options = new HtmlWriterOptions();
+                    options.BaseHref = new Uri("http://creativecommons.org/");
+                    license = Renderer.CleanHtml(license, options);
                     Cache[key] = license;
                 }
 

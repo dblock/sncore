@@ -15,6 +15,7 @@ using System.IO;
 using Sgml;
 using System.Xml;
 using System.Text;
+using System.Drawing;
 
 namespace SnCore.Tools.Web.Html
 {
@@ -41,13 +42,13 @@ namespace SnCore.Tools.Web.Html
         }
     }
 
-    /// <summary>
-    /// Extends XmlTextWriter to provide Html writing feature which is not as strict as Xml
-    /// writing. For example, Xml Writer encodes content passed to WriteString which encodes special markups like
-    /// &nbsp to &amp;bsp. So, WriteString is bypassed by calling WriteRaw.
-    /// </summary>
-    public class HtmlWriter : XmlTextWriter
+    public class HtmlWriterOptions
     {
+        public HtmlWriterOptions()
+        {
+
+        }
+
         /// <summary>
         /// If set to true, it will filter the output by using tag and attribute filtering,
         /// space reduce etc
@@ -88,24 +89,78 @@ namespace SnCore.Tools.Web.Html
             "height", "color", "size", "class", "style", "type", "name", "value", "rel" };
 
         /// <summary>
-        /// Base href to adjust images and links
+        /// Base href to adjust links
         /// </summary>
         public Uri BaseHref = null;
+
+        /// <summary>
+        /// Base href to adjust images
+        /// </summary>
         public Uri RewriteImgSrc = null;
 
+        /// <summary>
+        /// Target image size, set to zero if needs stripping
+        /// </summary>
+        public Nullable<Size> RewriteImgSize;
+    }
+
+    /// <summary>
+    /// Extends XmlTextWriter to provide Html writing feature which is not as strict as Xml
+    /// writing. For example, Xml Writer encodes content passed to WriteString which encodes special markups like
+    /// &nbsp to &amp;bsp. So, WriteString is bypassed by calling WriteRaw.
+    /// </summary>
+    public class HtmlWriter : XmlTextWriter
+    {
         private string LastStartElement = string.Empty;
+        private HtmlWriterOptions mOptions = null;
+
+        public HtmlWriterOptions Options
+        {
+            get
+            {
+                if (mOptions == null)
+                {
+                    mOptions = new HtmlWriterOptions();
+                }
+
+                return mOptions;
+            }
+        }
 
         public HtmlWriter(TextWriter writer)
             : base(writer)
         {
+
         }
+
+        public HtmlWriter(TextWriter writer, HtmlWriterOptions options)
+            : base(writer)
+        {
+            mOptions = options;
+        }
+
+        public HtmlWriter(StringBuilder builder, HtmlWriterOptions options)
+            : base(new StringWriter(builder))
+        {
+            mOptions = options;
+        }
+
         public HtmlWriter(StringBuilder builder)
             : base(new StringWriter(builder))
         {
+
         }
+
+        public HtmlWriter(Stream stream, Encoding enc, HtmlWriterOptions options)
+            : base(stream, enc)
+        {
+            mOptions = options;
+        }
+
         public HtmlWriter(Stream stream, Encoding enc)
             : base(stream, enc)
         {
+
         }
 
         public override void WriteProcessingInstruction(string name, string text)
@@ -136,18 +191,18 @@ namespace SnCore.Tools.Web.Html
             //text = text.Replace("'", "&apos;");
             //text = text.Replace("\"", "&quote;");
 
-            if (this.FilterOutput)
+            if (Options.FilterOutput)
             {
                 // text = text.Trim();
 
                 // We want to replace consecutive spaces to one space in order to save horizontal
                 // width
-                if (this.ReduceConsecutiveSpace) text = text.Replace("&nbsp;&nbsp;", "&nbsp;");
-                if (this.DecodeSpace) text = text.Replace("&nbsp;", " ");
-                if (this.RemoveNewlines) text = text.Replace(Environment.NewLine, " ");
+                if (Options.ReduceConsecutiveSpace) text = text.Replace("&nbsp;&nbsp;", "&nbsp;");
+                if (Options.DecodeSpace) text = text.Replace("&nbsp;", " ");
+                if (Options.RemoveNewlines) text = text.Replace(Environment.NewLine, " ");
                 
                 // typical word quotes
-                if (this.ReplaceQuotes)
+                if (Options.ReplaceQuotes)
                 {
                     text = text.Replace("“", "\"");
                     text = text.Replace("”", "\"");
@@ -164,12 +219,12 @@ namespace SnCore.Tools.Web.Html
 
         //public override void WriteWhitespace(string ws)
         //{
-        //    if (!this.FilterOutput) base.WriteWhitespace(ws);
+        //    if (!Options.FilterOutput) base.WriteWhitespace(ws);
         //}
 
         public override void WriteComment(string text)
         {
-            if (!this.FilterOutput) base.WriteComment(text);
+            if (!Options.FilterOutput) base.WriteComment(text);
         }
 
         /// <summary>
@@ -177,9 +232,9 @@ namespace SnCore.Tools.Web.Html
         /// </summary>
         public override void WriteStartElement(string prefix, string localName, string ns)
         {
-            if (this.FilterOutput)
+            if (Options.FilterOutput)
             {
-                if (Array.IndexOf(AllowedTags, localName.ToLower()) < 0)
+                if (Array.IndexOf(Options.AllowedTags, localName.ToLower()) < 0)
                 {
                     localName = "stripped";
                 }
@@ -194,7 +249,7 @@ namespace SnCore.Tools.Web.Html
         /// </summary>
         public override void WriteAttributes(XmlReader reader, bool defattr)
         {
-            if (this.FilterOutput)
+            if (Options.FilterOutput)
             {
                 // The following code is copied from implementation of XmlWriter's
                 // WriteAttributes method. 
@@ -206,7 +261,7 @@ namespace SnCore.Tools.Web.Html
                 {
                     if (reader.MoveToFirstAttribute())
                     {
-                        this.WriteAttributes(reader, defattr);
+                        WriteAttributes(reader, defattr);
                         reader.MoveToElement();
                     }
                 }
@@ -223,57 +278,83 @@ namespace SnCore.Tools.Web.Html
                             string attributename = reader.LocalName.ToLower();
 
                             // Check if the attribute is allowed 
-                            bool canWrite = false;
+                            bool canWrite = true;
 
                             switch (LastStartElement)
                             {
                                 case "embed":
                                     canWrite = true;
                                     break;
+                                case "img":
+                                    if (Options.RewriteImgSize.HasValue 
+                                        && Options.RewriteImgSize.Value.Width <= 0 
+                                        && Options.RewriteImgSize.Value.Height <= 0
+                                        && (attributename == "width" || attributename == "height"))
+                                    {
+                                        canWrite = false;
+                                    }
+                                    break;
                                 default:
-                                    canWrite = (Array.IndexOf(AllowedAttributes, attributename) >= 0);
+                                    canWrite = (Array.IndexOf(Options.AllowedAttributes, attributename) >= 0);
                                     break;
                             }
 
                             // If allowed, write the attribute
                             if (canWrite)
                             {
-                                this.WriteStartAttribute(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+                                WriteStartAttribute(reader.Prefix, reader.LocalName, reader.NamespaceURI);
                             }
 
                             while (reader.ReadAttributeValue())
                             {
                                 if (reader.NodeType == XmlNodeType.EntityReference)
                                 {
-                                    if (canWrite) this.WriteEntityRef(reader.Name);
+                                    if (canWrite)
+                                    {
+                                        WriteEntityRef(reader.Name);
+                                    }
+
                                     continue;
                                 }
+
                                 if (canWrite)
                                 {
                                     string value = reader.Value;
 
-                                    if (BaseHref != null 
+                                    if (Options.BaseHref != null 
                                         && LastStartElement == "a" 
                                         && attributename == "href")
                                     {
                                         value = HtmlUriExtractor.TryCreate(
-                                            BaseHref, reader.Value, value);
+                                            Options.BaseHref, reader.Value, value);
                                     }
                                     
-                                    if (BaseHref != null
+                                    if (Options.BaseHref != null
                                         && (LastStartElement == "img" || LastStartElement == "embed")
                                         && attributename == "src")
                                     {
                                         value = HtmlUriExtractor.TryCreate(
-                                            BaseHref, reader.Value, value);
+                                            Options.BaseHref, reader.Value, value);
                                     }
 
-                                    if (RewriteImgSrc != null
-                                        && LastStartElement == "img"
+                                    if (Options.RewriteImgSrc != null 
+                                        && LastStartElement == "img" 
                                         && attributename == "src")
                                     {
-                                        value = RewriteImgSrc.ToString().Replace("{url}", 
+                                        value = Options.RewriteImgSrc.ToString().Replace("{url}", 
                                             Renderer.UrlEncode(value));
+                                    } 
+                                    else if (Options.RewriteImgSize.HasValue
+                                        && LastStartElement == "img" 
+                                        && attributename == "width")
+                                    {
+                                        value = Options.RewriteImgSize.Value.Width.ToString();
+                                    }
+                                    else if (Options.RewriteImgSize.HasValue
+                                        && LastStartElement == "img" 
+                                        && attributename == "height")
+                                    {
+                                        value = Options.RewriteImgSize.Value.Height.ToString();
                                     }
 
                                     if (LastStartElement == "link" 
@@ -287,10 +368,14 @@ namespace SnCore.Tools.Web.Html
                                         }
                                     }
 
-                                    this.WriteString(value);
+                                    WriteString(value);
                                 }
                             }
-                            if (canWrite) this.WriteEndAttribute();
+
+                            if (canWrite)
+                            {
+                                WriteEndAttribute();
+                            }
                         }
                     } while (reader.MoveToNextAttribute());
                 }

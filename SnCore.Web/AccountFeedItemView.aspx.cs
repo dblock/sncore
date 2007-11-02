@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Tools.Web.Html;
 
 public partial class AccountFeedItemView : Page
 {
@@ -62,9 +63,11 @@ public partial class AccountFeedItemView : Page
             FeedItemTitle.Text = Renderer.Render(tfi.Title);
 
             Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-            FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description,
-                Uri.IsWellFormedUriString(tfi.AccountFeedLinkUrl, UriKind.Absolute) ? new Uri(tfi.AccountFeedLinkUrl) : null,
-                imgrewriteuri);
+
+            HtmlWriterOptions options = new HtmlWriterOptions();
+            options.BaseHref = Uri.IsWellFormedUriString(tfi.AccountFeedLinkUrl, UriKind.Absolute) ? new Uri(tfi.AccountFeedLinkUrl) : null;
+            options.RewriteImgSrc = imgrewriteuri;
+            FeedItemDescription.Text = Renderer.CleanHtml(tfi.Description, options);
 
             FeedItemComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                 typeof(AccountFeedItem).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);

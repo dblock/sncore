@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Tools.Web.Html;
 
 public partial class AccountFeedView : Page
 {
@@ -203,8 +204,9 @@ public partial class AccountFeedView : Page
     public string GetDescription(string value)
     {
         Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(value,
-            Uri.IsWellFormedUriString(AccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(AccountFeed.LinkUrl) : null,
-            imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.BaseHref = Uri.IsWellFormedUriString(AccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(AccountFeed.LinkUrl) : null;
+        options.RewriteImgSrc = imgrewriteuri;
+        return Renderer.CleanHtml(value, options);
     }
 }

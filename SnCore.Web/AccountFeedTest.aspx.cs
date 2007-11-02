@@ -249,8 +249,9 @@ public partial class AccountFeedTest : Page
     public string GetDescription(string value)
     {
         Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(value,
-            Uri.IsWellFormedUriString(mAccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(mAccountFeed.LinkUrl) : null,
-            imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.BaseHref = Uri.IsWellFormedUriString(mAccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(mAccountFeed.LinkUrl) : null;
+        options.RewriteImgSrc = imgrewriteuri;
+        return Renderer.CleanHtml(value, options);
     }
 }

@@ -15,6 +15,7 @@ using SnCore.WebServices;
 using System.Reflection;
 using System.Collections.Generic;
 using SnCore.SiteMap;
+using SnCore.Tools.Web.Html;
 
 public partial class FeaturedAccountFeedItemsView : Page
 {
@@ -82,6 +83,9 @@ public partial class FeaturedAccountFeedItemsView : Page
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
         Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.BaseHref = uri;
+        options.RewriteImgSrc = imgrewriteuri;
+        return Renderer.CleanHtml(summary, options);
     }
 }

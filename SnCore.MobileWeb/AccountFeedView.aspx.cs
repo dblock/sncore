@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Tools.Web.Html;
+using System.Drawing;
 
 public partial class AccountFeedView : Page
 {
@@ -62,10 +64,10 @@ public partial class AccountFeedView : Page
 
     public string GetDescription(string value)
     {
-        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(value,
-            Uri.IsWellFormedUriString(AccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(AccountFeed.LinkUrl) : null,
-            imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.BaseHref = Uri.IsWellFormedUriString(AccountFeed.LinkUrl, UriKind.Absolute) ? new Uri(AccountFeed.LinkUrl) : null;
+        options.RewriteImgSrc = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+        return Renderer.CleanHtml(value, options);
     }
 
     public string GetValue(string s, string defaultvalue)
@@ -75,10 +77,10 @@ public partial class AccountFeedView : Page
 
     public string GetDescription(string s, string uri)
     {
-        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(
-            s,
-            Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? new Uri(uri) : null,
-            imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.RewriteImgSize = new Size(0, 0);
+        options.BaseHref = Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? new Uri(uri) : null;
+        options.RewriteImgSrc = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+        return Renderer.CleanHtml(s, options);
     }
 }

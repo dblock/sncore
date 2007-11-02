@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using SnCore.Tools.Web.Html;
 
 public partial class AccountFeedRss : Page
 {
@@ -62,7 +63,10 @@ public partial class AccountFeedRss : Page
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
         Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.BaseHref = uri;
+        options.RewriteImgSrc = imgrewriteuri;
+        return Renderer.CleanHtml(summary, options);
     }
 
     public string Link

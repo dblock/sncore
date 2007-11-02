@@ -13,6 +13,8 @@ using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.WebControls;
 using SyndicationService;
+using System.Drawing;
+using SnCore.Tools.Web.Html;
 
 public partial class SearchAccountFeedItemsControl : SearchControl
 {
@@ -49,9 +51,12 @@ public partial class SearchAccountFeedItemsControl : SearchControl
     public string GetSummary(string summary, string link)
     {
         Uri uri = null;
-        Uri.TryCreate(link, UriKind.Absolute, out uri);
-        Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
+        Uri.TryCreate(link, UriKind.Absolute, out uri);        
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.RewriteImgSize = new Size(0, 0);
+        options.BaseHref = uri;
+        options.RewriteImgSrc = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+        return Renderer.CleanHtml(summary, options);
     }
 
     protected override Label Label

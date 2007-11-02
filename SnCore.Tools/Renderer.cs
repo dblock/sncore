@@ -99,22 +99,23 @@ namespace SnCore.Tools.Web
 
         public static string CleanHtml(string html)
         {
-            return CleanHtml(html, null, null);
+            Html.HtmlWriterOptions options = new Html.HtmlWriterOptions();
+            options.ReduceConsecutiveSpace = true;
+            options.DecodeSpace = true;
+            options.ReplaceQuotes = true;
+            options.BaseHref = null;
+            options.RewriteImgSrc = null;
+            return CleanHtml(html, options);
         }
 
-        public static string CleanHtml(string html, Uri basehref, Uri rewriteimgsrc)
+        public static string CleanHtml(string html, Html.HtmlWriterOptions options)
         {
             try
             {
                 Html.HtmlReader r = new Html.HtmlReader(html);
                 StringWriter sw = new StringWriter();
-                Html.HtmlWriter w = new Html.HtmlWriter(sw);
-                w.ReduceConsecutiveSpace = true;
-                w.DecodeSpace = true;
-                w.ReplaceQuotes = true;
-                w.BaseHref = basehref;
-                w.RewriteImgSrc = rewriteimgsrc;
-                while (! r.EOF)
+                Html.HtmlWriter w = new Html.HtmlWriter(sw, options);
+                while (!r.EOF)
                 {
                     w.WriteNode(r, true);
                 }

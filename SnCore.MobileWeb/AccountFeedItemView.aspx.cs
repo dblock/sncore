@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Tools.Web.Html;
+using System.Drawing;
 
 public partial class AccountFeedItemView : Page
 {
@@ -40,10 +42,11 @@ public partial class AccountFeedItemView : Page
             feeditemCreated.Text = SessionManager.Adjust(tfi.Created).ToString();
             feeditemXPosted.NavigateUrl = Renderer.Render(tfi.Link);
 
-            Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-            feeditemDescription.Text = Renderer.CleanHtml(tfi.Description,
-                Uri.IsWellFormedUriString(tfi.AccountFeedLinkUrl, UriKind.Absolute) ? new Uri(tfi.AccountFeedLinkUrl) : null,
-                imgrewriteuri);
+            HtmlWriterOptions options = new HtmlWriterOptions();
+            options.RewriteImgSize = new Size(0, 0);
+            options.BaseHref = Uri.IsWellFormedUriString(tfi.AccountFeedLinkUrl, UriKind.Absolute) ? new Uri(tfi.AccountFeedLinkUrl) : null;
+            options.RewriteImgSrc = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
+            feeditemDescription.Text = Renderer.CleanHtml(tfi.Description, options);
 
             int discussion_id = SessionManager.GetCount<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, string, int>(
                 "AccountFeedItem", RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);

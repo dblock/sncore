@@ -13,6 +13,7 @@ using Wilco.Web.UI;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using SnCore.Tools.Web.Html;
 
 public partial class AccountFeedPreviewControl : Control
 {
@@ -117,7 +118,10 @@ public partial class AccountFeedPreviewControl : Control
             Uri feedlinkUri = null;
             Uri.TryCreate(Feed.LinkUrl, UriKind.Absolute, out feedlinkUri);
             Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-            return Renderer.CleanHtml(description.ToString(), feedlinkUri, imgrewriteuri);
+            HtmlWriterOptions options = new HtmlWriterOptions();
+            options.BaseHref = feedlinkUri;
+            options.RewriteImgSrc = imgrewriteuri;
+            return Renderer.CleanHtml(description.ToString(), options);
         }
     }
 }

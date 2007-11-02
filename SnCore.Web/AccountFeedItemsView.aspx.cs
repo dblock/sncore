@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
 using nStuff.UpdateControls;
+using SnCore.Tools.Web.Html;
 using System.Collections.Specialized;
 
 [SiteMapDataAttribute("Blogs")]
@@ -208,7 +209,10 @@ public partial class AccountFeedItemsView : Page
         Uri uri = null;
         Uri.TryCreate(link, UriKind.Absolute, out uri);
         Uri imgrewriteuri = new Uri(SessionManager.WebsiteUri, "AccountFeedItemPicture.aspx?src={url}");
-        return Renderer.CleanHtml(summary, uri, imgrewriteuri);
+        HtmlWriterOptions options = new HtmlWriterOptions();
+        options.BaseHref = uri;
+        options.RewriteImgSrc = imgrewriteuri;
+        return Renderer.CleanHtml(summary, options);
     }
 
     public void linkSearch_Click(object sender, EventArgs e)
