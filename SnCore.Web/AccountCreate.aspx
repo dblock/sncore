@@ -9,6 +9,7 @@
  </div>
  <div class="sncore_h2sub">
   Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
+  <a href="AccountCreateOpenId.aspx">&#187; Join with Open-Id</a>
  </div>
  <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
   <ContentTemplate>

@@ -27,7 +27,7 @@ public partial class AccountFriendsManage : AuthenticatedPage
             friendsList.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request.Url));
             StackSiteMap(sitemapdata);
         }

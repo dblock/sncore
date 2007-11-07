@@ -22,7 +22,7 @@ public partial class AccountAddressesManage : AuthenticatedPage
             gridManage.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Addresses", Request.Url));
             StackSiteMap(sitemapdata);
         }

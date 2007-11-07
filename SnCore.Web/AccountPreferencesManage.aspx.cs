@@ -16,39 +16,16 @@ using System.Web.Caching;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
 
-[SiteMapDataAttribute("Me Me")]
 public partial class AccountPreferencesManage : AuthenticatedPage
 {
-    public class AccountNumbers
-    {
-        public int FirstDegreeCount;
-        public int SecondDegreeCount;
-        public int AllCount;
-
-        public int NewCount
-        {
-            get
-            {
-                return AllCount - FirstDegreeCount - 1; // all minus first degree minus self
-            }
-        }
-
-        public int PostsCount;
-    }
-
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
-            {
-                noticeVerifiedEmail.HtmlEncode = false;
-                noticeVerifiedEmail.Info = "You don't have a verified e-mail address. " +
-                    "You will only be able to post once you have verified your e-mail. " +
-                    "If you haven't received a confirmation e-mail, please " +
-                    "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
-                    "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
-            }
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Preferences", Request.Url));
+            StackSiteMap(sitemapdata);
 
             DomainClass cs = SessionManager.GetDomainClass("Account");
             inputName.MaxLength = cs["Name"].MaxLengthInChars;
@@ -56,41 +33,6 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputSignature.MaxLength = cs["Signature"].MaxLengthInChars;
 
             inputName.Text = SessionManager.Account.Name;
-
-            accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));
-            accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);
-
-            AccountNumbers numbers = (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
-            if (numbers == null)
-            {
-                numbers = new AccountNumbers();
-                numbers.FirstDegreeCount = SessionManager.SocialService.GetFirstDegreeCountById(SessionManager.Ticket, SessionManager.AccountId);
-                numbers.SecondDegreeCount = SessionManager.SocialService.GetNDegreeCountById(SessionManager.Ticket, SessionManager.AccountId, 2);
-                numbers.AllCount = SessionManager.AccountService.GetAccountsCount(SessionManager.Ticket);
-
-                DiscussionQueryOptions options = new DiscussionQueryOptions();
-                options.AccountId = SessionManager.Account.Id;
-                numbers.PostsCount = SessionManager.DiscussionService.GetUserDiscussionThreadsCount(
-                    SessionManager.Ticket, options);
-
-                Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
-                    numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
-            }
-
-            accountFirstDegree.Text = string.Format("{0} friend{1} in your personal network",
-                numbers.FirstDegreeCount,
-                numbers.FirstDegreeCount != 1 ? "s" : string.Empty);
-
-            accountSecondDegree.Text = string.Format("{0} friend{1} in your extended network",
-                numbers.SecondDegreeCount,
-                numbers.SecondDegreeCount != 1 ? "s" : string.Empty);
-
-            accountAllDegrees.Text = string.Format("{0} {1} to make new friends with",
-                numbers.NewCount > 0 ? numbers.NewCount.ToString() : "no",
-                numbers.NewCount != 1 ? "people" : "person");
-
-            accountDiscussionThreads.Text = string.Format("{0} discussion post{1}",
-                numbers.PostsCount, numbers.PostsCount != 1 ? "s" : string.Empty);
 
             inputBirthday.SelectedDate = SessionManager.Account.Birthday;
             inputBirthday.DataBind();

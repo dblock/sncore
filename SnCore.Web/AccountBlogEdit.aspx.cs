@@ -29,7 +29,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountBlogsManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountBlog");

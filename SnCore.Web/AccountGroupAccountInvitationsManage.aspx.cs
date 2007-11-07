@@ -24,7 +24,7 @@ public partial class AccountGroupAccountInvitationsManage : AuthenticatedPage
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Groups", Request, "AccountGroupsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Invitations", Request.Url));
             StackSiteMap(sitemapdata);

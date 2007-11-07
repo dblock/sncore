@@ -31,7 +31,7 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
             linkBack.NavigateUrl = string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Events", Request, "AccountEventsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("AccountEventView.aspx?id={0}", p.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id)));

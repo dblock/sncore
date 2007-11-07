@@ -23,7 +23,7 @@ public partial class AccountMessageFolderEdit : AuthenticatedPage
             int id = RequestId;
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountMessageFolder");

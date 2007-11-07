@@ -34,7 +34,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
             GetImagesData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(ts.Name, Request, string.Format("AccountStoryEdit.aspx?id={0}", ts.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));

@@ -57,7 +57,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", blog.AccountPictureId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountBlogsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(blog.Name, Request, string.Format("AccountBlogEdit.aspx?id={0}", blog.Id)));
 

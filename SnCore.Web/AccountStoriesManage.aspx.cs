@@ -26,7 +26,7 @@ public partial class AccountStoriesManage : AuthenticatedPage
             gridManage.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request.Url));
             StackSiteMap(sitemapdata);
         }

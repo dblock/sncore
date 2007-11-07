@@ -12,32 +12,7 @@
 <%@ Register tagprefix="SnCore" tagname="Notice" src="NoticeControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
- <table cellspacing="0" cellpadding="4" class="sncore_account_table">
-  <tr>
-   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
-    <a runat="server" id="linkPictures" href="AccountView.aspx">
-     <img border="0" src="AccountPictureThumbnail.aspx" runat="server" id="accountImage" />
-    </a>
-   </td>
-   <td valign="top" width="*">
-    <asp:Label CssClass="sncore_account_name" ID="accountName" runat="server" />
-    <br />
-    <br />
-    <div style="padding: 10px;">
-     <asp:HyperLink ID="accountFirstDegree" NavigateUrl="AccountFriendsView.aspx" runat="server" />
-     <br />
-     <asp:Label ID="accountSecondDegree" runat="server" />
-     <br />
-     <asp:HyperLink ID="accountAllDegrees" NavigateUrl="AccountsView.aspx" runat="server" />
-     <br />
-     <asp:HyperLink ID="accountDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx"
-      runat="server" />
-    </div>
-   </td>
-  </tr>
- </table>
- <SnCore:Notice ID="noticeVerifiedEmail" runat="server" />
- <SnCore:Title ID="titlePreferences" Text="My Preferences" runat="server">  
+ <SnCore:Title ID="titlePreferences" Text="Preferences" runat="server">  
   <Template>
    <div class="sncore_title_paragraph">
     This is your opportunity to choose your <b>name</b> and <b>birthday</b>. You should set your birthday date to a

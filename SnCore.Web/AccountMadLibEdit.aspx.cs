@@ -21,7 +21,7 @@ public partial class AccountMadLibEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Syndication", Request, "AccountFeedsManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("MadLib");

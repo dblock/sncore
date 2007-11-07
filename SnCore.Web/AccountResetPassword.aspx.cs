@@ -17,7 +17,7 @@ public partial class AccountResetPassword : Page
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Security", "AccountPreferencesManage.aspx#security"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Reset Password", Request.Url));
             StackSiteMap(sitemapdata);

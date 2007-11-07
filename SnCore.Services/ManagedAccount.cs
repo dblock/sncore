@@ -24,6 +24,76 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
+    public class TransitOpenIdLogin
+    {
+        private string mConsumerUrl;
+        private string mTicket;
+
+        public string ConsumerUrl
+        {
+            get
+            {
+                return mConsumerUrl;
+            }
+            set
+            {
+                mConsumerUrl = value;
+            }
+        }
+
+        public string Ticket
+        {
+            get
+            {
+                return mTicket;
+            }
+            set
+            {
+                mTicket = value;
+            }
+        }
+
+        public TransitOpenIdLogin()
+        {
+
+        }
+    }
+
+    public class ManagedOpenIdLogin
+    {
+        private Uri mConsumerUri;
+        private Account mAccount = null;
+
+        public Uri ConsumerUri
+        {
+            get
+            {
+                return mConsumerUri;
+            }
+            set
+            {
+                mConsumerUri = value;
+            }
+        }
+
+        public Account Account
+        {
+            get
+            {
+                return mAccount;
+            }
+            set
+            {
+                mAccount = value;
+            }
+        }
+
+        public ManagedOpenIdLogin()
+        {
+
+        }
+    }
+
     public class TransitOpenIdRedirect
     {
         private string mUrl;
@@ -664,11 +734,11 @@ namespace SnCore.Services
             }
         }
 
-        public int CreateWithOpenId(string consumerurl, TransitAccount ta, ManagedSecurityContext sec)
+        public int CreateWithOpenId(string consumerurl, string email, TransitAccount ta, ManagedSecurityContext sec)
         {
             try
             {
-                return InternalCreateWithOpenId(consumerurl, ta, sec);
+                return InternalCreateWithOpenId(consumerurl, email, ta, sec);
             }
             catch
             {
@@ -687,12 +757,18 @@ namespace SnCore.Services
         protected int InternalCreate(string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
         {
             CreateOrUpdate(ta, sec);
+            InternalCreateEmail(emailaddress, emailverified, sec);
+            CreateAccountSystemMessageFolders(sec);
+            return mInstance.Id;
+        }
 
+        private void InternalCreateEmail(string email, bool verified, ManagedSecurityContext sec)
+        {
             TransitAccountEmail t_email = new TransitAccountEmail();
             t_email.AccountId = mInstance.Id;
-            t_email.Address = new MailAddress(emailaddress).Address;
+            t_email.Address = new MailAddress(email).Address;
             t_email.Principal = false;
-            t_email.Verified = emailverified;
+            t_email.Verified = verified;
 
             ManagedAccountEmail m_email = new ManagedAccountEmail(Session);
             m_email.CreateOrUpdate(t_email, sec);
@@ -700,16 +776,14 @@ namespace SnCore.Services
 
             mInstance.AccountEmails = new List<AccountEmail>();
             mInstance.AccountEmails.Add(m_email.Instance);
-
-            CreateAccountSystemMessageFolders(sec);
-
-            return mInstance.Id;
         }
 
-        protected int InternalCreateWithOpenId(string consumerurl, TransitAccount ta, ManagedSecurityContext sec)
+        protected int InternalCreateWithOpenId(string consumerurl, string email, TransitAccount ta, ManagedSecurityContext sec)
         {
             ta.Password = Guid.NewGuid().ToString(); // random password for recovery
             CreateOrUpdate(ta, sec);
+            InternalCreateEmail(email, false, sec);
+            CreateAccountSystemMessageFolders(sec);
 
             TransitAccountOpenId t_openid = new TransitAccountOpenId();
             t_openid.IdentityUrl = consumerurl;
@@ -717,7 +791,6 @@ namespace SnCore.Services
             ManagedAccountOpenId m_openid = new ManagedAccountOpenId(Session);
             m_openid.CreateOrUpdate(t_openid, sec);
 
-            CreateAccountSystemMessageFolders(sec);
             return mInstance.Id;
         }
 
@@ -957,6 +1030,25 @@ namespace SnCore.Services
             o.Account.LastLogin = DateTime.UtcNow;
             session.Save(o.Account);
             return new ManagedAccount(session, o.Account);
+        }
+
+        public static ManagedOpenIdLogin TryLoginOpenId(ISession session, string token, NameValueCollection query)
+        {
+            ManagedOpenIdLogin t_result = new ManagedOpenIdLogin();
+
+            t_result.ConsumerUri = VerifyOpenId(token, query);
+            AccountOpenId account = (AccountOpenId)session.CreateCriteria(typeof(AccountOpenId))
+                    .Add(Expression.Eq("IdentityUrl", t_result.ConsumerUri.ToString()))
+                    .UniqueResult();
+
+            if (account != null)
+            { 
+                t_result.Account = account.Account;
+                t_result.Account.LastLogin = DateTime.UtcNow;
+                session.Save(t_result.Account);
+            }
+
+            return t_result;
         }
 
         #endregion

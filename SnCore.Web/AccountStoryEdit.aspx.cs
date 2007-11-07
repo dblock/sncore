@@ -28,7 +28,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Stories", Request, "AccountStoriesManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountStory");

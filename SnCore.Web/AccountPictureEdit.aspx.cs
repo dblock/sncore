@@ -34,7 +34,7 @@ public partial class AccountPictureEdit : AuthenticatedPage
                 discussionComments.DataBind();
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, "AccountPicturesManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
                 StackSiteMap(sitemapdata);

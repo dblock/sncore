@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="AccountMenuControl.ascx.cs" Inherits="AccountMenuControl" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <table class="sncore_accountmenu_table">
- <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="AccountView.aspx">Preview</a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="AccountView.aspx">Preview Me</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="AccountInvitationsManage.aspx">Invite&nbsp;Friends</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/specials.gif" /></td><td width="*">
   <SnCore:AccountContentGroupLink ID="linkAddGroup" ShowLinkPrefix="false" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />

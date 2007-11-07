@@ -9,7 +9,7 @@
  </div>
  <div class="sncore_h2sub">
   <a href="Default.aspx">&#187; Return to HomePage</a>
-  <a href="AccountPreferencesManage.aspx">&#187; Go to Me Me</a>
+  <a href="AccountManage.aspx">&#187; Go to Me Me</a>
   <a href="AccountPicturesManage.aspx">&#187; Upload a Picture</a>
  </div>
  <table class="sncore_notice_info">

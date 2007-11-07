@@ -69,7 +69,7 @@ public partial class AccountMessageView : AuthenticatedPage
                 Renderer.UrlEncode(Request.Url.PathAndQuery));
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request.Url));
             StackSiteMap(sitemapdata);

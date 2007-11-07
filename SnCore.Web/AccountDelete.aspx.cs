@@ -45,7 +45,7 @@ public partial class AccountDelete : AuthenticatedPage
             accountName.Text = string.Format("Dear {0},", Renderer.Render(Account.Name));
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Delete Account", Request.Url));
             StackSiteMap(sitemapdata);
         }

@@ -34,6 +34,14 @@ public partial class AccountReminder : Control
             if (!SessionManager.IsLoggedIn)
                 return;
 
+            if (string.IsNullOrEmpty(SessionManager.Account.City))
+            {
+                noticeReminder.HtmlEncode = false;
+                noticeReminder.Info = "Select your location to make this site local to you. " +
+                    "<a href='AccountPreferencesManage.aspx'>Click here!</a>";
+                return;
+            }
+
             if (SessionManager.Account.PictureId == 0)
             {
                 noticeReminder.HtmlEncode = false;

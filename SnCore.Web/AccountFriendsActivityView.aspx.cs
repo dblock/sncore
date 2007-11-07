@@ -43,7 +43,7 @@ public partial class AccountFriendsActivityView : AccountPersonPage
             GetData();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Friends Activity", Request.Url));
             StackSiteMap(sitemapdata);
         }

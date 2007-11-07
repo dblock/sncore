@@ -22,7 +22,7 @@ public partial class AccountAddressEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Addresses", Request, "AccountAddressesManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountAddress");

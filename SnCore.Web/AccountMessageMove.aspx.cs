@@ -41,7 +41,7 @@ public partial class AccountMessageMove : AuthenticatedPage
             listFolders.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Messages", Request, "AccountMessageFoldersManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(message.Subject, Request, string.Format("AccountMessageView.aspx?id={0}", message.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Move", Request.Url));

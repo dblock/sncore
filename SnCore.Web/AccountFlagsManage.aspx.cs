@@ -23,7 +23,7 @@ public partial class AccountFlagsManage : AuthenticatedPage
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Reported Abuse", Request.Url));
             StackSiteMap(sitemapdata);
         }

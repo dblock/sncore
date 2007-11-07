@@ -35,9 +35,17 @@ public partial class AccountLoginControl : Control
                 if (!string.IsNullOrEmpty(openidmode) && !string.IsNullOrEmpty(openidtoken))
                 {
                     NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
-                    string ticket = SessionManager.AccountService.LoginOpenId(openidtoken, serializer.Names, serializer.Values);
-                    SessionManager.Login(ticket, SessionManager.RememberLogin);
-                    Redirect(ReturnUrl);
+                    TransitOpenIdLogin t_login = SessionManager.AccountService.TryLoginOpenId(openidtoken, serializer.Names, serializer.Values);
+                    if (!string.IsNullOrEmpty(t_login.Ticket))
+                    {
+                        SessionManager.Login(t_login.Ticket, SessionManager.RememberLogin);
+                        Redirect(ReturnUrl);
+                    }
+                    else
+                    {
+                        Redirect(string.Format("AccountCreateOpenId.aspx?ReturnUrl={0}&ConsumerUrl={1}", 
+                            Renderer.UrlEncode(ReturnUrl), Renderer.UrlEncode(t_login.ConsumerUrl)));
+                    }
                 }
             }
         }

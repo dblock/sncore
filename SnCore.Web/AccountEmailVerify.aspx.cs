@@ -19,7 +19,7 @@ public partial class AccountEmailVerify : Page
             inputCode.Text = Request.QueryString["code"];
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("E-Mails", Request, "AccountEmailsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Verify", Request.Url));
             StackSiteMap(sitemapdata);

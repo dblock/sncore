@@ -144,9 +144,10 @@
      <ul>
       <li><a href="AccountCreate.aspx">Join</a></li>
       <li><a href="AccountLogin.aspx">Login</a></li>
+      <li><a href="AccountManage.aspx">Me Me</a></li>
       <li><a href="AccountPreferencesManage.aspx">Preferences</a></li>
       <li><a href="AccountChangePassword.aspx">Change Password</a></li>
-      <li><a href="AccountView.aspx">Preview</a></li>
+      <li><a href="AccountView.aspx">Preview Me</a></li>
       <li><a href="AccountPicturesManage.aspx">Pictures</a></li>
       <li><a href="AccountEmailsManage.aspx">E-Mails</a></li>
       <li><a href="AccountOpenIdsManage.aspx">Open Id</a></li>

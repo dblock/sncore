@@ -21,7 +21,7 @@ public partial class AccountFlagEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Flags", Request, "AccountFlagsManage.aspx"));
 
             inputType.DataSource = SessionManager.AccountService.GetAccountFlagTypes(

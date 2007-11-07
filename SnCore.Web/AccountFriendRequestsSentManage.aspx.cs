@@ -25,7 +25,7 @@ public partial class AccountFriendRequestsSentManage : AuthenticatedPage
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Friend Requests", Request, "AccountFriendRequestsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Sent", Request.Url));
             StackSiteMap(sitemapdata);

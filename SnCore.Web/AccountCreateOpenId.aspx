@@ -8,17 +8,9 @@
   Join!
  </div>
  <div class="sncore_h2sub">
-  <table width="100%">
-   <tr>
-    <td align="left">
-     &#187; <a href="AccountCreate.aspx">join here</a> if you don't have an <a href="http://www.videntity.org"
-      target="_blank">open-id</a>
-    </td>
-    <td align="right">
-     already have an account? &#187; <a href="AccountLogin.aspx">login</a>
-    </td>
-   </tr>
-  </table>
+  Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
+  <a href="Ahttp://www.videntity.org">&#187; Get an Open-Id</a>
+  <a href="AccountCreate.aspx">&#187; Join w/o Open-Id</a>
  </div>
  <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
   <ContentTemplate>
@@ -68,10 +60,46 @@
      </tr>
      <tr>
       <td class="sncore_form_label">
+       birthday:
+      </td>
+      <td class="sncore_form_value">
+       <SnCore:SelectDate ID="inputBirthday" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td>
+      </td>
+      <td>
+       <div class="sncore_description">
+        your birthday is required for your protection when resetting passwords
+       </div>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
        <a href="http://www.videntity.org" target="_blank">your open-id</a>
       </td>
       <td class="sncore_form_value">
        <asp:TextBox CssClass="sncore_form_openid_textbox" ID="inputOpenId" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       e-mail address:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td>
+      </td>
+      <td>
+       <div class="sncore_description">
+        a valid e-mail address is required to activate your account 
+        <br />
+        <font color='red'>please double-check your e-mail address</font>
+       </div>
       </td>
      </tr>
     </table>

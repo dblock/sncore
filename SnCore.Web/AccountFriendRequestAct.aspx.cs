@@ -17,7 +17,7 @@ public partial class AccountFriendRequestAct : AuthenticatedPage
             if (!IsPostBack)
             {
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Friends", Request, "AccountFriendsManage.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Request", Request.Url));
                 StackSiteMap(sitemapdata);

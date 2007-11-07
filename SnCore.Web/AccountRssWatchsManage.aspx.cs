@@ -24,7 +24,7 @@ public partial class AccountRssWatchsManage : AuthenticatedPage
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Subscriptions", Request.Url));
             StackSiteMap(sitemapdata);
         }

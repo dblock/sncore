@@ -79,7 +79,7 @@
          <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
         </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountPreferencesManage.aspx">
+        runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountManage.aspx">
         <Downlights>
          <asp:ListItem>/Account.*View.aspx</asp:ListItem>
          <asp:ListItem>/Account.*Today.aspx</asp:ListItem>

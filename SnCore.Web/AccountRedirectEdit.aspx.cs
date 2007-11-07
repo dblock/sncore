@@ -21,7 +21,7 @@ public partial class AccountRedirectEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Redirects", Request, "AccountRedirectsManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountRedirect");

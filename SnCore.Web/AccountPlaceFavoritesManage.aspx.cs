@@ -26,7 +26,7 @@ public partial class AccountPlaceFavoritesManage : AuthenticatedPage
             favoritesList.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Favorites", Request.Url));
             StackSiteMap(sitemapdata);

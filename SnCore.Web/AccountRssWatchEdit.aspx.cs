@@ -36,7 +36,7 @@ public partial class AccountRssWatchEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Subscriptions", Request, "AccountRssWatchsManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountRssWatch");

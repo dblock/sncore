@@ -75,6 +75,32 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Try a login to an account with an OpenId. 
+        /// Returns a package that may contain a ticket or a verified open id consumer uri.
+        /// </summary>
+        /// <param name="openidurl">openid url</param>
+        /// <param name="returnurl">return url</param>
+        /// <returns>authentication package that might contain a ticket for the current session</returns>
+        [WebMethod(Description = "Login to an account.")]
+        public TransitOpenIdLogin TryLoginOpenId(string token, string[] names, string[] values)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitOpenIdLogin t_result = new TransitOpenIdLogin();
+                ManagedOpenIdLogin t_login = ManagedAccount.TryLoginOpenId(session, token, new NameValueCollectionSerializer(names, values).Collection);
+                t_result.ConsumerUrl = t_login.ConsumerUri.ToString();
+                if (t_login.Account != null)
+                {
+                    HttpCookie cookie = FormsAuthentication.GetAuthCookie(t_login.Account.Id.ToString(), false);
+                    SnCore.Data.Hibernate.Session.Flush();
+                    t_result.Ticket = cookie.Value;
+                }
+                return t_result;
+            }
+        }
+
+        /// <summary>
         /// Login to an account using a verified e-mail address and a password hash.
         /// Using the password hash avoids transferring the actual password accross an unsecure network.
         /// </summary>
@@ -168,7 +194,7 @@ namespace SnCore.WebServices
         /// <param name="ta">transit account informatio</param>
         /// <returns>account id</returns>
         [WebMethod(Description = "Create an account with openid.")]
-        public int CreateAccountWithOpenId(string betapassword, string consumerurl, TransitAccount ta)
+        public int CreateAccountWithOpenId(string betapassword, string consumerurl, string email, TransitAccount ta)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
             {
@@ -181,7 +207,7 @@ namespace SnCore.WebServices
                 }
 
                 ManagedAccount acct = new ManagedAccount(session);
-                acct.CreateWithOpenId(consumerurl, ta, ManagedAccount.GetAdminSecurityContext(session));
+                acct.CreateWithOpenId(consumerurl, email, ta, ManagedAccount.GetAdminSecurityContext(session));
                 SnCore.Data.Hibernate.Session.Flush();
                 return acct.Id;
             }

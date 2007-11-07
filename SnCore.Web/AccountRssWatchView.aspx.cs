@@ -42,7 +42,7 @@ public partial class AccountRssWatchView : Page
             labelSince.Text = string.Format("since {0}", SessionManager.Adjust(f.Sent).ToShortDateString());
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Subscriptions", Request, "AccountRssWatchsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(f.Name, Request.Url));
             StackSiteMap(sitemapdata);

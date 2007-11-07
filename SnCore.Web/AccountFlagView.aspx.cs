@@ -52,7 +52,7 @@ public partial class AccountFlagView : AuthenticatedPage
                 flag.AccountId, UrlEncode(Request.Url.PathAndQuery));
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Reported Abuse", Request, "AccountFlagsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(flag.FlaggedAccountName, Request, string.Format("AccountView.aspx?id={0}", flag.FlaggedAccountId)));
             sitemapdata.Add(new SiteMapDataAttributeNode(flag.AccountFlagType, Request.Url));

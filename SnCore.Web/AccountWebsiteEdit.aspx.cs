@@ -21,7 +21,7 @@ public partial class AccountWebsiteEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountPreferencesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Websites", Request, "AccountWebsitesManage.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("AccountWebsite");
