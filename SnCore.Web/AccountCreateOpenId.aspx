@@ -9,7 +9,7 @@
  </div>
  <div class="sncore_h2sub">
   Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
-  <a href="Ahttp://www.videntity.org">&#187; Get an Open-Id</a>
+  <a href="http://www.videntity.org">&#187; Get an Open-Id</a>
   <a href="AccountCreate.aspx">&#187; Join w/o Open-Id</a>
  </div>
  <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
