@@ -26,6 +26,18 @@ public partial class AccountGroupsViewControl : Control
         }
     }
 
+    public bool PublicOnly
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "PublicOnly", true);
+        }
+        set
+        {
+            ViewState["PublicOnly"] = value;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         groupsList.OnGetDataSource += new EventHandler(groupsList_OnGetDataSource);
@@ -39,8 +51,16 @@ public partial class AccountGroupsViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         groupsList.CurrentPageIndex = 0;
-        groupsList.VirtualItemCount = SessionManager.GetCount<TransitAccountGroupAccount, int>(
-            AccountId, SessionManager.GroupService.GetPublicAccountGroupAccountsByAccountIdCount);
+        if (PublicOnly)
+        {
+            groupsList.VirtualItemCount = SessionManager.GetCount<TransitAccountGroupAccount, int>(
+                AccountId, SessionManager.GroupService.GetPublicAccountGroupAccountsByAccountIdCount);
+        }
+        else
+        {
+            groupsList.VirtualItemCount = SessionManager.GetCount<TransitAccountGroupAccount, int>(
+                AccountId, SessionManager.GroupService.GetAccountGroupAccountsByAccountIdCount);
+        }
         groupsList_OnGetDataSource(sender, e);
         groupsList.DataBind();
         this.Visible = (groupsList.VirtualItemCount > 0);
@@ -49,8 +69,16 @@ public partial class AccountGroupsViewControl : Control
     void groupsList_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(groupsList.PageSize, groupsList.CurrentPageIndex);
-        groupsList.DataSource = SessionManager.GetCollection<TransitAccountGroupAccount, int>(
-            AccountId, options, SessionManager.GroupService.GetPublicAccountGroupAccountsByAccountId);
+        if (PublicOnly)
+        {
+            groupsList.DataSource = SessionManager.GetCollection<TransitAccountGroupAccount, int>(
+                AccountId, options, SessionManager.GroupService.GetPublicAccountGroupAccountsByAccountId);
+        }
+        else
+        {
+            groupsList.DataSource = SessionManager.GetCollection<TransitAccountGroupAccount, int>(
+                AccountId, options, SessionManager.GroupService.GetAccountGroupAccountsByAccountId);
+        }
         panelGrid.Update();
     }
 }

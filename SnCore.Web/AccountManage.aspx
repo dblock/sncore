@@ -39,5 +39,5 @@
  </table>
  <SnCore:Notice ID="noticeVerifiedEmail" runat="server" />
  <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
- <SnCore:GroupsView runat="server" ID="groupsView" />
+ <SnCore:GroupsView runat="server" ID="groupsView" PublicOnly="false" />
 </asp:Content>
