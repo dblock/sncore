@@ -127,6 +127,13 @@ namespace SnCore.Services
         {
             GetACL().Check(sec, DataOperation.Delete);
             Session.Delete(mInstance);
+            
+            if (this is IAuditableService)
+            {
+                AccountAuditEntry audit_entry = ((IAuditableService)this).CreateAccountAuditEntry(
+                    Session, DataOperation.Delete);
+                Session.Save(audit_entry);
+            }
         }
 
         public virtual int CreateOrUpdate(TransitType t_instance, ManagedSecurityContext sec)
@@ -178,7 +185,15 @@ namespace SnCore.Services
 
         protected virtual void Save(ManagedSecurityContext sec)
         {
+            DataOperation op = (mInstance.Id == 0 ? DataOperation.Create : DataOperation.Update);
             Session.Save(mInstance);
+
+            if (this is IAuditableService)
+            {
+                AccountAuditEntry audit_entry = ((IAuditableService)this).CreateAccountAuditEntry(
+                    Session, op);
+                Session.Save(audit_entry);
+            }
         }
 
         public int Id

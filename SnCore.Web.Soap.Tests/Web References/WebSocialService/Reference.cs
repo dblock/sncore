@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebSocialServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountAuditEntry))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFriend))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFriendRequest))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
@@ -71,6 +72,20 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         private System.Threading.SendOrPostCallback GetAccountFriendsCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountFriendsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdateAccountAuditEntryOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountAuditEntryByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountAuditEntriesCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountAuditEntriesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteAccountAuditEntryOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFriendAuditEntriesCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountFriendAuditEntriesOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -169,6 +184,27 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         /// <remarks/>
         public event GetAccountFriendsCompletedEventHandler GetAccountFriendsCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdateAccountAuditEntryCompletedEventHandler CreateOrUpdateAccountAuditEntryCompleted;
+        
+        /// <remarks/>
+        public event GetAccountAuditEntryByIdCompletedEventHandler GetAccountAuditEntryByIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountAuditEntriesCountCompletedEventHandler GetAccountAuditEntriesCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountAuditEntriesCompletedEventHandler GetAccountAuditEntriesCompleted;
+        
+        /// <remarks/>
+        public event DeleteAccountAuditEntryCompletedEventHandler DeleteAccountAuditEntryCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFriendAuditEntriesCountCompletedEventHandler GetAccountFriendAuditEntriesCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountFriendAuditEntriesCompletedEventHandler GetAccountFriendAuditEntriesCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetNewAccounts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -805,6 +841,226 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountAuditEntry", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdateAccountAuditEntry(string ticket, TransitAccountAuditEntry t_instance) {
+            object[] results = this.Invoke("CreateOrUpdateAccountAuditEntry", new object[] {
+                        ticket,
+                        t_instance});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountAuditEntryAsync(string ticket, TransitAccountAuditEntry t_instance) {
+            this.CreateOrUpdateAccountAuditEntryAsync(ticket, t_instance, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdateAccountAuditEntryAsync(string ticket, TransitAccountAuditEntry t_instance, object userState) {
+            if ((this.CreateOrUpdateAccountAuditEntryOperationCompleted == null)) {
+                this.CreateOrUpdateAccountAuditEntryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdateAccountAuditEntryOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdateAccountAuditEntry", new object[] {
+                        ticket,
+                        t_instance}, this.CreateOrUpdateAccountAuditEntryOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdateAccountAuditEntryOperationCompleted(object arg) {
+            if ((this.CreateOrUpdateAccountAuditEntryCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdateAccountAuditEntryCompleted(this, new CreateOrUpdateAccountAuditEntryCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountAuditEntryById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountAuditEntry GetAccountAuditEntryById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountAuditEntryById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountAuditEntry)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountAuditEntryByIdAsync(string ticket, int id) {
+            this.GetAccountAuditEntryByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountAuditEntryByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountAuditEntryByIdOperationCompleted == null)) {
+                this.GetAccountAuditEntryByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountAuditEntryByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountAuditEntryById", new object[] {
+                        ticket,
+                        id}, this.GetAccountAuditEntryByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountAuditEntryByIdOperationCompleted(object arg) {
+            if ((this.GetAccountAuditEntryByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountAuditEntryByIdCompleted(this, new GetAccountAuditEntryByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountAuditEntriesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountAuditEntriesCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountAuditEntriesCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountAuditEntriesCountAsync(string ticket, int id) {
+            this.GetAccountAuditEntriesCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountAuditEntriesCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountAuditEntriesCountOperationCompleted == null)) {
+                this.GetAccountAuditEntriesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountAuditEntriesCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountAuditEntriesCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountAuditEntriesCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountAuditEntriesCountOperationCompleted(object arg) {
+            if ((this.GetAccountAuditEntriesCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountAuditEntriesCountCompleted(this, new GetAccountAuditEntriesCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountAuditEntries", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountAuditEntry[] GetAccountAuditEntries(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountAuditEntries", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountAuditEntry[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountAuditEntriesAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountAuditEntriesAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountAuditEntriesAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountAuditEntriesOperationCompleted == null)) {
+                this.GetAccountAuditEntriesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountAuditEntriesOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountAuditEntries", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountAuditEntriesOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountAuditEntriesOperationCompleted(object arg) {
+            if ((this.GetAccountAuditEntriesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountAuditEntriesCompleted(this, new GetAccountAuditEntriesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountAuditEntry", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteAccountAuditEntry(string ticket, int id) {
+            this.Invoke("DeleteAccountAuditEntry", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountAuditEntryAsync(string ticket, int id) {
+            this.DeleteAccountAuditEntryAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAccountAuditEntryAsync(string ticket, int id, object userState) {
+            if ((this.DeleteAccountAuditEntryOperationCompleted == null)) {
+                this.DeleteAccountAuditEntryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountAuditEntryOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAccountAuditEntry", new object[] {
+                        ticket,
+                        id}, this.DeleteAccountAuditEntryOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAccountAuditEntryOperationCompleted(object arg) {
+            if ((this.DeleteAccountAuditEntryCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAccountAuditEntryCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFriendAuditEntriesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountFriendAuditEntriesCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountFriendAuditEntriesCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFriendAuditEntriesCountAsync(string ticket, int id) {
+            this.GetAccountFriendAuditEntriesCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFriendAuditEntriesCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountFriendAuditEntriesCountOperationCompleted == null)) {
+                this.GetAccountFriendAuditEntriesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFriendAuditEntriesCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFriendAuditEntriesCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountFriendAuditEntriesCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFriendAuditEntriesCountOperationCompleted(object arg) {
+            if ((this.GetAccountFriendAuditEntriesCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFriendAuditEntriesCountCompleted(this, new GetAccountFriendAuditEntriesCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFriendAuditEntries", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountAuditEntry[] GetAccountFriendAuditEntries(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountFriendAuditEntries", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountAuditEntry[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountFriendAuditEntriesAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountFriendAuditEntriesAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountFriendAuditEntriesAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountFriendAuditEntriesOperationCompleted == null)) {
+                this.GetAccountFriendAuditEntriesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFriendAuditEntriesOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountFriendAuditEntries", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountFriendAuditEntriesOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountFriendAuditEntriesOperationCompleted(object arg) {
+            if ((this.GetAccountFriendAuditEntriesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountFriendAuditEntriesCompleted(this, new GetAccountFriendAuditEntriesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -852,6 +1108,97 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             }
             set {
                 this.pageNumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountAuditEntry))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountAuditEntry {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountAuditEntry : TransitServiceOfAccountAuditEntry {
+        
+        private string descriptionField;
+        
+        private System.DateTime createdField;
+        
+        private int accountIdField;
+        
+        private bool isSystemField;
+        
+        private bool isPrivateField;
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsSystem {
+            get {
+                return this.isSystemField;
+            }
+            set {
+                this.isSystemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsPrivate {
+            get {
+                return this.isPrivateField;
+            }
+            set {
+                this.isPrivateField = value;
             }
         }
     }
@@ -1853,6 +2200,166 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountFriend[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void CreateOrUpdateAccountAuditEntryCompletedEventHandler(object sender, CreateOrUpdateAccountAuditEntryCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdateAccountAuditEntryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdateAccountAuditEntryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountAuditEntryByIdCompletedEventHandler(object sender, GetAccountAuditEntryByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountAuditEntryByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountAuditEntryByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountAuditEntry Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountAuditEntry)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountAuditEntriesCountCompletedEventHandler(object sender, GetAccountAuditEntriesCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountAuditEntriesCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountAuditEntriesCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountAuditEntriesCompletedEventHandler(object sender, GetAccountAuditEntriesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountAuditEntriesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountAuditEntriesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountAuditEntry[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountAuditEntry[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void DeleteAccountAuditEntryCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFriendAuditEntriesCountCompletedEventHandler(object sender, GetAccountFriendAuditEntriesCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFriendAuditEntriesCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFriendAuditEntriesCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountFriendAuditEntriesCompletedEventHandler(object sender, GetAccountFriendAuditEntriesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountFriendAuditEntriesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountFriendAuditEntriesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountAuditEntry[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountAuditEntry[])(this.results[0]));
             }
         }
     }

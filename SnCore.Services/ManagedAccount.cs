@@ -403,7 +403,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed account.
     /// </summary>
-    public class ManagedAccount : ManagedService<Account, TransitAccount>
+    public class ManagedAccount : ManagedService<Account, TransitAccount>, IAuditableService
     {
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
@@ -1470,6 +1470,24 @@ namespace SnCore.Services
             catch (ObjectNotFoundException)
             {
                 return "Unknown User";
+            }
+        }
+
+        public AccountAuditEntry CreateAccountAuditEntry(ISession session, DataOperation op)
+        {
+            switch(op)
+            {
+                case DataOperation.Create:
+                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
+                        string.Format("[user:{0}] created", mInstance.Id));
+                case DataOperation.Update:
+                    return ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance,
+                        string.Format("[user:{0}] has updated his/her profile", mInstance.Id));
+                case DataOperation.Delete:
+                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
+                        string.Format("[user:{0}] deleted", mInstance.Id));
+                default:
+                    return null;                    
             }
         }
     }

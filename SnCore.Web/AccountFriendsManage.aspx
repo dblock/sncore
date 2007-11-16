@@ -14,7 +14,7 @@
   </Template>
  </SnCore:Title>
  <div class="sncore_h2sub">
-  <a href="AccountFriendsActivityView.aspx">&#187; Friends Activity</a>
+  <a href="AccountFriendAuditEntriesView.aspx">&#187; Friends Activity</a>
  </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

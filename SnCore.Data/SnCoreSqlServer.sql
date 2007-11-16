@@ -150,6 +150,75 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountAuditEntry](
+	[AccountAuditEntry_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[IsPrivate] [bit] NOT NULL,
+	[IsSystem] [bit] NOT NULL,
+	[Count] [int] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Updated] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountAuditEntry] PRIMARY KEY CLUSTERED 
+(
+	[AccountAuditEntry_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_AccountId')
+CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_AccountId] ON [dbo].[AccountAuditEntry] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_Created')
+CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_Created] ON [dbo].[AccountAuditEntry] 
+(
+	[Created] DESC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_Is')
+CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_Is] ON [dbo].[AccountAuditEntry] 
+(
+	[IsPrivate] ASC,
+	[IsSystem] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_AccountId')
+CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_AccountId] ON [dbo].[AccountAuditEntry] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_Created')
+CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_Created] ON [dbo].[AccountAuditEntry] 
+(
+	[Created] DESC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_Is')
+CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_Is] ON [dbo].[AccountAuditEntry] 
+(
+	[IsPrivate] ASC,
+	[IsSystem] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'PK_AccountAuditEntry')
+ALTER TABLE [dbo].[AccountAuditEntry] ADD  CONSTRAINT [PK_AccountAuditEntry] PRIMARY KEY CLUSTERED 
+(
+	[AccountAuditEntry_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlog]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountBlog](

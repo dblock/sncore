@@ -301,5 +301,20 @@ namespace SnCore.WebServices
                 return session.CreateQuery(query).UniqueResult<int>();
             }
         }
+
+        public static int GetSQLCount(string ticket, string expression)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            {
+                // TODO: check permissions
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                string query = string.Format("SELECT COUNT(*) AS rs FROM {0} {0} {1}",
+                    typeof(DataType).Name, expression);
+                return session.CreateSQLQuery(query)
+                    .AddScalar("rs", NHibernateUtil.Int32)
+                    .UniqueResult<int>();
+            }
+        }
+
     }
 }

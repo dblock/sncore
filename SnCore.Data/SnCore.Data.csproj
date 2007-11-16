@@ -95,6 +95,9 @@
     <Compile Include="AccountAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AccountAuditEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AccountBlog.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -432,6 +435,7 @@
     <EmbeddedResource Include="Account.hbm.xml" />
     <EmbeddedResource Include="AccountAddress.hbm.xml" />
     <EmbeddedResource Include="AccountAttribute.hbm.xml" />
+    <EmbeddedResource Include="AccountAuditEntry.hbm.xml" />
     <EmbeddedResource Include="AccountBlog.hbm.xml" />
     <EmbeddedResource Include="AccountBlogAuthor.hbm.xml" />
     <EmbeddedResource Include="AccountBlogPost.hbm.xml" />

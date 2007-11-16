@@ -498,7 +498,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlace : ManagedService<Place, TransitPlace>
+    public class ManagedPlace : ManagedService<Place, TransitPlace>, IAuditableService
     {
         public ManagedPlace()
         {
@@ -910,6 +910,19 @@ namespace SnCore.Services
             #endregion
 
             Session.Delete(p.Instance);
+        }
+
+        public AccountAuditEntry CreateAccountAuditEntry(ISession session, DataOperation op)
+        {
+            switch (op)
+            {
+                case DataOperation.Create:
+                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has added [place:{1}] in {2}",
+                            mInstance.Account.Id, mInstance.Id, mInstance.City));
+                default:
+                    return null;
+            }
         }
     }
 }

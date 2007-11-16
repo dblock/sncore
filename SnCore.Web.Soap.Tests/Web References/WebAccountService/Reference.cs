@@ -56,6 +56,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback LoginOpenIdOperationCompleted;
         
+        private System.Threading.SendOrPostCallback TryLoginOpenIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback LoginMd5OperationCompleted;
         
         private System.Threading.SendOrPostCallback VerifyBetaPasswordOperationCompleted;
@@ -407,6 +409,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event LoginOpenIdCompletedEventHandler LoginOpenIdCompleted;
+        
+        /// <remarks/>
+        public event TryLoginOpenIdCompletedEventHandler TryLoginOpenIdCompleted;
         
         /// <remarks/>
         public event LoginMd5CompletedEventHandler LoginMd5Completed;
@@ -935,6 +940,39 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/TryLoginOpenId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitOpenIdLogin TryLoginOpenId(string token, string[] names, string[] values) {
+            object[] results = this.Invoke("TryLoginOpenId", new object[] {
+                        token,
+                        names,
+                        values});
+            return ((TransitOpenIdLogin)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void TryLoginOpenIdAsync(string token, string[] names, string[] values) {
+            this.TryLoginOpenIdAsync(token, names, values, null);
+        }
+        
+        /// <remarks/>
+        public void TryLoginOpenIdAsync(string token, string[] names, string[] values, object userState) {
+            if ((this.TryLoginOpenIdOperationCompleted == null)) {
+                this.TryLoginOpenIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnTryLoginOpenIdOperationCompleted);
+            }
+            this.InvokeAsync("TryLoginOpenId", new object[] {
+                        token,
+                        names,
+                        values}, this.TryLoginOpenIdOperationCompleted, userState);
+        }
+        
+        private void OnTryLoginOpenIdOperationCompleted(object arg) {
+            if ((this.TryLoginOpenIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.TryLoginOpenIdCompleted(this, new TryLoginOpenIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/LoginMd5", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string LoginMd5(string emailaddress, string passwordhash) {
             object[] results = this.Invoke("LoginMd5", new object[] {
@@ -1055,27 +1093,29 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateAccountWithOpenId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int CreateAccountWithOpenId(string betapassword, string consumerurl, TransitAccount ta) {
+        public int CreateAccountWithOpenId(string betapassword, string consumerurl, string email, TransitAccount ta) {
             object[] results = this.Invoke("CreateAccountWithOpenId", new object[] {
                         betapassword,
                         consumerurl,
+                        email,
                         ta});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void CreateAccountWithOpenIdAsync(string betapassword, string consumerurl, TransitAccount ta) {
-            this.CreateAccountWithOpenIdAsync(betapassword, consumerurl, ta, null);
+        public void CreateAccountWithOpenIdAsync(string betapassword, string consumerurl, string email, TransitAccount ta) {
+            this.CreateAccountWithOpenIdAsync(betapassword, consumerurl, email, ta, null);
         }
         
         /// <remarks/>
-        public void CreateAccountWithOpenIdAsync(string betapassword, string consumerurl, TransitAccount ta, object userState) {
+        public void CreateAccountWithOpenIdAsync(string betapassword, string consumerurl, string email, TransitAccount ta, object userState) {
             if ((this.CreateAccountWithOpenIdOperationCompleted == null)) {
                 this.CreateAccountWithOpenIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateAccountWithOpenIdOperationCompleted);
             }
             this.InvokeAsync("CreateAccountWithOpenId", new object[] {
                         betapassword,
                         consumerurl,
+                        email,
                         ta}, this.CreateAccountWithOpenIdOperationCompleted, userState);
         }
         
@@ -5788,190 +5828,34 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitAccount : TransitServiceOfAccount {
+    public partial class TransitOpenIdLogin {
         
-        private bool isPasswordExpiredField;
+        private string consumerUrlField;
         
-        private System.DateTime createdField;
-        
-        private bool isAdministratorField;
-        
-        private string nameField;
-        
-        private System.DateTime birthdayField;
-        
-        private System.DateTime lastLoginField;
-        
-        private int pictureIdField;
-        
-        private string stateField;
-        
-        private string countryField;
-        
-        private string cityField;
-        
-        private int timeZoneField;
-        
-        private string signatureField;
-        
-        private string passwordField;
+        private string ticketField;
         
         /// <remarks/>
-        public bool IsPasswordExpired {
+        public string ConsumerUrl {
             get {
-                return this.isPasswordExpiredField;
+                return this.consumerUrlField;
             }
             set {
-                this.isPasswordExpiredField = value;
+                this.consumerUrlField = value;
             }
         }
         
         /// <remarks/>
-        public System.DateTime Created {
+        public string Ticket {
             get {
-                return this.createdField;
+                return this.ticketField;
             }
             set {
-                this.createdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool IsAdministrator {
-            get {
-                return this.isAdministratorField;
-            }
-            set {
-                this.isAdministratorField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Birthday {
-            get {
-                return this.birthdayField;
-            }
-            set {
-                this.birthdayField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime LastLogin {
-            get {
-                return this.lastLoginField;
-            }
-            set {
-                this.lastLoginField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PictureId {
-            get {
-                return this.pictureIdField;
-            }
-            set {
-                this.pictureIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string State {
-            get {
-                return this.stateField;
-            }
-            set {
-                this.stateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Country {
-            get {
-                return this.countryField;
-            }
-            set {
-                this.countryField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string City {
-            get {
-                return this.cityField;
-            }
-            set {
-                this.cityField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int TimeZone {
-            get {
-                return this.timeZoneField;
-            }
-            set {
-                this.timeZoneField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Signature {
-            get {
-                return this.signatureField;
-            }
-            set {
-                this.signatureField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Password {
-            get {
-                return this.passwordField;
-            }
-            set {
-                this.passwordField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccount))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfAccount {
-        
-        private int idField;
-        
-        /// <remarks/>
-        public int Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
+                this.ticketField = value;
             }
         }
     }
@@ -8524,6 +8408,195 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccount))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccount {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccount : TransitServiceOfAccount {
+        
+        private bool isPasswordExpiredField;
+        
+        private System.DateTime createdField;
+        
+        private bool isAdministratorField;
+        
+        private string nameField;
+        
+        private System.DateTime birthdayField;
+        
+        private System.DateTime lastLoginField;
+        
+        private int pictureIdField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private string cityField;
+        
+        private int timeZoneField;
+        
+        private string signatureField;
+        
+        private string passwordField;
+        
+        /// <remarks/>
+        public bool IsPasswordExpired {
+            get {
+                return this.isPasswordExpiredField;
+            }
+            set {
+                this.isPasswordExpiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Birthday {
+            get {
+                return this.birthdayField;
+            }
+            set {
+                this.birthdayField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime LastLogin {
+            get {
+                return this.lastLoginField;
+            }
+            set {
+                this.lastLoginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TimeZone {
+            get {
+                return this.timeZoneField;
+            }
+            set {
+                this.timeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Signature {
+            get {
+                return this.signatureField;
+            }
+            set {
+                this.signatureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -8628,6 +8701,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void TryLoginOpenIdCompletedEventHandler(object sender, TryLoginOpenIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class TryLoginOpenIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal TryLoginOpenIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitOpenIdLogin Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitOpenIdLogin)(this.results[0]));
             }
         }
     }

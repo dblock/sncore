@@ -203,7 +203,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPicture : ManagedService<AccountPicture, TransitAccountPicture>
+    public class ManagedAccountPicture : ManagedService<AccountPicture, TransitAccountPicture>, IAuditableService
     {
         public ManagedAccountPicture()
         {
@@ -328,6 +328,19 @@ namespace SnCore.Services
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) GetQuota(sec).Check<AccountPicture, ManagedAccount.QuotaExceededException>(
                 mInstance.Account.AccountPictures);
+        }
+
+        public AccountAuditEntry CreateAccountAuditEntry(ISession session, DataOperation op)
+        {
+            switch (op)
+            {
+                case DataOperation.Create:
+                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has uploaded a picture [accountpicture:{1}]", 
+                            mInstance.Account.Id, mInstance.Id));
+                default:
+                    return null;
+            }
         }
     }
 }

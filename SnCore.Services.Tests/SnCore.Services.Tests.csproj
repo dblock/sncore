@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="ManagedAccountAddressTest.cs" />
     <Compile Include="ManagedAccountAttributeTest.cs" />
+    <Compile Include="ManagedAccountAuditEntryTest.cs" />
     <Compile Include="ManagedAccountBlogAuthorTest.cs" />
     <Compile Include="ManagedAccountBlogPostTest.cs" />
     <Compile Include="ManagedAccountBlogTest.cs" />

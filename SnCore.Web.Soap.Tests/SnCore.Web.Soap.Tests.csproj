@@ -221,6 +221,7 @@
     <Compile Include="WebPlaceService_PlaceQueueTest.cs" />
     <Compile Include="WebPlaceService_PlaceTest.cs" />
     <Compile Include="WebPlaceService_PlaceTypeTest.cs" />
+    <Compile Include="WebSocialService_AccountAuditEntryTest.cs" />
     <Compile Include="WebStatsServiceTest.cs" />
     <Compile Include="WebBugServiceTest.cs" />
     <Compile Include="WebBugService_BugLinkTest.cs" />
@@ -959,6 +960,9 @@
     <None Include="Web References\WebAccountService\TransitAccountQuota.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\WebAccountService\TransitOpenIdLogin.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebGroupService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -987,6 +991,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebPlaceService\TransitPlaceChangeRequest.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebSocialService\TransitAccountAuditEntry.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebSyndicationService\TransitAccountRssWatch.datasource">

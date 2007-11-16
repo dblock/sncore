@@ -354,5 +354,101 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region AccountAuditEntry
+
+        /// <summary>
+        /// Create or update an account audit entry.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit account audit entry</param>
+        [WebMethod(Description = "Create or update an account audit entry.")]
+        public int CreateOrUpdateAccountAuditEntry(string ticket, TransitAccountAuditEntry t_instance)
+        {
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.CreateOrUpdate(
+                ticket, t_instance);
+        }
+
+        /// <summary>
+        /// Get an account audit entry.
+        /// </summary>
+        /// <returns>transit account audit entry</returns>
+        [WebMethod(Description = "Get an account audit entry.")]
+        public TransitAccountAuditEntry GetAccountAuditEntryById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account audit entries count.
+        /// </summary>
+        /// <returns>number of account audit entries</returns>
+        [WebMethod(Description = "Get all account audit entries count.")]
+        public int GetAccountAuditEntriesCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetCount(
+                ticket, string.Format("WHERE AccountAuditEntry.AccountId = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all account audit entries.
+        /// </summary>
+        /// <returns>list of transit audit entries</returns>
+        [WebMethod(Description = "Get all account audit entries.")]
+        public List<TransitAccountAuditEntry> GetAccountAuditEntries(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("AccountId", id) };
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete an account audit entry.
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">id</param>
+        /// </summary>
+        [WebMethod(Description = "Delete an account audit entry.")]
+        public void DeleteAccountAuditEntry(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all account friends audit entries count.
+        /// </summary>
+        /// <returns>number of account friends audit entries</returns>
+        [WebMethod(Description = "Get all account audit entries count.")]
+        public int GetAccountFriendAuditEntriesCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetSQLCount(
+                ticket, string.Format(
+                    "INNER JOIN AccountFriend AccountFriend ON ( " +
+                        "AccountAuditEntry.Account_Id = AccountFriend.Account_Id OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id " +
+                        ") WHERE ( " +
+                        " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
+                        " AND AccountAuditEntry.Account_Id <> {0}" +
+                        ")", id));
+        }
+
+        /// <summary>
+        /// Get all account friend audit entries.
+        /// </summary>
+        /// <returns>list of transit audit entries</returns>
+        [WebMethod(Description = "Get all account audit entries.")]
+        public List<TransitAccountAuditEntry> GetAccountFriendAuditEntries(string ticket, int id, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetList(
+                ticket, null, "SELECT {AccountAuditEntry.*} FROM AccountAuditEntry {AccountAuditEntry} " + string.Format(
+                    "INNER JOIN AccountFriend AccountFriend ON ( " +
+                        "AccountAuditEntry.Account_Id = AccountFriend.Account_Id OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id " +
+                        ") WHERE ( " +
+                        " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
+                        " AND AccountAuditEntry.Account_Id <> {0}" +
+                        ")", id), "AccountAuditEntry");
+        }
+
+        #endregion
     }
 }
