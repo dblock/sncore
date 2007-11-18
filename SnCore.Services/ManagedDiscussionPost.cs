@@ -538,7 +538,7 @@ namespace SnCore.Services
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
                         string.Format("[user:{0}] has posted [b]{1}[/b] in [discussion:{2}]",
                         mInstance.AccountId, mInstance.Subject, mInstance.DiscussionThread.Discussion.Id),
-                        string.Format("DiscussionPostView.aspx?id={0}", mInstance.Id)));
+                        string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id)));
                     break;
             }
             return result;
