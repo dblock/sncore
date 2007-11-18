@@ -381,11 +381,12 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Get all account audit entries count.
+        /// Get account audit entries count.
         /// </summary>
+        /// <param name="id">account id</param>
         /// <returns>number of account audit entries</returns>
-        [WebMethod(Description = "Get all account audit entries count.")]
-        public int GetAccountAuditEntriesCount(string ticket, int id)
+        [WebMethod(Description = "Get account audit entries count.")]
+        public int GetAccountAuditEntriesByAccountIdCount(string ticket, int id)
         {
             return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetCount(
                 ticket, string.Format("WHERE AccountAuditEntry.AccountId = {0}", id));
@@ -394,13 +395,38 @@ namespace SnCore.WebServices
         /// <summary>
         /// Get all account audit entries.
         /// </summary>
-        /// <returns>list of transit audit entries</returns>
-        [WebMethod(Description = "Get all account audit entries.")]
-        public List<TransitAccountAuditEntry> GetAccountAuditEntries(string ticket, int id, ServiceQueryOptions options)
+        /// <param name="id">account id</param>
+        /// <returns>list of transit account audit entries</returns>
+        [WebMethod(Description = "Get account audit entries.")]
+        public List<TransitAccountAuditEntry> GetAccountAuditEntriesByAccountId(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountId", id) };
+            Order[] orders = { Order.Desc("Updated") };
             return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Get all account audit entries count.
+        /// </summary>
+        /// <returns>number of account audit entries</returns>
+        [WebMethod(Description = "Get all account audit entries count.")]
+        public int GetAccountAuditEntriesCount(string ticket)
+        {
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetCount(
+                ticket);
+        }
+
+        /// <summary>
+        /// Get all account audit entries.
+        /// </summary>
+        /// <returns>list of transit audit entries</returns>
+        [WebMethod(Description = "Get all account audit entries.")]
+        public List<TransitAccountAuditEntry> GetAccountAuditEntries(string ticket, ServiceQueryOptions options)
+        {
+            Order[] orders = { Order.Desc("Updated") };
+            return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetList(
+                ticket, options, null, orders);
         }
 
         /// <summary>
@@ -440,13 +466,13 @@ namespace SnCore.WebServices
         public List<TransitAccountAuditEntry> GetAccountFriendAuditEntries(string ticket, int id, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetList(
-                ticket, null, "SELECT {AccountAuditEntry.*} FROM AccountAuditEntry {AccountAuditEntry} " + string.Format(
+                ticket, options, "SELECT {AccountAuditEntry.*} FROM AccountAuditEntry {AccountAuditEntry} " + string.Format(
                     "INNER JOIN AccountFriend AccountFriend ON ( " +
                         "AccountAuditEntry.Account_Id = AccountFriend.Account_Id OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id " +
                         ") WHERE ( " +
                         " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
                         " AND AccountAuditEntry.Account_Id <> {0}" +
-                        ")", id), "AccountAuditEntry");
+                        ") ORDER BY AccountAuditEntry.Updated DESC", id), "AccountAuditEntry");
         }
 
         #endregion

@@ -422,8 +422,12 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfAccountAuditEntry">
             <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="IsSystem" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="IsPrivate" type="s:boolean" />
@@ -458,11 +462,46 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAccountAuditEntriesCount">
+      <s:element name="GetAccountAuditEntriesByAccountIdCount">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAuditEntriesByAccountIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountAuditEntriesByAccountIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAuditEntriesByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAuditEntriesByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountAuditEntriesByAccountIdResult" type="tns:ArrayOfTransitAccountAuditEntry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountAuditEntry">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountAuditEntry" nillable="true" type="tns:TransitAccountAuditEntry" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountAuditEntriesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -477,7 +516,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
@@ -489,11 +527,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfTransitAccountAuditEntry">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountAuditEntry" nillable="true" type="tns:TransitAccountAuditEntry" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="DeleteAccountAuditEntry">
         <s:complexType>
           <s:sequence>
@@ -670,6 +703,18 @@
   <wsdl:message name="GetAccountAuditEntryByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountAuditEntryByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountAuditEntriesByAccountIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountAuditEntriesByAccountIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAuditEntriesByAccountIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountAuditEntriesByAccountIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAuditEntriesByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountAuditEntriesByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAuditEntriesByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountAuditEntriesByAccountIdResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAccountAuditEntriesCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountAuditEntriesCount" />
   </wsdl:message>
@@ -810,6 +855,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account audit entry.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountAuditEntryByIdSoapIn" />
       <wsdl:output message="tns:GetAccountAuditEntryByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAuditEntriesByAccountIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account audit entries count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountAuditEntriesByAccountIdCountSoapIn" />
+      <wsdl:output message="tns:GetAccountAuditEntriesByAccountIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAuditEntriesByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account audit entries.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountAuditEntriesByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountAuditEntriesByAccountIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountAuditEntriesCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account audit entries count.</wsdl:documentation>
@@ -1030,6 +1085,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountAuditEntryById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAuditEntryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAuditEntriesByAccountIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAuditEntriesByAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAuditEntriesByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAuditEntriesByAccountId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1276,6 +1349,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountAuditEntryById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAuditEntryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAuditEntriesByAccountIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAuditEntriesByAccountIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAuditEntriesByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAuditEntriesByAccountId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

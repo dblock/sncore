@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -204,7 +205,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite, TransitAccountPlaceFavorite>
+    public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite, TransitAccountPlaceFavorite>, IAuditableService
     {
         public ManagedAccountPlaceFavorite()
         {
@@ -265,6 +266,21 @@ namespace SnCore.Services
             acl.Add(new ACLAuthenticatedAllowCreate());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             return acl;
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has added [place:{1}] to his/her favorites",
+                        mInstance.Account.Id, mInstance.Place.Id),
+                        string.Format("PlaceView.aspx?id={0}", mInstance.Place.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

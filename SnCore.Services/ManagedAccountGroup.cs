@@ -150,7 +150,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountGroup : ManagedService<AccountGroup, TransitAccountGroup>
+    public class ManagedAccountGroup : ManagedService<AccountGroup, TransitAccountGroup>, IAuditableService
     {
         public ManagedAccountGroup()
         {
@@ -371,6 +371,21 @@ namespace SnCore.Services
                 t_instance.PictureId = 0;
             }
             return t_instance;
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has created [group:{1}]",
+                        sec.Account.Id, mInstance.Id),
+                        string.Format("AccountGroupView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

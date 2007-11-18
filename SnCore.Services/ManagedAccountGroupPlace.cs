@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -275,6 +276,21 @@ namespace SnCore.Services
             }
 
             return base.CreateOrUpdate(t_instance, sec);
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has added [place:{1}] to [group:{2}]",
+                        sec.Account.Id, mInstance.Place.Id, mInstance.AccountGroup.Id),
+                        string.Format("AccountGroupView.aspx?id={0}", mInstance.AccountGroup.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

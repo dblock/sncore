@@ -11,5 +11,6 @@
     <property name="AccountId" column="Account_Id" type="Int32" />
     <property name="Count" column="Count" type="Int32" />
     <property name="Updated" column="Updated" type="DateTime" />
+    <property name="Url" column="Url" type="String" />
   </class>
 </hibernate-mapping>

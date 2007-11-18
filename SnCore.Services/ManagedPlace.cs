@@ -912,14 +912,18 @@ namespace SnCore.Services
             Session.Delete(p.Instance);
         }
 
-        public AccountAuditEntry CreateAccountAuditEntry(ISession session, DataOperation op)
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             switch (op)
             {
                 case DataOperation.Create:
-                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has added [place:{1}] in {2}",
-                            mInstance.Account.Id, mInstance.Id, mInstance.City));
+                    List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+                    result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has added [place:{1}]{2}",
+                        mInstance.Account.Id, mInstance.Id,
+                        mInstance.City == null ? string.Empty : string.Format(" in {0}", mInstance.City.Name)), 
+                        string.Format("PlaceView.aspx?id={0}", mInstance.Id)));
+                    return result;
                 default:
                     return null;
             }

@@ -436,7 +436,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFeed : ManagedService<AccountFeed, TransitAccountFeed>
+    public class ManagedAccountFeed : ManagedService<AccountFeed, TransitAccountFeed>, IAuditableService
     {
         public ManagedAccountFeed()
         {
@@ -965,6 +965,21 @@ namespace SnCore.Services
                 GetQuota(sec).Check<AccountFeed, ManagedAccount.QuotaExceededException>(
                     mInstance.Account.AccountFeeds);
             }
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has syndicated [feed:{1}]",
+                        mInstance.Account.Id, mInstance.Id),
+                        string.Format("AccountFeedView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

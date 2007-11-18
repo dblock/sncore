@@ -330,14 +330,16 @@ namespace SnCore.Services
                 mInstance.Account.AccountPictures);
         }
 
-        public AccountAuditEntry CreateAccountAuditEntry(ISession session, DataOperation op)
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             switch (op)
             {
                 case DataOperation.Create:
-                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has uploaded a picture [accountpicture:{1}]", 
-                            mInstance.Account.Id, mInstance.Id));
+                    List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+                    result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has uploaded a new picture",
+                            mInstance.Account.Id, mInstance.Id), string.Format("AccountPictureView.aspx?id={0}", mInstance.Id)));
+                    return result;
                 default:
                     return null;
             }

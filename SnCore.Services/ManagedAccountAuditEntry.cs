@@ -23,6 +23,48 @@ namespace SnCore.Services
 {
     public class TransitAccountAuditEntry : TransitService<AccountAuditEntry>
     {
+        private int mAccountPictureId;
+
+        public int AccountPictureId
+        {
+            get
+            {
+                return mAccountPictureId;
+            }
+            set
+            {
+                mAccountPictureId = value;
+            }
+        }
+
+        private string mAccountName;
+
+        public string AccountName
+        {
+            get
+            {
+                return mAccountName;
+            }
+            set
+            {
+                mAccountName = value;
+            }
+        }
+
+        private string mUrl;
+
+        public string Url
+        {
+            get
+            {
+                return mUrl;
+            }
+            set
+            {
+                mUrl = value;
+            }
+        }
+
         private string mDescription;
 
         public string Description
@@ -48,6 +90,20 @@ namespace SnCore.Services
             set
             {
                 mCreated = value;
+            }
+        }
+
+        private DateTime mUpdated;
+
+        public DateTime Updated
+        {
+            get
+            {
+                return mUpdated;
+            }
+            set
+            {
+                mUpdated = value;
             }
         }
 
@@ -108,9 +164,11 @@ namespace SnCore.Services
         {
             Description = instance.Description;
             Created = instance.Created;
+            Updated = instance.Updated;
             AccountId = instance.AccountId;
             IsPrivate = instance.IsPrivate;
             IsSystem = instance.IsSystem;
+            Url = instance.Url;
             base.SetInstance(instance);
         }
 
@@ -120,6 +178,7 @@ namespace SnCore.Services
             instance.Description = this.Description;
             instance.IsPrivate = this.IsPrivate;
             instance.IsSystem = this.IsSystem;
+            instance.Url = this.Url;
             return instance;
         }
     }
@@ -151,7 +210,8 @@ namespace SnCore.Services
 
         protected override void Save(ManagedSecurityContext sec)
         {
-            if (mInstance.Id == 0) mInstance.Created = DateTime.UtcNow;
+            mInstance.Updated = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
             base.Save(sec);
         }
 
@@ -184,7 +244,7 @@ namespace SnCore.Services
         }
 
         private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session, 
-            Account account, string descr, bool is_system, bool is_private)
+            Account account, string descr, string url, bool is_system, bool is_private)
         {
             AccountAuditEntry audit_entry = session.CreateCriteria(typeof(AccountAuditEntry))
                 .Add(Expression.Eq("AccountId", account.Id))
@@ -200,6 +260,7 @@ namespace SnCore.Services
                 audit_entry.IsSystem = is_system;
                 audit_entry.IsPrivate = is_private;
                 audit_entry.Description = descr;
+                audit_entry.Url = url;
                 audit_entry.Created = audit_entry.Updated = DateTime.UtcNow;
                 audit_entry.Count = 1;
             }
@@ -212,22 +273,40 @@ namespace SnCore.Services
             return audit_entry;
         }
 
-        public static AccountAuditEntry CreateSystemAccountAuditEntry(ISession session, Account account, string descr)
+        public static AccountAuditEntry CreateSystemAccountAuditEntry(ISession session, Account account, string descr, string url)
         {
             return CreateOrRetreiveAccountAuditEntry(
-                session, account, descr, true, false);
+                session, account, descr, url, true, false);
         }
 
-        public static AccountAuditEntry CreatePublicAccountAuditEntry(ISession session, Account account, string descr)
+        public static AccountAuditEntry CreatePublicAccountAuditEntry(ISession session, Account account, string descr, string url)
         {
             return CreateOrRetreiveAccountAuditEntry(
-                session, account, descr, false, false);
+                session, account, descr, url, false, false);
         }
 
-        public static AccountAuditEntry CreatePrivateAccountAuditEntry(ISession session, Account account, string descr)
+        public static AccountAuditEntry CreatePrivateAccountAuditEntry(ISession session, Account account, string descr, string url)
         {
             return CreateOrRetreiveAccountAuditEntry(
-                session, account, descr, false, true);
+                session, account, descr, url, false, true);
+        }
+
+        public override TransitAccountAuditEntry GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountAuditEntry t_instance = base.GetTransitInstance(sec);
+            
+            try
+            {
+                Account acct = Session.Load<Account>(mInstance.AccountId);
+                t_instance.AccountName = acct.Name;
+                t_instance.AccountPictureId = ManagedAccount.GetRandomAccountPictureId(acct);
+            }
+            catch (ObjectNotFoundException)
+            {
+
+            }
+
+            return t_instance;
         }
     }
 }

@@ -752,40 +752,104 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         return mMarkupRenderer.Render(value);
     }
 
+    public delegate string ToString<TransitType>(TransitType instance);
+
+    private string Handle<TransitType>(
+        string tagname, string tagvalue, 
+        WebClientImpl<TransitType>.GetItemDelegate<int> functor, 
+        ToString<TransitType> transformer)
+    {
+        int id = 0;
+        if (int.TryParse(tagvalue, out id))
+        {
+            TransitType t_instance = GetInstance<TransitType, int>(id, functor);
+            if (t_instance != null)
+            {
+                return transformer(t_instance);
+            }
+        }
+
+        return string.Format("[invalid {0}: {1}]", tagname, tagvalue);
+    }
+
+    private string Handle<TransitType, ArgType>(
+        string tagname, string tagvalue, ArgType arg,
+        WebClientImpl<TransitType>.GetItemDelegate<int, ArgType> functor,
+        ToString<TransitType> transformer)
+    {
+        int id = 0;
+        if (int.TryParse(tagvalue, out id))
+        {
+            TransitType t_instance = GetInstance<TransitType, int, ArgType>(id, arg, functor);
+            if (t_instance != null)
+            {
+                return transformer(t_instance);
+            }
+        }
+
+        return string.Format("[invalid {0}: {1}]", tagname, tagvalue);
+    }
+
     public string Handle(string tag, string tagname, string tagvalue)
     {
-        if ((tagname == "user") || (tagname == "account"))
+        switch (tagname)
         {
-            int userid = 0;
-            if (int.TryParse(tagvalue, out userid))
-            {
-                TransitAccount t_account = GetInstance<TransitAccount, int>(
-                    userid, AccountService.GetAccountById);
-
-                if (t_account != null)
+            case "user":
+            case "account":
+                return Handle<TransitAccount>(tagname, tagvalue, AccountService.GetAccountById,
+                    delegate(TransitAccount t_account)
+                    {
+                        return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
+                            WebsiteUrl, t_account.Id, Renderer.Render(t_account.Name));
+                    });
+            case "place":
+                return Handle<TransitPlace>(tagname, tagvalue, PlaceService.GetPlaceById,
+                    delegate(TransitPlace t_place)
+                    {
+                        return string.Format("<a href=\"{0}/PlaceView.aspx?id={1}\">{2}</a>",
+                            WebsiteUrl, t_place.Id, Renderer.Render(t_place.Name));
+                    });
+            case "group":
+                return Handle<TransitAccountGroup>(tagname, tagvalue, GroupService.GetAccountGroupById,
+                    delegate(TransitAccountGroup t_group)
+                    {
+                        return string.Format("<a href=\"{0}/AccountGroupView.aspx?id={1}\">{2}</a>",
+                            WebsiteUrl, t_group.Id, Renderer.Render(t_group.Name));
+                    });
+            case "blog":
+                return Handle<TransitAccountBlog>(tagname, tagvalue, BlogService.GetAccountBlogById,
+                    delegate(TransitAccountBlog t_blog)
+                    {
+                        return string.Format("<a href=\"{0}/AccountBlogView.aspx?id={1}\">{2}</a>",
+                            WebsiteUrl, t_blog.Id, Renderer.Render(t_blog.Name));
+                    });
+            case "event":
+                return Handle<TransitAccountEvent, int>(tagname, tagvalue, 0, EventService.GetAccountEventById,
+                    delegate(TransitAccountEvent t_event)
+                    {
+                        return string.Format("<a href=\"{0}/AccountEventView.aspx?id={1}\">{2}</a>",
+                            WebsiteUrl, t_event.Id, Renderer.Render(t_event.Name));
+                    });
+            case "feed":
+                return Handle<TransitAccountFeed>(tagname, tagvalue, SyndicationService.GetAccountFeedById,
+                    delegate(TransitAccountFeed t_feed)
+                    {
+                        return string.Format("<a href=\"{0}/AccountFeedView.aspx?id={1}\">{2}</a>",
+                            WebsiteUrl, t_feed.Id, Renderer.Render(t_feed.Name));
+                    });
+            default:
+                TransitPlace p = GetInstance<TransitPlace, string, string>(
+                    tagname, tagvalue, PlaceService.FindPlace);
+                if (p == null)
                 {
-                    return string.Format("<a href=\"{0}/AccountView.aspx?id={1}\">{2}</a>",
-                        WebsiteUrl, t_account.Id, Renderer.Render(t_account.Name));
+                    return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+                        Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
                 }
-            }
-
-            return string.Format("[invalid user: {0}]", tagvalue);
-        }
-        else
-        {
-            TransitPlace p = GetInstance<TransitPlace, string, string>(
-                tagname, tagvalue, PlaceService.FindPlace);
-
-            if (p == null)
-            {
-                return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-                    Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
-            }
-            else
-            {
-                return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
-                    p.Id, Renderer.Render(p.Name), WebsiteUrl);
-            }
+                else
+                {
+                    return string.Format("<a href=\"{2}/PlaceView.aspx?id={0}\">{1}</a>",
+                        p.Id, Renderer.Render(p.Name), WebsiteUrl);
+                }
         }
     }
 

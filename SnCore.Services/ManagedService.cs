@@ -130,9 +130,12 @@ namespace SnCore.Services
             
             if (this is IAuditableService)
             {
-                AccountAuditEntry audit_entry = ((IAuditableService)this).CreateAccountAuditEntry(
-                    Session, DataOperation.Delete);
-                Session.Save(audit_entry);
+                IList<AccountAuditEntry> audit_entries = ((IAuditableService)this).CreateAccountAuditEntries(
+                    Session, sec, DataOperation.Delete);
+                
+                if (audit_entries != null)
+                    foreach(AccountAuditEntry audit_entry in audit_entries)
+                        Session.Save(audit_entry);
             }
         }
 
@@ -190,9 +193,12 @@ namespace SnCore.Services
 
             if (this is IAuditableService)
             {
-                AccountAuditEntry audit_entry = ((IAuditableService)this).CreateAccountAuditEntry(
-                    Session, op);
-                Session.Save(audit_entry);
+                IList<AccountAuditEntry> audit_entries = ((IAuditableService)this).CreateAccountAuditEntries(
+                    Session, sec, op);
+
+                if (audit_entries != null)
+                    foreach (AccountAuditEntry audit_entry in audit_entries)
+                        Session.Save(audit_entry);
             }
         }
 

@@ -102,7 +102,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountWebsite : ManagedService<AccountWebsite, TransitAccountWebsite>
+    public class ManagedAccountWebsite : ManagedService<AccountWebsite, TransitAccountWebsite>, IAuditableService
     {
         public class InvalidUriException : Exception
         {
@@ -188,6 +188,21 @@ namespace SnCore.Services
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) GetQuota(sec).Check<AccountWebsite, ManagedAccount.QuotaExceededException>(
                 mInstance.Account.AccountWebsites);
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has added {1} to his/her websites",
+                        mInstance.Account.Id, mInstance.Url),
+                        string.Format("AccountView.aspx?id={0}", mInstance.Account.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

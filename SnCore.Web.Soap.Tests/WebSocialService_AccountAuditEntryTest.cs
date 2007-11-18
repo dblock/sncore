@@ -7,12 +7,23 @@ using System.Web.Services.Protocols;
 namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
 {
     [TestFixture]
-    public class AccountAuditEntryTest : WebServiceBaseTest<WebSocialServiceNoCache>
+    public class AccountAuditEntryTest : WebServiceTest<WebSocialService.TransitAccountAuditEntry, WebSocialServiceNoCache>
     {
-
         public AccountAuditEntryTest()
+            : base("AccountAuditEntry", "AccountAuditEntries")
         {
 
+        }
+
+        public override WebSocialService.TransitAccountAuditEntry GetTransitInstance()
+        {
+            WebSocialService.TransitAccountAuditEntry t_instance = new WebSocialService.TransitAccountAuditEntry();
+            t_instance.AccountId = GetAdminAccount().Id;
+            t_instance.Description = GetNewString();
+            t_instance.IsPrivate = false;
+            t_instance.IsSystem = false;
+            t_instance.Url = GetNewUri();
+            return t_instance;
         }
 
         [Test]

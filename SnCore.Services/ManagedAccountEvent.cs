@@ -811,7 +811,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEvent : ManagedService<AccountEvent, TransitAccountEvent>
+    public class ManagedAccountEvent : ManagedService<AccountEvent, TransitAccountEvent>, IAuditableService
     {
         public ManagedAccountEvent()
         {
@@ -1054,6 +1054,21 @@ namespace SnCore.Services
 
             mInstance.Account = newowner;
             Session.Save(mInstance);
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has announced [event:{1}]",
+                        mInstance.Account.Id, mInstance.Name, mInstance.Id),
+                        string.Format("AccountEventView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

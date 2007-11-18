@@ -79,11 +79,14 @@ namespace SnCore.WebServices
             TransitAccountEvent t_instance = WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetById(
                 ticket, id);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            if (t_instance != null)
             {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                t_instance.CreateSchedule(session, utcoffset, sec);
+                using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+                {
+                    ISession session = SnCore.Data.Hibernate.Session.Current;
+                    ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                    t_instance.CreateSchedule(session, utcoffset, sec);
+                }
             }
 
             return t_instance;

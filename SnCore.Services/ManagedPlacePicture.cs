@@ -213,7 +213,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed place picture.
     /// </summary>
-    public class ManagedPlacePicture : ManagedService<PlacePicture, TransitPlacePicture>
+    public class ManagedPlacePicture : ManagedService<PlacePicture, TransitPlacePicture>, IAuditableService
     {
         public ManagedPlacePicture()
         {
@@ -412,6 +412,21 @@ namespace SnCore.Services
                         string.Format("EmailPlacePicture.aspx?id={0}", mInstance.Id));
                 }
             }
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has added a picture to [place:{1}]",
+                        mInstance.Account.Id, mInstance.Place.Id),
+                        string.Format("PlacePictureView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

@@ -95,6 +95,7 @@
     <property name="AccountId" columns="Account_Id" type="System.Int32" />
     <property name="Count" columns="Count" type="System.Int32" />
     <property name="Updated" columns="Updated" type="System.DateTime" />
+    <property name="Url" columns="Url" type="System.String" />
   </class>
   <class name="AccountBlog" table="AccountBlog">
     <property name="Id" id="true" columns="AccountBlog_Id" type="System.Int32" />
@@ -1109,12 +1110,13 @@
     <table name="AccountAuditEntry">
       <column name="AccountAuditEntry_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Description" type="String" prec="512" length="1024" scale="0" />
+      <column name="Description" type="String" prec="256" length="512" scale="0" />
       <column name="IsPrivate" type="Boolean" prec="1" length="1" scale="0" />
       <column name="IsSystem" type="Boolean" prec="1" length="1" scale="0" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" />
       <column name="Count" type="Int32" prec="10" length="4" scale="0" />
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Url" type="String" prec="128" length="256" scale="0" />
     </table>
     <table name="AccountBlog">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountBlog_AccountBlog" />

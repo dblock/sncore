@@ -1,6 +1,7 @@
 using System;
 using NHibernate;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using SnCore.Data.Hibernate;
 
@@ -96,7 +97,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFriend : ManagedService<AccountFriend, TransitAccountFriend>
+    public class ManagedAccountFriend : ManagedService<AccountFriend, TransitAccountFriend>, IAuditableService
     {
         public ManagedAccountFriend()
         {
@@ -153,6 +154,31 @@ namespace SnCore.Services
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.All));
             acl.Add(new ACLAccount(mInstance.Keen, DataOperation.All));
             return acl;
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] and [user:{1}] are now friends", mInstance.Keen.Id, mInstance.Account.Id),
+                        string.Format("AccountView.aspx?id={0}", mInstance.Keen.Id)));
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Keen,
+                        string.Format("[user:{0}] and [user:{1}] are now friends", mInstance.Account.Id, mInstance.Keen.Id),
+                        string.Format("AccountView.aspx?id={0}", mInstance.Keen.Id)));
+                    break;
+                case DataOperation.Delete:
+                    result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] and [user:{1}] are no longer friends", mInstance.Keen.Id, mInstance.Account.Id),
+                        string.Format("AccountView.aspx?id={0}", mInstance.Keen.Id)));
+                    result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance.Keen,
+                        string.Format("[user:{0}] and [user:{1}] are no longer friends", mInstance.Account.Id, mInstance.Keen.Id),
+                        string.Format("AccountView.aspx?id={0}", mInstance.Keen.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

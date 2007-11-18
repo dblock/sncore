@@ -3,6 +3,7 @@ using NHibernate;
 using System.Text;
 using System.Security.Cryptography;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate.Expression;
 using System.Web.Services.Protocols;
 using System.Xml;
@@ -237,7 +238,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlogPost : ManagedService<AccountBlogPost, TransitAccountBlogPost>
+    public class ManagedAccountBlogPost : ManagedService<AccountBlogPost, TransitAccountBlogPost>, IAuditableService
     {
         public ManagedAccountBlogPost()
         {
@@ -310,6 +311,21 @@ namespace SnCore.Services
                 acl.Add(new ACLAccount(author.Account, op));
             }
             return acl;
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountBlog.Account,
+                        string.Format("[user:{0}] has posted [b]{1}[/b] in [blog:{2}]",
+                        mInstance.AccountBlog.Account.Id, mInstance.Title, mInstance.AccountBlog.Id),
+                        string.Format("AccountBlogPostView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

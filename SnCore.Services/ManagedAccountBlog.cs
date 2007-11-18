@@ -154,7 +154,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlog : ManagedService<AccountBlog, TransitAccountBlog>
+    public class ManagedAccountBlog : ManagedService<AccountBlog, TransitAccountBlog>, IAuditableService
     {
         public ManagedAccountBlog()
         {
@@ -331,6 +331,21 @@ namespace SnCore.Services
                 GetQuota(sec).Check<AccountBlog, ManagedAccount.QuotaExceededException>(
                     mInstance.Account.AccountBlogs);
             }
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has started a new blog: [blog:{1}]", 
+                        mInstance.Account.Id, mInstance.Id),
+                        string.Format("AccountBlogView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

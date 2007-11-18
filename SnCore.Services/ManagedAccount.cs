@@ -1473,22 +1473,27 @@ namespace SnCore.Services
             }
         }
 
-        public AccountAuditEntry CreateAccountAuditEntry(ISession session, DataOperation op)
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            
             switch(op)
             {
                 case DataOperation.Create:
-                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] created", mInstance.Id));
+                    result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
+                        string.Format("[user:{0}] has joined", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                    break;
                 case DataOperation.Update:
-                    return ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] has updated his/her profile", mInstance.Id));
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance,
+                        string.Format("[user:{0}] has updated his/her profile", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                    break;
                 case DataOperation.Delete:
-                    return ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] deleted", mInstance.Id));
-                default:
-                    return null;                    
+                    result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
+                        string.Format("[user:{0}] has been deleted", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                    break;
             }
+
+            return result;
         }
     }
 }

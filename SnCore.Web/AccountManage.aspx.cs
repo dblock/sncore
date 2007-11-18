@@ -54,6 +54,7 @@ public partial class AccountManage : AuthenticatedPage
             accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);
 
             groupsView.AccountId = SessionManager.AccountId;
+            friendsView.AccountId = SessionManager.AccountId;
 
             AccountNumbers numbers = (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
             if (numbers == null)

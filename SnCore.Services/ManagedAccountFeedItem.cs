@@ -360,7 +360,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFeedItem : ManagedService<AccountFeedItem, TransitAccountFeedItem>
+    public class ManagedAccountFeedItem : ManagedService<AccountFeedItem, TransitAccountFeedItem>, IAuditableService
     {
         public ManagedAccountFeedItem()
         {
@@ -438,6 +438,21 @@ namespace SnCore.Services
 
             if (features == null || features.Count == 0) return null;
             return features[0];
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountFeed.Account,
+                        string.Format("[user:{0}] has posted [b]{1}[/b] in [feed:{2}]",
+                        mInstance.AccountFeed.Account.Id, mInstance.Title, mInstance.AccountFeed.Id),
+                        string.Format("AccountFeedItemView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

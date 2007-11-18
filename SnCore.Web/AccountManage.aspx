@@ -7,6 +7,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register tagprefix="SnCore" tagname="Notice" src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="GroupsView" Src="AccountGroupsViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountFriendAuditEntriesView" Src="AccountFriendAuditEntriesViewControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_account_table">
@@ -40,4 +41,8 @@
  <SnCore:Notice ID="noticeVerifiedEmail" runat="server" />
  <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
  <SnCore:GroupsView runat="server" ID="groupsView" PublicOnly="false" />
+ <div class="sncore_h2">
+  Friends Activity
+ </div>
+ <SnCore:AccountFriendAuditEntriesView id="friendsView" Max="3" runat="server" />
 </asp:Content>

@@ -155,7 +155,8 @@ BEGIN
 CREATE TABLE [dbo].[AccountAuditEntry](
 	[AccountAuditEntry_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Account_Id] [int] NOT NULL,
-	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Description] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Url] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsPrivate] [bit] NOT NULL,
 	[IsSystem] [bit] NOT NULL,
 	[Count] [int] NOT NULL,
@@ -165,7 +166,7 @@ CREATE TABLE [dbo].[AccountAuditEntry](
 (
 	[AccountAuditEntry_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 END
 GO
 
@@ -188,6 +189,17 @@ CREATE NONCLUSTERED INDEX [IX_AccountAuditEntry_Is] ON [dbo].[AccountAuditEntry]
 (
 	[IsPrivate] ASC,
 	[IsSystem] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'UK_AccountAuditEntry')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountAuditEntry] ON [dbo].[AccountAuditEntry] 
+(
+	[Account_Id] ASC,
+	[Description] ASC,
+	[IsPrivate] ASC,
+	[IsSystem] ASC,
+	[Url] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_AccountId')
@@ -214,6 +226,16 @@ ALTER TABLE [dbo].[AccountAuditEntry] ADD  CONSTRAINT [PK_AccountAuditEntry] PRI
 (
 	[AccountAuditEntry_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'UK_AccountAuditEntry')
+CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountAuditEntry] ON [dbo].[AccountAuditEntry] 
+(
+	[Account_Id] ASC,
+	[Description] ASC,
+	[IsPrivate] ASC,
+	[IsSystem] ASC,
+	[Url] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
 GO

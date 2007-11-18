@@ -21,6 +21,7 @@
         private System.Int32 m_AccountId;
         private System.Int32 m_Count;
         private System.DateTime m_Updated;
+        private System.String m_Url;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -217,6 +218,31 @@
             set
             {
                 m_Updated = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Url' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Url' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.String Url
+        {
+            get
+            {
+                return m_Url;
+            }
+            set
+            {
+                m_Url = value;
             }
         }
 

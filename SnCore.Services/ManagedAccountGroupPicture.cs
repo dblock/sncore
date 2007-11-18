@@ -1,6 +1,7 @@
 using System;
 using NHibernate;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using SnCore.Tools.Drawing;
 using SnCore.Data.Hibernate;
@@ -212,7 +213,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed AccountGroup picture.
     /// </summary>
-    public class ManagedAccountGroupPicture : ManagedService<AccountGroupPicture, TransitAccountGroupPicture>
+    public class ManagedAccountGroupPicture : ManagedService<AccountGroupPicture, TransitAccountGroupPicture>, IAuditableService
     {
         public ManagedAccountGroupPicture()
         {
@@ -302,6 +303,21 @@ namespace SnCore.Services
             }
 
             throw new Exception("Error migrating picture to group owner. Missing group owner.");
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
+                        string.Format("[user:{0}] has uploaded a new picture to [group:{1}]",
+                        mInstance.Account.Id, mInstance.AccountGroup.Id),
+                        string.Format("AccountGroupPictureView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

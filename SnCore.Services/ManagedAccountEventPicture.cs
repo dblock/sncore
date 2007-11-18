@@ -223,7 +223,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEventPicture : ManagedService<AccountEventPicture, TransitAccountEventPicture>
+    public class ManagedAccountEventPicture : ManagedService<AccountEventPicture, TransitAccountEventPicture>, IAuditableService
     {
         public ManagedAccountEventPicture()
         {
@@ -308,6 +308,21 @@ namespace SnCore.Services
 
             mInstance.Account = newowner;
             Session.Save(mInstance);
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountEvent.Account,
+                        string.Format("[user:{0}] has added a picture to [event:{1}]",
+                        mInstance.Account.Id, mInstance.AccountEvent.Id),
+                        string.Format("AccountEventPictureView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

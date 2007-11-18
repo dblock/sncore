@@ -160,6 +160,7 @@
       <li><a href="PlaceFriendsQueueView.aspx">Friends Queue</a></li>
       <li><a href="AccountFriendsManage.aspx">Friends</a></li>
       <li><a href="AccountInvitationsManage.aspx">Invite Friends</a></li>
+      <li><a href="AccountFriendAuditEntriesView.aspx">Friends Activity</a></li>
       <li><a href="AccountFriendRequestsManage.aspx">Pending Friend Requests</a></li>
       <li><a href="AccountFriendRequestsSentManage.aspx">Sent Friend Requests</a></li>
       <li><a href="AccountStoriesManage.aspx">Stories</a></li>
