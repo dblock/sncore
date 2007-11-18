@@ -127,16 +127,7 @@ namespace SnCore.Services
         {
             GetACL().Check(sec, DataOperation.Delete);
             Session.Delete(mInstance);
-            
-            if (this is IAuditableService)
-            {
-                IList<AccountAuditEntry> audit_entries = ((IAuditableService)this).CreateAccountAuditEntries(
-                    Session, sec, DataOperation.Delete);
-                
-                if (audit_entries != null)
-                    foreach(AccountAuditEntry audit_entry in audit_entries)
-                        Session.Save(audit_entry);
-            }
+            Audit(DataOperation.Delete, sec);
         }
 
         public virtual int CreateOrUpdate(TransitType t_instance, ManagedSecurityContext sec)
@@ -190,7 +181,11 @@ namespace SnCore.Services
         {
             DataOperation op = (mInstance.Id == 0 ? DataOperation.Create : DataOperation.Update);
             Session.Save(mInstance);
+            Audit(op, sec);
+        }
 
+        public void Audit(DataOperation op, ManagedSecurityContext sec)
+        {
             if (this is IAuditableService)
             {
                 IList<AccountAuditEntry> audit_entries = ((IAuditableService)this).CreateAccountAuditEntries(

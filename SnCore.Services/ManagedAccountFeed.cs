@@ -773,7 +773,12 @@ namespace SnCore.Services
                 }
 
                 foreach (AccountFeedItem item in updated)
+                {
+                    DataOperation op = (item.Id == 0 ? DataOperation.Create : DataOperation.Update);
                     Session.Save(item);
+                    ManagedAccountFeedItem m_item = new ManagedAccountFeedItem(Session, item);
+                    m_item.Audit(op, sec);
+                }
 
                 mInstance.AccountFeedItems = updated;
                 mInstance.LastError = string.Empty;

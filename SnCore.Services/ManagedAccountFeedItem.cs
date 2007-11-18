@@ -446,10 +446,12 @@ namespace SnCore.Services
             switch (op)
             {
                 case DataOperation.Create:
-                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountFeed.Account,
+                    AccountAuditEntry entry = ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountFeed.Account,
                         string.Format("[user:{0}] has posted [b]{1}[/b] in [feed:{2}]",
                         mInstance.AccountFeed.Account.Id, mInstance.Title, mInstance.AccountFeed.Id),
-                        string.Format("AccountFeedItemView.aspx?id={0}", mInstance.Id)));
+                        string.Format("AccountFeedItemView.aspx?id={0}", mInstance.Id));
+                    entry.Created = entry.Updated = mInstance.Created;
+                    result.Add(entry);
                     break;
             }
             return result;
