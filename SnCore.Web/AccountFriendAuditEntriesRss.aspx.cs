@@ -47,7 +47,7 @@ public partial class AccountFriendAuditEntriesRss : Page
             options.PageSize = 50;
             options.PageNumber = 0;
             rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountAuditEntry, int>(
-                RequestId, options, SessionManager.SocialService.GetAccountFriendAuditEntries);
+                AccountId, options, SessionManager.SocialService.GetAccountFriendAuditEntries);
             rssRepeater.DataBind();
         }
     }
@@ -56,5 +56,13 @@ public partial class AccountFriendAuditEntriesRss : Page
     {
         Response.ContentType = "text/xml";
         base.OnPreRender(e);
+    }
+
+    public int AccountId
+    {
+        get
+        {
+            return RequestId == 0 ? SessionManager.AccountId : RequestId;
+        }
     }
 }
