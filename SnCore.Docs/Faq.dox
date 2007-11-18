@@ -217,14 +217,15 @@ content support above-mentionned tags, limited HTML and automatically highlighte
 
 \section faq_people People
 
-\subsection faq_people_tags How do I reference a person in a post or story?
+\subsection faq_people_tags How do I reference a person (place, blog, etc.) in a post or story by their id?
 To reference a person you need to find out the person's ID (top right corner of the profile page) and write something like 
 <em>[user:id]</em>. For example:
 \code
 [user:201]
 \endcode
 
-Once you place this tag, it becomes clickable and the ID is replaced with the user's current name.
+Once you place this tag, it becomes clickable and the ID is replaced with the user's current name. Other
+available tags are place, blog, event, feed and discussion.
 
 \section faq_stories Stories
 

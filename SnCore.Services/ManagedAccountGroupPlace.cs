@@ -205,7 +205,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountGroupPlace : ManagedService<AccountGroupPlace, TransitAccountGroupPlace>
+    public class ManagedAccountGroupPlace : ManagedService<AccountGroupPlace, TransitAccountGroupPlace>, IAuditableService
     {
         public ManagedAccountGroupPlace()
         {

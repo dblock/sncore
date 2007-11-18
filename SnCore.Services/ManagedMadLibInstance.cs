@@ -207,7 +207,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedMadLibInstance : ManagedService<MadLibInstance, TransitMadLibInstance>
+    public class ManagedMadLibInstance : ManagedService<MadLibInstance, TransitMadLibInstance>, IAuditableService
     {
         public ManagedMadLibInstance()
         {
@@ -320,6 +320,21 @@ namespace SnCore.Services
                 .Add(Expression.Eq("DataObject.Id", ManagedDataObject.Find(session, table)))
                 .Add(Expression.Eq("ObjectId", id))
                 .List<MadLibInstance>();
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has posted a new mad lib in [{1}:{2}]",
+                        mInstance.AccountId, mInstance.DataObject.Name.ToLower(), mInstance.ObjectId),
+                        string.Format("{0}View.aspx?id={1}", mInstance.DataObject.Name, mInstance.ObjectId)));
+                    break;
+            }
+            return result;
         }
     }
 }

@@ -345,7 +345,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedDiscussionPost : ManagedService<DiscussionPost, TransitDiscussionPost>
+    public class ManagedDiscussionPost : ManagedService<DiscussionPost, TransitDiscussionPost>, IAuditableService
     {
         public ManagedDiscussionPost()
         {
@@ -527,6 +527,21 @@ namespace SnCore.Services
             // check whether the sender was flagged
             new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(
                 ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
+        }
+
+        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        {
+            List<AccountAuditEntry> result = new List<AccountAuditEntry>();
+            switch (op)
+            {
+                case DataOperation.Create:
+                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                        string.Format("[user:{0}] has posted [b]{1}[/b] in [discussion:{2}]",
+                        mInstance.AccountId, mInstance.Subject, mInstance.DiscussionThread.Discussion.Id),
+                        string.Format("DiscussionPostView.aspx?id={0}", mInstance.Id)));
+                    break;
+            }
+            return result;
         }
     }
 }

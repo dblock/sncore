@@ -837,6 +837,17 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
                         return string.Format("<a href=\"{0}/AccountFeedView.aspx?id={1}\">{2}</a>",
                             WebsiteUrl, t_feed.Id, Renderer.Render(t_feed.Name));
                     });
+            case "discussion":
+                return Handle<TransitDiscussion>(tagname, tagvalue, DiscussionService.GetDiscussionById,
+                    delegate(TransitDiscussion t_discussion)
+                    {
+                        string name = string.IsNullOrEmpty(t_discussion.ParentObjectName) ? t_discussion.Name : t_discussion.ParentObjectName;
+                        string uri = string.IsNullOrEmpty(t_discussion.ParentObjectUri) 
+                            ? string.Format("DiscussionView.aspx?id={0}", t_discussion.Id)
+                            : t_discussion.ParentObjectUri;
+                        return string.Format("<a href=\"{0}/{1}\">{2}</a>",
+                            WebsiteUrl, uri, Renderer.Render(name));
+                    });
             default:
                 TransitPlace p = GetInstance<TransitPlace, string, string>(
                     tagname, tagvalue, PlaceService.FindPlace);

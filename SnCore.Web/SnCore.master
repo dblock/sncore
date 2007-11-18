@@ -148,7 +148,7 @@
    <a href="TermsOfUse.aspx">terms of use</a> | 
    <a href="Help.aspx">about &amp; help</a> 
    <br />
-   (c) 2006 Vestris Inc. - All Rights Reserved
+   (c) 2006-2007 Vestris Inc. - All Rights Reserved
   </div>
   <!-- NOEMAIL-START -->
   <asp:Panel ID="panelCounter" runat="server">
