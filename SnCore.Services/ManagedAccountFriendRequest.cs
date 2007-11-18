@@ -228,13 +228,13 @@ namespace SnCore.Services
         {
             GetACL().Check(sec, DataOperation.Update);
 
-            AccountFriend friend = new AccountFriend();
-            friend.Account = mInstance.Account;
-            friend.Keen = mInstance.Keen;
-            friend.Created = DateTime.UtcNow;
-            Session.Save(friend);
+            TransitAccountFriend t_friend = new TransitAccountFriend();
+            t_friend.FriendId = mInstance.Keen.Id;
+            t_friend.AccountId = Instance.Account.Id;
+            ManagedAccountFriend m_friend = new ManagedAccountFriend(Session);
+            m_friend.CreateOrUpdate(t_friend, sec);
 
-            ManagedAccount recepient = new ManagedAccount(Session, friend.Account);
+            ManagedAccount recepient = new ManagedAccount(Session, sec.Account);
             ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
                 Session,
                 recepient,
@@ -255,8 +255,11 @@ namespace SnCore.Services
 
             Collection<AccountFriendRequest>.GetSafeCollection(mInstance.Account.AccountFriendRequests).Remove(mInstance);
 
-            if (friend.Account.AccountFriends == null) friend.Account.AccountFriends = new List<AccountFriend>();
-            friend.Account.AccountFriends.Add(friend);
+            if (m_friend.Instance.Account.AccountFriends == null) m_friend.Instance.Account.AccountFriends = new List<AccountFriend>();
+            m_friend.Instance.Account.AccountFriends.Add(m_friend.Instance);
+
+            if (m_friend.Instance.Keen.AccountFriends == null) m_friend.Instance.Keen.AccountFriends = new List<AccountFriend>();
+            m_friend.Instance.Keen.AccountFriends.Add(m_friend.Instance);
         }
 
         public int AccountId

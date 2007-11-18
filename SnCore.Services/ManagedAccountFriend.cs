@@ -9,6 +9,20 @@ namespace SnCore.Services
 {
     public class TransitAccountFriend : TransitService<AccountFriend>
     {
+        private int mAccountId;
+
+        public int AccountId
+        {
+            get
+            {
+                return mAccountId;
+            }
+            set
+            {
+                mAccountId = value;
+            }
+        }
+
         private int mFriendId;
 
         public int FriendId
@@ -85,6 +99,7 @@ namespace SnCore.Services
             FriendId = instance.Keen.Id;
             FriendPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Keen);
             FriendName = instance.Keen.Name;
+            AccountId = instance.Account.Id;
             Created = instance.Created;
             base.SetInstance(instance);
         }
@@ -92,7 +107,11 @@ namespace SnCore.Services
         public override AccountFriend GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountFriend instance = base.GetInstance(session, sec);
-            if (FriendId > 0) instance.Keen = session.Load<Account>(FriendId);
+            if (instance.Id == 0)
+            {
+                if (FriendId > 0) instance.Keen = session.Load<Account>(FriendId);
+                if (AccountId > 0) instance.Account = session.Load<Account>(AccountId);
+            }
             return instance;
         }
     }

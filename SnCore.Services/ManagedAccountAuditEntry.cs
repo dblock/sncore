@@ -230,6 +230,14 @@ namespace SnCore.Services
                     {
                         foreach (AccountFriend friend in acct.AccountFriends)
                         {
+                            acl.Add(new ACLAccount(friend.Keen, DataOperation.Retreive));
+                        }
+                    }
+
+                    if (acct.KeenAccountFriends != null)
+                    {
+                        foreach (AccountFriend friend in acct.KeenAccountFriends)
+                        {
                             acl.Add(new ACLAccount(friend.Account, DataOperation.Retreive));
                         }
                     }

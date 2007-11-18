@@ -455,6 +455,8 @@ namespace SnCore.WebServices
                         ") WHERE ( " +
                         " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
                         " AND AccountAuditEntry.Account_Id <> {0}" +
+                        " AND AccountAuditEntry.IsSystem <> 1" +
+                        " AND AccountAuditEntry.IsPrivate <> 1" +
                         ")", id));
         }
 
@@ -472,6 +474,8 @@ namespace SnCore.WebServices
                         ") WHERE ( " +
                         " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
                         " AND AccountAuditEntry.Account_Id <> {0}" +
+                        " AND AccountAuditEntry.IsSystem <> 1" +
+                        " AND AccountAuditEntry.IsPrivate <> 1" +
                         ") ORDER BY AccountAuditEntry.Updated DESC", id), "AccountAuditEntry");
         }
 
