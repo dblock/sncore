@@ -1064,7 +1064,7 @@ namespace SnCore.Services
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
                         string.Format("[user:{0}] has announced [event:{1}]",
-                        mInstance.Account.Id, mInstance.Name, mInstance.Id),
+                        mInstance.Account.Id, mInstance.Id),
                         string.Format("AccountEventView.aspx?id={0}", mInstance.Id)));
                     break;
             }
