@@ -188,6 +188,20 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get discussion thread posts in order of posting.
+        /// </summary>
+        /// <param name="id">discussion thread id</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get discussion thread posts in order of posting.")]
+        public List<TransitDiscussionPost> GetDiscussionThreadPostsByOrder(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("DiscussionThread.Id", id) };
+            Order[] orders = { Order.Desc("Created") };
+            return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
+                ticket, options, expressions, orders);
+        }
+
+        /// <summary>
         /// Get discussion thread posts.
         /// </summary>
         /// <param name="id">discussion thread id</param>

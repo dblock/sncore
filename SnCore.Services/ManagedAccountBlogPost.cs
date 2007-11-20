@@ -319,10 +319,11 @@ namespace SnCore.Services
             switch (op)
             {
                 case DataOperation.Create:
+                    string url = string.Format("AccountBlogPostView.aspx?id={0}", mInstance.Id);
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountBlog.Account,
-                        string.Format("[user:{0}] has posted [b]{1}[/b] in [blog:{2}]",
-                        mInstance.AccountBlog.Account.Id, mInstance.Title, mInstance.AccountBlog.Id),
-                        string.Format("AccountBlogPostView.aspx?id={0}", mInstance.Id)));
+                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [blog:{3}]",
+                        mInstance.AccountBlog.Account.Id, url, Renderer.Render(mInstance.Title), mInstance.AccountBlog.Id),
+                        url));
                     break;
             }
             return result;

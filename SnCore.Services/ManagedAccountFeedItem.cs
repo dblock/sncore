@@ -446,10 +446,11 @@ namespace SnCore.Services
             switch (op)
             {
                 case DataOperation.Create:
+                    string url = string.Format("AccountFeedItemView.aspx?id={0}", mInstance.Id);
                     AccountAuditEntry entry = ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountFeed.Account,
-                        string.Format("[user:{0}] has posted [b]{1}[/b] in [feed:{2}]",
-                        mInstance.AccountFeed.Account.Id, mInstance.Title, mInstance.AccountFeed.Id),
-                        string.Format("AccountFeedItemView.aspx?id={0}", mInstance.Id));
+                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [feed:{3}]",
+                        mInstance.AccountFeed.Account.Id, url, Renderer.Render(mInstance.Title), mInstance.AccountFeed.Id),
+                        url);
                     entry.Created = entry.Updated = mInstance.Created;
                     result.Add(entry);
                     break;

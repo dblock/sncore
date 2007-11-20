@@ -135,6 +135,11 @@ public partial class AccountGroupView : Page
                     : "Feature &#187; Never Featured";
             }
 
+            if (!fGroupMember)
+            {
+                noticeInfo.Info = "Join this group to participate and access its discussion posts.";
+            }
+
             // private / public
             if (AccountGroup.IsPrivate && ! fGroupMemberOrAdmin)
             {

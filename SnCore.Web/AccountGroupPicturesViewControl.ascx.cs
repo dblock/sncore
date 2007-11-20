@@ -36,6 +36,7 @@ public partial class AccountGroupPicturesViewControl : Control
         {
             GetPicturesData(sender, e);
             linkUpload.NavigateUrl = string.Format("AccountGroupPicturesManage.aspx?id={0}", AccountGroupId);
+            linkUpload.Visible = (AccountGroupId > 0);
         }
     }
 

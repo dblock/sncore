@@ -14,7 +14,7 @@
    <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridActivity" 
     AllowCustomPaging="true" RepeatColumns="1" RepeatRows="7" RepeatDirection="Horizontal"
     CssClass="sncore_inner_table" ShowHeader="false">
-    <PagerStyle cssclass="sncore_table_pager" position="Bottom" nextpagetext="Next"
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
      prevpagetext="Prev" horizontalalign="Center" />
     <ItemTemplate>
      <span class="sncore_message_tr_td_span">
@@ -26,7 +26,7 @@
        </div>
        <div class='sncore_content' style='width: 460px;'>
         <div class='sncore_message_body_halftable' style="padding: 10px 10px 10px 10px;">
-         <%# RenderEx(Eval("Description")) %>
+         <%# RenderEx(Render(Eval("Description"))) %>
         </div>
         <div class="sncore_footer">
          <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Updated")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>

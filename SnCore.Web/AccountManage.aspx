@@ -50,7 +50,8 @@
     </div>
    </td>
    <td align="right" valign="middle">
-    <SnCore:RssLink ID="linkFriendsActivity" runat="server" NavigateUrl="AccountFriendAuditEntriesRss.aspx" />
+    <SnCore:RssLink ID="linkFriendsActivity" runat="server" Title="Friends' Activity" 
+     NavigateUrl="AccountFriendAuditEntriesRss.aspx" />
    </td>
   </tr>
  </table>

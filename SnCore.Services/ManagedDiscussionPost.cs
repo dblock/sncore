@@ -535,10 +535,11 @@ namespace SnCore.Services
             switch (op)
             {
                 case DataOperation.Create:
+                    string url = string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id);
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has posted [b]{1}[/b] in [discussion:{2}]",
-                        mInstance.AccountId, mInstance.Subject, mInstance.DiscussionThread.Discussion.Id),
-                        string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id)));
+                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [discussion:{3}]",
+                        mInstance.AccountId, url, Renderer.Render(mInstance.Subject), mInstance.DiscussionThread.Discussion.Id),
+                        url));
                     break;
             }
             return result;

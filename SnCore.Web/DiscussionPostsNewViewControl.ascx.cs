@@ -11,7 +11,9 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using System.Text;
 using System.Collections.Generic;
+using SnCore.Tools.Web;
 
 public partial class DiscussionPostsNewViewControl : Control
 {
@@ -27,5 +29,34 @@ public partial class DiscussionPostsNewViewControl : Control
             discussionView.DataSource = items;
             discussionView.DataBind();
         }
+    }
+
+    public string GetReplies(int post_id, int thread_id)
+    {
+        StringBuilder result = new StringBuilder();
+        
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageNumber = 0;
+        options.PageSize = 3;
+        IList<TransitDiscussionPost> items = SessionManager.GetCollection<TransitDiscussionPost, int>(
+            thread_id, options, SessionManager.DiscussionService.GetDiscussionThreadPostsByOrder);
+        
+        foreach (TransitDiscussionPost t_instance in items)
+        {
+            if (t_instance.Id == post_id)
+                continue;
+
+            result.Append(string.Format("<div>&#187; <b>{0}</b> replied {1}</a></div>",
+                Renderer.Render(t_instance.AccountName), 
+                SessionManager.ToAdjustedString(t_instance.Created)));
+        }
+        
+        if (result.Length > 0)
+        {
+            result.Insert(0, "<div class=\"sncore_message_reply\">");
+            result.Append("</div>");
+        }
+
+        return result.ToString();
     }
 }

@@ -123,5 +123,17 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             post.Delete(GetAdminTicket(), post_id);
             post.TearDown();
         }
+
+        [Test]
+        protected void GetDiscussionThreadPostsByOrderTest()
+        {
+
+        }
+
+        [Test]
+        protected void GetDiscussionThreadPostsTest()
+        {
+
+        }
     }
 }

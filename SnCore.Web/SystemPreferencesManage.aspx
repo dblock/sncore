@@ -39,6 +39,12 @@
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemCitiesManage.aspx">Cities</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemNeighborhoodsManage.aspx">Neighborhoods</a></td></tr>
     </table>
+    <div class="sncore_h2">
+     Runtime
+    </div>
+    <table>
+     <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemStatsCache.aspx">Front-End Cache</a></td></tr>
+    </table>
    </td>
    <td valign="top" width="50%">
     <div class="sncore_h2">
@@ -46,7 +52,7 @@
     </div>
     <table>
      <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="SystemAccountsManage.aspx">Accounts</a></td></tr>
-     <tr><td width="30" align="center"><img src="images/account/stats.gif" /></td><td width="*"><a href="AccountAuditEntriesView.aspx">Activity</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/activity.gif" /></td><td width="*"><a href="AccountAuditEntriesView.aspx">Activity</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/flags.gif" /></td><td width="*"><a href="SystemAccountFlagsManage.aspx">Reported Abuse</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountFlagTypesManage.aspx">Flag Types</a></td></tr>
     </table>
@@ -80,7 +86,6 @@
      <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererQueries.aspx">Referer Queries</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererHostDupsManage.aspx">Host Dups</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemRefererAccountsManage.aspx">Referer Accounts</a></td></tr>
-     <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="SystemStatsCache.aspx">Front-End Cache</a></td></tr>
     </table>
    </td>
   </tr>

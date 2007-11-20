@@ -61,12 +61,13 @@
     </div>
    </div>
    <div class="sncore_footer">
-    <%# SessionManager.ToAdjustedString((DateTime) Eval("DiscussionThreadModified")) %>
+    <%# ((int) Eval("RepliesCount") > 0) ? string.Empty : SessionManager.ToAdjustedString((DateTime) Eval("DiscussionThreadModified")) %>
     <a href="DiscussionThreadView.aspx?id=<%# Eval("DiscussionThreadId") %>&did=<%# Eval("DiscussionId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
      &#187; read
-    </a>    
+    </a>
    </div>
   </div>
+  <%# GetReplies((int) Eval("Id"), (int) Eval("DiscussionThreadId")) %>
  </ItemTemplate>    
 </SnCoreWebControls:PagedList>
 

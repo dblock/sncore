@@ -104,6 +104,8 @@ public partial class AccountBlogViewControl : Control
 
         if (!IsPostBack)
         {
+            this.Visible = (BlogId > 0);
+
             if (BlogId > 0)
             {
                 TransitAccountBlog blog = SessionManager.GetInstance<TransitAccountBlog, int>(

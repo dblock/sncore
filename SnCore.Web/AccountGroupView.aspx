@@ -14,6 +14,7 @@
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountGroupPicturesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -103,6 +104,7 @@
        </td>
       </tr>
      </table>
+     <SnCore:Notice ID="noticeInfo" runat="server" />
      <a name="discuss"></a>
      <SnCore:BlogView runat="server" ID="blogView" />
      <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" 

@@ -130,6 +130,7 @@ body td.sncore_message_tr_td_halftable { border-bottom: dotted 1px silver; paddi
 body td.sncore_message_tr_td { border-bottom: dotted 1px silver; padding-bottom: 5px; padding-top: 10px; }
 body tr.sncore_message_tr td { border-bottom: dotted 1px silver; padding-bottom: 5px; padding-top: 10px; }
 body div.sncore_message { display: inline; }
+body div.sncore_message_reply { margin-top: 5px; border-top: dotted 1px silver; padding-left: 10px; margin-left: 10px; font-size: smaller; }
 body div.sncore_message div.sncore_message_subject { font-size: 16px; font-weight: bold; }
 body div.sncore_message div.sncore_content_madlib { float: left; width: 472px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }
 body div.sncore_message div.sncore_content_account { float: left; width: 480px; background: url('images/site/quote.gif') 0px 14px no-repeat;  }

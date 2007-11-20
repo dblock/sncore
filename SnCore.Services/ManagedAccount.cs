@@ -1489,7 +1489,7 @@ namespace SnCore.Services
                     break;
                 case DataOperation.Delete:
                     result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] has been deleted", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                        string.Format("{0} ({1}) has been deleted", mInstance.Name, mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
                     break;
             }
 
