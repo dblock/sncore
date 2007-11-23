@@ -155,6 +155,8 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Principal" columns="Principal" type="System.Boolean" />
     <property name="Verified" columns="Verified" type="System.Boolean" />
+    <property name="Failed" columns="Failed" type="System.Boolean" />
+    <property name="LastError" columns="LastError" type="System.String" />
   </class>
   <class name="AccountEmailConfirmation" table="AccountEmailConfirmation">
     <property name="Id" id="true" columns="AccountEmailConfirmation_Id" type="System.Int32" />
@@ -1171,6 +1173,8 @@
       <column name="Modified" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
       <column name="Verified" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
       <column name="Principal" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
+      <column name="Failed" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="LastError" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
     </table>
     <table name="AccountEmailConfirmation">
       <column name="AccountEmail_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountEmail" primary-column="AccountEmail_Id" foreign-key="FK_AccountEmailConfirmation_AccountEmail" />

@@ -198,8 +198,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountAuditEntry] ON [dbo].[AccountAuditEn
 	[Account_Id] ASC,
 	[Description] ASC,
 	[IsPrivate] ASC,
-	[IsSystem] ASC,
-	[Url] ASC
+	[IsSystem] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IX_AccountAuditEntry_AccountId')
@@ -233,8 +232,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountAuditEntry] ON [dbo].[AccountAuditEn
 	[Account_Id] ASC,
 	[Description] ASC,
 	[IsPrivate] ASC,
-	[IsSystem] ASC,
-	[Url] ASC
+	[IsSystem] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -472,6 +470,8 @@ CREATE TABLE [dbo].[AccountEmail](
 	[Modified] [datetime] NULL,
 	[Verified] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Verified]  DEFAULT ((0)),
 	[Principal] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Primary]  DEFAULT ((0)),
+	[Failed] [bit] NOT NULL,
+	[LastError] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_AccountEmail] PRIMARY KEY CLUSTERED 
 (
 	[AccountEmail_Id] ASC

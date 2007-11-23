@@ -124,3 +124,12 @@ GO
 UPDATE dbo.FeedType SET DefaultType = 0 WHERE DefaultType IS NULL
 ALTER TABLE dbo.FeedType ALTER COLUMN [DefaultType] bit NOT NULL
 GO
+-- create a failure option for AccountEmail
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND name = N'Failed') 
+ALTER TABLE dbo.AccountEmail ADD [Failed] bit NULL
+UPDATE dbo.AccountEmail SET [Failed] = 0 WHERE Failed IS NULL
+ALTER TABLE dbo.AccountEmail ALTER COLUMN [Failed] bit NOT NULL
+GO
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND name = N'LastError') 
+ALTER TABLE dbo.AccountEmail ADD [LastError] varchar(128) NULL
+GO

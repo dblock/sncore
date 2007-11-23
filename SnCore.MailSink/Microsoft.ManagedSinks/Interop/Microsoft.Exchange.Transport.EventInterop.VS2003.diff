@@ -1,0 +1,194 @@
+925c925
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+930c930
+<             instance void  GetProperty([in] unsigned int32 dwPropID,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwPropID,
+932,933c932,933
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+1002c1002
+<                                        [out] unsigned int8& pbBlock,
+---
+>                                        [in] native int pbBlock,
+1011c1011
+<                                         [out] unsigned int8& pbBlock,
+---
+>                                         [in] unsigned int8[] marshal([]) pbBlock,
+1117c1117
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+1122c1122
+<             instance void  GetProperty([in] unsigned int32 dwIndex,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwIndex,
+1125,1126c1125,1126
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+1233c1233
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+1238c1238
+<             instance void  GetProperty([in] unsigned int32 dwIndex,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwIndex,
+1241,1242c1241,1242
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+1313c1313
+<             instance void  QueryCommand([out] string  marshal( lpstr) pszCommand,
+---
+>             instance void  QueryCommand([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszCommand,
+1319c1319
+<             instance void  QueryCommandKeyword([out] string  marshal( lpstr) pszKeyword,
+---
+>             instance void  QueryCommandKeyword([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszKeyword,
+1325c1325
+<             instance void  QueryNativeResponse([out] string  marshal( lpstr) pszNativeResponse,
+---
+>             instance void  QueryNativeResponse([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszNativeResponse,
+1331c1331
+<             instance void  QueryResponse([out] string  marshal( lpstr) pszResponse,
+---
+>             instance void  QueryResponse([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszResponse,
+1503c1503
+<             instance void  QueryCommand([out] string  marshal( lpstr) pszCommand,
+---
+>             instance void  QueryCommand([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszCommand,
+1509c1509
+<             instance void  QueryCommandKeyword([out] string  marshal( lpstr) pszKeyword,
+---
+>             instance void  QueryCommandKeyword([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszKeyword,
+1515c1515
+<             instance void  QueryNativeCommand([out] string  marshal( lpstr) pszNativeCommand,
+---
+>             instance void  QueryNativeCommand([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszNativeCommand,
+1598c1598
+<             instance void  QueryCommand([out] string  marshal( lpstr) pszCommand,
+---
+>             instance void  QueryCommand([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszCommand,
+1604c1604
+<             instance void  QueryCommandKeyword([out] string  marshal( lpstr) pszKeyword,
+---
+>             instance void  QueryCommandKeyword([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszKeyword,
+1610c1610
+<             instance void  QueryResponse([out] string  marshal( lpstr) pszResponse,
+---
+>             instance void  QueryResponse([out] class [mscorlib]System.Text.StringBuilder marshal( lpstr) pszResponse,
+1991c1991
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+1996c1996
+<             instance void  GetProperty([in] unsigned int32 dwIndex,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwIndex,
+1999,2000c1999,2000
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+2201c2201
+<                                        [in] valuetype Microsoft.Exchange.Transport.EventInterop._FIO_CONTEXT& pFIOContentFile) runtime managed internalcall
+---
+>                                        [in] native int pFIOContentFile) runtime managed internalcall
+2242,2244c2242,2244
+<                                       [in] unsigned int32& pdwOffset,
+<                                       [in] unsigned int32& pdwLength,
+<                                       [out] native int ppbBlock,
+---
+>                                       [in] native int pdwOffset,
+>                                       [in] native int pdwLength,
+>                                       [in] native int ppbBlock,
+2252,2253c2252,2253
+<                                        [in] unsigned int32& pdwOffset,
+<                                        [in] unsigned int32& pdwLength,
+---
+>                                        [in] native int pdwOffset,
+>                                        [in] native int pdwLength,
+2361c2361
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+2366c2366
+<             instance void  GetProperty([in] unsigned int32 dwPropID,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwPropID,
+2368,2369c2368,2369
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+2435c2435
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+2440c2440
+<             instance void  GetProperty([in] unsigned int32 dwPropID,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwPropID,
+2442,2443c2442,2443
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+2620c2620
+<                                                 unsigned int32& pdwRecipIndexes) runtime managed internalcall
+---
+>                                                 [in] unsigned int32[] marshal([]) pdwRecipIndexes) runtime managed internalcall
+2625,2626c2625,2626
+<             instance void  ReadMetabaseString([in] unsigned int32 MetabaseId,
+<                                               [in][out] int8& Buffer,
+---
+>             instance int32 ReadMetabaseString([in] unsigned int32 MetabaseId,
+>                                               [in][out] native int Buffer,
+2628c2628
+<                                               [in] int32 fSecure) runtime managed internalcall
+---
+>                                               [in] int32 fSecure) runtime managed internalcall preservesig
+2663,2665c2663,2665
+<             instance void  ReadMetabaseData([in] unsigned int32 MetabaseId,
+<                                             [in][out] unsigned int8& Buffer,
+<                                             [in][out] unsigned int32& BufferSize) runtime managed internalcall
+---
+>             instance int32 ReadMetabaseData([in] unsigned int32 MetabaseId,
+>                                             [in][out] native int Buffer,
+>                                             [in][out] unsigned int32& BufferSize) runtime managed internalcall preservesig
+3520c3520
+<                                        [in] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in] unsigned int8[] marshal([]) pbValue) runtime managed internalcall
+3526c3526
+<             instance void  GetProperty([in] unsigned int32 dwPropID,
+---
+>             instance int32 GetProperty([in] unsigned int32 dwPropID,
+3528,3529c3528,3529
+<                                        [out] unsigned int32& pcbLength,
+<                                        [out] unsigned int8& pbValue) runtime managed internalcall
+---
+>                                        [in][out] unsigned int32& pcbLength,
+>                                        [in] native int pbValue) runtime managed internalcall preservesig
+3609c3609
+<                                        [out] unsigned int8& pbBlock,
+---
+>                                        [in] native int pbBlock,
+3619c3619
+<                                         [out] unsigned int8& pbBlock,
+---
+>                                         [in] unsigned int8[] marshal([]) pbBlock,

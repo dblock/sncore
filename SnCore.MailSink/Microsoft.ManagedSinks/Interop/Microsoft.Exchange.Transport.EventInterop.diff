@@ -1,0 +1,1203 @@
+7c7
+< // Metadata version: v2.0.50727
+---
+> // Metadata version: v1.1.4322
+11c11
+<   .ver 2:0:0:0
+---
+>   .ver 1:0:5000:0
+20,23d19
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.PrimaryInteropAssemblyAttribute::.ctor(int32,
+<                                                                                                         int32) = ( 01 00 01 00 00 00 00 00 00 00 00 00 ) 
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibVersionAttribute::.ctor(int32,
+<                                                                                                 int32) = ( 01 00 01 00 00 00 00 00 00 00 00 00 ) 
+27a24,25
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.PrimaryInteropAssemblyAttribute::.ctor(int32,
+>                                                                                                         int32) = ( 01 00 01 00 00 00 00 00 00 00 00 00 ) 
+70a69
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+75d73
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+79c77
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+84,87c82,85
+<           instance void  GetProperty([in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+156c154
+<                                      [out] uint8& pbBlock,
+---
+>                                      [in] native int pbBlock,
+165c163
+<                                       [in] uint8& pbBlock,
+---
+>                                       [in] uint8[]  marshal([]) pbBlock,
+239a238
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+242a242
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+269c269
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+274,278c274,278
+<           instance void  GetProperty([in] uint32 dwIndex,
+<                                      [in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwIndex,
+>                                       [in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+364d363
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+367a367
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+385c385
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+390,394c390,394
+<           instance void  GetProperty([in] uint32 dwIndex,
+<                                      [in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwIndex,
+>                                       [in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+465c465
+<           instance void  QueryCommand([out] string  marshal( lpstr) pszCommand,
+---
+>           instance void  QueryCommand([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszCommand,
+471c471
+<           instance void  QueryCommandKeyword([out] string  marshal( lpstr) pszKeyword,
+---
+>           instance void  QueryCommandKeyword([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszKeyword,
+477c477
+<           instance void  QueryNativeResponse([out] string  marshal( lpstr) pszNativeResponse,
+---
+>           instance void  QueryNativeResponse([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszNativeResponse,
+483c483
+<           instance void  QueryResponse([out] string  marshal( lpstr) pszResponse,
+---
+>           instance void  QueryResponse([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszResponse,
+575a576
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+579d579
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+655c655
+<           instance void  QueryCommand([out] string  marshal( lpstr) pszCommand,
+---
+>           instance void  QueryCommand([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszCommand,
+661c661
+<           instance void  QueryCommandKeyword([out] string  marshal( lpstr) pszKeyword,
+---
+>           instance void  QueryCommandKeyword([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszKeyword,
+667c667
+<           instance void  QueryNativeCommand([out] string  marshal( lpstr) pszNativeCommand,
+---
+>           instance void  QueryNativeCommand([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszNativeCommand,
+750c750
+<           instance void  QueryCommand([out] string  marshal( lpstr) pszCommand,
+---
+>           instance void  QueryCommand([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszCommand,
+756c756
+<           instance void  QueryCommandKeyword([out] string  marshal( lpstr) pszKeyword,
+---
+>           instance void  QueryCommandKeyword([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszKeyword,
+762c762
+<           instance void  QueryResponse([out] string  marshal( lpstr) pszResponse,
+---
+>           instance void  QueryResponse([out] class [mscorlib]System.Text.StringBuilder  marshal( lpstr) pszResponse,
+821c821
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+824a825
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+835a837
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+852a855
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+865a869
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+879a884
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+883d887
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+960a965
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+964d968
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+990d993
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+993a997
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1010a1015
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1014d1018
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1025a1030
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1029d1033
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1066d1069
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1069a1073
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1086d1089
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1089a1093
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1139c1143
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+1144,1148c1148,1152
+<           instance void  GetProperty([in] uint32 dwIndex,
+<                                      [in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwIndex,
+>                                       [in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+1298d1301
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1301a1305
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1340a1345
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1345d1349
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1349c1353
+<                                      [in] valuetype Microsoft.Exchange.Transport.EventInterop._FIO_CONTEXT& pFIOContentFile) runtime managed internalcall
+---
+>                                      [in] native int pFIOContentFile) runtime managed internalcall
+1374a1379,1380
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1378,1379d1383
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1390,1392c1394,1396
+<                                     [in] uint32& pdwOffset,
+<                                     [in] uint32& pdwLength,
+<                                     [out] native int ppbBlock,
+---
+>                                     [in] native int pdwOffset,
+>                                     [in] native int pdwLength,
+>                                     [in] native int ppbBlock,
+1400,1401c1404,1405
+<                                      [in] uint32& pdwOffset,
+<                                      [in] uint32& pdwLength,
+---
+>                                      [in] native int pdwOffset,
+>                                      [in] native int pdwLength,
+1427a1432
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1432d1436
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1484a1489,1490
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1488,1489d1493
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1509c1513
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+1514,1517c1518,1521
+<           instance void  GetProperty([in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+1583c1587
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+1588,1591c1592,1595
+<           instance void  GetProperty([in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+1679a1684
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1694d1698
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1697a1702,1703
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1747a1754
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+1765c1772
+<                                               uint32& pdwRecipIndexes) runtime managed internalcall
+---
+>                                               [in] uint32[]  marshal([]) pdwRecipIndexes) runtime managed internalcall
+1770,1773c1777,1780
+<           instance void  ReadMetabaseString([in] uint32 MetabaseId,
+<                                             [in][out] int8& Buffer,
+<                                             [in][out] uint32& BufferSize,
+<                                             [in] int32 fSecure) runtime managed internalcall
+---
+>           instance int32  ReadMetabaseString([in] uint32 MetabaseId,
+>                                              [in][out] native int Buffer,
+>                                              [in][out] uint32& BufferSize,
+>                                              [in] int32 fSecure) runtime managed preservesig internalcall
+1808,1810c1815,1817
+<           instance void  ReadMetabaseData([in] uint32 MetabaseId,
+<                                           [in][out] uint8& Buffer,
+<                                           [in][out] uint32& BufferSize) runtime managed internalcall
+---
+>           instance int32  ReadMetabaseData([in] uint32 MetabaseId,
+>                                            [in][out] native int Buffer,
+>                                            [in][out] uint32& BufferSize) runtime managed preservesig internalcall
+1827a1835
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1831d1838
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1869c1876
+< .class public auto ansi sealed Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0324_0002
+---
+> .class public auto ansi sealed Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0316_0002
+1873,1876c1880,1883
+<   .field public static literal valuetype Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0324_0002 SOURCE_SENDER = int32(0x00000000)
+<   .field public static literal valuetype Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0324_0002 SOURCE_RECIPIENT = int32(0x00000001)
+<   .field public static literal valuetype Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0324_0002 SOURCE_VERIFY = int32(0x00000002)
+< } // end of class Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0324_0002
+---
+>   .field public static literal valuetype Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0316_0002 SOURCE_SENDER = int32(0x00000000)
+>   .field public static literal valuetype Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0316_0002 SOURCE_RECIPIENT = int32(0x00000001)
+>   .field public static literal valuetype Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0316_0002 SOURCE_VERIFY = int32(0x00000002)
+> } // end of class Microsoft.Exchange.Transport.EventInterop.__MIDL___MIDL_itf_Microsoft2EExchange2ETransport2EEventInterop_0316_0002
+1880a1888
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+1884d1891
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2038a2046
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2042c2050
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2197a2206
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2201d2209
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2275a2284
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2276a2286
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2277a2288
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2278a2290
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2282a2295
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2322a2336
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2326d2339
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2337a2351
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2398a2413
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2410a2426
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2414c2430
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2440a2457
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2444d2460
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2505a2522,2523
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2509d2526
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+2542a2560
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2560a2579
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+2640d2658
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
+2643a2662
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 02 00 00 00 ) 
+2653c2672
+<                                      [in] uint8& pbValue) runtime managed internalcall
+---
+>                                      [in] uint8[]  marshal([]) pbValue) runtime managed internalcall
+2659,2662c2678,2681
+<           instance void  GetProperty([in] uint32 dwPropID,
+<                                      [in] uint32 cbLength,
+<                                      [out] uint32& pcbLength,
+<                                      [out] uint8& pbValue) runtime managed internalcall
+---
+>           instance int32  GetProperty([in] uint32 dwPropID,
+>                                       [in] uint32 cbLength,
+>                                       [in][out] uint32& pcbLength,
+>                                       [in] native int pbValue) runtime managed preservesig internalcall
+2742c2761
+<                                      [out] uint8& pbBlock,
+---
+>                                      [in] native int pbBlock,
+2752c2771
+<                                       [in] uint8& pbBlock,
+---
+>                                       [in] uint8[]  marshal([]) pbBlock,
+2821,2823d2839
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 42 39 35 46 42 34 30 2D 41 33 34 46   // ..$AB95FB40-A34F
+<                                                                                                   2D 31 31 44 31 2D 41 41 38 41 2D 30 30 41 41 30   // -11D1-AA8A-00AA0
+<                                                                                                   30 36 42 43 38 30 42 00 00 )                      // 06BC80B..
+2827a2844,2846
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 42 39 35 46 42 34 30 2D 41 33 34 46   // ..$AB95FB40-A34F
+>                                                                                                   2D 31 31 44 31 2D 41 41 38 41 2D 30 30 41 41 30   // -11D1-AA8A-00AA0
+>                                                                                                   30 36 42 43 38 30 42 00 00 )                      // 06BC80B..
+3035a3055
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 05 56 61 6C 75 65 00 00 )                   // ...Value..
+3040d3059
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 05 56 61 6C 75 65 00 00 )                   // ...Value..
+3118d3136
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3119a3138
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3137c3156
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+3384,3385d3402
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3388a3406,3407
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3400a3420
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3404d3423
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3534d3552
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+3535a3554
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+3563a3583,3584
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 00 10 00 00 ) 
+3567,3568d3587
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 00 10 00 00 ) 
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3584c3603
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+3718d3736
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3721a3740
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3747,3748d3765
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+3751a3769,3770
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+3762d3780
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+3765a3784
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+3772d3790
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3775a3794
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3804c3823
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+3869d3887
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3870a3889
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+3911c3930
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+4127a4147
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+4132d4151
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+4163c4182
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+4166d4184
+<     .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibFuncAttribute::.ctor(int16) = ( 01 00 40 00 00 00 )                               // ..@...
+4167a4186
+>     .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibFuncAttribute::.ctor(int16) = ( 01 00 40 00 00 00 )                               // ..@...
+4213c4232
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+4216d4234
+<     .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibFuncAttribute::.ctor(int16) = ( 01 00 40 00 00 00 )                               // ..@...
+4217a4236
+>     .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibFuncAttribute::.ctor(int16) = ( 01 00 40 00 00 00 )                               // ..@...
+4230d4248
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+4233a4252
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+4244c4263
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+4400c4419
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+4403d4421
+<     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+4404a4423
+>     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+4498a4518
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+4502d4521
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 40 10 00 00 )                               // ..@...
+4534c4553
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+4594a4614
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4598d4617
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4626d4644
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4629a4648
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4649a4669
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4654d4673
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4681a4701
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4686d4705
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4764a4784
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 00 11 00 00 ) 
+4768d4787
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 00 11 00 00 ) 
+4939c4958
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+4943c4962
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+4953d4971
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 50 10 00 00 )                               // ..P...
+4956a4975
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 50 10 00 00 )                               // ..P...
+4967a4987
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+4971d4990
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+5027a5047
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5031d5050
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5047d5065
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5051a5070
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5076c5095
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 07 4F 6E 45 76 65 6E 74 00 00 )             // ...OnEvent..
+5080c5099
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 07 4F 6E 45 76 65 6E 74 00 00 )             // ...OnEvent..
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5090d5108
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 07 4F 6E 45 76 65 6E 74 00 00 )             // ...OnEvent..
+5094a5113
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 07 4F 6E 45 76 65 6E 74 00 00 )             // ...OnEvent..
+5134d5152
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5137a5156
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5147a5167,5168
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 10 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ComConversionLossAttribute::.ctor() = ( 01 00 00 00 ) 
+5151d5171
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 10 00 00 ) 
+5195a5216
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5199d5219
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5370d5389
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5373a5393
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5568d5587
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5571a5591
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5597a5618
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5601d5621
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+5617,5619d5636
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 43 34 44 46 30 30 34 30 2D 32 44 33 33   // ..$C4DF0040-2D33
+<                                                                                                   2D 31 31 44 30 2D 41 39 43 46 2D 30 30 41 41 30   // -11D0-A9CF-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+5622a5640,5642
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 43 34 44 46 30 30 34 30 2D 32 44 33 33   // ..$C4DF0040-2D33
+>                                                                                                   2D 31 31 44 30 2D 41 39 43 46 2D 30 30 41 41 30   // -11D0-A9CF-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+5647c5667
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+5802a5823,5825
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 44 38 31 37 37 42 34 30 2D 37 42 41 43   // ..$D8177B40-7BAC
+>                                                                                                   2D 31 31 44 30 2D 41 39 45 30 2D 30 30 41 41 30   // -11D0-A9E0-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+5808,5810d5830
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 44 38 31 37 37 42 34 30 2D 37 42 41 43   // ..$D8177B40-7BAC
+<                                                                                                   2D 31 31 44 30 2D 41 39 45 30 2D 30 30 41 41 30   // -11D0-A9E0-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+5819d5838
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+5821a5841
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+5849c5869
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+5852d5871
+<     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+5853a5873
+>     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+6027d6046
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+6028a6048
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+6053c6073
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+6056d6075
+<     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+6057a6077
+>     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+6251c6271
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+6295d6314
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+6296a6316
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 04 49 74 65 6D 00 00 )                      // ...Item..
+6347c6367
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+6350d6369
+<     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+6351a6371
+>     .custom instance void [mscorlib]System.Runtime.InteropServices.DispIdAttribute::.ctor(int32) = ( 01 00 FC FF FF FF 00 00 ) 
+6372c6392
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+6583,6585d6602
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 41 42 42 32 33 45 30 2D 41 37 30 35   // ..$AABB23E0-A705
+<                                                                                                   2D 31 31 44 30 2D 41 39 45 41 2D 30 30 41 41 30   // -11D0-A9EA-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+6590a6608,6610
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 41 41 42 42 32 33 45 30 2D 41 37 30 35   // ..$AABB23E0-A705
+>                                                                                                   2D 31 31 44 30 2D 41 39 45 41 2D 30 30 41 41 30   // -11D0-A9EA-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+6597a6618,6619
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 05 56 61 6C 75 65 00 00 )                   // ...Value..
+6602,6603d6623
+<   .custom instance void [mscorlib]System.Reflection.DefaultMemberAttribute::.ctor(string) = ( 01 00 05 56 61 6C 75 65 00 00 )                   // ...Value..
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+6705a6726
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+6710d6730
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+6810,6811d6829
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+6814a6833,6834
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 32 00 00 00 )                               // ..2...
+6853,6855d6872
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 31 42 37 30 35 38 46 30 2D 41 46 38 38   // ..$1B7058F0-AF88
+<                                                                                                   2D 31 31 44 30 2D 41 39 45 42 2D 30 30 41 41 30   // -11D0-A9EB-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+6859a6877,6879
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 31 42 37 30 35 38 46 30 2D 41 46 38 38   // ..$1B7058F0-AF88
+>                                                                                                   2D 31 31 44 30 2D 41 39 45 42 2D 30 30 41 41 30   // -11D0-A9EB-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+6866a6887,6888
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 12 00 00 00 ) 
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+6870,6871d6891
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 12 00 00 00 ) 
+6977c6997
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 22 00 00 00 )                               // .."...
+6981c7001
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 22 00 00 00 )                               // .."...
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7097,7099d7116
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 35 46 36 30 31 32 42 30 2D 41 36 35 31   // ..$5F6012B0-A651
+<                                                                                                   2D 31 31 44 30 2D 41 39 45 41 2D 30 30 41 41 30   // -11D0-A9EA-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+7103a7121,7123
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 35 46 36 30 31 32 42 30 2D 41 36 35 31   // ..$5F6012B0-A651
+>                                                                                                   2D 31 31 44 30 2D 41 39 45 41 2D 30 30 41 41 30   // -11D0-A9EA-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+7116a7137
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7131d7151
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7148c7168
+<           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+---
+>           marshal( custom ("System.Runtime.InteropServices.CustomMarshalers.EnumeratorToEnumVariantMarshaler, CustomMarshalers, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a","")) 
+7319a7340
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+7333d7353
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 10 00 00 00 ) 
+7420a7441,7443
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 42 34 43 44 42 43 30 2D 41 36 34 46   // ..$0B4CDBC0-A64F
+>                                                                                                   2D 31 31 44 30 2D 41 39 45 41 2D 30 30 41 41 30   // -11D0-A9EA-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+7426,7428d7448
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 42 34 43 44 42 43 30 2D 41 36 34 46   // ..$0B4CDBC0-A64F
+<                                                                                                   2D 31 31 44 30 2D 41 39 45 41 2D 30 30 41 41 30   // -11D0-A9EA-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+7451a7472
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+7455d7475
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+7516d7535
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+7519a7539
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+7558a7579
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7562d7582
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7728,7730d7747
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 30 30 30 30 46 2D 30 30 30 30   // ..$0000000F-0000
+<                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
+<                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
+7735a7753,7755
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 30 30 30 30 30 30 30 46 2D 30 30 30 30   // ..$0000000F-0000
+>                                                                                                   2D 30 30 30 30 2D 43 30 30 30 2D 30 30 30 30 30   // -0000-C000-00000
+>                                                                                                   30 30 30 30 30 34 36 00 00 )                      // 0000046..
+7740d7759
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+7743a7763
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.InterfaceTypeAttribute::.ctor(int16) = ( 01 00 01 00 00 00 ) 
+7759c7779
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 22 00 00 00 )                               // .."...
+7763c7783
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 22 00 00 00 )                               // .."...
+---
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7821a7842
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 22 00 00 00 )                               // .."...
+7826d7846
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(int16) = ( 01 00 22 00 00 00 )                               // .."...
+7930d7949
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+7934a7954
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+8003a8024,8026
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 36 35 41 37 30 45 43 30 2D 43 44 38 37   // ..$65A70EC0-CD87
+>                                                                                                   2D 31 31 44 30 2D 41 39 46 38 2D 30 30 41 41 30   // -11D0-A9F8-00AA0
+>                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+8008,8010d8030
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 36 35 41 37 30 45 43 30 2D 43 44 38 37   // ..$65A70EC0-CD87
+<                                                                                                   2D 31 31 44 30 2D 41 39 46 38 2D 30 30 41 41 30   // -11D0-A9F8-00AA0
+<                                                                                                   30 36 38 35 43 37 34 00 00 )                      // 0685C74..
+8018d8037
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+8021a8041
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.ClassInterfaceAttribute::.ctor(int16) = ( 01 00 00 00 00 00 ) 
+8091,8093d8110
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 31 41 30 30 42 39 37 30 2D 45 44 41 30   // ..$1A00B970-EDA0
+<                                                                                                   2D 31 31 44 30 2D 41 41 31 30 2D 30 30 41 41 30   // -11D0-AA10-00AA0
+<                                                                                                   30 36 42 43 38 30 42 00 00 )                      // 06BC80B..
+8097a8115,8117
+>   .custom instance void [mscorlib]System.Runtime.InteropServices.GuidAttribute::.ctor(string) = ( 01 00 24 31 41 30 30 42 39 37 30 2D 45 44 41 30   // ..$1A00B970-EDA0
+>                                                                                                   2D 31 31 44 30 2D 41 41 31 30 2D 30 30 41 41 30   // -11D0-AA10-00AA0
+>                                                                                                   30 36 42 43 38 30 42 00 00 )                      // 06BC80B..
+8105d8124
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(valuetype [mscorlib]System.Runtime.InteropServices.TypeLibTypeFlags) = ( 01 00 10 00 00 00 00 00 ) 
+8147c8166
+<   .field private class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer m_ConnectionPointContainer
+---
+>   .field private class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer m_ConnectionPointContainer
+8149c8168
+<   .field private class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint m_ConnectionPoint
+---
+>   .field private class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint m_ConnectionPoint
+8154c8173
+<     .locals init (class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint V_0,
+---
+>     .locals init (class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint V_0,
+8230c8249
+<     IL_00d9:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPointContainer
+---
+>     IL_00d9:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPointContainer
+8233,8234c8252,8253
+<     IL_00e2:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer::FindConnectionPoint(valuetype [mscorlib]System.Guid&,
+<                                                                                                                                         class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint&)
+---
+>     IL_00e2:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer::FindConnectionPoint(valuetype [mscorlib]System.Guid&,
+>                                                                                                                                    class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint&)
+8237,8238c8256,8257
+<     IL_00ec:  castclass  [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint
+<     IL_00f1:  stfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+---
+>     IL_00ec:  castclass  [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint
+>     IL_00f1:  stfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+8256c8275
+<       IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+---
+>       IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+8266c8285
+<       IL_002c:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+---
+>       IL_002c:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+8270,8271c8289,8290
+<       IL_0039:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint::Advise(object,
+<                                                                                                                     int32&)
+---
+>       IL_0039:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint::Advise(object,
+>                                                                                                                int32&)
+8298c8317
+<     // Code size       241 (0xf1)
+---
+>     // Code size       227 (0xe3)
+8309,8319c8328,8388
+<       IL_0012:  brfalse    IL_00e1
+< 
+<       IL_0017:  ldarg      0
+<       IL_001b:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+<       IL_0020:  callvirt   instance int32 [mscorlib]System.Collections.ArrayList::get_Count()
+<       IL_0025:  stloc.0
+<       IL_0026:  ldc.i4     0x0
+<       IL_002b:  stloc.1
+<       IL_002c:  ldc.i4     0x0
+<       IL_0031:  ldloc.0
+<       IL_0032:  bge        IL_00e1
+---
+>       IL_0012:  callvirt   instance int32 [mscorlib]System.Collections.ArrayList::get_Count()
+>       IL_0017:  stloc.0
+>       IL_0018:  ldc.i4     0x0
+>       IL_001d:  stloc.1
+>       IL_001e:  ldc.i4     0x0
+>       IL_0023:  ldloc.0
+>       IL_0024:  bge        IL_00d3
+> 
+>       IL_0029:  ldarg      0
+>       IL_002d:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+>       IL_0032:  ldloc.1
+>       IL_0033:  callvirt   instance object [mscorlib]System.Collections.ArrayList::get_Item(int32)
+>       IL_0038:  castclass  Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper
+>       IL_003d:  stloc.2
+>       IL_003e:  ldloc.2
+>       IL_003f:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper::m_OnChangeDelegate
+>       IL_0044:  ldnull
+>       IL_0045:  beq        IL_00c4
+> 
+>       IL_004a:  ldloc.2
+>       IL_004b:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper::m_OnChangeDelegate
+>       IL_0050:  ldarg      A_1
+>       IL_0054:  castclass  [mscorlib]System.Object
+>       IL_0059:  callvirt   instance bool [mscorlib]System.Delegate::Equals(object)
+>       IL_005e:  ldc.i4     0xff
+>       IL_0063:  and
+>       IL_0064:  ldc.i4     0x0
+>       IL_0069:  beq        IL_00c4
+> 
+>       IL_006e:  ldarg      0
+>       IL_0072:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+>       IL_0077:  ldloc.1
+>       IL_0078:  callvirt   instance void [mscorlib]System.Collections.ArrayList::RemoveAt(int32)
+>       IL_007d:  ldarg      0
+>       IL_0081:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+>       IL_0086:  ldloc.2
+>       IL_0087:  ldfld      int32 Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper::m_dwCookie
+>       IL_008c:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint::Unadvise(int32)
+>       IL_0091:  ldloc.0
+>       IL_0092:  ldc.i4     0x1
+>       IL_0097:  bgt        IL_00d3
+> 
+>       IL_009c:  ldarg      0
+>       IL_00a0:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+>       IL_00a5:  call       int32 [mscorlib]System.Runtime.InteropServices.Marshal::ReleaseComObject(object)
+>       IL_00aa:  pop
+>       IL_00ab:  ldarg      0
+>       IL_00af:  ldnull
+>       IL_00b0:  stfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+>       IL_00b5:  ldarg      0
+>       IL_00b9:  ldnull
+>       IL_00ba:  stfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+>       IL_00bf:  br         IL_00d3
+> 
+>       IL_00c4:  ldloc.1
+>       IL_00c5:  ldc.i4     0x1
+>       IL_00ca:  add
+>       IL_00cb:  stloc.1
+>       IL_00cc:  ldloc.1
+>       IL_00cd:  ldloc.0
+>       IL_00ce:  blt        IL_0029
+8321,8375c8390
+<       IL_0037:  ldarg      0
+<       IL_003b:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+<       IL_0040:  ldloc.1
+<       IL_0041:  callvirt   instance object [mscorlib]System.Collections.ArrayList::get_Item(int32)
+<       IL_0046:  castclass  Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper
+<       IL_004b:  stloc.2
+<       IL_004c:  ldloc.2
+<       IL_004d:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper::m_OnChangeDelegate
+<       IL_0052:  ldnull
+<       IL_0053:  beq        IL_00d2
+< 
+<       IL_0058:  ldloc.2
+<       IL_0059:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper::m_OnChangeDelegate
+<       IL_005e:  ldarg      A_1
+<       IL_0062:  castclass  [mscorlib]System.Object
+<       IL_0067:  callvirt   instance bool [mscorlib]System.Delegate::Equals(object)
+<       IL_006c:  ldc.i4     0xff
+<       IL_0071:  and
+<       IL_0072:  ldc.i4     0x0
+<       IL_0077:  beq        IL_00d2
+< 
+<       IL_007c:  ldarg      0
+<       IL_0080:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+<       IL_0085:  ldloc.1
+<       IL_0086:  callvirt   instance void [mscorlib]System.Collections.ArrayList::RemoveAt(int32)
+<       IL_008b:  ldarg      0
+<       IL_008f:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+<       IL_0094:  ldloc.2
+<       IL_0095:  ldfld      int32 Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_SinkHelper::m_dwCookie
+<       IL_009a:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint::Unadvise(int32)
+<       IL_009f:  ldloc.0
+<       IL_00a0:  ldc.i4     0x1
+<       IL_00a5:  bgt        IL_00e1
+< 
+<       IL_00aa:  ldarg      0
+<       IL_00ae:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+<       IL_00b3:  call       int32 [mscorlib]System.Runtime.InteropServices.Marshal::ReleaseComObject(object)
+<       IL_00b8:  pop
+<       IL_00b9:  ldarg      0
+<       IL_00bd:  ldnull
+<       IL_00be:  stfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+<       IL_00c3:  ldarg      0
+<       IL_00c7:  ldnull
+<       IL_00c8:  stfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_aEventSinkHelpers
+<       IL_00cd:  br         IL_00e1
+< 
+<       IL_00d2:  ldloc.1
+<       IL_00d3:  ldc.i4     0x1
+<       IL_00d8:  add
+<       IL_00d9:  stloc.1
+<       IL_00da:  ldloc.1
+<       IL_00db:  ldloc.0
+<       IL_00dc:  blt        IL_0037
+< 
+<       IL_00e1:  leave      IL_00f0
+---
+>       IL_00d3:  leave      IL_00e2
+8380,8382c8395,8397
+<       IL_00e6:  ldarg      0
+<       IL_00ea:  call       void [mscorlib]System.Threading.Monitor::Exit(object)
+<       IL_00ef:  endfinally
+---
+>       IL_00d8:  ldarg      0
+>       IL_00dc:  call       void [mscorlib]System.Threading.Monitor::Exit(object)
+>       IL_00e1:  endfinally
+8384c8399
+<     IL_00f0:  ret
+---
+>     IL_00e2:  ret
+8396,8397c8411,8412
+<     IL_0011:  castclass  [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer
+<     IL_0016:  stfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPointContainer
+---
+>     IL_0011:  castclass  [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer
+>     IL_0016:  stfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPointContainer
+8415c8430
+<         IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+---
+>         IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+8435c8450
+<         IL_0050:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+---
+>         IL_0050:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+8438c8453
+<         IL_005b:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint::Unadvise(int32)
+---
+>         IL_005b:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint::Unadvise(int32)
+8448c8463
+<         IL_0073:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+---
+>         IL_0073:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChangeDisp_EventProvider::m_ConnectionPoint
+8489d8503
+<   .custom instance void [mscorlib]System.Runtime.InteropServices.TypeLibTypeAttribute::.ctor(valuetype [mscorlib]System.Runtime.InteropServices.TypeLibTypeFlags) = ( 01 00 10 00 00 00 00 00 ) 
+8532c8546
+<   .field private class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer m_ConnectionPointContainer
+---
+>   .field private class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer m_ConnectionPointContainer
+8534c8548
+<   .field private class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint m_ConnectionPoint
+---
+>   .field private class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint m_ConnectionPoint
+8539c8553
+<     .locals init (class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint V_0,
+---
+>     .locals init (class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint V_0,
+8615c8629
+<     IL_00d9:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPointContainer
+---
+>     IL_00d9:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPointContainer
+8618,8619c8632,8633
+<     IL_00e2:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer::FindConnectionPoint(valuetype [mscorlib]System.Guid&,
+<                                                                                                                                         class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint&)
+---
+>     IL_00e2:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer::FindConnectionPoint(valuetype [mscorlib]System.Guid&,
+>                                                                                                                                    class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint&)
+8622,8623c8636,8637
+<     IL_00ec:  castclass  [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint
+<     IL_00f1:  stfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+---
+>     IL_00ec:  castclass  [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint
+>     IL_00f1:  stfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+8641c8655
+<       IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+---
+>       IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+8651c8665
+<       IL_002c:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+---
+>       IL_002c:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+8655,8656c8669,8670
+<       IL_0039:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint::Advise(object,
+<                                                                                                                     int32&)
+---
+>       IL_0039:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint::Advise(object,
+>                                                                                                                int32&)
+8683c8697
+<     // Code size       241 (0xf1)
+---
+>     // Code size       227 (0xe3)
+8694,8758c8708,8768
+<       IL_0012:  brfalse    IL_00e1
+< 
+<       IL_0017:  ldarg      0
+<       IL_001b:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+<       IL_0020:  callvirt   instance int32 [mscorlib]System.Collections.ArrayList::get_Count()
+<       IL_0025:  stloc.0
+<       IL_0026:  ldc.i4     0x0
+<       IL_002b:  stloc.1
+<       IL_002c:  ldc.i4     0x0
+<       IL_0031:  ldloc.0
+<       IL_0032:  bge        IL_00e1
+< 
+<       IL_0037:  ldarg      0
+<       IL_003b:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+<       IL_0040:  ldloc.1
+<       IL_0041:  callvirt   instance object [mscorlib]System.Collections.ArrayList::get_Item(int32)
+<       IL_0046:  castclass  Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper
+<       IL_004b:  stloc.2
+<       IL_004c:  ldloc.2
+<       IL_004d:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper::m_OnChangeDelegate
+<       IL_0052:  ldnull
+<       IL_0053:  beq        IL_00d2
+< 
+<       IL_0058:  ldloc.2
+<       IL_0059:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper::m_OnChangeDelegate
+<       IL_005e:  ldarg      A_1
+<       IL_0062:  castclass  [mscorlib]System.Object
+<       IL_0067:  callvirt   instance bool [mscorlib]System.Delegate::Equals(object)
+<       IL_006c:  ldc.i4     0xff
+<       IL_0071:  and
+<       IL_0072:  ldc.i4     0x0
+<       IL_0077:  beq        IL_00d2
+< 
+<       IL_007c:  ldarg      0
+<       IL_0080:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+<       IL_0085:  ldloc.1
+<       IL_0086:  callvirt   instance void [mscorlib]System.Collections.ArrayList::RemoveAt(int32)
+<       IL_008b:  ldarg      0
+<       IL_008f:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+<       IL_0094:  ldloc.2
+<       IL_0095:  ldfld      int32 Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper::m_dwCookie
+<       IL_009a:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint::Unadvise(int32)
+<       IL_009f:  ldloc.0
+<       IL_00a0:  ldc.i4     0x1
+<       IL_00a5:  bgt        IL_00e1
+< 
+<       IL_00aa:  ldarg      0
+<       IL_00ae:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+<       IL_00b3:  call       int32 [mscorlib]System.Runtime.InteropServices.Marshal::ReleaseComObject(object)
+<       IL_00b8:  pop
+<       IL_00b9:  ldarg      0
+<       IL_00bd:  ldnull
+<       IL_00be:  stfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+<       IL_00c3:  ldarg      0
+<       IL_00c7:  ldnull
+<       IL_00c8:  stfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+<       IL_00cd:  br         IL_00e1
+< 
+<       IL_00d2:  ldloc.1
+<       IL_00d3:  ldc.i4     0x1
+<       IL_00d8:  add
+<       IL_00d9:  stloc.1
+<       IL_00da:  ldloc.1
+<       IL_00db:  ldloc.0
+<       IL_00dc:  blt        IL_0037
+---
+>       IL_0012:  callvirt   instance int32 [mscorlib]System.Collections.ArrayList::get_Count()
+>       IL_0017:  stloc.0
+>       IL_0018:  ldc.i4     0x0
+>       IL_001d:  stloc.1
+>       IL_001e:  ldc.i4     0x0
+>       IL_0023:  ldloc.0
+>       IL_0024:  bge        IL_00d3
+> 
+>       IL_0029:  ldarg      0
+>       IL_002d:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+>       IL_0032:  ldloc.1
+>       IL_0033:  callvirt   instance object [mscorlib]System.Collections.ArrayList::get_Item(int32)
+>       IL_0038:  castclass  Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper
+>       IL_003d:  stloc.2
+>       IL_003e:  ldloc.2
+>       IL_003f:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper::m_OnChangeDelegate
+>       IL_0044:  ldnull
+>       IL_0045:  beq        IL_00c4
+> 
+>       IL_004a:  ldloc.2
+>       IL_004b:  ldfld      class Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_OnChangeEventHandler Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper::m_OnChangeDelegate
+>       IL_0050:  ldarg      A_1
+>       IL_0054:  castclass  [mscorlib]System.Object
+>       IL_0059:  callvirt   instance bool [mscorlib]System.Delegate::Equals(object)
+>       IL_005e:  ldc.i4     0xff
+>       IL_0063:  and
+>       IL_0064:  ldc.i4     0x0
+>       IL_0069:  beq        IL_00c4
+> 
+>       IL_006e:  ldarg      0
+>       IL_0072:  ldfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+>       IL_0077:  ldloc.1
+>       IL_0078:  callvirt   instance void [mscorlib]System.Collections.ArrayList::RemoveAt(int32)
+>       IL_007d:  ldarg      0
+>       IL_0081:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+>       IL_0086:  ldloc.2
+>       IL_0087:  ldfld      int32 Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_SinkHelper::m_dwCookie
+>       IL_008c:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint::Unadvise(int32)
+>       IL_0091:  ldloc.0
+>       IL_0092:  ldc.i4     0x1
+>       IL_0097:  bgt        IL_00d3
+> 
+>       IL_009c:  ldarg      0
+>       IL_00a0:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+>       IL_00a5:  call       int32 [mscorlib]System.Runtime.InteropServices.Marshal::ReleaseComObject(object)
+>       IL_00aa:  pop
+>       IL_00ab:  ldarg      0
+>       IL_00af:  ldnull
+>       IL_00b0:  stfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+>       IL_00b5:  ldarg      0
+>       IL_00b9:  ldnull
+>       IL_00ba:  stfld      class [mscorlib]System.Collections.ArrayList Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_aEventSinkHelpers
+>       IL_00bf:  br         IL_00d3
+> 
+>       IL_00c4:  ldloc.1
+>       IL_00c5:  ldc.i4     0x1
+>       IL_00ca:  add
+>       IL_00cb:  stloc.1
+>       IL_00cc:  ldloc.1
+>       IL_00cd:  ldloc.0
+>       IL_00ce:  blt        IL_0029
+8760c8770
+<       IL_00e1:  leave      IL_00f0
+---
+>       IL_00d3:  leave      IL_00e2
+8765,8767c8775,8777
+<       IL_00e6:  ldarg      0
+<       IL_00ea:  call       void [mscorlib]System.Threading.Monitor::Exit(object)
+<       IL_00ef:  endfinally
+---
+>       IL_00d8:  ldarg      0
+>       IL_00dc:  call       void [mscorlib]System.Threading.Monitor::Exit(object)
+>       IL_00e1:  endfinally
+8769c8779
+<     IL_00f0:  ret
+---
+>     IL_00e2:  ret
+8781,8782c8791,8792
+<     IL_0011:  castclass  [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer
+<     IL_0016:  stfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPointContainer
+---
+>     IL_0011:  castclass  [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer
+>     IL_0016:  stfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPointContainer Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPointContainer
+8800c8810
+<         IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+---
+>         IL_000d:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+8820c8830
+<         IL_0050:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+---
+>         IL_0050:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+8823c8833
+<         IL_005b:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint::Unadvise(int32)
+---
+>         IL_005b:  callvirt   instance void [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint::Unadvise(int32)
+8833c8843
+<         IL_0073:  ldfld      class [mscorlib]System.Runtime.InteropServices.ComTypes.IConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint
+---
+>         IL_0073:  ldfld      class [mscorlib]System.Runtime.InteropServices.UCOMIConnectionPoint Microsoft.Exchange.Transport.EventInterop.IEventNotifyBindingChange_EventProvider::m_ConnectionPoint

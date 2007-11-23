@@ -1,0 +1,451 @@
+//+------------------------------------------------------------
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+//
+// File: Microsoft.Exchange.Transport.EventInterop.idl
+//
+// Contents: Define a type library for the transport event interfaces.
+//           Use the type library to create an interop assembly.
+//
+// Classes: None
+//
+// Functions: None
+//
+//-------------------------------------------------------------
+#define MIDL_PASS
+
+import "mailmsg.idl";
+import "smtpevent.idl";
+import "seo.idl";
+
+
+#include ".\wrappermailmsgprops.h"
+//
+//
+//
+// Necessary interfaces so that midl will put types into the type library.
+//
+//
+//
+[
+    object,
+    uuid(5A1FD38E-0568-4e26-8B42-9C5A8D4613FE),
+    helpstring("IEnums Interface"),
+    pointer_default(unique),
+	]
+interface IEnums : IUnknown
+{
+    HRESULT HrGetTypes(
+        IMMPID_MP_ENUM mpenum,
+        IMMPID_RP_ENUM rpenum
+        );
+};
+
+
+
+[
+    helpstring("SMTP Event 1.0 Type Library"),
+    uuid(C911F56D-85D5-4af5-96EB-790CAB4E1BCE),
+    version(1.0)
+]
+library SMTPEvent
+{
+        interface ISMTPInCommandSink;
+        interface ISMTPInCommandContext;
+        interface ISMTPOutCommandSink;
+        interface ISMTPOutCommandContext;
+        interface ISmtpServerResponseSink;
+        interface ISmtpServerResponseContext;
+        interface ISmtpInCallbackSink;
+
+	interface IMailTransportNotify;
+	interface IMailTransportSubmission;
+	interface IMailTransportOnPreCategorize;
+	interface IMailTransportOnPostCategorize;
+	interface IMailTransportRouterReset;
+        interface IMailTransportSetRouterReset;
+	interface IMessageRouter;
+	interface IMailTransportRouterSetLinkState;
+	interface IMessageRouterLinkStateNotification;
+        interface IMailTransportRoutingEngine;
+        interface IMsgTrackLog;
+        interface IDnsResolverRecord;
+        interface IDnsResolverRecordSink;
+        interface ISmtpMaxMsgSize;
+
+        interface IMailMsgNotify;
+        interface IMailMsgRecipientsBase;
+        interface IMailMsgRecipientsAdd;
+        interface IMailMsgRecipients;
+        interface IMailMsgProperties;
+        interface IMailMsgPropertyManagement;
+        interface IMailMsgQueueMgmt;
+        interface IMailMsgBind;
+        interface IMailMsgPropertyBag;
+        interface IMailMsgLoggingPropertyBag;
+        
+        interface IMailMsgValidate;
+        interface IMailMsgStoreDriver;
+        interface IMailMsgPropertyStream;
+        interface IMailMsgEnumMessages;
+        interface IMailMsgQueueMgmt;
+        interface IMailMsgCleanupCallback;
+        interface IMailMsgRegisterCleanupCallback;
+
+        interface ISMTPStoreDriver;
+        interface ISMTPServer;
+
+        interface ICategorizerListResolve;
+        interface ICategorizerItemAttributes;
+        interface ICategorizerMailMsgs;
+        interface ICategorizerItem;
+        interface ICategorizerDomainInfo;
+        interface ISMTPCategorizer;
+        interface ISMTPCategorizerCompletion;
+        interface ISMTPCategorizerDLCompletion;
+        interface ICategorizerProperties;
+        interface ICategorizerParameters;
+        interface ICategorizerQueries;
+        interface ICategorizerMailMsgs;
+        interface ICategorizerItemAttributes;
+        interface ICategorizerItemRawAttributes;
+        interface ICategorizerItem;
+        interface ICategorizerAsyncContext;
+        interface ICategorizerListResolve;
+        interface IMailTransportCategorize;
+        interface ISMTPCategorizer;
+        interface ISMTPCategorizerCompletion;
+        interface ISMTPCategorizerDLCompletion;
+        interface ICategorizerDomainInfo;
+
+
+
+
+        //
+        // Copied from mailmsgi.idl (coclass MsgImp).
+        //
+        [
+            helpstring("Mail Message Class"),
+            uuid(39b16f50-a8ba-11d1-aa91-00aa006bc80b)
+        ]
+        coclass MailMsg
+        {
+            interface IMailMsgProperties;
+        };
+
+
+
+        //
+        // Enum wrapper interface:
+        //   
+        interface IEnums;
+
+
+        //
+        // SEO interfaces:
+        //
+
+        importlib("stdole32.tlb");
+
+
+        interface ISEODictionaryItem;
+        interface ISEODictionary;
+        interface IEventLock;
+        interface ISEORouter;
+        interface IMCISMessageFilter;
+        interface ISEOBindingRuleEngine;
+        interface ISEOEventSink;
+        interface ISEORegDictionary;
+        interface ISEOBindingConverter;
+        interface ISEODispatcher;
+        interface IEventDeliveryOptions;
+        interface IEventTypeSinks;
+        interface IEventType;
+        interface IEventPropertyBag;
+        interface IEventBinding;
+        interface IEventBindings;
+        interface IEventTypes;
+        interface IEventBindingManager;
+        interface IEventSource;
+        interface IEventSources;
+        interface IEventSourceType;
+        interface IEventSourceTypes;
+        interface IEventManager;
+        interface ISEOInitObject;
+        interface IEventDatabasePlugin;
+        interface IEventDatabaseManager;
+        interface IEventUtil;
+        interface IEventComCat;
+        interface IEventNotifyBindingChange;
+        interface IEventNotifyBindingChangeDisp;
+        interface IEventRouter;
+        interface IEventDispatcher;
+        interface IEventRuleEngine;
+        interface IEventSinkNotify;
+        interface IEventSinkNotifyDisp;
+        interface IEventPersistBinding;
+        interface IEventIsCacheable;
+        interface IEventCreateOptions;
+        interface IEventDispatcherChain;
+
+	//
+	// The following coclasses are copied from seo.idl.
+	//
+        [
+                control,
+                helpstring("Class that implements an ISEODictionary in the registry."),
+                hidden,
+                uuid(c4df0040-2d33-11d0-a9cf-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEORegDictionary
+        {
+                [default] interface ISEODictionary;
+        }
+
+
+//@doc SEO
+
+
+        [
+                control,
+                helpstring("Class that wraps MimeOle with an ISEODictionary."),
+                hidden,
+                uuid(c4df0041-2d33-11d0-a9cf-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEOMimeDictionary
+        {
+                [default] interface ISEODictionary;
+        }
+
+
+//@doc SEO
+
+
+        [
+                control,
+                helpstring("Class provides an ISEODictionary in memory."),
+                hidden,
+                uuid(c4df0042-2d33-11d0-a9cf-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEOMemDictionary
+        {
+                [default] interface ISEODictionary;
+                interface IPropertyBag;
+                interface IEventPropertyBag;
+        }
+
+
+//@doc SEO
+
+
+        [
+                control,
+                helpstring("Class provides an ISEODictionary on the Metabase."),
+                hidden,
+                uuid(c4df0043-2d33-11d0-a9cf-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEOMetaDictionary
+        {
+                interface ISEODictionary;
+                interface ISEOInitObject;
+                interface IPropertyBag;
+                [default] interface IEventPropertyBag;
+                interface IEventLock;
+        }
+
+
+//@doc SEO
+
+
+        //@object CSEODictionaryItem | Provides an ISEODictionaryItem in memory.
+        //@supint ISEODictionaryItem | General-purpose access to a single dictionary item.
+        //@xref <i ISEODictionary>
+        [
+                control,
+                helpstring("Class provides an ISEODictionaryItem in memory."),
+                hidden,
+                uuid(2e3a0ec0-89d7-11d0-a9e6-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEODictionaryItem
+        {
+                [default] interface ISEODictionaryItem;
+        }
+
+
+//@doc SEO
+
+
+        [
+                control,
+                helpstring("Class implements an ISEORouter."),
+                hidden,
+                uuid(83d63730-94fd-11d0-a9e8-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEORouter
+        {
+                [default] interface ISEORouter;
+        }
+
+
+//@doc EVENTS INTERNAL
+
+
+        //@object CEventLock | Provides an IEventLock.
+        //@supint IEventLock | Contention control.
+        [
+                control,
+                helpstring("Class provides IEventLock."),
+                hidden,
+                uuid(2e3abb30-af88-11d0-a9eb-00aa00685c74),
+                version(1.0)
+        ]
+        coclass EventLock
+        {
+                [default] interface IEventLock;
+        }
+
+
+//@doc SEO
+
+
+        [
+                helpstring("Class that implements IStream."),
+                hidden,
+                uuid(ed1343b0-a8a6-11d0-a9ea-00aa00685c74),
+                version(1.0)
+        ]
+        coclass SEOStream
+        {
+                [default] interface IStream;
+        }
+
+
+//@doc EVENTS EXTERNAL
+
+
+        //@object CEventManager | Implements the global event source manager (ProgID = "Event.Manager").
+        //@supint IEventManager | Provides access to registered source types, and facilities for firing events.
+        [
+                control,
+                helpstring("CEventManager"),uuid(35172920-a700-11d0-a9ea-00aa00685c74),
+                version(1.0)
+        ]
+        coclass EventManager
+        {
+                [default] interface IEventManager;
+                interface IEventDatabasePlugin;
+        }
+
+//@doc EVENTS INTERNAL
+
+
+        [
+                control,
+                helpstring("Class that implements IEventBindingManager."),
+                hidden,
+                uuid(53d01080-af98-11d0-a9eb-00aa00685c74),
+                version(1.0)
+        ]
+        coclass EventBindingManager
+        {
+                [default] interface IEventBindingManager;
+                interface IEventDatabasePlugin;
+                interface ISEOInitObject;
+                interface IConnectionPointContainer;
+                [source,default] interface IEventNotifyBindingChangeDisp;
+                [source] interface IEventNotifyBindingChange;
+        }
+
+
+//@doc SEO
+
+
+        [
+                helpstring("Generic Moniker class for objects that support ISEOInitObject."),
+                hidden,
+                uuid(7e3bf330-b28e-11d0-8bd8-00c04fd42e37),
+                version(1.0)
+        ]
+        coclass SEOGenericMoniker
+        {
+                [default] interface IMoniker;
+                interface IParseDisplayName;
+        }
+
+
+//@doc EVENTS EXTERNAL
+
+
+        //@object CEventMetabaseDatabaseManager | Class that implements IEventDatabaseManager for the metabase (ProgID = "Event.MetabaseDatabaseManager").
+        //@supint IEventDatabaseManager | Provides facilities for managing a binding database.
+        [
+                control,
+                helpstring("Class that implements IEventDatabaseManager for the metabase."),
+                uuid(8a58cdc0-cbdc-11d0-a9f8-00aa00685c74),
+                version(1.0)
+        ]
+        coclass EventMetabaseDatabaseManager
+        {
+                [default] interface IEventDatabaseManager;
+        }
+
+
+//@doc EVENTS EXTERNAL
+
+
+        //@object CEventUtil | Class that implements IEventUtil (ProgID = "Event.Util").
+        //@supint IEventUtil | Provides utility functions.
+
+        [
+                control,
+                helpstring("Class that implement IEventUtil."),
+                uuid(a1e041d0-cd73-11d0-a9f8-00aa00685c74),
+                version(1.0)
+        ]
+        coclass EventUtil
+        {
+                [default] interface IEventUtil;
+        }
+
+
+//@doc EVENTS EXTERNAL
+
+
+        //@object CEventComCat | Class that implements IEventComCat (ProgID = "Event.ComCat").
+        //@supint IEventComCat | Provides access to component categories.
+        [
+                control,
+                helpstring("Class that implements IEventComCat."),
+                uuid(ae1ef300-cd8f-11d0-a9f8-00aa00685c74),
+                version(1.0)
+        ]
+        coclass EventComCat
+        {
+                [default] interface IEventComCat;
+        }
+
+
+//@doc EVENTS INTERNAL
+
+
+        //@object CEventRouter | Class that implements IEventRouter (ProgID = "Event.Router").
+        //@supint IEventRouter | Event router.
+        [
+                control,
+                helpstring("Class that implements IEventRouter."),
+                hidden,
+                uuid(9f82f020-f6fd-11d0-aa14-00aa006bc80b),
+                version(1.0)
+        ]
+        coclass EventRouter
+        {
+                [default] interface IEventRouter;
+        }
+
+}

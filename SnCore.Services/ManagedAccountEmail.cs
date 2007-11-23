@@ -16,7 +16,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAddress;
             }
             set
@@ -100,6 +99,34 @@ namespace SnCore.Services
             }
         }
 
+        private bool mFailed;
+
+        public bool Failed
+        {
+            get
+            {
+                return mFailed;
+            }
+            set
+            {
+                mFailed = value;
+            }
+        }
+
+        private string mLastError;
+
+        public string LastError
+        {
+            get
+            {
+                return mLastError;
+            }
+            set
+            {
+                mLastError = value;
+            }
+        }
+
         public TransitAccountEmail()
         {
 
@@ -119,6 +146,8 @@ namespace SnCore.Services
             Principal = instance.Principal;
             Created = instance.Created;
             Modified = instance.Modified;
+            Failed = instance.Failed;
+            LastError = instance.LastError;
             base.SetInstance(instance);
         }
 
@@ -134,6 +163,8 @@ namespace SnCore.Services
             }
 
             instance.Principal = Principal && instance.Verified;
+            instance.Failed = Failed;
+            instance.LastError = LastError;
             return instance;
         }
     }

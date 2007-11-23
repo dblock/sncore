@@ -14,5 +14,7 @@
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Principal" column="Principal" type="Boolean" />
     <property name="Verified" column="Verified" type="Boolean" />
+    <property name="Failed" column="Failed" type="Boolean" />
+    <property name="LastError" column="LastError" type="String" />
   </class>
 </hibernate-mapping>
