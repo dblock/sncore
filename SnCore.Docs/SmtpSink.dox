@@ -1,0 +1,16 @@
+/*! \page smtpsink Smtp Sink
+
+\section smtp_intro Introduction
+The SMTP sink implements a systematic way to manage e-mail bounces. When a failed e-mail arrives on the SMTP gateway it will
+be processed and the database AccountEmail table will be marked with a failure.
+
+\section smtp_deploy Deploying Smtp Sink Services
+
+Edit the RegisterSink.cmd registration command and replace the generic mail from rule by a more constrained one that matches
+the value of SnCore.Admin.EmailAddress and/or addresses of e-mail campaigns.
+
+\code
+cscript smtpreg.vbs /add 1 OnArrival "SnCore.DomainMail" SnCore.DomainMail.Sink  "rcpt to=*@mysncore.com"
+\endcode
+
+*/
