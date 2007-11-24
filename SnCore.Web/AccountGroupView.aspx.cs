@@ -97,11 +97,13 @@ public partial class AccountGroupView : Page
             linkPictures.NavigateUrl = string.Format("AccountGroupPicturesManage.aspx?id={0}", AccountGroupId);
             linkPictures.Visible = fGroupMemberOrAdmin;
             linkMembers.NavigateUrl = string.Format("AccountGroupAccountsView.aspx?id={0}", AccountGroupId);
+            linkMembers.Visible = fGroupMemberOrAdmin;
             linkRequest.Visible = ! fGroupMember;
             linkLeave.Visible = fGroupMember;
             discussionView.Visible = fGroupMemberOrAdmin;
             linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
             linkInviteFriend.Visible = fGroupMemberOrAdmin;
+            linkRelRss.Visible = fGroupMemberOrAdmin;
 
             linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}&ReturnUrl={1}", AccountGroupId,
                 Renderer.UrlEncode(Request.Url.PathAndQuery));

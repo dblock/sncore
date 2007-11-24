@@ -148,6 +148,9 @@ namespace SnCore.Web.Tests
                     if (references.ContainsKey(fulluri) || queue.Contains(fulluri) || visited.Contains(fulluri))
                         continue;
 
+                    if (fulluri.PathAndQuery.Contains("/docs/html/"))
+                        continue;
+
                     Assert.IsFalse(fulluri.ToString().Contains("\0"),
                         string.Format("Uri {0} in {1} contains non-ASCII character.", fulluri, topofqueue));
 

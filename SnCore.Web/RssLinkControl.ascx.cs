@@ -18,7 +18,7 @@ public partial class RssLinkControl : System.Web.UI.UserControl
     {
         if (!IsPostBack)
         {
-            if (!string.IsNullOrEmpty(mLink.Href))
+            if (!string.IsNullOrEmpty(mLink.Href) && Visible)
             {
                 mLink.Attributes.Add("rel", "alternate");
                 mLink.Attributes.Add("type", "application/rss+xml");
