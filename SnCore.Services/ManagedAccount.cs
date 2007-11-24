@@ -769,6 +769,7 @@ namespace SnCore.Services
             t_email.Address = new MailAddress(email).Address;
             t_email.Principal = false;
             t_email.Verified = verified;
+            t_email.Failed = false;
 
             ManagedAccountEmail m_email = new ManagedAccountEmail(Session);
             m_email.CreateOrUpdate(t_email, sec);

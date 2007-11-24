@@ -96,7 +96,7 @@ namespace SnCore.WebServices
         public int GetMadLibInstancesCount(string ticket, string table, int id)
         {
             int object_id = 0;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 object_id = ManagedDataObject.Find(session, table);
@@ -114,7 +114,7 @@ namespace SnCore.WebServices
         public List<TransitMadLibInstance> GetMadLibInstances(string ticket, string table, int id, ServiceQueryOptions options)
         {
             int object_id = 0;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 object_id = ManagedDataObject.Find(session, table);

@@ -40,7 +40,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Add or get a named discussion.")]
         public int GetOrCreateDiscussionId(string ticket, string typename, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -209,7 +209,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion thread posts.")]
         public List<TransitDiscussionPost> GetDiscussionThreadPosts(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -264,7 +264,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion posts.")]
         public List<TransitDiscussionPost> GetDiscussionPosts(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -477,7 +477,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Move a discussion thread.", CacheDuration = 60)]
         public void MoveDiscussionThread(string ticket, int threadid, int targetid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -515,7 +515,7 @@ namespace SnCore.WebServices
                 return new List<TransitDiscussionPost>();
 
             int maxsearchresults = 128;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
@@ -557,7 +557,7 @@ namespace SnCore.WebServices
                 return new List<TransitDiscussionPost>();
 
             int maxsearchresults = 128;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);

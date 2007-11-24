@@ -135,7 +135,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update an account feed.")]
         public int UpdateAccountFeedItems(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -154,7 +154,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update account feed item images.")]
         public int UpdateAccountFeedItemImgs(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -173,7 +173,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create or update account feed item medias.")]
         public int UpdateAccountFeedItemMedias(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -357,7 +357,7 @@ namespace SnCore.WebServices
             }
 
             int maxsearchresults = 128;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
@@ -568,7 +568,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get rss items count.", CacheDuration = 60)]
         public int GetAccountRssWatchItemsCount(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -584,7 +584,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get rss items.", CacheDuration = 60)]
         public TransitRssChannelItems GetAccountRssWatchItems(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -614,7 +614,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Find the latest feature of an AccountFeed via AccountFeedItems")]
         public TransitFeature GetLatestAccountFeedItemFeatureByAccountFeedId(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

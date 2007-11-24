@@ -547,6 +547,7 @@ namespace SnCore.Services
 
             ManagedMadLibInstance.Delete(Session, sec, "Place", Id);
             Session.Delete(string.Format("FROM AccountPlace f WHERE f.Place.Id = {0}", Id));
+            Session.Delete(string.Format("FROM AccountGroupPlace f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountPlaceRequest f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountPlaceFavorite f WHERE f.Place.Id = {0}", Id));
             Session.Delete(string.Format("FROM PlaceQueueItem q WHERE q.Place.Id = {0}", Id));

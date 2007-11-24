@@ -330,7 +330,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get cities within a country and state.", CacheDuration = 60)]
         public List<TransitCity> GetCitiesByLocation(string ticket, string country, string state, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -380,7 +380,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get neighborhoods within a country, state and city.", CacheDuration = 60)]
         public List<TransitNeighborhood> GetNeighborhoodsByLocation(string ticket, string country, string state, string city, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -472,7 +472,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Merge cities.")]
         public int MergeCities(string ticket, int target_id, int merge_id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -490,7 +490,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Merge cities.")]
         public int MergeCitiesByName(string ticket, int target_id, string name, string state, string country)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -606,7 +606,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Merge neighborhoods.")]
         public int MergeNeighborhoods(string ticket, int target_id, int merge_id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

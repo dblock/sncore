@@ -109,7 +109,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all configurations count.")]
         public int GetConfigurationsCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return ManagedConfiguration.GetAllConfigurations(session).Count;
@@ -123,7 +123,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all configurations.")]
         public List<TransitConfiguration> GetConfigurations(string ticket, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -217,7 +217,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get the underlying domain model for a type.")]
         public sp_column[] GetTypeColumns(string type)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 DomainClass dc = Session.Model[type];
                 sp_column[] arr = new sp_column[dc.Columns.Count];

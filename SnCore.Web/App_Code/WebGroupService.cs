@@ -480,7 +480,7 @@ namespace SnCore.WebServices
         public void AcceptAccountGroupAccountInvitation(string ticket, int id, string message)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -507,7 +507,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reject an invitation.")]
         public void RejectAccountGroupAccountInvitation(string ticket, int id, string message)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -620,7 +620,7 @@ namespace SnCore.WebServices
         public void AcceptAccountGroupAccountRequest(string ticket, int id, string message)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -647,7 +647,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reject a membership request.")]
         public void RejectAccountGroupAccountRequest(string ticket, int id, string message)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

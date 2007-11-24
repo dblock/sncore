@@ -137,7 +137,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete all marketing campaign account recepients.")]
         public void DeleteCampaignAccountRecepients(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -169,7 +169,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Import marketing campaign account recepeients by account ids.")]
         public int ImportCampaignAccountRecepients(string ticket, TransitCampaignAccountRecepient[] recepients)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -214,7 +214,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Import marketing campaign account emails.")]
         public int ImportCampaignAccountEmails(string ticket, int campaign_id, bool verified_emails, bool unverified_emails)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -281,7 +281,7 @@ namespace SnCore.WebServices
         public int ImportCampaignAccountLocation(string ticket, int campaign_id, string country, string state, string city)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -348,7 +348,7 @@ namespace SnCore.WebServices
         public int ImportCampaignAccountPropertyValues(string ticket, int campaign_id, int pid, string value, bool unset)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

@@ -101,7 +101,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a humanly readable representation of a schedule.")]
         public string GetScheduleString(string ticket, TransitSchedule schedule, int offset)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -366,7 +366,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get random picture by type.", BufferResponse = true)]
         public TransitPicture GetRandomPictureByType(string ticket, string type)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -555,7 +555,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Test whether a reminder is being sent to an account.")]
         public bool CanSendReminder(int reminder_id, int account_id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedReminder mr = new ManagedReminder(session, reminder_id);
@@ -753,7 +753,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get data object fields.")]
         public List<string> GetDataObjectFieldsById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 DataObject dataobject = session.Load<DataObject>(id);
@@ -944,7 +944,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get the latest feature of a certain type.", CacheDuration = 60)]
         public TransitFeature GetLatestFeature(string ticket, string featuretype)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -964,7 +964,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Find the latest feature of a certain type for an item.", CacheDuration = 60)]
         public TransitFeature FindLatestFeature(string ticket, string featuretype, int objectid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -997,7 +997,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete all feature of an object.")]
         public void DeleteAllFeatures(string ticket, TransitFeature token)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

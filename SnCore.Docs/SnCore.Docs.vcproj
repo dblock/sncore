@@ -122,6 +122,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\SmtpSink.dox"
+			>
+		</File>
+		<File
 			RelativePath=".\SnCore.Docs.doxygen"
 			>
 		</File>

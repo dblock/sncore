@@ -13,5 +13,5 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("..\key.snk")]
+[assembly: AssemblyKeyFile("..\\key.snk")]
 [assembly: AssemblyKeyName("")]

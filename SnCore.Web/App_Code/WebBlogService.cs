@@ -116,7 +116,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Syndicate a blog.")]
         public int SyndicateAccountBlog(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -285,7 +285,7 @@ namespace SnCore.WebServices
                 return new List<TransitAccountBlogPost>();
 
             int maxsearchresults = 128;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);

@@ -28,14 +28,7 @@ namespace SnCore.DomainMail
         public Sink()
         {
             LoadConfiguration();
-
-            if (Debug)
-            {
-                EventLog.WriteEntry(
-                     Assembly.GetExecutingAssembly().FullName,
-                     "Loaded SnCore.DomainMail sink.",
-                     EventLogEntryType.Information);
-            }
+            LogDebug("Loaded SnCore.DomainMail sink.");
         }      
 
         public bool Debug
@@ -61,6 +54,9 @@ namespace SnCore.DomainMail
 
         private void LoadConfiguration()
         {
+            if (mConfiguration != null)
+                return;
+
             Monitor.Enter(this);
             string cnf = Assembly.GetExecutingAssembly().Location + ".config";
             try
@@ -71,25 +67,15 @@ namespace SnCore.DomainMail
                     {
                         mConfiguration = new SnCore.DomainMail.Configuration(cnf);
 
-                        object Debug = mConfiguration["debug"];
-                        mDebug = (Debug == null) ? true : bool.Parse(Debug.ToString());
-
-                        if (mDebug)
-                        {
-                            EventLog.WriteEntry(
-                             Assembly.GetExecutingAssembly().FullName,
-                             "Loaded configuration file " + cnf,
-                             EventLogEntryType.Information);
-                        }
+                        object debug = mConfiguration["debug"];
+                        mDebug = (debug == null) ? true : bool.Parse(debug.ToString());
+                        LogDebug(string.Format("Loaded configuration file \"{0}\".", cnf));
                     }
                 }
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry(
-                     Assembly.GetExecutingAssembly().FullName,
-                     "Error loading configuration file \"" + cnf + "\"\n" + ex.Message,
-                     EventLogEntryType.Error);
+                LogError(string.Format("Error loading configuration file \"{0}\"\n{1}", cnf, ex.Message));
             }
             finally
             {
@@ -99,28 +85,35 @@ namespace SnCore.DomainMail
 
         private void UpdateFailure(MimeDSNRecipient r)
         {
-            ISession session = SnCore.Data.Hibernate.Session.Current;
-            IList<AccountEmail> emails = session.CreateCriteria(typeof(AccountEmail))
-                .Add(Expression.Eq("Address", r.FinalRecipientEmailAddress))
-                .List<AccountEmail>();
-
-            if (emails != null)
+            ISession session = SnCore.Data.Hibernate.Session.Factory.OpenSession();
+            try
             {
-                foreach (AccountEmail email in emails)
+                IList<AccountEmail> emails = session.CreateCriteria(typeof(AccountEmail))
+                    .Add(Expression.Eq("Address", r.FinalRecipientEmailAddress))
+                    .List<AccountEmail>();
+
+                if (emails != null)
                 {
-                    EventLog.WriteEntry(
-                         Assembly.GetExecutingAssembly().FullName,
-                         string.Format("Marked {0} [{1}] (id={2}) with failure.",
-                            email.Account.Name, email.Address, email.Id),
-                         EventLogEntryType.Information);
-                    email.Failed = true;
-                    email.LastError = r.DiagnosticCode;
-                    email.Modified = DateTime.UtcNow;
-                    session.Save(email);
+                    foreach (AccountEmail email in emails)
+                    {
+                        if (email.Failed)
+                            continue;
+
+                        Log(string.Format("Marked {0} [{1}] (id:{2}) with failure [{3}].",
+                            email.Account.Name, email.Address, email.Id, r.DiagnosticCode));
+
+                        email.Failed = true;
+                        email.LastError = r.DiagnosticCode;
+                        email.Modified = DateTime.UtcNow;
+                        session.Save(email);
+                        session.Flush();
+                    }
                 }
             }
-
-            session.Flush();
+            finally
+            {
+                session.Close();
+            }
         }
 
         void IMailTransportSubmission.OnMessageSubmission(
@@ -153,11 +146,8 @@ namespace SnCore.DomainMail
                                 switch (r.Action)
                                 {
                                     case "failed":
-                                        EventLog.WriteEntry(
-                                             Assembly.GetExecutingAssembly().FullName,
-                                             string.Format("Processing {0} ({1}) in {2} with subject \"{3}\".",
-                                                r.FinalRecipientEmailAddress, r.Action, message.Rfc822MsgId, message.Rfc822MsgSubject),
-                                             EventLogEntryType.Information);
+                                        Log(string.Format("Processing {0} ({1}) in {2} with subject \"{3}\".", 
+                                            r.FinalRecipientEmailAddress, r.Action, message.Rfc822MsgId, message.Rfc822MsgSubject));
                                         UpdateFailure(r);
                                         break;
                                 }
@@ -168,16 +158,37 @@ namespace SnCore.DomainMail
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry(
-                  Assembly.GetExecutingAssembly().FullName,
-                  ex.Message + "\n" + ex.StackTrace.ToString(),
-                  EventLogEntryType.Error);
+                LogError(ex.Message + "\n" + ex.StackTrace.ToString());
             }
             finally
             {
                 if (null != mailmsg)
                     Marshal.ReleaseComObject(mailmsg);
             }
+        }
+
+        private void Log(string message)
+        {
+            Log(message, EventLogEntryType.Information);
+        }
+
+        private void Log(string message, EventLogEntryType type)
+        {
+            EventLog.WriteEntry(Assembly.GetExecutingAssembly().FullName,
+              message, type);
+        }
+
+        private void LogDebug(string message)
+        {
+            if (Debug)
+            {
+                Log(message);
+            }
+        }
+
+        private void LogError(string message)
+        {
+            Log(message, EventLogEntryType.Error);
         }
     }
 }

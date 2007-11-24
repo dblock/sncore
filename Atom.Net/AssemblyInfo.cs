@@ -90,11 +90,12 @@ using System.Security.Permissions;
 //   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
 //       documentation for more information on this.
 //
-[assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyName("")]
-
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 
 [assembly: AllowPartiallyTrustedCallers()]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution=true)]
+
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("..\\key.snk")]
+[assembly: AssemblyKeyName("")]

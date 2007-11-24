@@ -44,9 +44,11 @@ using System.Security.Permissions;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("0.86.*")]
-[assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyName("")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 [assembly: SecurityPermissionAttribute(SecurityAction.RequestMinimum, Execution=true)]
 [assembly: AllowPartiallyTrustedCallers()]
+
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("..\\key.snk")]
+[assembly: AssemblyKeyName("")]

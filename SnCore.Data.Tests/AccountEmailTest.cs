@@ -24,6 +24,7 @@ namespace SnCore.Data.Tests
 
             email.Address = "foo@bar.com";
             email.Verified = false;
+            email.Failed = false;
             email.Created = email.Modified = DateTime.UtcNow;
 
             if (acct.AccountEmails == null) acct.AccountEmails = new List<AccountEmail>();

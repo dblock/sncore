@@ -45,7 +45,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Login.")]
         public string Login(string email, string password)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = ManagedAccount.Login(session, email, password);
@@ -64,7 +64,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Login to an account.")]
         public string LoginOpenId(string token, string[] names, string[] values)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = ManagedAccount.LoginOpenId(session, token, new NameValueCollectionSerializer(names, values).Collection);
@@ -84,7 +84,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Login to an account.")]
         public TransitOpenIdLogin TryLoginOpenId(string token, string[] names, string[] values)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 TransitOpenIdLogin t_result = new TransitOpenIdLogin();
@@ -110,7 +110,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Login using a password hash.")]
         public string LoginMd5(string emailaddress, string passwordhash)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = ManagedAccount.LoginMd5(session, emailaddress, passwordhash);
@@ -131,7 +131,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Verify beta password.")]
         public void VerifyBetaPassword(string betapassword)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -149,7 +149,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Check whether a beta password is set.", CacheDuration = 60)]
         public bool IsBetaPasswordSet()
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
@@ -171,7 +171,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create an account.")]
         public int CreateAccount(string betapassword, string emailaddress, TransitAccount ta)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -196,7 +196,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create an account with openid.")]
         public int CreateAccountWithOpenId(string betapassword, string consumerurl, string email, TransitAccount ta)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -222,7 +222,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get an openid redirect.")]
         public TransitOpenIdRedirect GetOpenIdRedirect(string openidurl, string returnurl)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return ManagedAccount.GetOpenIdRedirect(session, openidurl, returnurl);
@@ -238,7 +238,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Verify an OpenId.")]
         public string VerifyOpenId(string token, string[] names, string[] values)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return ManagedAccount.VerifyOpenId(token, new NameValueCollectionSerializer(names, values).Collection).ToString();
@@ -292,7 +292,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account information.")]
         public TransitAccount GetAccount(string ticket, bool updatelastlogin)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 try
                 {
@@ -354,7 +354,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete an account.")]
         public void DeleteAccount(string ticket, int id, string password)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -394,7 +394,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Find an account by e-mail address.")]
         public TransitAccount FindByEmail(string ticket, string emailaddress)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -432,7 +432,7 @@ namespace SnCore.WebServices
         {
             int id = CreateAccountWithInvitation(invitationid, code, ta);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount account = new ManagedAccount(session, id);
@@ -451,7 +451,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create an account.")]
         public int CreateAccountWithInvitation(int invitationid, string code, TransitAccount ta)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -486,7 +486,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Decline an invitation.")]
         public void DeclineInvitation(int id, string code)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -618,7 +618,7 @@ namespace SnCore.WebServices
         public TransitAccountInvitation GetAccountInvitationByIdAndCode(string ticket, int id, string code)
         {
             string admin_ticket = ticket;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 admin_ticket = ManagedAccount.GetAdminTicket(session);
@@ -662,7 +662,7 @@ namespace SnCore.WebServices
         {
             int userid = GetAccountId(ticket);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -696,7 +696,7 @@ namespace SnCore.WebServices
         {
             int userid = GetAccountId(ticket);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -739,7 +739,7 @@ namespace SnCore.WebServices
         {
             int userid = GetAccountId(ticket);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -789,7 +789,7 @@ namespace SnCore.WebServices
         public void ChangePasswordMd5(string ticket, int accountid, string oldpasswordhash, string newpassword)
         {
             int userid = GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -836,7 +836,7 @@ namespace SnCore.WebServices
         public bool IsPasswordValidMd5(string ticket, int accountid, string password)
         {
             int userid = GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -860,7 +860,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reset password.")]
         public void ResetPassword(string emailaddress, DateTime dateofbirth)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount a = ManagedAccount.FindByEmailAndBirthday(session, emailaddress, dateofbirth);
@@ -895,7 +895,7 @@ namespace SnCore.WebServices
 
             if (tae.Id == 0)
             {
-                using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+                using (SnCore.Data.Hibernate.Session.OpenConnection())
                 {
                     ISession session = SnCore.Data.Hibernate.Session.Current;
                     ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -970,7 +970,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Verify an e-mail.")]
         public string VerifyAccountEmail(string password, int id, string code)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return ManagedAccountEmailConfirmation.Verify(session, password, id, code);
@@ -985,7 +985,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Re-send a confirmation for an e-mail address.")]
         public void ConfirmAccountEmail(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1001,7 +1001,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Check whether the user has a verified e-mail address.")]
         public bool HasVerifiedEmail(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1016,7 +1016,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Check whether the user has a verified e-mail address.")]
         public string GetActiveEmailAddress(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1212,7 +1212,7 @@ namespace SnCore.WebServices
             if (string.IsNullOrEmpty(s))
                 return new List<TransitAccountActivity>();
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1236,7 +1236,7 @@ namespace SnCore.WebServices
             if (string.IsNullOrEmpty(s))
                 return 0;
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return InternalSearchAccounts(session, s, null).Count;
@@ -1420,7 +1420,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a account property value by group and name.")]
         public TransitAccountPropertyValue GetAccountPropertyValueByName(string ticket, int accountid, string groupname, string propertyname)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1520,7 +1520,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account property values, including unfilled ones.", CacheDuration = 60)]
         public List<TransitAccountPropertyValue> GetAllAccountPropertyValues(string ticket, int accountid, int groupid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1737,7 +1737,7 @@ namespace SnCore.WebServices
             int id = WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.CreateOrUpdate(
                 ticket, redirect);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccountRedirect.UpdateMap(session);
@@ -1757,7 +1757,7 @@ namespace SnCore.WebServices
             WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.Delete(
                 ticket, id);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccountRedirect.UpdateMap(session);
@@ -2003,7 +2003,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account survey answers.", CacheDuration = 60)]
         public List<TransitAccountSurveyAnswer> GetAccountSurveyAnswers(string ticket, int id, int surveyid, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -2127,7 +2127,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create account system folders.")]
         public void CreateAccountSystemMessageFolders(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -2145,7 +2145,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account message folders.")]
         public List<TransitAccountMessageFolder> GetAccountMessageFolders(string ticket, int id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -2311,7 +2311,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Delete messages in a folder.")]
         public void DeleteAccountMessagesByFolder(string ticket, int folderid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccountMessageFolder f = new ManagedAccountMessageFolder(session, folderid);
@@ -2330,7 +2330,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Move a message.")]
         public void MoveAccountMessageToFolderById(string ticket, int messageid, int folderid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

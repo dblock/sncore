@@ -32,10 +32,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
 
         // ProtectAppConfig();
 
-        SnCore.Data.Hibernate.Session.Configuration.AddAssembly("SnCore.Data");
-        SnCore.Data.Hibernate.Session.Configuration.AddAssembly("SnCore.Data.Hibernate");
-
-        using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+        using (SnCore.Data.Hibernate.Session.OpenConnection())
         {
             CreateDataObjects();
             CreateAdministrator();

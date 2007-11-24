@@ -36,6 +36,7 @@ namespace SnCore.Services.Tests
             t_instance.Description = GetNewString();
             t_instance.IsPrivate = false;
             t_instance.IsSystem = true;
+            t_instance.Url = GetNewUri();
             return t_instance;
         }
     }

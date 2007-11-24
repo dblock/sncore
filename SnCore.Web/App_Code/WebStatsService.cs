@@ -39,7 +39,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Track a request.")]
         public void TrackSingleRequest(TransitStatsRequest request)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedStats stats = new ManagedStats(session);
@@ -66,7 +66,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Track multiple requests.")]
         public void TrackMultipleRequests(TransitStatsRequest[] requests)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -100,7 +100,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get stats summary.")]
         public TransitStatsSummary GetSummary(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedStats stats = new ManagedStats(session);
@@ -246,7 +246,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get counter for an url.", CacheDuration = 60)]
         public TransitCounter GetCounterByUri(string ticket, string uri)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

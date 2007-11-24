@@ -99,7 +99,7 @@ namespace SnCore.Services
             }
         }
 
-        private bool mFailed;
+        private bool mFailed = false;
 
         public bool Failed
         {

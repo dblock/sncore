@@ -148,7 +148,7 @@ namespace SnCore.WebServices
                 return new List<TransitAccountStory>();
 
             int maxsearchresults = 128;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 maxsearchresults = ManagedConfiguration.GetValue(session, "SnCore.MaxSearchResults", 128);
@@ -218,7 +218,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Move a story picture.")]
         public void MoveAccountStoryPicture(string ticket, int id, int disp)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

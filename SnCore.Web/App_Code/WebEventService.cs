@@ -54,7 +54,7 @@ namespace SnCore.WebServices
             List<TransitAccountEvent> result = WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetList(
                 ticket, options, expressions, null);
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -81,7 +81,7 @@ namespace SnCore.WebServices
 
             if (t_instance != null)
             {
-                using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+                using (SnCore.Data.Hibernate.Session.OpenConnection())
                 {
                     ISession session = SnCore.Data.Hibernate.Session.Current;
                     ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -101,7 +101,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account event VCalendar by id.")]
         public string GetAccountEventVCalendarById(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -155,7 +155,7 @@ namespace SnCore.WebServices
             List<TransitAccountEvent> result = WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetList(
                 ticket, options, qopt.CreateQuery());
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -329,7 +329,7 @@ namespace SnCore.WebServices
                 ticket, options, qopt.CreateQuery());
 
             List<TransitAccountEventInstance> result = new List<TransitAccountEventInstance>(instances.Count);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 foreach (ScheduleInstance t_instance in instances)
                 {

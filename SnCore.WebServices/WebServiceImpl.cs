@@ -15,7 +15,7 @@ namespace SnCore.WebServices
     {
         public static int CreateOrUpdate(string ticket, TransitType t_instance)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -29,7 +29,7 @@ namespace SnCore.WebServices
 
         public static int[] CreateOrUpdate(string ticket, TransitType[] t_instances)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 List<int> ids = new List<int>(t_instances.Length);
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -48,7 +48,7 @@ namespace SnCore.WebServices
 
         public static void Delete(string ticket, int id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -74,7 +74,7 @@ namespace SnCore.WebServices
         {
             try
             {
-                using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+                using (SnCore.Data.Hibernate.Session.OpenConnection())
                 {
                     ISession session = SnCore.Data.Hibernate.Session.Current;
                     ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -98,7 +98,7 @@ namespace SnCore.WebServices
 
         public static TransitType GetByQuery(string ticket, string sqlquery)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -115,7 +115,7 @@ namespace SnCore.WebServices
         {
             try
             {
-                using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+                using (SnCore.Data.Hibernate.Session.OpenConnection())
                 {
                     ISession session = SnCore.Data.Hibernate.Session.Current;
                     ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -184,7 +184,7 @@ namespace SnCore.WebServices
 
         public static IList<DataType> GetDataList(string ticket, ServiceQueryOptions options, string sqlquery)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -197,7 +197,7 @@ namespace SnCore.WebServices
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, GetTransformedInstanceDelegate functor)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -210,7 +210,7 @@ namespace SnCore.WebServices
 
         public static List<TransitType> GetListFromNamedQuery(string ticket, ServiceQueryOptions options, string namedquery, GetTransformedInstanceDelegate functor)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -224,7 +224,7 @@ namespace SnCore.WebServices
 
         public static List<TransitType> GetListFromIds(string ticket, ServiceQueryOptions options, string sqlquery)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -242,7 +242,7 @@ namespace SnCore.WebServices
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, string sqlquery, string returnalias, GetTransformedInstanceDelegate functor)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -265,7 +265,7 @@ namespace SnCore.WebServices
 
         public static List<TransitType> GetList(string ticket, ServiceQueryOptions options, ICriterion[] expressions, Order[] orders, GetTransformedInstanceDelegate functor)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -292,7 +292,7 @@ namespace SnCore.WebServices
 
         public static int GetCount(string ticket, string expression)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 // TODO: check permissions
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -304,7 +304,7 @@ namespace SnCore.WebServices
 
         public static int GetSQLCount(string ticket, string expression)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(WebService.GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 // TODO: check permissions
                 ISession session = SnCore.Data.Hibernate.Session.Current;

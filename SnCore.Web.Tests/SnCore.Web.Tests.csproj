@@ -113,6 +113,12 @@
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountEmailMessage.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountFlag.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountFlagType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountInvitation.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -137,6 +143,9 @@
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountPropertyValue.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountQuota.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountRedirect.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -144,6 +153,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountWebsite.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitOpenIdLogin.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitOpenIdRedirect.datasource">

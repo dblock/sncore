@@ -8,6 +8,7 @@ using NHibernate.Cfg;
 using System.Web;
 using System.Diagnostics;
 using NHibernate.Dialect.Function;
+using System.Data.SqlClient;
 
 namespace SnCore.Data.Hibernate
 {
@@ -67,8 +68,16 @@ namespace SnCore.Data.Hibernate
         private static void CreateConfiguration()
         {
             _config = new NHibernate.Cfg.Configuration();
-            // Add interceptor, if you need to.
-            // _config.Interceptor = new Interceptor();
+            if (_config.Properties["hibernate.dialect"] == null)
+                _config.Properties.Add("hibernate.dialect", "NHibernate.Dialect.MsSql2005Dialect");
+            if (_config.Properties["hibernate.connection.provider"] == null)
+                _config.Properties.Add("hibernate.connection.provider", "NHibernate.Connection.DriverConnectionProvider");
+            if (_config.Properties["hibernate.connection.driver_class"] == null)
+                _config.Properties.Add("hibernate.connection.driver_class", "NHibernate.Driver.SqlClientDriver");
+            if (_config.Properties["hibernate.connection.connection_string"] == null)
+                _config.Properties.Add("hibernate.connection.connection_string", "Server=localhost;initial catalog=SnCore;Integrated Security=SSPI");
+            _config.AddAssembly("SnCore.Data");
+            _config.AddAssembly("SnCore.Data.Hibernate");
         }
 
         public static DomainModel Model
@@ -186,6 +195,12 @@ namespace SnCore.Data.Hibernate
         public static IDisposable OpenConnection(IDbConnection connection)
         {
             return new SessionOpener(Current, connection);
+        }
+
+        public static IDisposable OpenConnection()
+        {
+            return OpenConnection(new SqlConnection(
+                Configuration.GetProperty("hibernate.connection.connection_string")));
         }
 
         /// <summary>

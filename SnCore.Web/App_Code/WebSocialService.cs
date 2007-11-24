@@ -95,7 +95,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get n-th degree count.", CacheDuration = 60)]
         public int GetNDegreeCountById(string ticket, int id, int deg)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -141,7 +141,7 @@ namespace SnCore.WebServices
         public List<TransitAccountActivity> GetFriendsAccountActivity(string ticket, int id, ServiceQueryOptions options)
         {
             ManagedAccountActivity m_activity = null;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 m_activity = new ManagedAccountActivity(session, id);
@@ -171,7 +171,7 @@ namespace SnCore.WebServices
         public int CreateOrUpdateAccountFriendRequest(string ticket, int friendid, string message)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = new ManagedAccount(session, userid);
@@ -192,7 +192,7 @@ namespace SnCore.WebServices
         public void AcceptAccountFriendRequest(string ticket, int id, string message)
         {
             int userid = ManagedAccount.GetAccountId(ticket);
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -219,7 +219,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reject a friend request.")]
         public void RejectAccountFriendRequest(string ticket, int id, string message)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -342,7 +342,7 @@ namespace SnCore.WebServices
         public List<TransitAccountFriend> GetAccountFriends(string ticket, int id, ServiceQueryOptions options)
         {
             ManagedAccount m_account = null;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 m_account = new ManagedAccount(session, id);

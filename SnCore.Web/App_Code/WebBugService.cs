@@ -412,7 +412,7 @@ namespace SnCore.WebServices
         public List<TransitBug> GetBugsWithOptions(string ticket, TransitBugQueryOptions qopt, ServiceQueryOptions options)
         {
             string query = null;
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 query = qopt.GetQuery(session);
@@ -491,7 +491,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Resolve a bug.")]
         public void ResolveBug(string ticket, int bugid, string resolution, string note)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -520,7 +520,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Close a bug.")]
         public void CloseBug(string ticket, int bugid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -546,7 +546,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reopen a bug.")]
         public void ReopenBug(string ticket, int bugid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);

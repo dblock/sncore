@@ -55,7 +55,7 @@ using System.Web.UI;
 //       documentation for more information on this.
 //
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("..\key.snk")]
+[assembly: AssemblyKeyFile("..\\..\\key.snk")]
 [assembly: AssemblyKeyName("")]
 [assembly: System.Security.AllowPartiallyTrustedCallers]
 

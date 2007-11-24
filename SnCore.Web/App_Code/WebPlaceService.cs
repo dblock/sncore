@@ -160,7 +160,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Find a place.", CacheDuration = 60)]
         public TransitPlace FindPlace(string ticket, string citytag, string name)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 City city = (City)session.CreateCriteria(typeof(City))
@@ -543,7 +543,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Approve a place request.")]
         public void AcceptAccountPlaceRequest(string ticket, int id, string message)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -561,7 +561,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Reject a place request.")]
         public void RejectAccountPlaceRequest(string ticket, int id, string message)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -597,7 +597,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Is a place your favorite?")]
         public bool IsAccountPlaceFavorite(string ticket, int user_id, int place_id)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 AccountPlaceFavorite apf = (AccountPlaceFavorite)session.CreateCriteria(typeof(AccountPlaceFavorite))
@@ -757,7 +757,7 @@ namespace SnCore.WebServices
             if (string.IsNullOrEmpty(s))
                 return new List<TransitPlace>();
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -776,7 +776,7 @@ namespace SnCore.WebServices
             if (string.IsNullOrEmpty(s))
                 return 0;
 
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return InternalSearchPlaces(session, s, null).Count;
@@ -982,7 +982,7 @@ namespace SnCore.WebServices
         public List<TransitDistinctPlacePropertyValue> GetDistinctPropertyValues(
             string ticket, string groupname, string propertyname, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -1076,7 +1076,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get the number of places that match a property value by name.")]
         public int GetPlacesByPropertyValueCount(string ticket, string groupname, string propertyname, string propertyvalue)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -1103,7 +1103,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get a place property value by group and name.")]
         public TransitPlacePropertyValue GetPlacePropertyValueByName(string ticket, int placeid, string groupname, string propertyname)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -1206,7 +1206,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all place property values, including unfilled ones.", CacheDuration = 60)]
         public List<TransitPlacePropertyValue> GetAllPlacePropertyValuesById(string ticket, int placeid, int groupid)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1324,7 +1324,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get favorite (popular) places count.", CacheDuration = 60)]
         public int GetFavoritePlacesCount(string ticket)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 return session.CreateQuery("SELECT COUNT(DISTINCT apf.Place) " +
@@ -1339,7 +1339,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get favorite (popular) places.", CacheDuration = 60)]
         public List<TransitPlace> GetFavoritePlaces(string ticket, ServiceQueryOptions serviceoptions)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -1560,7 +1560,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all place queue items.", CacheDuration = 60)]
         public List<TransitFriendsPlaceQueueItem> GetFriendsPlaceQueueItems(string ticket, int user_id, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
 
@@ -1602,7 +1602,7 @@ namespace SnCore.WebServices
         public List<TransitDistinctPlaceNeighborhood> GetPlaceNeighborhoods(
             string ticket, string country, string state, string city, ServiceQueryOptions options)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
@@ -1648,7 +1648,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Merge places.", CacheDuration = 60)]
         public void MergePlaces(string ticket, int id, TransitPlace target)
         {
-            using (SnCore.Data.Hibernate.Session.OpenConnection(GetNewConnection()))
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ITransaction t = session.BeginTransaction();

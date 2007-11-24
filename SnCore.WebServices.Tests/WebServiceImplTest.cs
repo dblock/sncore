@@ -67,8 +67,6 @@ namespace SnCore.WebServices.Tests
 #if DEBUG
             ManagedAccount.EncryptTickets = false;
 #endif
-            SnCore.Data.Hibernate.Session.Configuration = NHibernateTest.Configuration;
-            SnCore.Data.Hibernate.Session.Factory = NHibernateTest.Factory;
             base.SetUp();
         }
     }

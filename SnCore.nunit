@@ -4,7 +4,6 @@
     <assembly path="SnCore.BackEnd.Tests\bin\Debug\SnCore.BackEnd.Tests.dll" />
     <assembly path="SnCore.Data.Tests\bin\Debug\SnCore.Data.Tests.dll" />
     <assembly path="SnCore.Services.Tests\bin\Debug\SnCore.Services.Tests.dll" />
-    <assembly path="SnCore.Stress.Tests\bin\Debug\SnCore.Stress.Tests.dll" />
     <assembly path="SnCore.Tools.Tests\bin\Debug\SnCore.Tools.Tests.dll" />
     <assembly path="SnCore.Web.Tests\bin\Debug\SnCore.Web.Tests.dll" />
     <assembly path="SnCore.WebServices.Tests\bin\Debug\SnCore.WebServices.Tests.dll" />
@@ -15,7 +14,6 @@
     <assembly path="SnCore.BackEnd.Tests\bin\Release\SnCore.BackEnd.Tests.dll" />
     <assembly path="SnCore.Data.Tests\bin\Release\SnCore.Data.Tests.dll" />
     <assembly path="SnCore.Services.Tests\bin\Release\SnCore.Services.Tests.dll" />
-    <assembly path="SnCore.Stress.Tests\bin\Release\SnCore.Stress.Tests.dll" />
     <assembly path="SnCore.Tools.Tests\bin\Release\SnCore.Tools.Tests.dll" />
     <assembly path="SnCore.Web.Tests\bin\Release\SnCore.Web.Tests.dll" />
     <assembly path="SnCore.WebServices.Tests\bin\Release\SnCore.WebServices.Tests.dll" />

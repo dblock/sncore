@@ -33,13 +33,6 @@ namespace SnCore.WebServices
                 return mEventLog;
             }
         }
-
-        public static IDbConnection GetNewConnection()
-        {
-            return new SqlConnection(
-             SnCore.Data.Hibernate.Session.Configuration.GetProperty(
-              "hibernate.connection.connection_string"));
-        }
     }
 
     public abstract class WebServiceQueryOptions<T>
