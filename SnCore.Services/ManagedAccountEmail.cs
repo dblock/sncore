@@ -283,7 +283,7 @@ namespace SnCore.Services
         {
             GetACL().Check(sec, DataOperation.All);
 
-            if (this.Verified)
+            if (this.Verified && ! this.mInstance.Failed)
                 return null;
 
             // find and existing pending confirmation

@@ -450,5 +450,114 @@ namespace SnCore.WebServices
         #endregion
 
         #endregion
+
+        #region Bool
+
+        #region ticket
+
+        public delegate bool GetItemDelegateBool(string ticket);
+
+        public static bool GetBool(
+            string ticket, GetItemDelegateBool functor, Cache cache, TimeSpan ts)
+        {
+            if (cache == null) return functor(ticket);
+            string key = GetCacheKey(functor.Method.Name);
+            object flag = cache.Get(key);
+            CacheHitOrMiss(key, flag);
+            if (flag == null)
+            {
+                flag = functor(ticket);
+                if (flag != null)
+                {
+                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
+                }
+            }
+            return (bool)flag;
+        }
+
+        #endregion
+
+        #region ticket + arg1
+
+        public delegate bool GetItemDelegateBool<TypeArg1>(
+            string ticket, TypeArg1 arg1);
+
+        public static bool GetBool<TypeArg1>(
+            string ticket, TypeArg1 arg1,
+            GetItemDelegateBool<TypeArg1> functor, Cache cache, TimeSpan ts)
+        {
+            if (cache == null) return functor(ticket, arg1);
+            object[] args = { arg1 };
+            string key = GetCacheKey(functor.Method.Name, args);
+            object flag = cache.Get(key);
+            CacheHitOrMiss(key, flag);
+            if (flag == null)
+            {
+                flag = functor(ticket, arg1);
+                if (flag != null)
+                {
+                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
+                }
+            }
+            return (bool)flag;
+        }
+
+        #endregion
+
+        #region ticket + arg1 + arg2
+
+        public delegate bool GetItemDelegateBool<TypeArg1, TypeArg2>(
+            string ticket, TypeArg1 arg1, TypeArg2 arg2);
+
+        public static bool GetBool<TypeArg1, TypeArg2>(
+            string ticket, TypeArg1 arg1, TypeArg2 arg2,
+            GetItemDelegateBool<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts)
+        {
+            if (cache == null) return functor(ticket, arg1, arg2);
+            object[] args = { arg1, arg2 };
+            string key = GetCacheKey(functor.Method.Name, args);
+            object flag = cache.Get(key);
+            CacheHitOrMiss(key, flag);
+            if (flag == null)
+            {
+                flag = functor(ticket, arg1, arg2);
+                if (flag != null)
+                {
+                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
+                }
+            }
+            return (bool)flag;
+        }
+
+        #endregion
+
+        #region ticket + arg1 + arg2 + arg3
+
+        public delegate bool GetItemDelegateBool<TypeArg1, TypeArg2, TypeArg3>(
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3);
+
+        public static bool GetBool<TypeArg1, TypeArg2, TypeArg3>(
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3,
+            GetItemDelegateBool<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts)
+        {
+            if (cache == null) return functor(ticket, arg1, arg2, arg3);
+            object[] args = { arg1, arg2, arg3 };
+            string key = GetCacheKey(functor.Method.Name, args);
+            object flag = cache.Get(key);
+            CacheHitOrMiss(key, flag);
+            if (flag == null)
+            {
+                flag = functor(ticket, arg1, arg2, arg3);
+                if (flag != null)
+                {
+                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
+                }
+            }
+            return (bool)flag;
+        }
+
+        #endregion
+
+        #endregion
     }
 }

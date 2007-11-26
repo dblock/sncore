@@ -672,6 +672,8 @@
               <s:element minOccurs="1" maxOccurs="1" name="Verified" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="Principal" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Failed" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>

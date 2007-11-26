@@ -128,6 +128,8 @@ namespace SnCore.Services
 
             mInstance.AccountEmail.Verified = true;
             mInstance.AccountEmail.Modified = DateTime.UtcNow;
+            mInstance.AccountEmail.Failed = false;
+            mInstance.AccountEmail.LastError = string.Empty;
             Session.Save(mInstance.AccountEmail);
             mInstance.AccountEmail.AccountEmailConfirmations = null;
             Session.Delete(mInstance);

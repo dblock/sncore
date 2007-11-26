@@ -34,8 +34,15 @@
      <asp:BoundColumn DataField="Address" Visible="false" />
      <asp:BoundColumn DataField="Verified" Visible="false" />
      <asp:BoundColumn DataField="Principal" Visible="false" />
+     <asp:BoundColumn DataField="Failed" Visible="false" />
      <asp:BoundColumn ReadOnly="True" DataFormatString="<img src='images/AccountEmailVerified{0}.gif'>"
       DataField="Verified"></asp:BoundColumn>
+     <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
+      <itemtemplate>
+       <img src="images/question.gif" alt="<%# base.Render(Eval("LastError")) %>" 
+        style='<%# (bool) Eval("Failed") ? string.Empty : "display: none;" %>' />
+      </itemtemplate>
+     </asp:TemplateColumn>
      <asp:TemplateColumn ItemStyle-HorizontalAlign="Left" HeaderText="Email Address">
       <itemtemplate>
        <a href="mailto:<%# base.Render(Eval("Address")) %>">

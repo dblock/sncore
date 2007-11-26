@@ -40,7 +40,8 @@ public partial class AccountManage : AuthenticatedPage
     {
         if (!IsPostBack)
         {
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+            if (!SessionManager.GetBool<TransitAccount, int>(
+                SessionManager.AccountId, SessionManager.AccountService.HasVerifiedEmail))
             {
                 noticeVerifiedEmail.HtmlEncode = false;
                 noticeVerifiedEmail.Info = "You don't have a verified e-mail address. " +
@@ -49,6 +50,22 @@ public partial class AccountManage : AuthenticatedPage
                     "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
                     "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
             }
+            else
+            {
+                IList<TransitAccountEmail> emails = SessionManager.GetCollection<TransitAccountEmail, int>(
+                    SessionManager.AccountId, null, SessionManager.AccountService.GetAccountEmails);
+
+                foreach (TransitAccountEmail email in emails)
+                {
+                    if (email.Failed)
+                    {
+                        noticeVerifiedEmail.HtmlEncode = false;
+                        noticeVerifiedEmail.Info = string.Format("We tried to send you an e-mail to \"{0}\", which bounced with the following error: \"{1}\". " +
+                            "Please <a href='AccountEmailsManage.aspx'>double-check your address</a>.", Renderer.Render(email.Address), Renderer.Render(email.LastError));
+                        break;
+                    }
+                }
+            }            
 
             accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));
             accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);

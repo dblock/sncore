@@ -62,7 +62,9 @@ public partial class AccountEmailsManage : AuthenticatedPage
         address,
         verified,
         principal,
+        failed,
         image,
+        imagefailed,
         addressview,
         delete,
         resend,
@@ -79,10 +81,11 @@ public partial class AccountEmailsManage : AuthenticatedPage
             case ListItemType.EditItem:
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                 bool verified = bool.Parse(e.Item.Cells[(int)Cells.verified].Text);
+                bool failed = bool.Parse(e.Item.Cells[(int)Cells.failed].Text);
                 string address = e.Item.Cells[(int)Cells.address].Text;
                 bool principal = bool.Parse(e.Item.Cells[(int)Cells.principal].Text);
 
-                if (verified)
+                if (verified && ! failed)
                 {
                     e.Item.Cells[(int)Cells.resend].Text = string.Empty;
                 }

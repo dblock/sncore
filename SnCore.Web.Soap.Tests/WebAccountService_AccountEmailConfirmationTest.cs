@@ -206,5 +206,51 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(2, confirmations4.Length);
             DeleteUser(user_id);
         }
+
+        [Test]
+        public void VerifyFailedEmailTest()
+        {
+            // create a user
+            string email = GetNewEmailAddress();
+            string password = GetNewString();
+            int user_id = CreateUser(email, password);
+            Assert.IsTrue(user_id > 0);
+            string ticket = Login(email, password);
+            Assert.IsNotEmpty(ticket);
+            // verify e-mail
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            Console.WriteLine("Verified e-mail: {0}", verifiedemail);
+            Assert.AreEqual(verifiedemail, email);
+            // fail e-mail
+            int email_id = confirmations[0].AccountEmail.Id;
+            Console.WriteLine("Email id: {0}", email_id);
+            WebAccountService.TransitAccountEmail t_email_before = EndPoint.GetAccountEmailById(ticket, email_id);
+            Assert.IsFalse(t_email_before.Failed);
+            Assert.IsTrue(string.IsNullOrEmpty(t_email_before.LastError));
+            t_email_before.Failed = true;
+            t_email_before.LastError = GetNewString();
+            EndPoint.CreateOrUpdateAccountEmail(ticket, t_email_before);
+            // verify that the e-mail was failed
+            WebAccountService.TransitAccountEmail t_email_after = EndPoint.GetAccountEmailById(ticket, email_id);
+            Console.WriteLine("Email failure: {0}", t_email_after.LastError);
+            Assert.IsTrue(t_email_after.Failed);
+            Assert.IsFalse(string.IsNullOrEmpty(t_email_after.LastError));
+            Assert.AreEqual(t_email_after.LastError, t_email_before.LastError);
+            // resend e-mail confirmation
+            EndPoint.ConfirmAccountEmail(ticket, t_email_after.Id);
+            // verify e-mail again
+            WebAccountService.TransitAccountEmailConfirmation[] confirmations_after = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
+            string verifiedemail_after = EndPoint.VerifyAccountEmail(password, confirmations_after[0].Id, confirmations_after[0].Code);
+            Console.WriteLine("Verified e-mail: {0}", verifiedemail_after);
+            Assert.AreEqual(verifiedemail_after, email);
+            // verify that failure was cleared
+            WebAccountService.TransitAccountEmail t_email_final = EndPoint.GetAccountEmailById(ticket, email_id);
+            Assert.IsFalse(t_email_final.Failed);
+            Assert.IsTrue(string.IsNullOrEmpty(t_email_final.LastError));
+            // delete user
+            DeleteUser(user_id);
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountEmailVerify : Page
 {
@@ -44,5 +45,7 @@ public partial class AccountEmailVerify : Page
         panelVerify.Visible = false;
         ReportInfo("Thank you. Your e-mail address has been verified." +
             "<br>Click <a href='Default.aspx'>here</a> to continue.", false);
+
+        SessionManager.InvalidateCache<TransitAccount>();
     }
 }
