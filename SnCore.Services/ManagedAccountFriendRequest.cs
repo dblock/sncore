@@ -17,7 +17,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountId;
             }
             set
@@ -32,7 +31,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountPictureId;
             }
             set
@@ -47,7 +45,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountName;
             }
             set
@@ -62,7 +59,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mKeenId;
             }
             set
@@ -77,7 +73,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mKeenPictureId;
             }
             set
@@ -92,7 +87,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mKeenName;
             }
             set
@@ -107,7 +101,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMessage;
             }
             set
@@ -122,7 +115,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -205,7 +197,7 @@ namespace SnCore.Services
             Account requester = mInstance.Account;
             Account approver = mInstance.Keen;
 
-            if (message != null && message.Length > 0)
+            if (! string.IsNullOrEmpty(message))
             {
                 ManagedAccount recepient = new ManagedAccount(Session, requester);
                 ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(Session, recepient,
@@ -234,10 +226,10 @@ namespace SnCore.Services
             ManagedAccountFriend m_friend = new ManagedAccountFriend(Session);
             m_friend.CreateOrUpdate(t_friend, sec);
 
-            ManagedAccount recepient = new ManagedAccount(Session, sec.Account);
+            ManagedAccount requester = new ManagedAccount(Session, mInstance.Account);
             ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
                 Session,
-                recepient,
+                requester,
                 string.Format("EmailAccountFriendRequestAccept.aspx?id={0}&message={1}", this.Id, Renderer.UrlEncode(message)));
 
             Session.Delete(mInstance);
