@@ -127,6 +127,7 @@ GO
 -- create a failure option for AccountEmail
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND name = N'Failed') 
 ALTER TABLE dbo.AccountEmail ADD [Failed] bit NULL
+GO
 UPDATE dbo.AccountEmail SET [Failed] = 0 WHERE Failed IS NULL
 ALTER TABLE dbo.AccountEmail ALTER COLUMN [Failed] bit NOT NULL
 GO
