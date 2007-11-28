@@ -49,9 +49,19 @@ namespace SnCore.DomainMail
             object debug = cnf["debug"];
             s_Debug = (debug == null) ? true : bool.Parse(debug.ToString());
             LogDebug(string.Format("Loaded configuration file \"{0}\".", filename));
-            SnCore.Data.Hibernate.Session.Configuration.Configure(filename);
-            LogDebug(string.Format("Loaded NHibernate configuration, connection string=\"{0}\".", 
-                SnCore.Data.Hibernate.Session.Configuration.Properties["hibernate.connection.connection_string"]));
+
+            IDictionary hibernate = cnf.GetConfig("nhibernate");
+            if (hibernate != null)
+            {
+                IDictionaryEnumerator enumerator = hibernate.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    string name = enumerator.Key.ToString();
+                    string value = enumerator.Value.ToString();
+                    SnCore.Data.Hibernate.Session.Configuration.Properties[name] = value;
+                    LogDebug(string.Format("{0}=\"{1}\".", name, value));
+                }
+            }
         }
 
         private static void LoadConfiguration()
@@ -65,7 +75,7 @@ namespace SnCore.DomainMail
                     Configure(filename);
                 }
 
-                s_ConfigurationChangeWatcher = new FileSystemWatcher(filename);
+                s_ConfigurationChangeWatcher = new FileSystemWatcher(Path.GetDirectoryName(filename), "*.config");
                 s_ConfigurationChangeWatcher.Created += new FileSystemEventHandler(s_ConfigurationChangeWatcher_Changed);
                 s_ConfigurationChangeWatcher.Changed += new FileSystemEventHandler(s_ConfigurationChangeWatcher_Changed);
             }
