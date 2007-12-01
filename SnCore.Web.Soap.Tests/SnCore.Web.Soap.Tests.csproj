@@ -152,6 +152,7 @@
     <Compile Include="WebAccountService_AccountInvitationTest.cs" />
     <Compile Include="WebAccountService_AccountMessageFolderTest.cs" />
     <Compile Include="WebAccountService_AccountMessageTest.cs" />
+    <Compile Include="WebAccountService_AccountNumbersTest.cs" />
     <Compile Include="WebAccountService_AccountOpenIdTest.cs" />
     <Compile Include="WebAccountService_AccountPictureTest.cs" />
     <Compile Include="WebAccountService_AccountQuotaTest.cs" />
@@ -955,6 +956,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAccountService\TransitAccountFlagType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitAccountNumbers.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WebAccountService\TransitAccountQuota.datasource">

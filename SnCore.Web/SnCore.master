@@ -132,13 +132,11 @@
    <asp:SiteMapPath runat="server" ID="siteMapPath" />
   </div>
   <div class="sncore_master_content" id="content">
-   <!-- NOEMAIL-START -->
    <asp:UpdatePanel UpdateMode="Always" runat="server" ID="panelNoticeMenu" RenderMode="Inline">
     <ContentTemplate>
      <SnCore:Notice ID="noticeMenu" EnableViewState="false" runat="server" />
     </ContentTemplate>
    </asp:UpdatePanel>
-   <!-- NOEMAIL-END -->
    <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
    </asp:ContentPlaceHolder>
   </div>

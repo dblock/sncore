@@ -15,57 +15,60 @@ using System.Collections.Generic;
 using System.Web.Caching;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using System.Text;
 
 [SiteMapDataAttribute("Me Me")]
 public partial class AccountManage : AuthenticatedPage
 {
-    public class AccountNumbers
+    private bool NotifyNoVerifiedEmail(object sender, EventArgs e)
     {
-        public int FirstDegreeCount;
-        public int SecondDegreeCount;
-        public int AllCount;
-
-        public int NewCount
+        if (!SessionManager.GetBool<TransitAccount, int>(
+            SessionManager.AccountId, SessionManager.AccountService.HasVerifiedEmail))
         {
-            get
+            noticeVerifiedEmail.HtmlEncode = false;
+            noticeVerifiedEmail.Info = "You don't have a verified e-mail address. " +
+                "You will only be able to post once you have verified your e-mail. " +
+                "If you haven't received a confirmation e-mail, please " +
+                "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
+                "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool NotifyEmailBounced(object sender, EventArgs e)
+    {
+        IList<TransitAccountEmail> emails = SessionManager.GetCollection<TransitAccountEmail, int>(
+            SessionManager.AccountId, null, SessionManager.AccountService.GetAccountEmails);
+
+        foreach (TransitAccountEmail email in emails)
+        {
+            if (email.Failed)
             {
-                return AllCount - FirstDegreeCount - 1; // all minus first degree minus self
+                noticeVerifiedEmail.HtmlEncode = false;
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("We tried to send you an e-mail to \"{0}\", which bounced. ", Renderer.Render(email.Address));
+                if (! string.IsNullOrEmpty(email.LastError)) sb.AppendFormat("The error was \"{0}\". ", Renderer.Render(email.LastError));
+                sb.Append("Please <a href='AccountEmailsManage.aspx'>double-check your address</a>.");
+                noticeVerifiedEmail.Info = sb.ToString();
+                return true;
             }
         }
 
-        public int PostsCount;
+        return false;
     }
 
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            if (!SessionManager.GetBool<TransitAccount, int>(
-                SessionManager.AccountId, SessionManager.AccountService.HasVerifiedEmail))
+            if (! NotifyEmailBounced(sender, e))
             {
-                noticeVerifiedEmail.HtmlEncode = false;
-                noticeVerifiedEmail.Info = "You don't have a verified e-mail address. " +
-                    "You will only be able to post once you have verified your e-mail. " +
-                    "If you haven't received a confirmation e-mail, please " +
-                    "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
-                    "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
+                NotifyNoVerifiedEmail(sender, e);
             }
-            else
-            {
-                IList<TransitAccountEmail> emails = SessionManager.GetCollection<TransitAccountEmail, int>(
-                    SessionManager.AccountId, null, SessionManager.AccountService.GetAccountEmails);
-
-                foreach (TransitAccountEmail email in emails)
-                {
-                    if (email.Failed)
-                    {
-                        noticeVerifiedEmail.HtmlEncode = false;
-                        noticeVerifiedEmail.Info = string.Format("We tried to send you an e-mail to \"{0}\", which bounced with the following error: \"{1}\". " +
-                            "Please <a href='AccountEmailsManage.aspx'>double-check your address</a>.", Renderer.Render(email.Address), Renderer.Render(email.LastError));
-                        break;
-                    }
-                }
-            }            
 
             accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));
             accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);
@@ -73,22 +76,8 @@ public partial class AccountManage : AuthenticatedPage
             groupsView.AccountId = SessionManager.AccountId;
             friendsView.AccountId = SessionManager.AccountId;
 
-            AccountNumbers numbers = (AccountNumbers)Cache[string.Format("accountnumbers:{0}", SessionManager.Ticket)];
-            if (numbers == null)
-            {
-                numbers = new AccountNumbers();
-                numbers.FirstDegreeCount = SessionManager.SocialService.GetFirstDegreeCountById(SessionManager.Ticket, SessionManager.AccountId);
-                numbers.SecondDegreeCount = SessionManager.SocialService.GetNDegreeCountById(SessionManager.Ticket, SessionManager.AccountId, 2);
-                numbers.AllCount = SessionManager.AccountService.GetAccountsCount(SessionManager.Ticket);
-
-                DiscussionQueryOptions options = new DiscussionQueryOptions();
-                options.AccountId = SessionManager.Account.Id;
-                numbers.PostsCount = SessionManager.DiscussionService.GetUserDiscussionThreadsCount(
-                    SessionManager.Ticket, options);
-
-                Cache.Insert(string.Format("accountnumbers:{0}", SessionManager.Ticket),
-                    numbers, null, Cache.NoAbsoluteExpiration, SessionManager.DefaultCacheTimeSpan);
-            }
+            TransitAccountNumbers numbers = SessionManager.GetInstance<TransitAccountNumbers, int>(
+                SessionManager.AccountId, SessionManager.AccountService.GetAccountNumbersByAccountId);
 
             accountFirstDegree.Visible = (numbers.FirstDegreeCount > 0);
             accountFirstDegree.Text = string.Format("{0} friend{1} in your personal network",

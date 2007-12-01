@@ -111,6 +111,12 @@ namespace SnCore.DomainMail
                         Log(string.Format("Marked {0} [{1}] (id:{2}) with failure [{3}].",
                             email.Account.Name, email.Address, email.Id, r.DiagnosticCode));
 
+                        // check whether there're pending invitations for this e-mail
+                        foreach (AccountEmailConfirmation confirmation in Collection<AccountEmailConfirmation>.GetSafeCollection(email.AccountEmailConfirmations))
+                        {
+                            session.Delete(confirmation);
+                        }
+
                         email.Failed = true;
                         email.LastError = r.DiagnosticCode;
                         email.Modified = DateTime.UtcNow;

@@ -17,7 +17,24 @@
        <title><%# base.Render(Eval("AccountName"))%></title>
        <pubDate><%# base.AdjustToRFC822(Eval("Updated")) %></pubDate>
        <author><%# base.Render(Eval("AccountName")) %></author>
-       <description><![CDATA[<%# base.RenderEx(Eval("Description")) %>]]></description>
+       <description>
+        <![CDATA[
+         <table cellpadding="4">
+          <tr>
+           <td>
+            <a href="<% Response.Write(WebsiteUrl); %>/AccountView.aspx?id=<%# Eval("AccountId") %>">
+             <img border="0" src="<% Response.Write(WebsiteUrl); %>/AccountPictureThumbnail.aspx?id=<%# Eval("AccountPictureId") %>" />
+            </a>
+           </td>
+           <td>
+            <div>
+             <%# RenderEx(Eval("Description")) %>
+            </div>
+           </td>
+          </tr>
+         </table>       
+        ]]>       
+       </description>
        <link><% Response.Write(WebsiteUrl); %>/<%# Eval("Url") %></link>
        <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/AccountAuditEntry/<%# Eval("Id") %></guid>
       </item>

@@ -2659,5 +2659,45 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region AccountNumbers
+
+        /// <summary>
+        /// Get account numbers.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account id</param>
+        /// <returns>account numbers</returns>
+        [WebMethod(Description = "Get account numbers.")]
+        public TransitAccountNumbers GetAccountNumbersByAccountId(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                TransitAccountNumbers t_result = new TransitAccountNumbers();
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                
+                ManagedAccount acct = new ManagedAccount(session, id);
+                
+                // second degree count
+                t_result.SecondDegreeCount = acct.GetNDegreeCount(sec, 2);
+                // first degree count
+                t_result.FirstDegreeCount = session.CreateQuery(
+                    string.Format("SELECT COUNT(*) FROM AccountFriend AccountFriend" +
+                        " WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0})",
+                        id)).UniqueResult<int>();
+                // all accounts count
+                t_result.AllCount = session.CreateQuery(
+                    "SELECT COUNT(*) FROM Account Account").UniqueResult<int>();
+                // discussion posts count
+                DiscussionQueryOptions qopt = new DiscussionQueryOptions();
+                qopt.AccountId = id;
+                t_result.PostsCount = session.CreateQuery(
+                    string.Format("SELECT COUNT(*) FROM DiscussionPost DiscussionPost {0}", 
+                        qopt.CountQuery)).UniqueResult<int>();
+                return t_result;
+            }
+        }
+        #endregion
     }
 }

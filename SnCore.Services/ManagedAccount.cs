@@ -24,6 +24,75 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
+    public class TransitAccountNumbers
+    {
+        private int mFirstDegreeCount = 0;
+        private int mSecondDegreeCount = 0;
+        private int mAllCount = 0;
+        private int mPostsCount = 0;
+
+        public int PostsCount
+        {
+            get
+            {
+                return mPostsCount;
+            }
+            set
+            {
+                mPostsCount = value;
+            }
+        }
+
+        public int FirstDegreeCount
+        {
+            get
+            {
+                return mFirstDegreeCount;
+            }
+            set
+            {
+                mFirstDegreeCount = value;
+            }
+        }
+
+        public int SecondDegreeCount
+        {
+            get
+            {
+                return mSecondDegreeCount;
+            }
+            set
+            {
+                mSecondDegreeCount = value;
+            }
+        }
+
+        public int AllCount
+        {
+            get
+            {
+                return mAllCount;
+            }
+            set
+            {
+                mAllCount = value;
+            }
+        }
+
+        public int NewCount
+        {
+            get
+            {
+                return AllCount - FirstDegreeCount - 1; // all minus first degree minus self
+            }
+        }
+
+        public TransitAccountNumbers()
+        {
+
+        }
+    }
+
     public class TransitOpenIdLogin
     {
         private string mConsumerUrl;
@@ -857,7 +926,7 @@ namespace SnCore.Services
 
             foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
             {
-                if (e.Verified)                    
+                if (e.Verified && ! e.Failed)
                 {
                     address = e.Address;
                     if (e.Principal)
@@ -881,7 +950,7 @@ namespace SnCore.Services
             {
                 address = e.Address;
 
-                if (e.Verified && e.Principal)
+                if (e.Verified && e.Principal && ! e.Failed)
                 {
                     // pickup the principal address first
                     break;

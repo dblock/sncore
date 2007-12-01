@@ -366,6 +366,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback GetAccountQuotaByObjectNameOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountNumbersByAccountIdOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -874,6 +876,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event GetAccountQuotaByObjectNameCompletedEventHandler GetAccountQuotaByObjectNameCompleted;
+        
+        /// <remarks/>
+        public event GetAccountNumbersByAccountIdCompletedEventHandler GetAccountNumbersByAccountIdCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -5809,6 +5814,37 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountNumbers GetAccountNumbersByAccountId(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountNumbersByAccountId", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountNumbers)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountNumbersByAccountIdAsync(string ticket, int id) {
+            this.GetAccountNumbersByAccountIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountNumbersByAccountIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountNumbersByAccountIdOperationCompleted == null)) {
+                this.GetAccountNumbersByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountNumbersByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountNumbersByAccountId", new object[] {
+                        ticket,
+                        id}, this.GetAccountNumbersByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountNumbersByAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountNumbersByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountNumbersByAccountIdCompleted(this, new GetAccountNumbersByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -5856,6 +5892,63 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.ticketField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountNumbers {
+        
+        private int postsCountField;
+        
+        private int firstDegreeCountField;
+        
+        private int secondDegreeCountField;
+        
+        private int allCountField;
+        
+        /// <remarks/>
+        public int PostsCount {
+            get {
+                return this.postsCountField;
+            }
+            set {
+                this.postsCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int FirstDegreeCount {
+            get {
+                return this.firstDegreeCountField;
+            }
+            set {
+                this.firstDegreeCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int SecondDegreeCount {
+            get {
+                return this.secondDegreeCountField;
+            }
+            set {
+                this.secondDegreeCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AllCount {
+            get {
+                return this.allCountField;
+            }
+            set {
+                this.allCountField = value;
             }
         }
     }
@@ -12051,6 +12144,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountQuota)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountNumbersByAccountIdCompletedEventHandler(object sender, GetAccountNumbersByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountNumbersByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountNumbersByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountNumbers Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountNumbers)(this.results[0]));
             }
         }
     }
