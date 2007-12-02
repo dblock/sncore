@@ -14,7 +14,7 @@
   <SnCoreWebControls:PagedList runat="server" ID="picturesView" RepeatColumns="1" RepeatRows="5"
    AllowCustomPaging="true">
    <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="&#187;"
-    PrevPageText="&#171;" HorizontalAlign="Center" />
+    PrevPageText="&#171;" HorizontalAlign="Center" PageButtonCount="5" />
    <ItemTemplate>
     <a href='<%# string.Format("PlacePictureView.aspx?id={0}", Eval("Id")) %>'>
      <img border="0" src='<%# string.Format("PlacePictureThumbnail.aspx?id={0}", Eval("Id")) %>'

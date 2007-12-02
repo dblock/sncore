@@ -8,7 +8,6 @@ using System.Web.UI.WebControls;
 
 namespace SnCore.WebControls
 {
-
     public sealed class DataListPagerStyle : TableItemStyle
     {
         private PagerMode mMode = PagerMode.NextPrev;
@@ -17,6 +16,18 @@ namespace SnCore.WebControls
         private PagerPosition mPosition = PagerPosition.Bottom;
         private string mPrevPageText = "&lt;";
         private bool mVisible = true;
+
+        public int PageButtonCount
+        {
+            get
+            {
+                return mPageButtonCount;
+            }
+            set
+            {
+                mPageButtonCount = value;
+            }
+        }
 
         public int PagersCount
         {
@@ -66,18 +77,6 @@ namespace SnCore.WebControls
             set
             {
                 mNextPageText = value;
-            }
-        }
-
-        public int PageButtonCount
-        {
-            get
-            {
-                return mPageButtonCount;
-            }
-            set
-            {
-                mPageButtonCount = value;
             }
         }
 
