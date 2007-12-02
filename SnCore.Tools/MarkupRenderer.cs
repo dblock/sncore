@@ -42,7 +42,14 @@ namespace SnCore.Tools.Web
                 case "[[":
                     return string.Format("[{0}:{1}]", tagname, tagvalue);
                 default:
-                    return mHandler.Handle(tag, tagname, tagvalue);
+                    try
+                    {
+                        return mHandler.Handle(tag, tagname, tagvalue);
+                    }
+                    catch (Exception ex)
+                    {
+                        return string.Format("[{0}:{1}] ({2})", tagname, tagvalue, ex.Message);
+                    }
             }
         }
 
