@@ -147,7 +147,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+        if (!SessionManager.HasVerifiedEmailAddress())
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before posting messages.");

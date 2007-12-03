@@ -353,6 +353,8 @@
     <property name="Email" columns="Email" type="System.String" />
     <property name="Message" columns="Message" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Failed" columns="Failed" type="System.Boolean" />
+    <property name="LastError" columns="LastError" type="System.String" />
   </class>
   <class name="AccountLicense" table="AccountLicense">
     <property name="Id" id="true" columns="AccountLicense_Id" type="System.Int32" />
@@ -1360,6 +1362,8 @@
       <column name="Email" type="AnsiString" prec="128" length="128" scale="0" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
+      <column name="Failed" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="LastError" type="String" prec="128" allow-null="true" length="256" scale="0" />
     </table>
     <table name="AccountLicense">
       <column name="AccountLicense_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

@@ -52,7 +52,7 @@ public partial class TellAFriend : AuthenticatedPage
                 linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
                 Title = inputSubject.Text = string.Format("Check out {0}", subject);
 
-                if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+                if (!SessionManager.HasVerifiedEmailAddress())
                 {
                     ReportWarning("You don't have any verified e-mail addresses.\n" +
                         "You must add/confirm a valid e-mail address before using this feature.");

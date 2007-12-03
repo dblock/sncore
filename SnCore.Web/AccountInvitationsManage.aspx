@@ -61,7 +61,8 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-        <img src="images/Item.gif" />
+        <img src='<%# (bool) Eval("Failed") ? "images/question.gif" : "images/item.gif" %>' 
+         alt="<%# base.Render(Eval("LastError")) %>" />
        </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Email Address">

@@ -200,6 +200,11 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         }
     }
 
+    public bool HasVerifiedEmailAddress()
+    {
+        return GetBool<TransitAccount, int>(AccountId, AccountService.HasVerifiedEmail);
+    }
+
     public bool IsAdministrator
     {
         get

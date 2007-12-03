@@ -22,11 +22,10 @@ public partial class AccountManage : AuthenticatedPage
 {
     private bool NotifyNoVerifiedEmail(object sender, EventArgs e)
     {
-        if (!SessionManager.GetBool<TransitAccount, int>(
-            SessionManager.AccountId, SessionManager.AccountService.HasVerifiedEmail))
+        if (!SessionManager.HasVerifiedEmailAddress())
         {
             noticeVerifiedEmail.HtmlEncode = false;
-            noticeVerifiedEmail.Info = "You don't have a verified e-mail address. " +
+            noticeVerifiedEmail.Warning = "You don't have a verified e-mail address. " +
                 "You will only be able to post once you have verified your e-mail. " +
                 "If you haven't received a confirmation e-mail, please " +
                 "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
@@ -53,7 +52,7 @@ public partial class AccountManage : AuthenticatedPage
                 sb.AppendFormat("We tried to send you an e-mail to \"{0}\", which bounced. ", Renderer.Render(email.Address));
                 if (! string.IsNullOrEmpty(email.LastError)) sb.AppendFormat("The error was \"{0}\". ", Renderer.Render(email.LastError));
                 sb.Append("Please <a href='AccountEmailsManage.aspx'>double-check your address</a>.");
-                noticeVerifiedEmail.Info = sb.ToString();
+                noticeVerifiedEmail.Warning = sb.ToString();
                 return true;
             }
         }
@@ -61,14 +60,45 @@ public partial class AccountManage : AuthenticatedPage
         return false;
     }
 
+    private bool NotifyInvitationBounced(object sender, EventArgs e)
+    {
+        IList<TransitAccountInvitation> invitations = SessionManager.GetCollection<TransitAccountInvitation, int>(
+            SessionManager.AccountId, null, SessionManager.AccountService.GetAccountInvitationsByAccountId);
+
+        foreach (TransitAccountInvitation invitation in invitations)
+        {
+            if (invitation.Failed)
+            {
+                noticeVerifiedEmail.HtmlEncode = false;
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("We tried to invite your friend \"{0}\", but the e-mail bounced. ", Renderer.Render(invitation.Email));
+                if (!string.IsNullOrEmpty(invitation.LastError)) sb.AppendFormat("The error was \"{0}\". ", Renderer.Render(invitation.LastError));
+                sb.Append("Please <a href='AccountInvitationsManage.aspx'>double-check this address</a>.");
+                noticeVerifiedEmail.Warning = sb.ToString();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void NotifyBounces(object sender, EventArgs e)
+    {
+        if (NotifyEmailBounced(sender, e))
+            return;
+
+        if (NotifyNoVerifiedEmail(sender, e))
+            return;
+
+        if (NotifyInvitationBounced(sender, e))
+            return;
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            if (! NotifyEmailBounced(sender, e))
-            {
-                NotifyNoVerifiedEmail(sender, e);
-            }
+            NotifyBounces(sender, e);
 
             accountName.Text = string.Format("Hello, {0}!", Renderer.Render(SessionManager.Account.Name));
             accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", SessionManager.Account.PictureId);

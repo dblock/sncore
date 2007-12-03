@@ -24,7 +24,7 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+            if (!SessionManager.HasVerifiedEmailAddress())
             {
                 ReportWarning("You don't have any verified e-mail addresses.\n" +
                     "You must add/confirm a valid e-mail address before inviting people.");
@@ -46,8 +46,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.AccountService.GetAccountInvitationsCountByAccountId(
-            SessionManager.Ticket, SessionManager.AccountId);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountInvitation, int>(
+            SessionManager.AccountId, SessionManager.AccountService.GetAccountInvitationsCountByAccountId);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -57,8 +57,8 @@ public partial class AccountInvitationsManage : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.AccountService.GetAccountInvitationsByAccountId(
-            SessionManager.Ticket, SessionManager.AccountId, options);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountInvitation, int>(
+            SessionManager.AccountId, options, SessionManager.AccountService.GetAccountInvitationsByAccountId);
     }
 
     public static Regex emailregex = new Regex(@".*@.*\..*", RegexOptions.Compiled);

@@ -90,40 +90,70 @@ namespace SnCore.DomainMail
             Configure(e.FullPath);
         }
 
+        private void UpdateFailureEmails(MimeDSNRecipient r, ISession session)
+        {
+            IList<AccountEmail> emails = session.CreateCriteria(typeof(AccountEmail))
+                .Add(Expression.Eq("Address", r.FinalRecipientEmailAddress))
+                .List<AccountEmail>();
+
+            if (emails == null)
+                return;
+
+            foreach (AccountEmail email in emails)
+            {
+                if (email.Failed)
+                    continue;
+
+                Log(string.Format("Marked {0} [{1}] (id:{2}) with failure [{3}].",
+                    email.Account.Name, email.Address, email.Id, r.DiagnosticCode));
+
+                // check whether there're pending invitations for this e-mail
+                foreach (AccountEmailConfirmation confirmation in Collection<AccountEmailConfirmation>.GetSafeCollection(email.AccountEmailConfirmations))
+                {
+                    session.Delete(confirmation);
+                }
+
+                email.Failed = true;
+                email.LastError = r.DiagnosticCode;
+                email.Modified = DateTime.UtcNow;
+                session.Save(email);
+                session.Flush();
+            }
+        }
+
+        private void UpdateFailureInvitations(MimeDSNRecipient r, ISession session)
+        {
+            IList<AccountInvitation> invitations = session.CreateCriteria(typeof(AccountInvitation))
+                .Add(Expression.Eq("Email", r.FinalRecipientEmailAddress))
+                .List<AccountInvitation>();
+
+            if (invitations == null)
+                return;
+
+            foreach (AccountInvitation invitation in invitations)
+            {
+                if (invitation.Failed)
+                    continue;
+
+                Log(string.Format("Marked \"{0}\" [invited by {1}] (id:{2}) with failure [{3}].",
+                    invitation.Email, invitation.Account.Name, invitation.Id, r.DiagnosticCode));
+
+                invitation.Failed = true;
+                invitation.LastError = r.DiagnosticCode;
+                invitation.Modified = DateTime.UtcNow;
+                session.Save(invitation);
+                session.Flush();
+            }
+        }
+
         private void UpdateFailure(MimeDSNRecipient r)
         {
             ISession session = SnCore.Data.Hibernate.Session.Factory.OpenSession();
             try
             {
                 LogDebug(string.Format("Searching for {0}.", r.FinalRecipientEmailAddress));
-
-                IList<AccountEmail> emails = session.CreateCriteria(typeof(AccountEmail))
-                    .Add(Expression.Eq("Address", r.FinalRecipientEmailAddress))
-                    .List<AccountEmail>();
-
-                if (emails != null)
-                {
-                    foreach (AccountEmail email in emails)
-                    {
-                        if (email.Failed)
-                            continue;
-
-                        Log(string.Format("Marked {0} [{1}] (id:{2}) with failure [{3}].",
-                            email.Account.Name, email.Address, email.Id, r.DiagnosticCode));
-
-                        // check whether there're pending invitations for this e-mail
-                        foreach (AccountEmailConfirmation confirmation in Collection<AccountEmailConfirmation>.GetSafeCollection(email.AccountEmailConfirmations))
-                        {
-                            session.Delete(confirmation);
-                        }
-
-                        email.Failed = true;
-                        email.LastError = r.DiagnosticCode;
-                        email.Modified = DateTime.UtcNow;
-                        session.Save(email);
-                        session.Flush();
-                    }
-                }
+                UpdateFailureEmails(r, session);
+                UpdateFailureInvitations(r, session);
             }
             finally
             {

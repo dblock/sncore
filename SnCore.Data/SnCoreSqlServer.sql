@@ -1300,6 +1300,8 @@ CREATE TABLE [dbo].[AccountInvitation](
 	[Code] [varchar](38) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Account_Id] [int] NOT NULL,
 	[Message] [text] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Failed] [bit] NOT NULL,
+	[LastError] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_AccountInvitation] PRIMARY KEY CLUSTERED 
 (
 	[AccountInvitation_Id] ASC

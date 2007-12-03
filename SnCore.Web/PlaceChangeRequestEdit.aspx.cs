@@ -122,7 +122,7 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 : string.Format("PlaceView.aspx?id={0}", place.Id));
         }
 
-        if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+        if (!SessionManager.HasVerifiedEmailAddress())
         {
             ReportWarning("You don't have any verified e-mail addresses.\n" +
                 "You must add/confirm a valid e-mail address before submitting place changes.");

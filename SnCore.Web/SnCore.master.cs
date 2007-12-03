@@ -73,7 +73,7 @@ public partial class SnCoreMasterPage : MasterPage
         get
         {
             string returnurl = Request["ReturnUrl"];
-            if (string.IsNullOrEmpty(returnurl)) returnurl = "Default.aspx";
+            if (string.IsNullOrEmpty(returnurl)) returnurl = "AccountManage.aspx";
             return returnurl;
         }
     }
@@ -87,10 +87,12 @@ public partial class SnCoreMasterPage : MasterPage
             menuSignUp.Visible = !SessionManager.IsLoggedIn;
             menuInvite.Visible = SessionManager.IsLoggedIn;
             menuLogin.Visible = !SessionManager.IsLoggedIn;
-            
+
+            string returnurl = Request.Url.PathAndQuery;
+            if (Request.Url.PathAndQuery.Contains("/AccountLogin.aspx")) returnurl = ReturnUrl;
+            if (Request.Url.PathAndQuery.Contains("/Default.aspx")) returnurl = "AccountManage.aspx";
             menuLogin.NavigateUrl = string.Format("AccountLogin.aspx?ReturnUrl={0}",
-                Renderer.UrlEncode(Request.Url.PathAndQuery.Contains("/AccountLogin.aspx") 
-                    ? ReturnUrl : Request.Url.PathAndQuery));
+                Renderer.UrlEncode(returnurl));
         }
         catch (Exception ex)
         {

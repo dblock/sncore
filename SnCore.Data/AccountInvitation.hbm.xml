@@ -10,5 +10,7 @@
     <property name="Email" column="Email" type="String" />
     <property name="Message" column="Message" type="StringClob" />
     <property name="Modified" column="Modified" type="DateTime" />
+    <property name="Failed" column="Failed" type="Boolean" />
+    <property name="LastError" column="LastError" type="String" />
   </class>
 </hibernate-mapping>

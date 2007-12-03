@@ -134,3 +134,13 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND name = N'LastError') 
 ALTER TABLE dbo.AccountEmail ADD [LastError] varchar(128) NULL
 GO
+-- create a failure option for AccountInvitation
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountInvitation]') AND name = N'Failed') 
+ALTER TABLE dbo.AccountInvitation ADD [Failed] bit NULL
+GO
+UPDATE dbo.AccountInvitation SET [Failed] = 0 WHERE Failed IS NULL
+ALTER TABLE dbo.AccountInvitation ALTER COLUMN [Failed] bit NOT NULL
+GO
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountInvitation]') AND name = N'LastError') 
+ALTER TABLE dbo.AccountInvitation ADD [LastError] varchar(128) NULL
+GO

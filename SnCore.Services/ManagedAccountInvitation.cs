@@ -109,6 +109,34 @@ namespace SnCore.Services
             }
         }
 
+        private bool mFailed = false;
+
+        public bool Failed
+        {
+            get
+            {
+                return mFailed;
+            }
+            set
+            {
+                mFailed = value;
+            }
+        }
+
+        private string mLastError;
+
+        public string LastError
+        {
+            get
+            {
+                return mLastError;
+            }
+            set
+            {
+                mLastError = value;
+            }
+        }
+
         public TransitAccountInvitation()
         {
 
@@ -129,6 +157,8 @@ namespace SnCore.Services
             Message = instance.Message;
             Created = instance.Created;
             Modified = instance.Modified;
+            LastError = instance.LastError;
+            Failed = instance.Failed;
             base.SetInstance(instance);
         }
 
@@ -144,6 +174,8 @@ namespace SnCore.Services
                 instance.Code = (sec.IsAdministrator() && !string.IsNullOrEmpty(this.Code)) ? this.Code : Guid.NewGuid().ToString();
                 instance.Message = this.Message;
                 instance.Account = GetOwner(session, AccountId, sec);
+                instance.Failed = this.Failed;
+                instance.LastError = this.LastError;
             }
 
             return instance;

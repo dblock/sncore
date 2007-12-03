@@ -20,6 +20,8 @@
         private System.String m_Email;
         private System.String m_Message;
         private System.DateTime m_Modified;
+        private System.Boolean m_Failed;
+        private System.String m_LastError;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -193,6 +195,56 @@
             set
             {
                 m_Modified = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Failed' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Failed' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean Failed
+        {
+            get
+            {
+                return m_Failed;
+            }
+            set
+            {
+                m_Failed = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_LastError' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'LastError' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.String LastError
+        {
+            get
+            {
+                return m_LastError;
+            }
+            set
+            {
+                m_LastError = value;
             }
         }
 

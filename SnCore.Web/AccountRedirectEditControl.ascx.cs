@@ -57,7 +57,7 @@ public partial class AccountRedirectEditControl : Control
                 linkSource.NavigateUrl = redirect.SourceUri;
             }
 
-            if (!SessionManager.AccountService.HasVerifiedEmail(SessionManager.Ticket, SessionManager.AccountId))
+            if (!SessionManager.HasVerifiedEmailAddress())
             {
                 inputSource.Enabled = false;
                 btnSave.Enabled = false;
