@@ -118,16 +118,26 @@ namespace SnCore.Services
 
         public List<TransitDiscussionPost> GetDiscussionPosts(ManagedSecurityContext sec)
         {
+            List<TransitDiscussionPost> sticky = new List<TransitDiscussionPost>();
             List<TransitDiscussionPost> result = new List<TransitDiscussionPost>();
             foreach (DiscussionPost post in Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionPosts))
             {
                 if (post.DiscussionPostParent == null)
                 {
                     ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session, post);
-                    result.Insert(0, m_post.GetTransitInstance(sec));
-                    result.InsertRange(1, m_post.GetPosts(sec));
+                    if (post.Sticky)
+                    {
+                        result.Insert(0, m_post.GetTransitInstance(sec));
+                        result.InsertRange(1, m_post.GetPosts(sec));
+                    }
+                    else
+                    {
+                        result.Insert(0, m_post.GetTransitInstance(sec));
+                        result.InsertRange(1, m_post.GetPosts(sec));
+                    }
                 }
             }
+            result.InsertRange(0, sticky);
             return result;
         }
 

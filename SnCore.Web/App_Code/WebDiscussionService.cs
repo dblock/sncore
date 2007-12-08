@@ -196,7 +196,7 @@ namespace SnCore.WebServices
         public List<TransitDiscussionPost> GetDiscussionThreadPostsByOrder(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("DiscussionThread.Id", id) };
-            Order[] orders = { Order.Desc("Created") };
+            Order[] orders = { Order.Desc("Sticky"), Order.Desc("Created") };
             return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
                 ticket, options, expressions, orders);
         }
@@ -299,7 +299,7 @@ namespace SnCore.WebServices
                     "   AND d.Discussion_Id = dt.Discussion_Id" +
                     "   AND d.Personal = 0" +
                     "   GROUP BY d.Discussion_Id" +
-                    " ) ORDER BY Post.Modified DESC",
+                    " ) ORDER BY Post.Sticky DESC, Post.Modified DESC",
                     "Post");
         }
 
@@ -314,7 +314,7 @@ namespace SnCore.WebServices
             return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetList(
                 ticket, options, string.Format(
                     "SELECT DiscussionPost FROM DiscussionPost DiscussionPost WHERE DiscussionPost.DiscussionThread.Discussion.Id = {0}" +
-                    " ORDER BY DiscussionPost.Created DESC", id));
+                    " ORDER BY DiscussionPost.Sticky DESC, DiscussionPost.Created DESC", id));
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace SnCore.WebServices
                         "  AND d.Discussion_Id = dt.Discussion_Id" +
                         "  AND d.Personal = 0" +
                         "  GROUP BY dt.DiscussionThread_Id" +
-                        " ) ORDER BY Post.Modified DESC",
+                        " ) ORDER BY Post.Sticky DESC, Post.Modified DESC",
                     "Post");
         }
 
@@ -395,7 +395,7 @@ namespace SnCore.WebServices
                         " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
                         " AND Post.DiscussionPostParent_Id IS NULL" +
                         " AND Discussion.Personal = 0" +
-                        " ORDER BY Thread.Modified DESC",
+                        " ORDER BY Post.Sticky DESC, Thread.Modified DESC",
                     "Post");
         }
 
@@ -426,7 +426,7 @@ namespace SnCore.WebServices
                         " AND Thread.Discussion_Id = Discussion.Discussion_Id" +
                         " AND Discussion.Discussion_Id = " + id.ToString() +
                         " AND Post.DiscussionPostParent_Id IS NULL" +
-                        " ORDER BY Thread.Modified DESC",
+                        " ORDER BY Post.Sticky DESC, Thread.Modified DESC",
                         "Post");
         }
 

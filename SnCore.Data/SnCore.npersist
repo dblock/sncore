@@ -746,6 +746,7 @@
     <property name="DiscussionThread" columns="DiscussionThread_Id" ref="OneToMany" inverse="DiscussionPosts" type="DiscussionThread" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Subject" columns="Subject" type="System.String" />
+    <property name="Sticky" columns="Sticky" type="System.Boolean" />
   </class>
   <class name="DiscussionThread" table="DiscussionThread">
     <property name="Id" id="true" columns="DiscussionThread_Id" type="System.Int32" />
@@ -1722,6 +1723,7 @@
       <column name="DiscussionThread_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="DiscussionThread" primary-column="DiscussionThread_Id" foreign-key="FK_DiscussionPost_DiscussionThread" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Subject" type="String" prec="256" allow-null="true" length="512" scale="0" />
+      <column name="Sticky" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="DiscussionThread">
       <column name="DiscussionThread_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

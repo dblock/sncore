@@ -3254,6 +3254,7 @@ CREATE TABLE [dbo].[DiscussionPost](
 	[Modified] [datetime] NOT NULL,
 	[Body] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Subject] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Sticky] [bit] NOT NULL,
  CONSTRAINT [PK_DiscussionPost] PRIMARY KEY CLUSTERED 
 (
 	[DiscussionPost_Id] ASC

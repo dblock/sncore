@@ -95,6 +95,16 @@
     <td>
     </td>
     <td class="sncore_form_value">
+     <asp:CheckBox ID="inputSticky" runat="server" Checked="true" Text="Sticky" />
+     <div class="sncore_description">
+      message will stick to the top of the discussion when checked
+     </div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+    </td>
+    <td class="sncore_form_value">
      <SnCoreWebControls:Button ID="post" runat="server" Text="Post" CausesValidation="true"
       CssClass="sncore_form_button" OnClick="post_Click" OnClientClick="WebForm_OnSubmit();" />
     </td>

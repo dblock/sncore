@@ -246,6 +246,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mCanUpdate = false;
+
+        public bool CanUpdate
+        {
+            get
+            {
+                return mCanUpdate;
+            }
+            set
+            {
+                mCanUpdate = value;
+            }
+        }
+
         public TransitDiscussion()
         {
 
@@ -549,7 +563,15 @@ namespace SnCore.Services
                 foreach (DiscussionThread thread in mInstance.DiscussionThreads)
                 {
                     ManagedDiscussionThread m_thread = new ManagedDiscussionThread(Session, thread);
-                    result.AddRange(m_thread.GetDiscussionPosts(sec));
+                    List<TransitDiscussionPost> t_posts = m_thread.GetDiscussionPosts(sec);
+                    if (t_posts.Count > 0 && t_posts[0].Sticky)
+                    {
+                        result.InsertRange(0, t_posts);
+                    }
+                    else
+                    {
+                        result.AddRange(t_posts);
+                    }
                 }
             }
             return result;
@@ -560,6 +582,7 @@ namespace SnCore.Services
             TransitDiscussion t_instance = base.GetTransitInstance(sec);
             t_instance.PostCount = GetDiscussionPostCount(Session, Id);
             t_instance.ThreadCount = GetDiscussionThreadCount(Session, Id);
+            t_instance.CanUpdate = GetACL().TryCheck(sec, DataOperation.Update);
 
             if (t_instance.Personal && t_instance.ObjectId > 0)
             {

@@ -41,6 +41,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             t_instance.Body = GetNewString();
             t_instance.DiscussionId = _discussion_id;
             t_instance.Subject = GetNewString();
+            t_instance.Sticky = false;
             return t_instance;
         }
 
@@ -167,6 +168,90 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
                 EndPoint.DeleteDiscussionPost(GetAdminTicket(), id);
             }
 
+            DeleteUser(user.id);
+        }
+
+        [Test]
+        public void DiscussionPostStickynessAdminTest()
+        {
+            // check that the system admin can create and flip the stickyness of the post
+            WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetAdminTicket(), t_post);
+            Console.WriteLine("Post: {0}", t_post.Id);
+            WebDiscussionService.TransitDiscussionPost t_post_copy = EndPoint.GetDiscussionPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            t_post.Sticky = true;
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetAdminTicket(), t_post);
+            t_post_copy = EndPoint.GetDiscussionPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(true, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);            
+            t_post.Sticky = false;
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetAdminTicket(), t_post);
+            t_post_copy = EndPoint.GetDiscussionPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            EndPoint.DeleteDiscussionPost(GetAdminTicket(), t_post.Id);
+        }
+
+        [Test]
+        public void DiscussionPostStickynessDiscussionOwnerTest()
+        {
+            WebDiscussionService.TransitDiscussion t_discussion = new WebDiscussionService.TransitDiscussion();
+            t_discussion.Name = GetNewString();
+            t_discussion.Personal = false;
+            t_discussion.Description = GetNewString();
+            t_discussion.Id = EndPoint.CreateOrUpdateDiscussion(GetUserTicket(), t_discussion);
+            // check that the discussion admin can create and flip the stickyness of the post
+            WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
+            t_post.DiscussionId = t_discussion.Id;
+            t_post.AccountId = GetUserAccount().Id;
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
+            Console.WriteLine("Post: {0}", t_post.Id);
+            WebDiscussionService.TransitDiscussionPost t_post_copy = EndPoint.GetDiscussionPostById(GetUserTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            t_post.Sticky = true;
+            // check that a regular user cannot flip the post stickyness
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
+            try
+            {
+                EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
+                Assert.IsTrue(false, "Expected an access denied.");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Expected exception: {0}", ex.Message);
+                Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
+            }
+            // check the that discussion admin can
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
+            t_post_copy = EndPoint.GetDiscussionPostById(GetUserTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(true, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            t_post.Sticky = false;
+            try
+            {
+                EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
+                Assert.IsTrue(false, "Expected an access denied.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Expected exception: {0}", ex.Message);
+                Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
+            }
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
+            t_post_copy = EndPoint.GetDiscussionPostById(GetUserTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            EndPoint.DeleteDiscussionPost(GetUserTicket(), t_post.Id);
+            EndPoint.DeleteDiscussion(GetUserTicket(), t_discussion.Id);
             DeleteUser(user.id);
         }
     }

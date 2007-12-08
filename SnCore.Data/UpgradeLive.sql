@@ -144,3 +144,10 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountInvitation]') AND name = N'LastError') 
 ALTER TABLE dbo.AccountInvitation ADD [LastError] varchar(128) NULL
 GO
+-- create a sticky option for DiscussionPost
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'Sticky') 
+ALTER TABLE dbo.DiscussionPost ADD [Sticky] bit NULL
+GO
+UPDATE dbo.DiscussionPost SET [Sticky] = 0 WHERE Sticky IS NULL
+ALTER TABLE dbo.DiscussionPost ALTER COLUMN [Sticky] bit NOT NULL
+GO

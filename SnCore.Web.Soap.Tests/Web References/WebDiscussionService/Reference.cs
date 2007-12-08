@@ -54,6 +54,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private System.Threading.SendOrPostCallback GetDiscussionThreadPostsCountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetDiscussionThreadPostsByOrderOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetDiscussionThreadPostsOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateDiscussionPostOperationCompleted;
@@ -170,6 +172,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         /// <remarks/>
         public event GetDiscussionThreadPostsCountCompletedEventHandler GetDiscussionThreadPostsCountCompleted;
+        
+        /// <remarks/>
+        public event GetDiscussionThreadPostsByOrderCompletedEventHandler GetDiscussionThreadPostsByOrderCompleted;
         
         /// <remarks/>
         public event GetDiscussionThreadPostsCompletedEventHandler GetDiscussionThreadPostsCompleted;
@@ -579,6 +584,39 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             if ((this.GetDiscussionThreadPostsCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetDiscussionThreadPostsCountCompleted(this, new GetDiscussionThreadPostsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetDiscussionThreadPostsByOrder", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitDiscussionPost[] GetDiscussionThreadPostsByOrder(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetDiscussionThreadPostsByOrder", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitDiscussionPost[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetDiscussionThreadPostsByOrderAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetDiscussionThreadPostsByOrderAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetDiscussionThreadPostsByOrderAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetDiscussionThreadPostsByOrderOperationCompleted == null)) {
+                this.GetDiscussionThreadPostsByOrderOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDiscussionThreadPostsByOrderOperationCompleted);
+            }
+            this.InvokeAsync("GetDiscussionThreadPostsByOrder", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetDiscussionThreadPostsByOrderOperationCompleted, userState);
+        }
+        
+        private void OnGetDiscussionThreadPostsByOrderOperationCompleted(object arg) {
+            if ((this.GetDiscussionThreadPostsByOrderCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetDiscussionThreadPostsByOrderCompleted(this, new GetDiscussionThreadPostsByOrderCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1358,6 +1396,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private string parentObjectTypeField;
         
+        private string defaultViewField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -1475,6 +1515,16 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             }
             set {
                 this.parentObjectTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string DefaultView {
+            get {
+                return this.defaultViewField;
+            }
+            set {
+                this.defaultViewField = value;
             }
         }
     }
@@ -1665,6 +1715,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private int repliesCountField;
         
+        private bool stickyField;
+        
         /// <remarks/>
         public bool CanEdit {
             get {
@@ -1832,6 +1884,16 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             }
             set {
                 this.repliesCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Sticky {
+            get {
+                return this.stickyField;
+            }
+            set {
+                this.stickyField = value;
             }
         }
     }
@@ -2129,6 +2191,32 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetDiscussionThreadPostsByOrderCompletedEventHandler(object sender, GetDiscussionThreadPostsByOrderCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetDiscussionThreadPostsByOrderCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetDiscussionThreadPostsByOrderCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitDiscussionPost[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitDiscussionPost[])(this.results[0]));
             }
         }
     }

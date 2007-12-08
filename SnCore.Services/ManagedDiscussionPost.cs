@@ -272,6 +272,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mSticky = false;
+
+        public bool Sticky
+        {
+            get
+            {
+                return mSticky;
+            }
+            set
+            {
+                mSticky = value;
+            }
+        }
+
         public TransitDiscussionPost()
         {
 
@@ -310,6 +324,7 @@ namespace SnCore.Services
 
             instance.Body = this.Body;
             instance.Subject = this.Subject;
+            instance.Sticky = this.Sticky;
             return instance;
         }
 
@@ -333,6 +348,7 @@ namespace SnCore.Services
             Subject = instance.Subject;
             Created = instance.Created;
             Modified = instance.Modified;
+            Sticky = instance.Sticky;
             Level = 0;
             DiscussionPost parent = instance.DiscussionPostParent;
             while (parent != null && parent != instance)
@@ -407,13 +423,23 @@ namespace SnCore.Services
                 return new List<TransitDiscussionPost>();
 
             List<TransitDiscussionPost> result = new List<TransitDiscussionPost>(mInstance.DiscussionPosts.Count);
+            List<TransitDiscussionPost> sticky = new List<TransitDiscussionPost>();
             foreach (DiscussionPost post in Collection<DiscussionPost>.GetSafeCollection(mInstance.DiscussionPosts))
             {
                 ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session, post);
-                result.Insert(0, m_post.GetTransitInstance(sec));
-                result.InsertRange(1, m_post.GetPosts(sec));
+                if (post.Sticky)
+                {
+                    sticky.Insert(0, m_post.GetTransitInstance(sec));
+                    sticky.InsertRange(1, m_post.GetPosts(sec));
+                }
+                else
+                {
+                    result.Insert(0, m_post.GetTransitInstance(sec));
+                    result.InsertRange(1, m_post.GetPosts(sec));
+                }
             }
 
+            result.InsertRange(0, sticky);
             return result;
         }
 
@@ -421,6 +447,18 @@ namespace SnCore.Services
         {
             Nullable<DateTime> lastModified = new Nullable<DateTime>();
             if (mInstance != null) lastModified = mInstance.Modified;
+
+            // discussion admin can update stickyness
+            bool fStickyModified = false;
+            if (mInstance != null && mInstance.Sticky != t_instance.Sticky) fStickyModified = true;
+            if (mInstance == null && t_instance.Sticky) fStickyModified = true;
+            if (fStickyModified)
+            {
+                ManagedDiscussion m_discussion = new ManagedDiscussion(Session, mInstance != null 
+                    ? mInstance.DiscussionThread.Discussion.Id 
+                    : t_instance.DiscussionId);
+                m_discussion.GetACL().Check(sec, DataOperation.Update);
+            }
 
             int id = base.CreateOrUpdate(t_instance, sec);
 

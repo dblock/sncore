@@ -23,6 +23,9 @@
      <div class="sncore_message">
       <div class="sncore_message_subject" style='<%# (int) Eval("Level") != 0 || (string) Eval("Subject") == "Untitled" ? "display: none;" : ""%>'>
        <%# base.Render(Eval("Subject")) %>
+       <span>
+        <%# ((bool) Eval("Sticky")) ? "<img src='images/buttons/sticky.gif' valign='absmiddle'>" : "" %>
+       </span>
       </div>
       <div class="sncore_person">
        <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">

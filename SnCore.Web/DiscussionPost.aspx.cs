@@ -84,6 +84,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
                     SessionManager.Ticket, DiscussionId);
 
+                inputSticky.Enabled = td.CanUpdate;
+
                 if (!string.IsNullOrEmpty(td.ParentObjectName))
                 {
                     sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, Request, td.ParentObjectUri));
@@ -106,6 +108,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 TransitDiscussionPost tw = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
                 titleNewPost.Text = Renderer.Render(tw.Subject);
                 inputSubject.Text = tw.Subject;
+                inputSticky.Checked = tw.Sticky;
                 body.Append(tw.Body);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Subject, Request.Url));
             }
@@ -168,6 +171,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
         tw.Id = PostId;
         tw.DiscussionPostParentId = ParentId;
         tw.DiscussionId = DiscussionId;
+        if (inputSticky.Enabled) tw.Sticky = inputSticky.Checked;
         SessionManager.CreateOrUpdate<TransitDiscussionPost>(
             tw, SessionManager.DiscussionService.CreateOrUpdateDiscussionPost);
         SessionManager.InvalidateCache<TransitDiscussion>();
