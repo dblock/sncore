@@ -3197,6 +3197,7 @@ CREATE TABLE [dbo].[Discussion](
 	[Personal] [bit] NOT NULL CONSTRAINT [DF_Discussion_Private]  DEFAULT ((0)),
 	[Object_Id] [int] NOT NULL,
 	[DefaultView] [nvarchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[DataObject_Id] [int] NULL,
  CONSTRAINT [PK_Discussion] PRIMARY KEY CLUSTERED 
 (
 	[Discussion_Id] ASC
@@ -3205,7 +3206,8 @@ CREATE TABLE [dbo].[Discussion](
 (
 	[Name] ASC,
 	[Account_Id] ASC,
-	[Object_Id] ASC
+	[Object_Id] ASC,
+	[DataObject_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
@@ -3236,7 +3238,8 @@ ALTER TABLE [dbo].[Discussion] ADD  CONSTRAINT [UK_Discussion] UNIQUE NONCLUSTER
 (
 	[Name] ASC,
 	[Account_Id] ASC,
-	[Object_Id] ASC
+	[Object_Id] ASC,
+	[DataObject_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
@@ -3263,6 +3266,13 @@ CREATE TABLE [dbo].[DiscussionPost](
 END
 GO
 
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'IX_DiscussionPost_Sticky')
+CREATE NONCLUSTERED INDEX [IX_DiscussionPost_Sticky] ON [dbo].[DiscussionPost] 
+(
+	[Sticky] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'IX_DiscussionThread_Id')
 CREATE NONCLUSTERED INDEX [IX_DiscussionThread_Id] ON [dbo].[DiscussionPost] 
 (
@@ -3284,6 +3294,12 @@ CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
 KEY INDEX [PK_DiscussionPost] ON [SnCore]
 WITH CHANGE_TRACKING AUTO
 
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'IX_DiscussionPost_Sticky')
+CREATE NONCLUSTERED INDEX [IX_DiscussionPost_Sticky] ON [dbo].[DiscussionPost] 
+(
+	[Sticky] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DiscussionPost]') AND name = N'IX_DiscussionThread_Id')
 CREATE NONCLUSTERED INDEX [IX_DiscussionThread_Id] ON [dbo].[DiscussionPost] 
@@ -5364,6 +5380,18 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Account]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
+ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+GO
+ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_DataObject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Discussion]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
+ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Discussion] FOREIGN KEY([Discussion_Id])
+REFERENCES [dbo].[Discussion] ([Discussion_Id])
+GO
+ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Discussion]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionPost]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
 ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionPost] FOREIGN KEY([DiscussionPostParent_Id])
 REFERENCES [dbo].[DiscussionPost] ([DiscussionPost_Id])
@@ -6220,6 +6248,18 @@ REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Account]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
+ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_DataObject] FOREIGN KEY([DataObject_Id])
+REFERENCES [dbo].[DataObject] ([DataObject_Id])
+GO
+ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_DataObject]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Discussion]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
+ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Discussion] FOREIGN KEY([Discussion_Id])
+REFERENCES [dbo].[Discussion] ([Discussion_Id])
+GO
+ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Discussion]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DiscussionPost_DiscussionPost]') AND parent_object_id = OBJECT_ID(N'[dbo].[DiscussionPost]'))
 ALTER TABLE [dbo].[DiscussionPost]  WITH CHECK ADD  CONSTRAINT [FK_DiscussionPost_DiscussionPost] FOREIGN KEY([DiscussionPostParent_Id])

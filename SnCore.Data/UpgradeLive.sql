@@ -151,3 +151,40 @@ GO
 UPDATE dbo.DiscussionPost SET [Sticky] = 0 WHERE Sticky IS NULL
 ALTER TABLE dbo.DiscussionPost ALTER COLUMN [Sticky] bit NOT NULL
 GO
+-- Discussions that belong to specific objects are no longer identified by name, but by DataObject_Id
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Discussion]') AND name = N'DataObject_Id') 
+BEGIN
+ALTER TABLE dbo.Discussion ADD [DataObject_Id] int NULL
+ALTER TABLE dbo.Discussion DROP CONSTRAINT [UK_Discussion]
+END
+GO
+CREATE PROCEDURE dbo.[sp_migrate_discussion_post]
+	  @data_object_name VARCHAR(128)
+	, @discussion_name VARCHAR(128)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	DECLARE @comments_id int
+	SELECT @comments_id = DataObject_Id FROM DataObject WHERE [Name] = @data_object_name
+	UPDATE Discussion SET DataObject_Id = @comments_id
+	 WHERE [DataObject_Id] IS NULL 
+	 AND [Name] = @discussion_name 
+	 AND [Object_Id] != 0 
+	 AND [Personal] = 1
+END
+GO
+EXEC [sp_migrate_discussion_post] @data_object_name = 'Picture', @discussion_name = 'Picture Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'Story', @discussion_name = 'Story Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'Place', @discussion_name = 'Place Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'Account', @discussion_name = 'Testimonials'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'PlacePicture', @discussion_name = 'Place Picture Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountFeedItem', @discussion_name = 'Feed Entry Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountBlogPost', @discussion_name = 'Blog Post Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountStoryPicture', @discussion_name = 'Story Picture Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountEvent', @discussion_name = 'Event Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountEventPicture', @discussion_name = 'Event Picture Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountGroupPicture', @discussion_name = 'Group Picture Comments'
+EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountGroup', @discussion_name = 'Group Discussion'
+GO
+DROP PROCEDURE [sp_migrate_discussion_post]
+GO

@@ -23,6 +23,7 @@
         private System.Int32 m_ObjectId;
         private System.Boolean m_Personal;
         private System.String m_DefaultView;
+        private DataObject m_DataObject;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -278,6 +279,33 @@
             set
             {
                 m_DefaultView = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'DataObject'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'DataObject.Discussions'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_DataObject' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'DataObject_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public DataObject DataObject
+        {
+            get
+            {
+                return m_DataObject;
+            }
+            set
+            {
+                m_DataObject = value;
             }
         }
 

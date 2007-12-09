@@ -153,7 +153,7 @@ namespace SnCore.Services
             ManagedDiscussionMapEntry mapentry = null;
             ACL acl = null;
 
-            if (mInstance.Discussion.Personal && ManagedDiscussionMap.TryFind(mInstance.Discussion.Name, out mapentry))
+            if (mInstance.Discussion.Personal && ManagedDiscussionMap.TryFind(mInstance.Discussion.DataObject, out mapentry))
             {
                 acl = mapentry.GetACL(Session, mInstance.Discussion.ObjectId, typeof(DiscussionThread));
             }

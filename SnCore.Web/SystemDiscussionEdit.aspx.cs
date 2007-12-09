@@ -39,7 +39,6 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
                 TransitDiscussion tw = SessionManager.DiscussionService.GetDiscussionById(
                     SessionManager.Ticket, id);
                 inputName.Text = Renderer.Render(tw.Name);
-                if (tw.Personal) inputName.Enabled = false;
                 inputDescription.Text = Renderer.Render(tw.Description);
                 ListItem defaultview = inputDefaultView.Items.FindByValue(tw.DefaultView);
                 if (defaultview != null) 

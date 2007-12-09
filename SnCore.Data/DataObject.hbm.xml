@@ -21,5 +21,9 @@
       <key column="DataObject_Id" />
       <one-to-many class="AccountQuota, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="Discussions" inverse="true">
+      <key column="DataObject_Id" />
+      <one-to-many class="Discussion, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

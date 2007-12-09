@@ -61,7 +61,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -112,6 +111,20 @@ namespace SnCore.Services
             set
             {
                 mObjectId = value;
+            }
+        }
+
+        private int mDataObjectId;
+
+        public int DataObjectId
+        {
+            get
+            {
+                return mDataObjectId;
+            }
+            set
+            {
+                mDataObjectId = value;
             }
         }
 
@@ -280,6 +293,7 @@ namespace SnCore.Services
             Modified = instance.Modified;
             Personal = instance.Personal;
             ObjectId = instance.ObjectId;
+            DataObjectId = (instance.DataObject != null ? instance.DataObject.Id : 0);
             DefaultView = instance.DefaultView;
             base.SetInstance(instance);
         }
@@ -293,6 +307,7 @@ namespace SnCore.Services
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.Personal = this.Personal;
                 instance.ObjectId = this.ObjectId;
+                if (this.DataObjectId != 0) instance.DataObject = session.Load<DataObject>(this.DataObjectId);
             }
 
             instance.Name = this.Name;
@@ -370,10 +385,10 @@ namespace SnCore.Services
 
         public static int GetDiscussionThreadCount(ISession session, int accountid, Type type, int objectid)
         {
-            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
-
+            DataObject dataobject = ManagedDataObject.FindObject(session, type);
+            
             Discussion existingtagdiscussion = (Discussion)session.CreateCriteria(typeof(Discussion))
-                .Add(Expression.Eq("Name", mapentry.Name))
+                .Add(Expression.Eq("DataObject.Id", dataobject.Id))
                 .Add(Expression.Eq("Account.Id", accountid))
                 .Add(Expression.Eq("ObjectId", (objectid == 0) ? null : (object)objectid))
                 .Add(Expression.Eq("Personal", true))
@@ -387,10 +402,10 @@ namespace SnCore.Services
 
         public static int GetDiscussionPostCount(ISession session, int accountid, Type type, int objectid)
         {
-            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
+            DataObject dataobject = ManagedDataObject.FindObject(session, type);
 
             Discussion existingtagdiscussion = (Discussion)session.CreateCriteria(typeof(Discussion))
-                .Add(Expression.Eq("Name", mapentry.Name))
+                .Add(Expression.Eq("DataObject.Id", dataobject.Id))
                 .Add(Expression.Eq("Account.Id", accountid))
                 .Add(Expression.Eq("ObjectId", (objectid == 0) ? null : (object)objectid))
                 .Add(Expression.Eq("Personal", true))
@@ -445,11 +460,11 @@ namespace SnCore.Services
             int objectid,
             ManagedSecurityContext sec)
         {
-            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(type);
+            DataObject dataobject = ManagedDataObject.FindObject(session, type);
 
             Discussion instance = (Discussion)
                 session.CreateCriteria(typeof(Discussion))
-                    .Add(Expression.Eq("Name", mapentry.Name))
+                    .Add(Expression.Eq("DataObject.Id", dataobject.Id))
                     .Add(Expression.Eq("Account.Id", accountid))
                     .Add(Expression.Eq("ObjectId", objectid))
                     .Add(Expression.Eq("Personal", true))
@@ -516,6 +531,7 @@ namespace SnCore.Services
             td.Description = string.Empty;
             td.Created = td.Modified = DateTime.UtcNow;
             td.ObjectId = objectid;
+            td.DataObjectId = ManagedDataObject.Find(session, type);
 
             // creating a discussion that belongs to a different user (commenting on someone's items)
             ManagedDiscussion m_d = new ManagedDiscussion(session);
@@ -541,7 +557,7 @@ namespace SnCore.Services
             ManagedDiscussionMapEntry mapentry = null;
             ACL acl = null;
 
-            if (mInstance.Personal && ManagedDiscussionMap.TryFind(mInstance.Name, out mapentry))
+            if (mInstance.Personal && ManagedDiscussionMap.TryFind(mInstance.DataObject, out mapentry))
             {
                 acl = mapentry.GetACL(Session, mInstance.ObjectId, typeof(Discussion));
             }
@@ -583,12 +599,12 @@ namespace SnCore.Services
             t_instance.PostCount = GetDiscussionPostCount(Session, Id);
             t_instance.ThreadCount = GetDiscussionThreadCount(Session, Id);
             t_instance.CanUpdate = GetACL().TryCheck(sec, DataOperation.Update);
+            t_instance.DataObjectId = (mInstance.DataObject != null ? mInstance.DataObject.Id : 0);
 
-            if (t_instance.Personal && t_instance.ObjectId > 0)
+            if (t_instance.Personal && t_instance.ObjectId > 0 && mInstance.DataObject != null)
             {
                 ManagedDiscussionMapEntry mapentry;
-
-                if (ManagedDiscussionMap.TryFind(Name, out mapentry))
+                if (ManagedDiscussionMap.TryFind(mInstance.DataObject, out mapentry))
                 {
                     t_instance.ParentObjectName = mapentry.GetObjectName(Session, t_instance.ObjectId);
                     t_instance.ParentObjectType = mapentry.Type.Name;

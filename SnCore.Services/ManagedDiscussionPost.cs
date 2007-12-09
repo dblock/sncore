@@ -517,7 +517,7 @@ namespace SnCore.Services
             ACL acl = null;
 
             if (mInstance.DiscussionThread.Discussion.Personal &&
-                ManagedDiscussionMap.TryFind(mInstance.DiscussionThread.Discussion.Name, out mapentry))
+                ManagedDiscussionMap.TryFind(mInstance.DiscussionThread.Discussion.DataObject, out mapentry))
             {
                 acl = mapentry.GetACL(Session, mInstance.DiscussionThread.Discussion.ObjectId, typeof(DiscussionPost));
                 if (mInstance.Id > 0) acl.Add(new ACLAccountId(mInstance.AccountId, DataOperation.All));

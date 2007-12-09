@@ -111,8 +111,7 @@ public partial class AccountGroupView : Page
             panelGroupAdmin.Visible = fGroupAdmin;
 
             // text
-            accountgroupName.Text = Renderer.Render(AccountGroup.Name);
-            accountgroupDescription.Text = Renderer.RenderEx(AccountGroup.Description);
+            titleGroup.Text = Renderer.Render(AccountGroup.Name);
 
             // action
             string action = Request["action"];
@@ -271,5 +270,11 @@ public partial class AccountGroupView : Page
             }
             return mAccountGroupFeature;
         }
+    }
+
+    public string GetGroupDescription()
+    {
+        if (AccountGroup == null) return string.Empty;
+        return Renderer.RenderEx(AccountGroup.Description);
     }
 }

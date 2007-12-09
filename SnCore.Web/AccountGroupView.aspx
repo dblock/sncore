@@ -15,29 +15,28 @@
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountGroupPicturesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
    <tr>
-    <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
+    <td class="sncore_table_tr_td_images">
      <SnCore:PicturesView id="picturesView" runat="server" />
     </td>
     <td valign="top" width="*">
-     <table class="sncore_inner_table" width="95%">
+     <table width="95%">
       <tr>
        <td class="sncore_table_tr_td">
-        <asp:Label CssClass="sncore_account_name" ID="accountgroupName" runat="server" />
+        <SnCore:Title ID="titleGroup" Text="Group" runat="server" ExpandedSize="250">  
+         <Template>
+          <div class="sncore_title_paragraph">
+           <% Response.Write(GetGroupDescription()); %>
+          </div>
+         </Template>
+        </SnCore:Title>
         <div>
          <SnCore:RedirectView id="redirect" runat="server" />
-        </div>
-        <div class="sncore_description">
-         <asp:Label ID="accountgroupDescription" runat="server" />
-        </div>
-        <!-- NOEMAIL-START -->
-         <div class="sncore_description">
-          group views: <SnCore:CounterView ID="counterAccountGroupViews" runat="server" />
-         </div>
-        <!-- NOEMAIL-END -->
+        </div>     
        </td>
        <td align="right" valign="middle">
         <SnCore:RssLink ID="linkRelRss" runat="server" NavigateUrl="AccountGroupRss.aspx" />
@@ -94,8 +93,12 @@
        </td>
       </tr>
      </table>
+     <!-- NOEMAIL-START -->
      <table class="sncore_inner_table" width="95%">
       <tr>
+       <td class="sncore_table_tr_td" style="font-size: smaller;">
+        views: <SnCore:CounterView ID="counterAccountGroupViews" runat="server" />
+       </td>
        <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
         socially bookmark this group:
        </td>
@@ -104,6 +107,7 @@
        </td>
       </tr>
      </table>
+     <!-- NOEMAIL-END -->
      <SnCore:Notice ID="noticeInfo" runat="server" />
      <a name="discuss"></a>
      <SnCore:BlogView runat="server" ID="blogView" />

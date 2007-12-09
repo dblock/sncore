@@ -80,11 +80,21 @@ namespace SnCore.Services
             }
         }
 
+        public static DataObject FindObject(ISession session, Type type)
+        {
+            return FindObject(session, type.Name);
+        }
+
         public static DataObject FindObject(ISession session, string name)
         {
             return (DataObject)session.CreateCriteria(typeof(DataObject))
                 .Add(Expression.Eq("Name", name))
                 .UniqueResult();
+        }
+
+        public static int Find(ISession session, Type type)
+        {
+            return Find(session, type.Name);
         }
 
         public static int Find(ISession session, string name)

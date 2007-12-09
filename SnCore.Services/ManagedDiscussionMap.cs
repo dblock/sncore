@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SnCore.Data;
 using NHibernate;
+using System.Reflection;
 
 namespace SnCore.Services
 {
@@ -210,6 +211,27 @@ namespace SnCore.Services
 
         #endregion
 
+        private static Dictionary<Type, ManagedDiscussionMapEntry> s_GlobalTypeMap = null;
+        
+        private static void CreateTypeMap()
+        {
+            if (s_GlobalTypeMap != null)
+                return;
+
+            lock (GlobalMap)
+            {
+                if (s_GlobalTypeMap != null)
+                    return;
+
+                s_GlobalTypeMap = new Dictionary<Type, ManagedDiscussionMapEntry>();
+                
+                foreach (ManagedDiscussionMapEntry entry in GlobalMap)
+                {
+                    s_GlobalTypeMap[entry.Type] = entry;
+                }
+            }
+        }
+
         public static ManagedDiscussionMapEntry[] GlobalMap =
         {
             new ManagedDiscussionMapEntry<AccountPicture>(GetOwnerId, GetObjectName, GetACL, 
@@ -238,29 +260,39 @@ namespace SnCore.Services
                 "Group Discussion", string.Empty, "AccountGroupView.aspx?id={0}")
         };
 
-        public static ManagedDiscussionMapEntry Find(string name)
+        public static ManagedDiscussionMapEntry Find(ISession session, int dataobject_id)
         {
-            ManagedDiscussionMapEntry entry;
-            if (TryFind(name, out entry))
-                return entry;
-
-            throw new Exception(string.Format("Missing Discussion Map for {0}", name));
+            DataObject dataobject = session.Load<DataObject>(dataobject_id);
+            return Find(dataobject);
         }
 
-        public static bool TryFind(string name, out ManagedDiscussionMapEntry result)
+        public static bool TryFind(ISession session, int dataobject_id, out ManagedDiscussionMapEntry result)
         {
-            result = null;
+            DataObject dataobject = session.Load<DataObject>(dataobject_id);
+            return TryFind(dataobject, out result);
+        }
 
-            foreach (ManagedDiscussionMapEntry entry in GlobalMap)
+        public static ManagedDiscussionMapEntry Find(DataObject dataobject)
+        {
+            if (dataobject == null)
             {
-                if (entry.Name == name)
-                {
-                    result = entry;
-                    return true;
-                }
+                throw new Exception("Missing Discussion Map for a unreferenced data object");
             }
 
-            return false;
+            ManagedDiscussionMapEntry entry;
+            if (TryFind(dataobject, out entry))
+                return entry;
+
+            throw new Exception(string.Format("Missing Discussion Map for {0}", dataobject.Name));
+        }
+
+        public static bool TryFind(DataObject dataobject, out ManagedDiscussionMapEntry result)
+        {
+            result = null;
+            if (dataobject == null) return false;
+            CreateTypeMap();
+            Type t = Assembly.GetAssembly(typeof(DataObject)).GetType(dataobject.Name, true);
+            return s_GlobalTypeMap.TryGetValue(t, out result);
         }
 
         public static ManagedDiscussionMapEntry Find(Type type)
@@ -274,18 +306,8 @@ namespace SnCore.Services
 
         public static bool TryFind(Type type, out ManagedDiscussionMapEntry result)
         {
-            result = null;
-
-            foreach (ManagedDiscussionMapEntry entry in GlobalMap)
-            {
-                if (entry.Type == type)
-                {
-                    result = entry;
-                    return true;
-                }
-            }
-
-            return false;
+            CreateTypeMap();
+            return s_GlobalTypeMap.TryGetValue(type, out result);
         }
     }
 }

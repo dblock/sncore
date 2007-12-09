@@ -16,5 +16,6 @@
     <property name="ObjectId" column="Object_Id" type="Int32" />
     <property name="Personal" column="Personal" type="Boolean" />
     <property name="DefaultView" column="DefaultView" type="String" />
+    <many-to-one name="DataObject" column="DataObject_Id" class="DataObject, SnCore.Data" />
   </class>
 </hibernate-mapping>

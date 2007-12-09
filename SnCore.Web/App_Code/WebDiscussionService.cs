@@ -59,8 +59,12 @@ namespace SnCore.WebServices
         {
             TransitDiscussion td = GetDiscussionById(ticket, id);
             if (!td.Personal) throw new Exception(string.Format("Discussion {0} is not Personal", td.Name));
-            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(td.Name);
-            return string.Format(mapentry.DiscussionUriFormat, td.ObjectId);
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(session, td.DataObjectId);
+                return string.Format(mapentry.DiscussionUriFormat, td.ObjectId);
+            }
         }
 
         /// <summary>
@@ -74,8 +78,12 @@ namespace SnCore.WebServices
         {
             TransitDiscussion td = GetDiscussionById(ticket, id);
             if (!td.Personal) throw new Exception(string.Format("Discussion {0} is not Personal", td.Name));
-            ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(td.Name);
-            return string.Format(mapentry.ThreadUriFormat, td.ObjectId);
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedDiscussionMapEntry mapentry = ManagedDiscussionMap.Find(session, td.DataObjectId);
+                return string.Format(mapentry.ThreadUriFormat, td.ObjectId);
+            }
         }
 
         #endregion

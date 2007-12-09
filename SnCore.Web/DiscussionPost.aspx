@@ -95,7 +95,7 @@
     <td>
     </td>
     <td class="sncore_form_value">
-     <asp:CheckBox ID="inputSticky" runat="server" Checked="true" Text="Sticky" />
+     <asp:CheckBox ID="inputSticky" runat="server" Checked="false" Text="Sticky" />
      <div class="sncore_description">
       message will stick to the top of the discussion when checked
      </div>
