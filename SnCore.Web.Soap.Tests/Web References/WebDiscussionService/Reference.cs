@@ -34,6 +34,10 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private System.Threading.SendOrPostCallback GetOrCreateDiscussionIdOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetDiscussionsByObjectIdCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetDiscussionsByObjectIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetDiscussionRedirectUriOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetThreadRedirectUriOperationCompleted;
@@ -142,6 +146,12 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         /// <remarks/>
         public event GetOrCreateDiscussionIdCompletedEventHandler GetOrCreateDiscussionIdCompleted;
+        
+        /// <remarks/>
+        public event GetDiscussionsByObjectIdCountCompletedEventHandler GetDiscussionsByObjectIdCountCompleted;
+        
+        /// <remarks/>
+        public event GetDiscussionsByObjectIdCompletedEventHandler GetDiscussionsByObjectIdCompleted;
         
         /// <remarks/>
         public event GetDiscussionRedirectUriCompletedEventHandler GetDiscussionRedirectUriCompleted;
@@ -275,6 +285,74 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             if ((this.GetOrCreateDiscussionIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetOrCreateDiscussionIdCompleted(this, new GetOrCreateDiscussionIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetDiscussionsByObjectIdCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetDiscussionsByObjectIdCount(string ticket, string typename, int id) {
+            object[] results = this.Invoke("GetDiscussionsByObjectIdCount", new object[] {
+                        ticket,
+                        typename,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetDiscussionsByObjectIdCountAsync(string ticket, string typename, int id) {
+            this.GetDiscussionsByObjectIdCountAsync(ticket, typename, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetDiscussionsByObjectIdCountAsync(string ticket, string typename, int id, object userState) {
+            if ((this.GetDiscussionsByObjectIdCountOperationCompleted == null)) {
+                this.GetDiscussionsByObjectIdCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDiscussionsByObjectIdCountOperationCompleted);
+            }
+            this.InvokeAsync("GetDiscussionsByObjectIdCount", new object[] {
+                        ticket,
+                        typename,
+                        id}, this.GetDiscussionsByObjectIdCountOperationCompleted, userState);
+        }
+        
+        private void OnGetDiscussionsByObjectIdCountOperationCompleted(object arg) {
+            if ((this.GetDiscussionsByObjectIdCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetDiscussionsByObjectIdCountCompleted(this, new GetDiscussionsByObjectIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetDiscussionsByObjectId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitDiscussion[] GetDiscussionsByObjectId(string ticket, string typename, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetDiscussionsByObjectId", new object[] {
+                        ticket,
+                        typename,
+                        id,
+                        options});
+            return ((TransitDiscussion[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetDiscussionsByObjectIdAsync(string ticket, string typename, int id, ServiceQueryOptions options) {
+            this.GetDiscussionsByObjectIdAsync(ticket, typename, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetDiscussionsByObjectIdAsync(string ticket, string typename, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetDiscussionsByObjectIdOperationCompleted == null)) {
+                this.GetDiscussionsByObjectIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDiscussionsByObjectIdOperationCompleted);
+            }
+            this.InvokeAsync("GetDiscussionsByObjectId", new object[] {
+                        ticket,
+                        typename,
+                        id,
+                        options}, this.GetDiscussionsByObjectIdOperationCompleted, userState);
+        }
+        
+        private void OnGetDiscussionsByObjectIdOperationCompleted(object arg) {
+            if ((this.GetDiscussionsByObjectIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetDiscussionsByObjectIdCompleted(this, new GetDiscussionsByObjectIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1370,183 +1448,29 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitDiscussion : TransitServiceOfDiscussion {
+    public partial class ServiceQueryOptions {
         
-        private string nameField;
+        private int pageSizeField;
         
-        private string descriptionField;
-        
-        private int accountIdField;
-        
-        private int objectIdField;
-        
-        private System.DateTime createdField;
-        
-        private System.DateTime modifiedField;
-        
-        private bool personalField;
-        
-        private int postCountField;
-        
-        private int threadCountField;
-        
-        private string parentObjectNameField;
-        
-        private string parentObjectUriField;
-        
-        private string parentObjectTypeField;
-        
-        private string defaultViewField;
+        private int pageNumberField;
         
         /// <remarks/>
-        public string Name {
+        public int PageSize {
             get {
-                return this.nameField;
+                return this.pageSizeField;
             }
             set {
-                this.nameField = value;
+                this.pageSizeField = value;
             }
         }
         
         /// <remarks/>
-        public string Description {
+        public int PageNumber {
             get {
-                return this.descriptionField;
+                return this.pageNumberField;
             }
             set {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int AccountId {
-            get {
-                return this.accountIdField;
-            }
-            set {
-                this.accountIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int ObjectId {
-            get {
-                return this.objectIdField;
-            }
-            set {
-                this.objectIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Created {
-            get {
-                return this.createdField;
-            }
-            set {
-                this.createdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Modified {
-            get {
-                return this.modifiedField;
-            }
-            set {
-                this.modifiedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool Personal {
-            get {
-                return this.personalField;
-            }
-            set {
-                this.personalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PostCount {
-            get {
-                return this.postCountField;
-            }
-            set {
-                this.postCountField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int ThreadCount {
-            get {
-                return this.threadCountField;
-            }
-            set {
-                this.threadCountField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ParentObjectName {
-            get {
-                return this.parentObjectNameField;
-            }
-            set {
-                this.parentObjectNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ParentObjectUri {
-            get {
-                return this.parentObjectUriField;
-            }
-            set {
-                this.parentObjectUriField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ParentObjectType {
-            get {
-                return this.parentObjectTypeField;
-            }
-            set {
-                this.parentObjectTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string DefaultView {
-            get {
-                return this.defaultViewField;
-            }
-            set {
-                this.defaultViewField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitDiscussion))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfDiscussion {
-        
-        private int idField;
-        
-        /// <remarks/>
-        public int Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
+                this.pageNumberField = value;
             }
         }
     }
@@ -1899,34 +1823,212 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitDiscussion))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class ServiceQueryOptions {
+    public abstract partial class TransitServiceOfDiscussion {
         
-        private int pageSizeField;
-        
-        private int pageNumberField;
+        private int idField;
         
         /// <remarks/>
-        public int PageSize {
+        public int Id {
             get {
-                return this.pageSizeField;
+                return this.idField;
             }
             set {
-                this.pageSizeField = value;
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitDiscussion : TransitServiceOfDiscussion {
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private int accountIdField;
+        
+        private int objectIdField;
+        
+        private int dataObjectIdField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private bool personalField;
+        
+        private int postCountField;
+        
+        private int threadCountField;
+        
+        private string parentObjectNameField;
+        
+        private string parentObjectUriField;
+        
+        private string parentObjectTypeField;
+        
+        private string defaultViewField;
+        
+        private bool canUpdateField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
             }
         }
         
         /// <remarks/>
-        public int PageNumber {
+        public string Description {
             get {
-                return this.pageNumberField;
+                return this.descriptionField;
             }
             set {
-                this.pageNumberField = value;
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ObjectId {
+            get {
+                return this.objectIdField;
+            }
+            set {
+                this.objectIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int DataObjectId {
+            get {
+                return this.dataObjectIdField;
+            }
+            set {
+                this.dataObjectIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Personal {
+            get {
+                return this.personalField;
+            }
+            set {
+                this.personalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PostCount {
+            get {
+                return this.postCountField;
+            }
+            set {
+                this.postCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ThreadCount {
+            get {
+                return this.threadCountField;
+            }
+            set {
+                this.threadCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ParentObjectName {
+            get {
+                return this.parentObjectNameField;
+            }
+            set {
+                this.parentObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ParentObjectUri {
+            get {
+                return this.parentObjectUriField;
+            }
+            set {
+                this.parentObjectUriField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ParentObjectType {
+            get {
+                return this.parentObjectTypeField;
+            }
+            set {
+                this.parentObjectTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string DefaultView {
+            get {
+                return this.defaultViewField;
+            }
+            set {
+                this.defaultViewField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool CanUpdate {
+            get {
+                return this.canUpdateField;
+            }
+            set {
+                this.canUpdateField = value;
             }
         }
     }
@@ -1953,6 +2055,58 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetDiscussionsByObjectIdCountCompletedEventHandler(object sender, GetDiscussionsByObjectIdCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetDiscussionsByObjectIdCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetDiscussionsByObjectIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetDiscussionsByObjectIdCompletedEventHandler(object sender, GetDiscussionsByObjectIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetDiscussionsByObjectIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetDiscussionsByObjectIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitDiscussion[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitDiscussion[])(this.results[0]));
             }
         }
     }

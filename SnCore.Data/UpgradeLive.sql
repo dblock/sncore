@@ -188,3 +188,10 @@ EXEC [sp_migrate_discussion_post] @data_object_name = 'AccountGroup', @discussio
 GO
 DROP PROCEDURE [sp_migrate_discussion_post]
 GO
+-- create a DefaultViewRows option for Discussion
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Discussion]') AND name = N'DefaultViewRows') 
+ALTER TABLE dbo.Discussion ADD [DefaultViewRows] int NULL
+GO
+UPDATE dbo.Discussion SET [DefaultViewRows] = 5 WHERE DefaultViewRows IS NULL
+ALTER TABLE dbo.Discussion ALTER COLUMN [DefaultViewRows] int NOT NULL
+GO

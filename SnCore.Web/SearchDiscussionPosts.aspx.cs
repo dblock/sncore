@@ -20,15 +20,28 @@ public partial class SearchDiscussionPosts : Page
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
 
             if (RequestId > 0)
             {
-                TransitDiscussion discussion = SessionManager.GetInstance<TransitDiscussion, int>(
+                TransitDiscussion td = SessionManager.GetInstance<TransitDiscussion, int>(
                     RequestId, SessionManager.DiscussionService.GetDiscussionById);
 
-                sitemapdata.Add(new SiteMapDataAttributeNode(discussion.Name, Request, 
-                    string.Format("DiscussionView.aspx?id={0}", discussion.Id)));
+                if (td.Personal)
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName,
+                        string.Format("{0}&ReturnUrl={1}", td.ParentObjectUri, Renderer.UrlEncode(Request.Url.PathAndQuery))));
+                }
+                else
+                {
+                    sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+                }
+
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request,
+                    string.Format("DiscussionView.aspx?id={0}", td.Id)));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
             }
 
             sitemapdata.Add(new SiteMapDataAttributeNode("Search", Request.Url));

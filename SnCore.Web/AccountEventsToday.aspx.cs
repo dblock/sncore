@@ -15,6 +15,7 @@ using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using SnCore.WebControls;
 
 public partial class AccountEventsToday : Page
 {
@@ -86,13 +87,7 @@ public partial class AccountEventsToday : Page
 
             if (mType != null && !string.IsNullOrEmpty(e.Type))
             {
-                mType.ClearSelection();
-                ListItem type = mType.Items.FindByValue(e.Type);
-                if (type != null)
-                {
-                    type.Selected = true;
-                    result = true;
-                }
+                result = ListItemManager.TrySelect(mType, e.Type);
             }
 
             return result;

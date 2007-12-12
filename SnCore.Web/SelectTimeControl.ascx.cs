@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebControls;
 
 public partial class SelectTimeControl : System.Web.UI.UserControl
 {
@@ -53,14 +54,7 @@ public partial class SelectTimeControl : System.Web.UI.UserControl
             return;
 
         TimeSpan ts = (TimeSpan)mSelectedTime;
-
-        ListItem item = selecttimeDropdown.Items.FindByValue(ts.Ticks.ToString());
-
-        if (item != null)
-        {
-            selecttimeDropdown.ClearSelection();
-            item.Selected = true;
-        }
+        ListItemManager.TrySelect(selecttimeDropdown, ts.Ticks);
     }
 
     protected override void OnPreRender(EventArgs e)

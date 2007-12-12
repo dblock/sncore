@@ -5,7 +5,8 @@
 <%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <SnCore:DiscussionView runat="server" ID="discussionMain" PostNewText="&#187; Post New" />
+ <SnCore:DiscussionView runat="server" ID="discussionMain" DefaultViewRows="7" ViewText="" 
+  PostNewText="&#187; Post New" />
  <table class="sncore_half_inner_table">
   <tr>
    <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">

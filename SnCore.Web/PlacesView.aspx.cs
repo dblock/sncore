@@ -17,6 +17,7 @@ using SnCore.SiteMap;
 using nStuff.UpdateControls;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
+using SnCore.WebControls;
 
 public partial class PlacesView : Page
 {
@@ -107,14 +108,7 @@ public partial class PlacesView : Page
 
             if (mType != null && !string.IsNullOrEmpty(e.Type))
             {
-                mType.ClearSelection();
-                ListItem type = mType.Items.FindByValue(e.Type);
-                if (type != null)
-                {
-                    mType.ClearSelection();
-                    type.Selected = true;
-                    result = true;
-                }
+                result = ListItemManager.TrySelect(mType, e.Type);
             }
 
             if (mPicturesOnly != null && !string.IsNullOrEmpty(e.PicturesOnly))

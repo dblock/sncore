@@ -44,7 +44,6 @@ public partial class SystemDiscussionsManage : AuthenticatedPage
             SessionManager.Ticket, SessionManager.AccountId, options);
     }
 
-
     private enum Cells
     {
         id = 0

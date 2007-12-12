@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class SystemDiscussionEdit : AuthenticatedPage
 {
@@ -21,8 +22,23 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "SystemDiscussionsManage.aspx"));
+            if (IsObjectBound)
+            {
+                int discussion_id = SessionManager.GetCount<TransitDiscussion, string, int>(
+                    Type, ObjectId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
+
+                TransitDiscussion td = SessionManager.GetInstance<TransitDiscussion, int>(
+                    discussion_id, SessionManager.DiscussionService.GetDiscussionById);
+
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, string.Format("{0}&ReturnUrl={1}",
+                    td.ParentObjectUri, Renderer.UrlEncode(Request.Url.PathAndQuery))));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request.Url));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "SystemDiscussionsManage.aspx"));
+            }
 
             DomainClass cs = SessionManager.GetDomainClass("Discussion");
             inputName.MaxLength = cs["Name"].MaxLengthInChars;
@@ -40,12 +56,8 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
                     SessionManager.Ticket, id);
                 inputName.Text = Renderer.Render(tw.Name);
                 inputDescription.Text = Renderer.Render(tw.Description);
-                ListItem defaultview = inputDefaultView.Items.FindByValue(tw.DefaultView);
-                if (defaultview != null) 
-                { 
-                    inputDefaultView.ClearSelection(); 
-                    defaultview.Selected = true; 
-                }
+                ListItemManager.TrySelect(inputDefaultView, tw.DefaultView);
+                ListItemManager.SelectAdd(inputDefaultViewRows, tw.DefaultViewRows);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }
             else
@@ -66,6 +78,10 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
         tw.DefaultView = inputDefaultView.SelectedValue;
+        tw.DefaultViewRows = int.Parse(inputDefaultViewRows.SelectedValue);
+        tw.ObjectId = ObjectId;
+        tw.ParentObjectType = Type;
+        tw.Personal = IsObjectBound;
         SessionManager.CreateOrUpdate<TransitDiscussion>(
             tw, SessionManager.DiscussionService.CreateOrUpdateDiscussion);
         Redirect(ReturnUrl);
@@ -77,6 +93,31 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
         {
             object o = Request.QueryString["ReturnUrl"];
             return (o == null ? "SystemDiscussionsManage.aspx" : o.ToString());
+        }
+    }
+
+
+    public string Type
+    {
+        get
+        {
+            return Request["Type"];
+        }
+    }
+
+    public int ObjectId
+    {
+        get
+        {
+            return GetId("ObjectId");
+        }
+    }
+
+    public bool IsObjectBound
+    {
+        get
+        {
+            return (!string.IsNullOrEmpty(Type)) && (ObjectId > 0);
         }
     }
 }

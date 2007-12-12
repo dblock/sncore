@@ -16,6 +16,7 @@ using SnCore.SiteMap;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using nStuff.UpdateControls;
+using SnCore.WebControls;
 
 [SiteMapDataAttribute("Events")]
 public partial class AccountEventsView : Page
@@ -77,13 +78,7 @@ public partial class AccountEventsView : Page
 
             if (mType != null && !string.IsNullOrEmpty(e.Type))
             {
-                mType.ClearSelection();
-                ListItem type = mType.Items.FindByValue(e.Type);
-                if (type != null)
-                {
-                    type.Selected = true;
-                    result = true;
-                }
+                result = ListItemManager.TrySelect(mType, e.Type);
             }
 
             return result;

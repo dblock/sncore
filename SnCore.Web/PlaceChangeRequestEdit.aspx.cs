@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class PlaceChangeRequestEdit : AuthenticatedPage
 {
@@ -84,8 +85,7 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 inputStreet.Text = request.Street;
                 inputWebsite.Text = request.Website;
                 inputZip.Text = request.Zip;
-                selectType.ClearSelection();
-                selectType.Items.FindByValue(request.Type).Selected = true;
+                ListItemManager.TrySelect(selectType, request.Type);
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(request));
 
                 place = SessionManager.PlaceService.GetPlaceById(
@@ -105,8 +105,7 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 inputStreet.Text = place.Street;
                 inputWebsite.Text = place.Website;
                 inputZip.Text = place.Zip;
-                selectType.ClearSelection();
-                selectType.Items.FindByValue(place.Type).Selected = true;
+                ListItemManager.TrySelect(selectType, place.Type);
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
             }
 

@@ -51,6 +51,7 @@
     <Compile Include="Button.cs" />
     <EmbeddedResource Include="DirtyPanelExtenderBehavior.js" />
     <Compile Include="DirtyPanelExtender.cs" />
+    <Compile Include="ListItemManager.cs" />
     <Compile Include="PagedGrid.cs" />
     <Compile Include="PagedList.cs">
       <SubType>Component</SubType>

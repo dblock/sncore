@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class PlaceAttributeEdit : AuthenticatedPage
 {
@@ -61,8 +62,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
                 inputUrl.Text = Renderer.Render(attribute.Url);
                 inputDefaultUrl.Text = Renderer.Render(attribute.Attribute.DefaultUrl);
                 inputDefaultValue.Text = Renderer.Render(attribute.Attribute.DefaultValue);
-                listAttributes.ClearSelection();
-                listAttributes.Items.FindByValue(attribute.AttributeId.ToString()).Selected = true;
+                ListItemManager.TrySelect(listAttributes, attribute.AttributeId);
                 listAttributes.Enabled = false;
                 previewImage.ImageUrl = string.Format("SystemAttribute.aspx?id={0}", attribute.AttributeId);
                 previewImage.Visible = true;

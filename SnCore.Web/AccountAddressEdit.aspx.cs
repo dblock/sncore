@@ -14,6 +14,7 @@ using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountAddressEdit : AuthenticatedPage
 {
@@ -72,8 +73,8 @@ public partial class AccountAddressEdit : AuthenticatedPage
 
             if (tw != null)
             {
-                Control.SelectAndOrAddByValue(inputCountry.Items, tw.Country);
-                Control.SelectAndOrAddByValue(inputState.Items, tw.State);
+                ListItemManager.SelectAdd(inputCountry, tw.Country);
+                ListItemManager.SelectAdd(inputState, tw.State);
             }
         }
 

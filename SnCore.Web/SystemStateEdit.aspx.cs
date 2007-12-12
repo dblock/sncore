@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.WebServices;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class SystemStateEdit : AuthenticatedPage
 {
@@ -39,8 +40,7 @@ public partial class SystemStateEdit : AuthenticatedPage
                 TransitState tw = SessionManager.LocationService.GetStateById(
                     SessionManager.Ticket, id);
                 inputName.Text = Renderer.Render(tw.Name);
-                inputCountry.ClearSelection();
-                inputCountry.Items.FindByValue(tw.Country).Selected = true;
+                ListItemManager.TrySelect(inputCountry, tw.Country);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tw.Name, Request.Url));
             }
             else

@@ -15,6 +15,7 @@ using SnCore.WebServices;
 using SnCore.SiteMap;
 using nStuff.UpdateControls;
 using System.Collections.Specialized;
+using SnCore.WebControls;
 
 public partial class AccountFeedsView : Page
 {

@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class BugEdit : AuthenticatedPage
 {
@@ -54,14 +55,9 @@ public partial class BugEdit : AuthenticatedPage
                 inputSubject.Text = bug.Subject;
                 inputDetails.Text = bug.Details;
 
-                selectPriority.ClearSelection();
-                selectPriority.Items.FindByValue(bug.Priority).Selected = true;
-
-                selectSeverity.ClearSelection();
-                selectSeverity.Items.FindByValue(bug.Severity).Selected = true;
-
-                selectType.ClearSelection();
-                selectType.Items.FindByValue(bug.Type).Selected = true;
+                ListItemManager.TrySelect(selectPriority, bug.Priority);
+                ListItemManager.TrySelect(selectSeverity, bug.Severity);
+                ListItemManager.TrySelect(selectType, bug.Type);
 
                 linkBack.NavigateUrl = string.Format("BugView.aspx?id={0}", bug.Id);
 
@@ -70,11 +66,8 @@ public partial class BugEdit : AuthenticatedPage
             else
             {
                 string type = Request.QueryString["type"];
-                if (type != null)
-                {
-                    selectType.ClearSelection();
-                    selectType.Items.FindByValue(type).Selected = true;
-                }
+                ListItemManager.TrySelect(selectType, type);
+
                 linkBack.NavigateUrl = string.Format("BugProjectBugsManage.aspx?id={0}", ProjectId);
 
                 if (Request.QueryString["url"] != null)

@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class SystemPlacePropertyEdit : AuthenticatedPage
 {
@@ -68,19 +69,8 @@ public partial class SystemPlacePropertyEdit : AuthenticatedPage
                 inputDescription.Text = t.Description;
                 inputDefaultValue.Text = t.DefaultValue;
                 inputPublish.Checked = t.Publish;
-
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
-
-                inputTypeName.ClearSelection();
-                ListItem typeitem = inputTypeName.Items.FindByValue(t.TypeName);
-
-                if (typeitem == null)
-                {
-                    typeitem = new ListItem(t.TypeName);
-                    inputTypeName.Items.Add(typeitem);
-                }
-
-                typeitem.Selected = true;
+                ListItemManager.SelectAdd(inputTypeName, t.TypeName);
             }
             else
             {

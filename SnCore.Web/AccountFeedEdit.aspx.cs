@@ -18,6 +18,7 @@ using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountFeedEdit : AuthenticatedPage
 {
@@ -49,12 +50,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
             GetFeedTypes(sender, e);
 
             string feedtype = Request.Params["type"];
-            if (!string.IsNullOrEmpty(feedtype))
-            {
-                selectType.ClearSelection();
-                ListItem item = selectType.Items.FindByValue(feedtype);
-                if (item != null) item.Selected = true;
-            }
+            ListItemManager.TrySelect(selectType, feedtype);
 
             if (RequestId > 0)
             {
@@ -73,29 +69,14 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
                 if (tf.UpdateFrequency > 0)
                 {
-                    inputUpdateFrequency.ClearSelection();
-                    ListItem item = inputUpdateFrequency.Items.FindByValue(
-                        tf.UpdateFrequency.ToString());
-
-                    if (item == null)
-                    {
-                        item = new ListItem(string.Format(
-                            "Every {0} Hours", tf.UpdateFrequency),
-                            tf.UpdateFrequency.ToString());
-                        inputUpdateFrequency.Items.Add(item);
-                    }
-
-                    item.Selected = true;
+                    ListItemManager.SelectAdd(
+                        inputUpdateFrequency, 
+                        string.Format("Every {0} Hours", tf.UpdateFrequency), 
+                        tf.UpdateFrequency);
                 }
 
-                if (!string.IsNullOrEmpty(tf.FeedType))
-                {
-                    selectType.ClearSelection();
-                    selectType.Items.FindByValue(tf.FeedType).Selected = true;
-                }
-
+                ListItemManager.TrySelect(selectType, tf.FeedType);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tf.Name, Request.Url));
-
                 feedredirect.TargetUri = string.Format("AccountFeedView.aspx?id={0}", tf.Id);
             }
             else
@@ -125,19 +106,9 @@ public partial class AccountFeedEdit : AuthenticatedPage
                     inputDescription.Text = Request.Params["description"];
                 }
 
-                if (Request.Params["type"] != null)
-                {
-                    selectType.ClearSelection();
-                    ListItem item = selectType.Items.FindByValue(Request.Params["type"]);
-                    if (item != null)
-                    {
-                        item.Selected = true;
-                        selectType.Enabled = false;
-                    }
-                }
-
+                string type = Request.Params["type"];
+                ListItemManager.TrySelect(selectType, type);
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Feed", Request.Url));
-
                 feedredirect.Visible = false;
             }
 
@@ -227,8 +198,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
 
         if (selected != null)
         {
-            selectType.ClearSelection();
-            selectType.Items.FindByValue(selected.Name).Selected = true;
+            ListItemManager.TrySelect(selectType, selected.Name);
         }
     }
 }

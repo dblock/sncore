@@ -3198,6 +3198,7 @@ CREATE TABLE [dbo].[Discussion](
 	[Object_Id] [int] NOT NULL,
 	[DefaultView] [nvarchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[DataObject_Id] [int] NULL,
+	[DefaultViewRows] [int] NOT NULL,
  CONSTRAINT [PK_Discussion] PRIMARY KEY CLUSTERED 
 (
 	[Discussion_Id] ASC

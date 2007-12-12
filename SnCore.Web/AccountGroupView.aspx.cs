@@ -100,7 +100,7 @@ public partial class AccountGroupView : Page
             linkMembers.Visible = fGroupMemberOrAdmin;
             linkRequest.Visible = ! fGroupMember;
             linkLeave.Visible = fGroupMember;
-            discussionView.Visible = fGroupMemberOrAdmin;
+            discussionsView.Visible = fGroupMemberOrAdmin;
             linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
             linkInviteFriend.Visible = fGroupMemberOrAdmin;
             linkRelRss.Visible = fGroupMemberOrAdmin;
@@ -162,15 +162,8 @@ public partial class AccountGroupView : Page
             if (fGroupMemberOrAdmin)
             {
                 placesView.AccountGroupId = AccountGroupId;
-                discussionView.DiscussionId = SessionManager.DiscussionService.GetOrCreateDiscussionId(
-                    SessionManager.Ticket, "AccountGroup", RequestId);
-            }
-
-            if (fGroupAdmin)
-            {
-                linkEditGroupDiscussion.NavigateUrl = string.Format("SystemDiscussionEdit.aspx?id={0}&ReturnUrl={1}",
-                    SessionManager.DiscussionService.GetOrCreateDiscussionId(SessionManager.Ticket, "AccountGroup", AccountGroupId),
-                    Renderer.UrlEncode(Request.Url.PathAndQuery));
+                discussionsView.ObjectId = RequestId;
+                discussionsView.Type = "AccountGroup";
             }
 
             linkRelRss.NavigateUrl = string.Format("AccountGroupRss.aspx?id={0}", AccountGroupId);

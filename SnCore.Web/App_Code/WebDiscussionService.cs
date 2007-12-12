@@ -49,6 +49,34 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get named discussions count.
+        /// </summary>
+        /// <param name="id">object id</param>
+        /// <param name="typename">object type</param>
+        [WebMethod(Description = "Get named discussions count.")]
+        public int GetDiscussionsByObjectIdCount(string ticket, string typename, int id)
+        {
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetCount(
+                ticket, string.Format("WHERE Discussion.ObjectId = {0} AND Discussion.DataObject.Name = '{1}'", 
+                id, Renderer.SqlEncode(typename)));
+        }
+
+        /// <summary>
+        /// Get named discussions.
+        /// </summary>
+        /// <param name="id">object id</param>
+        /// <param name="typename">object type</param>
+        [WebMethod(Description = "Get named discussion.")]
+        public List<TransitDiscussion> GetDiscussionsByObjectId(string ticket, string typename, int id, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetList(
+                ticket, options, string.Format("SELECT Discussion FROM Discussion Discussion" +
+                    " WHERE Discussion.ObjectId = {0} AND Discussion.DataObject.Name = '{1}'" +
+                    " ORDER BY Discussion.Name ASC",
+                id, Renderer.SqlEncode(typename)));
+        }
+
+        /// <summary>
         /// Get a personal discussion redirect url.
         /// </summary>
         /// <param name="ticket"></param>

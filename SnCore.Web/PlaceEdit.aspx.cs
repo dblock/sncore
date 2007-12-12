@@ -14,6 +14,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class PlaceEdit : AuthenticatedPage
 {
@@ -79,8 +80,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 inputStreet.Text = place.Street;
                 inputWebsite.Text = place.Website;
                 inputZip.Text = place.Zip;
-                selectType.ClearSelection();
-                selectType.Items.FindByValue(place.Type).Selected = true;
+                ListItemManager.TrySelect(selectType, place.Type);
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
                 linkEditAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                 linkEditPictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
@@ -93,15 +93,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 LocationSelector.ChangeCountry(sender, e);
 
                 string type = Request.QueryString["type"];
-                if (!string.IsNullOrEmpty(type))
-                {
-                    ListItem i_type = selectType.Items.FindByValue(type);
-                    if (i_type != null)
-                    {
-                        selectType.ClearSelection();
-                        i_type.Selected = true;
-                    }
-                }
+                ListItemManager.TrySelect(selectType, type);
 
                 string name = Request.QueryString["name"];
                 if (!string.IsNullOrEmpty(name)) inputName.Text = name;
@@ -264,8 +256,7 @@ public partial class PlaceEdit : AuthenticatedPage
 
         if (selected != null)
         {
-            selectType.ClearSelection();
-            selectType.Items.FindByValue(selected.Name).Selected = true;
+            ListItemManager.TrySelect(selectType, selected.Name);
         }
     }
 }

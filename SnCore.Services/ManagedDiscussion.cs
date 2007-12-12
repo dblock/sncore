@@ -259,6 +259,20 @@ namespace SnCore.Services
             }
         }
 
+        private int mDefaultViewRows = 5;
+
+        public int DefaultViewRows
+        {
+            get
+            {
+                return mDefaultViewRows;
+            }
+            set
+            {
+                mDefaultViewRows = value;
+            }
+        }
+
         private bool mCanUpdate = false;
 
         public bool CanUpdate
@@ -295,6 +309,7 @@ namespace SnCore.Services
             ObjectId = instance.ObjectId;
             DataObjectId = (instance.DataObject != null ? instance.DataObject.Id : 0);
             DefaultView = instance.DefaultView;
+            DefaultViewRows = instance.DefaultViewRows;
             base.SetInstance(instance);
         }
 
@@ -307,12 +322,17 @@ namespace SnCore.Services
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.Personal = this.Personal;
                 instance.ObjectId = this.ObjectId;
-                if (this.DataObjectId != 0) instance.DataObject = session.Load<DataObject>(this.DataObjectId);
+                if (this.ObjectId != 0)
+                {
+                    if (this.DataObjectId != 0) instance.DataObject = session.Load<DataObject>(this.DataObjectId);
+                    else if (!string.IsNullOrEmpty(this.ParentObjectType)) instance.DataObject = ManagedDataObject.FindObject(session, this.ParentObjectType);                    
+                }
             }
 
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.DefaultView = this.DefaultView;
+            instance.DefaultViewRows = this.DefaultViewRows;
             return instance;
         }
     }
@@ -440,6 +460,28 @@ namespace SnCore.Services
 
         public static bool FindAndDelete(
             ISession session,
+            Type type,
+            int objectid,
+            ManagedSecurityContext sec)
+        {
+            DataObject dataobject = ManagedDataObject.FindObject(session, type);
+            IList<Discussion> discussions = session.CreateCriteria(typeof(Discussion))
+                    .Add(Expression.Eq("DataObject.Id", dataobject.Id))
+                    .Add(Expression.Eq("ObjectId", objectid))
+                    .Add(Expression.Eq("Personal", true))
+                    .List<Discussion>();
+
+            foreach (Discussion discussion in discussions)
+            {
+                ManagedDiscussion m_instance = new ManagedDiscussion(session, discussion);
+                m_instance.Delete(sec);
+            }
+
+            return (discussions.Count > 0);
+        }
+
+        public static bool FindAndDelete(
+            ISession session,
             int accountid,
             Type type,
             int objectid,
@@ -468,6 +510,7 @@ namespace SnCore.Services
                     .Add(Expression.Eq("Account.Id", accountid))
                     .Add(Expression.Eq("ObjectId", objectid))
                     .Add(Expression.Eq("Personal", true))
+                    .SetMaxResults(1)
                     .UniqueResult();
 
             if (instance == null)

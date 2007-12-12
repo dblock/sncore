@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.WebControls;
 
 public partial class DiscussionThreadMove : Page
 {
@@ -39,8 +40,7 @@ public partial class DiscussionThreadMove : Page
                 SessionManager.Ticket, null);
             listDiscussions.DataBind();
 
-            listDiscussions.ClearSelection();
-            listDiscussions.Items.FindByValue(tt.DiscussionId.ToString()).Selected = true;
+            ListItemManager.TrySelect(listDiscussions, tt.DiscussionId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));

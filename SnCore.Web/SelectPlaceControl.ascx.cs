@@ -84,8 +84,7 @@ public partial class SelectPlaceControl : Control
 
         if (selected != null)
         {
-            selectType.ClearSelection();
-            selectType.Items.FindByValue(selected.Name).Selected = true;
+            ListItemManager.TrySelect(selectType, selected.Name);
         }
     }
 
@@ -299,11 +298,9 @@ public partial class SelectPlaceControl : Control
     {
         try
         {
-            inputCountry.ClearSelection();
-            inputCountry.Items.FindByValue(e.Country).Selected = true;
+            ListItemManager.TrySelect(inputCountry, e.Country);
             inputCountry_SelectedIndexChanged(sender, e);
-            inputState.ClearSelection();
-            inputState.Items.FindByValue(e.State).Selected = true;
+            ListItemManager.TrySelect(inputState, e.State);
             inputCity.Text = e.City;
         }
         catch

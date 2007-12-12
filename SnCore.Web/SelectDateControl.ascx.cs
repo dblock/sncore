@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using SnCore.WebControls;
 
 public partial class SelectDateControl : System.Web.UI.UserControl
 {
@@ -127,20 +128,9 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         if (!IsPostBack && mSelectedDateTime != null)
         {
             DateTime d = (DateTime) mSelectedDateTime;
-            selectdateMonth.ClearSelection();
-            selectdateMonth.Items.FindByValue(d.Month.ToString()).Selected = true;
-            selectdateDay.ClearSelection();
-            selectdateDay.Items.FindByValue(d.Day.ToString()).Selected = true;
-
-            ListItem selectedYearItem = selectdateYear.Items.FindByValue(d.Year.ToString());
-            if (selectedYearItem == null)
-            {
-                selectedYearItem = new ListItem(d.Year.ToString(), d.Year.ToString());
-                selectdateYear.Items.Add(selectedYearItem);
-            }
-
-            selectedYearItem.Selected = true;
-
+            ListItemManager.TrySelect(selectdateMonth, d.Month);
+            ListItemManager.TrySelect(selectdateDay, d.Day);
+            ListItemManager.SelectAdd(selectdateYear, d.Year);
             if (HasSelection)
             {
                 selectDateCalendar.SelectedDate = SelectedDate;
@@ -174,15 +164,10 @@ public partial class SelectDateControl : System.Web.UI.UserControl
         set
         {
             mSelectedDateTime = value;
-
-            selectdateMonth.ClearSelection();
-            selectdateDay.ClearSelection();
-            selectdateYear.ClearSelection();
-
             DateTime d = (DateTime) mSelectedDateTime;
-            Control.SelectAndOrAddByValue(selectdateMonth.Items, d.Month.ToString());
-            Control.SelectAndOrAddByValue(selectdateDay.Items, d.Day.ToString());
-            Control.SelectAndOrAddByValue(selectdateYear.Items, d.Year.ToString());
+            ListItemManager.SelectAdd(selectdateMonth, d.Month.ToString());
+            ListItemManager.SelectAdd(selectdateDay, d.Day.ToString());
+            ListItemManager.SelectAdd(selectdateYear, d.Year.ToString());
         }
     }
 

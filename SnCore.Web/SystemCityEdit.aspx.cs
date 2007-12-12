@@ -40,14 +40,9 @@ public partial class SystemCityEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputName.Text = tc.Name;
                 inputTag.Text = tc.Tag;
-                inputCountry.ClearSelection();
-                inputCountry.Items.FindByValue(tc.Country).Selected = true;
+                ListItemManager.TrySelect(inputCountry, tc.Country);
                 inputCountry_SelectedIndexChanged(sender, e);
-                if (!string.IsNullOrEmpty(tc.State))
-                {
-                    inputState.ClearSelection();
-                    inputState.Items.FindByValue(tc.State).Selected = true;
-                }
+                ListItemManager.TrySelect(inputState, tc.State);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
             }
             else if (!string.IsNullOrEmpty(Request["city"]))

@@ -16,6 +16,7 @@ using SnCore.SiteMap;
 using nStuff.UpdateControls;
 using SnCore.Tools.Web.Html;
 using System.Collections.Specialized;
+using SnCore.WebControls;
 
 [SiteMapDataAttribute("Blogs")]
 public partial class AccountFeedItemsView : Page

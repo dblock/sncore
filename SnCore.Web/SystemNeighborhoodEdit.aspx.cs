@@ -38,14 +38,11 @@ public partial class SystemNeighborhoodEdit : AuthenticatedPage
                 TransitNeighborhood tc = SessionManager.LocationService.GetNeighborhoodById(
                     SessionManager.Ticket, RequestId);
                 inputName.Text = tc.Name;
-                inputCountry.ClearSelection();
-                inputCountry.Items.FindByValue(tc.Country).Selected = true;
+                ListItemManager.TrySelect(inputCountry, tc.Country);
                 inputCountry_SelectedIndexChanged(sender, e);
-                inputState.ClearSelection();
-                inputState.Items.FindByValue(tc.State).Selected = true;
+                ListItemManager.TrySelect(inputState, tc.State);
                 inputState_SelectedIndexChanged(sender, e);
-                inputCity.ClearSelection();
-                inputCity.Items.FindByValue(tc.City).Selected = true;
+                ListItemManager.TrySelect(inputCity, tc.City);
                 sitemapdata.Add(new SiteMapDataAttributeNode(tc.Name, Request.Url));
             }
             else

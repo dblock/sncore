@@ -737,6 +737,7 @@
     <property name="Personal" columns="Personal" type="System.Boolean" />
     <property name="DefaultView" columns="DefaultView" type="System.String" />
     <property name="DataObject" columns="DataObject_Id" ref="OneToMany" inverse="Discussions" type="DataObject" />
+    <property name="DefaultViewRows" columns="DefaultViewRows" type="System.Int32" />
   </class>
   <class name="DiscussionPost" table="DiscussionPost">
     <property name="Id" id="true" columns="DiscussionPost_Id" type="System.Int32" />
@@ -1716,6 +1717,7 @@
       <column name="Object_Id" type="Int32" prec="10" length="4" scale="0" />
       <column name="DefaultView" type="String" prec="64" allow-null="true" length="128" scale="0" />
       <column name="DataObject_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="DataObject" primary-column="DataObject_Id" foreign-key="FK_Discussion_DataObject" />
+      <column name="DefaultViewRows" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="DiscussionPost">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" />

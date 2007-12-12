@@ -12,6 +12,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.WebControls;
 
 public partial class SystemPictureEdit : AuthenticatedPage
 {
@@ -34,8 +35,7 @@ public partial class SystemPictureEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputDescription.Text = t.Description;
-                inputType.ClearSelection();
-                inputType.Items.FindByValue(t.Type).Selected = true;
+                ListItemManager.TrySelect(inputType, t.Type);
                 imageThumbnail.ImageUrl = string.Format("SystemPictureThumbnail.aspx?id={0}&CacheDuration=0", t.Id);
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
             }

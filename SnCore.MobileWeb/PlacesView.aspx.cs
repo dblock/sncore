@@ -14,6 +14,7 @@ using SnCore.SiteMap;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.Specialized;
+using SnCore.WebControls;
 
 public partial class PlacesView : Page
 {

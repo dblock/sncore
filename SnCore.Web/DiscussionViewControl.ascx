@@ -7,20 +7,24 @@
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <table width="100%">
  <tr>
-  <td>
+  <td width="*">
    <asp:Label CssClass="sncore_h2" ID="discussionLabel" runat="server" />
   </td>
-  <td align="center">
+  <td align="center" width="*">
    <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
   </td>
-  <td>
+  <td width="140" align="center">
    <SnCore:RssLink ID="linkRelRss" runat="server" />
   </td>
  </tr>
 </table>
 <div class="sncore_createnew">
+ <asp:HyperLink ID="linkView" Text="&#187; Read" runat="server" />
  <asp:HyperLink ID="postNew" Text="&#187; Post New" runat="server" />
  <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" CausesValidation="false" />
+ <span class="sncore_link">
+  <asp:Label ID="labelThreadsPosts" runat="server" />
+ </span>
 </div>
 <ajaxtoolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
  TargetControlID="panelSearch" Collapsed="true" ExpandedSize="75"

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using SnCore.WebServices;
 using System.Collections.Specialized;
 using SnCore.Tools.Web;
+using SnCore.WebControls;
 
 public class CityLocationEventArgs : EventArgs
 {

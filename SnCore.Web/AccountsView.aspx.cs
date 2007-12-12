@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using nStuff.UpdateControls;
 using System.Text;
 using System.Collections.Specialized;
+using SnCore.WebControls;
 
 [SiteMapDataAttribute("People")]
 public partial class AccountsView : AccountPersonPage

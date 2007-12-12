@@ -249,6 +249,7 @@ namespace SnCore.Services
 
         public override void Delete(ManagedSecurityContext sec)
         {
+            ManagedDiscussion.FindAndDelete(Session, typeof(AccountGroup), Id, sec);
             Session.Delete(string.Format("FROM AccountGroupAccountRequest r WHERE r.AccountGroup.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.AccountGroup.Id = {0}", Id));
             Session.Delete(string.Format("FROM AccountGroupPlace p WHERE p.AccountGroup.Id = {0}", Id));

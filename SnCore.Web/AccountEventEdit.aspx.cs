@@ -16,6 +16,7 @@ using SnCore.SiteMap;
 using System.Net;
 using System.IO;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountEventEdit : AuthenticatedPage
 {
@@ -51,8 +52,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                 inputEmail.Text = tav.Email;
                 inputCost.Text = tav.Cost;
                 inputPublish.Checked = tav.Publish;
-                selectType.ClearSelection();
-                selectType.Items.FindByValue(tav.AccountEventType).Selected = true;
+                ListItemManager.TrySelect(selectType, tav.AccountEventType);
                 schedule.Schedule = SessionManager.ObjectService.GetScheduleById(SessionManager.Ticket, tav.ScheduleId);
                 place.Place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, tav.PlaceId);
                 titleEvent.Text = Renderer.Render(tav.Name);
@@ -69,11 +69,7 @@ public partial class AccountEventEdit : AuthenticatedPage
                 inputEmail.Text = emitter.AccountEvent.Email;
                 inputCost.Text = emitter.AccountEvent.Cost;
                 inputPublish.Checked = emitter.AccountEvent.Publish;
-                if (!string.IsNullOrEmpty(emitter.AccountEvent.AccountEventType))
-                {
-                    selectType.ClearSelection();
-                    selectType.Items.FindByValue(emitter.AccountEvent.AccountEventType).Selected = true;
-                }
+                ListItemManager.TrySelect(selectType, emitter.AccountEvent.AccountEventType);
                 schedule.Schedule = emitter.Schedule;
                 place.Place = emitter.Place;
                 titleEvent.Text = Renderer.Render(emitter.AccountEvent.Name);
@@ -190,8 +186,7 @@ public partial class AccountEventEdit : AuthenticatedPage
 
         if (selected != null)
         {
-            selectType.ClearSelection();
-            selectType.Items.FindByValue(selected.Name).Selected = true;
+            ListItemManager.TrySelect(selectType, selected.Name);
         }
     }
 

@@ -21,6 +21,16 @@ public partial class DiscussionView : Page
         mIsMobileEnabled = true;
     }
 
+    public bool ParentRedirect
+    {
+        get
+        {
+            bool result = true;
+            bool.TryParse(Request["ParentRedirect"], out result);
+            return result;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -38,7 +48,7 @@ public partial class DiscussionView : Page
                 return;
             }
 
-            if (td.Personal)
+            if (td.Personal && ParentRedirect)
             {
                 string uri = SessionManager.DiscussionService.GetDiscussionRedirectUri(
                     SessionManager.Ticket, td.Id);
@@ -53,8 +63,16 @@ public partial class DiscussionView : Page
             this.Title = Renderer.Render(td.Name);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", RequestId)));
+            if (td.Personal)
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, 
+                    string.Format("{0}&ReturnUrl={1}", td.ParentObjectUri, Renderer.UrlEncode(Request.Url.PathAndQuery))));
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
+            }
+            sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request.Url));
             StackSiteMap(sitemapdata);
         }
     }

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Web.Caching;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountPreferencesManage : AuthenticatedPage
 {
@@ -56,11 +57,8 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputState.DataSource = states;
             inputState.DataBind();
 
-            inputCountry.ClearSelection();
-            inputCountry.Items.FindByValue(SessionManager.Account.Country).Selected = true;
-
-            inputState.ClearSelection();
-            inputState.Items.FindByValue(SessionManager.Account.State).Selected = true;
+            ListItemManager.TrySelect(inputCountry, SessionManager.Account.Country);
+            ListItemManager.TrySelect(inputState, SessionManager.Account.State);
 
             inputSignature.Text = SessionManager.Account.Signature;
 

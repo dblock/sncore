@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using System.Text;
 using Wilco.Web.UI;
+using SnCore.WebControls;
 
 public partial class ScheduleControl : Control
 {
@@ -184,31 +185,20 @@ public partial class ScheduleControl : Control
     {
         recMonthlyDay.Text = Schedule.MonthlyDay.ToString();
         recMonthlyMonth.Text = Schedule.MonthlyMonth.ToString();
-
-        recMonthlyDayIndex.ClearSelection();
-        recMonthlyDayIndex.Items.FindByValue(Schedule.MonthlyExDayIndex.ToString()).Selected = true;
-
-        recMonthlyDayName.ClearSelection();
-        recMonthlyDayName.Items.FindByValue(Schedule.MonthlyExDayName.ToString()).Selected = true;
-
+        ListItemManager.TrySelect(recMonthlyDayIndex, Schedule.MonthlyExDayIndex);
+        ListItemManager.TrySelect(recMonthlyDayName, Schedule.MonthlyExDayName);
         recMonthlyExMonth.Text = Schedule.MonthlyExMonth.ToString();
     }
 
     protected void SelectYearly()
     {
-        recYearlyMonth.ClearSelection();
-        recYearlyMonth.Items.FindByValue(Schedule.YearlyMonth.ToString()).Selected = true;
+        ListItemManager.TrySelect(recYearlyMonth, Schedule.YearlyMonth);
 
         recYearlyDay.Text = Schedule.YearlyDay.ToString();
 
-        recYearlyExDayName.ClearSelection();
-        recYearlyExDayName.Items.FindByValue(Schedule.YearlyExDayName.ToString()).Selected = true;
-
-        recYearlyExDayIndex.ClearSelection();
-        recYearlyExDayIndex.Items.FindByValue(Schedule.YearlyExDayIndex.ToString()).Selected = true;
-
-        recYearlyExMonth.ClearSelection();
-        recYearlyExMonth.Items.FindByValue(Schedule.YearlyExMonth.ToString()).Selected = true;
+        ListItemManager.TrySelect(recYearlyExDayName, Schedule.YearlyExDayName);
+        ListItemManager.TrySelect(recYearlyExDayIndex, Schedule.YearlyExDayIndex);
+        ListItemManager.TrySelect(recYearlyExMonth, Schedule.YearlyExMonth);
     }
 
     protected void SelectRange()

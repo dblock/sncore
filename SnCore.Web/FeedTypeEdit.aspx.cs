@@ -14,6 +14,7 @@ using SnCore.Services;
 using SnCore.SiteMap;
 using Wilco.Web.UI;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class FeedTypeEdit : AuthenticatedPage
 {
@@ -55,14 +56,10 @@ public partial class FeedTypeEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputDefaultType.Checked = t.DefaultType;
-                inputSpanColumns.ClearSelection();
-                inputSpanColumns.Items.FindByValue(t.SpanColumns.ToString()).Selected = true;
-                inputSpanRows.ClearSelection();
-                inputSpanRows.Items.FindByValue(t.SpanRows.ToString()).Selected = true;
-                inputSpanColumnsPreview.ClearSelection();
-                inputSpanColumnsPreview.Items.FindByValue(t.SpanColumnsPreview.ToString()).Selected = true;
-                inputSpanRowsPreview.ClearSelection();
-                inputSpanRowsPreview.Items.FindByValue(t.SpanRowsPreview.ToString()).Selected = true;
+                ListItemManager.SelectAdd(inputSpanColumns, t.SpanColumns);
+                ListItemManager.SelectAdd(inputSpanRows, t.SpanRows);
+                ListItemManager.SelectAdd(inputSpanColumnsPreview, t.SpanColumnsPreview);
+                ListItemManager.SelectAdd(inputSpanRowsPreview, t.SpanRowsPreview);
                 if (!string.IsNullOrEmpty(t.Xsl))
                 {
                     Xsl = t.Xsl;

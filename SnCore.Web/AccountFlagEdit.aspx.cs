@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountFlagEdit : AuthenticatedPage
 {
@@ -28,9 +29,8 @@ public partial class AccountFlagEdit : AuthenticatedPage
                 SessionManager.Ticket, null);
             inputType.DataBind();
 
-            inputType.ClearSelection();
-            ListItem type = inputType.Items.FindByValue(Request["type"]);
-            if (type != null) type.Selected = true;
+            string type = Request["type"];
+            ListItemManager.TrySelect(inputType, type);
  
             TransitAccount account = SessionManager.AccountService.GetAccountById(
                 SessionManager.Ticket, GetId("aid"));

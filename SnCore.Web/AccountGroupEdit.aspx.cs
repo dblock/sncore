@@ -13,11 +13,13 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.WebControls;
 
 public partial class AccountGroupEdit : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
+        gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -25,10 +27,14 @@ public partial class AccountGroupEdit : AuthenticatedPage
             sitemapdata.Add(new SiteMapDataAttributeNode("Groups", Request, "AccountGroupsManage.aspx"));
 
             linkBack.NavigateUrl = ReturnUrl;
+            linkNewDiscussion.NavigateUrl = string.Format("SystemDiscussionEdit.aspx?Type=AccountGroup&ObjectId={0}&ReturnUrl={1}",
+                RequestId, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
             // get group data
             if (RequestId > 0)
             {
+                GetData(sender, e);
+
                 TransitAccountGroup tw = GetAccountGroup();
 
                 inputName.Text = tw.Name;
@@ -107,6 +113,40 @@ public partial class AccountGroupEdit : AuthenticatedPage
         {
             object o = Request.QueryString["ReturnUrl"];
             return (o == null ? "AccountGroupsManage.aspx" : o.ToString());
+        }
+    }
+
+    private void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussion, string, int>(
+            "AccountGroup", RequestId, SessionManager.DiscussionService.GetDiscussionsByObjectIdCount);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
+    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    {
+        ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        gridManage.DataSource = SessionManager.GetCollection<TransitDiscussion, string, int>(
+            "AccountGroup", RequestId, options, SessionManager.DiscussionService.GetDiscussionsByObjectId);
+    }
+
+    private enum Cells
+    {
+        id = 0
+    };
+
+    public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)
+    {
+        switch (e.CommandName)
+        {
+            case "Delete":
+                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
+                SessionManager.Delete<TransitDiscussion>(id, SessionManager.DiscussionService.DeleteDiscussion);
+                ReportInfo("Discussion deleted.");
+                GetData(sender, e);
+                break;
         }
     }
 }

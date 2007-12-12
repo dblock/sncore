@@ -14,6 +14,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.SiteMap;
+using SnCore.WebControls;
 
 public partial class TagWordsManage : AuthenticatedPage
 {
@@ -25,8 +26,7 @@ public partial class TagWordsManage : AuthenticatedPage
         {
             listboxSelectType.DataSource = Enum.GetNames(typeof(TransitTagWordQueryOptions));
             listboxSelectType.DataBind();
-            listboxSelectType.ClearSelection();
-            listboxSelectType.Items.FindByValue("New").Selected = true;
+            ListItemManager.TrySelect(listboxSelectType, "New");
             listboxSelectType_SelectedIndexChanged(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

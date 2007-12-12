@@ -10,7 +10,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountsView" Src="AccountGroupAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacesView" Src="AccountGroupPlacesViewControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="DiscussionView" Src="DiscussionViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionsView" Src="DiscussionsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountGroupPicturesViewControl.ascx" %>
@@ -75,10 +75,7 @@
            OnClientClick="return confirm('Are you sure you want to delete this group?');" />
          </div>
          <div>
-          <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group" />
-         </div>
-         <div>
-          <asp:HyperLink ID="linkEditGroupDiscussion" runat="server" Text="&#187; Edit Group Discussion" />
+          <asp:HyperLink ID="linkEditGroup" runat="server" Text="&#187; Edit Group &amp; Discussions" />
          </div>
         </asp:Panel>
         <asp:Panel ID="panelAdmin" runat="server">
@@ -111,7 +108,7 @@
      <SnCore:Notice ID="noticeInfo" runat="server" />
      <a name="discuss"></a>
      <SnCore:BlogView runat="server" ID="blogView" />
-     <SnCore:DiscussionView runat="server" ID="discussionView" PostNewText="&#187; Post New" 
+     <SnCore:DiscussionsView runat="server" ID="discussionsView" PostNewText="&#187; Post New" 
       OuterWidth="472" CssClass="sncore_account_table" />
      <a name="members"></a>
      <SnCore:AccountsView runat="server" ID="accountsView" />

@@ -15,9 +15,24 @@ using SnCore.Services;
 using System.Collections.Generic;
 using SnCore.WebServices;
 using SnCore.WebControls;
+using System.Text;
 
 public partial class DiscussionViewControl : Control
 {
+    private Nullable<int> mDefaultViewRows = new Nullable<int>();
+
+    public int DefaultViewRows
+    {
+        get
+        {
+            return mDefaultViewRows.HasValue ? mDefaultViewRows.Value : 5;
+        }
+        set
+        {
+            mDefaultViewRows = value;
+        }
+    }
+
     private string mCssClass = "sncore_table";
 
     public string PostNewText
@@ -29,6 +44,18 @@ public partial class DiscussionViewControl : Control
         set
         {
             postNew.Text = value;
+        }
+    }
+
+    public string ViewText
+    {
+        get
+        {
+            return linkView.Text;
+        }
+        set
+        {
+            linkView.Text = value;
         }
     }
 
@@ -83,8 +110,28 @@ public partial class DiscussionViewControl : Control
             return;
 
         TransitDiscussion d = GetDiscussion();
+
         discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
+
+        StringBuilder sb = new StringBuilder();
+        //sb.AppendFormat(" &#187; {0} thread{1}", d.ThreadCount, d.ThreadCount == 1 ? string.Empty : "s");
+        //sb.AppendFormat(" &#187; {0} post{1}", d.PostCount, d.PostCount == 1 ? string.Empty : "s");
+        sb.AppendFormat(" <span class='{0}'>&#187; last post {1}</span>", 
+            DateTime.UtcNow.Subtract(d.Modified).TotalDays < 3 ? "sncore_datetime_highlight" : string.Empty, 
+            SessionManager.ToAdjustedString(d.Modified));
+
+        labelThreadsPosts.Text = sb.ToString();
+        linkView.NavigateUrl = string.Format("DiscussionView.aspx?id={0}&ReturnUrl={1}&ParentRedirect=false", 
+            d.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
+        
+        if ((! mDefaultViewRows.HasValue) && (d.DefaultViewRows <= 0))
+        {
+            linkSearch.Text = string.Empty;
+            return;
+        }
+
+        gridManage.RepeatRows = mDefaultViewRows.HasValue ? mDefaultViewRows.Value : d.DefaultViewRows;
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
@@ -150,9 +197,10 @@ public partial class DiscussionViewControl : Control
 
     protected void search_Click(object sender, EventArgs e)
     {
-        Redirect(string.Format("SearchDiscussionPosts.aspx?id={0}&q={1}",
-            RequestId,
-            Renderer.UrlEncode(inputSearch.Text)));
+        Redirect(string.Format("SearchDiscussionPosts.aspx?id={0}&q={1}&ReturnUrl={2}",
+            GetDiscussion().Id,
+            Renderer.UrlEncode(inputSearch.Text),
+            Renderer.UrlEncode(Request.Url.PathAndQuery)));
     }
 
     public bool IsFull
