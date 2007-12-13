@@ -1880,6 +1880,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private string defaultViewField;
         
+        private int defaultViewRowsField;
+        
         private bool canUpdateField;
         
         /// <remarks/>
@@ -2019,6 +2021,16 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             }
             set {
                 this.defaultViewField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int DefaultViewRows {
+            get {
+                return this.defaultViewRowsField;
+            }
+            set {
+                this.defaultViewRowsField = value;
             }
         }
         

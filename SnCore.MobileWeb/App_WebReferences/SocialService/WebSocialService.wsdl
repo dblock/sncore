@@ -397,6 +397,7 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfAccountFriend">
             <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="FriendId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="FriendPictureId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="FriendName" type="s:string" />

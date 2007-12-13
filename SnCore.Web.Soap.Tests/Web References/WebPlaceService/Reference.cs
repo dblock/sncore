@@ -73,6 +73,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private System.Threading.SendOrPostCallback CreateOrUpdatePlacePictureOperationCompleted;
         
+        private System.Threading.SendOrPostCallback CreateOrUpdatePlacePicturesOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetPlacePictureByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetPlacePicturesCountOperationCompleted;
@@ -331,6 +333,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event CreateOrUpdatePlacePictureCompletedEventHandler CreateOrUpdatePlacePictureCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdatePlacePicturesCompletedEventHandler CreateOrUpdatePlacePicturesCompleted;
         
         /// <remarks/>
         public event GetPlacePictureByIdCompletedEventHandler GetPlacePictureByIdCompleted;
@@ -1005,6 +1010,37 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             if ((this.CreateOrUpdatePlacePictureCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.CreateOrUpdatePlacePictureCompleted(this, new CreateOrUpdatePlacePictureCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlacePictures", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int[] CreateOrUpdatePlacePictures(string ticket, TransitPlacePicture[] placepictures) {
+            object[] results = this.Invoke("CreateOrUpdatePlacePictures", new object[] {
+                        ticket,
+                        placepictures});
+            return ((int[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlacePicturesAsync(string ticket, TransitPlacePicture[] placepictures) {
+            this.CreateOrUpdatePlacePicturesAsync(ticket, placepictures, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlacePicturesAsync(string ticket, TransitPlacePicture[] placepictures, object userState) {
+            if ((this.CreateOrUpdatePlacePicturesOperationCompleted == null)) {
+                this.CreateOrUpdatePlacePicturesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdatePlacePicturesOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdatePlacePictures", new object[] {
+                        ticket,
+                        placepictures}, this.CreateOrUpdatePlacePicturesOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdatePlacePicturesOperationCompleted(object arg) {
+            if ((this.CreateOrUpdatePlacePicturesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdatePlacePicturesCompleted(this, new CreateOrUpdatePlacePicturesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -3910,6 +3946,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private string nameField;
         
+        private bool defaultTypeField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -3917,6 +3955,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool DefaultType {
+            get {
+                return this.defaultTypeField;
+            }
+            set {
+                this.defaultTypeField = value;
             }
         }
     }
@@ -3973,7 +4021,11 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitPlaceChangeRequest : TransitServiceOfPlaceChangeRequest {
         
+        private string mPlaceNameField;
+        
         private int placeIdField;
+        
+        private string placeNameField;
         
         private string nameField;
         
@@ -4011,6 +4063,18 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private int accountIdField;
         
+        private string accountNameField;
+        
+        /// <remarks/>
+        public string mPlaceName {
+            get {
+                return this.mPlaceNameField;
+            }
+            set {
+                this.mPlaceNameField = value;
+            }
+        }
+        
         /// <remarks/>
         public int PlaceId {
             get {
@@ -4018,6 +4082,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.placeIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PlaceName {
+            get {
+                return this.placeNameField;
+            }
+            set {
+                this.placeNameField = value;
             }
         }
         
@@ -4198,6 +4272,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
             }
         }
     }
@@ -6859,6 +6943,32 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void CreateOrUpdatePlacePicturesCompletedEventHandler(object sender, CreateOrUpdatePlacePicturesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdatePlacePicturesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdatePlacePicturesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int[])(this.results[0]));
             }
         }
     }

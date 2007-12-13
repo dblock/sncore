@@ -963,6 +963,8 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
         
         private System.DateTime startDateTimeField;
         
+        private bool noEndDateTimeField;
+        
         private System.DateTime endDateTimeField;
         
         private int instanceField;
@@ -1174,6 +1176,16 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
             }
             set {
                 this.startDateTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool NoEndDateTime {
+            get {
+                return this.noEndDateTimeField;
+            }
+            set {
+                this.noEndDateTimeField = value;
             }
         }
         
@@ -1698,6 +1710,8 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
         
         private string nameField;
         
+        private bool defaultTypeField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -1705,6 +1719,16 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool DefaultType {
+            get {
+                return this.defaultTypeField;
+            }
+            set {
+                this.defaultTypeField = value;
             }
         }
     }

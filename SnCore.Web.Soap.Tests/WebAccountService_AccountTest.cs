@@ -87,31 +87,34 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void SendAccountEmailMessageTest()
         {
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
             WebAccountService.TransitAccountEmailMessage t_instance = new WebAccountService.TransitAccountEmailMessage();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = user.id;
             t_instance.Body = GetNewString();
-            t_instance.MailFrom = "user@localhost.com";
+            t_instance.MailFrom = user.email;
             t_instance.MailTo = GetNewEmailAddress();
             t_instance.Subject = GetNewString();
-            t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(GetUserTicket(), t_instance);
+            t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(user.ticket, t_instance);
             Console.WriteLine("Message: {0}", t_instance.Id);
             Assert.AreNotEqual(0, t_instance.Id);
             EndPoint.DeleteAccountEmailMessage(GetAdminTicket(), t_instance.Id);
+            DeleteUser(user.id);
         }
 
         [Test]
         public void SendAccountEmailMessageInvalidEmailTest()
         {
             // alter the message mail from, should not let me send
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
             try
             {
                 WebAccountService.TransitAccountEmailMessage t_instance = new WebAccountService.TransitAccountEmailMessage();
-                t_instance.AccountId = GetUserAccount().Id;
+                t_instance.AccountId = user.id;
                 t_instance.Body = GetNewString();
                 t_instance.MailFrom = GetNewEmailAddress();
                 t_instance.MailTo = GetNewEmailAddress();
                 t_instance.Subject = GetNewString();
-                t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(GetUserTicket(), t_instance);
+                t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(user.ticket, t_instance);
                 Console.WriteLine("Message: {0}", t_instance.Id);
                 Assert.IsTrue(false, "Expected an access denied.");
             }
@@ -120,6 +123,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 Console.WriteLine("Expected exception: {0}", ex.Message);
                 Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
             }
+
+            DeleteUser(user.id);
         }
 
         [Test]

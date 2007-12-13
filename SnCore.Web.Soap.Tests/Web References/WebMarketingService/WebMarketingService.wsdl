@@ -244,6 +244,24 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ImportCampaignAccountLocation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="campaign_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ImportCampaignAccountLocationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ImportCampaignAccountLocationResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ImportCampaignAccountPropertyValues">
         <s:complexType>
           <s:sequence>
@@ -342,6 +360,12 @@
   <wsdl:message name="ImportCampaignAccountEmailsSoapOut">
     <wsdl:part name="parameters" element="tns:ImportCampaignAccountEmailsResponse" />
   </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountLocationSoapIn">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountLocation" />
+  </wsdl:message>
+  <wsdl:message name="ImportCampaignAccountLocationSoapOut">
+    <wsdl:part name="parameters" element="tns:ImportCampaignAccountLocationResponse" />
+  </wsdl:message>
   <wsdl:message name="ImportCampaignAccountPropertyValuesSoapIn">
     <wsdl:part name="parameters" element="tns:ImportCampaignAccountPropertyValues" />
   </wsdl:message>
@@ -413,6 +437,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Import marketing campaign account emails.</wsdl:documentation>
       <wsdl:input message="tns:ImportCampaignAccountEmailsSoapIn" />
       <wsdl:output message="tns:ImportCampaignAccountEmailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountLocation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Import accounts into a marketing campaign by location.</wsdl:documentation>
+      <wsdl:input message="tns:ImportCampaignAccountLocationSoapIn" />
+      <wsdl:output message="tns:ImportCampaignAccountLocationSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ImportCampaignAccountPropertyValues">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Import accounts into a marketing campaign by matching property value.</wsdl:documentation>
@@ -532,6 +561,15 @@
     </wsdl:operation>
     <wsdl:operation name="ImportCampaignAccountEmails">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountEmails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountLocation">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountLocation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -661,6 +699,15 @@
     </wsdl:operation>
     <wsdl:operation name="ImportCampaignAccountEmails">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountEmails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportCampaignAccountLocation">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/ImportCampaignAccountLocation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

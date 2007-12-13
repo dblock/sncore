@@ -176,5 +176,11 @@ namespace SnCore.BackEnd.Tests
         {
             service.RunCleanAccountAuditEntries(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
+
+        [Test]
+        public void TestRunDeleteOldAccountMessages()
+        {
+            service.RunDeleteOldAccountMessages(Session, ManagedAccount.GetAdminSecurityContext(Session));
+        }
     }
 }

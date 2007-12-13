@@ -1786,6 +1786,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
         
         private int pictureIdField;
         
+        private int accountBlogIdField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -1843,6 +1845,16 @@ namespace SnCore.Web.Soap.Tests.WebGroupService {
             }
             set {
                 this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountBlogId {
+            get {
+                return this.accountBlogIdField;
+            }
+            set {
+                this.accountBlogIdField = value;
             }
         }
     }

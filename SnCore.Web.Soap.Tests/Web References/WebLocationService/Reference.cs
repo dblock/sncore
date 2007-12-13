@@ -96,6 +96,8 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         private System.Threading.SendOrPostCallback MergeCitiesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback MergeCitiesByNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateNeighborhoodOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetNeighborhoodByIdOperationCompleted;
@@ -244,6 +246,9 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         
         /// <remarks/>
         public event MergeCitiesCompletedEventHandler MergeCitiesCompleted;
+        
+        /// <remarks/>
+        public event MergeCitiesByNameCompletedEventHandler MergeCitiesByNameCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateNeighborhoodCompletedEventHandler CreateOrUpdateNeighborhoodCompleted;
@@ -1243,6 +1248,43 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
             if ((this.MergeCitiesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.MergeCitiesCompleted(this, new MergeCitiesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MergeCitiesByName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int MergeCitiesByName(string ticket, int target_id, string name, string state, string country) {
+            object[] results = this.Invoke("MergeCitiesByName", new object[] {
+                        ticket,
+                        target_id,
+                        name,
+                        state,
+                        country});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void MergeCitiesByNameAsync(string ticket, int target_id, string name, string state, string country) {
+            this.MergeCitiesByNameAsync(ticket, target_id, name, state, country, null);
+        }
+        
+        /// <remarks/>
+        public void MergeCitiesByNameAsync(string ticket, int target_id, string name, string state, string country, object userState) {
+            if ((this.MergeCitiesByNameOperationCompleted == null)) {
+                this.MergeCitiesByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMergeCitiesByNameOperationCompleted);
+            }
+            this.InvokeAsync("MergeCitiesByName", new object[] {
+                        ticket,
+                        target_id,
+                        name,
+                        state,
+                        country}, this.MergeCitiesByNameOperationCompleted, userState);
+        }
+        
+        private void OnMergeCitiesByNameOperationCompleted(object arg) {
+            if ((this.MergeCitiesByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MergeCitiesByNameCompleted(this, new MergeCitiesByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2642,6 +2684,32 @@ namespace SnCore.Web.Soap.Tests.WebLocationService {
         private object[] results;
         
         internal MergeCitiesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MergeCitiesByNameCompletedEventHandler(object sender, MergeCitiesByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class MergeCitiesByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal MergeCitiesByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

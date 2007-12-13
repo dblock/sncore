@@ -15,6 +15,7 @@
           <s:extension base="tns:TransitServiceOfPlaceType">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DefaultType" type="s:boolean" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -321,6 +322,31 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="CreateOrUpdatePlacePictures">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="placepictures" type="tns:ArrayOfTransitPlacePicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitPlacePicture">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitPlacePicture" nillable="true" type="tns:TransitPlacePicture" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdatePlacePicturesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateOrUpdatePlacePicturesResult" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetPlacePictureById">
         <s:complexType>
           <s:sequence>
@@ -367,11 +393,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfTransitPlacePicture">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitPlacePicture" nillable="true" type="tns:TransitPlacePicture" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="DeletePlacePicture">
         <s:complexType>
           <s:sequence>
@@ -1925,7 +1946,9 @@
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfPlaceChangeRequest">
             <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="mPlaceName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="PlaceName" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
@@ -1944,6 +1967,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -2132,6 +2156,12 @@
   </wsdl:message>
   <wsdl:message name="CreateOrUpdatePlacePictureSoapOut">
     <wsdl:part name="parameters" element="tns:CreateOrUpdatePlacePictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdatePlacePicturesSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdatePlacePictures" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdatePlacePicturesSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdatePlacePicturesResponse" />
   </wsdl:message>
   <wsdl:message name="GetPlacePictureByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetPlacePictureById" />
@@ -2745,6 +2775,11 @@
       <wsdl:input message="tns:CreateOrUpdatePlacePictureSoapIn" />
       <wsdl:output message="tns:CreateOrUpdatePlacePictureSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlacePictures">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update place pictures.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdatePlacePicturesSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdatePlacePicturesSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPlacePictureById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place picture.</wsdl:documentation>
       <wsdl:input message="tns:GetPlacePictureByIdSoapIn" />
@@ -3313,6 +3348,15 @@
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdatePlacePicture">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlacePicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlacePictures">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlacePictures" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -4252,6 +4296,15 @@
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdatePlacePicture">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlacePicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdatePlacePictures">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdatePlacePictures" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

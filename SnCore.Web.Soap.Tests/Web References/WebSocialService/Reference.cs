@@ -1351,6 +1351,8 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class TransitAccountFriend : TransitServiceOfAccountFriend {
         
+        private int accountIdField;
+        
         private int friendIdField;
         
         private int friendPictureIdField;
@@ -1358,6 +1360,16 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         private string friendNameField;
         
         private System.DateTime createdField;
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
         
         /// <remarks/>
         public int FriendId {

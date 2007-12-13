@@ -107,6 +107,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountFeedItemTest.cs" />
+    <Compile Include="AccountMessageTest.cs" />
     <Compile Include="AccountPictureTest.cs" />
     <Compile Include="AccountPlaceFavoriteTest.cs" />
     <Compile Include="AccountTest.cs">

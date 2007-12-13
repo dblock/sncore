@@ -18,6 +18,79 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetDiscussionsByObjectIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="typename" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDiscussionsByObjectIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetDiscussionsByObjectIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDiscussionsByObjectId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="typename" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDiscussionsByObjectIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDiscussionsByObjectIdResult" type="tns:ArrayOfTransitDiscussion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitDiscussion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitDiscussion" nillable="true" type="tns:TransitDiscussion" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitDiscussion">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfDiscussion">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ObjectId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="DataObjectId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Personal" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PostCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="ThreadCount" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectUri" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefaultView" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DefaultViewRows" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CanUpdate" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfDiscussion" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetDiscussionRedirectUri">
         <s:complexType>
           <s:sequence>
@@ -56,32 +129,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransitDiscussion">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfDiscussion">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ObjectId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Personal" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="PostCount" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="ThreadCount" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectUri" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ParentObjectType" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="DefaultView" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfDiscussion" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="CreateOrUpdateDiscussionResponse">
         <s:complexType>
           <s:sequence>
@@ -97,12 +144,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ServiceQueryOptions">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="GetDiscussionsResponse">
         <s:complexType>
           <s:sequence>
@@ -110,11 +151,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfTransitDiscussion">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitDiscussion" nillable="true" type="tns:TransitDiscussion" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="GetDiscussionsCount">
         <s:complexType>
           <s:sequence>
@@ -201,18 +237,19 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetDiscussionThreadPosts">
+      <s:element name="GetDiscussionThreadPostsByOrder">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetDiscussionThreadPostsResponse">
+      <s:element name="GetDiscussionThreadPostsByOrderResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetDiscussionThreadPostsResult" type="tns:ArrayOfTransitDiscussionPost" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetDiscussionThreadPostsByOrderResult" type="tns:ArrayOfTransitDiscussionPost" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -242,6 +279,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="DiscussionThreadModified" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="DiscussionThreadCount" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="RepliesCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Sticky" type="s:boolean" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -251,6 +289,21 @@
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetDiscussionThreadPosts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDiscussionThreadPostsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDiscussionThreadPostsResult" type="tns:ArrayOfTransitDiscussionPost" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateDiscussionPost">
         <s:complexType>
           <s:sequence>
@@ -610,6 +663,18 @@
   <wsdl:message name="GetOrCreateDiscussionIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetOrCreateDiscussionIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetDiscussionsByObjectIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDiscussionsByObjectIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetDiscussionsByObjectIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDiscussionsByObjectIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDiscussionsByObjectIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDiscussionsByObjectId" />
+  </wsdl:message>
+  <wsdl:message name="GetDiscussionsByObjectIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDiscussionsByObjectIdResponse" />
+  </wsdl:message>
   <wsdl:message name="GetDiscussionRedirectUriSoapIn">
     <wsdl:part name="parameters" element="tns:GetDiscussionRedirectUri" />
   </wsdl:message>
@@ -669,6 +734,12 @@
   </wsdl:message>
   <wsdl:message name="GetDiscussionThreadPostsCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetDiscussionThreadPostsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDiscussionThreadPostsByOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDiscussionThreadPostsByOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetDiscussionThreadPostsByOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDiscussionThreadPostsByOrderResponse" />
   </wsdl:message>
   <wsdl:message name="GetDiscussionThreadPostsSoapIn">
     <wsdl:part name="parameters" element="tns:GetDiscussionThreadPosts" />
@@ -814,6 +885,16 @@
       <wsdl:input message="tns:GetOrCreateDiscussionIdSoapIn" />
       <wsdl:output message="tns:GetOrCreateDiscussionIdSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetDiscussionsByObjectIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get named discussions count.</wsdl:documentation>
+      <wsdl:input message="tns:GetDiscussionsByObjectIdCountSoapIn" />
+      <wsdl:output message="tns:GetDiscussionsByObjectIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDiscussionsByObjectId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get named discussion.</wsdl:documentation>
+      <wsdl:input message="tns:GetDiscussionsByObjectIdSoapIn" />
+      <wsdl:output message="tns:GetDiscussionsByObjectIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetDiscussionRedirectUri">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a personal discussion redirect url.</wsdl:documentation>
       <wsdl:input message="tns:GetDiscussionRedirectUriSoapIn" />
@@ -863,6 +944,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get discussion thread posts count.</wsdl:documentation>
       <wsdl:input message="tns:GetDiscussionThreadPostsCountSoapIn" />
       <wsdl:output message="tns:GetDiscussionThreadPostsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDiscussionThreadPostsByOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get discussion thread posts in order of posting.</wsdl:documentation>
+      <wsdl:input message="tns:GetDiscussionThreadPostsByOrderSoapIn" />
+      <wsdl:output message="tns:GetDiscussionThreadPostsByOrderSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionThreadPosts">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get discussion thread posts.</wsdl:documentation>
@@ -991,6 +1077,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetDiscussionsByObjectIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionsByObjectIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDiscussionsByObjectId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionsByObjectId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetDiscussionRedirectUri">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri" style="document" />
       <wsdl:input>
@@ -1074,6 +1178,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionThreadPostsCount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionThreadPostsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDiscussionThreadPostsByOrder">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionThreadPostsByOrder" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1300,6 +1413,24 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetDiscussionsByObjectIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionsByObjectIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDiscussionsByObjectId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionsByObjectId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetDiscussionRedirectUri">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionRedirectUri" style="document" />
       <wsdl:input>
@@ -1383,6 +1514,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionThreadPostsCount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionThreadPostsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDiscussionThreadPostsByOrder">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetDiscussionThreadPostsByOrder" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

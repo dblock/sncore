@@ -32,7 +32,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             Console.WriteLine("Type: {0}", typename);
 
             objecttest.SetUp();
-            int objecttest_id = objecttest.Create(user.ticket);
+            int objecttest_id = objecttest.Create(GetAdminTicket());
             Assert.IsTrue(objecttest_id > 0);
 
             int discussion_id = EndPoint.GetOrCreateDiscussionId(user.ticket, typename, objecttest_id);
@@ -59,7 +59,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             t_post.Subject = GetNewString();
             t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
 
-            objecttest.Delete(user.ticket, objecttest_id);
+            objecttest.Delete(GetAdminTicket(), objecttest_id);
             objecttest.TearDown();
 
             t_discussion = EndPoint.GetDiscussionById(user.ticket, discussion_id);
@@ -80,8 +80,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        public void GetOrCreateAccountGroupDiscussionIdTest()
+        protected void GetOrCreateAccountGroupDiscussionIdTest()
         {
+            // for this to succeed the user must become a member of the group
             GetOrCreateDiscussionIdTest("AccountGroup", new AccountGroupTest());
         }
 

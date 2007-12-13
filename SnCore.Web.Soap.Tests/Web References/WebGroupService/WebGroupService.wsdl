@@ -20,6 +20,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="IsPrivate" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountBlogId" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>

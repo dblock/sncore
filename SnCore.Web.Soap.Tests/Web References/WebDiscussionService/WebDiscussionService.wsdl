@@ -80,6 +80,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="ParentObjectUri" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ParentObjectType" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="DefaultView" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DefaultViewRows" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="CanUpdate" type="s:boolean" />
             </s:sequence>
           </s:extension>

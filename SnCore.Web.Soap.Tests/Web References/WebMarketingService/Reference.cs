@@ -57,6 +57,8 @@ namespace SnCore.Web.Soap.Tests.WebMarketingService {
         
         private System.Threading.SendOrPostCallback ImportCampaignAccountEmailsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ImportCampaignAccountLocationOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ImportCampaignAccountPropertyValuesOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -135,6 +137,9 @@ namespace SnCore.Web.Soap.Tests.WebMarketingService {
         
         /// <remarks/>
         public event ImportCampaignAccountEmailsCompletedEventHandler ImportCampaignAccountEmailsCompleted;
+        
+        /// <remarks/>
+        public event ImportCampaignAccountLocationCompletedEventHandler ImportCampaignAccountLocationCompleted;
         
         /// <remarks/>
         public event ImportCampaignAccountPropertyValuesCompletedEventHandler ImportCampaignAccountPropertyValuesCompleted;
@@ -540,6 +545,43 @@ namespace SnCore.Web.Soap.Tests.WebMarketingService {
             if ((this.ImportCampaignAccountEmailsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ImportCampaignAccountEmailsCompleted(this, new ImportCampaignAccountEmailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/ImportCampaignAccountLocation", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int ImportCampaignAccountLocation(string ticket, int campaign_id, string country, string state, string city) {
+            object[] results = this.Invoke("ImportCampaignAccountLocation", new object[] {
+                        ticket,
+                        campaign_id,
+                        country,
+                        state,
+                        city});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ImportCampaignAccountLocationAsync(string ticket, int campaign_id, string country, string state, string city) {
+            this.ImportCampaignAccountLocationAsync(ticket, campaign_id, country, state, city, null);
+        }
+        
+        /// <remarks/>
+        public void ImportCampaignAccountLocationAsync(string ticket, int campaign_id, string country, string state, string city, object userState) {
+            if ((this.ImportCampaignAccountLocationOperationCompleted == null)) {
+                this.ImportCampaignAccountLocationOperationCompleted = new System.Threading.SendOrPostCallback(this.OnImportCampaignAccountLocationOperationCompleted);
+            }
+            this.InvokeAsync("ImportCampaignAccountLocation", new object[] {
+                        ticket,
+                        campaign_id,
+                        country,
+                        state,
+                        city}, this.ImportCampaignAccountLocationOperationCompleted, userState);
+        }
+        
+        private void OnImportCampaignAccountLocationOperationCompleted(object arg) {
+            if ((this.ImportCampaignAccountLocationCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ImportCampaignAccountLocationCompleted(this, new ImportCampaignAccountLocationCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1133,6 +1175,32 @@ namespace SnCore.Web.Soap.Tests.WebMarketingService {
         private object[] results;
         
         internal ImportCampaignAccountEmailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void ImportCampaignAccountLocationCompletedEventHandler(object sender, ImportCampaignAccountLocationCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ImportCampaignAccountLocationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ImportCampaignAccountLocationCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

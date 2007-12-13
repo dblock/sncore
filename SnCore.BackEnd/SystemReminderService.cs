@@ -36,6 +36,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunUpdateAccountCounters));
             AddJob(new SessionJobDelegate(RunCleanupRefererHosts));
             AddJob(new SessionJobDelegate(RunCleanAccountAuditEntries));
+            AddJob(new SessionJobDelegate(RunDeleteOldAccountMessages));
         }
 
         public void RunUpdateAccountCounters(ISession session, ManagedSecurityContext sec)
@@ -330,6 +331,17 @@ namespace SnCore.BackEndServices
             session.Delete(string.Format(
                 "FROM AccountAuditEntry aae " +
                 " WHERE aae.Updated < '{0}'", DateTime.UtcNow.AddDays(-14)));
+            session.Flush();
+        }
+
+        public void RunDeleteOldAccountMessages(ISession session, ManagedSecurityContext sec)
+        {
+            session.Delete(string.Format(
+                "FROM AccountMessage AccountMessage" +
+                " WHERE AccountMessage.AccountMessageFolder.System = 1" +
+                " AND AccountMessage.AccountMessageFolder.AccountMessageFolderParent IS NULL" +
+                " AND (AccountMessage.AccountMessageFolder.Name = 'Trash' OR AccountMessage.AccountMessageFolder.Name = 'Sent')" +
+                " AND (AccountMessage.Sent < '{0}')", DateTime.UtcNow.AddDays(-14)));
             session.Flush();
         }
     }

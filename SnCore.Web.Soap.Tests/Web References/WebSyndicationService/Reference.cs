@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebSyndicationServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfFeature))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountRssWatch))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFeedItemMedia))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountFeedItemImg))]
@@ -118,6 +119,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private System.Threading.SendOrPostCallback GetAccountRssWatchItemsOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountRssWatchOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetLatestAccountFeedItemFeatureByAccountFeedIdOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -282,6 +285,9 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         public event DeleteAccountRssWatchCompletedEventHandler DeleteAccountRssWatchCompleted;
+        
+        /// <remarks/>
+        public event GetLatestAccountFeedItemFeatureByAccountFeedIdCompletedEventHandler GetLatestAccountFeedItemFeatureByAccountFeedIdCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateFeedType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1596,6 +1602,37 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetLatestAccountFeedItemFeatureByAccountFeedId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitFeature GetLatestAccountFeedItemFeatureByAccountFeedId(string ticket, int id) {
+            object[] results = this.Invoke("GetLatestAccountFeedItemFeatureByAccountFeedId", new object[] {
+                        ticket,
+                        id});
+            return ((TransitFeature)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetLatestAccountFeedItemFeatureByAccountFeedIdAsync(string ticket, int id) {
+            this.GetLatestAccountFeedItemFeatureByAccountFeedIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetLatestAccountFeedItemFeatureByAccountFeedIdAsync(string ticket, int id, object userState) {
+            if ((this.GetLatestAccountFeedItemFeatureByAccountFeedIdOperationCompleted == null)) {
+                this.GetLatestAccountFeedItemFeatureByAccountFeedIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetLatestAccountFeedItemFeatureByAccountFeedIdOperationCompleted);
+            }
+            this.InvokeAsync("GetLatestAccountFeedItemFeatureByAccountFeedId", new object[] {
+                        ticket,
+                        id}, this.GetLatestAccountFeedItemFeatureByAccountFeedIdOperationCompleted, userState);
+        }
+        
+        private void OnGetLatestAccountFeedItemFeatureByAccountFeedIdOperationCompleted(object arg) {
+            if ((this.GetLatestAccountFeedItemFeatureByAccountFeedIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetLatestAccountFeedItemFeatureByAccountFeedIdCompleted(this, new GetLatestAccountFeedItemFeatureByAccountFeedIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1624,6 +1661,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private string nameField;
         
+        private bool defaultTypeField;
+        
         private string xslField;
         
         private int spanRowsField;
@@ -1641,6 +1680,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool DefaultType {
+            get {
+                return this.defaultTypeField;
+            }
+            set {
+                this.defaultTypeField = value;
             }
         }
         
@@ -1713,6 +1762,73 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitFeature))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfFeature {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitFeature : TransitServiceOfFeature {
+        
+        private string dataObjectNameField;
+        
+        private int dataRowIdField;
+        
+        private System.DateTime createdField;
+        
+        /// <remarks/>
+        public string DataObjectName {
+            get {
+                return this.dataObjectNameField;
+            }
+            set {
+                this.dataObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int DataRowId {
+            get {
+                return this.dataRowIdField;
+            }
+            set {
+                this.dataRowIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
             }
         }
     }
@@ -2715,6 +2831,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private int accountIdField;
         
+        private string accountFeedNameField;
+        
         /// <remarks/>
         public string SortOrder {
             get {
@@ -2792,6 +2910,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountFeedName {
+            get {
+                return this.accountFeedNameField;
+            }
+            set {
+                this.accountFeedNameField = value;
             }
         }
     }
@@ -4152,6 +4280,32 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void DeleteAccountRssWatchCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetLatestAccountFeedItemFeatureByAccountFeedIdCompletedEventHandler(object sender, GetLatestAccountFeedItemFeatureByAccountFeedIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetLatestAccountFeedItemFeatureByAccountFeedIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetLatestAccountFeedItemFeatureByAccountFeedIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitFeature Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitFeature)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

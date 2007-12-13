@@ -574,6 +574,24 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="MergeCitiesByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="target_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeCitiesByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MergeCitiesByNameResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateNeighborhood">
         <s:complexType>
           <s:sequence>
@@ -895,6 +913,12 @@
   <wsdl:message name="MergeCitiesSoapOut">
     <wsdl:part name="parameters" element="tns:MergeCitiesResponse" />
   </wsdl:message>
+  <wsdl:message name="MergeCitiesByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:MergeCitiesByName" />
+  </wsdl:message>
+  <wsdl:message name="MergeCitiesByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:MergeCitiesByNameResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateNeighborhoodSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateNeighborhood" />
   </wsdl:message>
@@ -1104,6 +1128,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Merge cities.</wsdl:documentation>
       <wsdl:input message="tns:MergeCitiesSoapIn" />
       <wsdl:output message="tns:MergeCitiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeCitiesByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Merge cities.</wsdl:documentation>
+      <wsdl:input message="tns:MergeCitiesByNameSoapIn" />
+      <wsdl:output message="tns:MergeCitiesByNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateNeighborhood">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a neighborhood.</wsdl:documentation>
@@ -1425,6 +1454,15 @@
     </wsdl:operation>
     <wsdl:operation name="MergeCities">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/MergeCities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeCitiesByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MergeCitiesByName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1788,6 +1826,15 @@
     </wsdl:operation>
     <wsdl:operation name="MergeCities">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MergeCities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeCitiesByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MergeCitiesByName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

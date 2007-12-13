@@ -8387,6 +8387,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private string accountNameField;
         
+        private bool failedField;
+        
+        private string lastErrorField;
+        
         /// <remarks/>
         public string Email {
             get {
@@ -8454,6 +8458,26 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Failed {
+            get {
+                return this.failedField;
+            }
+            set {
+                this.failedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string LastError {
+            get {
+                return this.lastErrorField;
+            }
+            set {
+                this.lastErrorField = value;
             }
         }
     }
