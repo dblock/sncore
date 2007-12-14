@@ -13,6 +13,14 @@ namespace SnCore.Web.Tests
     [TestFixture]
     public class WebMiscTests
     {
+        public void TestPage(Uri root, Uri uri)
+        {
+            Cookie cookie = null;
+            List<Uri> links = null;
+            double ts = 0;
+            TestPage(root, uri, cookie, out links, out ts);
+        }
+
         public void TestPage(Uri root, Uri uri, Cookie cookie, out List<Uri> links, out double ts)
         {
             DateTime start = DateTime.UtcNow;
@@ -95,8 +103,8 @@ namespace SnCore.Web.Tests
         {
             Uri root = new Uri("http://localhost/SnCoreWeb/Default.aspx");
 
-            List<Uri> queue = new List<Uri>();
-            List<Uri> visited = new List<Uri>();
+            List<Uri> queue = new List<Uri>(2500);
+            List<Uri> visited = new List<Uri>(5000);
 
             double totaltime = 0;
             int totalcount = 0;

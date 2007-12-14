@@ -47,15 +47,27 @@ public partial class DiscussionViewControl : Control
         }
     }
 
-    public string ViewText
+    public string ReadText
     {
         get
         {
-            return linkView.Text;
+            return linkRead.Text;
         }
         set
         {
-            linkView.Text = value;
+            linkRead.Text = value;
+        }
+    }
+
+    public string BackText
+    {
+        get
+        {
+            return linkBack.Text;
+        }
+        set
+        {
+            linkBack.Text = value;
         }
     }
 
@@ -122,9 +134,17 @@ public partial class DiscussionViewControl : Control
             SessionManager.ToAdjustedString(d.Modified));
 
         labelThreadsPosts.Text = sb.ToString();
-        linkView.NavigateUrl = string.Format("DiscussionView.aspx?id={0}&ReturnUrl={1}&ParentRedirect=false", 
+
+        linkRead.Visible = !string.IsNullOrEmpty(linkRead.Text);
+        linkRead.NavigateUrl = string.Format("DiscussionView.aspx?id={0}&ReturnUrl={1}&ParentRedirect=false", 
             d.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
-        
+
+        linkBack.Visible = !string.IsNullOrEmpty(linkBack.Text);
+        linkBack.NavigateUrl = d.ParentObjectUri;
+
+        linkSearch.Visible = !string.IsNullOrEmpty(linkSearch.Text);
+        postNew.Visible = !string.IsNullOrEmpty(postNew.Text);
+
         if ((! mDefaultViewRows.HasValue) && (d.DefaultViewRows <= 0))
         {
             linkSearch.Text = string.Empty;

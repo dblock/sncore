@@ -19,7 +19,8 @@
  </tr>
 </table>
 <div class="sncore_createnew">
- <asp:HyperLink ID="linkView" Text="&#187; Read" runat="server" />
+ <asp:HyperLink ID="linkBack" runat="server" />
+ <asp:HyperLink ID="linkRead" runat="server" />
  <asp:HyperLink ID="postNew" Text="&#187; Post New" runat="server" />
  <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" CausesValidation="false" />
  <span class="sncore_link">

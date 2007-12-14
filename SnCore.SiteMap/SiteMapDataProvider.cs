@@ -140,6 +140,17 @@ namespace SnCore.SiteMap
         public override void Initialize(string name, NameValueCollection attributes)
         {
             base.Initialize(name, attributes);
+            CreateRootNode();
+        }
+
+        public void RemoveAll()
+        {
+            Clear();
+            CreateRootNode();
+        }
+
+        private void CreateRootNode()
+        {
             mRootNode = new SiteMapNode(this, "Home", "Default.aspx", "Home");
             AddNode(mRootNode);
         }

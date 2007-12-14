@@ -65,8 +65,10 @@ public partial class DiscussionView : Page
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             if (td.Personal)
             {
+                discussionMain.BackText = string.Format("&#187; Back to {0}", Renderer.Render(td.ParentObjectName));                
                 sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, 
-                    string.Format("{0}&ReturnUrl={1}", td.ParentObjectUri, Renderer.UrlEncode(Request.Url.PathAndQuery))));
+                    string.Format("{0}&ReturnUrl={1}", td.ParentObjectUri, 
+                        Renderer.UrlEncode(string.Format("DiscussionView.aspx?id={0}", td.Id)))));
             }
             else
             {
