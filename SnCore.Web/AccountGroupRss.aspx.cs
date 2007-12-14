@@ -64,11 +64,8 @@ public partial class AccountGroupRss : AccountPersonPage
                 AccountGroupId, options, SessionManager.GroupService.GetAccountGroupPlaces);
             rssRepeaterPlaces.DataBind();
             // get new discussion posts
-            int discussion_id = SessionManager.DiscussionService.GetOrCreateDiscussionId(
-                    SessionManager.Ticket, "AccountGroup", AccountGroupId);
-            rssRepeaterDiscussion.DataSource = SessionManager.GetCollection<TransitDiscussionPost, int>(
-                discussion_id, options, SessionManager.DiscussionService.GetLatestDiscussionPostsById);
-            rssRepeaterDiscussion.DataBind();
+            discussionsRss.ObjectId = RequestId;
+            discussionsRss.Type = "AccountGroup";
             // get new blog posts
             if (AccountGroup.AccountBlogId > 0)
             {

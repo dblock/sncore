@@ -2,6 +2,7 @@
  Inherits="AccountGroupRss" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Import Namespace="SnCore.Services" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionsRss" Src="DiscussionsRssControl.ascx" %>
 <rss version="2.0">
   <channel>
     <title><% Response.Write(RssTitle); %></title>
@@ -14,22 +15,8 @@
      <link><% Response.Write(Link); %></link> 
      <width>100</width> 
      <height>100</height> 
-    </image>    
-    <asp:Repeater id="rssRepeaterDiscussion" runat="server">
-     <ItemTemplate>
-      <item>
-       <title>New Discussion Post: <%# base.Render(Eval("Subject")) %></title>
-       <pubDate><%# base.AdjustToRFC822(Eval("Created")) %></pubDate>
-       <author><%# base.Render(Eval("AccountName")) %></author>
-       <description>
-        <![CDATA[<%# base.RenderEx(Eval("Body")) %>]]>
-       </description>
-       <category>Group Discussion Posts</category>
-       <link><% Response.Write(WebsiteUrl); %>/DiscussionThreadView.aspx?did=<%# Eval("DiscussionId") %>&amp;id=<%# Eval("DiscussionThreadId")%></link>
-       <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/Discussion/<%# Eval("DiscussionId") %>/<%# Eval("Id") %></guid>
-      </item>
-     </ItemTemplate>
-    </asp:Repeater>    
+    </image>
+    <SnCore:DiscussionsRss ID="discussionsRss" runat="server" />
     <asp:Repeater id="rssRepeaterMembers" runat="server">
      <ItemTemplate>
       <item>

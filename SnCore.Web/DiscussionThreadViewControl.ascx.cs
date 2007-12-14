@@ -44,7 +44,7 @@ public partial class DiscussionThreadViewControl : Control
                 linkNew.Visible = ! d.Personal;
                 linkAllDiscussions.Visible = !d.Personal;
                 linkNewPosts.Visible = !d.Personal;
-                linkMove.Visible = SessionManager.IsAdministrator && !d.Personal;
+                linkMove.Visible = d.CanUpdate;
                 linkMove.NavigateUrl = string.Format("DiscussionThreadMove.aspx?id={0}", DiscussionThreadId);
             }
 

@@ -190,6 +190,7 @@ namespace SnCore.Services
                 t_admin.IsAdministrator = true;
                 ManagedAccountGroupAccount m_admin = new ManagedAccountGroupAccount(Session);
                 m_admin.CreateOrUpdate(t_admin, ManagedAccount.GetAdminSecurityContext(Session));
+                ManagedDiscussion.GetOrCreateDiscussionId(Session, typeof(AccountGroup).Name, mInstance.Id, sec);
             }
         }
 

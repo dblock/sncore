@@ -26,18 +26,22 @@ public partial class DiscussionThreadMove : Page
             TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
                 SessionManager.Ticket, tt.DiscussionId);
 
-            if (td.Personal)
-            {
-                throw new Exception("You can only move posts for public discussions.");
-            }
-
             TransitDiscussionPost tp = SessionManager.DiscussionService.GetDiscussionThreadPost(
                 SessionManager.Ticket, tt.Id);
 
             this.Title = Renderer.Render(td.Name);
 
-            listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(
-                SessionManager.Ticket, null);
+            if (td.ObjectId != 0 && ! string.IsNullOrEmpty(td.ParentObjectType))
+            {
+                listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussionsByObjectId(
+                    SessionManager.Ticket, td.ParentObjectType, td.ObjectId, null);
+            }
+            else
+            {
+                listDiscussions.DataSource = SessionManager.DiscussionService.GetDiscussions(
+                    SessionManager.Ticket, null);
+            }
+
             listDiscussions.DataBind();
 
             ListItemManager.TrySelect(listDiscussions, tt.DiscussionId);

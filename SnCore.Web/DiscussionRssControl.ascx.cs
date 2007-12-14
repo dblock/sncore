@@ -11,9 +11,22 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.WebServices;
+using Wilco.Web.UI;
 
-public partial class DiscussionRss : Page
+public partial class DiscussionRssControl : Control
 {
+    public int DiscussionId
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<int>(ViewState, "DiscussionId", 0);
+        }
+        set
+        {
+            ViewState["DiscussionId"] = value;
+        }
+    }
+
     private TransitDiscussion mDiscussion = null;
 
     public string WebsiteUrl
@@ -31,7 +44,7 @@ public partial class DiscussionRss : Page
             if (mDiscussion == null)
             {
                 mDiscussion = SessionManager.DiscussionService.GetDiscussionById(
-                    SessionManager.Ticket, RequestId);
+                    SessionManager.Ticket, DiscussionId);
             }
             return mDiscussion;
         }
@@ -45,7 +58,7 @@ public partial class DiscussionRss : Page
         }
     }
 
-    public string RssTitle
+    public string RssControlTitle
     {
         get
         {
@@ -58,8 +71,8 @@ public partial class DiscussionRss : Page
     {
         get
         {
-            return new Uri(SessionManager.WebsiteUri, string.Format("DiscussionView.aspx?id={0}", 
-                RequestId)).ToString();
+            return new Uri(SessionManager.WebsiteUri, string.Format("DiscussionView.aspx?id={0}",
+                DiscussionId)).ToString();
         }
     }
 
@@ -67,21 +80,12 @@ public partial class DiscussionRss : Page
     {
         if (!IsPostBack)
         {
-            TransitDiscussion discussion = Discussion;
-            if (discussion == null)
-            {
-                Response.StatusCode = 404;
-                Response.End();
-                return;
-            }
-
-            discussionRss.DiscussionId = RequestId;
+            ServiceQueryOptions options = new ServiceQueryOptions();
+            options.PageSize = 50;
+            options.PageNumber = 0;
+            rssRepeater.DataSource = SessionManager.DiscussionService.GetLatestDiscussionPostsById(
+                SessionManager.Ticket, DiscussionId, options);
+            rssRepeater.DataBind();
         }
-    }
-
-    protected override void OnPreRender(EventArgs e)
-    {
-        Response.ContentType = "text/xml";
-        base.OnPreRender(e);
     }
 }
