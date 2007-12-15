@@ -90,6 +90,9 @@ public partial class DiscussionViewControl : Control
 
         gridManage.CurrentPageIndex = 0;
 
+        if (!HasRows)
+            return;
+
         DiscussionViewTypes type = GetDiscussionViewType();
         switch (type)
         {
@@ -116,7 +119,7 @@ public partial class DiscussionViewControl : Control
             DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
     }
 
-    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    void GetDiscussionData(object sender, EventArgs e)
     {
         if (DiscussionId <= 0)
             return;
@@ -128,15 +131,18 @@ public partial class DiscussionViewControl : Control
 
         StringBuilder sb = new StringBuilder();
         //sb.AppendFormat(" &#187; {0} thread{1}", d.ThreadCount, d.ThreadCount == 1 ? string.Empty : "s");
-        //sb.AppendFormat(" &#187; {0} post{1}", d.PostCount, d.PostCount == 1 ? string.Empty : "s");
-        sb.AppendFormat(" <span class='{0}'>&#187; last post {1}</span>", 
-            DateTime.UtcNow.Subtract(d.Modified).TotalDays < 3 ? "sncore_datetime_highlight" : string.Empty, 
-            SessionManager.ToAdjustedString(d.Modified));
+        if (d.PostCount > 0)
+        {
+            sb.AppendFormat(" &#187; {0} post{1}", d.PostCount, d.PostCount == 1 ? string.Empty : "s");
+            sb.AppendFormat(" <span class='{0}'>&#187; last post {1}</span>",
+                DateTime.UtcNow.Subtract(d.Modified).TotalDays < 3 ? "sncore_datetime_highlight" : string.Empty,
+                SessionManager.ToAdjustedString(d.Modified));
+        }
 
         labelThreadsPosts.Text = sb.ToString();
 
         linkRead.Visible = !string.IsNullOrEmpty(linkRead.Text);
-        linkRead.NavigateUrl = string.Format("DiscussionView.aspx?id={0}&ReturnUrl={1}&ParentRedirect=false", 
+        linkRead.NavigateUrl = string.Format("DiscussionView.aspx?id={0}&ReturnUrl={1}&ParentRedirect=false",
             d.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
         linkBack.Visible = !string.IsNullOrEmpty(linkBack.Text);
@@ -145,13 +151,18 @@ public partial class DiscussionViewControl : Control
         linkSearch.Visible = !string.IsNullOrEmpty(linkSearch.Text);
         postNew.Visible = !string.IsNullOrEmpty(postNew.Text);
 
-        if ((! mDefaultViewRows.HasValue) && (d.DefaultViewRows <= 0))
+        if (!HasRows)
         {
             linkSearch.Text = string.Empty;
-            return;
         }
+    }
 
-        gridManage.RepeatRows = mDefaultViewRows.HasValue ? mDefaultViewRows.Value : d.DefaultViewRows;
+    void gridManage_OnGetDataSource(object sender, EventArgs e)
+    {
+        if (!HasRows)
+            return;
+
+        gridManage.RepeatRows = mDefaultViewRows.HasValue ? mDefaultViewRows.Value : GetDiscussion().DefaultViewRows;
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
@@ -173,6 +184,15 @@ public partial class DiscussionViewControl : Control
         }
     }
 
+    public bool HasRows
+    {
+        get
+        {
+            return ((mDefaultViewRows.HasValue && mDefaultViewRows.Value > 0) 
+                || GetDiscussion().DefaultViewRows > 0);
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
@@ -187,6 +207,7 @@ public partial class DiscussionViewControl : Control
             gridManage.CssClass = mCssClass;
             tableSearch.Attributes["class"] = mCssClass;
 
+            GetDiscussionData(sender, e);
             GetData(sender, e);
         }
     }
