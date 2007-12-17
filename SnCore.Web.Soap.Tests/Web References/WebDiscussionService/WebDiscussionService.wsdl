@@ -560,6 +560,18 @@
       <s:element name="MoveDiscussionThreadResponse">
         <s:complexType />
       </s:element>
+      <s:element name="MoveDiscussionPost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="postid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="targetid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveDiscussionPostResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="GetDiscussionThreadById">
         <s:complexType>
           <s:sequence>
@@ -849,6 +861,12 @@
   <wsdl:message name="MoveDiscussionThreadSoapOut">
     <wsdl:part name="parameters" element="tns:MoveDiscussionThreadResponse" />
   </wsdl:message>
+  <wsdl:message name="MoveDiscussionPostSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveDiscussionPost" />
+  </wsdl:message>
+  <wsdl:message name="MoveDiscussionPostSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveDiscussionPostResponse" />
+  </wsdl:message>
   <wsdl:message name="GetDiscussionThreadByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetDiscussionThreadById" />
   </wsdl:message>
@@ -1039,6 +1057,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a discussion thread.</wsdl:documentation>
       <wsdl:input message="tns:MoveDiscussionThreadSoapIn" />
       <wsdl:output message="tns:MoveDiscussionThreadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveDiscussionPost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a discussion post.</wsdl:documentation>
+      <wsdl:input message="tns:MoveDiscussionPostSoapIn" />
+      <wsdl:output message="tns:MoveDiscussionPostSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetDiscussionThreadById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get discussion thread by id.</wsdl:documentation>
@@ -1349,6 +1372,15 @@
     </wsdl:operation>
     <wsdl:operation name="MoveDiscussionThread">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveDiscussionThread" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDiscussionPost">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveDiscussionPost" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1685,6 +1717,15 @@
     </wsdl:operation>
     <wsdl:operation name="MoveDiscussionThread">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveDiscussionThread" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDiscussionPost">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveDiscussionPost" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

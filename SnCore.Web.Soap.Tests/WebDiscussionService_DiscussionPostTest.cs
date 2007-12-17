@@ -254,5 +254,27 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             EndPoint.DeleteDiscussion(GetUserTicket(), t_discussion.Id);
             DeleteUser(user.id);
         }
+
+        [Test]
+        public void MoveDiscussionPostTest()
+        {
+            DiscussionTest discussion = new DiscussionTest();
+            int discussion_id = discussion.Create(GetAdminTicket());
+            discussion.SetUp();
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            int post_id = post.Create(GetAdminTicket());
+            WebDiscussionService.TransitDiscussionPost t_post = EndPoint.GetDiscussionPostById(GetAdminTicket(), post_id);
+            Console.WriteLine("Post Id: {0} @ Thread Id: {1}", t_post.Id, t_post.DiscussionThreadId);
+            EndPoint.MoveDiscussionPost(GetAdminTicket(), t_post.Id, discussion_id);
+            WebDiscussionService.TransitDiscussionPost t_post2 = EndPoint.GetDiscussionPostById(GetAdminTicket(), post_id);
+            WebDiscussionService.TransitDiscussionThread t_thread = EndPoint.GetDiscussionThreadById(GetAdminTicket(), t_post2.DiscussionThreadId);
+            Console.WriteLine("Post Id: {0} @ Thread Id: {1}", t_post2.Id, t_post2.DiscussionThreadId);
+            Assert.AreEqual(t_thread.DiscussionId, discussion_id);
+            post.Delete(GetAdminTicket(), post_id);
+            post.TearDown();
+            discussion.Delete(GetAdminTicket(), discussion_id);
+            discussion.TearDown();
+        }
     }
 }

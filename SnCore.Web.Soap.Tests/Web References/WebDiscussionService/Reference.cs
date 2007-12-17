@@ -96,6 +96,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         private System.Threading.SendOrPostCallback MoveDiscussionThreadOperationCompleted;
         
+        private System.Threading.SendOrPostCallback MoveDiscussionPostOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetDiscussionThreadByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback SearchDiscussionPostsOperationCompleted;
@@ -239,6 +241,9 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
         
         /// <remarks/>
         public event MoveDiscussionThreadCompletedEventHandler MoveDiscussionThreadCompleted;
+        
+        /// <remarks/>
+        public event MoveDiscussionPostCompletedEventHandler MoveDiscussionPostCompleted;
         
         /// <remarks/>
         public event GetDiscussionThreadByIdCompletedEventHandler GetDiscussionThreadByIdCompleted;
@@ -1257,6 +1262,38 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
             if ((this.MoveDiscussionThreadCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.MoveDiscussionThreadCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveDiscussionPost", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MoveDiscussionPost(string ticket, int postid, int targetid) {
+            this.Invoke("MoveDiscussionPost", new object[] {
+                        ticket,
+                        postid,
+                        targetid});
+        }
+        
+        /// <remarks/>
+        public void MoveDiscussionPostAsync(string ticket, int postid, int targetid) {
+            this.MoveDiscussionPostAsync(ticket, postid, targetid, null);
+        }
+        
+        /// <remarks/>
+        public void MoveDiscussionPostAsync(string ticket, int postid, int targetid, object userState) {
+            if ((this.MoveDiscussionPostOperationCompleted == null)) {
+                this.MoveDiscussionPostOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveDiscussionPostOperationCompleted);
+            }
+            this.InvokeAsync("MoveDiscussionPost", new object[] {
+                        ticket,
+                        postid,
+                        targetid}, this.MoveDiscussionPostOperationCompleted, userState);
+        }
+        
+        private void OnMoveDiscussionPostOperationCompleted(object arg) {
+            if ((this.MoveDiscussionPostCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MoveDiscussionPostCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2810,6 +2847,10 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void MoveDiscussionThreadCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MoveDiscussionPostCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]

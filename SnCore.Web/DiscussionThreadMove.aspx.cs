@@ -62,6 +62,14 @@ public partial class DiscussionThreadMove : Page
             RequestId,
             int.Parse(listDiscussions.SelectedValue));
 
-        ReportInfo("Discussion thread moved.");
+        SessionManager.InvalidateCache<TransitDiscussion>();
+        SessionManager.InvalidateCache<TransitDiscussionThread>();
+        SessionManager.InvalidateCache<TransitDiscussionPost>();
+
+        TransitDiscussionThread tt = SessionManager.DiscussionService.GetDiscussionThreadById(
+            SessionManager.Ticket, RequestId);
+
+        Redirect(string.Format("DiscussionThreadView.aspx?id={0}&did={1}",
+            tt.Id, tt.DiscussionId));
     }
 }

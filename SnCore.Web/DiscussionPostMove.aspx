@@ -1,10 +1,10 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="DiscussionThreadMove.aspx.cs"
- Inherits="DiscussionThreadMove" Title="Move Discussion Thread" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="DiscussionPostMove.aspx.cs"
+ Inherits="DiscussionPostMove" Title="Move Discussion Post" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
-  Move Thread
+  Move Post
  </div>
  <table class="sncore_table">
   <tr>

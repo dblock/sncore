@@ -144,6 +144,12 @@ public partial class DiscussionFullViewControl : Control
                 linkDelete.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this post?');");
                 linkDelete.Visible = candelete;
 
+                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
+                    SessionManager.Ticket, DiscussionId);
+                HyperLink linkMovePost = (HyperLink)e.Item.FindControl("linkMovePost");
+                linkMovePost.Visible = d.CanUpdate;
+                linkMovePost.NavigateUrl = string.Format("DiscussionPostMove.aspx?id={0}", id);
+
                 break;
         }
     }

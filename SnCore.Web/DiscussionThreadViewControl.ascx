@@ -68,6 +68,7 @@
         &#187; edit</a>
        <a href="AccountFlagEdit.aspx?aid=<%# Eval("AccountId") %>&url=<%# Renderer.UrlEncode(string.Format("DiscussionPostView.aspx?id={0}", Eval("Id"))) %>&type=Spam&ReturnUrl=<%# Renderer.UrlEncode(base.ReturnUrl) %>">
         &#187; spam</a>
+       <asp:HyperLink id="linkMovePost" runat="server" Text="&#187; move" />
        <asp:LinkButton CommandName="Delete" id="linkDelete" runat="server" Text="&#187; delete" CommandArgument='<%# Eval("Id") %>'
         OnClientClick="return confirm('Are you sure you want to do this?')" />
       </div>

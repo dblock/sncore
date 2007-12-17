@@ -142,6 +142,12 @@ public partial class DiscussionThreadViewControl : Control
                 LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");
                 linkDelete.Visible = candelete;
 
+                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
+                    SessionManager.Ticket, DiscussionId);
+                HyperLink linkMovePost = (HyperLink)e.Item.FindControl("linkMovePost");
+                linkMovePost.Visible = d.CanUpdate;
+                linkMovePost.NavigateUrl = string.Format("DiscussionPostMove.aspx?id={0}", id);
+
                 break;
         }
     }

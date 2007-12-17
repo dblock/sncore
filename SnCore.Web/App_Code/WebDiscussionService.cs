@@ -510,7 +510,7 @@ namespace SnCore.WebServices
         /// <param name="threadid">thread id</param>
         /// <param name="ticket">authentication ticket</param>
         /// <returns></returns>
-        [WebMethod(Description = "Move a discussion thread.", CacheDuration = 60)]
+        [WebMethod(Description = "Move a discussion thread.")]
         public void MoveDiscussionThread(string ticket, int threadid, int targetid)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
@@ -519,6 +519,26 @@ namespace SnCore.WebServices
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedDiscussionThread thread = new ManagedDiscussionThread(session, threadid);
                 thread.Move(sec, targetid);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Move a discussion post.
+        /// </summary>
+        /// <param name="targetid">target discussion id</param>
+        /// <param name="postid">post id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Move a discussion post.")]
+        public void MoveDiscussionPost(string ticket, int postid, int targetid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedDiscussionPost post = new ManagedDiscussionPost(session, postid);
+                post.Move(sec, targetid);
                 SnCore.Data.Hibernate.Session.Flush();
             }
         }

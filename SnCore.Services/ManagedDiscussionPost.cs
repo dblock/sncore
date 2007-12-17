@@ -582,5 +582,39 @@ namespace SnCore.Services
             }
             return result;
         }
+
+        private void AttachToThread(DiscussionPost post, DiscussionThread thread)
+        {
+            post.DiscussionThread = thread;
+            if (post.DiscussionPosts == null) return;
+            foreach (DiscussionPost child in post.DiscussionPosts)
+            {
+                AttachToThread(child, thread);
+            }
+        }
+
+        public void Move(ManagedSecurityContext sec, int targetid)
+        {
+            GetACL().Check(sec, DataOperation.Delete | DataOperation.Create);
+
+            Discussion target_discussion = Session.Load<Discussion>(targetid);
+
+            // detach the post from the source thread and reset its parent
+            mInstance.DiscussionPostParent = null;
+            mInstance.DiscussionThread.DiscussionPosts.Remove(mInstance);
+            if (mInstance.DiscussionThread.DiscussionPosts.Count == 0) Session.Delete(mInstance.DiscussionThread);
+
+            // create the target thread
+            DiscussionThread target_thread = new DiscussionThread();
+            target_thread.Created = mInstance.Created;
+            target_thread.Modified = DateTime.UtcNow;
+            target_thread.Discussion = target_discussion;
+            Session.Save(target_thread);
+ 
+            // attach the post and all child posts to the target thread
+            AttachToThread(mInstance, target_thread);
+
+            Save(sec);
+        }
     }
 }
