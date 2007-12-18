@@ -13,6 +13,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.WebControls;
+using System.Collections.Generic;
 
 public partial class DiscussionPostMove : Page
 {
@@ -25,6 +26,8 @@ public partial class DiscussionPostMove : Page
 
             TransitDiscussion t_discussion = SessionManager.DiscussionService.GetDiscussionById(
                 SessionManager.Ticket, t_post.DiscussionId);
+
+            // discussions
 
             if (t_discussion.ObjectId != 0 && ! string.IsNullOrEmpty(t_discussion.ParentObjectType))
             {
@@ -39,7 +42,20 @@ public partial class DiscussionPostMove : Page
 
             listDiscussions.DataBind();
 
-            ListItemManager.TrySelect(listDiscussions, t_post.DiscussionId);
+            ListItem li_discussions = null;
+            ListItemManager.TrySelect(listDiscussions, t_post.DiscussionId.ToString(), t_post.DiscussionId.ToString(), ref li_discussions);
+            if (li_discussions != null) listDiscussions.Items.Remove(li_discussions);
+
+            // blogs
+
+            List<TransitAccountBlog> t_blogs = SessionManager.BlogService.GetAccountBlogs(
+                SessionManager.Ticket, SessionManager.AccountId, null);
+            t_blogs.AddRange(SessionManager.BlogService.GetAuthoredAccountBlogs(
+                SessionManager.Ticket, SessionManager.AccountId, null));
+            listBlogs.DataSource = t_blogs;
+            listBlogs.DataBind();
+
+            // ----
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
@@ -53,7 +69,22 @@ public partial class DiscussionPostMove : Page
         }
     }
 
-    public void move_Click(object sender, EventArgs args)
+    public void moveToBlog_Click(object sender, EventArgs args)
+    {
+        int blogpost_id = SessionManager.BlogService.MoveDiscussionPost(
+            SessionManager.Ticket,
+            RequestId,
+            int.Parse(listBlogs.SelectedValue));
+
+        SessionManager.InvalidateCache<TransitDiscussion>();
+        SessionManager.InvalidateCache<TransitDiscussionPost>();
+        SessionManager.InvalidateCache<TransitAccountBlog>();
+        SessionManager.InvalidateCache<TransitAccountBlogPost>();
+
+        Redirect(string.Format("AccountBlogPostView.aspx?id={0}", blogpost_id));
+    }
+
+    public void moveToDiscussion_Click(object sender, EventArgs args)
     {
         SessionManager.DiscussionService.MoveDiscussionPost(
             SessionManager.Ticket,
@@ -62,6 +93,9 @@ public partial class DiscussionPostMove : Page
 
         TransitDiscussionPost t_post = SessionManager.DiscussionService.GetDiscussionPostById(
             SessionManager.Ticket, RequestId);
+
+        SessionManager.InvalidateCache<TransitDiscussion>();
+        SessionManager.InvalidateCache<TransitDiscussionPost>();
 
         Redirect(string.Format("DiscussionThreadView.aspx?id={0}&did={1}", 
             t_post.DiscussionThreadId, t_post.DiscussionId));

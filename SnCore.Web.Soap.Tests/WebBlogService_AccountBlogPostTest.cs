@@ -117,5 +117,11 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             }
             Delete(GetAdminTicket(), post_id);
         }
+
+        [Test]
+        protected void MoveDiscussionPostTest()
+        {
+
+        }
     }
 }

@@ -616,5 +616,49 @@ namespace SnCore.Services
 
             Save(sec);
         }
+
+        public int MoveToAccountBlog(ManagedSecurityContext sec, int targetid)
+        {
+            GetACL().Check(sec, DataOperation.Delete);
+
+            ManagedAccountBlog blog = new ManagedAccountBlog(Session, targetid);
+            blog.GetACL().Check(sec, DataOperation.Update);
+
+            // copy the post to a blog post
+            AccountBlogPost t_post = new AccountBlogPost();
+            t_post.AccountBlog = Session.Load<AccountBlog>(targetid);
+            t_post.AccountId = mInstance.AccountId;
+            t_post.EnableComments = true;
+            t_post.Created = mInstance.Created;
+            t_post.Modified = mInstance.Modified;
+            t_post.Title = mInstance.Subject;
+            t_post.Body = mInstance.Body;
+            t_post.AccountName = ManagedAccount.GetAccountNameWithDefault(Session, mInstance.AccountId);
+            Session.Save(t_post);
+
+            // move the comments thread to the blog comments
+            int discussion_id = ManagedDiscussion.GetOrCreateDiscussionId(Session, "AccountBlogPost", t_post.Id, sec);
+            Discussion target_discussion = Session.Load<Discussion>(discussion_id);
+
+            // create the target thread
+            DiscussionThread target_thread = new DiscussionThread();
+            target_thread.Created = mInstance.Created;
+            target_thread.Modified = mInstance.DiscussionThread.Modified;
+            target_thread.Discussion = target_discussion;
+            Session.Save(target_thread);
+
+            // attach the post and all child posts to the target thread
+            AttachToThread(mInstance, target_thread);
+            
+            // nullify each child's parent
+            foreach (DiscussionPost post in mInstance.DiscussionPosts)
+            {
+                post.DiscussionPostParent = null;
+            }
+
+            // delete the current post that became a blog entry
+            Session.Delete(mInstance);
+            return t_post.Id;
+        }
     }
 }

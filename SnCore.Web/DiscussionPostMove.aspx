@@ -4,7 +4,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
-  Move Post
+  Move Post to a Discussion
  </div>
  <table class="sncore_table">
   <tr>
@@ -20,8 +20,30 @@
    <td>
    </td>
    <td class="sncore_form_value">
-    <SnCoreWebControls:Button ID="move" runat="server" Text="Move"
-     CausesValidation="true" CssClass="sncore_form_button" OnClick="move_Click" />
+    <SnCoreWebControls:Button ID="moveToDiscussion" runat="server" Text="Move"
+     CausesValidation="true" CssClass="sncore_form_button" OnClick="moveToDiscussion_Click" />
+   </td>
+  </tr>
+ </table>
+ <div class="sncore_h2">
+  Move Post to a Blog
+ </div>
+ <table class="sncore_table">
+  <tr>
+   <td class="sncore_form_label">
+    destination:
+   </td>
+   <td class="sncore_form_value">
+    <asp:DropDownList ID="listBlogs" CssClass="sncore_form_dropdown" DataTextField="Name"
+     DataValueField="Id" runat="server" />
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td class="sncore_form_value">
+    <SnCoreWebControls:Button ID="moveToBlog" runat="server" Text="Move"
+     CausesValidation="true" CssClass="sncore_form_button" OnClick="moveToBlog_Click" />
    </td>
   </tr>
  </table>

@@ -272,6 +272,31 @@ namespace SnCore.WebServices
 
         #endregion
 
+        #region DiscussionPost
+
+        /// <summary>
+        /// Move a discussion post.
+        /// </summary>
+        /// <param name="targetid">target blog id</param>
+        /// <param name="postid">post id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns></returns>
+        [WebMethod(Description = "Move a discussion post to a blog.")]
+        public int MoveDiscussionPost(string ticket, int postid, int targetid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedDiscussionPost post = new ManagedDiscussionPost(session, postid);
+                int result = post.MoveToAccountBlog(sec, targetid);
+                SnCore.Data.Hibernate.Session.Flush();
+                return result;
+            }
+        }
+
+        #endregion
+
         #region Search
 
         /// <summary>
