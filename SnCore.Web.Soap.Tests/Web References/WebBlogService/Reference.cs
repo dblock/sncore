@@ -1030,6 +1030,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         private bool canDeleteField;
         
+        private bool enableCommentsField;
+        
         /// <remarks/>
         public int AccountBlogId {
             get {
@@ -1149,6 +1151,16 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
                 this.canDeleteField = value;
             }
         }
+        
+        /// <remarks/>
+        public bool EnableComments {
+            get {
+                return this.enableCommentsField;
+            }
+            set {
+                this.enableCommentsField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1194,6 +1206,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         private int accountPictureIdField;
         
         private string accountNameField;
+        
+        private bool enableCommentsField;
         
         /// <remarks/>
         public string Name {
@@ -1262,6 +1276,16 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             }
             set {
                 this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool EnableComments {
+            get {
+                return this.enableCommentsField;
+            }
+            set {
+                this.enableCommentsField = value;
             }
         }
     }

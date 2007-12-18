@@ -22,6 +22,7 @@
         private System.String m_Name;
         private System.DateTime m_Updated;
         private System.Collections.Generic.IList<AccountGroup> m_AccountGroups;
+        private System.Boolean m_EnableComments;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -265,6 +266,31 @@
             set
             {
                 m_AccountGroups = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_EnableComments' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'EnableComments' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean EnableComments
+        {
+            get
+            {
+                return m_EnableComments;
+            }
+            set
+            {
+                m_EnableComments = value;
             }
         }
 

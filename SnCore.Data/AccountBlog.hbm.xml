@@ -21,5 +21,6 @@
       <key column="AccountBlog_Id" />
       <one-to-many class="AccountGroup, SnCore.Data" />
     </bag>
+    <property name="EnableComments" column="EnableComments" type="Boolean" />
   </class>
 </hibernate-mapping>

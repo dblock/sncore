@@ -248,6 +248,7 @@ CREATE TABLE [dbo].[AccountBlog](
 	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
+	[EnableComments] [bit] NOT NULL,
  CONSTRAINT [PK_AccountBlog] PRIMARY KEY CLUSTERED 
 (
 	[AccountBlog_Id] ASC

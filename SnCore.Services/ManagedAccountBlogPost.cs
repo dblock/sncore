@@ -194,6 +194,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mEnableComments = true;
+
+        public bool EnableComments
+        {
+            get
+            {
+                return mEnableComments;
+            }
+            set
+            {
+                mEnableComments = value;
+            }
+        }
+
         public TransitAccountBlogPost()
         {
 
@@ -213,6 +227,7 @@ namespace SnCore.Services
             Created = instance.Created;
             Modified = instance.Modified;
             AccountId = instance.AccountId;
+            EnableComments = instance.EnableComments && instance.AccountBlog.EnableComments;
 
             AccountName = instance.AccountName;
             AccountBlogName = instance.AccountBlog.Name;
@@ -225,6 +240,7 @@ namespace SnCore.Services
             AccountBlogPost instance = base.GetInstance(session, sec);
             instance.Title = this.Title;
             instance.Body = this.Body;
+            instance.EnableComments = this.EnableComments;
 
             if (Id == 0)
             {
@@ -299,7 +315,10 @@ namespace SnCore.Services
 
             if (ManagedDiscussion.IsDiscussionType(type))
             {
-                acl.Add(new ACLAuthenticatedAllowCreate());
+                if (mInstance.EnableComments && mInstance.AccountBlog.EnableComments)
+                {
+                    acl.Add(new ACLAuthenticatedAllowCreate());
+                }
             }
 
             foreach (AccountBlogAuthor author in Collection<AccountBlogAuthor>.GetSafeCollection(mInstance.AccountBlog.AccountBlogAuthors))

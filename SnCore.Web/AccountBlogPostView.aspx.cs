@@ -55,8 +55,9 @@ public partial class AccountBlogPostView : Page
 
             BlogPostComments.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                 typeof(AccountBlogPost).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
-
             BlogPostComments.DataBind();
+
+            if (!post.EnableComments) BlogPostComments.PostNewText = string.Empty;
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));

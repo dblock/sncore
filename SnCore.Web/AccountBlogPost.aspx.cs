@@ -55,6 +55,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             labelBlogDescription.Text = Renderer.Render(blog.Description);
             linkAccount.HRef = string.Format("AccountView.aspx?id={0}", blog.AccountId);
             imageAccount.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", blog.AccountPictureId);
+            if (!blog.EnableComments) enableComments.Enabled = false;
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
@@ -89,6 +90,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
         tp.Body = inputBody.Text;
         tp.AccountBlogId = BlogId;
         tp.Id = RequestId;
+        tp.EnableComments = enableComments.Checked;
         tp.Id = SessionManager.CreateOrUpdate<TransitAccountBlogPost>(
             tp, SessionManager.BlogService.CreateOrUpdateAccountBlogPost);
         return tp.Id;

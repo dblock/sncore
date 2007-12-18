@@ -42,6 +42,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
 
                 inputName.Text = tf.Name;
                 inputDescription.Text = tf.Description;
+                enableComments.Checked = tf.EnableComments;
 
                 if (!IsPostBack)
                 {
@@ -93,6 +94,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
         s.Name = inputName.Text;
         s.Description = inputDescription.Text;
         s.AccountId = SessionManager.Account.Id;
+        s.EnableComments = enableComments.Checked;
 
         if (s.Id == 0)
         {
@@ -112,6 +114,8 @@ public partial class AccountBlogEdit : AuthenticatedPage
 
         s.Id = SessionManager.CreateOrUpdate<TransitAccountBlog>(
             s, SessionManager.BlogService.CreateOrUpdateAccountBlog);
+        SessionManager.InvalidateCache<TransitAccountBlogPost>();
+
         // automatically syndicate the blog
         SessionManager.BlogService.SyndicateAccountBlog(SessionManager.Ticket, s.Id);
         Redirect("AccountBlogsManage.aspx");

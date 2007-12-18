@@ -66,6 +66,14 @@
    </td>
   </tr>
   <tr>
+   <td class="sncore_form_label">
+   </td>
+   <td class="sncore_form_value">
+    <asp:CheckBox CssClass="sncore_form_checkbox" ID="enableComments" runat="server" 
+     Text="Enable Comments" Checked="true" />
+   </td>
+  </tr>
+  <tr>
    <td>
    </td>
    <td class="sncore_form_value">

@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Web.Services.Protocols;
 using System.Threading;
+using SnCore.Web.Soap.Tests.WebDiscussionService;
 
 namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
 {
@@ -38,6 +39,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             t_instance.AccountId = GetUserAccount().Id;
             t_instance.Body = GetNewString();
             t_instance.Title = GetNewString();
+            t_instance.EnableComments = true;
             return t_instance;
         }
 
@@ -74,6 +76,45 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             Assert.IsTrue(posts.Length > 0);
             bool bFound = new TransitServiceCollection<WebBlogService.TransitAccountBlogPost>(posts).ContainsId(post_id);
             Assert.IsTrue(bFound);
+            Delete(GetAdminTicket(), post_id);
+        }
+
+        [Test]
+        public void EnableDisableCommentsTest()
+        {
+            WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
+            int post_id = Create(GetAdminTicket(), t_post);
+            Console.WriteLine("Post: {0}", post_id);
+            // post a comment
+            WebDiscussionService.WebDiscussionService DiscussionEndpoint = new SnCore.Web.Soap.Tests.WebDiscussionService.WebDiscussionService();
+            int discussion_id = DiscussionEndpoint.GetOrCreateDiscussionId(GetAdminTicket(), "AccountBlogPost", post_id);
+            Console.WriteLine("Discussion: {0}", discussion_id);
+            WebDiscussionService.TransitDiscussionPost t_discussion_post_1 = new WebDiscussionService.TransitDiscussionPost();
+            t_discussion_post_1.Body = GetNewString();
+            t_discussion_post_1.DiscussionId = discussion_id;
+            t_discussion_post_1.Subject = GetNewString();
+            t_discussion_post_1.Id = DiscussionEndpoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_discussion_post_1);
+            Console.WriteLine("Post: {0}", t_discussion_post_1.Id);
+            // disable comments on the blog
+            WebBlogService.TransitAccountBlog t_blog = EndPoint.GetAccountBlogById(GetAdminTicket(), _blog_id);
+            t_blog.EnableComments = false;
+            EndPoint.CreateOrUpdateAccountBlog(GetAdminTicket(), t_blog);
+            // try to post again
+            try
+            {
+                WebDiscussionService.TransitDiscussionPost t_discussion_post_2 = new WebDiscussionService.TransitDiscussionPost();
+                t_discussion_post_2.Body = GetNewString();
+                t_discussion_post_2.DiscussionId = discussion_id;
+                t_discussion_post_2.Subject = GetNewString();
+                t_discussion_post_2.Id = DiscussionEndpoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_discussion_post_2);
+                Console.WriteLine("Post: {0}", t_discussion_post_2.Id);
+                Assert.IsTrue(false, "Expected an access denied.");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Expected exception: {0}", ex.Message);
+                Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
+            }
             Delete(GetAdminTicket(), post_id);
         }
     }

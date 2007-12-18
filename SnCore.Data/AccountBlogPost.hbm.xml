@@ -11,5 +11,6 @@
     <property name="Created" column="Created" type="DateTime" />
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Title" column="Title" type="String" />
+    <property name="EnableComments" column="EnableComments" type="Boolean" />
   </class>
 </hibernate-mapping>

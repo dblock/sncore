@@ -19,6 +19,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             WebBlogService.TransitAccountBlog t_instance = new WebBlogService.TransitAccountBlog();
             t_instance.Name = GetNewString();
             t_instance.Description = GetNewString();
+            t_instance.EnableComments = true;
             return t_instance;
         }
 
@@ -64,6 +65,12 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             Console.WriteLine("Blogs: {0}", blogs.Length);
             Assert.AreEqual(count + 1, blogs.Length);
             Delete(GetAdminTicket(), blog_id);
+        }
+
+        [Test]
+        protected void EnableDisableCommentsTest()
+        {
+
         }
     }
 }

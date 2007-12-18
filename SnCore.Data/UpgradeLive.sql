@@ -195,3 +195,17 @@ GO
 UPDATE dbo.Discussion SET [DefaultViewRows] = 5 WHERE DefaultViewRows IS NULL
 ALTER TABLE dbo.Discussion ALTER COLUMN [DefaultViewRows] int NOT NULL
 GO
+-- create a EnableComments option for AccountBlog
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlog]') AND name = N'EnableComments') 
+ALTER TABLE dbo.AccountBlog ADD [EnableComments] bit NULL
+GO
+UPDATE dbo.AccountBlog SET [EnableComments] = 1 WHERE EnableComments IS NULL
+ALTER TABLE dbo.AccountBlog ALTER COLUMN [EnableComments] bit NOT NULL
+GO
+-- create a EnableComments option for AccountBlogPost
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]') AND name = N'EnableComments') 
+ALTER TABLE dbo.AccountBlogPost ADD [EnableComments] bit NULL
+GO
+UPDATE dbo.AccountBlogPost SET [EnableComments] = 1 WHERE EnableComments IS NULL
+ALTER TABLE dbo.AccountBlogPost ALTER COLUMN [EnableComments] bit NOT NULL
+GO

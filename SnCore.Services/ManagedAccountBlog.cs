@@ -121,6 +121,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mEnableComments = true;
+
+        public bool EnableComments
+        {
+            get
+            {
+                return mEnableComments;
+            }
+            set
+            {
+                mEnableComments = value;
+            }
+        }
+
         public TransitAccountBlog()
         {
 
@@ -140,6 +154,7 @@ namespace SnCore.Services
             Updated = instance.Updated;
             AccountId = instance.Account.Id;
             AccountName = instance.Account.Name;
+            EnableComments = instance.EnableComments;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
             base.SetInstance(instance);
         }
@@ -150,6 +165,7 @@ namespace SnCore.Services
             if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
             instance.Name = this.Name;
             instance.Description = this.Description;
+            instance.EnableComments = this.EnableComments;
             return instance;
         }
     }
