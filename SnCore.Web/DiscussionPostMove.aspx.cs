@@ -42,10 +42,6 @@ public partial class DiscussionPostMove : Page
 
             listDiscussions.DataBind();
 
-            ListItem li_discussions = null;
-            ListItemManager.TrySelect(listDiscussions, t_post.DiscussionId.ToString(), t_post.DiscussionId.ToString(), ref li_discussions);
-            if (li_discussions != null) listDiscussions.Items.Remove(li_discussions);
-
             // blogs
 
             List<TransitAccountBlog> t_blogs = SessionManager.BlogService.GetAccountBlogs(
