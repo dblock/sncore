@@ -119,9 +119,44 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         }
 
         [Test]
-        protected void MoveDiscussionPostTest()
+        public void MoveAccountBlogPostTest()
         {
+            WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
+            t_post.Id = Create(GetAdminTicket(), t_post);
+            Console.WriteLine("Post: {0} in blog {1}", t_post.Id, _blog_id);
+            // create another blog
+            AccountBlogTest blog2 = new AccountBlogTest();
+            blog2.SetUp();
+            int blog2_id = blog2.Create(GetAdminTicket());
+            // move the post to blog2
+            EndPoint.MoveAccountBlogPost(GetAdminTicket(), t_post.Id, blog2_id);
+            // check that the id was updated
+            WebBlogService.TransitAccountBlogPost t_post2 = EndPoint.GetAccountBlogPostById(
+                GetAdminTicket(), t_post.Id);
+            Console.WriteLine("Post: {0} in blog {1}", t_post2.Id, t_post2.AccountBlogId);
+            Assert.AreNotEqual(t_post.AccountBlogId, t_post2.AccountBlogId);
+            Assert.AreEqual(t_post.Id, t_post2.Id);
+            blog2.TearDown();
+            Delete(GetAdminTicket(), t_post.Id);
+        }
 
+        [Test]
+        public void MoveDiscussionPostToAccountBlogTest()
+        {
+            WebDiscussionServiceTests.DiscussionPostTest _post = new WebDiscussionServiceTests.DiscussionPostTest();
+            _post.SetUp();
+            int post_id = _post.Create(GetAdminTicket());
+            Console.WriteLine("Post: {0}", post_id);
+            // make sure there're no posts in the blog
+            int blog_posts_count = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), _blog_id);
+            Assert.AreEqual(0, blog_posts_count);
+            // move the discussion post
+            int moved_post_id = EndPoint.MoveDiscussionPost(GetAdminTicket(), post_id, _blog_id);
+            Console.WriteLine("Moved Post: {0}", moved_post_id);
+            Assert.AreNotEqual(0, moved_post_id);
+            int blog_posts_count2 = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), _blog_id);
+            Assert.AreEqual(1, blog_posts_count2);
+            _post.TearDown();
         }
     }
 }

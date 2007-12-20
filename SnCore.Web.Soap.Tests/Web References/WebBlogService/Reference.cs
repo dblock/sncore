@@ -58,6 +58,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         private System.Threading.SendOrPostCallback DeleteAccountBlogPostOperationCompleted;
         
+        private System.Threading.SendOrPostCallback MoveAccountBlogPostOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAccountBlogAuthorsCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountBlogAuthorByIdOperationCompleted;
@@ -67,6 +69,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountBlogAuthorOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountBlogAuthorOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback MoveDiscussionPostOperationCompleted;
         
         private System.Threading.SendOrPostCallback SearchAccountBlogPostsOperationCompleted;
         
@@ -150,6 +154,9 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         public event DeleteAccountBlogPostCompletedEventHandler DeleteAccountBlogPostCompleted;
         
         /// <remarks/>
+        public event MoveAccountBlogPostCompletedEventHandler MoveAccountBlogPostCompleted;
+        
+        /// <remarks/>
         public event GetAccountBlogAuthorsCountCompletedEventHandler GetAccountBlogAuthorsCountCompleted;
         
         /// <remarks/>
@@ -163,6 +170,9 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         /// <remarks/>
         public event DeleteAccountBlogAuthorCompletedEventHandler DeleteAccountBlogAuthorCompleted;
+        
+        /// <remarks/>
+        public event MoveDiscussionPostCompletedEventHandler MoveDiscussionPostCompleted;
         
         /// <remarks/>
         public event SearchAccountBlogPostsCompletedEventHandler SearchAccountBlogPostsCompleted;
@@ -578,6 +588,38 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveAccountBlogPost", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MoveAccountBlogPost(string ticket, int postid, int targetid) {
+            this.Invoke("MoveAccountBlogPost", new object[] {
+                        ticket,
+                        postid,
+                        targetid});
+        }
+        
+        /// <remarks/>
+        public void MoveAccountBlogPostAsync(string ticket, int postid, int targetid) {
+            this.MoveAccountBlogPostAsync(ticket, postid, targetid, null);
+        }
+        
+        /// <remarks/>
+        public void MoveAccountBlogPostAsync(string ticket, int postid, int targetid, object userState) {
+            if ((this.MoveAccountBlogPostOperationCompleted == null)) {
+                this.MoveAccountBlogPostOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveAccountBlogPostOperationCompleted);
+            }
+            this.InvokeAsync("MoveAccountBlogPost", new object[] {
+                        ticket,
+                        postid,
+                        targetid}, this.MoveAccountBlogPostOperationCompleted, userState);
+        }
+        
+        private void OnMoveAccountBlogPostOperationCompleted(object arg) {
+            if ((this.MoveAccountBlogPostCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MoveAccountBlogPostCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogAuthorsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int GetAccountBlogAuthorsCount(string ticket, int id) {
             object[] results = this.Invoke("GetAccountBlogAuthorsCount", new object[] {
@@ -730,6 +772,39 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             if ((this.DeleteAccountBlogAuthorCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteAccountBlogAuthorCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveDiscussionPost", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int MoveDiscussionPost(string ticket, int postid, int targetid) {
+            object[] results = this.Invoke("MoveDiscussionPost", new object[] {
+                        ticket,
+                        postid,
+                        targetid});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void MoveDiscussionPostAsync(string ticket, int postid, int targetid) {
+            this.MoveDiscussionPostAsync(ticket, postid, targetid, null);
+        }
+        
+        /// <remarks/>
+        public void MoveDiscussionPostAsync(string ticket, int postid, int targetid, object userState) {
+            if ((this.MoveDiscussionPostOperationCompleted == null)) {
+                this.MoveDiscussionPostOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveDiscussionPostOperationCompleted);
+            }
+            this.InvokeAsync("MoveDiscussionPost", new object[] {
+                        ticket,
+                        postid,
+                        targetid}, this.MoveDiscussionPostOperationCompleted, userState);
+        }
+        
+        private void OnMoveDiscussionPostOperationCompleted(object arg) {
+            if ((this.MoveDiscussionPostCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MoveDiscussionPostCompleted(this, new MoveDiscussionPostCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1586,6 +1661,10 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MoveAccountBlogPostCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void GetAccountBlogAuthorsCountCompletedEventHandler(object sender, GetAccountBlogAuthorsCountCompletedEventArgs e);
     
     /// <remarks/>
@@ -1691,6 +1770,32 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void DeleteAccountBlogAuthorCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MoveDiscussionPostCompletedEventHandler(object sender, MoveDiscussionPostCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class MoveDiscussionPostCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal MoveDiscussionPostCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]

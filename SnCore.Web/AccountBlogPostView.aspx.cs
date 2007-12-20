@@ -45,6 +45,11 @@ public partial class AccountBlogPostView : Page
             linkEdit.Visible = post.CanEdit;
             linkEdit.NavigateUrl = string.Format("AccountBlogPost.aspx?bid={0}&id={1}&ReturnUrl={2}",
                 post.AccountBlogId, post.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
+
+            linkMove.Visible = post.CanEdit && post.CanDelete;
+            linkMove.NavigateUrl = string.Format("AccountBlogPostMove.aspx?id={0}&ReturnUrl={1}",
+                post.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
+
             linkDelete.Visible = post.CanDelete;
 
             linkAccountView.HRef = string.Format("AccountView.aspx?id={0}", post.AccountId);

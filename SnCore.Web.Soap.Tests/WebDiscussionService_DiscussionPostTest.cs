@@ -276,5 +276,24 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             discussion.Delete(GetAdminTicket(), discussion_id);
             discussion.TearDown();
         }
+
+        [Test]
+        public void MoveAccountBlogPostToDiscussionTest()
+        {
+            WebBlogServiceTests.AccountBlogPostTest _post = new WebBlogServiceTests.AccountBlogPostTest();
+            _post.SetUp();
+            int post_id = _post.Create(GetAdminTicket());
+            Console.WriteLine("Post: {0}", post_id);
+            // make sure there're no posts in the discussion
+            int discussion_posts_count = EndPoint.GetDiscussionPostsCount(GetAdminTicket(), _discussion_id);
+            Assert.AreEqual(0, discussion_posts_count);
+            // move the blog post
+            int moved_post_id = EndPoint.MoveAccountBlogPost(GetAdminTicket(), post_id, _discussion_id);
+            Console.WriteLine("Moved Post: {0}", moved_post_id);
+            Assert.AreNotEqual(0, moved_post_id);
+            int discussion_posts_count2 = EndPoint.GetDiscussionPostsCount(GetAdminTicket(), _discussion_id);
+            Assert.AreEqual(1, discussion_posts_count2);
+            _post.TearDown();
+        }
     }
 }

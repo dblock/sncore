@@ -347,5 +347,63 @@ namespace SnCore.Services
             }
             return result;
         }
+
+        public void Move(ManagedSecurityContext sec, int targetid)
+        {
+            GetACL().Check(sec, DataOperation.Delete);
+            AccountBlog target_blog = Session.Load<AccountBlog>(targetid);
+            mInstance.AccountBlog = target_blog;
+            Save(sec);
+        }
+
+
+        public int MoveToDiscussion(ManagedSecurityContext sec, int targetid)
+        {
+            GetACL().Check(sec, DataOperation.Delete);
+
+            ManagedDiscussion target_discussion = new ManagedDiscussion(Session, targetid);
+            target_discussion.GetACL().Check(sec, DataOperation.Create);
+
+            // create the target thread
+            DiscussionThread target_thread = new DiscussionThread();
+            target_thread.Discussion = target_discussion.Instance;
+            target_thread.Modified = mInstance.Modified;
+            target_thread.Created = mInstance.Created;
+            Session.Save(target_thread);
+            if (target_discussion.Instance.Modified < mInstance.Modified)
+            {
+                target_discussion.Instance.Modified = mInstance.Modified;
+                Session.Save(target_discussion.Instance);
+            }
+            // copy the post to a discusison post
+            DiscussionPost target_post = new DiscussionPost();
+            target_post.AccountId = mInstance.AccountId;
+            target_post.Body = mInstance.Body;
+            target_post.Created = mInstance.Created;
+            target_post.Modified = mInstance.Modified;
+            target_post.Sticky = false;
+            target_post.Subject = mInstance.Title;
+            target_post.DiscussionThread = target_thread;
+            Session.Save(target_post);
+            // set the new post as parent of all replies
+            int comments_discussion_id = ManagedDiscussion.GetOrCreateDiscussionId(
+                Session, typeof(AccountBlogPost).Name, mInstance.Id, sec);
+            Discussion comments_discussion = Session.Load<Discussion>(comments_discussion_id);
+            foreach (DiscussionThread thread in Collection<DiscussionThread>.GetSafeCollection(comments_discussion.DiscussionThreads))
+            {
+                foreach (DiscussionPost post in thread.DiscussionPosts)
+                {
+                    post.DiscussionThread = target_thread;
+                    if (post.DiscussionPostParent == null)
+                    {
+                        post.DiscussionPostParent = target_post;
+                    }
+                }
+                Session.Delete(thread);
+            }
+            // delete the current post that became a discussion post
+            Session.Delete(mInstance);
+            return target_post.Id;
+        }
     }
 }

@@ -205,6 +205,23 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Move a blog post.
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod(Description = "Move a blog post to another blog.")]
+        public void MoveAccountBlogPost(string ticket, int postid, int targetid)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountBlogPost post = new ManagedAccountBlogPost(session, postid);
+                post.Move(sec, targetid);
+                SnCore.Data.Hibernate.Session.Flush();
+            }
+        }
+
         #endregion
 
         #region AccountBlogAuthor
@@ -275,7 +292,7 @@ namespace SnCore.WebServices
         #region DiscussionPost
 
         /// <summary>
-        /// Move a discussion post.
+        /// Move a discussion post to a blog.
         /// </summary>
         /// <param name="targetid">target blog id</param>
         /// <param name="postid">post id</param>

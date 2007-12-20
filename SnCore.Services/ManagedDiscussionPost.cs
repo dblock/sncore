@@ -583,16 +583,6 @@ namespace SnCore.Services
             return result;
         }
 
-        private void AttachToThread(DiscussionPost post, DiscussionThread thread)
-        {
-            post.DiscussionThread = thread;
-            if (post.DiscussionPosts == null) return;
-            foreach (DiscussionPost child in post.DiscussionPosts)
-            {
-                AttachToThread(child, thread);
-            }
-        }
-
         public void Move(ManagedSecurityContext sec, int targetid)
         {
             GetACL().Check(sec, DataOperation.Delete | DataOperation.Create);
@@ -612,7 +602,10 @@ namespace SnCore.Services
             Session.Save(target_thread);
  
             // attach the post and all child posts to the target thread
-            AttachToThread(mInstance, target_thread);
+            foreach (DiscussionPost post in mInstance.DiscussionThread.DiscussionPosts)
+            {
+                post.DiscussionThread = target_thread;
+            }
 
             Save(sec);
         }
@@ -622,7 +615,7 @@ namespace SnCore.Services
             GetACL().Check(sec, DataOperation.Delete);
 
             ManagedAccountBlog blog = new ManagedAccountBlog(Session, targetid);
-            blog.GetACL().Check(sec, DataOperation.Update);
+            blog.GetACL().Check(sec, DataOperation.Create);
 
             // copy the post to a blog post
             AccountBlogPost t_post = new AccountBlogPost();
@@ -648,7 +641,11 @@ namespace SnCore.Services
             Session.Save(target_thread);
 
             // attach the post and all child posts to the target thread
-            AttachToThread(mInstance, target_thread);
+            // attach the post and all child posts to the target thread
+            foreach (DiscussionPost post in mInstance.DiscussionThread.DiscussionPosts)
+            {
+                post.DiscussionThread = target_thread;
+            }
             
             // nullify each child's parent
             foreach (DiscussionPost post in mInstance.DiscussionPosts)

@@ -94,6 +94,11 @@
               &#187; edit
              </a>
             </span>
+            <span style='<%# (bool) Eval("CanEdit") && (bool) Eval("CanDelete") ? string.Empty : "display: none;" %>'>
+             <a href='AccountBlogPostMove.aspx?id=<%# Eval("Id") %>'>
+              &#187; move
+             </a>
+            </span>
             <span style='<%# (bool) Eval("CanDelete") ? string.Empty : "display: none;" %>'>
              <asp:LinkButton id="linkDelete" runat="server" Text="&#187; delete" CommandName="Delete" 
               CommandArgument='<%# Eval("Id") %>' OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />

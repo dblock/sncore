@@ -34,6 +34,7 @@
     <div class="sncore_h2sub">
      <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
      <asp:HyperLink ID="linkEdit" NavigateUrl="AccountBlogPost.aspx" runat="server" Text="&#187; Edit" />
+     <asp:HyperLink ID="linkMove" NavigateUrl="AccountBlogPostMove.aspx" runat="server" Text="&#187; Move" />
      <asp:LinkButton ID="linkDelete" OnClick="linkDelete_Click" runat="server" Text="&#187; Delete" 
       OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />
     </div>
