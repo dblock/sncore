@@ -23,6 +23,7 @@
         private System.DateTime m_Updated;
         private System.Collections.Generic.IList<AccountGroup> m_AccountGroups;
         private System.Boolean m_EnableComments;
+        private System.Int32 m_DefaultViewRows;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -291,6 +292,31 @@
             set
             {
                 m_EnableComments = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_DefaultViewRows' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'DefaultViewRows' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Int32 DefaultViewRows
+        {
+            get
+            {
+                return m_DefaultViewRows;
+            }
+            set
+            {
+                m_DefaultViewRows = value;
             }
         }
 

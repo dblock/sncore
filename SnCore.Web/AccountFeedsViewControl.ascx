@@ -6,13 +6,12 @@
 <%@ Register TagPrefix="SnCore" TagName="FeedPreview" Src="AccountFeedPreviewControl.ascx" %>
 <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
-  <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="accountFeeds"
-   CssClass="sncore_inner_table" BorderWidth="0" AutoGenerateColumns="false" ShowHeader="false"
-   Width="95%">
+  <SnCoreWebControls:PagedGrid runat="server" ID="accountFeeds" BorderWidth="0" AutoGenerateColumns="false" 
+   ShowHeader="false" >
    <Columns>
     <asp:TemplateColumn>
      <itemtemplate>
-      <div class="sncore_h2left">
+      <div class="sncore_h2">
        <a target="_blank" href='AccountFeedView.aspx?id=<%# Eval("Id") %>'>
         <%# base.Render(Eval("Name")) %>
        </a>

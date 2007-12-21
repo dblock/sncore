@@ -77,6 +77,16 @@
    <td>
    </td>
    <td class="sncore_form_value">
+    <asp:CheckBox ID="inputSticky" runat="server" Checked="false" Text="Sticky" />
+    <div class="sncore_description">
+     post will stick to the top of the blog when checked
+    </div>
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td class="sncore_form_value">
     <div class="sncore_description">
      <asp:UpdatePanel id="panelLastSaved" UpdateMode="Always" runat="server">
       <ContentTemplate>

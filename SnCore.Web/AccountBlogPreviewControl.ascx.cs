@@ -13,21 +13,10 @@ using Wilco.Web.UI;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
+using System.Text;
 
 public partial class AccountBlogPreviewControl : Control
 {
-    public bool ShowTitle
-    {
-        get
-        {
-            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "ShowTitle", true);
-        }
-        set
-        {
-            ViewState["ShowTitle"] = value;
-        }
-    }
-
     public bool LinkDescription
     {
         get
@@ -61,13 +50,32 @@ public partial class AccountBlogPreviewControl : Control
             {
                 TransitAccountBlog tb = SessionManager.GetInstance<TransitAccountBlog, int>(
                     BlogId, SessionManager.BlogService.GetAccountBlogById);
+
+                blogName.Text = Renderer.Render(tb.Name);
+                blogDescription.Text = Renderer.Render(tb.Description);
                 linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
                 linkRelRss.Title = Renderer.Render(tb.Name);
+                linkRead.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", BlogId);
 
-                gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
-                    BlogId, SessionManager.BlogService.GetAccountBlogPostsCount);
-                gridManage_OnGetDataSource(this, null);
-                gridManage.DataBind();
+                gridManage.RepeatRows = tb.DefaultViewRows;
+
+                if (tb.DefaultViewRows > 0)
+                {
+                    gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
+                        BlogId, SessionManager.BlogService.GetAccountBlogPostsCount);
+                    gridManage_OnGetDataSource(this, null);
+                    gridManage.DataBind();
+                }
+
+                StringBuilder sb = new StringBuilder();
+                if (tb.PostCount > 0)
+                {
+                    sb.AppendFormat(" &#187; {0} post{1}", tb.PostCount, tb.PostCount == 1 ? string.Empty : "s");
+                    sb.AppendFormat(" <span class='{0}'>&#187; last post {1}</span>",
+                        DateTime.UtcNow.Subtract(tb.Updated).TotalDays < 3 ? "sncore_datetime_highlight" : string.Empty,
+                        SessionManager.ToAdjustedString(tb.Updated));
+                }
+                labelPosts.Text = sb.ToString();
             }
         }
     }
@@ -77,18 +85,5 @@ public partial class AccountBlogPreviewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
             BlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
-    }
-
-    public string GetTitle(object title)
-    {
-        if (!ShowTitle)
-            return string.Empty;
-
-        return Renderer.Render(Renderer.RemoveHtml(title));
-    }
-
-    public string GetDescription(object description)
-    {
-        return Renderer.RenderEx(Renderer.CleanHtml(description));
     }
 }

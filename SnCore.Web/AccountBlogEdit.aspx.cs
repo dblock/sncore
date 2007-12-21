@@ -18,6 +18,7 @@ using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
+using SnCore.WebControls;
 
 public partial class AccountBlogEdit : AuthenticatedPage
 {
@@ -43,6 +44,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
                 inputName.Text = tf.Name;
                 inputDescription.Text = tf.Description;
                 enableComments.Checked = tf.EnableComments;
+                ListItemManager.SelectAdd(inputDefaultViewRows, tf.DefaultViewRows);
 
                 if (!IsPostBack)
                 {
@@ -95,6 +97,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
         s.Description = inputDescription.Text;
         s.AccountId = SessionManager.Account.Id;
         s.EnableComments = enableComments.Checked;
+        s.DefaultViewRows = int.Parse(inputDefaultViewRows.SelectedValue);
 
         if (s.Id == 0)
         {

@@ -40,6 +40,9 @@
          <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
           <%# base.GetTitle((string) Eval("Title")) %>
          </a>
+         <span>
+          <%# ((bool) Eval("Sticky")) ? "<img src='images/buttons/sticky.gif' valign='absmiddle'>" : "" %>
+         </span>
         </div>
         <!--
         <div style="font-size: smaller;">

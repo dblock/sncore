@@ -135,6 +135,34 @@ namespace SnCore.Services
             }
         }
 
+        private int mDefaultViewRows = 5;
+
+        public int DefaultViewRows
+        {
+            get
+            {
+                return mDefaultViewRows;
+            }
+            set
+            {
+                mDefaultViewRows = value;
+            }
+        }
+
+        private int mPostCount = 0;
+
+        public int PostCount
+        {
+            get
+            {
+                return mPostCount;
+            }
+            set
+            {
+                mPostCount = value;
+            }
+        }
+
         public TransitAccountBlog()
         {
 
@@ -155,6 +183,7 @@ namespace SnCore.Services
             AccountId = instance.Account.Id;
             AccountName = instance.Account.Name;
             EnableComments = instance.EnableComments;
+            DefaultViewRows = instance.DefaultViewRows;
             AccountPictureId = ManagedAccount.GetRandomAccountPictureId(instance.Account);
             base.SetInstance(instance);
         }
@@ -166,6 +195,7 @@ namespace SnCore.Services
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.EnableComments = this.EnableComments;
+            instance.DefaultViewRows = this.DefaultViewRows;
             return instance;
         }
     }
@@ -362,6 +392,20 @@ namespace SnCore.Services
                     break;
             }
             return result;
+        }
+
+        public override TransitAccountBlog GetTransitInstance(ManagedSecurityContext sec)
+        {
+            TransitAccountBlog t_instance = base.GetTransitInstance(sec);
+            t_instance.PostCount = GetPostCount(Session, t_instance.Id);
+            return t_instance;
+        }
+
+        public static int GetPostCount(ISession session, int blogid)
+        {
+            return session.CreateQuery(
+                string.Format("SELECT COUNT(*) FROM AccountBlogPost p WHERE p.AccountBlog.Id = {0}",
+                    blogid)).UniqueResult<int>();
         }
     }
 }

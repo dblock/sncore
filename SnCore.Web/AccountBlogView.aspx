@@ -77,13 +77,17 @@
             <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
              <%# base.Render(GetValue(Eval("Title"), "Untitled")) %>
             </a>
+            <span>
+             <%# ((bool) Eval("Sticky")) ? "<img src='images/buttons/sticky.gif' valign='absmiddle'>" : "" %>
+            </span>
            </div>
-           <div class="sncore_description">
-            by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
+           <div class="sncore_link">
+            &#187; posted by <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>
              <%# base.Render(Eval("AccountName")) %>
             </a>
-            on 
-            <%# base.Adjust(Eval("Created")) %>
+            <span class='<%# (DateTime.UtcNow.Subtract(((DateTime) Eval("Created"))).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
+             <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
+            </span>
             <span style='<%# (bool) Eval("EnableComments") ? string.Empty : "display: none;" %>'>
              <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
               &#187; <%# GetComments((int) Eval("CommentCount"))%>

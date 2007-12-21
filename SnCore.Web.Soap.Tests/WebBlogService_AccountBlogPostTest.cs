@@ -40,6 +40,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             t_instance.Body = GetNewString();
             t_instance.Title = GetNewString();
             t_instance.EnableComments = true;
+            t_instance.Sticky = false;
             return t_instance;
         }
 
@@ -157,6 +158,59 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             int blog_posts_count2 = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), _blog_id);
             Assert.AreEqual(1, blog_posts_count2);
             _post.TearDown();
+        }
+
+        [Test]
+        public void AccountBlogPostStickynessTest()
+        {
+            // check that the system admin can create and flip the stickyness of the post
+            // create a first post
+            WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
+            t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            Console.WriteLine("Post: {0}", t_post.Id);
+            // create a second post
+            WebBlogService.TransitAccountBlogPost t_post2 = GetTransitInstance();
+            t_post2.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post2);
+            Console.WriteLine("Post: {0}", t_post2.Id);
+            // make sure these are in order
+            WebBlogService.TransitAccountBlogPost[] posts = EndPoint.GetAccountBlogPosts(GetAdminTicket(), _blog_id, null);
+            Assert.AreEqual(2, posts.Length);
+            Assert.AreEqual(t_post.Id, posts[1].Id); // newest post first
+            Assert.AreEqual(t_post2.Id, posts[0].Id);
+            // flip stickiness of the first post
+            WebBlogService.TransitAccountBlogPost t_post_copy = EndPoint.GetAccountBlogPostById(
+                GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            t_post.Sticky = true;
+            t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            t_post_copy = EndPoint.GetAccountBlogPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(true, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            // get posts, make sure the last one stuck
+            WebBlogService.TransitAccountBlogPost[] posts_after = EndPoint.GetAccountBlogPosts(
+                GetAdminTicket(), _blog_id, null);
+            Assert.AreEqual(2, posts_after.Length);
+            Assert.AreEqual(t_post2.Id, posts_after[1].Id); // newest post first
+            Assert.AreEqual(t_post.Id, posts_after[0].Id);
+            // reset stickyness
+            t_post.Sticky = false;
+            t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            t_post_copy = EndPoint.GetAccountBlogPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Sticky);
+            Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
+            // recheck after stickyness
+            WebBlogService.TransitAccountBlogPost[] posts_final = EndPoint.GetAccountBlogPosts(
+                GetAdminTicket(), _blog_id, null);
+            Assert.AreEqual(2, posts_final.Length);
+            Assert.AreEqual(t_post.Id, posts_final[1].Id); // newest post first
+            Assert.AreEqual(t_post2.Id, posts_final[0].Id);
+            // delete everything
+            EndPoint.DeleteAccountBlogPost(GetAdminTicket(), t_post.Id);
+            EndPoint.DeleteAccountBlogPost(GetAdminTicket(), t_post2.Id);
         }
     }
 }

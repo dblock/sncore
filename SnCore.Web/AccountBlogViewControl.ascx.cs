@@ -111,6 +111,7 @@ public partial class AccountBlogViewControl : Control
                 TransitAccountBlog blog = SessionManager.GetInstance<TransitAccountBlog, int>(
                     BlogId, SessionManager.BlogService.GetAccountBlogById);
 
+                gridManage.RepeatRows = blog.DefaultViewRows;
                 gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCount<TransitAccountBlogPost, int>(
                     BlogId, SessionManager.BlogService.GetAccountBlogPostsCount));
                 gridManage_OnGetDataSource(this, null);

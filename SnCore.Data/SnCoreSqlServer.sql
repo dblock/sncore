@@ -249,6 +249,7 @@ CREATE TABLE [dbo].[AccountBlog](
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
 	[EnableComments] [bit] NOT NULL,
+	[DefaultViewRows] [int] NOT NULL,
  CONSTRAINT [PK_AccountBlog] PRIMARY KEY CLUSTERED 
 (
 	[AccountBlog_Id] ASC
@@ -343,6 +344,8 @@ CREATE TABLE [dbo].[AccountBlogPost](
 	[Modified] [datetime] NOT NULL,
 	[Account_Id] [int] NOT NULL,
 	[AccountName] [nvarchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[EnableComments] [bit] NOT NULL,
+	[Sticky] [bit] NOT NULL,
  CONSTRAINT [PK_AccountBlogPost] PRIMARY KEY CLUSTERED 
 (
 	[AccountBlogPost_Id] ASC

@@ -19,18 +19,6 @@ public partial class AccountFeedPreviewControl : Control
 {
     private TransitAccountFeed mAccountFeed = null;
 
-    public bool ShowTitle
-    {
-        get
-        {
-            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "ShowTitle", true);
-        }
-        set
-        {
-            ViewState["ShowTitle"] = value;
-        }
-    }
-
     public bool LinkDescription
     {
         get
@@ -100,9 +88,6 @@ public partial class AccountFeedPreviewControl : Control
 
     public string GetTitle(object title)
     {
-        if (!ShowTitle)
-            return string.Empty;
-
         return Renderer.Render(Renderer.RemoveHtml(title));
     }
 

@@ -1107,6 +1107,8 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         private bool enableCommentsField;
         
+        private bool stickyField;
+        
         /// <remarks/>
         public int AccountBlogId {
             get {
@@ -1236,6 +1238,16 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
                 this.enableCommentsField = value;
             }
         }
+        
+        /// <remarks/>
+        public bool Sticky {
+            get {
+                return this.stickyField;
+            }
+            set {
+                this.stickyField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1283,6 +1295,10 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         private string accountNameField;
         
         private bool enableCommentsField;
+        
+        private int defaultViewRowsField;
+        
+        private int postCountField;
         
         /// <remarks/>
         public string Name {
@@ -1361,6 +1377,26 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             }
             set {
                 this.enableCommentsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int DefaultViewRows {
+            get {
+                return this.defaultViewRowsField;
+            }
+            set {
+                this.defaultViewRowsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PostCount {
+            get {
+                return this.postCountField;
+            }
+            set {
+                this.postCountField = value;
             }
         }
     }

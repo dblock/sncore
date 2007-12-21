@@ -195,17 +195,31 @@ GO
 UPDATE dbo.Discussion SET [DefaultViewRows] = 5 WHERE DefaultViewRows IS NULL
 ALTER TABLE dbo.Discussion ALTER COLUMN [DefaultViewRows] int NOT NULL
 GO
--- create a EnableComments option for AccountBlog
+-- create an EnableComments option for AccountBlog
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlog]') AND name = N'EnableComments') 
 ALTER TABLE dbo.AccountBlog ADD [EnableComments] bit NULL
 GO
 UPDATE dbo.AccountBlog SET [EnableComments] = 1 WHERE EnableComments IS NULL
 ALTER TABLE dbo.AccountBlog ALTER COLUMN [EnableComments] bit NOT NULL
 GO
--- create a EnableComments option for AccountBlogPost
+-- create an EnableComments option for AccountBlogPost
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]') AND name = N'EnableComments') 
 ALTER TABLE dbo.AccountBlogPost ADD [EnableComments] bit NULL
 GO
 UPDATE dbo.AccountBlogPost SET [EnableComments] = 1 WHERE EnableComments IS NULL
 ALTER TABLE dbo.AccountBlogPost ALTER COLUMN [EnableComments] bit NOT NULL
+GO
+-- create a sticky option for AccountBlogPost
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]') AND name = N'Sticky') 
+ALTER TABLE dbo.AccountBlogPost ADD [Sticky] bit NULL
+GO
+UPDATE dbo.AccountBlogPost SET [Sticky] = 0 WHERE Sticky IS NULL
+ALTER TABLE dbo.AccountBlogPost ALTER COLUMN [Sticky] bit NOT NULL
+GO
+-- create a DefaultViewRows option for AccountBlog
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlog]') AND name = N'DefaultViewRows') 
+ALTER TABLE dbo.AccountBlog ADD [DefaultViewRows] int NULL
+GO
+UPDATE dbo.AccountBlog SET [DefaultViewRows] = 5 WHERE DefaultViewRows IS NULL
+ALTER TABLE dbo.AccountBlog ALTER COLUMN [DefaultViewRows] int NOT NULL
 GO

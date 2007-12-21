@@ -59,8 +59,14 @@
      <asp:ListItem Text="20" Value="20" />
      <asp:ListItem Text="25" Value="25" />
     </asp:DropDownList>
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+   </td>
+   <td class="sncore_form_value">
     <div class="sncore_description">
-     number of posts that shows in the default views; users can navigate between 
+     number of posts that show in the default views; users can navigate between 
      pages or click on the discussion to see all posts
     </div>
    </td>

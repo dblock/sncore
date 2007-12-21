@@ -20,6 +20,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             t_instance.Name = GetNewString();
             t_instance.Description = GetNewString();
             t_instance.EnableComments = true;
+            t_instance.DefaultViewRows = 5;
             return t_instance;
         }
 

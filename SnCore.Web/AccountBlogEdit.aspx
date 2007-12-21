@@ -48,6 +48,38 @@
    </td>
   </tr>
   <tr>
+   <td class="sncore_form_label">
+    preview posts:
+   </td>
+   <td class="sncore_form_value">
+    <asp:DropDownList ID="inputDefaultViewRows" runat="server" CssClass="sncore_form_dropdown">
+     <asp:ListItem Text="None" Value="0" />
+     <asp:ListItem Text="1" Value="1" />
+     <asp:ListItem Text="2" Value="2" />
+     <asp:ListItem Text="3" Value="3" />
+     <asp:ListItem Text="4" Value="4" />
+     <asp:ListItem Selected="true" Text="5" Value="5" />
+     <asp:ListItem Text="6" Value="6" />
+     <asp:ListItem Text="7" Value="7" />
+     <asp:ListItem Text="8" Value="8" />
+     <asp:ListItem Text="9" Value="9" />
+     <asp:ListItem Text="10" Value="10" />
+     <asp:ListItem Text="15" Value="15" />
+     <asp:ListItem Text="20" Value="20" />
+     <asp:ListItem Text="25" Value="25" />
+    </asp:DropDownList>
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+   </td>
+   <td class="sncore_form_value">
+    <div class="sncore_description">
+     total number of posts that shows in the default summary views
+    </div>
+   </td>
+  </tr>
+  <tr>
    <td>
    </td>
    <td>
@@ -79,9 +111,14 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Entry" ItemStyle-HorizontalAlign="Left">
        <itemtemplate>
-       <a href="AccountBlogPostView.aspx?id=<%# Eval("Id") %>">
-        <%# base.Render(Eval("Title")) %>
-       </a>
+       <div>
+        <a href="AccountBlogPostView.aspx?id=<%# Eval("Id") %>">
+         <%# base.Render(Eval("Title")) %>
+        </a>
+        <span>
+         <%# ((bool) Eval("Sticky")) ? "<img src='images/buttons/sticky.gif' valign='absmiddle'>" : "" %>
+        </span>        
+       </div>
        <div class="sncore_description">
         posted by 
         <a href='AccountView.aspx?id=<%# Eval("AccountId") %>'>

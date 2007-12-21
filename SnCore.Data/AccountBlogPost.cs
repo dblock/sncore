@@ -22,6 +22,7 @@
         private System.DateTime m_Modified;
         private System.String m_Title;
         private System.Boolean m_EnableComments;
+        private System.Boolean m_Sticky;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -245,6 +246,31 @@
             set
             {
                 m_EnableComments = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Sticky' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Sticky' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean Sticky
+        {
+            get
+            {
+                return m_Sticky;
+            }
+            set
+            {
+                m_Sticky = value;
             }
         }
 

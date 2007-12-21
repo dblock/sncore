@@ -208,6 +208,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mSticky = false;
+
+        public bool Sticky
+        {
+            get
+            {
+                return mSticky;
+            }
+            set
+            {
+                mSticky = value;
+            }
+        }
+
         public TransitAccountBlogPost()
         {
 
@@ -228,6 +242,7 @@ namespace SnCore.Services
             Modified = instance.Modified;
             AccountId = instance.AccountId;
             EnableComments = instance.EnableComments && instance.AccountBlog.EnableComments;
+            Sticky = instance.Sticky;
 
             AccountName = instance.AccountName;
             AccountBlogName = instance.AccountBlog.Name;
@@ -241,6 +256,7 @@ namespace SnCore.Services
             instance.Title = this.Title;
             instance.Body = this.Body;
             instance.EnableComments = this.EnableComments;
+            instance.Sticky = this.Sticky;
 
             if (Id == 0)
             {
@@ -303,7 +319,11 @@ namespace SnCore.Services
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Modified = DateTime.UtcNow;
-            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            if (mInstance.Id == 0)
+            {
+                mInstance.Created = mInstance.Modified;
+                mInstance.AccountBlog.Updated = mInstance.Modified;
+            }
             base.Save(sec);
         }
 

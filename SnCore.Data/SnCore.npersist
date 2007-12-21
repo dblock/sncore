@@ -108,6 +108,7 @@
     <property name="Updated" columns="Updated" type="System.DateTime" />
     <property name="AccountGroups" table="AccountGroup" id-columns="AccountBlog_Id" list="true" item-type="AccountGroup" slave="true" ref="ManyToOne" inverse="AccountBlog" inherits-inverse="true" />
     <property name="EnableComments" columns="EnableComments" type="System.Boolean" />
+    <property name="DefaultViewRows" columns="DefaultViewRows" type="System.Int32" />
   </class>
   <class name="AccountBlogAuthor" table="AccountBlogAuthor">
     <property name="Id" id="true" columns="AccountBlogAuthor_Id" type="System.Int32" />
@@ -127,6 +128,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Title" columns="Title" type="System.String" />
     <property name="EnableComments" columns="EnableComments" type="System.Boolean" />
+    <property name="Sticky" columns="Sticky" type="System.Boolean" />
   </class>
   <class name="AccountContent" table="AccountContent">
     <property name="Id" id="true" columns="AccountContent_Id" type="System.Int32" />
@@ -1132,10 +1134,11 @@
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountBlog_AccountBlog" />
       <column name="AccountBlog_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="DefaultViewRows" type="Int32" prec="10" length="4" scale="0" />
       <column name="Description" type="String" prec="0" length="16" scale="0" specific-type="NTEXT" />
+      <column name="EnableComments" type="Boolean" prec="1" length="1" scale="0" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="EnableComments" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountBlogAuthor">
       <column name="AccountBlogAuthor_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1155,6 +1158,7 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Title" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="EnableComments" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Sticky" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountContent">
       <column name="AccountContent_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

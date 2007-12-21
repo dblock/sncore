@@ -176,7 +176,7 @@ namespace SnCore.WebServices
         public List<TransitAccountBlogPost> GetAccountBlogPosts(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountBlog.Id", id) };
-            Order[] orders = { Order.Desc("Created") };
+            Order[] orders = { Order.Desc("Sticky"), Order.Desc("Created") };
             return WebServiceImpl<TransitAccountBlogPost, ManagedAccountBlogPost, AccountBlogPost>.GetList(
                 ticket, options, expressions, orders);
         }

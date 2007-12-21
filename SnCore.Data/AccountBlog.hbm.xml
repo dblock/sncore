@@ -22,5 +22,6 @@
       <one-to-many class="AccountGroup, SnCore.Data" />
     </bag>
     <property name="EnableComments" column="EnableComments" type="Boolean" />
+    <property name="DefaultViewRows" column="DefaultViewRows" type="Int32" />
   </class>
 </hibernate-mapping>

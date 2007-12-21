@@ -28,18 +28,12 @@ public partial class AccountBlogsViewControl : Control
 
     public void Page_Load(object sender, EventArgs e)
     {
-        accountBlogs.OnGetDataSource += new EventHandler(accountBlogs_OnGetDataSource);
         if (!IsPostBack)
         {
-            accountBlogs_OnGetDataSource(sender, e);
+            accountBlogs.DataSource = SessionManager.GetCollection<TransitAccountBlog, int>(
+                AccountId, (ServiceQueryOptions)null, SessionManager.BlogService.GetAccountBlogs);
             accountBlogs.DataBind();
             this.Visible = accountBlogs.Items.Count > 0;
         }
-    }
-
-    void accountBlogs_OnGetDataSource(object sender, EventArgs e)
-    {
-        accountBlogs.DataSource = SessionManager.GetCollection<TransitAccountBlog, int>(
-            AccountId, (ServiceQueryOptions) null, SessionManager.BlogService.GetAccountBlogs);
     }
 }
