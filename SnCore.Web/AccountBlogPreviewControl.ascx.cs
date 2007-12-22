@@ -13,19 +13,51 @@ using Wilco.Web.UI;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using SnCore.Services;
-using System.Text;
+using SnCore.Tools.Web.Html;
+using System.Collections.Generic;
 
 public partial class AccountBlogPreviewControl : Control
 {
-    public bool LinkDescription
+    private int mItemsCollapseAfter = 1;
+    private int mItemsShown = 0;
+    private int mImagesShown = 0;
+    private TransitAccountBlog mAccountBlog = null;
+    private ListItemCollection mContentLinkIds = new ListItemCollection();
+
+    public int ItemsCollapseAfter
     {
         get
         {
-            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "LinkDescription", false);
+            return mItemsCollapseAfter;
         }
         set
         {
-            ViewState["LinkDescription"] = value;
+            mItemsCollapseAfter = value;
+        }
+    }
+
+    public TransitAccountBlog Blog
+    {
+        get
+        {
+            if (mAccountBlog == null && BlogId > 0)
+            {
+                mAccountBlog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogById);
+            }
+
+            return mAccountBlog;
+        }
+    }
+
+    public string BlogName
+    {
+        get
+        {
+            if (BlogId == 0)
+                return string.Empty;
+
+            return Renderer.Render(Blog.Name);
         }
     }
 
@@ -41,41 +73,52 @@ public partial class AccountBlogPreviewControl : Control
         }
     }
 
+    public ListItemCollection ContentLinkIds
+    {
+        get
+        {
+            return mContentLinkIds;
+        }
+        set
+        {
+            mContentLinkIds = value;
+        }
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+
+        foreach (ListItem item in ContentLinkIds)
+        {
+            AccountContentGroupLinkControl link = (AccountContentGroupLinkControl)Page.LoadControl("AccountContentGroupLinkControl.ascx");
+            link.LowerCase = true;
+            link.ConfigurationName = item.Value;
+            divLinks.Controls.Add(link);
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
+
         if (!IsPostBack)
         {
+            this.Visible = (BlogId > 0);
+
             if (BlogId > 0)
             {
-                TransitAccountBlog tb = SessionManager.GetInstance<TransitAccountBlog, int>(
+                TransitAccountBlog blog = SessionManager.GetInstance<TransitAccountBlog, int>(
                     BlogId, SessionManager.BlogService.GetAccountBlogById);
 
-                blogName.Text = Renderer.Render(tb.Name);
-                blogDescription.Text = Renderer.Render(tb.Description);
+                gridManage.RepeatRows = blog.DefaultViewRows;
+                gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCount<TransitAccountBlogPost, int>(
+                    BlogId, SessionManager.BlogService.GetAccountBlogPostsCount));
+                gridManage_OnGetDataSource(this, null);
+                gridManage.DataBind();
+
                 linkRelRss.NavigateUrl = string.Format("AccountBlogRss.aspx?id={0}", BlogId);
-                linkRelRss.Title = Renderer.Render(tb.Name);
-                linkRead.NavigateUrl = string.Format("AccountBlogView.aspx?id={0}", BlogId);
-
-                gridManage.RepeatRows = tb.DefaultViewRows;
-
-                if (tb.DefaultViewRows > 0)
-                {
-                    gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
-                        BlogId, SessionManager.BlogService.GetAccountBlogPostsCount);
-                    gridManage_OnGetDataSource(this, null);
-                    gridManage.DataBind();
-                }
-
-                StringBuilder sb = new StringBuilder();
-                if (tb.PostCount > 0)
-                {
-                    sb.AppendFormat(" &#187; {0} post{1}", tb.PostCount, tb.PostCount == 1 ? string.Empty : "s");
-                    sb.AppendFormat(" <span class='{0}'>&#187; last post {1}</span>",
-                        DateTime.UtcNow.Subtract(tb.Updated).TotalDays < 3 ? "sncore_datetime_highlight" : string.Empty,
-                        SessionManager.ToAdjustedString(tb.Updated));
-                }
-                labelPosts.Text = sb.ToString();
+                linkRelRss.Title = Renderer.Render(blog.Name);
             }
         }
     }
@@ -85,5 +128,47 @@ public partial class AccountBlogPreviewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
             BlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
+    }
+
+    public string GetTitle(string title)
+    {
+        if (string.IsNullOrEmpty(title))
+            return "Untitled";
+
+        return Renderer.Render(Renderer.RemoveHtml(title));
+    }
+
+    public string GetDescription(string description)
+    {
+        if (mItemsShown++ >= mItemsCollapseAfter)
+            return string.Empty;
+
+        if (string.IsNullOrEmpty(description))
+            return string.Empty;
+
+        return base.GetSummary(description);
+    }
+
+    public string GetImage(string description)
+    {
+        if (mImagesShown++ >= mItemsCollapseAfter)
+            return string.Empty;
+
+        if (string.IsNullOrEmpty(description))
+            return string.Empty;
+
+        List<HtmlImage> list = HtmlImageExtractor.Extract(description);
+
+        if (list.Count == 0)
+            return string.Empty;
+
+        return string.Format("<img class='sncore_blog_image' border='0' src='{0}'>", list[0].Src);
+    }
+
+    public string GetComments(int count)
+    {
+        if (count == 0) return "post a comment";
+        else if (count == 1) return "1 comment";
+        else return string.Format("{0} comments", count);
     }
 }
