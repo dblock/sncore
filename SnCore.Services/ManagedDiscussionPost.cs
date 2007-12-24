@@ -583,31 +583,50 @@ namespace SnCore.Services
             return result;
         }
 
-        public void Move(ManagedSecurityContext sec, int targetid)
+        public int Move(ManagedSecurityContext sec, int targetid)
         {
             GetACL().Check(sec, DataOperation.Delete | DataOperation.Create);
 
             Discussion target_discussion = Session.Load<Discussion>(targetid);
+            DiscussionThread source_thread = mInstance.DiscussionThread;
 
             // detach the post from the source thread and reset its parent
             mInstance.DiscussionPostParent = null;
-            mInstance.DiscussionThread.DiscussionPosts.Remove(mInstance);
-            if (mInstance.DiscussionThread.DiscussionPosts.Count == 0) Session.Delete(mInstance.DiscussionThread);
 
             // create the target thread
             DiscussionThread target_thread = new DiscussionThread();
             target_thread.Created = mInstance.Created;
             target_thread.Modified = DateTime.UtcNow;
             target_thread.Discussion = target_discussion;
+            target_thread.DiscussionPosts = new List<DiscussionPost>();
             Session.Save(target_thread);
- 
+            
             // attach the post and all child posts to the target thread
-            foreach (DiscussionPost post in mInstance.DiscussionThread.DiscussionPosts)
-            {
-                post.DiscussionThread = target_thread;
-            }
+            source_thread.DiscussionPosts.Remove(mInstance);
+            mInstance.DiscussionThread = target_thread;
+            MoveToDiscussionThread(mInstance, target_thread);
 
             Save(sec);
+
+            // if this is the last post in the thread, delete the thread
+            if (source_thread.DiscussionPosts.Count == 0)
+            {
+                Session.Delete(source_thread);
+            }
+
+            return target_thread.Id;
+        }
+
+        private void MoveToDiscussionThread(DiscussionPost post, DiscussionThread thread)
+        {
+            foreach (DiscussionPost child in post.DiscussionPosts)
+            {
+                child.DiscussionThread.DiscussionPosts.Remove(child);
+                child.DiscussionThread = thread;
+                if (thread.DiscussionPosts == null) thread.DiscussionPosts = new List<DiscussionPost>();
+                thread.DiscussionPosts.Add(child);
+                MoveToDiscussionThread(child, thread);
+            }
         }
 
         public int MoveToAccountBlog(ManagedSecurityContext sec, int targetid)
@@ -641,11 +660,7 @@ namespace SnCore.Services
             Session.Save(target_thread);
 
             // attach the post and all child posts to the target thread
-            // attach the post and all child posts to the target thread
-            foreach (DiscussionPost post in mInstance.DiscussionThread.DiscussionPosts)
-            {
-                post.DiscussionThread = target_thread;
-            }
+            MoveToDiscussionThread(mInstance, target_thread);
             
             // nullify each child's parent
             foreach (DiscussionPost post in mInstance.DiscussionPosts)

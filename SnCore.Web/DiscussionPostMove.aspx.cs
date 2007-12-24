@@ -82,18 +82,16 @@ public partial class DiscussionPostMove : Page
 
     public void moveToDiscussion_Click(object sender, EventArgs args)
     {
-        SessionManager.DiscussionService.MoveDiscussionPost(
+        int discussion_id = int.Parse(listDiscussions.SelectedValue);
+        int thread_id = SessionManager.DiscussionService.MoveDiscussionPost(
             SessionManager.Ticket,
             RequestId,
-            int.Parse(listDiscussions.SelectedValue));
-
-        TransitDiscussionPost t_post = SessionManager.DiscussionService.GetDiscussionPostById(
-            SessionManager.Ticket, RequestId);
+            discussion_id);
 
         SessionManager.InvalidateCache<TransitDiscussion>();
         SessionManager.InvalidateCache<TransitDiscussionPost>();
 
         Redirect(string.Format("DiscussionThreadView.aspx?id={0}&did={1}", 
-            t_post.DiscussionThreadId, t_post.DiscussionId));
+            thread_id, discussion_id));
     }
 }

@@ -531,15 +531,16 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <returns></returns>
         [WebMethod(Description = "Move a discussion post to another discussion.")]
-        public void MoveDiscussionPost(string ticket, int postid, int targetid)
+        public int MoveDiscussionPost(string ticket, int postid, int targetid)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedDiscussionPost post = new ManagedDiscussionPost(session, postid);
-                post.Move(sec, targetid);
+                int id = post.Move(sec, targetid);
                 SnCore.Data.Hibernate.Session.Flush();
+                return id;
             }
         }
 

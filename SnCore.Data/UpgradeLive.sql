@@ -220,6 +220,6 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlog]') AND name = N'DefaultViewRows') 
 ALTER TABLE dbo.AccountBlog ADD [DefaultViewRows] int NULL
 GO
-UPDATE dbo.AccountBlog SET [DefaultViewRows] = 5 WHERE DefaultViewRows IS NULL
+UPDATE dbo.AccountBlog SET [DefaultViewRows] = 1 WHERE DefaultViewRows IS NULL
 ALTER TABLE dbo.AccountBlog ALTER COLUMN [DefaultViewRows] int NOT NULL
 GO
