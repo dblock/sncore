@@ -636,6 +636,16 @@ namespace SnCore.Services
             return result;
         }
 
+        public override string GetAccessDeniedRedirectUri()
+        {
+            ManagedDiscussionMapEntry mapentry;
+            if (ManagedDiscussionMap.TryFind(mInstance.DataObject, out mapentry))
+            {
+                return string.Format(mapentry.DiscussionUriFormat, mInstance.ObjectId);
+            }
+            return string.Empty;            
+        }
+
         public override TransitDiscussion GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitDiscussion t_instance = base.GetTransitInstance(sec);

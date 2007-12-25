@@ -182,5 +182,15 @@ namespace SnCore.Services
 
             Save(sec);
         }
+
+        public override string GetAccessDeniedRedirectUri()
+        {
+            ManagedDiscussionMapEntry mapentry;
+            if (ManagedDiscussionMap.TryFind(mInstance.Discussion.DataObject, out mapentry))
+            {
+                return string.Format(mapentry.DiscussionUriFormat, mInstance.Discussion.ObjectId);
+            }
+            return string.Empty;
+        }
     }
 }

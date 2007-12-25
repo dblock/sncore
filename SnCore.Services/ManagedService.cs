@@ -105,7 +105,7 @@ namespace SnCore.Services
 
         public virtual TransitType GetTransitInstance(ManagedSecurityContext sec)
         {
-            GetACL().Check(sec, DataOperation.Retreive);
+            GetACL().Check(sec, DataOperation.Retreive, GetAccessDeniedRedirectUri());
             TransitType t_instance = new TransitType();
             t_instance.SetDbObjectInstance(Instance);
             return t_instance;
@@ -250,6 +250,11 @@ namespace SnCore.Services
         public virtual ACL GetACL(Type type)
         {
             return ACL.GetAdministrativeACL(Session);
+        }
+
+        public virtual string GetAccessDeniedRedirectUri()
+        {
+            return string.Empty;
         }
     }
 }

@@ -497,10 +497,30 @@ namespace SnCore.Services
 
         public class AccessDeniedException : Exception
         {
+            private string mRequestUri = string.Empty;
+
+            public string RequestUri
+            {
+                get
+                {
+                    return mRequestUri;
+                }
+                set
+                {
+                    mRequestUri = value;
+                }
+            }
+
             public AccessDeniedException() 
                 : base("Access denied")
             {
 
+            }
+
+            public AccessDeniedException(string uri)
+                : base("Access denied")
+            {
+                mRequestUri = uri;
             }
         }
 

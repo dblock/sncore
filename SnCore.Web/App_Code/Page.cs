@@ -267,6 +267,13 @@ public class Page : System.Web.UI.Page
             return;
         }
 
+        if (ex is ManagedAccount.AccessDeniedException
+            && !string.IsNullOrEmpty((ex as ManagedAccount.AccessDeniedException).RequestUri))
+        {
+            Redirect((ex as ManagedAccount.AccessDeniedException).RequestUri);
+            return;
+        }
+
         RethrowException(ex);
         if (Master == null) throw ex;
         object notice = FindNoticeMenuControl();

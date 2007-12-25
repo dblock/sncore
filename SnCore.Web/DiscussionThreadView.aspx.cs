@@ -30,8 +30,8 @@ public partial class DiscussionThreadView : Page
                 return;
             }
 
-            TransitDiscussionThread t = SessionManager.DiscussionService.GetDiscussionThreadById(
-                SessionManager.Ticket, RequestId);
+            TransitDiscussionThread t = SessionManager.GetPrivateInstance<TransitDiscussionThread, int>(
+                RequestId, SessionManager.DiscussionService.GetDiscussionThreadById);
 
             if (t == null)
             {
@@ -39,11 +39,11 @@ public partial class DiscussionThreadView : Page
                 return;
             }
 
-            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
-                SessionManager.Ticket, t.DiscussionId);
+            TransitDiscussion td = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
+                t.DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
 
             if (td.Personal)
-            {              
+            {
                 string uri = SessionManager.DiscussionService.GetThreadRedirectUri(
                     SessionManager.Ticket, td.Id);
 

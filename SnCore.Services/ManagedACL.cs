@@ -288,6 +288,14 @@ namespace SnCore.Services
             return true;
         }
 
+        public void Check(ManagedSecurityContext sec, DataOperation op, string requesturi)
+        {
+            if (!TryCheck(sec, op))
+            {
+                throw new ManagedAccount.AccessDeniedException(requesturi);
+            }
+        }
+
         public void Check(ManagedSecurityContext sec, DataOperation op)
         {
             if (!TryCheck(sec, op))
