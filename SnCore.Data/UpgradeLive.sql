@@ -223,3 +223,10 @@ GO
 UPDATE dbo.AccountBlog SET [DefaultViewRows] = 1 WHERE DefaultViewRows IS NULL
 ALTER TABLE dbo.AccountBlog ALTER COLUMN [DefaultViewRows] int NOT NULL
 GO
+-- create an Hidden option for RefererHost
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[RefererHost]') AND name = N'Hidden') 
+ALTER TABLE dbo.RefererHost ADD [Hidden] bit NULL
+GO
+UPDATE dbo.RefererHost SET [Hidden] = 0 WHERE Hidden IS NULL
+ALTER TABLE dbo.RefererHost ALTER COLUMN [Hidden] bit NOT NULL
+GO

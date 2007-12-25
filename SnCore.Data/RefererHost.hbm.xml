@@ -18,5 +18,6 @@
       <key column="RefererHost_Id" />
       <one-to-many class="RefererAccount, SnCore.Data" />
     </bag>
+    <property name="Hidden" column="Hidden" type="Boolean" />
   </class>
 </hibernate-mapping>

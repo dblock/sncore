@@ -966,6 +966,7 @@
     <property name="Updated" columns="Updated" type="System.DateTime" />
     <property name="RefererHostDups" table="RefererHostDup" id-columns="RefererHost_Id" list="true" item-type="RefererHostDup" slave="true" ref="ManyToOne" inverse="RefererHost" inherits-inverse="true" />
     <property name="RefererAccounts" table="RefererAccount" id-columns="RefererHost_Id" list="true" item-type="RefererAccount" slave="true" ref="ManyToOne" inverse="RefererHost" inherits-inverse="true" />
+    <property name="Hidden" columns="Hidden" type="System.Boolean" />
   </class>
   <class name="RefererHostDup" table="RefererHostDup">
     <property name="Id" id="true" columns="RefererHostDup_Id" type="System.Int32" />
@@ -1925,6 +1926,7 @@
       <column name="LastRequestUri" type="AnsiString" prec="256" length="256" scale="0" />
       <column name="Total" type="Int64" prec="19" length="8" scale="0" />
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Hidden" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="RefererHostDup">
       <column name="RefererHostDup_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

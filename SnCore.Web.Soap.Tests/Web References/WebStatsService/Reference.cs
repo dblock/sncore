@@ -1846,6 +1846,8 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         
         private long totalField;
         
+        private bool hiddenField;
+        
         /// <remarks/>
         public string AccountName {
             get {
@@ -1925,6 +1927,16 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
                 this.totalField = value;
             }
         }
+        
+        /// <remarks/>
+        public bool Hidden {
+            get {
+                return this.hiddenField;
+            }
+            set {
+                this.hiddenField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1970,6 +1982,8 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
         
         private bool newOnlyField;
         
+        private bool hiddenField;
+        
         /// <remarks/>
         public bool NewOnly {
             get {
@@ -1977,6 +1991,16 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
             }
             set {
                 this.newOnlyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Hidden {
+            get {
+                return this.hiddenField;
+            }
+            set {
+                this.hiddenField = value;
             }
         }
     }

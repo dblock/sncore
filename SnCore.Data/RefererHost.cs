@@ -22,6 +22,7 @@
         private System.DateTime m_Updated;
         private System.Collections.Generic.IList<RefererHostDup> m_RefererHostDups;
         private System.Collections.Generic.IList<RefererAccount> m_RefererAccounts;
+        private System.Boolean m_Hidden;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -255,6 +256,31 @@
             set
             {
                 m_RefererAccounts = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Hidden' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Hidden' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean Hidden
+        {
+            get
+            {
+                return m_Hidden;
+            }
+            set
+            {
+                m_Hidden = value;
             }
         }
 

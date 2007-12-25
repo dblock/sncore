@@ -22,10 +22,15 @@
        <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputNewOnly" runat="server"
         AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="show new only" Checked="false" />
       </td>
+      <td class="sncore_form_value">
+       <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputHidden" runat="server"
+        AutoPostBack="True" OnCheckedChanged="optionsChanged" Text="show hidden" Checked="false" />
+      </td>
      </tr>
    </table>
    <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
-    AllowPaging="true" AutoGenerateColumns="false" AllowCustomPaging="true" CssClass="sncore_account_table">
+    AllowPaging="true" AutoGenerateColumns="false" AllowCustomPaging="true" CssClass="sncore_account_table"
+    OnItemCommand="gridManage_ItemCommand">
     <ItemStyle CssClass="sncore_table_tr_td" HorizontalAlign="Center" />
     <HeaderStyle CssClass="sncore_table_tr_th" HorizontalAlign="Center" />
     <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
@@ -60,6 +65,12 @@
        <a href='SystemRefererAccountEdit.aspx?host=<%# Renderer.UrlEncode(Eval("Host")) %>'>
         <%# ((int) Eval("AccountId") == 0 ? "Add" : string.Empty) %>
        </a>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <asp:LinkButton id="linkShowHide" Text='<%# (bool) Eval("Hidden") ? "Show" : "Hide" %>' runat="server"
+        CommandName='<%# (bool) Eval("Hidden") ? "Show" : "Hide" %>' CommandArgument='<%# Eval("Id") %>' />
       </itemtemplate>
      </asp:TemplateColumn>
     </Columns>

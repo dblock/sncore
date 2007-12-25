@@ -17,6 +17,7 @@ namespace SnCore.Services
     public class RefererHostQueryOptions
     {
         private bool mNewOnly = false;
+        private bool mHidden = false;
 
         public bool NewOnly
         {
@@ -27,6 +28,18 @@ namespace SnCore.Services
             set
             {
                 mNewOnly = value;
+            }
+        }
+
+        public bool Hidden
+        {
+            get
+            {
+                return mHidden;
+            }
+            set
+            {
+                mHidden = value;
             }
         }
 
@@ -155,6 +168,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mHidden = false;
+
+        public bool Hidden
+        {
+            get
+            {
+                return mHidden;
+            }
+            set
+            {
+                mHidden = value;
+            }
+        }
+
         public TransitRefererHost()
         {
 
@@ -173,6 +200,7 @@ namespace SnCore.Services
             Created = value.Created;
             Updated = value.Updated;
             Total = value.Total;
+            Hidden = value.Hidden;
             base.SetInstance(value);
         }
 
@@ -183,6 +211,7 @@ namespace SnCore.Services
             instance.LastRefererUri = this.LastRefererUri;
             instance.LastRequestUri = this.LastRequestUri;
             instance.Total = this.Total;
+            instance.Hidden = this.Hidden;
             return instance;
         }
     }
@@ -241,6 +270,7 @@ namespace SnCore.Services
                 h.LastRefererUri = h.LastRequestUri = "http://localhost/";
                 h.Host = host;
                 h.Total = 0;
+                h.Hidden = false;
             }
 
             return h;

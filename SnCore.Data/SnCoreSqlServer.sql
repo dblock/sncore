@@ -4278,6 +4278,7 @@ CREATE TABLE [dbo].[RefererHost](
 	[Total] [bigint] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
+	[Hidden] [bit] NOT NULL,
  CONSTRAINT [PK_RefererHost] PRIMARY KEY CLUSTERED 
 (
 	[RefererHost_Id] ASC

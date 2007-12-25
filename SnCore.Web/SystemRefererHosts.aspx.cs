@@ -15,6 +15,7 @@ using System.IO;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
+using SnCore.Tools.Web;
 
 public partial class SystemRefererHosts : AuthenticatedPage
 {
@@ -43,6 +44,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
     {
         RefererHostQueryOptions qopt = new RefererHostQueryOptions();
         qopt.NewOnly = inputNewOnly.Checked;
+        qopt.Hidden = inputHidden.Checked;
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitRefererHost, RefererHostQueryOptions>(
             qopt, SessionManager.StatsService.GetRefererHostsCount);
@@ -54,6 +56,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
     {
         RefererHostQueryOptions qopt = new RefererHostQueryOptions();
         qopt.NewOnly = inputNewOnly.Checked;
+        qopt.Hidden = inputHidden.Checked;
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
@@ -64,5 +67,25 @@ public partial class SystemRefererHosts : AuthenticatedPage
     public void optionsChanged(object sender, EventArgs e)
     {
         GetData(sender, e);
+    }
+
+    public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        switch (e.CommandName)
+        {
+            case "Show":
+            case "Hide":
+                int id = int.Parse(e.CommandArgument.ToString());
+                TransitRefererHost t_instance = SessionManager.GetInstance<TransitRefererHost, int>(
+                    id, SessionManager.StatsService.GetRefererHostById);
+                if (e.CommandName == "Show") t_instance.Hidden = false;
+                else if (e.CommandName == "Hide") t_instance.Hidden = true;
+                SessionManager.CreateOrUpdate<TransitRefererHost>(
+                    t_instance, SessionManager.StatsService.CreateOrUpdateRefererHost);
+                ReportInfo(string.Format("Referer \"{0}\" {1}.", 
+                    Renderer.Render(t_instance.Host), t_instance.Hidden ? "hidden" : "shown"));
+                GetData(source, e);
+                break;
+        }
     }
 }

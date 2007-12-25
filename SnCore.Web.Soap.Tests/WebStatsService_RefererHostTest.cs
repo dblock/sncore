@@ -22,6 +22,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
             t_instance.LastRefererUri = GetNewUri();
             t_instance.LastRequestUri = GetNewUri();
             t_instance.Total = 1;
+            t_instance.Hidden = false;
             return t_instance;
         }
 

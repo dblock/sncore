@@ -132,10 +132,12 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get referer hosts.", CacheDuration = 60)]
         public List<TransitRefererHost> GetRefererHosts(string ticket, RefererHostQueryOptions qopt, ServiceQueryOptions options)
         {
-            ICriterion[] expressions = { Expression.Gt("Created", DateTime.UtcNow.AddDays(-7)) };
+            List<ICriterion> expressions = new List<ICriterion>();
+            if (qopt != null && qopt.NewOnly) expressions.Add(Expression.Gt("Created", DateTime.UtcNow.AddDays(-7)));
+            if (qopt == null || ! qopt.Hidden) expressions.Add(Expression.Eq("Hidden", false));
             Order[] orders = { Order.Desc("Total") };
             return WebServiceImpl<TransitRefererHost, ManagedRefererHost, RefererHost>.GetList(
-                ticket, options, (qopt != null && qopt.NewOnly) ? expressions : null, orders);
+                ticket, options, (expressions.Count > 0) ? expressions.ToArray() : null, orders);
         }
 
         /// <summary>

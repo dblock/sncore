@@ -96,6 +96,7 @@
       <s:complexType name="RefererHostQueryOptions">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="NewOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetRefererHostsCountResponse">
@@ -144,6 +145,7 @@
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Updated" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+              <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
