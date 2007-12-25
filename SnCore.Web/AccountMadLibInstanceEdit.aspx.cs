@@ -110,7 +110,8 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
 
             if (MadLibInstanceId > 0)
             {
-                TransitMadLibInstance tmi = SessionManager.MadLibService.GetMadLibInstanceById(SessionManager.Ticket, MadLibInstanceId);
+                TransitMadLibInstance tmi = SessionManager.GetInstance<TransitMadLibInstance, int>(
+                    MadLibInstanceId, SessionManager.MadLibService.GetMadLibInstanceById);
                 madLibInstance.TextBind(tmi.Text);
             }
 

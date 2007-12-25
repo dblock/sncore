@@ -108,16 +108,16 @@ public partial class MadLibInstancesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = madlibs.CurrentPageIndex;
         options.PageSize = madlibs.PageSize;
-        madlibs.DataSource = SessionManager.MadLibService.GetMadLibInstances(
-            SessionManager.Ticket, Table, ObjectId, options);
+        madlibs.DataSource = SessionManager.GetCollection<TransitMadLibInstance, string, int>(
+            Table, ObjectId, options, SessionManager.MadLibService.GetMadLibInstances);
 
     }
 
     public void GetData(object sender, EventArgs e)
     {
         madlibs.CurrentPageIndex = 0;
-        madlibs.VirtualItemCount = SessionManager.MadLibService.GetMadLibInstancesCount(
-            SessionManager.Ticket, Table, ObjectId);
+        madlibs.VirtualItemCount = SessionManager.GetCount<TransitMadLibInstance, string, int>(
+            Table, ObjectId, SessionManager.MadLibService.GetMadLibInstancesCount);
         madlibs_OnGetDataSource(sender, e);
         madlibs.DataBind();
     }

@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Specialized;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -105,6 +106,11 @@ namespace SnCore.Services
             instance.Promoted = this.Promoted;
             instance.Excluded = this.Excluded;
             return instance;
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     }
 

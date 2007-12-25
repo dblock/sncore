@@ -35,8 +35,8 @@ public partial class FeaturedAccountEventsView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.ObjectService.GetFeaturesCount(
-            SessionManager.Ticket, "AccountEvent");
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitFeature, string>(
+            "AccountEvent", SessionManager.ObjectService.GetFeaturesCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 

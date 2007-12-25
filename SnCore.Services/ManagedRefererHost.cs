@@ -10,6 +10,7 @@ using System.Resources;
 using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -27,6 +28,11 @@ namespace SnCore.Services
             {
                 mNewOnly = value;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     }
 

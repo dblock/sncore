@@ -66,7 +66,8 @@ public partial class AccountFeedPreviewControl : Control
             {
                 TransitAccountFeed f = Feed;
 
-                TransitFeedType t = SessionManager.SyndicationService.GetFeedTypeByName(SessionManager.Ticket, f.FeedType);
+                TransitFeedType t = SessionManager.GetInstance<TransitFeedType, string>(
+                    f.FeedType, SessionManager.SyndicationService.GetFeedTypeByName);
                 gridManage.RepeatColumns = t.SpanColumnsPreview;
                 gridManage.RepeatRows = t.SpanRowsPreview;
                 gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItem, int>(

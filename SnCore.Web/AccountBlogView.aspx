@@ -88,25 +88,18 @@
             <span class='<%# (DateTime.UtcNow.Subtract(((DateTime) Eval("Created"))).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>
              <%# SessionManager.ToAdjustedString((DateTime) Eval("Created")) %>
             </span>
-            <span style='<%# (bool) Eval("EnableComments") ? string.Empty : "display: none;" %>'>
-             <a href='AccountBlogPostView.aspx?id=<%# Eval("Id") %>'>
-              &#187; <%# GetComments((int) Eval("CommentCount"))%>
-             </a>
-            </span>
-            <span style='<%# (bool) Eval("CanEdit") ? string.Empty : "display: none;" %>'>
-             <a href='AccountBlogPost.aspx?bid=<%# Eval("AccountBlogId") %>&id=<%# Eval("Id") %>'>
-              &#187; edit
-             </a>
-            </span>
-            <span style='<%# (bool) Eval("CanEdit") && (bool) Eval("CanDelete") ? string.Empty : "display: none;" %>'>
-             <a href='AccountBlogPostMove.aspx?id=<%# Eval("Id") %>'>
-              &#187; move
-             </a>
-            </span>
-            <span style='<%# (bool) Eval("CanDelete") ? string.Empty : "display: none;" %>'>
-             <asp:LinkButton id="linkDelete" runat="server" Text="&#187; delete" CommandName="Delete" 
-              CommandArgument='<%# Eval("Id") %>' OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />
-            </span>
+            <asp:HyperLink id="linkComments" runat="server" Text='<%# string.Format("&#187; {0}", GetComments((int) Eval("CommentCount"))) %>' 
+             NavigateUrl='<%# string.Format("AccountBlogPostView.aspx?id={0}", Eval("Id")) %>' 
+             Visible='<%# (bool) Eval("EnableComments") %>' />
+            <asp:HyperLink id="linkEditPost" runat="server" Text="&#187; edit" 
+             NavigateUrl='<%# string.Format("AccountBlogPost.aspx?bid={0}&id={1}", Eval("AccountBlogId"), Eval("Id")) %>' 
+             Visible='<%# (bool) Eval("CanEdit") %>' />
+            <asp:HyperLink id="linkMove" runat="server" Text="&#187; move" 
+             NavigateUrl='<%# string.Format("AccountBlogPostMove.aspx?id={0}", Eval("Id")) %>' 
+             Visible='<%# (bool) Eval("CanEdit") && (bool) Eval("CanDelete") %>' />
+            <asp:LinkButton id="linkDelete" runat="server" Text="&#187; delete" CommandName="Delete" 
+             Visible='<%# Eval("CanDelete") %>' CommandArgument='<%# Eval("Id") %>' 
+             OnClientClick="return confirm('Are you sure you want to delete this blog post?')" />
            </div>
           </div>
           <div class="sncore_message_body">

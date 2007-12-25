@@ -24,7 +24,7 @@ public partial class AccountBlogView : Page
         {
             if (mAccountBlog == null)
             {
-                mAccountBlog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                mAccountBlog = SessionManager.GetPrivateInstance<TransitAccountBlog, int>(
                     RequestId, SessionManager.BlogService.GetAccountBlogById);
             }
             return mAccountBlog;
@@ -106,7 +106,7 @@ public partial class AccountBlogView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
+        gridManage.DataSource = SessionManager.GetPrivateCollection<TransitAccountBlogPost, int>(
             RequestId, options, SessionManager.BlogService.GetAccountBlogPosts);
     }
 

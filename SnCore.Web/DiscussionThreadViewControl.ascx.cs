@@ -35,8 +35,8 @@ public partial class DiscussionThreadViewControl : Control
 
             if (DiscussionId > 0)
             {
-                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
-                    SessionManager.Ticket, DiscussionId);
+                TransitDiscussion d = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
+                    DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
                 discussionLabel.Text = Renderer.Render(d.Name);
                 discussionDescription.Text = Renderer.Render(d.Description);
                 linkNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
@@ -58,8 +58,8 @@ public partial class DiscussionThreadViewControl : Control
             return;
 
         discussionThreadView.CurrentPageIndex = 0;
-        discussionThreadView.VirtualItemCount = SessionManager.DiscussionService.GetDiscussionThreadPostsCount(
-            SessionManager.Ticket, DiscussionThreadId);
+        discussionThreadView.VirtualItemCount = SessionManager.GetCount<TransitDiscussionThread, int>(
+            DiscussionThreadId, SessionManager.DiscussionService.GetDiscussionThreadPostsCount);
         discussionThreadView_OnGetDataSource(sender, e);
         discussionThreadView.DataBind();
     }
@@ -69,8 +69,8 @@ public partial class DiscussionThreadViewControl : Control
         if (DiscussionThreadId <= 0)
             return;
 
-        discussionThreadView.DataSource = SessionManager.DiscussionService.GetDiscussionThreadPosts(
-            SessionManager.Ticket, DiscussionThreadId);
+        discussionThreadView.DataSource = SessionManager.GetPrivateCollection<TransitDiscussionPost, int>(
+            DiscussionThreadId, null, SessionManager.DiscussionService.GetDiscussionThreadPosts);
     }
 
     public void discussionThreadView_ItemCommand(object sender, DataGridCommandEventArgs e)
@@ -142,8 +142,8 @@ public partial class DiscussionThreadViewControl : Control
                 LinkButton linkDelete = (LinkButton)e.Item.FindControl("linkDelete");
                 linkDelete.Visible = candelete;
 
-                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
-                    SessionManager.Ticket, DiscussionId);
+                TransitDiscussion d = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
+                    DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
                 HyperLink linkMovePost = (HyperLink)e.Item.FindControl("linkMovePost");
                 linkMovePost.Visible = d.CanUpdate;
                 linkMovePost.NavigateUrl = string.Format("DiscussionPostMove.aspx?id={0}", id);

@@ -38,8 +38,8 @@ public partial class DiscussionView : Page
             discussionMain.DiscussionId = RequestId;
             discussionMain.DataBind();
 
-            TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
-                SessionManager.Ticket, RequestId);
+            TransitDiscussion td = SessionManager.GetInstance<TransitDiscussion, int>(
+                RequestId, SessionManager.DiscussionService.GetDiscussionById);
 
             if (td == null)
             {

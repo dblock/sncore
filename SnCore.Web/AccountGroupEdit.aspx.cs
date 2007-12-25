@@ -56,7 +56,7 @@ public partial class AccountGroupEdit : AuthenticatedPage
 
     public TransitAccountGroup GetAccountGroup()
     {
-        return SessionManager.GetInstance<TransitAccountGroup, int>(
+        return SessionManager.GetPrivateInstance<TransitAccountGroup, int>(
             RequestId, SessionManager.GroupService.GetAccountGroupById);
     }
 
@@ -82,7 +82,7 @@ public partial class AccountGroupEdit : AuthenticatedPage
                 ListItem item = inputBlog.Items.FindByValue(tw.AccountBlogId.ToString());
                 if (item == null)
                 {
-                    TransitAccountBlog t_blog = SessionManager.GetInstance<TransitAccountBlog, int>(
+                    TransitAccountBlog t_blog = SessionManager.GetPrivateInstance<TransitAccountBlog, int>(
                         tw.AccountBlogId, SessionManager.BlogService.GetAccountBlogById);
                     blogs.Add(t_blog);
                     item = inputBlog.Items.FindByValue(tw.AccountBlogId.ToString());

@@ -27,7 +27,7 @@ public partial class SystemDiscussionEdit : AuthenticatedPage
                 int discussion_id = SessionManager.GetCount<TransitDiscussion, string, int>(
                     Type, ObjectId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
-                TransitDiscussion td = SessionManager.GetInstance<TransitDiscussion, int>(
+                TransitDiscussion td = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
                     discussion_id, SessionManager.DiscussionService.GetDiscussionById);
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, string.Format("{0}&ReturnUrl={1}",

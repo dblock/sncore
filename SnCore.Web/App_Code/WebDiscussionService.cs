@@ -243,14 +243,14 @@ namespace SnCore.WebServices
         /// <param name="id">discussion thread id</param>
         /// <returns></returns>
         [WebMethod(Description = "Get discussion thread posts.")]
-        public List<TransitDiscussionPost> GetDiscussionThreadPosts(string ticket, int id)
+        public List<TransitDiscussionPost> GetDiscussionThreadPosts(string ticket, int id, ServiceQueryOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-
                 ManagedDiscussionThread m_thread = new ManagedDiscussionThread(session, id);
+                // TODO: apply options
                 return m_thread.GetDiscussionPosts(sec);
             }
         }

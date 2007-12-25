@@ -71,8 +71,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        TransitAccountGroupPicture p = SessionManager.GroupService.GetAccountGroupPictureById(
-            SessionManager.Ticket, id);
+        TransitAccountGroupPicture p = SessionManager.GetInstance<TransitAccountGroupPicture, int>(
+            id, SessionManager.GroupService.GetAccountGroupPictureById);
 
         if (p == null)
             return null;
@@ -88,8 +88,8 @@ public abstract class AccountGroupPicturePage : PicturePage
 
     public override TransitPicture GetRandomPictureWithThumbnail()
     {
-        SnCore.Services.TransitPicture p = SessionManager.ObjectService.GetRandomPictureByType(
-            SessionManager.Ticket, "AccountGroup");
+        SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, string>(
+            "AccountGroup", SessionManager.ObjectService.GetRandomPictureByType);
 
         if (p == null)
             return null;

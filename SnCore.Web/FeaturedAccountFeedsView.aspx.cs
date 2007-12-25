@@ -35,8 +35,8 @@ public partial class FeaturedAccountFeedsView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.ObjectService.GetFeaturesCount(
-            SessionManager.Ticket, "AccountFeed");
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitFeature, string>(
+            "AccountFeed", SessionManager.ObjectService.GetFeaturesCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 

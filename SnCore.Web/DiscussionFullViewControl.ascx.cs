@@ -53,13 +53,13 @@ public partial class DiscussionFullViewControl : Control
 
     public void GetData(object sender, EventArgs e)
     {
-        TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
-            SessionManager.Ticket, DiscussionId);
+        TransitDiscussion d = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
+            DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
         if (string.IsNullOrEmpty(discussionLabel.Text)) discussionLabel.Text = Renderer.Render(d.Name);
         discussionDescription.Text = Renderer.Render(d.Description);
         divDescription.Visible = !string.IsNullOrEmpty(discussionDescription.Text);
-        discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
-            SessionManager.Ticket, DiscussionId, null);
+        discussionView.DataSource = SessionManager.GetPrivateCollection<TransitDiscussionPost, int>(
+            DiscussionId, null, SessionManager.DiscussionService.GetDiscussionPosts);
         discussionView.DataBind();
 
         postNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
@@ -74,8 +74,8 @@ public partial class DiscussionFullViewControl : Control
                 {
                     int id = int.Parse(e.CommandArgument.ToString());
                     SessionManager.Delete<TransitDiscussionPost>(id, SessionManager.DiscussionService.DeleteDiscussionPost);
-                    discussionView.DataSource = SessionManager.DiscussionService.GetDiscussionPosts(
-                        SessionManager.Ticket, DiscussionId, null);
+                    discussionView.DataSource = SessionManager.GetPrivateCollection<TransitDiscussionPost, int>(
+                        DiscussionId, null, SessionManager.DiscussionService.GetDiscussionPosts);
                     discussionView.DataBind();
                     break;
                 }
@@ -144,8 +144,8 @@ public partial class DiscussionFullViewControl : Control
                 linkDelete.Attributes.Add("onclick", "return confirm('Are you sure you want to delete this post?');");
                 linkDelete.Visible = candelete;
 
-                TransitDiscussion d = SessionManager.DiscussionService.GetDiscussionById(
-                    SessionManager.Ticket, DiscussionId);
+                TransitDiscussion d = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
+                    DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
                 HyperLink linkMovePost = (HyperLink)e.Item.FindControl("linkMovePost");
                 linkMovePost.Visible = d.CanUpdate;
                 linkMovePost.NavigateUrl = string.Format("DiscussionPostMove.aspx?id={0}", id);

@@ -35,8 +35,8 @@ public partial class FeaturedAccountGroupsView : Page
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.ObjectService.GetFeaturesCount(
-            SessionManager.Ticket, "AccountGroup");
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitFeature, string>(
+            "AccountGroup", SessionManager.ObjectService.GetFeaturesCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 

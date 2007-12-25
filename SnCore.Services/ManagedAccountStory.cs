@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
 using SnCore.Data.Hibernate;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -28,6 +29,11 @@ namespace SnCore.Services
         public AccountStoryQueryOptions()
         {
 
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     }
 

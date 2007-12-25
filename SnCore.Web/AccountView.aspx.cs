@@ -59,8 +59,8 @@ public partial class AccountView : Page
         {
             if (mAccountFeature == null)
             {
-                mAccountFeature = SessionManager.ObjectService.FindLatestFeature(
-                    SessionManager.Ticket, "Account", RequestId);
+                mAccountFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "Account", RequestId, SessionManager.ObjectService.FindLatestFeature);
             }
             return mAccountFeature;
         }

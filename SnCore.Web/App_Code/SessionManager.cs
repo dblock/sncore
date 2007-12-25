@@ -27,6 +27,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     private static DateTime s_RequestsLastCommit = DateTime.UtcNow;
     private static List<TransitStatsRequest> s_Requests = new List<TransitStatsRequest>(1024);
     public static TimeSpan DefaultCacheTimeSpan = new TimeSpan(0, 5, 0);
+    public static string DefaultCacheTicket = string.Empty;
 
     const string sSnCoreOpenIdTokenCookieName = "SnCore.openidtoken";
     const string sSnCoreAuthCookieName = "SnCore.authcookie";
@@ -599,7 +600,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         ServiceQueryOptions options, WebClientImpl<TransitType>.GetCollectionDelegate functor)
     {
         return WebClientImpl<TransitType>.GetCollection(
-            Ticket, options, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, options, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + ServiceQueryOptions
@@ -608,7 +609,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1> functor)
     {
         return WebClientImpl<TransitType>.GetCollection<ArgType1>(
-            Ticket, arg1, options, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, options, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2 + ServiceQueryOptions
@@ -617,7 +618,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2> functor)
     {
         return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2>(
-            Ticket, arg1, arg2, options, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, options, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2 + arg3 + ServiceQueryOptions
@@ -626,7 +627,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2, ArgType3> functor)
     {
         return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2, ArgType3>(
-            Ticket, arg1, arg2, arg3, options, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, arg3, options, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     #endregion
@@ -638,7 +639,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegate functor)
     {
         return WebClientImpl<TransitType>.GetInstance(
-            Ticket, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1
@@ -647,7 +648,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegate<ArgType1> functor)
     {
         return WebClientImpl<TransitType>.GetInstance<ArgType1>(
-            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2
@@ -656,7 +657,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegate<ArgType1, ArgType2> functor)
     {
         return WebClientImpl<TransitType>.GetInstance<ArgType1, ArgType2>(
-            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2 + arg3
@@ -665,7 +666,85 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegate<ArgType1, ArgType2, ArgType3> functor)
     {
         return WebClientImpl<TransitType>.GetInstance<ArgType1, ArgType2, ArgType3>(
-            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
+    }
+
+    #endregion
+
+    #region Private Collection
+
+    /// ticket + ServiceQueryOptions
+    public IList<TransitType> GetPrivateCollection<TransitType>(
+        ServiceQueryOptions options, WebClientImpl<TransitType>.GetCollectionDelegate functor)
+    {
+        return WebClientImpl<TransitType>.GetCollection(
+            Ticket, options, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    /// ticket + arg1 + ServiceQueryOptions
+    public IList<TransitType> GetPrivateCollection<TransitType, ArgType1>(
+        ArgType1 arg1, ServiceQueryOptions options,
+        WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1> functor)
+    {
+        return WebClientImpl<TransitType>.GetCollection<ArgType1>(
+            Ticket, arg1, options, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    /// ticket + arg1 + arg2 + ServiceQueryOptions
+    public IList<TransitType> GetPrivateCollection<TransitType, ArgType1, ArgType2>(
+        ArgType1 arg1, ArgType2 arg2, ServiceQueryOptions options,
+        WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2> functor)
+    {
+        return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2>(
+            Ticket, arg1, arg2, options, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    /// ticket + arg1 + arg2 + arg3 + ServiceQueryOptions
+    public IList<TransitType> GetPrivateCollection<TransitType, ArgType1, ArgType2, ArgType3>(
+        ArgType1 arg1, ArgType2 arg2, ArgType3 arg3, ServiceQueryOptions options,
+        WebClientImpl<TransitType>.GetCollectionDelegate<ArgType1, ArgType2, ArgType3> functor)
+    {
+        return WebClientImpl<TransitType>.GetCollection<ArgType1, ArgType2, ArgType3>(
+            Ticket, arg1, arg2, arg3, options, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    #endregion
+
+    #region Private Instance
+
+    /// ticket
+    public TransitType GetPrivateInstance<TransitType>(
+        WebClientImpl<TransitType>.GetItemDelegate functor)
+    {
+        return WebClientImpl<TransitType>.GetInstance(
+            Ticket, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    /// ticket + arg1
+    public TransitType GetPrivateInstance<TransitType, ArgType1>(
+        ArgType1 arg1,
+        WebClientImpl<TransitType>.GetItemDelegate<ArgType1> functor)
+    {
+        return WebClientImpl<TransitType>.GetInstance<ArgType1>(
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    /// ticket + arg1 + arg2
+    public TransitType GetPrivateInstance<TransitType, ArgType1, ArgType2>(
+        ArgType1 arg1, ArgType2 arg2,
+        WebClientImpl<TransitType>.GetItemDelegate<ArgType1, ArgType2> functor)
+    {
+        return WebClientImpl<TransitType>.GetInstance<ArgType1, ArgType2>(
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan, Ticket);
+    }
+
+    /// ticket + arg1 + arg2 + arg3
+    public TransitType GetPrivateInstance<TransitType, ArgType1, ArgType2, ArgType3>(
+        ArgType1 arg1, ArgType2 arg2, ArgType3 arg3,
+        WebClientImpl<TransitType>.GetItemDelegate<ArgType1, ArgType2, ArgType3> functor)
+    {
+        return WebClientImpl<TransitType>.GetInstance<ArgType1, ArgType2, ArgType3>(
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan, Ticket);
     }
 
     #endregion
@@ -677,7 +756,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegateCount functor)
     {
         return WebClientImpl<TransitType>.GetCount(
-            Ticket, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1
@@ -685,7 +764,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         ArgType1 arg1, WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1> functor)
     {
         return WebClientImpl<TransitType>.GetCount(
-            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2
@@ -694,7 +773,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1, ArgType2> functor)
     {
         return WebClientImpl<TransitType>.GetCount(
-            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2 + arg3
@@ -703,7 +782,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegateCount<ArgType1, ArgType2, ArgType3> functor)
     {
         return WebClientImpl<TransitType>.GetCount(
-            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     #endregion
@@ -715,7 +794,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegateBool functor)
     {
         return WebClientImpl<TransitType>.GetBool(
-            Ticket, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1
@@ -723,7 +802,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         ArgType1 arg1, WebClientImpl<TransitType>.GetItemDelegateBool<ArgType1> functor)
     {
         return WebClientImpl<TransitType>.GetBool(
-            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2
@@ -732,7 +811,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegateBool<ArgType1, ArgType2> functor)
     {
         return WebClientImpl<TransitType>.GetBool(
-            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     /// ticket + arg1 + arg2 + arg3
@@ -741,7 +820,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         WebClientImpl<TransitType>.GetItemDelegateBool<ArgType1, ArgType2, ArgType3> functor)
     {
         return WebClientImpl<TransitType>.GetBool(
-            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan);
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     #endregion

@@ -28,6 +28,40 @@ namespace SnCore.WebServices
     {
         #region Cache Keys
 
+        private static object s_mNullMarker = new object();
+
+        private static void Insert(Cache cache, string key, object instance, TimeSpan ts)
+        {
+            cache.Insert(key, instance == null ? s_mNullMarker : instance,
+                GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
+        }
+
+        #region TryGet
+
+        private static bool TryGet<ObjectType>(Cache cache, string key, out ObjectType instance)
+        {
+            object result = cache.Get(key);
+
+            CacheHitOrMiss(key, result);
+
+            if (result == null)
+            {
+                instance = default(ObjectType);
+                return false;
+            }
+
+            if (result == s_mNullMarker)
+            {
+                instance = default(ObjectType);
+                return true;
+            }
+
+            instance = (ObjectType)result;
+            return true;
+        }
+
+        #endregion
+
         private static void CacheHitOrMiss(string key, object value)
         {
 #if DEBUG
@@ -55,14 +89,20 @@ namespace SnCore.WebServices
             return new TypeCacheDependency<TransitType>();
         }
 
-        private static string GetCacheKey(string method)
+        private static string GetCacheKey(string method, string ticket)
         {
-            return GetCacheKey(method, null);
+            return GetCacheKey(method, null, ticket);
         }
 
-        private static string GetCacheKey(string method, object[] args)
+        private static string GetCacheKey(string method, object[] args, string ticket)
         {
             StringBuilder key = new StringBuilder(method);
+
+            if (!string.IsNullOrEmpty(ticket))
+            {
+                key.Append(":");
+                key.Append(ticket.GetHashCode().ToString());
+            }
 
             if (args != null)
             {
@@ -94,20 +134,17 @@ namespace SnCore.WebServices
         public delegate IList<TransitType> GetCollectionDelegate(string ticket, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection(
-            string ticket, ServiceQueryOptionsType options, GetCollectionDelegate functor, Cache cache, TimeSpan ts)
+            string ticket, ServiceQueryOptionsType options, GetCollectionDelegate functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, options);
             object[] args = { options };
-            string key = GetCacheKey(functor.Method.Name, args);
-            IList<TransitType> collection = (IList<TransitType>)cache.Get(key);
-            CacheHitOrMiss(key, collection);
-            if (collection == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            IList<TransitType> collection = null;
+            if (! TryGet(cache, key, out collection))
             {
                 collection = functor(ticket, options);
-                if (collection != null)
-                {
-                    cache.Insert(key, collection, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, collection, ts);
             }
             return collection;
         }
@@ -120,21 +157,18 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection<TypeArg1>(
-            string ticket, TypeArg1 arg1, ServiceQueryOptionsType options, 
-            GetCollectionDelegate<TypeArg1> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1, ServiceQueryOptionsType options,
+            GetCollectionDelegate<TypeArg1> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, options);
             object[] args = { arg1, options };
-            string key = GetCacheKey(functor.Method.Name, args);
-            IList<TransitType> collection = (IList<TransitType>)cache.Get(key);
-            CacheHitOrMiss(key, collection);
-            if (collection == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            IList<TransitType> collection = null;
+            if (! TryGet(cache, key, out collection))
             {
                 collection = functor(ticket, arg1, options);
-                if (collection != null)
-                {
-                    cache.Insert(key, collection, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, collection, ts);
             }
             return collection;
         }
@@ -147,21 +181,18 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptionsType options);
 
         public static IList<TransitType> GetCollection<TypeArg1, TypeArg2>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptionsType options, 
-            GetCollectionDelegate<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, ServiceQueryOptionsType options,
+            GetCollectionDelegate<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2, options);
             object[] args = { arg1, arg2, options };
-            string key = GetCacheKey(functor.Method.Name, args);
-            IList<TransitType> collection = (IList<TransitType>)cache.Get(key);
-            CacheHitOrMiss(key, collection);
-            if (collection == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            IList<TransitType> collection = null;
+            if (! TryGet(cache, key, out collection))
             {
                 collection = functor(ticket, arg1, arg2, options);
-                if (collection != null)
-                {
-                    cache.Insert(key, collection, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, collection, ts);
             }
             return collection;
         }
@@ -175,20 +206,17 @@ namespace SnCore.WebServices
 
         public static IList<TransitType> GetCollection<TypeArg1, TypeArg2, TypeArg3>(
             string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3, ServiceQueryOptionsType options,
-            GetCollectionDelegate<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts)
+            GetCollectionDelegate<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2, arg3, options);
             object[] args = { arg1, arg2, arg3, options };
-            string key = GetCacheKey(functor.Method.Name, args);
-            IList<TransitType> collection = (IList<TransitType>)cache.Get(key);
-            CacheHitOrMiss(key, collection);
-            if (collection == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            IList<TransitType> collection = null;
+            if (!TryGet(cache, key, out collection))
             {
                 collection = functor(ticket, arg1, arg2, arg3, options);
-                if (collection != null)
-                {
-                    cache.Insert(key, collection, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, collection, ts);
             }
             return collection;
         }
@@ -204,19 +232,16 @@ namespace SnCore.WebServices
         public delegate TransitType GetItemDelegate(string ticket);
 
         public static TransitType GetInstance(
-            string ticket, GetItemDelegate functor, Cache cache, TimeSpan ts)
+            string ticket, GetItemDelegate functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket);
-            string key = GetCacheKey(functor.Method.Name);
-            TransitType instance = (TransitType)cache.Get(key);
-            CacheHitOrMiss(key, instance);
-            if (instance == null)
+            string key = GetCacheKey(functor.Method.Name, cacheticket);
+            TransitType instance = default(TransitType);
+            if (!TryGet(cache, key, out instance))
             {
                 instance = functor(ticket);
-                if (instance != null)
-                {
-                    cache.Insert(key, instance, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, instance, ts);
             }
             return instance;
         }
@@ -229,20 +254,17 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1);
 
         public static TransitType GetInstance<TypeArg1>(
-            string ticket, TypeArg1 arg1, GetItemDelegate<TypeArg1> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1, GetItemDelegate<TypeArg1> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1);
             object[] args = { arg1 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            TransitType instance = (TransitType)cache.Get(key);
-            CacheHitOrMiss(key, instance);
-            if (instance == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            TransitType instance = default(TransitType);
+            if (!TryGet(cache, key, out instance))
             {
                 instance = functor(ticket, arg1);
-                if (instance != null)
-                {
-                    cache.Insert(key, instance, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, instance, ts);
             }
             return instance;
         }
@@ -255,21 +277,18 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1, TypeArg2 arg2);
 
         public static TransitType GetInstance<TypeArg1, TypeArg2>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, 
-            GetItemDelegate<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1, TypeArg2 arg2,
+            GetItemDelegate<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2);
             object[] args = { arg1, arg2 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            TransitType instance = (TransitType)cache.Get(key);
-            CacheHitOrMiss(key, instance);
-            if (instance == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            TransitType instance = default(TransitType);
+            if (!TryGet(cache, key, out instance))
             {
                 instance = functor(ticket, arg1, arg2);
-                if (instance != null)
-                {
-                    cache.Insert(key, instance, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, instance, ts);
             }
             return instance;
         }
@@ -282,21 +301,18 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3);
 
         public static TransitType GetInstance<TypeArg1, TypeArg2, TypeArg3>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3, 
-            GetItemDelegate<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3,
+            GetItemDelegate<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2, arg3);
             object[] args = { arg1, arg2, arg3 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            TransitType instance = (TransitType)cache.Get(key);
-            CacheHitOrMiss(key, instance);
-            if (instance == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            TransitType instance = default(TransitType);
+            if (!TryGet(cache, key, out instance))
             {
                 instance = functor(ticket, arg1, arg2, arg3);
-                if (instance != null)
-                {
-                    cache.Insert(key, instance, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, instance, ts);
             }
             return instance;
         }
@@ -349,19 +365,16 @@ namespace SnCore.WebServices
         public delegate int GetItemDelegateCount(string ticket);
 
         public static int GetCount(
-            string ticket, GetItemDelegateCount functor, Cache cache, TimeSpan ts)
+            string ticket, GetItemDelegateCount functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket);
-            string key = GetCacheKey(functor.Method.Name);
-            object count = cache.Get(key);
-            CacheHitOrMiss(key, count);
-            if (count == null)
+            string key = GetCacheKey(functor.Method.Name, cacheticket);
+            int count = 0;
+            if (!TryGet(cache, key, out count))
             {
                 count = functor(ticket);
-                if (count != null)
-                {
-                    cache.Insert(key, count, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, count, ts);
             }
             return (int)count;
         }
@@ -374,21 +387,18 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1);
 
         public static int GetCount<TypeArg1>(
-            string ticket, TypeArg1 arg1, 
-            GetItemDelegateCount<TypeArg1> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1,
+            GetItemDelegateCount<TypeArg1> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1);
             object[] args = { arg1 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            object count = cache.Get(key);
-            CacheHitOrMiss(key, count);
-            if (count == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            int count = 0;
+            if (!TryGet(cache, key, out count))
             {
                 count = functor(ticket, arg1);
-                if (count != null)
-                {
-                    cache.Insert(key, count, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, count, ts);
             }
             return (int)count;
         }
@@ -401,21 +411,18 @@ namespace SnCore.WebServices
             string ticket, TypeArg1 arg1, TypeArg2 arg2);
 
         public static int GetCount<TypeArg1, TypeArg2>(
-            string ticket, TypeArg1 arg1, TypeArg2 arg2, 
-            GetItemDelegateCount<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts)
+            string ticket, TypeArg1 arg1, TypeArg2 arg2,
+            GetItemDelegateCount<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2);
             object[] args = { arg1, arg2 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            object count = cache.Get(key);
-            CacheHitOrMiss(key, count);
-            if (count == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            int count = 0;
+            if (!TryGet(cache, key, out count))
             {
                 count = functor(ticket, arg1, arg2);
-                if (count != null)
-                {
-                    cache.Insert(key, count, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, count, ts);
             }
             return (int)count;
         }
@@ -429,20 +436,17 @@ namespace SnCore.WebServices
 
         public static int GetCount<TypeArg1, TypeArg2, TypeArg3>(
             string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3,
-            GetItemDelegateCount<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts)
+            GetItemDelegateCount<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2, arg3);
             object[] args = { arg1, arg2, arg3 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            object count = cache.Get(key);
-            CacheHitOrMiss(key, count);
-            if (count == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            int count = 0;
+            if (!TryGet(cache, key, out count))
             {
                 count = functor(ticket, arg1, arg2, arg3);
-                if (count != null)
-                {
-                    cache.Insert(key, count, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, count, ts);
             }
             return (int)count;
         }
@@ -458,19 +462,16 @@ namespace SnCore.WebServices
         public delegate bool GetItemDelegateBool(string ticket);
 
         public static bool GetBool(
-            string ticket, GetItemDelegateBool functor, Cache cache, TimeSpan ts)
+            string ticket, GetItemDelegateBool functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket);
-            string key = GetCacheKey(functor.Method.Name);
-            object flag = cache.Get(key);
-            CacheHitOrMiss(key, flag);
-            if (flag == null)
+            string key = GetCacheKey(functor.Method.Name, cacheticket);
+            bool flag = false;
+            if (!TryGet(cache, key, out flag))
             {
                 flag = functor(ticket);
-                if (flag != null)
-                {
-                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, flag, ts);
             }
             return (bool)flag;
         }
@@ -484,20 +485,17 @@ namespace SnCore.WebServices
 
         public static bool GetBool<TypeArg1>(
             string ticket, TypeArg1 arg1,
-            GetItemDelegateBool<TypeArg1> functor, Cache cache, TimeSpan ts)
+            GetItemDelegateBool<TypeArg1> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1);
             object[] args = { arg1 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            object flag = cache.Get(key);
-            CacheHitOrMiss(key, flag);
-            if (flag == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            bool flag = false;
+            if (!TryGet(cache, key, out flag))
             {
                 flag = functor(ticket, arg1);
-                if (flag != null)
-                {
-                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, flag, ts);
             }
             return (bool)flag;
         }
@@ -511,20 +509,17 @@ namespace SnCore.WebServices
 
         public static bool GetBool<TypeArg1, TypeArg2>(
             string ticket, TypeArg1 arg1, TypeArg2 arg2,
-            GetItemDelegateBool<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts)
+            GetItemDelegateBool<TypeArg1, TypeArg2> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2);
             object[] args = { arg1, arg2 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            object flag = cache.Get(key);
-            CacheHitOrMiss(key, flag);
-            if (flag == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            bool flag = false;
+            if (!TryGet(cache, key, out flag))
             {
                 flag = functor(ticket, arg1, arg2);
-                if (flag != null)
-                {
-                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, flag, ts);
             }
             return (bool)flag;
         }
@@ -538,20 +533,17 @@ namespace SnCore.WebServices
 
         public static bool GetBool<TypeArg1, TypeArg2, TypeArg3>(
             string ticket, TypeArg1 arg1, TypeArg2 arg2, TypeArg3 arg3,
-            GetItemDelegateBool<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts)
+            GetItemDelegateBool<TypeArg1, TypeArg2, TypeArg3> functor, Cache cache, TimeSpan ts,
+            string cacheticket)
         {
             if (cache == null) return functor(ticket, arg1, arg2, arg3);
             object[] args = { arg1, arg2, arg3 };
-            string key = GetCacheKey(functor.Method.Name, args);
-            object flag = cache.Get(key);
-            CacheHitOrMiss(key, flag);
-            if (flag == null)
+            string key = GetCacheKey(functor.Method.Name, args, cacheticket);
+            bool flag = false;
+            if (!TryGet(cache, key, out flag))
             {
                 flag = functor(ticket, arg1, arg2, arg3);
-                if (flag != null)
-                {
-                    cache.Insert(key, flag, GetTransitTypeCacheDependency(cache), Cache.NoAbsoluteExpiration, ts);
-                }
+                Insert(cache, key, flag, ts);
             }
             return (bool)flag;
         }

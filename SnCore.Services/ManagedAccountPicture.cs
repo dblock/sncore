@@ -6,6 +6,7 @@ using System.IO;
 using SnCore.Tools.Drawing;
 using NHibernate.Expression;
 using SnCore.Data.Hibernate;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
@@ -16,6 +17,11 @@ namespace SnCore.Services
         public AccountPicturesQueryOptions()
         {
 
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
         }
     };
 

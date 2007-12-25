@@ -394,8 +394,8 @@ public partial class PlaceView : Page
         {
             if (mPlaceFeature == null)
             {
-                mPlaceFeature = SessionManager.ObjectService.FindLatestFeature(
-                    SessionManager.Ticket, "Place", RequestId);
+                mPlaceFeature = SessionManager.GetInstance<TransitFeature, string, int>(
+                    "Place", RequestId, SessionManager.ObjectService.FindLatestFeature);
             }
             return mPlaceFeature;
         }

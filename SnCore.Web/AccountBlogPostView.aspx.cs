@@ -19,7 +19,7 @@ public partial class AccountBlogPostView : Page
     {
         if (!IsPostBack)
         {
-            TransitAccountBlogPost post = SessionManager.GetInstance<TransitAccountBlogPost, int>(
+            TransitAccountBlogPost post = SessionManager.GetPrivateInstance<TransitAccountBlogPost, int>(
                 RequestId, SessionManager.BlogService.GetAccountBlogPostById);
 
             if (post == null)
@@ -74,7 +74,7 @@ public partial class AccountBlogPostView : Page
 
     public void linkDelete_Click(object sender, EventArgs e)
     {
-        TransitAccountBlogPost post = SessionManager.GetInstance<TransitAccountBlogPost, int>(
+        TransitAccountBlogPost post = SessionManager.GetPrivateInstance<TransitAccountBlogPost, int>(
             RequestId, SessionManager.BlogService.GetAccountBlogPostById);
         SessionManager.Delete<TransitAccountBlogPost>(post.Id, SessionManager.BlogService.DeleteAccountBlogPost);
         Redirect(string.Format("AccountBlogView.aspx?id={0}", post.AccountBlogId));

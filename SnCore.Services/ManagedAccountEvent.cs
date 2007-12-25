@@ -98,6 +98,11 @@ namespace SnCore.Services
 
             return b.ToString();
         }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
     };
 
     public class TransitAccountEvent : TransitService<AccountEvent>
