@@ -10,7 +10,7 @@ namespace SnCore.Tools
         public static int GetHashCode(object o)
         {
             StringBuilder hash = new StringBuilder();
-            FieldInfo[] fields = o.GetType().GetFields();
+            FieldInfo[] fields = o.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (FieldInfo field in fields)
             {
                 object fieldvalue = field.GetValue(o);
