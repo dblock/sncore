@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Include>
+ <Fragment Id="SnCore.Install.Web.Fragment">
+  <?include SnCore.Project.wxi ?>
+  <DirectoryRef Id="INSTALLDIR">
+   <Directory Id="SnCore" Name="SnCore">
+    <Component Id="SnCoreWebServices" Guid="8F5BDB58-59CF-4dea-AA07-0314AAC1326E" DiskId="1">
+     <File Id="SnCoreServices_css" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Services.css" />
+     <File Id="SnCoreServices_htm" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Services.htm" />
+     <File Id="SnCoreWebAccountService_asmx" Name="WebAccountService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebAccountService.asmx" />
+     <File Id="SnCoreWebBlogService_asmx" Name="WebBlogService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebBlogService.asmx" />
+     <File Id="SnCoreWebBugService_asmx" Name="WebBugService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebBugService.asmx" />
+     <File Id="SnCoreWebContentService_asmx" Name="WebContentService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebContentService.asmx" />
+     <File Id="SnCoreWebDiscussionService_asmx" Name="WebDiscussionService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebDiscussionService.asmx" />
+     <File Id="SnCoreWebEventService_asmx" Name="WebEventService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebEventService.asmx" />
+     <File Id="SnCoreWebGroupService_asmx" Name="WebGroupService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebGroupService.asmx" />
+     <File Id="SnCoreWebLicenseService_asmx" Name="WebLicenseService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebLicenseService.asmx" />
+     <File Id="SnCoreWebLocationService_asmx" Name="WebLocationService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebLocationService.asmx" />
+     <File Id="SnCoreWebMadLibService_asmx" Name="WebMadLibService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebMadLibService.asmx" />
+     <File Id="SnCoreWebMarketingService_asmx" Name="WebMarketingService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebMarketingService.asmx" />
+     <File Id="SnCoreWebObjectService_asmx" Name="WebObjectService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebObjectService.asmx" />
+     <File Id="SnCoreWebPlaceService_asmx" Name="WebPlaceService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebPlaceService.asmx" />
+     <File Id="SnCoreWebSocialService_asmx" Name="WebSocialService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebSocialService.asmx" />
+     <File Id="SnCoreWebStatsService_asmx" Name="WebStatsService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebStatsService.asmx" />
+     <File Id="SnCoreWebStoryService_asmx" Name="WebStoryService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebStoryService.asmx" />
+     <File Id="SnCoreWebSyndicationService_asmx" Name="WebSyndicationService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebSyndicationService.asmx" />
+     <File Id="SnCoreWebSystemService_asmx" Name="WebSystemService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebSystemService.asmx" />
+     <File Id="SnCoreWebTagWordService_asmx" Name="WebTagWordService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\WebTagWordService.asmx" />
+    </Component>
+    <Component Id="SnCore" Guid="0EF1FBAA-C412-4016-BD7D-939912E6A2EB" DiskId="1">
+     <File Id="SnCoreAbout_aspx" Name="About.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\About.aspx" />
+     <File Id="SnCoreAccountAddressEdit_aspx" Name="AccountAddressEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountAddressEdit.aspx" />
+     <File Id="SnCoreAccountAddressesManage_aspx" Name="AccountAddressesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountAddressesManage.aspx" />
+     <File Id="SnCoreAccountAttributeEdit_aspx" Name="AccountAttributeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountAttributeEdit.aspx" />
+     <File Id="SnCoreAccountAttributesManage_aspx" Name="AccountAttributesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountAttributesManage.aspx" />
+     <File Id="SnCoreAccountAttributesViewControl_ascx" Name="AccountAttributesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountAttributesViewControl.ascx" />
+     <File Id="SnCoreAccountAuditEntriesView_aspx" Name="AccountAuditEntriesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountAuditEntriesView.aspx" />
+     <File Id="SnCoreAccountBlogAuthorEdit_aspx" Name="AccountBlogAuthorEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogAuthorEdit.aspx" />
+     <File Id="SnCoreAccountBlogEdit_aspx" Name="AccountBlogEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogEdit.aspx" />
+     <File Id="SnCoreAccountBlogPost_aspx" Name="AccountBlogPost.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogPost.aspx" />
+     <File Id="SnCoreAccountBlogPostMove_aspx" Name="AccountBlogPostMove.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogPostMove.aspx" />
+     <File Id="SnCoreAccountBlogPostView_aspx" Name="AccountBlogPostView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogPostView.aspx" />
+     <File Id="SnCoreAccountBlogPreviewControl_ascx" Name="AccountBlogPreviewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogPreviewControl.ascx" />
+     <File Id="SnCoreAccountBlogRss_aspx" Name="AccountBlogRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogRss.aspx" />
+     <File Id="SnCoreAccountBlogsManage_aspx" Name="AccountBlogsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogsManage.aspx" />
+     <File Id="SnCoreAccountBlogsViewControl_ascx" Name="AccountBlogsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogsViewControl.ascx" />
+     <File Id="SnCoreAccountBlogView_aspx" Name="AccountBlogView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogView.aspx" />
+     <File Id="SnCoreAccountBlogViewControl_ascx" Name="AccountBlogViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBlogViewControl.ascx" />
+     <File Id="SnCoreAccountBrowser_aspx" Name="AccountBrowser.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountBrowser.aspx" />
+     <File Id="SnCoreAccountChangePassword_aspx" Name="AccountChangePassword.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountChangePassword.aspx" />
+     <File Id="SnCoreAccountCitiesControl_ascx" Name="AccountCitiesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCitiesControl.ascx" />
+     <File Id="SnCoreAccountCitiesView_aspx" Name="AccountCitiesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCitiesView.aspx" />
+     <File Id="SnCoreAccountCityControl_ascx" Name="AccountCityControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCityControl.ascx" />
+     <File Id="SnCoreAccountContentEdit_aspx" Name="AccountContentEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentEdit.aspx" />
+     <File Id="SnCoreAccountContentGroupEdit_aspx" Name="AccountContentGroupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentGroupEdit.aspx" />
+     <File Id="SnCoreAccountContentGroupLinkControl_ascx" Name="AccountContentGroupLinkControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentGroupLinkControl.ascx" />
+     <File Id="SnCoreAccountContentGroupsManage_aspx" Name="AccountContentGroupsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentGroupsManage.aspx" />
+     <File Id="SnCoreAccountContentGroupsViewList_aspx" Name="AccountContentGroupsViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentGroupsViewList.aspx" />
+     <File Id="SnCoreAccountContentGroupView_aspx" Name="AccountContentGroupView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentGroupView.aspx" />
+     <File Id="SnCoreAccountContentGroupViewRss_aspx" Name="AccountContentGroupViewRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountContentGroupViewRss.aspx" />
+     <File Id="SnCoreAccountCreate_aspx" Name="AccountCreate.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCreate.aspx" />
+     <File Id="SnCoreAccountCreateInvitation_aspx" Name="AccountCreateInvitation.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCreateInvitation.aspx" />
+     <File Id="SnCoreAccountCreateInvitationWelcome_aspx" Name="AccountCreateInvitationWelcome.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCreateInvitationWelcome.aspx" />
+     <File Id="SnCoreAccountCreateOpenId_aspx" Name="AccountCreateOpenId.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCreateOpenId.aspx" />
+     <File Id="SnCoreAccountCreateWelcome_aspx" Name="AccountCreateWelcome.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountCreateWelcome.aspx" />
+     <File Id="SnCoreAccountDeclineInvitation_aspx" Name="AccountDeclineInvitation.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountDeclineInvitation.aspx" />
+     <File Id="SnCoreAccountDelete_aspx" Name="AccountDelete.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountDelete.aspx" />
+     <File Id="SnCoreAccountDiscussionThreadsRss_aspx" Name="AccountDiscussionThreadsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountDiscussionThreadsRss.aspx" />
+     <File Id="SnCoreAccountDiscussionThreadsView_aspx" Name="AccountDiscussionThreadsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountDiscussionThreadsView.aspx" />
+     <File Id="SnCoreAccountEmailsManage_aspx" Name="AccountEmailsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEmailsManage.aspx" />
+     <File Id="SnCoreAccountEmailVerify_aspx" Name="AccountEmailVerify.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEmailVerify.aspx" />
+     <File Id="SnCoreAccountEventEdit_aspx" Name="AccountEventEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventEdit.aspx" />
+     <File Id="SnCoreAccountEventFeaturedViewControl_ascx" Name="AccountEventFeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventFeaturedViewControl.ascx" />
+     <File Id="SnCoreAccountEventPicture_aspx" Name="AccountEventPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPicture.aspx" />
+     <File Id="SnCoreAccountEventPictureEdit_aspx" Name="AccountEventPictureEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPictureEdit.aspx" />
+     <File Id="SnCoreAccountEventPicturesManage_aspx" Name="AccountEventPicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPicturesManage.aspx" />
+     <File Id="SnCoreAccountEventPicturesView_aspx" Name="AccountEventPicturesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPicturesView.aspx" />
+     <File Id="SnCoreAccountEventPicturesViewControl_ascx" Name="AccountEventPicturesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPicturesViewControl.ascx" />
+     <File Id="SnCoreAccountEventPictureThumbnail_aspx" Name="AccountEventPictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPictureThumbnail.aspx" />
+     <File Id="SnCoreAccountEventPictureView_aspx" Name="AccountEventPictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventPictureView.aspx" />
+     <File Id="SnCoreAccountEventsManage_aspx" Name="AccountEventsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventsManage.aspx" />
+     <File Id="SnCoreAccountEventsRss_aspx" Name="AccountEventsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventsRss.aspx" />
+     <File Id="SnCoreAccountEventsToday_aspx" Name="AccountEventsToday.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventsToday.aspx" />
+     <File Id="SnCoreAccountEventsView_aspx" Name="AccountEventsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventsView.aspx" />
+     <File Id="SnCoreAccountEventsViewList_aspx" Name="AccountEventsViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventsViewList.aspx" />
+     <File Id="SnCoreAccountEventView_aspx" Name="AccountEventView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventView.aspx" />
+     <File Id="SnCoreAccountEventWizard_aspx" Name="AccountEventWizard.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountEventWizard.aspx" />
+     <File Id="SnCoreAccountFeaturedViewControl_ascx" Name="AccountFeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeaturedViewControl.ascx" />
+     <File Id="SnCoreAccountFeedEdit_aspx" Name="AccountFeedEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedEdit.aspx" />
+     <File Id="SnCoreAccountFeedFeaturedViewControl_ascx" Name="AccountFeedFeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedFeaturedViewControl.ascx" />
+     <File Id="SnCoreAccountFeedItemImgsRss_aspx" Name="AccountFeedItemImgsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemImgsRss.aspx" />
+     <File Id="SnCoreAccountFeedItemImgsView_aspx" Name="AccountFeedItemImgsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemImgsView.aspx" />
+     <File Id="SnCoreAccountFeedItemImgThumbnail_aspx" Name="AccountFeedItemImgThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemImgThumbnail.aspx" />
+     <File Id="SnCoreAccountFeedItemMediasRss_aspx" Name="AccountFeedItemMediasRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemMediasRss.aspx" />
+     <File Id="SnCoreAccountFeedItemMediasView_aspx" Name="AccountFeedItemMediasView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemMediasView.aspx" />
+     <File Id="SnCoreAccountFeedItemPicture_aspx" Name="AccountFeedItemPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemPicture.aspx" />
+     <File Id="SnCoreAccountFeedItemsFeaturedViewControl_ascx" Name="AccountFeedItemsFeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemsFeaturedViewControl.ascx" />
+     <File Id="SnCoreAccountFeedItemsNewViewControl_ascx" Name="AccountFeedItemsNewViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemsNewViewControl.ascx" />
+     <File Id="SnCoreAccountFeedItemsRss_aspx" Name="AccountFeedItemsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemsRss.aspx" />
+     <File Id="SnCoreAccountFeedItemsView_aspx" Name="AccountFeedItemsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemsView.aspx" />
+     <File Id="SnCoreAccountFeedItemView_aspx" Name="AccountFeedItemView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedItemView.aspx" />
+     <File Id="SnCoreAccountFeedPreviewControl_ascx" Name="AccountFeedPreviewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedPreviewControl.ascx" />
+     <File Id="SnCoreAccountFeedRss_aspx" Name="AccountFeedRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedRss.aspx" />
+     <File Id="SnCoreAccountFeedsManage_aspx" Name="AccountFeedsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedsManage.aspx" />
+     <File Id="SnCoreAccountFeedsRss_aspx" Name="AccountFeedsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedsRss.aspx" />
+     <File Id="SnCoreAccountFeedsView_aspx" Name="AccountFeedsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedsView.aspx" />
+     <File Id="SnCoreAccountFeedsViewControl_ascx" Name="AccountFeedsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedsViewControl.ascx" />
+     <File Id="SnCoreAccountFeedsViewList_aspx" Name="AccountFeedsViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedsViewList.aspx" />
+     <File Id="SnCoreAccountFeedTest_aspx" Name="AccountFeedTest.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedTest.aspx" />
+     <File Id="SnCoreAccountFeedView_aspx" Name="AccountFeedView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedView.aspx" />
+     <File Id="SnCoreAccountFeedWizard_aspx" Name="AccountFeedWizard.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFeedWizard.aspx" />
+     <File Id="SnCoreAccountFlagEdit_aspx" Name="AccountFlagEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFlagEdit.aspx" />
+     <File Id="SnCoreAccountFlagsManage_aspx" Name="AccountFlagsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFlagsManage.aspx" />
+     <File Id="SnCoreAccountFlagView_aspx" Name="AccountFlagView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFlagView.aspx" />
+     <File Id="SnCoreAccountFriendAuditEntriesRss_aspx" Name="AccountFriendAuditEntriesRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendAuditEntriesRss.aspx" />
+     <File Id="SnCoreAccountFriendAuditEntriesView_aspx" Name="AccountFriendAuditEntriesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendAuditEntriesView.aspx" />
+     <File Id="SnCoreAccountFriendAuditEntriesViewControl_ascx" Name="AccountFriendAuditEntriesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendAuditEntriesViewControl.ascx" />
+     <File Id="SnCoreAccountFriendRequestAct_aspx" Name="AccountFriendRequestAct.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendRequestAct.aspx" />
+     <File Id="SnCoreAccountFriendRequestEdit_aspx" Name="AccountFriendRequestEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendRequestEdit.aspx" />
+     <File Id="SnCoreAccountFriendRequestsManage_aspx" Name="AccountFriendRequestsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendRequestsManage.aspx" />
+     <File Id="SnCoreAccountFriendRequestsSentManage_aspx" Name="AccountFriendRequestsSentManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendRequestsSentManage.aspx" />
+     <File Id="SnCoreAccountFriendsActivityView_aspx" Name="AccountFriendsActivityView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendsActivityView.aspx" />
+     <File Id="SnCoreAccountFriendsManage_aspx" Name="AccountFriendsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendsManage.aspx" />
+     <File Id="SnCoreAccountFriendsRss_aspx" Name="AccountFriendsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendsRss.aspx" />
+     <File Id="SnCoreAccountFriendsView_aspx" Name="AccountFriendsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendsView.aspx" />
+     <File Id="SnCoreAccountFriendsViewControl_ascx" Name="AccountFriendsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountFriendsViewControl.ascx" />
+     <File Id="SnCoreAccountGroupAccountInvitationEdit_aspx" Name="AccountGroupAccountInvitationEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountInvitationEdit.aspx" />
+     <File Id="SnCoreAccountGroupAccountInvitationsManage_aspx" Name="AccountGroupAccountInvitationsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountInvitationsManage.aspx" />
+     <File Id="SnCoreAccountGroupAccountRequestEdit_aspx" Name="AccountGroupAccountRequestEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountRequestEdit.aspx" />
+     <File Id="SnCoreAccountGroupAccountRequestsManage_aspx" Name="AccountGroupAccountRequestsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountRequestsManage.aspx" />
+     <File Id="SnCoreAccountGroupAccountsRss_aspx" Name="AccountGroupAccountsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountsRss.aspx" />
+     <File Id="SnCoreAccountGroupAccountsView_aspx" Name="AccountGroupAccountsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountsView.aspx" />
+     <File Id="SnCoreAccountGroupAccountsViewControl_ascx" Name="AccountGroupAccountsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupAccountsViewControl.ascx" />
+     <File Id="SnCoreAccountGroupEdit_aspx" Name="AccountGroupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupEdit.aspx" />
+     <File Id="SnCoreAccountGroupFeaturedViewControl_ascx" Name="AccountGroupFeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupFeaturedViewControl.ascx" />
+     <File Id="SnCoreAccountGroupPicture_aspx" Name="AccountGroupPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPicture.aspx" />
+     <File Id="SnCoreAccountGroupPictureEdit_aspx" Name="AccountGroupPictureEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPictureEdit.aspx" />
+     <File Id="SnCoreAccountGroupPicturesManage_aspx" Name="AccountGroupPicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPicturesManage.aspx" />
+     <File Id="SnCoreAccountGroupPicturesViewControl_ascx" Name="AccountGroupPicturesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPicturesViewControl.ascx" />
+     <File Id="SnCoreAccountGroupPictureThumbnail_aspx" Name="AccountGroupPictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPictureThumbnail.aspx" />
+     <File Id="SnCoreAccountGroupPictureView_aspx" Name="AccountGroupPictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPictureView.aspx" />
+     <File Id="SnCoreAccountGroupPlaceAdd_aspx" Name="AccountGroupPlaceAdd.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPlaceAdd.aspx" />
+     <File Id="SnCoreAccountGroupPlacesRss_aspx" Name="AccountGroupPlacesRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPlacesRss.aspx" />
+     <File Id="SnCoreAccountGroupPlacesView_aspx" Name="AccountGroupPlacesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPlacesView.aspx" />
+     <File Id="SnCoreAccountGroupPlacesViewControl_ascx" Name="AccountGroupPlacesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupPlacesViewControl.ascx" />
+     <File Id="SnCoreAccountGroupRss_aspx" Name="AccountGroupRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupRss.aspx" />
+     <File Id="SnCoreAccountGroupsManage_aspx" Name="AccountGroupsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupsManage.aspx" />
+     <File Id="SnCoreAccountGroupsRss_aspx" Name="AccountGroupsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupsRss.aspx" />
+     <File Id="SnCoreAccountGroupsView_aspx" Name="AccountGroupsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupsView.aspx" />
+     <File Id="SnCoreAccountGroupsViewControl_ascx" Name="AccountGroupsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupsViewControl.ascx" />
+     <File Id="SnCoreAccountGroupsViewList_aspx" Name="AccountGroupsViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupsViewList.aspx" />
+     <File Id="SnCoreAccountGroupView_aspx" Name="AccountGroupView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountGroupView.aspx" />
+     <File Id="SnCoreAccountInvitationsManage_aspx" Name="AccountInvitationsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountInvitationsManage.aspx" />
+     <File Id="SnCoreAccountLicenseEdit_aspx" Name="AccountLicenseEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountLicenseEdit.aspx" />
+     <File Id="SnCoreAccountLicenseViewControl_ascx" Name="AccountLicenseViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountLicenseViewControl.ascx" />
+     <File Id="SnCoreAccountLogin_aspx" Name="AccountLogin.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountLogin.aspx" />
+     <File Id="SnCoreAccountLoginControl_ascx" Name="AccountLoginControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountLoginControl.ascx" />
+     <File Id="SnCoreAccountMadLibEdit_aspx" Name="AccountMadLibEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMadLibEdit.aspx" />
+     <File Id="SnCoreAccountMadLibInstanceEdit_aspx" Name="AccountMadLibInstanceEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMadLibInstanceEdit.aspx" />
+     <File Id="SnCoreAccountMadLibsManage_aspx" Name="AccountMadLibsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMadLibsManage.aspx" />
+     <File Id="SnCoreAccountManage_aspx" Name="AccountManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountManage.aspx" />
+     <File Id="SnCoreAccountMenuControl_ascx" Name="AccountMenuControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMenuControl.ascx" />
+     <File Id="SnCoreAccountMessageEdit_aspx" Name="AccountMessageEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMessageEdit.aspx" />
+     <File Id="SnCoreAccountMessageFolderEdit_aspx" Name="AccountMessageFolderEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMessageFolderEdit.aspx" />
+     <File Id="SnCoreAccountMessageFoldersManage_aspx" Name="AccountMessageFoldersManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMessageFoldersManage.aspx" />
+     <File Id="SnCoreAccountMessageMove_aspx" Name="AccountMessageMove.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMessageMove.aspx" />
+     <File Id="SnCoreAccountMessageView_aspx" Name="AccountMessageView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountMessageView.aspx" />
+     <File Id="SnCoreAccountOpenIdsManage_aspx" Name="AccountOpenIdsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountOpenIdsManage.aspx" />
+     <File Id="SnCoreAccountPicture_aspx" Name="AccountPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPicture.aspx" />
+     <File Id="SnCoreAccountPictureEdit_aspx" Name="AccountPictureEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPictureEdit.aspx" />
+     <File Id="SnCoreAccountPicturesManage_aspx" Name="AccountPicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPicturesManage.aspx" />
+     <File Id="SnCoreAccountPicturesView_aspx" Name="AccountPicturesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPicturesView.aspx" />
+     <File Id="SnCoreAccountPicturesViewControl_ascx" Name="AccountPicturesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPicturesViewControl.ascx" />
+     <File Id="SnCoreAccountPictureThumbnail_aspx" Name="AccountPictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPictureThumbnail.aspx" />
+     <File Id="SnCoreAccountPictureView_aspx" Name="AccountPictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPictureView.aspx" />
+     <File Id="SnCoreAccountPlaceChangeRequestsManage_aspx" Name="AccountPlaceChangeRequestsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceChangeRequestsManage.aspx" />
+     <File Id="SnCoreAccountPlaceFavoritesManage_aspx" Name="AccountPlaceFavoritesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceFavoritesManage.aspx" />
+     <File Id="SnCoreAccountPlaceFavoritesRss_aspx" Name="AccountPlaceFavoritesRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceFavoritesRss.aspx" />
+     <File Id="SnCoreAccountPlaceFavoritesView_aspx" Name="AccountPlaceFavoritesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceFavoritesView.aspx" />
+     <File Id="SnCoreAccountPlaceFavoritesViewControl_ascx" Name="AccountPlaceFavoritesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceFavoritesViewControl.ascx" />
+     <File Id="SnCoreAccountPlaceQueueManage_aspx" Name="AccountPlaceQueueManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceQueueManage.aspx" />
+     <File Id="SnCoreAccountPlaceRequestEdit_aspx" Name="AccountPlaceRequestEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlaceRequestEdit.aspx" />
+     <File Id="SnCoreAccountPlacesManage_aspx" Name="AccountPlacesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlacesManage.aspx" />
+     <File Id="SnCoreAccountPlacesViewControl_ascx" Name="AccountPlacesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPlacesViewControl.ascx" />
+     <File Id="SnCoreAccountPreferencesManage_aspx" Name="AccountPreferencesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPreferencesManage.aspx" />
+     <File Id="SnCoreAccountPropertyGroupEdit_aspx" Name="AccountPropertyGroupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPropertyGroupEdit.aspx" />
+     <File Id="SnCoreAccountPropertyGroupsControl_ascx" Name="AccountPropertyGroupsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPropertyGroupsControl.ascx" />
+     <File Id="SnCoreAccountPropertyGroupsViewControl_ascx" Name="AccountPropertyGroupsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPropertyGroupsViewControl.ascx" />
+     <File Id="SnCoreAccountPropertyManage_aspx" Name="AccountPropertyManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPropertyManage.aspx" />
+     <File Id="SnCoreAccountPropertyValueViewControl_ascx" Name="AccountPropertyValueViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountPropertyValueViewControl.ascx" />
+     <File Id="SnCoreAccountRedirectEdit_aspx" Name="AccountRedirectEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRedirectEdit.aspx" />
+     <File Id="SnCoreAccountRedirectEditControl_ascx" Name="AccountRedirectEditControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRedirectEditControl.ascx" />
+     <File Id="SnCoreAccountRedirectsManage_aspx" Name="AccountRedirectsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRedirectsManage.aspx" />
+     <File Id="SnCoreAccountRedirectViewControl_ascx" Name="AccountRedirectViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRedirectViewControl.ascx" />
+     <File Id="SnCoreAccountReminderControl_ascx" Name="AccountReminderControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountReminderControl.ascx" />
+     <File Id="SnCoreAccountResetPassword_aspx" Name="AccountResetPassword.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountResetPassword.aspx" />
+     <File Id="SnCoreAccountRssWatchEdit_aspx" Name="AccountRssWatchEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRssWatchEdit.aspx" />
+     <File Id="SnCoreAccountRssWatchsManage_aspx" Name="AccountRssWatchsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRssWatchsManage.aspx" />
+     <File Id="SnCoreAccountRssWatchView_aspx" Name="AccountRssWatchView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountRssWatchView.aspx" />
+     <File Id="SnCoreAccountsActiveViewControl_ascx" Name="AccountsActiveViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountsActiveViewControl.ascx" />
+     <File Id="SnCoreAccountsByPropertyValueView_aspx" Name="AccountsByPropertyValueView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountsByPropertyValueView.aspx" />
+     <File Id="SnCoreAccountsNewViewControl_ascx" Name="AccountsNewViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountsNewViewControl.ascx" />
+     <File Id="SnCoreAccountsRss_aspx" Name="AccountsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountsRss.aspx" />
+     <File Id="SnCoreAccountStoriesManage_aspx" Name="AccountStoriesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoriesManage.aspx" />
+     <File Id="SnCoreAccountStoriesNewViewControl_ascx" Name="AccountStoriesNewViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoriesNewViewControl.ascx" />
+     <File Id="SnCoreAccountStoriesRss_aspx" Name="AccountStoriesRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoriesRss.aspx" />
+     <File Id="SnCoreAccountStoriesView_aspx" Name="AccountStoriesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoriesView.aspx" />
+     <File Id="SnCoreAccountStoriesViewControl_ascx" Name="AccountStoriesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoriesViewControl.ascx" />
+     <File Id="SnCoreAccountStoriesViewList_aspx" Name="AccountStoriesViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoriesViewList.aspx" />
+     <File Id="SnCoreAccountStoryEdit_aspx" Name="AccountStoryEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryEdit.aspx" />
+     <File Id="SnCoreAccountStoryPicture_aspx" Name="AccountStoryPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryPicture.aspx" />
+     <File Id="SnCoreAccountStoryPicturesManage_aspx" Name="AccountStoryPicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryPicturesManage.aspx" />
+     <File Id="SnCoreAccountStoryPicturesViewControl_ascx" Name="AccountStoryPicturesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryPicturesViewControl.ascx" />
+     <File Id="SnCoreAccountStoryPictureThumbnail_aspx" Name="AccountStoryPictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryPictureThumbnail.aspx" />
+     <File Id="SnCoreAccountStoryPictureView_aspx" Name="AccountStoryPictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryPictureView.aspx" />
+     <File Id="SnCoreAccountStoryView_aspx" Name="AccountStoryView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountStoryView.aspx" />
+     <File Id="SnCoreAccountSurvey_aspx" Name="AccountSurvey.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountSurvey.aspx" />
+     <File Id="SnCoreAccountSurveyQuestionView_aspx" Name="AccountSurveyQuestionView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountSurveyQuestionView.aspx" />
+     <File Id="SnCoreAccountSurveysManage_aspx" Name="AccountSurveysManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountSurveysManage.aspx" />
+     <File Id="SnCoreAccountSurveysViewControl_ascx" Name="AccountSurveysViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountSurveysViewControl.ascx" />
+     <File Id="SnCoreAccountSurveyView_aspx" Name="AccountSurveyView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountSurveyView.aspx" />
+     <File Id="SnCoreAccountsView_aspx" Name="AccountsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountsView.aspx" />
+     <File Id="SnCoreAccountsViewList_aspx" Name="AccountsViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountsViewList.aspx" />
+     <File Id="SnCoreAccountTimeZoneControl_ascx" Name="AccountTimeZoneControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountTimeZoneControl.ascx" />
+     <File Id="SnCoreAccountView_aspx" Name="AccountView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountView.aspx" />
+     <File Id="SnCoreAccountWebsiteEdit_aspx" Name="AccountWebsiteEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountWebsiteEdit.aspx" />
+     <File Id="SnCoreAccountWebsitesManage_aspx" Name="AccountWebsitesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountWebsitesManage.aspx" />
+     <File Id="SnCoreAccountWebsitesViewControl_ascx" Name="AccountWebsitesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AccountWebsitesViewControl.ascx" />
+     <File Id="SnCoreAds_js" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\ads.js" />
+     <File Id="SnCoreAToZControl_ascx" Name="AToZControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AToZControl.ascx" />
+     <File Id="SnCoreAutoScrollControl_ascx" Name="AutoScrollControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\AutoScrollControl.ascx" />
+     <File Id="SnCoreBookmarksViewControl_ascx" Name="BookmarksViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BookmarksViewControl.ascx" />
+     <File Id="SnCoreBugEdit_aspx" Name="BugEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugEdit.aspx" />
+     <File Id="SnCoreBugNoteEdit_aspx" Name="BugNoteEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugNoteEdit.aspx" />
+     <File Id="SnCoreBugPrioritiesManage_aspx" Name="BugPrioritiesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugPrioritiesManage.aspx" />
+     <File Id="SnCoreBugPriorityEdit_aspx" Name="BugPriorityEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugPriorityEdit.aspx" />
+     <File Id="SnCoreBugProjectBugsManage_aspx" Name="BugProjectBugsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugProjectBugsManage.aspx" />
+     <File Id="SnCoreBugProjectEdit_aspx" Name="BugProjectEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugProjectEdit.aspx" />
+     <File Id="SnCoreBugProjectsManage_aspx" Name="BugProjectsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugProjectsManage.aspx" />
+     <File Id="SnCoreBugResolutionEdit_aspx" Name="BugResolutionEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugResolutionEdit.aspx" />
+     <File Id="SnCoreBugResolutionsManage_aspx" Name="BugResolutionsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugResolutionsManage.aspx" />
+     <File Id="SnCoreBugResolve_aspx" Name="BugResolve.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugResolve.aspx" />
+     <File Id="SnCoreBugSeveritiesManage_aspx" Name="BugSeveritiesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugSeveritiesManage.aspx" />
+     <File Id="SnCoreBugSeverityEdit_aspx" Name="BugSeverityEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugSeverityEdit.aspx" />
+     <File Id="SnCoreBugStatusEdit_aspx" Name="BugStatusEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugStatusEdit.aspx" />
+     <File Id="SnCoreBugStatusesManage_aspx" Name="BugStatusesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugStatusesManage.aspx" />
+     <File Id="SnCoreBugTypeEdit_aspx" Name="BugTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugTypeEdit.aspx" />
+     <File Id="SnCoreBugTypesManage_aspx" Name="BugTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugTypesManage.aspx" />
+     <File Id="SnCoreBugView_aspx" Name="BugView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\BugView.aspx" />
+     <File Id="SnCoreCodeOfConduct_aspx" Name="CodeOfConduct.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\CodeOfConduct.aspx" />
+     <File Id="SnCoreCounterViewControl_ascx" Name="CounterViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\CounterViewControl.ascx" />
+     <File Id="SnCoreDefault_aspx" Name="Default.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Default.aspx" />
+     <File Id="SnCoreDiscussionFullViewControl_ascx" Name="DiscussionFullViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionFullViewControl.ascx" />
+     <File Id="SnCoreDiscussionPost_aspx" Name="DiscussionPost.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionPost.aspx" />
+     <File Id="SnCoreDiscussionPostMove_aspx" Name="DiscussionPostMove.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionPostMove.aspx" />
+     <File Id="SnCoreDiscussionPostsNewViewControl_ascx" Name="DiscussionPostsNewViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionPostsNewViewControl.ascx" />
+     <File Id="SnCoreDiscussionRss_aspx" Name="DiscussionRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionRss.aspx" />
+     <File Id="SnCoreDiscussionRssControl_ascx" Name="DiscussionRssControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionRssControl.ascx" />
+     <File Id="SnCoreDiscussionsFullViewControl_ascx" Name="DiscussionsFullViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionsFullViewControl.ascx" />
+     <File Id="SnCoreDiscussionsRssControl_ascx" Name="DiscussionsRssControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionsRssControl.ascx" />
+     <File Id="SnCoreDiscussionsView_aspx" Name="DiscussionsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionsView.aspx" />
+     <File Id="SnCoreDiscussionsViewControl_ascx" Name="DiscussionsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionsViewControl.ascx" />
+     <File Id="SnCoreDiscussionThreadMove_aspx" Name="DiscussionThreadMove.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionThreadMove.aspx" />
+     <File Id="SnCoreDiscussionThreadsRss_aspx" Name="DiscussionThreadsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionThreadsRss.aspx" />
+     <File Id="SnCoreDiscussionThreadsView_aspx" Name="DiscussionThreadsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionThreadsView.aspx" />
+     <File Id="SnCoreDiscussionThreadView_aspx" Name="DiscussionThreadView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionThreadView.aspx" />
+     <File Id="SnCoreDiscussionThreadViewControl_ascx" Name="DiscussionThreadViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionThreadViewControl.ascx" />
+     <File Id="SnCoreDiscussionTopOfthreadsRss_aspx" Name="DiscussionTopOfthreadsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionTopOfthreadsRss.aspx" />
+     <File Id="SnCoreDiscussionTopOfThreadsView_aspx" Name="DiscussionTopOfThreadsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionTopOfThreadsView.aspx" />
+     <File Id="SnCoreDiscussionView_aspx" Name="DiscussionView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionView.aspx" />
+     <File Id="SnCoreDiscussionViewControl_ascx" Name="DiscussionViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\DiscussionViewControl.ascx" />
+     <File Id="SnCoreEmailAccountEmailVerify_aspx" Name="EmailAccountEmailVerify.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountEmailVerify.aspx" />
+     <File Id="SnCoreEmailAccountFlag_aspx" Name="EmailAccountFlag.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountFlag.aspx" />
+     <File Id="SnCoreEmailAccountFriendRequest_aspx" Name="EmailAccountFriendRequest.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountFriendRequest.aspx" />
+     <File Id="SnCoreEmailAccountFriendRequestAccept_aspx" Name="EmailAccountFriendRequestAccept.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountFriendRequestAccept.aspx" />
+     <File Id="SnCoreEmailAccountFriendRequestReject_aspx" Name="EmailAccountFriendRequestReject.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountFriendRequestReject.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccount_aspx" Name="EmailAccountGroupAccount.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccount.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccountInvitation_aspx" Name="EmailAccountGroupAccountInvitation.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccountInvitation.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccountInvitationAccept_aspx" Name="EmailAccountGroupAccountInvitationAccept.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccountInvitationAccept.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccountInvitationReject_aspx" Name="EmailAccountGroupAccountInvitationReject.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccountInvitationReject.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccountRequest_aspx" Name="EmailAccountGroupAccountRequest.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccountRequest.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccountRequestAccept_aspx" Name="EmailAccountGroupAccountRequestAccept.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccountRequestAccept.aspx" />
+     <File Id="SnCoreEmailAccountGroupAccountRequestReject_aspx" Name="EmailAccountGroupAccountRequestReject.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountGroupAccountRequestReject.aspx" />
+     <File Id="SnCoreEmailAccountInvitation_aspx" Name="EmailAccountInvitation.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountInvitation.aspx" />
+     <File Id="SnCoreEmailAccountInvitationAccept_aspx" Name="EmailAccountInvitationAccept.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountInvitationAccept.aspx" />
+     <File Id="SnCoreEmailAccountInvitationReject_aspx" Name="EmailAccountInvitationReject.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountInvitationReject.aspx" />
+     <File Id="SnCoreEmailAccountLoginReminder_aspx" Name="EmailAccountLoginReminder.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountLoginReminder.aspx" />
+     <File Id="SnCoreEmailAccountMadLibInstance_aspx" Name="EmailAccountMadLibInstance.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountMadLibInstance.aspx" />
+     <File Id="SnCoreEmailAccountMessage_aspx" Name="EmailAccountMessage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountMessage.aspx" />
+     <File Id="SnCoreEmailAccountPasswordReset_aspx" Name="EmailAccountPasswordReset.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountPasswordReset.aspx" />
+     <File Id="SnCoreEmailAccountPlaceRequest_aspx" Name="EmailAccountPlaceRequest.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountPlaceRequest.aspx" />
+     <File Id="SnCoreEmailAccountPlaceRequestAccept_aspx" Name="EmailAccountPlaceRequestAccept.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountPlaceRequestAccept.aspx" />
+     <File Id="SnCoreEmailAccountPlaceRequestReject_aspx" Name="EmailAccountPlaceRequestReject.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountPlaceRequestReject.aspx" />
+     <File Id="SnCoreEmailAccountQuotaExceeded_aspx" Name="EmailAccountQuotaExceeded.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailAccountQuotaExceeded.aspx" />
+     <File Id="SnCoreEmailBugClosed_aspx" Name="EmailBugClosed.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailBugClosed.aspx" />
+     <File Id="SnCoreEmailBugCreated_aspx" Name="EmailBugCreated.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailBugCreated.aspx" />
+     <File Id="SnCoreEmailDiscussionPost_aspx" Name="EmailDiscussionPost.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailDiscussionPost.aspx" />
+     <File Id="SnCoreEmailFeature_aspx" Name="EmailFeature.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailFeature.aspx" />
+     <File Id="SnCoreEmailPlaceChangeRequestCreated_aspx" Name="EmailPlaceChangeRequestCreated.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailPlaceChangeRequestCreated.aspx" />
+     <File Id="SnCoreEmailPlaceChangeRequestDeleted_aspx" Name="EmailPlaceChangeRequestDeleted.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailPlaceChangeRequestDeleted.aspx" />
+     <File Id="SnCoreEmailPlacePicture_aspx" Name="EmailPlacePicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailPlacePicture.aspx" />
+     <File Id="SnCoreEmailRefererAccount_aspx" Name="EmailRefererAccount.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\EmailRefererAccount.aspx" />
+     <File Id="SnCoreFeatured_aspx" Name="Featured.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Featured.aspx" />
+     <File Id="SnCoreFeaturedAccountEventsRss_aspx" Name="FeaturedAccountEventsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountEventsRss.aspx" />
+     <File Id="SnCoreFeaturedAccountEventsView_aspx" Name="FeaturedAccountEventsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountEventsView.aspx" />
+     <File Id="SnCoreFeaturedAccountFeedItemsRss_aspx" Name="FeaturedAccountFeedItemsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountFeedItemsRss.aspx" />
+     <File Id="SnCoreFeaturedAccountFeedItemsView_aspx" Name="FeaturedAccountFeedItemsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountFeedItemsView.aspx" />
+     <File Id="SnCoreFeaturedAccountFeedsRss_aspx" Name="FeaturedAccountFeedsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountFeedsRss.aspx" />
+     <File Id="SnCoreFeaturedAccountFeedsView_aspx" Name="FeaturedAccountFeedsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountFeedsView.aspx" />
+     <File Id="SnCoreFeaturedAccountGroupsRss_aspx" Name="FeaturedAccountGroupsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountGroupsRss.aspx" />
+     <File Id="SnCoreFeaturedAccountGroupsView_aspx" Name="FeaturedAccountGroupsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountGroupsView.aspx" />
+     <File Id="SnCoreFeaturedAccountsRss_aspx" Name="FeaturedAccountsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountsRss.aspx" />
+     <File Id="SnCoreFeaturedAccountsView_aspx" Name="FeaturedAccountsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedAccountsView.aspx" />
+     <File Id="SnCoreFeaturedPlacesRss_aspx" Name="FeaturedPlacesRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedPlacesRss.aspx" />
+     <File Id="SnCoreFeaturedPlacesView_aspx" Name="FeaturedPlacesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedPlacesView.aspx" />
+     <File Id="SnCoreFeaturedViewControl_ascx" Name="FeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeaturedViewControl.ascx" />
+     <File Id="SnCoreFeedTypeEdit_aspx" Name="FeedTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeedTypeEdit.aspx" />
+     <File Id="SnCoreFeedTypesManage_aspx" Name="FeedTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\FeedTypesManage.aspx" />
+     <File Id="SnCoreHelp_aspx" Name="Help.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Help.aspx" />
+     <File Id="SnCoreHistory_htm" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\History.htm" />
+     <File Id="SnCoreMadLibInstanceEditControl_ascx" Name="MadLibInstanceEditControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\MadLibInstanceEditControl.ascx" />
+     <File Id="SnCoreMadLibInstancesViewControl_ascx" Name="MadLibInstancesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\MadLibInstancesViewControl.ascx" />
+     <File Id="SnCoreMarketingCampaignAccountRecepientsManage_aspx" Name="MarketingCampaignAccountRecepientsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\MarketingCampaignAccountRecepientsManage.aspx" />
+     <File Id="SnCoreMarketingCampaignEdit_aspx" Name="MarketingCampaignEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\MarketingCampaignEdit.aspx" />
+     <File Id="SnCoreMarketingCampaignsManage_aspx" Name="MarketingCampaignsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\MarketingCampaignsManage.aspx" />
+     <File Id="SnCoreMenuItemControl_ascx" Name="MenuItemControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\MenuItemControl.ascx" />
+     <File Id="SnCoreNoticeControl_ascx" Name="NoticeControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\NoticeControl.ascx" />
+     <File Id="SnCorePlaceAccountsViewControl_ascx" Name="PlaceAccountsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceAccountsViewControl.ascx" />
+     <File Id="SnCorePlaceAttributeEdit_aspx" Name="PlaceAttributeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceAttributeEdit.aspx" />
+     <File Id="SnCorePlaceAttributesManage_aspx" Name="PlaceAttributesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceAttributesManage.aspx" />
+     <File Id="SnCorePlaceAttributesViewControl_ascx" Name="PlaceAttributesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceAttributesViewControl.ascx" />
+     <File Id="SnCorePlaceChangeRequestEdit_aspx" Name="PlaceChangeRequestEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceChangeRequestEdit.aspx" />
+     <File Id="SnCorePlaceChangeRequestMerge_aspx" Name="PlaceChangeRequestMerge.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceChangeRequestMerge.aspx" />
+     <File Id="SnCorePlaceChangeRequestsManage_aspx" Name="PlaceChangeRequestsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceChangeRequestsManage.aspx" />
+     <File Id="SnCorePlaceEdit_aspx" Name="PlaceEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceEdit.aspx" />
+     <File Id="SnCorePlaceFavoriteAccountsViewControl_ascx" Name="PlaceFavoriteAccountsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceFavoriteAccountsViewControl.ascx" />
+     <File Id="SnCorePlaceFeaturedViewControl_ascx" Name="PlaceFeaturedViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceFeaturedViewControl.ascx" />
+     <File Id="SnCorePlaceFriendsQueueView_aspx" Name="PlaceFriendsQueueView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceFriendsQueueView.aspx" />
+     <File Id="SnCorePlaceMerge_aspx" Name="PlaceMerge.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceMerge.aspx" />
+     <File Id="SnCorePlaceNeighborhoodsViewControl_ascx" Name="PlaceNeighborhoodsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceNeighborhoodsViewControl.ascx" />
+     <File Id="SnCorePlacePicture_aspx" Name="PlacePicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePicture.aspx" />
+     <File Id="SnCorePlacePictureEdit_aspx" Name="PlacePictureEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePictureEdit.aspx" />
+     <File Id="SnCorePlacePicturesManage_aspx" Name="PlacePicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePicturesManage.aspx" />
+     <File Id="SnCorePlacePicturesViewControl_ascx" Name="PlacePicturesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePicturesViewControl.ascx" />
+     <File Id="SnCorePlacePictureThumbnail_aspx" Name="PlacePictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePictureThumbnail.aspx" />
+     <File Id="SnCorePlacePictureView_aspx" Name="PlacePictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePictureView.aspx" />
+     <File Id="SnCorePlacePropertyGroupEditControl_ascx" Name="PlacePropertyGroupEditControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePropertyGroupEditControl.ascx" />
+     <File Id="SnCorePlacePropertyGroupsViewControl_ascx" Name="PlacePropertyGroupsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePropertyGroupsViewControl.ascx" />
+     <File Id="SnCorePlacePropertyValuesViewControl_ascx" Name="PlacePropertyValuesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePropertyValuesViewControl.ascx" />
+     <File Id="SnCorePlacePropertyValueViewControl_ascx" Name="PlacePropertyValueViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacePropertyValueViewControl.ascx" />
+     <File Id="SnCorePlacesByPropertyValueView_aspx" Name="PlacesByPropertyValueView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesByPropertyValueView.aspx" />
+     <File Id="SnCorePlacesFavoritesView_aspx" Name="PlacesFavoritesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesFavoritesView.aspx" />
+     <File Id="SnCorePlacesManage_aspx" Name="PlacesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesManage.aspx" />
+     <File Id="SnCorePlacesNewViewControl_ascx" Name="PlacesNewViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesNewViewControl.ascx" />
+     <File Id="SnCorePlacesRss_aspx" Name="PlacesRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesRss.aspx" />
+     <File Id="SnCorePlacesView_aspx" Name="PlacesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesView.aspx" />
+     <File Id="SnCorePlacesViewList_aspx" Name="PlacesViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlacesViewList.aspx" />
+     <File Id="SnCorePlaceTypeEdit_aspx" Name="PlaceTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceTypeEdit.aspx" />
+     <File Id="SnCorePlaceTypesManage_aspx" Name="PlaceTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceTypesManage.aspx" />
+     <File Id="SnCorePlaceView_aspx" Name="PlaceView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PlaceView.aspx" />
+     <File Id="SnCorePrecompiledApp_config" Name="PrecompiledApp.config" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PrecompiledApp.config" />
+     <File Id="SnCorePrivacyPolicy_aspx" Name="PrivacyPolicy.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\PrivacyPolicy.aspx" />
+     <File Id="SnCoreRefererAccountsView_aspx" Name="RefererAccountsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\RefererAccountsView.aspx" />
+     <File Id="SnCoreRssLinkControl_ascx" Name="RssLinkControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\RssLinkControl.ascx" />
+     <File Id="SnCoreScheduleControl_ascx" Name="ScheduleControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\ScheduleControl.ascx" />
+     <File Id="SnCoreSearch_aspx" Name="Search.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Search.aspx" />
+     <File Id="SnCoreSearchAccountBlogPostsControl_ascx" Name="SearchAccountBlogPostsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchAccountBlogPostsControl.ascx" />
+     <File Id="SnCoreSearchAccountFeedItemsControl_ascx" Name="SearchAccountFeedItemsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchAccountFeedItemsControl.ascx" />
+     <File Id="SnCoreSearchAccountsControl_ascx" Name="SearchAccountsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchAccountsControl.ascx" />
+     <File Id="SnCoreSearchAccountStoriesControl_ascx" Name="SearchAccountStoriesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchAccountStoriesControl.ascx" />
+     <File Id="SnCoreSearchDefaultControl_ascx" Name="SearchDefaultControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchDefaultControl.ascx" />
+     <File Id="SnCoreSearchDiscussionPosts_aspx" Name="SearchDiscussionPosts.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchDiscussionPosts.aspx" />
+     <File Id="SnCoreSearchDiscussionPostsControl_ascx" Name="SearchDiscussionPostsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchDiscussionPostsControl.ascx" />
+     <File Id="SnCoreSearching_aspx" Name="Searching.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Searching.aspx" />
+     <File Id="SnCoreSearchPlacesControl_ascx" Name="SearchPlacesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchPlacesControl.ascx" />
+     <File Id="SnCoreSearchSmallControl_ascx" Name="SearchSmallControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SearchSmallControl.ascx" />
+     <File Id="SnCoreSelectDateControl_ascx" Name="SelectDateControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SelectDateControl.ascx" />
+     <File Id="SnCoreSelectPlaceControl_ascx" Name="SelectPlaceControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SelectPlaceControl.ascx" />
+     <File Id="SnCoreSelectTimeControl_ascx" Name="SelectTimeControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SelectTimeControl.ascx" />
+     <File Id="SnCoreSelectTimeZoneControl_ascx" Name="SelectTimeZoneControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SelectTimeZoneControl.ascx" />
+     <File Id="SnCoreServices_config" Name="Services.config" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Services.config" />
+     <File Id="SnCoreSiteMap_aspx" Name="SiteMap.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SiteMap.aspx" />
+     <File Id="SnCoreSnCore_master" Name="SnCore.master" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SnCore.master" />
+     <File Id="SnCoreSnCoreAccount_master" Name="SnCoreAccount.master" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SnCoreAccount.master" />
+     <File Id="SnCoreStyle_css" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\Style.css" />
+     <File Id="SnCoreSystemAccountEventTypeEdit_aspx" Name="SystemAccountEventTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountEventTypeEdit.aspx" />
+     <File Id="SnCoreSystemAccountEventTypesManage_aspx" Name="SystemAccountEventTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountEventTypesManage.aspx" />
+     <File Id="SnCoreSystemAccountFlagsManage_aspx" Name="SystemAccountFlagsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountFlagsManage.aspx" />
+     <File Id="SnCoreSystemAccountFlagTypeEdit_aspx" Name="SystemAccountFlagTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountFlagTypeEdit.aspx" />
+     <File Id="SnCoreSystemAccountFlagTypesManage_aspx" Name="SystemAccountFlagTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountFlagTypesManage.aspx" />
+     <File Id="SnCoreSystemAccountPlaceRequestsManage_aspx" Name="SystemAccountPlaceRequestsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountPlaceRequestsManage.aspx" />
+     <File Id="SnCoreSystemAccountPlaceTypeEdit_aspx" Name="SystemAccountPlaceTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountPlaceTypeEdit.aspx" />
+     <File Id="SnCoreSystemAccountPlaceTypesManage_aspx" Name="SystemAccountPlaceTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountPlaceTypesManage.aspx" />
+     <File Id="SnCoreSystemAccountPropertyEdit_aspx" Name="SystemAccountPropertyEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountPropertyEdit.aspx" />
+     <File Id="SnCoreSystemAccountPropertyGroupEdit_aspx" Name="SystemAccountPropertyGroupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountPropertyGroupEdit.aspx" />
+     <File Id="SnCoreSystemAccountPropertyGroupsManage_aspx" Name="SystemAccountPropertyGroupsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountPropertyGroupsManage.aspx" />
+     <File Id="SnCoreSystemAccountQuotasManage_aspx" Name="SystemAccountQuotasManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountQuotasManage.aspx" />
+     <File Id="SnCoreSystemAccountRedirectsManage_aspx" Name="SystemAccountRedirectsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountRedirectsManage.aspx" />
+     <File Id="SnCoreSystemAccountsManage_aspx" Name="SystemAccountsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAccountsManage.aspx" />
+     <File Id="SnCoreSystemAttribute_aspx" Name="SystemAttribute.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAttribute.aspx" />
+     <File Id="SnCoreSystemAttributeEdit_aspx" Name="SystemAttributeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAttributeEdit.aspx" />
+     <File Id="SnCoreSystemAttributesManage_aspx" Name="SystemAttributesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemAttributesManage.aspx" />
+     <File Id="SnCoreSystemBookmark_aspx" Name="SystemBookmark.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemBookmark.aspx" />
+     <File Id="SnCoreSystemBookmarkEdit_aspx" Name="SystemBookmarkEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemBookmarkEdit.aspx" />
+     <File Id="SnCoreSystemBookmarksManage_aspx" Name="SystemBookmarksManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemBookmarksManage.aspx" />
+     <File Id="SnCoreSystemCitiesManage_aspx" Name="SystemCitiesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemCitiesManage.aspx" />
+     <File Id="SnCoreSystemCityEdit_aspx" Name="SystemCityEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemCityEdit.aspx" />
+     <File Id="SnCoreSystemConfigurationEdit_aspx" Name="SystemConfigurationEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemConfigurationEdit.aspx" />
+     <File Id="SnCoreSystemConfigurationsManage_aspx" Name="SystemConfigurationsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemConfigurationsManage.aspx" />
+     <File Id="SnCoreSystemCounters_aspx" Name="SystemCounters.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemCounters.aspx" />
+     <File Id="SnCoreSystemCountriesManage_aspx" Name="SystemCountriesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemCountriesManage.aspx" />
+     <File Id="SnCoreSystemCountryEdit_aspx" Name="SystemCountryEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemCountryEdit.aspx" />
+     <File Id="SnCoreSystemDiscussionEdit_aspx" Name="SystemDiscussionEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemDiscussionEdit.aspx" />
+     <File Id="SnCoreSystemDiscussionsManage_aspx" Name="SystemDiscussionsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemDiscussionsManage.aspx" />
+     <File Id="SnCoreSystemInvitationsManage_aspx" Name="SystemInvitationsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemInvitationsManage.aspx" />
+     <File Id="SnCoreSystemMenuControl_ascx" Name="SystemMenuControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemMenuControl.ascx" />
+     <File Id="SnCoreSystemNeighborhoodEdit_aspx" Name="SystemNeighborhoodEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemNeighborhoodEdit.aspx" />
+     <File Id="SnCoreSystemNeighborhoodsManage_aspx" Name="SystemNeighborhoodsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemNeighborhoodsManage.aspx" />
+     <File Id="SnCoreSystemPicture_aspx" Name="SystemPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPicture.aspx" />
+     <File Id="SnCoreSystemPictureEdit_aspx" Name="SystemPictureEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPictureEdit.aspx" />
+     <File Id="SnCoreSystemPicturesManage_aspx" Name="SystemPicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPicturesManage.aspx" />
+     <File Id="SnCoreSystemPictureThumbnail_aspx" Name="SystemPictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPictureThumbnail.aspx" />
+     <File Id="SnCoreSystemPictureTypeEdit_aspx" Name="SystemPictureTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPictureTypeEdit.aspx" />
+     <File Id="SnCoreSystemPictureTypesManage_aspx" Name="SystemPictureTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPictureTypesManage.aspx" />
+     <File Id="SnCoreSystemPictureView_aspx" Name="SystemPictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPictureView.aspx" />
+     <File Id="SnCoreSystemPlacePropertyEdit_aspx" Name="SystemPlacePropertyEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPlacePropertyEdit.aspx" />
+     <File Id="SnCoreSystemPlacePropertyGroupEdit_aspx" Name="SystemPlacePropertyGroupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPlacePropertyGroupEdit.aspx" />
+     <File Id="SnCoreSystemPlacePropertyGroupsManage_aspx" Name="SystemPlacePropertyGroupsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPlacePropertyGroupsManage.aspx" />
+     <File Id="SnCoreSystemPreferencesManage_aspx" Name="SystemPreferencesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemPreferencesManage.aspx" />
+     <File Id="SnCoreSystemRefererAccountEdit_aspx" Name="SystemRefererAccountEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRefererAccountEdit.aspx" />
+     <File Id="SnCoreSystemRefererAccountsManage_aspx" Name="SystemRefererAccountsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRefererAccountsManage.aspx" />
+     <File Id="SnCoreSystemRefererHostDupEdit_aspx" Name="SystemRefererHostDupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRefererHostDupEdit.aspx" />
+     <File Id="SnCoreSystemRefererHostDupsManage_aspx" Name="SystemRefererHostDupsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRefererHostDupsManage.aspx" />
+     <File Id="SnCoreSystemRefererHosts_aspx" Name="SystemRefererHosts.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRefererHosts.aspx" />
+     <File Id="SnCoreSystemRefererQueries_aspx" Name="SystemRefererQueries.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRefererQueries.aspx" />
+     <File Id="SnCoreSystemReminderEdit_aspx" Name="SystemReminderEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemReminderEdit.aspx" />
+     <File Id="SnCoreSystemRemindersManage_aspx" Name="SystemRemindersManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemRemindersManage.aspx" />
+     <File Id="SnCoreSystemStateEdit_aspx" Name="SystemStateEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemStateEdit.aspx" />
+     <File Id="SnCoreSystemStatesManage_aspx" Name="SystemStatesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemStatesManage.aspx" />
+     <File Id="SnCoreSystemStatsCache_aspx" Name="SystemStatsCache.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemStatsCache.aspx" />
+     <File Id="SnCoreSystemStatsChart_aspx" Name="SystemStatsChart.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemStatsChart.aspx" />
+     <File Id="SnCoreSystemStatsHits_aspx" Name="SystemStatsHits.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemStatsHits.aspx" />
+     <File Id="SnCoreSystemSurveyEdit_aspx" Name="SystemSurveyEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemSurveyEdit.aspx" />
+     <File Id="SnCoreSystemSurveyQuestionEdit_aspx" Name="SystemSurveyQuestionEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemSurveyQuestionEdit.aspx" />
+     <File Id="SnCoreSystemSurveysManage_aspx" Name="SystemSurveysManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\SystemSurveysManage.aspx" />
+     <File Id="SnCoreTagWordAccountsView_aspx" Name="TagWordAccountsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TagWordAccountsView.aspx" />
+     <File Id="SnCoreTagWordsManage_aspx" Name="TagWordsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TagWordsManage.aspx" />
+     <File Id="SnCoreTagWordsView_aspx" Name="TagWordsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TagWordsView.aspx" />
+     <File Id="SnCoreTagWordsViewControl_ascx" Name="TagWordsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TagWordsViewControl.ascx" />
+     <File Id="SnCoreTellAFriend_aspx" Name="TellAFriend.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TellAFriend.aspx" />
+     <File Id="SnCoreTellAFriendControl_ascx" Name="TellAFriendControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TellAFriendControl.ascx" />
+     <File Id="SnCoreTermsOfUse_aspx" Name="TermsOfUse.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TermsOfUse.aspx" />
+     <File Id="SnCoreTitleControl_ascx" Name="TitleControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\TitleControl.ascx" />
+    </Component>
+    <Directory Id="SnCoreBin" Name="bin">
+     <Component Id="SnCoreBin" Guid="D5F01C2B-9A43-4205-B3CE-5C3A4DF30B0B" DiskId="1">
+      <File Id="SnCoreBinAjaxControlToolkit_dll" Name="AjaxControlToolkit.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\AjaxControlToolkit.dll" />
+      <File Id="SnCoreBinApp_Code_compiled" Name="App_Code.compiled" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\App_Code.compiled" />
+      <File Id="SnCoreBinApp_Code_dll" Name="App_Code.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\App_Code.dll" />
+      <File Id="SnCoreBinApp_global_asax_compiled" Name="App_global.asax.compiled" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\App_global.asax.compiled" />
+      <File Id="SnCoreBinApp_global_asax_dll" Name="App_global.asax.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\App_global.asax.dll" />
+      <File Id="SnCoreBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Atom.NET.dll" />
+      <File Id="SnCoreBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Castle.DynamicProxy.dll" />
+      <File Id="SnCoreBinCastle_DynamicProxy_xml" Name="Castle.DynamicProxy.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Castle.DynamicProxy.xml" />
+      <File Id="SnCoreBinDirtyPanel_dll" Name="DirtyPanel.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\DirtyPanel.dll" />
+      <File Id="SnCoreBinFreeTextBox_dll" Name="FreeTextBox.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\FreeTextBox.dll" />
+      <File Id="SnCoreBinICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\ICalParser.dll" />
+      <File Id="SnCoreBinIesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Iesi.Collections.dll" />
+      <File Id="SnCoreBinIesi_Collections_xml" Name="Iesi.Collections.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Iesi.Collections.xml" />
+      <File Id="SnCoreBinJanrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Janrain.OpenId.dll" />
+      <File Id="SnCoreBinJanrain_OpenId_xml" Name="Janrain.OpenId.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Janrain.OpenId.xml" />
+      <File Id="SnCoreBinLog4net_dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\log4net.dll" />
+      <File Id="SnCoreBinLog4net_xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\log4net.xml" />
+      <File Id="SnCoreBinMicrosoft_Web_Preview_dll" Name="Microsoft.Web.Preview.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Microsoft.Web.Preview.dll" />
+      <File Id="SnCoreBinNGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\NGif.NET.dll" />
+      <File Id="SnCoreBinNHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\NHibernate.dll" />
+      <File Id="SnCoreBinNHibernate_xml" Name="NHibernate.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\NHibernate.xml" />
+      <File Id="SnCoreBinNStuff_UpdateControls_dll" Name="nStuff.UpdateControls.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\nStuff.UpdateControls.dll" />
+      <File Id="SnCoreBinNunit_framework_dll" Name="nunit.framework.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\nunit.framework.dll" />
+      <File Id="SnCoreBinNunit_framework_xml" Name="nunit.framework.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\nunit.framework.xml" />
+      <File Id="SnCoreBinRSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\RSS.NET.dll" />
+      <File Id="SnCoreBinSgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SgmlReaderDll.dll" />
+      <File Id="SnCoreBinSnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.BackEnd.dll" />
+      <File Id="SnCoreBinSnCore_Data_dll" Name="SnCore.Data.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.Data.dll" />
+      <File Id="SnCoreBinSnCore_Data_Hibernate_dll" Name="SnCore.Data.Hibernate.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.Data.Hibernate.dll" />
+      <File Id="SnCoreBinSnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.Services.dll" />
+      <File Id="SnCoreBinSnCore_SiteMap_dll" Name="SnCore.SiteMap.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.SiteMap.dll" />
+      <File Id="SnCoreBinSnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.Tools.dll" />
+      <File Id="SnCoreBinSnCore_Web_Deploy_dll" Name="SnCore.Web.Deploy.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.Web.Deploy.dll" />
+      <File Id="SnCoreBinSnCore_WebControls_dll" Name="SnCore.WebControls.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.WebControls.dll" />
+      <File Id="SnCoreBinSnCore_WebServices_dll" Name="SnCore.WebServices.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\SnCore.WebServices.dll" />
+      <File Id="SnCoreBinSystem_Web_Extensions_dll" Name="System.Web.Extensions.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\System.Web.Extensions.dll" />
+      <File Id="SnCoreBinUnhandledExceptionModule_dll" Name="UnhandledExceptionModule.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\UnhandledExceptionModule.dll" />
+      <File Id="SnCoreBinWebChart_dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\WebChart.dll" />
+      <File Id="SnCoreBinWilco_Web_dll" Name="Wilco.Web.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Wilco.Web.dll" />
+      <File Id="SnCoreBinWilco_Web_XML" Name="Wilco.Web.XML" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\bin\Wilco.Web.XML" />
+     </Component>
+    </Directory>
+    <Directory Id="SnCoreImages" Name="images">
+     <Component Id="SnCoreImages" Guid="A1378F73-5EAD-4269-80DE-982B4CDFDA91" DiskId="1">
+      <File Id="SnCoreImagesAccountEmailVerifiedFalse_gif" Name="AccountEmailVerifiedFalse.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\AccountEmailVerifiedFalse.gif" />
+      <File Id="SnCoreImagesAccountEmailVerifiedTrue_gif" Name="AccountEmailVerifiedTrue.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\AccountEmailVerifiedTrue.gif" />
+      <File Id="SnCoreImagesCalendar_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\calendar.gif" />
+      <File Id="SnCoreImagesFolder_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\Folder.gif" />
+      <File Id="SnCoreImagesItem_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\Item.gif" />
+      <File Id="SnCoreImagesOpenid_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\openid.gif" />
+      <File Id="SnCoreImagesQuestion_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\Question.gif" />
+      <File Id="SnCoreImagesRss_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\rss.gif" />
+      <File Id="SnCoreImagesSearch_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\Search.gif" />
+      <File Id="SnCoreImagesSpacer_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\Spacer.gif" />
+      <File Id="SnCoreImagesSpinner_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\spinner.gif" />
+      <File Id="SnCoreImagesSubscribe_gif" Name="subscribe.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\subscribe.gif" />
+     </Component>
+     <Directory Id="SnCoreImagesAccount" Name="account">
+      <Component Id="SnCoreImagesAccount" Guid="E20DA129-0BFA-44D0-8986-3D2B3D195E2D" DiskId="1">
+       <File Id="SnCoreImagesAccountActivity_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\activity.gif" />
+       <File Id="SnCoreImagesAccountBlogs_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\blogs.gif" />
+       <File Id="SnCoreImagesAccountContentgroups_gif" Name="contentgroups.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\contentgroups.gif" />
+       <File Id="SnCoreImagesAccountDiscussions_gif" Name="discussions.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\discussions.gif" />
+       <File Id="SnCoreImagesAccountEmails_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\emails.gif" />
+       <File Id="SnCoreImagesAccountEvents_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\events.gif" />
+       <File Id="SnCoreImagesAccountFavorites_gif" Name="favorites.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\favorites.gif" />
+       <File Id="SnCoreImagesAccountFlags_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\flags.gif" />
+       <File Id="SnCoreImagesAccountFriends_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\friends.gif" />
+       <File Id="SnCoreImagesAccountGroups_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\groups.gif" />
+       <File Id="SnCoreImagesAccountInbox_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\inbox.gif" />
+       <File Id="SnCoreImagesAccountLicense_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\license.gif" />
+       <File Id="SnCoreImagesAccountOpenid_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\openid.gif" />
+       <File Id="SnCoreImagesAccountPhotos_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\photos.gif" />
+       <File Id="SnCoreImagesAccountPlaces_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\places.gif" />
+       <File Id="SnCoreImagesAccountPrefs_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\prefs.gif" />
+       <File Id="SnCoreImagesAccountProperty_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\property.gif" />
+       <File Id="SnCoreImagesAccountQueue_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\queue.gif" />
+       <File Id="SnCoreImagesAccountQuota_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\quota.gif" />
+       <File Id="SnCoreImagesAccountRedirect_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\redirect.gif" />
+       <File Id="SnCoreImagesAccountSent_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\sent.gif" />
+       <File Id="SnCoreImagesAccountSettings_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\settings.gif" />
+       <File Id="SnCoreImagesAccountSpecials_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\specials.gif" />
+       <File Id="SnCoreImagesAccountStar_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\star.gif" />
+       <File Id="SnCoreImagesAccountStats_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\stats.gif" />
+       <File Id="SnCoreImagesAccountStories_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\stories.gif" />
+       <File Id="SnCoreImagesAccountSubscription_gif" Name="subscription.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\subscription.gif" />
+       <File Id="SnCoreImagesAccountSurveys_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\surveys.gif" />
+       <File Id="SnCoreImagesAccountSyndication_gif" Name="syndication.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\syndication.gif" />
+       <File Id="SnCoreImagesAccountTrash_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\trash.gif" />
+       <File Id="SnCoreImagesAccountWebsites_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\account\websites.gif" />
+      </Component>
+     </Directory>
+     <Directory Id="SnCoreImagesBookmarks" Name="bookmarks">
+      <Directory Id="SnCoreImagesBookmarksFull" Name="full">
+       <Component Id="SnCoreImagesBookmarksFull" Guid="B4A7F449-FE9D-4E26-86B0-D5653F32664C" DiskId="1">
+        <File Id="SnCoreImagesBookmarksFullAol_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\aol.gif" />
+        <File Id="SnCoreImagesBookmarksFullBloglines_gif" Name="bloglines.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\bloglines.gif" />
+        <File Id="SnCoreImagesBookmarksFullBlogmarks_gif" Name="blogmarks.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\blogmarks.gif" />
+        <File Id="SnCoreImagesBookmarksFullDelicious_gif" Name="delicious.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\delicious.gif" />
+        <File Id="SnCoreImagesBookmarksFullFeedster_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\feedster.gif" />
+        <File Id="SnCoreImagesBookmarksFullGoogle_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\google.gif" />
+        <File Id="SnCoreImagesBookmarksFullMagnolia_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\magnolia.gif" />
+        <File Id="SnCoreImagesBookmarksFullMsn_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\msn.gif" />
+        <File Id="SnCoreImagesBookmarksFullNewsburst_gif" Name="newsburst.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\newsburst.gif" />
+        <File Id="SnCoreImagesBookmarksFullNewsgator_gif" Name="newsgator.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\newsgator.gif" />
+        <File Id="SnCoreImagesBookmarksFullPluck_png" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\pluck.png" />
+        <File Id="SnCoreImagesBookmarksFullRojo_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\rojo.gif" />
+        <File Id="SnCoreImagesBookmarksFullSmarking_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\smarking.gif" />
+        <File Id="SnCoreImagesBookmarksFullSpurl_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\spurl.gif" />
+        <File Id="SnCoreImagesBookmarksFullTechnorati_gif" Name="technorati.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\technorati.gif" />
+        <File Id="SnCoreImagesBookmarksFullYahoo_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\full\yahoo.gif" />
+       </Component>
+      </Directory>
+      <Directory Id="SnCoreImagesBookmarksLinks" Name="links">
+       <Component Id="SnCoreImagesBookmarksLinks" Guid="3F2AE3F8-98A6-453D-B370-F2D426309F1E" DiskId="1">
+        <File Id="SnCoreImagesBookmarksLinksBlinklist_gif" Name="blinklist.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\blinklist.gif" />
+        <File Id="SnCoreImagesBookmarksLinksBlogmarks_gif" Name="blogmarks.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\blogmarks.gif" />
+        <File Id="SnCoreImagesBookmarksLinksDelicious_gif" Name="delicious.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\delicious.gif" />
+        <File Id="SnCoreImagesBookmarksLinksDigg_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\digg.gif" />
+        <File Id="SnCoreImagesBookmarksLinksFark_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\fark.gif" />
+        <File Id="SnCoreImagesBookmarksLinksFurl_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\furl.gif" />
+        <File Id="SnCoreImagesBookmarksLinksMagnolia_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\magnolia.gif" />
+        <File Id="SnCoreImagesBookmarksLinksNewsvine_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\newsvine.gif" />
+        <File Id="SnCoreImagesBookmarksLinksReddit_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\reddit.gif" />
+        <File Id="SnCoreImagesBookmarksLinksSimpy_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\simpy.gif" />
+        <File Id="SnCoreImagesBookmarksLinksSmarking_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\smarking.gif" />
+        <File Id="SnCoreImagesBookmarksLinksSpurl_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\spurl.gif" />
+        <File Id="SnCoreImagesBookmarksLinksYahoo_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bookmarks\links\yahoo.gif" />
+       </Component>
+      </Directory>
+     </Directory>
+     <Directory Id="SnCoreImagesBugs" Name="bugs">
+      <Component Id="SnCoreImagesBugs" Guid="BC3DF938-AED6-4F51-9CB0-FE1130233393" DiskId="1">
+       <File Id="SnCoreImagesBugsPriority_blocker_gif" Name="priority_blocker.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\priority_blocker.gif" />
+       <File Id="SnCoreImagesBugsPriority_critical_gif" Name="priority_critical.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\priority_critical.gif" />
+       <File Id="SnCoreImagesBugsPriority_major_gif" Name="priority_major.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\priority_major.gif" />
+       <File Id="SnCoreImagesBugsPriority_minor_gif" Name="priority_minor.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\priority_minor.gif" />
+       <File Id="SnCoreImagesBugsPriority_trivial_gif" Name="priority_trivial.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\priority_trivial.gif" />
+       <File Id="SnCoreImagesBugsStatus_assigned_gif" Name="status_assigned.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\status_assigned.gif" />
+       <File Id="SnCoreImagesBugsStatus_closed_gif" Name="status_closed.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\status_closed.gif" />
+       <File Id="SnCoreImagesBugsStatus_inprogress_gif" Name="status_inprogress.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\status_inprogress.gif" />
+       <File Id="SnCoreImagesBugsStatus_open_gif" Name="status_open.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\status_open.gif" />
+       <File Id="SnCoreImagesBugsStatus_reopened_gif" Name="status_reopened.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\status_reopened.gif" />
+       <File Id="SnCoreImagesBugsStatus_resolved_gif" Name="status_resolved.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\status_resolved.gif" />
+       <File Id="SnCoreImagesBugsType_bug_gif" Name="type_bug.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\type_bug.gif" />
+       <File Id="SnCoreImagesBugsType_improvement_gif" Name="type_improvement.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\type_improvement.gif" />
+       <File Id="SnCoreImagesBugsType_none_gif" Name="type_none.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\type_none.gif" />
+       <File Id="SnCoreImagesBugsType_suggestion_gif" Name="type_suggestion.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\bugs\type_suggestion.gif" />
+      </Component>
+     </Directory>
+     <Directory Id="SnCoreImagesButtons" Name="buttons">
+      <Component Id="SnCoreImagesButtons" Guid="113D09CE-9D16-4197-B245-7EA33AF7D763" DiskId="1">
+       <File Id="SnCoreImagesButtonsAccountEmailVerifiedTrue_gif" Name="AccountEmailVerifiedTrue.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\buttons\AccountEmailVerifiedTrue.gif" />
+       <File Id="SnCoreImagesButtonsLink_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\buttons\link.gif" />
+       <File Id="SnCoreImagesButtonsSticky_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\buttons\sticky.gif" />
+      </Component>
+     </Directory>
+     <Directory Id="SnCoreImagesSite" Name="site">
+      <Component Id="SnCoreImagesSite" Guid="3223DE3D-1D1B-421A-8417-629E8399E0B7" DiskId="1">
+       <File Id="SnCoreImagesSiteBack_jpg" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\back.jpg" />
+       <File Id="SnCoreImagesSiteError_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\error.gif" />
+       <File Id="SnCoreImagesSiteHead_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\head.gif" />
+       <File Id="SnCoreImagesSiteHelp_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\help.gif" />
+       <File Id="SnCoreImagesSiteInfo_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\info.gif" />
+       <File Id="SnCoreImagesSiteQuestion_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\question.gif" />
+       <File Id="SnCoreImagesSiteQuote_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\quote.gif" />
+       <File Id="SnCoreImagesSiteRecentquote_gif" Name="recentquote.gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\recentquote.gif" />
+       <File Id="SnCoreImagesSiteRight_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\right.gif" />
+       <File Id="SnCoreImagesSiteRsslogo_jpg" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\rsslogo.jpg" />
+       <File Id="SnCoreImagesSiteToplogo_jpg" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\toplogo.jpg" />
+       <File Id="SnCoreImagesSiteWarning_gif" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\images\site\warning.gif" />
+      </Component>
+     </Directory>
+    </Directory>
+    <Directory Id="SnCoreIsapiRewrite" Name="IsapiRewrite">
+     <Component Id="SnCoreIsapiRewrite" Guid="CB874C88-708E-4D61-96EE-A5297BB8BA96" DiskId="1">
+      <File Id="SnCoreIsapiRewriteIsapiRewrite4_ini" Name="IsapiRewrite4.ini" Source="$(var.SnCore.Deploy.Target.Path)\SnCore\IsapiRewrite\IsapiRewrite4.ini" />
+     </Component>
+    </Directory>
+   </Directory>
+   <Directory Id="SnCore_mobile" Name="SnCore.mobile">
+    <Component Id="SnCore_mobile" Guid="9CE8A0BB-665A-4751-8EC7-C21A27E88AF0" DiskId="1">
+     <File Id="SnCore_mobileAccountCitiesControl_ascx" Name="AccountCitiesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountCitiesControl.ascx" />
+     <File Id="SnCore_mobileAccountFeedItemPicture_aspx" Name="AccountFeedItemPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountFeedItemPicture.aspx" />
+     <File Id="SnCore_mobileAccountFeedItemsView_aspx" Name="AccountFeedItemsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountFeedItemsView.aspx" />
+     <File Id="SnCore_mobileAccountFeedItemView_aspx" Name="AccountFeedItemView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountFeedItemView.aspx" />
+     <File Id="SnCore_mobileAccountFeedsView_aspx" Name="AccountFeedsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountFeedsView.aspx" />
+     <File Id="SnCore_mobileAccountFeedView_aspx" Name="AccountFeedView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountFeedView.aspx" />
+     <File Id="SnCore_mobileAccountLogin_aspx" Name="AccountLogin.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountLogin.aspx" />
+     <File Id="SnCore_mobileAccountPicturesView_aspx" Name="AccountPicturesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountPicturesView.aspx" />
+     <File Id="SnCore_mobileAccountPictureThumbnail_aspx" Name="AccountPictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountPictureThumbnail.aspx" />
+     <File Id="SnCore_mobileAccountPictureView_aspx" Name="AccountPictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountPictureView.aspx" />
+     <File Id="SnCore_mobileAccountsView_aspx" Name="AccountsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountsView.aspx" />
+     <File Id="SnCore_mobileAccountView_aspx" Name="AccountView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountView.aspx" />
+     <File Id="SnCore_mobileDefault_aspx" Name="Default.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\Default.aspx" />
+     <File Id="SnCore_mobileDiscussionThreadView_aspx" Name="DiscussionThreadView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\DiscussionThreadView.aspx" />
+     <File Id="SnCore_mobileDiscussionView_aspx" Name="DiscussionView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\DiscussionView.aspx" />
+     <File Id="SnCore_mobileNoticeControl_ascx" Name="NoticeControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\NoticeControl.ascx" />
+     <File Id="SnCore_mobilePlaceNeighborhoodsViewControl_ascx" Name="PlaceNeighborhoodsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PlaceNeighborhoodsViewControl.ascx" />
+     <File Id="SnCore_mobilePlacePicturesView_aspx" Name="PlacePicturesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PlacePicturesView.aspx" />
+     <File Id="SnCore_mobilePlacePictureThumbnail_aspx" Name="PlacePictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PlacePictureThumbnail.aspx" />
+     <File Id="SnCore_mobilePlacePictureView_aspx" Name="PlacePictureView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PlacePictureView.aspx" />
+     <File Id="SnCore_mobilePlacesView_aspx" Name="PlacesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PlacesView.aspx" />
+     <File Id="SnCore_mobilePlaceView_aspx" Name="PlaceView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PlaceView.aspx" />
+     <File Id="SnCore_mobilePrecompiledApp_config" Name="PrecompiledApp.config" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\PrecompiledApp.config" />
+     <File Id="SnCore_mobileSearch_aspx" Name="Search.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\Search.aspx" />
+     <File Id="SnCore_mobileSearchAccountBlogPostsControl_ascx" Name="SearchAccountBlogPostsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SearchAccountBlogPostsControl.ascx" />
+     <File Id="SnCore_mobileSearchAccountFeedItemsControl_ascx" Name="SearchAccountFeedItemsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SearchAccountFeedItemsControl.ascx" />
+     <File Id="SnCore_mobileSearchAccountsControl_ascx" Name="SearchAccountsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SearchAccountsControl.ascx" />
+     <File Id="SnCore_mobileSearchAccountStoriesControl_ascx" Name="SearchAccountStoriesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SearchAccountStoriesControl.ascx" />
+     <File Id="SnCore_mobileSearchDiscussionPostsControl_ascx" Name="SearchDiscussionPostsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SearchDiscussionPostsControl.ascx" />
+     <File Id="SnCore_mobileSearchPlacesControl_ascx" Name="SearchPlacesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SearchPlacesControl.ascx" />
+     <File Id="SnCore_mobileServices_config" Name="Services.config" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\Services.config" />
+     <File Id="SnCore_mobileSnCore_master" Name="SnCore.master" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\SnCore.master" />
+     <File Id="SnCore_mobileStyle_css" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\Style.css" />
+     <File Id="SnCore_mobileWelcome_aspx" Name="Welcome.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\Welcome.aspx" />
+    </Component>
+    <Directory Id="SnCore_mobileBin" Name="bin">
+     <Component Id="SnCore_mobileBin" Guid="0A8D9A5F-56C1-4EB6-A5B6-FF0A4864CF10" DiskId="1">
+      <File Id="SnCore_mobileBinAjaxControlToolkit_dll" Name="AjaxControlToolkit.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\AjaxControlToolkit.dll" />
+      <File Id="SnCore_mobileBinApp_Code_compiled" Name="App_Code.compiled" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\App_Code.compiled" />
+      <File Id="SnCore_mobileBinApp_Code_dll" Name="App_Code.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\App_Code.dll" />
+      <File Id="SnCore_mobileBinApp_WebReferences_compiled" Name="App_WebReferences.compiled" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\App_WebReferences.compiled" />
+      <File Id="SnCore_mobileBinApp_WebReferences_dll" Name="App_WebReferences.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\App_WebReferences.dll" />
+      <File Id="SnCore_mobileBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Atom.NET.dll" />
+      <File Id="SnCore_mobileBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Castle.DynamicProxy.dll" />
+      <File Id="SnCore_mobileBinCastle_DynamicProxy_xml" Name="Castle.DynamicProxy.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Castle.DynamicProxy.xml" />
+      <File Id="SnCore_mobileBinFreeTextBox_dll" Name="FreeTextBox.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\FreeTextBox.dll" />
+      <File Id="SnCore_mobileBinICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\ICalParser.dll" />
+      <File Id="SnCore_mobileBinIesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Iesi.Collections.dll" />
+      <File Id="SnCore_mobileBinIesi_Collections_xml" Name="Iesi.Collections.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Iesi.Collections.xml" />
+      <File Id="SnCore_mobileBinJanrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Janrain.OpenId.dll" />
+      <File Id="SnCore_mobileBinJanrain_OpenId_xml" Name="Janrain.OpenId.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Janrain.OpenId.xml" />
+      <File Id="SnCore_mobileBinLog4net_dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\log4net.dll" />
+      <File Id="SnCore_mobileBinLog4net_xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\log4net.xml" />
+      <File Id="SnCore_mobileBinNGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\NGif.NET.dll" />
+      <File Id="SnCore_mobileBinNHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\NHibernate.dll" />
+      <File Id="SnCore_mobileBinNHibernate_xml" Name="NHibernate.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\NHibernate.xml" />
+      <File Id="SnCore_mobileBinNunit_framework_dll" Name="nunit.framework.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\nunit.framework.dll" />
+      <File Id="SnCore_mobileBinNunit_framework_xml" Name="nunit.framework.xml" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\nunit.framework.xml" />
+      <File Id="SnCore_mobileBinRSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\RSS.NET.dll" />
+      <File Id="SnCore_mobileBinSgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SgmlReaderDll.dll" />
+      <File Id="SnCore_mobileBinSnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.BackEnd.dll" />
+      <File Id="SnCore_mobileBinSnCore_Data_dll" Name="SnCore.Data.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.Data.dll" />
+      <File Id="SnCore_mobileBinSnCore_Data_Hibernate_dll" Name="SnCore.Data.Hibernate.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.Data.Hibernate.dll" />
+      <File Id="SnCore_mobileBinSnCore_MobileWeb_Deploy_dll" Name="SnCore.MobileWeb.Deploy.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.MobileWeb.Deploy.dll" />
+      <File Id="SnCore_mobileBinSnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.Services.dll" />
+      <File Id="SnCore_mobileBinSnCore_SiteMap_dll" Name="SnCore.SiteMap.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.SiteMap.dll" />
+      <File Id="SnCore_mobileBinSnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.Tools.dll" />
+      <File Id="SnCore_mobileBinSnCore_WebControls_dll" Name="SnCore.WebControls.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.WebControls.dll" />
+      <File Id="SnCore_mobileBinSnCore_WebServices_dll" Name="SnCore.WebServices.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\SnCore.WebServices.dll" />
+      <File Id="SnCore_mobileBinWilco_Web_dll" Name="Wilco.Web.dll" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Wilco.Web.dll" />
+      <File Id="SnCore_mobileBinWilco_Web_XML" Name="Wilco.Web.XML" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\bin\Wilco.Web.XML" />
+     </Component>
+    </Directory>
+    <Directory Id="SnCore_mobileBrowsers" Name="Browsers">
+     <Component Id="SnCore_mobileBrowsers" Guid="5C569837-D62D-42D1-8A09-2AEDB773F190" DiskId="1">
+      <File Id="SnCore_mobileBrowsersBlackberry_browser" Name="Blackberry.browser" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\Browsers\Blackberry.browser" />
+     </Component>
+    </Directory>
+    <Directory Id="SnCore_mobileImages" Name="images">
+     <Directory Id="SnCore_mobileImagesSite" Name="site">
+      <Component Id="SnCore_mobileImagesSite" Guid="3483E97D-3F7F-4CBA-A685-2E9E69E16DFC" DiskId="1">
+       <File Id="SnCore_mobileImagesSiteToplogo_jpg" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\images\site\toplogo.jpg" />
+      </Component>
+     </Directory>
+    </Directory>
+   </Directory>
+  </DirectoryRef>
+ </Fragment>
+</Include>

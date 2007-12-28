@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Include>
+ <?ifdef Debug ?>
+ <?define ConfigurationName = Debug ?>
+ <?else?>
+ <?define ConfigurationName = Release ?>
+ <?endif ?>
+ <?define SnCore.Deploy.Target.Path = $(var.SolutionDir)\SnCore.Deploy\Target\$(var.ConfigurationName) ?>
+ <?define SnCore.Docs.Target.Path = $(var.SolutionDir)\SnCore.Docs\Target\html ?>
+</Include>

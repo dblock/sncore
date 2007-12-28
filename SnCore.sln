@@ -217,6 +217,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIME.NET.Tests", "MIME.NET.
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SnCore.Install", "SnCore.Install\SnCore.Install.wixproj", "{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -615,6 +621,18 @@ Global
 		{E3317FD5-0139-488A-844C-EB0C52E16AB4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E3317FD5-0139-488A-844C-EB0C52E16AB4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E3317FD5-0139-488A-844C-EB0C52E16AB4}.Release|Win32.ActiveCfg = Release|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|.NET.ActiveCfg = Release|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

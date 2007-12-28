@@ -2,27 +2,35 @@
 pushd "%~dp0"
 setlocal
 
+set CONFIG=%~1
+if "%CONFIG%"=="" set CONFIG=Release
 set PROJECTNAME=SnCore
 set MOBILEPROJECTNAME=%PROJECTNAME%.mobile
-set TARGET=%~dp0%PROJECTNAME%
-set MOBILETARGET=%~dp0%MOBILEPROJECTNAME%
+set ROOT=Target\%CONFIG%
+if EXIST "%ROOT%" ( rd /s/q "%ROOT%" )
+echo Creating %ROOT% ...
+mkdir %ROOT%
+set TARGET=%~dp0%ROOT%\%PROJECTNAME%
+set MOBILETARGET=%~dp0%ROOT%\%MOBILEPROJECTNAME%
 
 echo Creating %TARGET% ...
-if EXIST "%TARGET%" ( rd /s/q "%TARGET%" )
+mkdir %TARGET%
 echo Creating %MOBILETARGET% ...
-if EXIST "%MOBILETARGET%" ( rd /s/q "%MOBILETARGET%" )
+mkdir %MOBILETARGET%
 
 echo Copying Web
-xcopy /S /I "%~dp0..\SnCore.Web.Deploy\Release\*.*" "%TARGET%"
+xcopy /EXCLUDE:XCopy.exclude /S /I "%~dp0..\SnCore.Web.Deploy\%CONFIG%\*.*" "%TARGET%"
 del "%TARGET%\Web.config"
 
 echo Copying MobileWeb
-xcopy /S /I "%~dp0..\SnCore.MobileWeb.Deploy\Release\*.*" "%MOBILETARGET%"
+xcopy /EXCLUDE:XCopy.exclude /S /I "%~dp0..\SnCore.MobileWeb.Deploy\%CONFIG%\*.*" "%MOBILETARGET%"
 del "%MOBILETARGET%\Web.config"
 
 if EXIST %PROJECTNAME%.zip del %PROJECTNAME%.zip
-bin\zip32 -r %PROJECTNAME%.zip %PROJECTNAME%\*.*
-bin\zip32 -r %PROJECTNAME%.zip %MOBILEPROJECTNAME%\*.*
+pushd %ROOT%
+..\..\bin\zip32 -r ..\..\%PROJECTNAME%.zip %PROJECTNAME%\*.*
+..\..\bin\zip32 -r ..\..\%PROJECTNAME%.zip %MOBILEPROJECTNAME%\*.*
+popd
 
 endlocal
 popd

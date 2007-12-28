@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+ <?include SnCore.Project.wxi ?>
+ <Product Id="43598990-5778-4241-baf7-f8abb82af3c9" Name="SnCore" Language="1033" Version="1.0.0.0" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
+  <Package InstallerVersion="200" Compressed="yes" />
+  <Condition Message="You must be an administrator to install this product.">
+   Privileged
+  </Condition>
+  <Condition Message='This setup requires the .NET Framework 2.0 or higher.'>
+   <![CDATA[MsiNetAssemblySupport >= "2.0.50727"]]>
+  </Condition>
+  <Media Id="1" Cabinet="SnCore.Install.cab" EmbedCab="yes" />
+  <Directory Id="TARGETDIR" Name="SourceDir">
+   <Directory Id="ProgramFilesFolder">
+    <Directory Id="INSTALLDIR" Name="SnCore">
+    </Directory>
+   </Directory>
+  </Directory>
+  <Feature Id="SnCore.Web.Feature" Title="Default Website" Level="1" Display="expand" 
+   ConfigurableDirectory="INSTALLDIR">
+   <ComponentRef Id="SnCore" />
+   <ComponentRef Id="SnCoreBin" />
+   <ComponentRef Id="SnCoreImages" />
+   <ComponentRef Id="SnCoreImagesAccount" />
+   <ComponentRef Id="SnCoreImagesBookmarksFull" />
+   <ComponentRef Id="SnCoreImagesBookmarksLinks" />
+   <ComponentRef Id="SnCoreImagesBugs" />
+   <ComponentRef Id="SnCoreImagesButtons" />
+   <ComponentRef Id="SnCoreImagesSite" />
+   <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
+    <ComponentRef Id="SnCoreWebServices" />
+    <ComponentRef Id="SnCoreBin" />
+   </Feature>
+   <Feature Id="SnCore.Web.IsapiRewrite.Feature" Title="Redirector Services" Level="1">
+    <ComponentRef Id="SnCoreIsapiRewrite" />
+   </Feature>
+  </Feature>
+  <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile Website" Level="1" Display="expand">
+   <ComponentRef Id="SnCore_mobile" />
+   <ComponentRef Id="SnCore_mobileBin" />
+   <ComponentRef Id="SnCore_mobileImagesSite" />
+   <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
+    <ComponentRef Id="SnCore_mobileBrowsers" />
+   </Feature>
+  </Feature>
+  <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
+   <ComponentRef Id="Docs" />
+  </Feature>
+  <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+  <UIRef Id="WixUI_FeatureTree" />
+ </Product>
+ <?include SnCore.Install.Web.wxi ?>
+ <?include SnCore.Install.Docs.wxi ?>
+</Wix>
