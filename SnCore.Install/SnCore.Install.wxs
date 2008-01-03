@@ -3,6 +3,7 @@
  <?include SnCore.Project.wxi ?>
  <Product Id="43598990-5778-4241-baf7-f8abb82af3c9" Name="SnCore" Language="1033" Version="1.0.0.0" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
   <Package InstallerVersion="200" Compressed="yes" />
+  <Property Id="SNCORE_WEBSITENAME" Value="SnCoreDemo" />
   <Condition Message="You must be an administrator to install this product.">
    Privileged
   </Condition>
@@ -47,8 +48,10 @@
    <ComponentRef Id="Docs" />
   </Feature>
   <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
-  <UIRef Id="WixUI_FeatureTree" />
+  <UIRef Id="SnCoreUI_FeatureTree" />
  </Product>
  <?include SnCore.Install.Web.wxi ?>
  <?include SnCore.Install.Docs.wxi ?>
+ <?include SnCore.Install.UI.wxi ?>
+ <?include SnCore.Install.UI.ChooseWebsiteName.wxi ?>
 </Wix>

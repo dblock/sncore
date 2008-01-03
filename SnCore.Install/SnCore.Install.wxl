@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+ <!-- Choose a Website Name -->
+	<String Id="WebsiteNameDlg_Title">[ProductName] Setup</String>
+ <String Id="WebsiteNameDlgTitle">{\WixUI_Font_Title}Website Name</String>
+ <String Id="WebsiteNameDlgDescription">Please choose a name for your website.</String>
+ <String Id="WebsiteNameDlgBannerBitmap">WixUI_Bmp_Banner</String>
+ <String Id="WebsiteNameLabel">&amp;Website Name:</String>
+</WixLocalization>

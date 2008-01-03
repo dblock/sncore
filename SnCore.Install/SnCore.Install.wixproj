@@ -22,11 +22,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SnCore.Install.Docs.wxi" />
+    <Content Include="SnCore.Install.UI.ChooseWebsiteName.wxi" />
+    <Content Include="SnCore.Install.UI.wxi" />
     <Content Include="SnCore.Install.Web.wxi" />
     <Content Include="SnCore.Project.wxi" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixUIExtension.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SnCore.Install.wxl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.0\Wix.targets" />
   <!--
