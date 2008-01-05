@@ -296,6 +296,16 @@ namespace SnCore.Services
                 }
             }
 
+            if (merge.PlaceChangeRequests != null)
+            {
+                count += merge.PlaceChangeRequests.Count;
+                foreach (PlaceChangeRequest request in merge.PlaceChangeRequests)
+                {
+                    request.City = mInstance;
+                    Session.Save(request);
+                }
+            }
+
             Session.Delete(merge);
             return count;
         }
