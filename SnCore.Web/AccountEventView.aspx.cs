@@ -233,6 +233,7 @@ public partial class AccountEventView : Page
     public void linkDelete_Click(object sender, EventArgs e)
     {
         SessionManager.Delete<TransitAccountEvent>(RequestId, SessionManager.EventService.DeleteAccountEvent);
+        SessionManager.InvalidateCache<TransitAccountEventInstance>();
         Redirect("AccountEventsToday.aspx");
     }
 }

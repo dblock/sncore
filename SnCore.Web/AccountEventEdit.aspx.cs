@@ -150,6 +150,7 @@ public partial class AccountEventEdit : AuthenticatedPage
         tav.AccountEventType = selectType.SelectedValue;
         tav.Id = SessionManager.CreateOrUpdate<TransitAccountEvent>(
             tav, SessionManager.EventService.CreateOrUpdateAccountEvent);
+        SessionManager.InvalidateCache<TransitAccountEventInstance>();
         Redirect(string.Format("AccountEventView.aspx?id={0}", tav.Id));
     }
 
@@ -193,6 +194,7 @@ public partial class AccountEventEdit : AuthenticatedPage
     public void linkDelete_Click(object sender, EventArgs e)
     {
         SessionManager.Delete<TransitAccountEvent>(RequestId, SessionManager.EventService.DeleteAccountEvent);
+        SessionManager.InvalidateCache<TransitAccountEventInstance>();
         Redirect("AccountEventsToday.aspx");
     }
 }

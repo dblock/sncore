@@ -60,6 +60,7 @@ public partial class AccountEventsManage : AuthenticatedPage
             case "Delete":
                 int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
                 SessionManager.Delete<TransitAccountEvent>(id, SessionManager.EventService.DeleteAccountEvent);
+                SessionManager.InvalidateCache<TransitAccountEventInstance>();
                 ReportInfo("Event deleted.");
                 GetData();
                 break;
