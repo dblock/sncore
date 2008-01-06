@@ -7,4 +7,5 @@
  <?endif ?>
  <?define SnCore.Deploy.Target.Path = $(var.SolutionDir)\SnCore.Deploy\Target\$(var.ConfigurationName) ?>
  <?define SnCore.Docs.Target.Path = $(var.SolutionDir)\SnCore.Docs\Target\html ?>
+ <?define SnCore.WebUpgrade.Target.Path = $(var.SolutionDir)\SnCore.WebUpgrade ?>
 </Include>

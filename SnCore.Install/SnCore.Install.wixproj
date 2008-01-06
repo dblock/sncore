@@ -25,9 +25,11 @@
     <Content Include="SnCore.Install.UI.ChooseWebsiteName.wxi" />
     <Content Include="SnCore.Install.UI.wxi" />
     <Content Include="SnCore.Install.Web.wxi" />
+    <Content Include="SnCore.Install.WebSite.wxi" />
     <Content Include="SnCore.Project.wxi" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixIIsExtension.dll" />
     <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixUIExtension.dll" />
   </ItemGroup>
   <ItemGroup>

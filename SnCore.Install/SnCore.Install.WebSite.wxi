@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+ <Fragment xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
+  <?include SnCore.Project.wxi ?>
+  <PropertyRef Id="SNCORE_WEBSITENAME" />
+  <DirectoryRef Id="SnCore">
+   <Component Id="SnCoreDefaultWebsite" Guid="B94B5658-EE45-4c76-8AEA-E22BE2F165BC" DiskId="1">
+    <File Id="SnCoreAppOffline_htm" Name="App_Offline.htm" Source="$(var.SnCore.WebUpgrade.Target.Path)\App_Offline.htm" />
+    <RemoveFile Id="SnCoreAppOffline_htm_remove" Name="App_Offline.htm" On="install" />
+    <IIS:WebAppPool Id="SnCoreAppPool" Name="SnCoreAppPool" />
+    <IIS:WebSite Id="DefaultWebsite" Description="[SNCORE_WEBSITENAME]" Directory="SnCore" ConfigureIfExists="no" AutoStart="yes">
+     <IIS:WebAddress Id="SnCoreWebsiteNameAddress" Header="[SNCORE_WEBSITENAME]" Port="80" Secure="no" />
+     <IIS:WebApplication Id="SnCoreWebApplication" Name="[SNCORE_WEBSITENAME].Application" Isolation="high" WebAppPool="SnCoreAppPool" />
+    </IIS:WebSite>
+   </Component>
+  </DirectoryRef>
+  <DirectoryRef Id="SnCore_mobile">
+   <Component Id="SnCoreMobileWebsite" Guid="5A273A71-900D-4f36-B25A-3433B975CAAB" DiskId="1">
+    <File Id="SnCoreMobileAppOffline_htm" Name="App_Offline.htm" Source="$(var.SnCore.WebUpgrade.Target.Path)\App_Offline.htm" />
+    <RemoveFile Id="SnCoreMobileAppOffline_htm_remove" Name="App_Offline.htm" On="install" />
+    <IIS:WebAppPool Id="SnCoreMobileAppPool" Name="SnCoreMobileAppPool" />
+    <IIS:WebSite Id="MobileWebsite" Description="mobile.[SNCORE_WEBSITENAME]" Directory="SnCore_mobile" ConfigureIfExists="no" AutoStart="yes">
+     <IIS:WebAddress Id="SnCoreMobileWebsiteNameAddress" Header="mobile.[SNCORE_WEBSITENAME]" Port="80" Secure="no" />
+     <IIS:WebAddress Id="SnCoreMWebsiteNameAddress" Header="m.[SNCORE_WEBSITENAME]" Port="80" Secure="no" />
+     <IIS:WebApplication Id="SnCoreMobileWebApplication" Name="[SNCORE_WEBSITENAME].mobile.Application" Isolation="high" WebAppPool="SnCoreMobileAppPool" />
+    </IIS:WebSite>
+   </Component>
+  </DirectoryRef>
+ </Fragment>
+</Include>

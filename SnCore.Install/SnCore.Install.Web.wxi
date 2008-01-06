@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <Include>
- <Fragment Id="SnCore.Install.Web.Fragment">
+ <Fragment Id="SnCore.Install.Web.Fragment" xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
   <?include SnCore.Project.wxi ?>
+  <PropertyRef Id="SNCORE_WEBSITENAME" />
   <DirectoryRef Id="INSTALLDIR">
    <Directory Id="SnCore" Name="SnCore">
     <Component Id="SnCoreWebServices" Guid="8F5BDB58-59CF-4dea-AA07-0314AAC1326E" DiskId="1">
@@ -634,7 +635,7 @@
      </Component>
     </Directory>
    </Directory>
-   <Directory Id="SnCore_mobile" Name="SnCore.mobile">
+   <Directory Id="SnCore_mobile" Name="SnCoreMobile">
     <Component Id="SnCore_mobile" Guid="9CE8A0BB-665A-4751-8EC7-C21A27E88AF0" DiskId="1">
      <File Id="SnCore_mobileAccountCitiesControl_ascx" Name="AccountCitiesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountCitiesControl.ascx" />
      <File Id="SnCore_mobileAccountFeedItemPicture_aspx" Name="AccountFeedItemPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.mobile\AccountFeedItemPicture.aspx" />
