@@ -20,11 +20,9 @@ mkdir %MOBILETARGET%
 
 echo Copying Web
 xcopy /EXCLUDE:XCopy.exclude /S /I "%~dp0..\SnCore.Web.Deploy\%CONFIG%\*.*" "%TARGET%"
-del "%TARGET%\Web.config"
 
 echo Copying MobileWeb
 xcopy /EXCLUDE:XCopy.exclude /S /I "%~dp0..\SnCore.MobileWeb.Deploy\%CONFIG%\*.*" "%MOBILETARGET%"
-del "%MOBILETARGET%\Web.config"
 
 if EXIST %PROJECTNAME%.zip del %PROJECTNAME%.zip
 pushd %ROOT%
