@@ -2,6 +2,7 @@
 <Include>
  <Fragment>
   <PropertyRef Id="SNCORE_WEBSITENAME" />
+  <PropertyRef Id="SNCORE_WEBSITEDOMAINNAME" />
   <UI>
    <Dialog Id="WebsiteNameDlg" Width="370" Height="270" Title="!(loc.WebsiteNameDlg_Title)">
     <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" />
@@ -14,9 +15,17 @@
     <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.WebsiteNameDlgBannerBitmap)" />
     <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
     <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-    <Control Id="NameLabel" Type="Text" X="20" Y="60" Width="290" Height="30" Text="!(loc.WebsiteNameLabel)" />
-    <Control Id="Name" Type="Edit" X="20" Y="100" Width="200" Height="18" Property="SNCORE_WEBSITENAME" Text="{24}" />
+    <Control Id="NameLabel" Type="Text" X="20" Y="60" Width="290" Height="20" Text="!(loc.WebsiteNameLabel)" />
+    <Control Id="Name" Type="Edit" X="30" Y="80" Width="200" Height="18" Property="SNCORE_WEBSITENAME" Text="{24}" />
+    <Control Id="DomainNameLabel" Type="Text" X="20" Y="120" Width="290" Height="20" Text="!(loc.WebsiteDomainNameLabel)" />
+    <Control Id="DomainName" Type="Edit" X="30" Y="140" Width="200" Height="18" Property="SNCORE_WEBSITEDOMAINNAME" Text="{24}" />
    </Dialog>
   </UI>
+  <CustomAction Id="SetSnCoreDirectory" Property="SnCore" Value="[INSTALLDIR][SNCORE_WEBSITEDOMAINNAME]" Execute="immediate" />
+  <CustomAction Id="SetSnCoreMobileDirectory" Property="SnCore_mobile" Value="[INSTALLDIR]mobile.[SNCORE_WEBSITEDOMAINNAME]" Execute="immediate" />
+  <InstallExecuteSequence>
+   <Custom Action="SetSnCoreDirectory" Before="CostFinalize" />
+   <Custom Action="SetSnCoreMobileDirectory" After="SetSnCoreDirectory" />
+  </InstallExecuteSequence>
  </Fragment>
 </Include>

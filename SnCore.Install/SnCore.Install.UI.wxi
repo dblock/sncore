@@ -27,7 +27,7 @@
 
    <Publish Dialog="WebsiteNameDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
    <Publish Dialog="WebsiteNameDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2">NOT Installed</Publish>
-   <Publish Dialog="WebsiteNameDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+   <Publish Dialog="WebsiteNameDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="2">1</Publish>
 
    <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
    <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WebsiteNameDlg" Order="2">NOT Installed</Publish>
@@ -43,7 +43,6 @@
    <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
    <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
   </UI>
-
   <UIRef Id="WixUI_Common" />
  </Fragment>
 </Include>
