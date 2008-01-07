@@ -5,6 +5,7 @@
  <?else?>
  <?define ConfigurationName = Release ?>
  <?endif ?>
+ <?define SnCore.Data.Path = $(var.SolutionDir)\SnCore.Data ?>
  <?define SnCore.Deploy.Target.Path = $(var.SolutionDir)\SnCore.Web.Deploy\$(var.ConfigurationName) ?>
  <?define SnCore.MobileDeploy.Target.Path = $(var.SolutionDir)\SnCore.MobileWeb.Deploy\$(var.ConfigurationName) ?>
  <?define SnCore.Docs.Target.Path = $(var.SolutionDir)\SnCore.Docs\Target\html ?>

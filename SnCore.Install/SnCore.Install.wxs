@@ -5,6 +5,8 @@
   <Package InstallerVersion="200" Compressed="yes" />
   <Property Id="SNCORE_WEBSITENAME" Value="SnCoreDemo" />
   <Property Id="SNCORE_WEBSITEDOMAINNAME" Value="sncoredemo.com" />
+  <Property Id="SNCORE_SQL_DATABASE" Value="SnCoreDemo" />
+  <Property Id="SNCORE_SQL_SERVER" Value="." />
   <Condition Message="You must be an administrator to install this product.">
    Privileged
   </Condition>
@@ -46,6 +48,9 @@
     <ComponentRef Id="SnCore_mobileBrowsers" />
    </Feature>
   </Feature>
+  <Feature Id="SnCore.Database.Feature" Title="System Database" Level="1">
+   <ComponentRef Id="SnCoreDatabase" />
+  </Feature>
   <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
    <ComponentRef Id="Docs" />
   </Feature>
@@ -54,7 +59,9 @@
  </Product>
  <?include SnCore.Install.Web.wxi ?>
  <?include SnCore.Install.WebSite.wxi ?>
+ <?include SnCore.Install.Sql.wxi ?>
  <?include SnCore.Install.Docs.wxi ?>
  <?include SnCore.Install.UI.wxi ?>
  <?include SnCore.Install.UI.ChooseWebsiteName.wxi ?>
+ <?include SnCore.Install.UI.ChooseSql.wxi ?>
 </Wix>

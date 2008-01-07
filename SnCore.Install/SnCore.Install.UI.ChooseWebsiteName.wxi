@@ -24,8 +24,8 @@
   <CustomAction Id="SetSnCoreDirectory" Property="SnCore" Value="[INSTALLDIR][SNCORE_WEBSITEDOMAINNAME]" Execute="immediate" />
   <CustomAction Id="SetSnCoreMobileDirectory" Property="SnCore_mobile" Value="[INSTALLDIR]mobile.[SNCORE_WEBSITEDOMAINNAME]" Execute="immediate" />
   <InstallExecuteSequence>
-   <Custom Action="SetSnCoreDirectory" Before="CostFinalize" />
-   <Custom Action="SetSnCoreMobileDirectory" After="SetSnCoreDirectory" />
+   <Custom Action="SetSnCoreDirectory" Before="CostFinalize">NOT Installed</Custom>
+   <Custom Action="SetSnCoreMobileDirectory" After="SetSnCoreDirectory">NOT Installed</Custom>
   </InstallExecuteSequence>
  </Fragment>
 </Include>

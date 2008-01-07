@@ -7,4 +7,11 @@
  <String Id="WebsiteNameDlgBannerBitmap">WixUI_Bmp_Banner</String>
  <String Id="WebsiteNameLabel">&amp;Website Name:</String>
  <String Id="WebsiteDomainNameLabel">&amp;Domain Name:</String>
+
+ <String Id="SqlDlg_Title">[ProductName] Setup</String>
+ <String Id="SqlDlgTitle">{\WixUI_Font_Title}SQL Server Information</String>
+ <String Id="SqlDlgDescription">Please enter database information.</String>
+ <String Id="SqlDlgBannerBitmap">WixUI_Bmp_Banner</String>
+ <String Id="SqlDatabaseLabel">&amp;Database Name:</String>
+ <String Id="SqlServerLabel">&amp;SQL Server:</String> 
 </WixLocalization>
