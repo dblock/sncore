@@ -352,7 +352,7 @@ namespace SnCore.WebServices
         /// <param name="id">account to delete</param>
         /// <param name="password">current account password</param>
         [WebMethod(Description = "Delete an account.")]
-        public void DeleteAccount(string ticket, int id, string password)
+        public void DeleteAccount(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
@@ -373,12 +373,6 @@ namespace SnCore.WebServices
                         // only admin can delete other people's account
                         throw new ManagedAccount.AccessDeniedException();
                     }
-                }
-
-                if (!sec.IsAdministrator() && !user.IsPasswordValid(password))
-                {
-                    // the requester is the same as the account being deleted, password didn't match
-                    throw new ManagedAccount.AccessDeniedException();
                 }
             }
 
@@ -968,12 +962,12 @@ namespace SnCore.WebServices
         /// <param name="code">e-mail confirmation request code</param>
         /// <returns>verified e-mail address</returns>
         [WebMethod(Description = "Verify an e-mail.")]
-        public string VerifyAccountEmail(string password, int id, string code)
+        public string VerifyAccountEmail(int id, string code)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                return ManagedAccountEmailConfirmation.Verify(session, password, id, code);
+                return ManagedAccountEmailConfirmation.Verify(session, id, code);
             }
         }
 

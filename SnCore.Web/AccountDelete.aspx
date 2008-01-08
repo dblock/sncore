@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true"
- CodeFile="AccountDelete.aspx.cs" Inherits="AccountDelete" Title="Account | Delete" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountDelete.aspx.cs"
+ Inherits="AccountDelete" Title="Account | Delete" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
@@ -12,28 +12,25 @@
      </a>
     </td>
     <td valign="top" class="sncore_table_tr_td">
-     <table class="sncore_inner_table">
+     <table class="sncore_account_table">
       <tr>
        <td class="sncore_table_tr_td">
         <asp:Label runat="server" ID="accountName" CssClass="sncore_account_name" Text="Welcome!" />
         <p>
-         This will <b>permanently</b> remove your account. We're sad
-         to see you go. This cannot be undone. All your personal data will be deleted. Your
-         discussion posts, comments, places and tags will remain anonymous in the system.
+         This will <b>permanently</b> remove your account. We're sad to see you go. This
+         cannot be undone. All your personal data will be deleted. Your discussion posts,
+         comments, places and tags will remain anonymous in the system.
         </p>
        </td>
       </tr>
      </table>
-     <table class="sncore_inner_table">
+     <table class="sncore_account_table">
       <tr>
-       <td class="sncore_form_label" style="font-size: 1em;">
-        password:
+       <td class="sncore_form_label">
        </td>
-       <td class="sncore_form_value" style="font-size: 1em;">
-        <asp:TextBox TextMode="Password" CssClass="sncore_form_textbox" ID="inputPassword"
-         runat="server" />
-        <asp:RequiredFieldValidator ID="inputPasswordRequired" runat="server" ControlToValidate="inputPassword"
-         CssClass="sncore_form_validator" ErrorMessage="password is required" Display="Dynamic" />
+       <td class="sncore_form_value">
+        <asp:CheckBox ID="inputConfirm" runat="server" Text="I understand that this cannot be undone."
+         Checked="false" Font-Bold="True" ForeColor="Red" />
        </td>
       </tr>
       <tr>

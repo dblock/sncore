@@ -77,7 +77,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsNotEmpty(ticket);
             Assert.IsFalse(EndPoint.HasVerifiedEmail(ticket, user_id));
             WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            string verifiedemail = EndPoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, email);
             Assert.IsTrue(EndPoint.HasVerifiedEmail(ticket, user_id));

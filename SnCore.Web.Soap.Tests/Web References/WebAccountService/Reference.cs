@@ -1408,27 +1408,25 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void DeleteAccount(string ticket, int id, string password) {
+        public void DeleteAccount(string ticket, int id) {
             this.Invoke("DeleteAccount", new object[] {
                         ticket,
-                        id,
-                        password});
+                        id});
         }
         
         /// <remarks/>
-        public void DeleteAccountAsync(string ticket, int id, string password) {
-            this.DeleteAccountAsync(ticket, id, password, null);
+        public void DeleteAccountAsync(string ticket, int id) {
+            this.DeleteAccountAsync(ticket, id, null);
         }
         
         /// <remarks/>
-        public void DeleteAccountAsync(string ticket, int id, string password, object userState) {
+        public void DeleteAccountAsync(string ticket, int id, object userState) {
             if ((this.DeleteAccountOperationCompleted == null)) {
                 this.DeleteAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountOperationCompleted);
             }
             this.InvokeAsync("DeleteAccount", new object[] {
                         ticket,
-                        id,
-                        password}, this.DeleteAccountOperationCompleted, userState);
+                        id}, this.DeleteAccountOperationCompleted, userState);
         }
         
         private void OnDeleteAccountOperationCompleted(object arg) {
@@ -2293,26 +2291,24 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/VerifyAccountEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string VerifyAccountEmail(string password, int id, string code) {
+        public string VerifyAccountEmail(int id, string code) {
             object[] results = this.Invoke("VerifyAccountEmail", new object[] {
-                        password,
                         id,
                         code});
             return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void VerifyAccountEmailAsync(string password, int id, string code) {
-            this.VerifyAccountEmailAsync(password, id, code, null);
+        public void VerifyAccountEmailAsync(int id, string code) {
+            this.VerifyAccountEmailAsync(id, code, null);
         }
         
         /// <remarks/>
-        public void VerifyAccountEmailAsync(string password, int id, string code, object userState) {
+        public void VerifyAccountEmailAsync(int id, string code, object userState) {
             if ((this.VerifyAccountEmailOperationCompleted == null)) {
                 this.VerifyAccountEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnVerifyAccountEmailOperationCompleted);
             }
             this.InvokeAsync("VerifyAccountEmail", new object[] {
-                        password,
                         id,
                         code}, this.VerifyAccountEmailOperationCompleted, userState);
         }

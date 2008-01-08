@@ -109,16 +109,6 @@ namespace SnCore.Services
 
         }
 
-        public string Verify(string password, string code)
-        {
-            if (mInstance.AccountEmail.Account.Password != ManagedAccount.GetPasswordHash(password))
-            {
-                throw new ManagedAccount.InvalidPasswordException();
-            }
-
-            return Verify(code);
-        }
-
         public string Verify(string code)
         {
             if (mInstance.Code != code)
@@ -176,7 +166,7 @@ namespace SnCore.Services
             return acl;
         }
 
-        public static string Verify(ISession session, string password, int id, string code)
+        public static string Verify(ISession session, int id, string code)
         {
             AccountEmailConfirmation confirmation = session.CreateCriteria(typeof(AccountEmailConfirmation))
                 .Add(Expression.Eq("Id", id))
@@ -188,7 +178,7 @@ namespace SnCore.Services
             }
 
             ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);
-            string emailaddress = c.Verify(password, code);
+            string emailaddress = c.Verify(code);
             SnCore.Data.Hibernate.Session.Flush();
             return emailaddress;
         }

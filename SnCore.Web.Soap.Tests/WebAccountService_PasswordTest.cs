@@ -34,7 +34,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             string newticket = EndPoint.Login(email, newpassword);
             Assert.IsFalse(string.IsNullOrEmpty(newticket));
 
-            EndPoint.DeleteAccount(newticket, user_id, newpassword);
+            EndPoint.DeleteAccount(newticket, user_id);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             {
             }
 
-            EndPoint.DeleteAccount(GetAdminTicket(), user_id, string.Empty);
+            EndPoint.DeleteAccount(GetAdminTicket(), user_id);
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsFalse(string.IsNullOrEmpty(ticket));
             Assert.IsTrue(EndPoint.IsPasswordValid(ticket, user_id, password), "Password should be valid.");
             Assert.IsFalse(EndPoint.IsPasswordValid(ticket, user_id, GetNewString()), "Password should be invalid.");
-            EndPoint.DeleteAccount(GetAdminTicket(), user_id, string.Empty);
+            EndPoint.DeleteAccount(GetAdminTicket(), user_id);
         }
     }
 }

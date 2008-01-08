@@ -44,7 +44,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             // verify the user e-mail
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
             WebAccountService.TransitAccountEmailConfirmation[] confirmations = account_endpoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail = account_endpoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            string verifiedemail = account_endpoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified: {0}", verifiedemail);
             // admin is not a friend with the new user
             WebSocialService.TransitAccountFriend[] friends_before = EndPoint.GetAccountFriends(GetAdminTicket(), GetAdminAccount().Id, null);

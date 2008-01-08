@@ -55,10 +55,21 @@ public partial class AccountDelete : AuthenticatedPage
 
     public void delete_Click(object sender, EventArgs e)
     {
-        SessionManager.AccountService.DeleteAccount(SessionManager.Ticket, Account.Id, inputPassword.Text);
+        if (! inputConfirm.Checked)
+        {
+            throw new Exception("Please check the \"I understand that this cannot be undone.\" box.");
+        }
+
+        SessionManager.AccountService.DeleteAccount(SessionManager.Ticket, Account.Id);
         SessionManager.InvalidateCache<TransitAccount>();
         pnlAccount.Visible = false;
-        SessionManager.Logout();
+
+        if (!SessionManager.IsAdministrator)
+        {
+            // logout the user that deletes himself only
+            SessionManager.Logout();
+        }
+
         ReportInfo("Account deleted.");
     }
 }

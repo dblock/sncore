@@ -875,6 +875,19 @@ namespace SnCore.Services
             InternalCreateEmail(email, false, sec);
             CreateAccountSystemMessageFolders(sec);
 
+            // the OpenId identity has been verified, hence it's safe to assume that this is the same user
+            // OpenId doesn't have a reclaim and at this point only the verified OpenId would be phishing for himself
+
+            AccountOpenId existing_openid = Session.CreateCriteria(typeof(AccountOpenId))
+                .Add(Expression.Eq("IdentityUrl", consumerurl))
+                .UniqueResult<AccountOpenId>();
+
+            if (existing_openid != null)
+            {
+                throw new Exception(string.Format("An account with the OpenId \"{0}\" already exists. Please log-in.",
+                    existing_openid.IdentityUrl));
+            }
+
             TransitAccountOpenId t_openid = new TransitAccountOpenId();
             t_openid.IdentityUrl = consumerurl;
             t_openid.AccountId = Id;

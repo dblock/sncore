@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
 using SnCore.Services;
+using SnCore.Tools.Web;
 
 public partial class AccountEmailVerify : Page
 {
@@ -24,6 +25,11 @@ public partial class AccountEmailVerify : Page
             sitemapdata.Add(new SiteMapDataAttributeNode("E-Mails", Request, "AccountEmailsManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Verify", Request.Url));
             StackSiteMap(sitemapdata);
+
+            if (! string.IsNullOrEmpty(inputCode.Text))
+            {
+                EmailVerify_Click(sender, e);
+            }
         }
 
         SetDefaultButton(inputVerify);
@@ -32,19 +38,12 @@ public partial class AccountEmailVerify : Page
     public void EmailVerify_Click(object sender, EventArgs e)
     {
         string emailaddress = SessionManager.AccountService.VerifyAccountEmail(
-            inputPassword.Text,
             RequestId,
             inputCode.Text);
 
-        if (!SessionManager.IsLoggedIn)
-        {
-            string ticket = SessionManager.AccountService.Login(emailaddress, inputPassword.Text);
-            SessionManager.Login(ticket, true);
-        }
-
         panelVerify.Visible = false;
-        ReportInfo("Thank you. Your e-mail address has been verified." +
-            "<br>Click <a href='Default.aspx'>here</a> to continue.", false);
+        ReportInfo(string.Format("Thank you. Your e-mail address '{0}' has been verified." +
+            "<br>Click <a href='AccountManage.aspx'>here</a> to continue.", Renderer.Render(emailaddress)), false);
 
         SessionManager.InvalidateCache<TransitAccount>();
     }

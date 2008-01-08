@@ -69,7 +69,7 @@ namespace SnCore.Web.Soap.Tests
                 GetAdminTicket(), result.id, null);
 
             string verifiedemail = endpoint.VerifyAccountEmail(
-                password, confirmations[0].Id, confirmations[0].Code);
+                confirmations[0].Id, confirmations[0].Code);
             
             Console.WriteLine("Verified: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, result.email);
@@ -104,7 +104,7 @@ namespace SnCore.Web.Soap.Tests
         protected void DeleteUser(int id)
         {
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
-            account_endpoint.DeleteAccount(GetAdminTicket(), id, null);
+            account_endpoint.DeleteAccount(GetAdminTicket(), id);
         }
 
         private void CreateUserAccount()

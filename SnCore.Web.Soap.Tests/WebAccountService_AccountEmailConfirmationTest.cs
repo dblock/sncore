@@ -52,7 +52,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(confirmations.Length, 1);
 
             // verify the e-mail
-            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            string verifiedemail = EndPoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, email);
 
@@ -82,7 +82,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsNotEmpty(ticket);
             // verify e-mail
             WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            string verifiedemail = EndPoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, email);
             // add an e-mail
@@ -92,7 +92,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsTrue(t_instance.Id > 0);
             // verify e-mail
             WebAccountService.TransitAccountEmailConfirmation[] confirmations2 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail2 = EndPoint.VerifyAccountEmail(password, confirmations2[0].Id, confirmations2[0].Code);
+            string verifiedemail2 = EndPoint.VerifyAccountEmail(confirmations2[0].Id, confirmations2[0].Code);
             Assert.AreEqual(verifiedemail2, t_instance.Address);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail2);
             DeleteUser(user_id);
@@ -110,7 +110,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsNotEmpty(ticket);
             // verify e-mail
             WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            string verifiedemail = EndPoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, email);
             // add an e-mail
@@ -120,7 +120,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsTrue(t_instance.Id > 0);
             // verify e-mail
             WebAccountService.TransitAccountEmailConfirmation[] confirmations2 = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail2 = EndPoint.VerifyAccountEmail(password, confirmations2[0].Id, confirmations2[0].Code);
+            string verifiedemail2 = EndPoint.VerifyAccountEmail(confirmations2[0].Id, confirmations2[0].Code);
             Assert.AreEqual(verifiedemail2, t_instance.Address);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail2);
             // set the second e-mail principal
@@ -219,7 +219,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.IsNotEmpty(ticket);
             // verify e-mail
             WebAccountService.TransitAccountEmailConfirmation[] confirmations = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail = EndPoint.VerifyAccountEmail(password, confirmations[0].Id, confirmations[0].Code);
+            string verifiedemail = EndPoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, email);
             // fail e-mail
@@ -241,7 +241,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             EndPoint.ConfirmAccountEmail(ticket, t_email_after.Id);
             // verify e-mail again
             WebAccountService.TransitAccountEmailConfirmation[] confirmations_after = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail_after = EndPoint.VerifyAccountEmail(password, confirmations_after[0].Id, confirmations_after[0].Code);
+            string verifiedemail_after = EndPoint.VerifyAccountEmail(confirmations_after[0].Id, confirmations_after[0].Code);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail_after);
             Assert.AreEqual(verifiedemail_after, email);
             // verify that failure was cleared
