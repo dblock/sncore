@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+ <Fragment>
+  <Property Id="INSTALLDIR">
+   <RegistrySearch Id='GetInstallDir' Type='raw' Root='HKLM' Key='SOFTWARE\Vestris Inc.\SnCore' Name='InstallDir' />
+  </Property>
+  <Property Id="SNCORE_WEBSITE_NAME" Value="SnCoreDemo">
+   <RegistrySearch Id="SnCoreWebSiteNameSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteName" Type="raw" />
+  </Property>
+  <Property Id="SNCORE_WEBSITE_DOMAINNAME" Value="sncoredemo.com">
+   <RegistrySearch Id="SnCoreWebSiteDomainNameSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteDomainName" Type="raw" />
+  </Property>
+  <Property Id="SNCORE_SQL_DATABASE" Value="SnCoreDemo">
+   <RegistrySearch Id="SnCoreSqlDatabaseSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\Database" Name="SqlDatabase" Type="raw" />
+  </Property>
+  <Property Id="SNCORE_SQL_SERVER" Value=".">
+   <RegistrySearch Id="SnCoreSqlServerSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\Database" Name="SqlServer" Type="raw" />
+  </Property>
+ </Fragment>
+</Include>

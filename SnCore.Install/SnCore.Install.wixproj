@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SnCore.Install.Docs.wxi" />
+    <Content Include="SnCore.Install.Properties.wxi" />
     <Content Include="SnCore.Install.Sql.wxi" />
     <Content Include="SnCore.Install.UI.ChooseSql.wxi" />
     <Content Include="SnCore.Install.UI.ChooseWebsiteName.wxi" />
@@ -34,6 +35,7 @@
     <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixIIsExtension.dll" />
     <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixSqlExtension.dll" />
     <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixUIExtension.dll" />
+    <WixExtension Include="C:\Program Files\Windows Installer XML v3\bin\WixUtilExtension.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SnCore.Install.wxl" />

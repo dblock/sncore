@@ -2,7 +2,7 @@
 <Include>
  <Fragment Id="SnCore.Install.Web.Fragment" xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
   <?include SnCore.Project.wxi ?>
-  <PropertyRef Id="SNCORE_WEBSITENAME" />
+  <PropertyRef Id="SNCORE_WEBSITE_NAME" />
   <DirectoryRef Id="INSTALLDIR">
    <Directory Id="SnCore" Name="SnCore">
     <Component Id="SnCoreWebServices" Guid="8F5BDB58-59CF-4dea-AA07-0314AAC1326E" DiskId="1">

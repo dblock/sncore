@@ -3,10 +3,6 @@
  <?include SnCore.Project.wxi ?>
  <Product Id="43598990-5778-4241-baf7-f8abb82af3c9" Name="SnCore" Language="1033" Version="1.0.0.0" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
   <Package InstallerVersion="200" Compressed="yes" />
-  <Property Id="SNCORE_WEBSITENAME" Value="SnCoreDemo" />
-  <Property Id="SNCORE_WEBSITEDOMAINNAME" Value="sncoredemo.com" />
-  <Property Id="SNCORE_SQL_DATABASE" Value="SnCoreDemo" />
-  <Property Id="SNCORE_SQL_SERVER" Value="." />
   <Condition Message="You must be an administrator to install this product.">
    Privileged
   </Condition>
@@ -19,7 +15,7 @@
     <Directory Id="INSTALLDIR" Name="SnCore" />
    </Directory>
   </Directory>
-  <Feature Id="SnCore.Web.Feature" Title="Default Website" Level="1" Display="expand"
+  <Feature Id="SnCore.Web.Feature" Title="Default WebSite" Level="1" Display="expand"
    ConfigurableDirectory="INSTALLDIR">
    <ComponentRef Id="SnCore" />
    <ComponentRef Id="SnCoreBin" />
@@ -30,7 +26,8 @@
    <ComponentRef Id="SnCoreImagesBugs" />
    <ComponentRef Id="SnCoreImagesButtons" />
    <ComponentRef Id="SnCoreImagesSite" />
-   <ComponentRef Id="SnCoreDefaultWebsite" />
+   <ComponentRef Id="SnCoreDefaultWebSite" />
+   <ComponentRef Id="SnCoreWebSiteRegistry" />
    <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
     <ComponentRef Id="SnCoreWebServices" />
     <ComponentRef Id="SnCoreBin" />
@@ -39,11 +36,12 @@
     <ComponentRef Id="SnCoreIsapiRewrite" />
    </Feature>
   </Feature>
-  <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile Website" Level="1" Display="expand">
+  <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
    <ComponentRef Id="SnCore_mobile" />
    <ComponentRef Id="SnCore_mobileBin" />
    <ComponentRef Id="SnCore_mobileImagesSite" />
-   <ComponentRef Id="SnCoreMobileWebsite" />
+   <ComponentRef Id="SnCoreMobileWebSite" />
+   <ComponentRef Id="SnCoreWebSiteRegistry" />
    <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
     <ComponentRef Id="SnCore_mobileBrowsers" />
    </Feature>
@@ -57,11 +55,12 @@
   <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
   <UIRef Id="SnCoreUI_FeatureTree" />
  </Product>
+ <?include SnCore.Install.Properties.wxi ?>
  <?include SnCore.Install.Web.wxi ?>
  <?include SnCore.Install.WebSite.wxi ?>
  <?include SnCore.Install.Sql.wxi ?>
  <?include SnCore.Install.Docs.wxi ?>
  <?include SnCore.Install.UI.wxi ?>
- <?include SnCore.Install.UI.ChooseWebsiteName.wxi ?>
+ <?include SnCore.Install.UI.ChooseWebSiteName.wxi ?>
  <?include SnCore.Install.UI.ChooseSql.wxi ?>
 </Wix>

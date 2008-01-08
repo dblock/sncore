@@ -21,5 +21,9 @@
     <Control Id="Server" Type="Edit" X="30" Y="140" Width="200" Height="18" Property="SNCORE_SQL_SERVER" Text="{24}" />
    </Dialog>
   </UI>
+  <CustomAction Id="SetSnCoreSqlServer" Property="SNCORE_SQL_SERVER" Value="[ComputerName]" Execute="immediate" />
+  <InstallUISequence>
+   <Custom Action="SetSnCoreSqlServer" After="CostInitialize" />
+  </InstallUISequence>
  </Fragment>
 </Include>

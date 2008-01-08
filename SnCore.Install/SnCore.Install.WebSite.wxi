@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
- <Fragment xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
+ <Fragment xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension" xmlns:Util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include SnCore.Project.wxi ?>
-  <PropertyRef Id="SNCORE_WEBSITEDOMAINNAME" />
+  <PropertyRef Id="SNCORE_WEBSITE_DOMAINNAME" />
+  <PropertyRef Id="SNCORE_WEBSITE_NAME" />
+  <PropertyRef Id="SNCORE_SQL_DATABASE" />
+  <PropertyRef Id="SNCORE_SQL_SERVER" />
   <DirectoryRef Id="SnCore">
-   <Component Id="SnCoreDefaultWebsite" Guid="B94B5658-EE45-4c76-8AEA-E22BE2F165BC" DiskId="1">
+   <Component Id="SnCoreWebSiteRegistry" Guid="7F1C37CE-11B1-4bee-8A9B-0B8E43E83835" DiskId="1">
+    <RegistryKey Id="SnCoreRegistryKey"  Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
+     <RegistryValue Id="SnCoreRegistry_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+    </RegistryKey>
+    <RegistryKey Id="SnCoreWebSiteRegistryKey" Root="HKLM" Key="Software\Vestris Inc.\SnCore\WebSite" Action="createAndRemoveOnUninstall">
+     <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteName" Name="WebSiteName" Value="[SNCORE_WEBSITE_NAME]" Type="string" />
+     <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteDomainName" Name="WebSiteDomainName" Value="[SNCORE_WEBSITE_DOMAINNAME]" Type="string" />
+    </RegistryKey>
+   </Component>
+   <Component Id="SnCoreDefaultWebSite" Guid="B94B5658-EE45-4c76-8AEA-E22BE2F165BC" DiskId="1">
     <File Id="SnCore_web_config" Name="web.config" Source="$(var.SnCore.Deploy.Target.Path)\web.config" />
+    <Util:XmlFile Id="SnCore_web_config_hccs" Action="setValue" ElementPath="/configuration/nhibernate/add[\[]@key='hibernate.connection.connection_string'[\]]/@value" File="[SnCore]web.config" Value="Server=[SNCORE_SQL_SERVER];initial catalog=[SNCORE_SQL_DATABASE];Integrated Security=SSPI" />
     <IIS:WebAppPool Id="SnCoreAppPool" Name="SnCoreAppPool" />
-    <IIS:WebSite Id="DefaultWebsite" Description="[SNCORE_WEBSITEDOMAINNAME]" Directory="SnCore" ConfigureIfExists="no" AutoStart="yes">
-     <IIS:WebAddress Id="SnCoreWebsiteNameAddress" Header="[SNCORE_WEBSITEDOMAINNAME]" Port="80" Secure="no" />
-     <IIS:WebApplication Id="SnCoreWebApplication" Name="[SNCORE_WEBSITEDOMAINNAME].Application" Isolation="high" WebAppPool="SnCoreAppPool" />
+    <IIS:WebSite Id="DefaultWebSite" Description="[SNCORE_WEBSITE_DOMAINNAME]" Directory="SnCore" ConfigureIfExists="no" AutoStart="yes">
+     <IIS:WebAddress Id="SnCoreWebSiteNameAddress" Header="[SNCORE_WEBSITE_DOMAINNAME]" Port="80" Secure="no" />
+     <IIS:WebApplication Id="SnCoreWebApplication" Name="[SNCORE_WEBSITE_DOMAINNAME].Application" Isolation="high" WebAppPool="SnCoreAppPool" />
     </IIS:WebSite>
    </Component>
   </DirectoryRef>
   <DirectoryRef Id="SnCore_mobile">
-   <Component Id="SnCoreMobileWebsite" Guid="5A273A71-900D-4f36-B25A-3433B975CAAB" DiskId="1">
+   <Component Id="SnCoreMobileWebSite" Guid="5A273A71-900D-4f36-B25A-3433B975CAAB" DiskId="1">
     <File Id="SnCoreMobile_web_config" Name="web.config" Source="$(var.SnCore.MobileDeploy.Target.Path)\web.config" />
     <IIS:WebAppPool Id="SnCoreMobileAppPool" Name="SnCoreMobileAppPool" />
-    <IIS:WebSite Id="MobileWebsite" Description="mobile.[SNCORE_WEBSITEDOMAINNAME]" Directory="SnCore_mobile" ConfigureIfExists="no" AutoStart="yes">
-     <IIS:WebAddress Id="SnCoreMobileWebsiteNameAddress" Header="mobile.[SNCORE_WEBSITEDOMAINNAME]" Port="80" Secure="no" />
-     <IIS:WebAddress Id="SnCoreMWebsiteNameAddress" Header="m.[SNCORE_WEBSITEDOMAINNAME]" Port="80" Secure="no" />
-     <IIS:WebApplication Id="SnCoreMobileWebApplication" Name="[SNCORE_WEBSITEDOMAINNAME].mobile.Application" Isolation="high" WebAppPool="SnCoreMobileAppPool" />
+    <IIS:WebSite Id="MobileWebSite" Description="mobile.[SNCORE_WEBSITE_DOMAINNAME]" Directory="SnCore_mobile" ConfigureIfExists="no" AutoStart="yes">
+     <IIS:WebAddress Id="SnCoreMobileWebSiteNameAddress" Header="mobile.[SNCORE_WEBSITE_DOMAINNAME]" Port="80" Secure="no" />
+     <IIS:WebAddress Id="SnCoreMWebSiteNameAddress" Header="m.[SNCORE_WEBSITE_DOMAINNAME]" Port="80" Secure="no" />
+     <IIS:WebApplication Id="SnCoreMobileWebApplication" Name="[SNCORE_WEBSITE_DOMAINNAME].mobile.Application" Isolation="high" WebAppPool="SnCoreMobileAppPool" />
     </IIS:WebSite>
    </Component>
   </DirectoryRef>
