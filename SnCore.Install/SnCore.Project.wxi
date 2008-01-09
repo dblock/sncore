@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <Include>
+ <!-- todo: add NT AUTHORITY\NETWORK SERVICE to database access -->
+ <!-- todo: move to an inetpub folder, fix permissions -->
  <?ifdef Debug ?>
  <?define ConfigurationName = Debug ?>
  <?else?>

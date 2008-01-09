@@ -26,7 +26,9 @@
    <ComponentRef Id="SnCoreImagesBugs" />
    <ComponentRef Id="SnCoreImagesButtons" />
    <ComponentRef Id="SnCoreImagesSite" />
+   <ComponentRef Id="SnCoreEventLogWebSiteRegistry" />
    <ComponentRef Id="SnCoreDefaultWebSite" />
+   <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />
    <ComponentRef Id="SnCoreWebSiteRegistry" />
    <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
     <ComponentRef Id="SnCoreWebServices" />
@@ -40,7 +42,9 @@
    <ComponentRef Id="SnCore_mobile" />
    <ComponentRef Id="SnCore_mobileBin" />
    <ComponentRef Id="SnCore_mobileImagesSite" />
+   <ComponentRef Id="SnCoreEventLogMobileWebSiteRegistry" />
    <ComponentRef Id="SnCoreMobileWebSite" />
+   <ComponentRef Id="SnCoreMobileWebSiteVirtualDirectory" />
    <ComponentRef Id="SnCoreWebSiteRegistry" />
    <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
     <ComponentRef Id="SnCore_mobileBrowsers" />

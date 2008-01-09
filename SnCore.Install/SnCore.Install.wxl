@@ -7,7 +7,8 @@
  <String Id="WebSiteNameDlgBannerBitmap">WixUI_Bmp_Banner</String>
  <String Id="WebSiteNameLabel">&amp;WebSite Name:</String>
  <String Id="WebSiteDomainNameLabel">&amp;Domain Name:</String>
-
+ <String Id="WebSiteTypeDomainText">&amp;Create a New WebSite</String>
+ <String Id="WebSiteTypeVirtualDirectoryText">&amp;Create Virtual Directories in Default Website</String>
  <String Id="SqlDlg_Title">[ProductName] Setup</String>
  <String Id="SqlDlgTitle">{\WixUI_Font_Title}SQL Server Information</String>
  <String Id="SqlDlgDescription">Please enter database information.</String>

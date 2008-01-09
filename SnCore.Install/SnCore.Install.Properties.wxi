@@ -10,6 +10,9 @@
   <Property Id="SNCORE_WEBSITE_DOMAINNAME" Value="sncoredemo.com">
    <RegistrySearch Id="SnCoreWebSiteDomainNameSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteDomainName" Type="raw" />
   </Property>
+  <Property Id="SNCORE_WEBSITE_TYPE" Value="SnCoreWebSiteDomain">
+   <RegistrySearch Id="SnCoreWebSiteTypeSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteType" Type="raw" />
+  </Property>
   <Property Id="SNCORE_SQL_DATABASE" Value="SnCoreDemo">
    <RegistrySearch Id="SnCoreSqlDatabaseSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\Database" Name="SqlDatabase" Type="raw" />
   </Property>
