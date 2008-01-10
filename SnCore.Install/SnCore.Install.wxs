@@ -12,57 +12,68 @@
   <Media Id="1" Cabinet="SnCore.Install.cab" EmbedCab="yes" />
   <Directory Id="TARGETDIR" Name="SourceDir">
    <Directory Id="ProgramFilesFolder">
-    <Directory Id="INSTALLDIR" Name="SnCore" />
+    <Directory Id="INSTALLDIR" Name="SnCore">
+     <Component Guid="A50D18DE-C6F2-4037-9B2E-B7E73EDFF6DA" Id="SnCoreInstallDir">
+      <RegistryKey Id="SnCoreRegistryKey"  Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
+       <RegistryValue Id="SnCoreRegistry_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+      </RegistryKey>
+     </Component>
+    </Directory>
    </Directory>
   </Directory>
-  <Feature Id="SnCore.Web.Feature" Title="Default WebSite" Level="1" Display="expand"
-   ConfigurableDirectory="INSTALLDIR">
-   <ComponentRef Id="SnCore" />
-   <ComponentRef Id="SnCoreBin" />
-   <ComponentRef Id="SnCoreImages" />
-   <ComponentRef Id="SnCoreImagesAccount" />
-   <ComponentRef Id="SnCoreImagesBookmarksFull" />
-   <ComponentRef Id="SnCoreImagesBookmarksLinks" />
-   <ComponentRef Id="SnCoreImagesBugs" />
-   <ComponentRef Id="SnCoreImagesButtons" />
-   <ComponentRef Id="SnCoreImagesSite" />
-   <ComponentRef Id="SnCoreEventLogWebSiteRegistry" />
-   <ComponentRef Id="SnCoreDefaultWebSite" />
-   <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />
-   <ComponentRef Id="SnCoreWebSiteRegistry" />
-   <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
-    <ComponentRef Id="SnCoreWebServices" />
+  <Feature Id="SnCore.WebSites.Feature" Title="Web Sites" Level="1" Display="expand" ConfigurableDirectory="INSTALLDIR">
+   <Feature Id="SnCore.Web.Feature" Title="Default WebSite" Level="1" Display="expand">
+    <ComponentRef Id="SnCoreInstallDir" />
+    <ComponentRef Id="SnCore" />
     <ComponentRef Id="SnCoreBin" />
+    <ComponentRef Id="SnCoreImages" />
+    <ComponentRef Id="SnCoreImagesAccount" />
+    <ComponentRef Id="SnCoreImagesBookmarksFull" />
+    <ComponentRef Id="SnCoreImagesBookmarksLinks" />
+    <ComponentRef Id="SnCoreImagesBugs" />
+    <ComponentRef Id="SnCoreImagesButtons" />
+    <ComponentRef Id="SnCoreImagesSite" />
+    <ComponentRef Id="SnCoreEventSource" />
+    <ComponentRef Id="SnCoreDefaultWebSite" />
+    <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />
+    <ComponentRef Id="SnCoreWebSiteRegistry" />
+    <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
+     <ComponentRef Id="SnCoreWebServices" />
+     <ComponentRef Id="SnCoreBin" />
+    </Feature>
+    <Feature Id="SnCore.Web.IsapiRewrite.Feature" Title="Redirector Services" Level="1">
+     <ComponentRef Id="SnCoreIsapiRewrite" />
+    </Feature>
    </Feature>
-   <Feature Id="SnCore.Web.IsapiRewrite.Feature" Title="Redirector Services" Level="1">
-    <ComponentRef Id="SnCoreIsapiRewrite" />
-   </Feature>
-  </Feature>
-  <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
-   <ComponentRef Id="SnCore_mobile" />
-   <ComponentRef Id="SnCore_mobileBin" />
-   <ComponentRef Id="SnCore_mobileImagesSite" />
-   <ComponentRef Id="SnCoreEventLogMobileWebSiteRegistry" />
-   <ComponentRef Id="SnCoreMobileWebSite" />
-   <ComponentRef Id="SnCoreMobileWebSiteVirtualDirectory" />
-   <ComponentRef Id="SnCoreWebSiteRegistry" />
-   <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
-    <ComponentRef Id="SnCore_mobileBrowsers" />
+   <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
+    <ComponentRef Id="SnCoreInstallDir" />
+    <ComponentRef Id="SnCore_mobile" />
+    <ComponentRef Id="SnCore_mobileBin" />
+    <ComponentRef Id="SnCore_mobileImagesSite" />
+    <ComponentRef Id="SnCoreMobileEventSource" />
+    <ComponentRef Id="SnCoreMobileWebSite" />
+    <ComponentRef Id="SnCoreMobileWebSiteVirtualDirectory" />
+    <ComponentRef Id="SnCoreWebSiteRegistry" />
+    <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
+     <ComponentRef Id="SnCore_mobileBrowsers" />
+    </Feature>
    </Feature>
   </Feature>
   <Feature Id="SnCore.Database.Feature" Title="System Database" Level="1">
+   <ComponentRef Id="SnCoreInstallDir" />
    <ComponentRef Id="SnCoreDatabase" />
   </Feature>
   <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
+   <ComponentRef Id="SnCoreInstallDir" />
    <ComponentRef Id="Docs" />
   </Feature>
   <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
   <UIRef Id="SnCoreUI_FeatureTree" />
  </Product>
  <?include SnCore.Install.Properties.wxi ?>
+ <?include SnCore.Install.Sql.wxi ?>
  <?include SnCore.Install.Web.wxi ?>
  <?include SnCore.Install.WebSite.wxi ?>
- <?include SnCore.Install.Sql.wxi ?>
  <?include SnCore.Install.Docs.wxi ?>
  <?include SnCore.Install.UI.wxi ?>
  <?include SnCore.Install.UI.ChooseWebSiteName.wxi ?>

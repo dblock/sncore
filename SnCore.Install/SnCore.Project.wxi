@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <Include>
- <!-- todo: add NT AUTHORITY\NETWORK SERVICE to database access -->
- <!-- todo: move to an inetpub folder, fix permissions -->
  <?ifdef Debug ?>
  <?define ConfigurationName = Debug ?>
  <?else?>
@@ -12,4 +10,6 @@
  <?define SnCore.MobileDeploy.Target.Path = $(var.SolutionDir)\SnCore.MobileWeb.Deploy\$(var.ConfigurationName) ?>
  <?define SnCore.Docs.Target.Path = $(var.SolutionDir)\SnCore.Docs\Target\html ?>
  <?define SnCore.WebUpgrade.Target.Path = $(var.SolutionDir)\SnCore.WebUpgrade ?>
+ <?define SnCore.Web.Deploy.Path = $(var.SolutionDir)\SnCore.Web.Deploy ?>
+ <?define SnCore.MobileWeb.Deploy.Path = $(var.SolutionDir)\SnCore.MobileWeb.Deploy ?>
 </Include>

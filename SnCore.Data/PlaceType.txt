@@ -1,0 +1,4 @@
+1	Restaurant	1
+2	Venue	0
+3	Store	0
+

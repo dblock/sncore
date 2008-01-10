@@ -3,15 +3,33 @@
  <Fragment xmlns:SQL="http://schemas.microsoft.com/wix/SqlExtension">
   <PropertyRef Id="SNCORE_SQL_DATABASE" />
   <PropertyRef Id="SNCORE_SQL_SERVER" />
+  <!-- Schema -->
   <Binary Id="SnCoreSqlFullText" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlFullText.sql" />
   <Binary Id="SnCoreSqlServer" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlServer.sql" />
+  <Binary Id="SnCoreSqlPerms" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlPermissions.sql" />
   <Binary Id="UpgradeLive" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlServer.sql" />
   <DirectoryRef Id="INSTALLDIR">
    <Directory Id="SnCoreDatabase" Name="Database">
     <Component Id="SnCoreDatabase" Guid="F829AB89-1445-4282-9C9A-86475DD1DDBE" DiskId="1">
-     <File Id="SnCoreSqlFullText" Name="SnCoreSqlFullText.sql" Source="$(var.SnCore.Data.Path)\SnCoreSqlFullText.sql" />
+     <!-- Schema -->
      <File Id="SnCoreSqlServer" Name="SnCoreSqlServer.sql" Source="$(var.SnCore.Data.Path)\SnCoreSqlServer.sql" />
      <File Id="UpgradeLive" Name="UpgradeLive.sql" Source="$(var.SnCore.Data.Path)\SnCoreSqlServer.sql" />
+     <!-- Data -->
+     <File Id="AcctEventType_txt" Name="AccountEventType.txt" Source="$(var.SnCore.Data.Path)\AccountEventType.txt" />
+     <File Id="AcctFlagType_txt" Name="AccountFlagType.txt" Source="$(var.SnCore.Data.Path)\AccountFlagType.txt" />
+     <File Id="AcctPlaceType_txt" Name="AccountPlaceType.txt" Source="$(var.SnCore.Data.Path)\AccountPlaceType.txt" />
+     <File Id="PlaceType_txt" Name="PlaceType.txt" Source="$(var.SnCore.Data.Path)\PlaceType.txt" />
+     <File Id="BugPriority_txt" Name="BugPriority.txt" Source="$(var.SnCore.Data.Path)\BugPriority.txt" />
+     <File Id="BugResolution_txt" Name="BugResolution.txt" Source="$(var.SnCore.Data.Path)\BugResolution.txt" />
+     <File Id="BugSeverity_txt" Name="BugSeverity.txt" Source="$(var.SnCore.Data.Path)\BugSeverity.txt" />
+     <File Id="BugStatus_txt" Name="BugStatus.txt" Source="$(var.SnCore.Data.Path)\BugStatus.txt" />
+     <File Id="BugType_txt" Name="BugType.txt" Source="$(var.SnCore.Data.Path)\BugType.txt" />
+     <File Id="Configuration_txt" Name="Configuration.txt" Source="$(var.SnCore.Data.Path)\Configuration.txt" />
+     <File Id="Country_txt" Name="Country.txt" Source="$(var.SnCore.Data.Path)\Country.txt" />
+     <File Id="State_txt" Name="State.txt" Source="$(var.SnCore.Data.Path)\State.txt" />
+     <File Id="City_txt" Name="City.txt" Source="$(var.SnCore.Data.Path)\City.txt" />
+     <File Id="FeedType_txt" Name="FeedType.txt" Source="$(var.SnCore.Data.Path)\FeedType.txt" />
+     <File Id="PictureType_txt" Name="PictureType.txt" Source="$(var.SnCore.Data.Path)\PictureType.txt" />
      <RegistryKey Id="SnCoreDatabaseRegistryKey" Root="HKLM" Key="Software\Vestris Inc.\SnCore\Database" Action="createAndRemoveOnUninstall">
       <RegistryValue Id="SnCoreDatabaseRegistry_SqlDatabase"  Name="SqlDatabase" Value="[SNCORE_SQL_DATABASE]" Type="string" />
       <RegistryValue Id="SnCoreDatabaseRegistry_SqlServer" Name="SqlServer" Value="[SNCORE_SQL_SERVER]" Type="string" />
@@ -20,6 +38,22 @@
       <SQL:SqlScript BinaryKey="UpgradeLive" Id="SnCoreDatabaseInstanceUpgrade" ContinueOnError="no" ExecuteOnInstall="no" ExecuteOnUninstall="no" ExecuteOnReinstall="yes" />
       <SQL:SqlScript BinaryKey="SnCoreSqlFullText" ContinueOnError="no" ExecuteOnInstall="yes" ExecuteOnReinstall="yes" ExecuteOnUninstall="no" Id="SnCoreDatabaseInstanceFullText" Sequence="2" />
       <SQL:SqlScript BinaryKey="SnCoreSqlServer" ContinueOnError="no" ExecuteOnInstall="yes" ExecuteOnReinstall="yes" ExecuteOnUninstall="no" Id="SnCoreDatabaseInstanceSchema" Sequence="3" />
+      <SQL:SqlScript BinaryKey="SnCoreSqlPerms" ContinueOnError="no" ExecuteOnInstall="yes" ExecuteOnReinstall="yes" ExecuteOnUninstall="no" Id="SnCoreDatabaseInstancePermissions" Sequence="3" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_AccountEventType" SQL="BULK INSERT AccountEventType FROM '[#AcctEventType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_AccountFlagType"  SQL="BULK INSERT AccountFlagType FROM '[#AcctFlagType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_AccountPlaceType"  SQL="BULK INSERT AccountPlaceType FROM '[#AcctPlaceType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_PlaceType"  SQL="BULK INSERT PlaceType FROM '[#PlaceType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_BugPriority"  SQL="BULK INSERT BugPriority FROM '[#BugPriority_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_BugResolution"  SQL="BULK INSERT BugResolution FROM '[#BugResolution_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_BugSeverity"  SQL="BULK INSERT BugSeverity FROM '[#BugSeverity_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_BugStatus"  SQL="BULK INSERT BugStatus FROM '[#BugStatus_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_BugType"  SQL="BULK INSERT BugType FROM '[#BugType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_Configuration"  SQL="BULK INSERT Configuration FROM '[#Configuration_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_Country"  SQL="BULK INSERT Country FROM '[#Country_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_State"  SQL="BULK INSERT State FROM '[#State_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_City"  SQL="BULK INSERT City FROM '[#City_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_FeedType"  SQL="BULK INSERT FeedType FROM '[#FeedType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_PictureType"  SQL="BULK INSERT PictureType FROM '[#PictureType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
      </SQL:SqlDatabase>
     </Component>
    </Directory>

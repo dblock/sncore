@@ -6,8 +6,8 @@
   <DirectoryRef Id="INSTALLDIR">
    <Directory Id="SnCore" Name="SnCore">
     <Component Id="SnCoreWebServices" Guid="8F5BDB58-59CF-4dea-AA07-0314AAC1326E" DiskId="1">
-     <File Id="SnCoreServices_css" Source="$(var.SnCore.Deploy.Target.Path)\Services.css" />
-     <File Id="SnCoreServices_htm" Source="$(var.SnCore.Deploy.Target.Path)\Services.htm" />
+     <File Id="SnCoreServices_css" Name="Services.css" Source="$(var.SnCore.Deploy.Target.Path)\Services.css" />
+     <File Id="SnCoreServices_htm" Name="Services.htm" Source="$(var.SnCore.Deploy.Target.Path)\Services.htm" />
      <File Id="SnCoreWebAccountService_asmx" Name="WebAccountService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebAccountService.asmx" />
      <File Id="SnCoreWebBlogService_asmx" Name="WebBlogService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebBlogService.asmx" />
      <File Id="SnCoreWebBugService_asmx" Name="WebBugService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebBugService.asmx" />
@@ -227,7 +227,7 @@
      <File Id="SnCoreAccountWebsiteEdit_aspx" Name="AccountWebsiteEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsiteEdit.aspx" />
      <File Id="SnCoreAccountWebsitesManage_aspx" Name="AccountWebsitesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsitesManage.aspx" />
      <File Id="SnCoreAccountWebsitesViewControl_ascx" Name="AccountWebsitesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsitesViewControl.ascx" />
-     <File Id="SnCoreAds_js" Source="$(var.SnCore.Deploy.Target.Path)\ads.js" />
+     <File Id="SnCoreAds_js" Name="ads.js" Source="$(var.SnCore.Deploy.Target.Path)\ads.js" />
      <File Id="SnCoreAToZControl_ascx" Name="AToZControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AToZControl.ascx" />
      <File Id="SnCoreAutoScrollControl_ascx" Name="AutoScrollControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AutoScrollControl.ascx" />
      <File Id="SnCoreBookmarksViewControl_ascx" Name="BookmarksViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\BookmarksViewControl.ascx" />
@@ -318,7 +318,7 @@
      <File Id="SnCoreFeedTypeEdit_aspx" Name="FeedTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\FeedTypeEdit.aspx" />
      <File Id="SnCoreFeedTypesManage_aspx" Name="FeedTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\FeedTypesManage.aspx" />
      <File Id="SnCoreHelp_aspx" Name="Help.aspx" Source="$(var.SnCore.Deploy.Target.Path)\Help.aspx" />
-     <File Id="SnCoreHistory_htm" Source="$(var.SnCore.Deploy.Target.Path)\History.htm" />
+     <File Id="SnCoreHistory_htm" Name="History.htm" Source="$(var.SnCore.Deploy.Target.Path)\History.htm" />
      <File Id="SnCoreMadLibInstanceEditControl_ascx" Name="MadLibInstanceEditControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\MadLibInstanceEditControl.ascx" />
      <File Id="SnCoreMadLibInstancesViewControl_ascx" Name="MadLibInstancesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\MadLibInstancesViewControl.ascx" />
      <File Id="SnCoreMarketingCampaignAccountRecepientsManage_aspx" Name="MarketingCampaignAccountRecepientsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\MarketingCampaignAccountRecepientsManage.aspx" />
@@ -383,7 +383,7 @@
      <File Id="SnCoreSiteMap_aspx" Name="SiteMap.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SiteMap.aspx" />
      <File Id="SnCoreSnCore_master" Name="SnCore.master" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.master" />
      <File Id="SnCoreSnCoreAccount_master" Name="SnCoreAccount.master" Source="$(var.SnCore.Deploy.Target.Path)\SnCoreAccount.master" />
-     <File Id="SnCoreStyle_css" Source="$(var.SnCore.Deploy.Target.Path)\Style.css" />
+     <File Id="SnCoreStyle_css" Name="Style.css" Source="$(var.SnCore.Deploy.Target.Path)\Style.css" />
      <File Id="SnCoreSystemAccountEventTypeEdit_aspx" Name="SystemAccountEventTypeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemAccountEventTypeEdit.aspx" />
      <File Id="SnCoreSystemAccountEventTypesManage_aspx" Name="SystemAccountEventTypesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemAccountEventTypesManage.aspx" />
      <File Id="SnCoreSystemAccountFlagsManage_aspx" Name="SystemAccountFlagsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemAccountFlagsManage.aspx" />
@@ -501,71 +501,71 @@
      <Component Id="SnCoreImages" Guid="A1378F73-5EAD-4269-80DE-982B4CDFDA91" DiskId="1">
       <File Id="SnCoreImagesAccountEmailVerifiedFalse_gif" Name="AccountEmailVerifiedFalse.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\AccountEmailVerifiedFalse.gif" />
       <File Id="SnCoreImagesAccountEmailVerifiedTrue_gif" Name="AccountEmailVerifiedTrue.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\AccountEmailVerifiedTrue.gif" />
-      <File Id="SnCoreImagesCalendar_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\calendar.gif" />
-      <File Id="SnCoreImagesFolder_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Folder.gif" />
-      <File Id="SnCoreImagesItem_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Item.gif" />
-      <File Id="SnCoreImagesOpenid_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\openid.gif" />
-      <File Id="SnCoreImagesQuestion_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Question.gif" />
-      <File Id="SnCoreImagesRss_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\rss.gif" />
-      <File Id="SnCoreImagesSearch_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Search.gif" />
-      <File Id="SnCoreImagesSpacer_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Spacer.gif" />
-      <File Id="SnCoreImagesSpinner_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\spinner.gif" />
+      <File Id="SnCoreImagesCalendar_gif" Name="calendar.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\calendar.gif" />
+      <File Id="SnCoreImagesFolder_gif" Name="folder.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Folder.gif" />
+      <File Id="SnCoreImagesItem_gif" Name="item.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Item.gif" />
+      <File Id="SnCoreImagesOpenid_gif" Name="openid.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\openid.gif" />
+      <File Id="SnCoreImagesQuestion_gif" Name="question.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Question.gif" />
+      <File Id="SnCoreImagesRss_gif" Name="rss.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\rss.gif" />
+      <File Id="SnCoreImagesSearch_gif" Name="search.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Search.gif" />
+      <File Id="SnCoreImagesSpacer_gif" Name="spacer.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Spacer.gif" />
+      <File Id="SnCoreImagesSpinner_gif" Name="spinner.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\spinner.gif" />
       <File Id="SnCoreImagesSubscribe_gif" Name="subscribe.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\subscribe.gif" />
      </Component>
      <Directory Id="SnCoreImagesAccount" Name="account">
       <Component Id="SnCoreImagesAccount" Guid="E20DA129-0BFA-44D0-8986-3D2B3D195E2D" DiskId="1">
-       <File Id="SnCoreImagesAccountActivity_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\activity.gif" />
-       <File Id="SnCoreImagesAccountBlogs_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\blogs.gif" />
+       <File Id="SnCoreImagesAccountActivity_gif" Name="activity.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\activity.gif" />
+       <File Id="SnCoreImagesAccountBlogs_gif" Name="blogs.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\blogs.gif" />
        <File Id="SnCoreImagesAccountContentgroups_gif" Name="contentgroups.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\contentgroups.gif" />
        <File Id="SnCoreImagesAccountDiscussions_gif" Name="discussions.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\discussions.gif" />
-       <File Id="SnCoreImagesAccountEmails_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\emails.gif" />
-       <File Id="SnCoreImagesAccountEvents_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\events.gif" />
+       <File Id="SnCoreImagesAccountEmails_gif" Name="emails.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\emails.gif" />
+       <File Id="SnCoreImagesAccountEvents_gif" Name="events.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\events.gif" />
        <File Id="SnCoreImagesAccountFavorites_gif" Name="favorites.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\favorites.gif" />
-       <File Id="SnCoreImagesAccountFlags_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\flags.gif" />
-       <File Id="SnCoreImagesAccountFriends_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\friends.gif" />
-       <File Id="SnCoreImagesAccountGroups_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\groups.gif" />
-       <File Id="SnCoreImagesAccountInbox_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\inbox.gif" />
-       <File Id="SnCoreImagesAccountLicense_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\license.gif" />
-       <File Id="SnCoreImagesAccountOpenid_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\openid.gif" />
-       <File Id="SnCoreImagesAccountPhotos_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\photos.gif" />
-       <File Id="SnCoreImagesAccountPlaces_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\places.gif" />
-       <File Id="SnCoreImagesAccountPrefs_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\prefs.gif" />
-       <File Id="SnCoreImagesAccountProperty_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\property.gif" />
-       <File Id="SnCoreImagesAccountQueue_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\queue.gif" />
-       <File Id="SnCoreImagesAccountQuota_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\quota.gif" />
-       <File Id="SnCoreImagesAccountRedirect_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\redirect.gif" />
-       <File Id="SnCoreImagesAccountSent_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\sent.gif" />
-       <File Id="SnCoreImagesAccountSettings_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\settings.gif" />
-       <File Id="SnCoreImagesAccountSpecials_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\specials.gif" />
-       <File Id="SnCoreImagesAccountStar_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\star.gif" />
-       <File Id="SnCoreImagesAccountStats_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\stats.gif" />
-       <File Id="SnCoreImagesAccountStories_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\stories.gif" />
+       <File Id="SnCoreImagesAccountFlags_gif" Name="flags.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\flags.gif" />
+       <File Id="SnCoreImagesAccountFriends_gif" Name="friends.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\friends.gif" />
+       <File Id="SnCoreImagesAccountGroups_gif" Name="groups.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\groups.gif" />
+       <File Id="SnCoreImagesAccountInbox_gif" Name="inbox.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\inbox.gif" />
+       <File Id="SnCoreImagesAccountLicense_gif" Name="license.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\license.gif" />
+       <File Id="SnCoreImagesAccountOpenid_gif" Name="openid.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\openid.gif" />
+       <File Id="SnCoreImagesAccountPhotos_gif" Name="photos.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\photos.gif" />
+       <File Id="SnCoreImagesAccountPlaces_gif" Name="places.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\places.gif" />
+       <File Id="SnCoreImagesAccountPrefs_gif" Name="prefs.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\prefs.gif" />
+       <File Id="SnCoreImagesAccountProperty_gif" Name="property.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\property.gif" />
+       <File Id="SnCoreImagesAccountQueue_gif" Name="queue.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\queue.gif" />
+       <File Id="SnCoreImagesAccountQuota_gif" Name="quota.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\quota.gif" />
+       <File Id="SnCoreImagesAccountRedirect_gif" Name="redirect.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\redirect.gif" />
+       <File Id="SnCoreImagesAccountSent_gif" Name="sent.gif"  Source="$(var.SnCore.Deploy.Target.Path)\images\account\sent.gif" />
+       <File Id="SnCoreImagesAccountSettings_gif" Name="settings.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\settings.gif" />
+       <File Id="SnCoreImagesAccountSpecials_gif" Name="specials.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\specials.gif" />
+       <File Id="SnCoreImagesAccountStar_gif" Name="star.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\star.gif" />
+       <File Id="SnCoreImagesAccountStats_gif" Name="stats.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\stats.gif" />
+       <File Id="SnCoreImagesAccountStories_gif" Name="stories.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\stories.gif" />
        <File Id="SnCoreImagesAccountSubscription_gif" Name="subscription.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\subscription.gif" />
-       <File Id="SnCoreImagesAccountSurveys_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\surveys.gif" />
+       <File Id="SnCoreImagesAccountSurveys_gif" Name="surveys.gif"  Source="$(var.SnCore.Deploy.Target.Path)\images\account\surveys.gif" />
        <File Id="SnCoreImagesAccountSyndication_gif" Name="syndication.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\syndication.gif" />
-       <File Id="SnCoreImagesAccountTrash_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\trash.gif" />
-       <File Id="SnCoreImagesAccountWebsites_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\websites.gif" />
+       <File Id="SnCoreImagesAccountTrash_gif" Name="trash.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\trash.gif" />
+       <File Id="SnCoreImagesAccountWebsites_gif" Name="websites.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\websites.gif" />
       </Component>
      </Directory>
      <Directory Id="SnCoreImagesBookmarks" Name="bookmarks">
       <Directory Id="SnCoreImagesBookmarksFull" Name="full">
        <Component Id="SnCoreImagesBookmarksFull" Guid="B4A7F449-FE9D-4E26-86B0-D5653F32664C" DiskId="1">
-        <File Id="SnCoreImagesBookmarksFullAol_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\aol.gif" />
+        <File Id="SnCoreImagesBookmarksFullAol_gif" Name="aol.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\aol.gif" />
         <File Id="SnCoreImagesBookmarksFullBloglines_gif" Name="bloglines.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\bloglines.gif" />
         <File Id="SnCoreImagesBookmarksFullBlogmarks_gif" Name="blogmarks.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\blogmarks.gif" />
         <File Id="SnCoreImagesBookmarksFullDelicious_gif" Name="delicious.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\delicious.gif" />
-        <File Id="SnCoreImagesBookmarksFullFeedster_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\feedster.gif" />
-        <File Id="SnCoreImagesBookmarksFullGoogle_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\google.gif" />
-        <File Id="SnCoreImagesBookmarksFullMagnolia_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\magnolia.gif" />
-        <File Id="SnCoreImagesBookmarksFullMsn_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\msn.gif" />
+        <File Id="SnCoreImagesBookmarksFullFeedster_gif" Name="feedster.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\feedster.gif" />
+        <File Id="SnCoreImagesBookmarksFullGoogle_gif" Name="google.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\google.gif" />
+        <File Id="SnCoreImagesBookmarksFullMagnolia_gif" Name="magnolia.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\magnolia.gif" />
+        <File Id="SnCoreImagesBookmarksFullMsn_gif" Name="msn.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\msn.gif" />
         <File Id="SnCoreImagesBookmarksFullNewsburst_gif" Name="newsburst.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\newsburst.gif" />
         <File Id="SnCoreImagesBookmarksFullNewsgator_gif" Name="newsgator.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\newsgator.gif" />
-        <File Id="SnCoreImagesBookmarksFullPluck_png" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\pluck.png" />
-        <File Id="SnCoreImagesBookmarksFullRojo_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\rojo.gif" />
-        <File Id="SnCoreImagesBookmarksFullSmarking_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\smarking.gif" />
-        <File Id="SnCoreImagesBookmarksFullSpurl_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\spurl.gif" />
+        <File Id="SnCoreImagesBookmarksFullPluck_png" Name="pluck.png" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\pluck.png" />
+        <File Id="SnCoreImagesBookmarksFullRojo_gif" Name="rojo.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\rojo.gif" />
+        <File Id="SnCoreImagesBookmarksFullSmarking_gif" Name="smarkling.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\smarking.gif" />
+        <File Id="SnCoreImagesBookmarksFullSpurl_gif" Name="spurl.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\spurl.gif" />
         <File Id="SnCoreImagesBookmarksFullTechnorati_gif" Name="technorati.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\technorati.gif" />
-        <File Id="SnCoreImagesBookmarksFullYahoo_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\yahoo.gif" />
+        <File Id="SnCoreImagesBookmarksFullYahoo_gif" Name="yahoo.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\full\yahoo.gif" />
        </Component>
       </Directory>
       <Directory Id="SnCoreImagesBookmarksLinks" Name="links">
@@ -573,16 +573,16 @@
         <File Id="SnCoreImagesBookmarksLinksBlinklist_gif" Name="blinklist.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\blinklist.gif" />
         <File Id="SnCoreImagesBookmarksLinksBlogmarks_gif" Name="blogmarks.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\blogmarks.gif" />
         <File Id="SnCoreImagesBookmarksLinksDelicious_gif" Name="delicious.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\delicious.gif" />
-        <File Id="SnCoreImagesBookmarksLinksDigg_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\digg.gif" />
-        <File Id="SnCoreImagesBookmarksLinksFark_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\fark.gif" />
-        <File Id="SnCoreImagesBookmarksLinksFurl_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\furl.gif" />
-        <File Id="SnCoreImagesBookmarksLinksMagnolia_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\magnolia.gif" />
-        <File Id="SnCoreImagesBookmarksLinksNewsvine_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\newsvine.gif" />
-        <File Id="SnCoreImagesBookmarksLinksReddit_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\reddit.gif" />
-        <File Id="SnCoreImagesBookmarksLinksSimpy_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\simpy.gif" />
-        <File Id="SnCoreImagesBookmarksLinksSmarking_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\smarking.gif" />
-        <File Id="SnCoreImagesBookmarksLinksSpurl_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\spurl.gif" />
-        <File Id="SnCoreImagesBookmarksLinksYahoo_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\yahoo.gif" />
+        <File Id="SnCoreImagesBookmarksLinksDigg_gif" Name="digg.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\digg.gif" />
+        <File Id="SnCoreImagesBookmarksLinksFark_gif" Name="fark.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\fark.gif" />
+        <File Id="SnCoreImagesBookmarksLinksFurl_gif" Name="furl.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\furl.gif" />
+        <File Id="SnCoreImagesBookmarksLinksMagnolia_gif" Name="magnolia.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\magnolia.gif" />
+        <File Id="SnCoreImagesBookmarksLinksNewsvine_gif" Name="newsvine.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\newsvine.gif" />
+        <File Id="SnCoreImagesBookmarksLinksReddit_gif" Name="reddit.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\reddit.gif" />
+        <File Id="SnCoreImagesBookmarksLinksSimpy_gif" Name="simpy.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\simpy.gif" />
+        <File Id="SnCoreImagesBookmarksLinksSmarking_gif" Name="smarkling.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\smarking.gif" />
+        <File Id="SnCoreImagesBookmarksLinksSpurl_gif" Name="spurl.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\spurl.gif" />
+        <File Id="SnCoreImagesBookmarksLinksYahoo_gif" Name="yahoo.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\bookmarks\links\yahoo.gif" />
        </Component>
       </Directory>
      </Directory>
@@ -608,24 +608,24 @@
      <Directory Id="SnCoreImagesButtons" Name="buttons">
       <Component Id="SnCoreImagesButtons" Guid="113D09CE-9D16-4197-B245-7EA33AF7D763" DiskId="1">
        <File Id="SnCoreImagesButtonsAccountEmailVerifiedTrue_gif" Name="AccountEmailVerifiedTrue.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\AccountEmailVerifiedTrue.gif" />
-       <File Id="SnCoreImagesButtonsLink_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\link.gif" />
-       <File Id="SnCoreImagesButtonsSticky_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\sticky.gif" />
+       <File Id="SnCoreImagesButtonsLink_gif" Name="link.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\link.gif" />
+       <File Id="SnCoreImagesButtonsSticky_gif" Name="sticky.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\sticky.gif" />
       </Component>
      </Directory>
      <Directory Id="SnCoreImagesSite" Name="site">
       <Component Id="SnCoreImagesSite" Guid="3223DE3D-1D1B-421A-8417-629E8399E0B7" DiskId="1">
-       <File Id="SnCoreImagesSiteBack_jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\back.jpg" />
-       <File Id="SnCoreImagesSiteError_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\error.gif" />
-       <File Id="SnCoreImagesSiteHead_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\head.gif" />
-       <File Id="SnCoreImagesSiteHelp_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\help.gif" />
-       <File Id="SnCoreImagesSiteInfo_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\info.gif" />
-       <File Id="SnCoreImagesSiteQuestion_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\question.gif" />
-       <File Id="SnCoreImagesSiteQuote_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\quote.gif" />
+       <File Id="SnCoreImagesSiteBack_jpg" Name="back.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\back.jpg" />
+       <File Id="SnCoreImagesSiteError_gif" Name="error.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\error.gif" />
+       <File Id="SnCoreImagesSiteHead_gif" Name="head.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\head.gif" />
+       <File Id="SnCoreImagesSiteHelp_gif" Name="help.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\help.gif" />
+       <File Id="SnCoreImagesSiteInfo_gif" Name="info.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\info.gif" />
+       <File Id="SnCoreImagesSiteQuestion_gif" Name="question.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\question.gif" />
+       <File Id="SnCoreImagesSiteQuote_gif" Name="quote.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\quote.gif" />
        <File Id="SnCoreImagesSiteRecentquote_gif" Name="recentquote.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\recentquote.gif" />
-       <File Id="SnCoreImagesSiteRight_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\right.gif" />
-       <File Id="SnCoreImagesSiteRsslogo_jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\rsslogo.jpg" />
-       <File Id="SnCoreImagesSiteToplogo_jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\toplogo.jpg" />
-       <File Id="SnCoreImagesSiteWarning_gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\warning.gif" />
+       <File Id="SnCoreImagesSiteRight_gif" Name="right.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\right.gif" />
+       <File Id="SnCoreImagesSiteRsslogo_jpg" Name="rsslogo.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\rsslogo.jpg" />
+       <File Id="SnCoreImagesSiteToplogo_jpg" Name="toplogo.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\toplogo.jpg" />
+       <File Id="SnCoreImagesSiteWarning_gif" Name="warning.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\warning.gif" />
       </Component>
      </Directory>
     </Directory>
@@ -669,7 +669,7 @@
      <File Id="SnCore_mobileSearchPlacesControl_ascx" Name="SearchPlacesControl.ascx" Source="$(var.SnCore.MobileDeploy.Target.Path)\SearchPlacesControl.ascx" />
      <File Id="SnCore_mobileServices_config" Name="Services.config" Source="$(var.SnCore.MobileDeploy.Target.Path)\Services.config" />
      <File Id="SnCore_mobileSnCore_master" Name="SnCore.master" Source="$(var.SnCore.MobileDeploy.Target.Path)\SnCore.master" />
-     <File Id="SnCore_mobileStyle_css" Source="$(var.SnCore.MobileDeploy.Target.Path)\Style.css" />
+     <File Id="SnCore_mobileStyle_css" Name="Style.css" Source="$(var.SnCore.MobileDeploy.Target.Path)\Style.css" />
      <File Id="SnCore_mobileWelcome_aspx" Name="Welcome.aspx" Source="$(var.SnCore.MobileDeploy.Target.Path)\Welcome.aspx" />
     </Component>
     <Directory Id="SnCore_mobileBin" Name="bin">
@@ -718,7 +718,7 @@
     <Directory Id="SnCore_mobileImages" Name="images">
      <Directory Id="SnCore_mobileImagesSite" Name="site">
       <Component Id="SnCore_mobileImagesSite" Guid="3483E97D-3F7F-4CBA-A685-2E9E69E16DFC" DiskId="1">
-       <File Id="SnCore_mobileImagesSiteToplogo_jpg" Source="$(var.SnCore.MobileDeploy.Target.Path)\images\site\toplogo.jpg" />
+       <File Id="SnCore_mobileImagesSiteToplogo_jpg" Name="toplogo.jpg" Source="$(var.SnCore.MobileDeploy.Target.Path)\images\site\toplogo.jpg" />
       </Component>
      </Directory>
     </Directory>

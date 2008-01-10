@@ -9,21 +9,20 @@
   <IIS:WebSite Id="DefaultSystemWebSite" Description="Default Web Site">
    <IIS:WebAddress Id="DefaultWebSiteWebAddress" Port="80" />
   </IIS:WebSite>
+  <DirectoryRef Id="INSTALLDIR">
+   <Directory Id="Logs" Name="Logs">
+    <Component Id="SnCoreEventSource" Guid="8D4CD0FF-6A13-458f-8B78-A0C8CEC10B9C" DiskId="1">
+     <File Id="SnCoreEventSourceLog" Name="[SNCORE_WEBSITE_NAME].evtx" Source="$(var.SnCore.Web.Deploy.Path)\Web.evtx" />
+     <Util:EventSource EventMessageFile="[#SnCoreEventSourceLog]" Log="[SNCORE_WEBSITE_NAME]" Name="[SNCORE_WEBSITE_NAME]" />
+    </Component>
+    <Component Id="SnCoreMobileEventSource" Guid="8F18A005-77B6-43c6-81DA-7162184CB76F" DiskId="1">
+     <File Id="SnCoreMobileEventSourceLog" Name="[SNCORE_MOBILEWEBSITE_NAME].evtx" Source="$(var.SnCore.MobileWeb.Deploy.Path)\MobileWeb.evtx" />
+     <Util:EventSource EventMessageFile="[#SnCoreMobileEventSourceLog]" Log="[SNCORE_WEBSITE_NAME]Mobile" Name="[SNCORE_WEBSITE_NAME]Mobile" />
+    </Component>
+   </Directory>
+  </DirectoryRef>
   <DirectoryRef Id="SnCore">
-   <Component Id="SnCoreEventLogWebSiteRegistry" Guid="8D4CD0FF-6A13-458f-8B78-A0C8CEC10B9C" DiskId="1">
-    <RegistryKey Id="SnCoreEventLogWebSiteRegistryKey" Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Eventlog\Application\[SNCORE_WEBSITE_NAME]" Action="createAndRemoveOnUninstall">
-     <RegistryValue Id="SnCoreEventLogWebSiteRegistryKey_Default" Value="" Type="string" />
-    </RegistryKey>
-   </Component>
-   <Component Id="SnCoreEventLogMobileWebSiteRegistry" Guid="8F18A005-77B6-43c6-81DA-7162184CB76F" DiskId="1">
-    <RegistryKey Id="SnCoreEventLogMobileWebSiteRegistryKey" Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Eventlog\Application\[SNCORE_WEBSITE_NAME]Mobile" Action="createAndRemoveOnUninstall">
-     <RegistryValue Id="SnCoreEventLogMobileWebSiteRegistryKey_Default" Value="" Type="string" />
-    </RegistryKey>
-   </Component>
    <Component Id="SnCoreWebSiteRegistry" Guid="7F1C37CE-11B1-4bee-8A9B-0B8E43E83835" DiskId="1">
-    <RegistryKey Id="SnCoreRegistryKey"  Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
-     <RegistryValue Id="SnCoreRegistry_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
-    </RegistryKey>
     <RegistryKey Id="SnCoreWebSiteRegistryKey" Root="HKLM" Key="Software\Vestris Inc.\SnCore\WebSite" Action="createAndRemoveOnUninstall">
      <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteName" Name="WebSiteName" Value="[SNCORE_WEBSITE_NAME]" Type="string" />
      <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteDomainName" Name="WebSiteDomainName" Value="[SNCORE_WEBSITE_DOMAINNAME]" Type="string" />

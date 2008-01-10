@@ -1,3 +1,3 @@
-1	Venue	1
-
-
+1	Owner	1	I own this business.
+2	Manager	1	I run this business.
+3	Employee	0	I work for this business.
