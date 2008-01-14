@@ -28,8 +28,11 @@
      <File Id="Country_txt" Name="Country.txt" Source="$(var.SnCore.Data.Path)\Country.txt" />
      <File Id="State_txt" Name="State.txt" Source="$(var.SnCore.Data.Path)\State.txt" />
      <File Id="City_txt" Name="City.txt" Source="$(var.SnCore.Data.Path)\City.txt" />
+     <File Id="Nh_txt" Name="Neighborhood.txt" Source="$(var.SnCore.Data.Path)\Neighborhood.txt" />
      <File Id="FeedType_txt" Name="FeedType.txt" Source="$(var.SnCore.Data.Path)\FeedType.txt" />
      <File Id="PictureType_txt" Name="PictureType.txt" Source="$(var.SnCore.Data.Path)\PictureType.txt" />
+     <File Id="RHost_txt" Name="RefererHost.txt" Source="$(var.SnCore.Data.Path)\RefererHost.txt" />
+     <File Id="RHostDup_txt" Name="RefererHostDup.txt" Source="$(var.SnCore.Data.Path)\RefererHostDup.txt" />
      <RegistryKey Id="SnCoreDatabaseRegistryKey" Root="HKLM" Key="Software\Vestris Inc.\SnCore\Database" Action="createAndRemoveOnUninstall">
       <RegistryValue Id="SnCoreDatabaseRegistry_SqlDatabase"  Name="SqlDatabase" Value="[SNCORE_SQL_DATABASE]" Type="string" />
       <RegistryValue Id="SnCoreDatabaseRegistry_SqlServer" Name="SqlServer" Value="[SNCORE_SQL_SERVER]" Type="string" />
@@ -52,8 +55,11 @@
       <SQL:SqlString Id="SnCoreSql_Bulk_Country"  SQL="BULK INSERT Country FROM '[#Country_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_State"  SQL="BULK INSERT State FROM '[#State_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_City"  SQL="BULK INSERT City FROM '[#City_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_Neighborhood"  SQL="BULK INSERT Neighborhood FROM '[#Nh_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_FeedType"  SQL="BULK INSERT FeedType FROM '[#FeedType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_PictureType"  SQL="BULK INSERT PictureType FROM '[#PictureType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_RefererHost"  SQL="BULK INSERT RefererHost FROM '[#RHost_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_RefererHostDup"  SQL="BULK INSERT RefererHostDup FROM '[#RHostDup_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
      </SQL:SqlDatabase>
     </Component>
    </Directory>

@@ -1,0 +1,9 @@
+1	search.google.com	http://search.google.com		0	2008/1/1	2008/1/1	0
+2	images.google.com	http://images.google.com		0	2008/1/1	2008/1/1	0
+3	maps.google.com	http://maps.google.com		0	2008/1/1	2008/1/1	0
+4	search.yahoo.com	http://search.yahoo.com		0	2008/1/1	2008/1/1	0
+5	mail.yahoo.com	http://mail.yahoo.com		0	2008/1/1	2008/1/1	0
+6	webmail.aol.com	http://webmail.aol.com		0	2008/1/1	2008/1/1	0
+7	mail.live.com	http://mail.live.com		0	2008/1/1	2008/1/1	0
+8	email.excite.com	http://email.excite.com		0	2008/1/1	2008/1/1	0
+9	mail.verizon.net	http://mail.verizon.net		0	2008/1/1	2008/1/1	0
