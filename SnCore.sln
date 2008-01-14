@@ -223,6 +223,52 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SnCore.Install", "SnCore.In
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{7C719EFB-F2F4-4466-8683-EC6814A31B21}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{93162053-C054-44C5-BDD5-D737AB37E9A2}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		SnCore.Data\FixDiscussionModified.sql = SnCore.Data\FixDiscussionModified.sql
+		SnCore.Data\FixOrphanedTestimonials.sql = SnCore.Data\FixOrphanedTestimonials.sql
+		SnCore.Data\PopulateData.sql = SnCore.Data\PopulateData.sql
+		SnCore.Data\SnCoreSqlFullText.sql = SnCore.Data\SnCoreSqlFullText.sql
+		SnCore.Data\SnCoreSqlPermissions.sql = SnCore.Data\SnCoreSqlPermissions.sql
+		SnCore.Data\SnCoreSqlServer.sql = SnCore.Data\SnCoreSqlServer.sql
+		SnCore.Data\UpgradeAccountProfile.sql = SnCore.Data\UpgradeAccountProfile.sql
+		SnCore.Data\UpgradeLive.sql = SnCore.Data\UpgradeLive.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bulk", "Bulk", "{008D8333-0F94-45FF-9BFC-716044D36C98}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		SnCore.Data\AccountEventType.txt = SnCore.Data\AccountEventType.txt
+		SnCore.Data\AccountFlagType.txt = SnCore.Data\AccountFlagType.txt
+		SnCore.Data\AccountPlaceType.txt = SnCore.Data\AccountPlaceType.txt
+		SnCore.Data\BugPriority.txt = SnCore.Data\BugPriority.txt
+		SnCore.Data\BugResolution.txt = SnCore.Data\BugResolution.txt
+		SnCore.Data\BugSeverity.txt = SnCore.Data\BugSeverity.txt
+		SnCore.Data\BugStatus.txt = SnCore.Data\BugStatus.txt
+		SnCore.Data\BugType.txt = SnCore.Data\BugType.txt
+		SnCore.Data\City.txt = SnCore.Data\City.txt
+		SnCore.Data\Configuration.txt = SnCore.Data\Configuration.txt
+		SnCore.Data\Country.txt = SnCore.Data\Country.txt
+		SnCore.Data\FeedType.txt = SnCore.Data\FeedType.txt
+		SnCore.Data\PictureType.txt = SnCore.Data\PictureType.txt
+		SnCore.Data\PlaceType.txt = SnCore.Data\PlaceType.txt
+		SnCore.Data\RefererHost.txt = SnCore.Data\RefererHost.txt
+		SnCore.Data\RefererHostDup.txt = SnCore.Data\RefererHostDup.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -636,5 +682,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93162053-C054-44C5-BDD5-D737AB37E9A2} = {7C719EFB-F2F4-4466-8683-EC6814A31B21}
+		{008D8333-0F94-45FF-9BFC-716044D36C98} = {7C719EFB-F2F4-4466-8683-EC6814A31B21}
 	EndGlobalSection
 EndGlobal
