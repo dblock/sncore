@@ -100,10 +100,19 @@ public class LocationEventArgs : EventArgs
 public class LocationSelector
 {
     protected Page mPage;
+    public event EventHandler LocationChanged;
 
     public LocationSelector(Page page)
     {
         mPage = page;
+    }
+
+    public void ChangeLocation(object sender, EventArgs e)
+    {
+        if (LocationChanged != null)
+        {
+            LocationChanged(sender, e);
+        }
     }
 }
 
@@ -115,7 +124,7 @@ public class LocationSelectorCountryState : LocationSelector
     private bool mInsertEmptySelection = false;
     protected DropDownList mCountry;
     protected DropDownList mState;
-
+    
     public bool InsertEmptySelection
     {
         get
@@ -209,6 +218,8 @@ public class LocationSelectorCountryState : LocationSelector
             {
                 CountryChanged(sender, e);
             }
+
+            ChangeLocation(sender, e);
         }
         catch (Exception ex)
         {
@@ -222,6 +233,8 @@ public class LocationSelectorCountryState : LocationSelector
         {
             StateChanged(sender, e);
         }
+
+        ChangeLocation(sender, e);
     }
 
     public virtual void ClearSelection()
@@ -234,11 +247,23 @@ public class LocationSelectorCountryState : LocationSelector
 public class LocationSelectorCountryStateCityText : LocationSelectorCountryState
 {
     protected TextBox mCity;
+    public event EventHandler CityChanged;
 
     public LocationSelectorCountryStateCityText(Page page, bool empty, DropDownList country, DropDownList state, TextBox city)
         : base( page, empty, country, state)
     {
         mCity = city;
+        mCity.TextChanged += new EventHandler(mCity_TextChanged);
+    }
+
+    void mCity_TextChanged(object sender, EventArgs e)
+    {
+        if (CityChanged != null)
+        {
+            CityChanged(sender, e);
+        }
+
+        ChangeLocation(sender, e);
     }
 
     public override bool SelectLocation(object sender, LocationEventArgs e)
@@ -300,6 +325,8 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         {
             CityChanged(sender, e);
         }
+
+        ChangeLocation(sender, e);
     }
 
     public override bool SelectLocation(object sender, LocationEventArgs e)
@@ -424,11 +451,23 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
 public class LocationSelectorCountryStateCityNeighborhoodText : LocationSelectorCountryStateCityText
 {
     protected TextBox mNeighborhood;
+    public event EventHandler NeighborhoodChanged;
 
     public LocationSelectorCountryStateCityNeighborhoodText(Page page, bool empty, DropDownList country, DropDownList state, TextBox city, TextBox neighborhood)
         : base( page, empty, country, state, city)
     {
         mNeighborhood = neighborhood;
+        mNeighborhood.TextChanged += new EventHandler(mNeighborhood_TextChanged);
+    }
+
+    void mNeighborhood_TextChanged(object sender, EventArgs e)
+    {
+        if (NeighborhoodChanged != null)
+        {
+            NeighborhoodChanged(sender, e);
+        }
+
+        ChangeLocation(sender, e);
     }
 
     public override bool SelectLocation(object sender, LocationEventArgs e)

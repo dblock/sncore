@@ -17,29 +17,6 @@ using SnCore.WebControls;
 
 public partial class SelectPlaceControl : Control
 {
-    public class SelectLocationEventArgs : EventArgs
-    {
-        public string Country;
-        public string State;
-        public string City;
-
-        public SelectLocationEventArgs(TransitAccount account)
-            : this(account.Country, account.State, account.City)
-        {
-
-        }
-
-        public SelectLocationEventArgs(
-            string country,
-            string state,
-            string city)
-        {
-            Country = country;
-            State = state;
-            City = city;
-        }
-    }
-
     public event EventHandler Choose;
 
     public TransitPlace Place
@@ -88,28 +65,30 @@ public partial class SelectPlaceControl : Control
         }
     }
 
+    private LocationSelectorCountryStateCityNeighborhoodText mLocationSelector = null;
+
+    public LocationSelectorCountryStateCityNeighborhoodText LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorCountryStateCityNeighborhoodText(
+                    (Page) Page, false, inputCountry, inputState, inputCity, inputNeighborhood);
+            }
+
+            return mLocationSelector;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         PageManager.SetDefaultButton(buttonLookup, panelLookup.Controls);
+        LocationSelector.LocationChanged += new EventHandler(LocationSelector_LocationChanged);
 
         if (!IsPostBack)
         {
             GetPlaceTypes(sender, e);
-
-            List<TransitCountry> countries = new List<TransitCountry>();
-            countries.Add(new TransitCountry());
-            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
-            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
-                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
-
-            ArrayList states = new ArrayList();
-            states.Add(new TransitState());
-
-            inputCountry.DataSource = countries;
-            inputCountry.DataBind();
-
-            inputState.DataSource = states;
-            inputState.DataBind();
 
             if (Place.Id != 0)
             {
@@ -137,15 +116,16 @@ public partial class SelectPlaceControl : Control
                 inputPhone.Text = Place.Phone;
                 inputFax.Text = Place.Fax;
                 inputEmail.Text = Place.Email;
-                SelectLocation(sender, new SelectLocationEventArgs(Place.Country, Place.State, Place.City));
+                LocationSelector.SelectLocation(sender, new LocationEventArgs(Place));
                 IsEditing = true;
             }
             else
             {
-                SelectLocation(sender, new SelectLocationEventArgs(SessionManager.Account));
+                LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
             }
         }
 
+        LocationSelector_LocationChanged(sender, e);
         UpdateEvents();
     }
 
@@ -285,30 +265,6 @@ public partial class SelectPlaceControl : Control
         panelSelectPlace.Update();
     }
 
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        inputState.DataSource = SessionManager.GetCollection<TransitState, string>(
-            inputCountry.SelectedValue, (ServiceQueryOptions) null, SessionManager.LocationService.GetStatesByCountryName);
-        inputState.DataBind();
-
-        panelSelectCountryState.Update();
-    }
-
-    public void SelectLocation(object sender, SelectLocationEventArgs e)
-    {
-        try
-        {
-            ListItemManager.TrySelect(inputCountry, e.Country);
-            inputCountry_SelectedIndexChanged(sender, e);
-            ListItemManager.TrySelect(inputState, e.State);
-            inputCity.Text = e.City;
-        }
-        catch
-        {
-
-        }
-    }
-
     private void UpdateEvents()
     {
         StringBuilder changeclick = new StringBuilder();
@@ -334,5 +290,15 @@ public partial class SelectPlaceControl : Control
     {
         addPlace_Click(sender, e);
         inputName.Text = inputLookupName.Text;
+    }
+
+    void LocationSelector_LocationChanged(object sender, EventArgs e)
+    {
+        autoCompleteCity.ContextKey = string.Format("{0};{1}",
+            inputCountry.Text, inputState.Text);
+        panelCity.Update();
+        autoCompleteNeighborhood.ContextKey = string.Format("{0};{1};{2}",
+            inputCountry.Text, inputState.Text, inputCity.Text);
+        panelNeighborhood.Update();
     }
 }

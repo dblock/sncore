@@ -45,7 +45,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ScriptServices_LocationTests.cs" />
     <Compile Include="TransitServiceCollection.cs" />
+    <Compile Include="Web References\ScriptServices\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\WebAccountService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -281,6 +287,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/SnCoreWeb/ScriptServices.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ScriptServices\</RelPath>
+      <UpdateFromURL>http://localhost/SnCoreWeb/ScriptServices.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SnCore_Web_Soap_Tests_ScriptServices_ScriptServices</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebAccountService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebAccountService\</RelPath>
@@ -952,6 +969,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\ScriptServices\ScriptServices.wsdl" />
     <None Include="Web References\WebAccountService\TransitAccountFlag.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -1012,6 +1030,13 @@
     <None Include="Web References\WebSystemService\sp_column.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\ScriptServices\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ScriptServices\ScriptServices.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

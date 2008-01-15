@@ -219,7 +219,7 @@ namespace SnCore.WebServices
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
-                DomainClass dc = Session.Model[type];
+                DomainClass dc = SnCore.Data.Hibernate.Session.Model[type];
                 sp_column[] arr = new sp_column[dc.Columns.Count];
                 dc.Columns.CopyTo(arr, 0);
                 return arr;

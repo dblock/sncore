@@ -72,7 +72,8 @@
        </div>
        <SnCoreWebControls:Button ID="buttonLookup" runat="server" Text="Lookup"
         CssClass="sncore_form_button" CausesValidation="false" OnClick="buttonLookup_Click" />
-       <asp:LinkButton ID="linkAdd" runat="server" Text="&#187; add" OnClick="add_Click" CssClass="sncore_link" />
+       <asp:LinkButton ID="linkAdd" CausesValidation="false" runat="server" Text="&#187; add" OnClick="add_Click" 
+        CssClass="sncore_link" />
       </td>
      </tr>
     </table>
@@ -119,7 +120,7 @@
      <tr>
       <td class="sncore_form_label">
        <asp:LinkButton id="linkSearch" runat="server" OnClick="linkSearch_Click" Text="search &#171;" 
-        CssClass="sncore_link" /> 
+        CssClass="sncore_link" CausesValidation="false" /> 
        name:
       </td>
       <td class="sncore_form_value">
@@ -130,11 +131,10 @@
       <td class="sncore_form_label">
        country and state:</td>
       <td class="sncore_form_value">
-       <asp:UpdatePanel runat="server" ID="panelSelectCountryState" UpdateMode="Conditional">
+       <asp:UpdatePanel runat="server" ID="panelCountryState" RenderMode="Inline" UpdateMode="Conditional">
         <ContentTemplate>
-         <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-          CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name" DataValueField="Name"
-          runat="server" />
+         <asp:DropDownList AutoPostBack="true" CssClass="sncore_form_dropdown_small" ID="inputCountry" 
+          DataTextField="Name" DataValueField="Name" runat="server" />       
          <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
           DataValueField="Name" runat="server" />
         </ContentTemplate>
@@ -145,15 +145,28 @@
       <td class="sncore_form_label">
        city:</td>
       <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
+       <asp:UpdatePanel runat="server" ID="panelCity" RenderMode="Inline" UpdateMode="Conditional">
+        <ContentTemplate>
+         <ajaxToolkit:AutoCompleteExtender runat="server" ID="autoCompleteCity" TargetControlID="inputCity"
+          ServiceMethod="GetCitiesCompletionList" ServicePath="ScriptServices.asmx" MinimumPrefixLength="0" 
+          CompletionInterval="500" EnableCaching="true" CompletionSetCount="25" UseContextKey="true" />
+         <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" AutoPostBack="true" runat="server" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>
       <td class="sncore_form_label">
-       neighborhood:
-      </td>
+       neighborhood:</td>
       <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_textbox" ID="inputNeighborhood" runat="server" />
+       <asp:UpdatePanel runat="server" ID="panelNeighborhood" RenderMode="Inline" UpdateMode="Conditional">
+        <ContentTemplate>
+         <ajaxToolkit:AutoCompleteExtender runat="server" ID="autoCompleteNeighborhood" TargetControlID="inputNeighborhood"
+          ServiceMethod="GetNeighborhoodsCompletionList" ServicePath="ScriptServices.asmx" MinimumPrefixLength="0" 
+          CompletionInterval="500" EnableCaching="true" CompletionSetCount="25" UseContextKey="true" />
+         <asp:TextBox CssClass="sncore_form_textbox" ID="inputNeighborhood" runat="server" />
+        </ContentTemplate>
+       </asp:UpdatePanel>
       </td>
      </tr>
      <tr>

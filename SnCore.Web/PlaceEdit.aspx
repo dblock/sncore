@@ -105,16 +105,28 @@
    <td class="sncore_form_label">
     city:</td>
    <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" runat="server" />
-    <asp:RequiredFieldValidator ID="cityRequired" runat="server" ControlToValidate="inputCity"
-     CssClass="sncore_form_validator" ErrorMessage="city is required" Display="Dynamic" />
+    <asp:UpdatePanel runat="server" ID="panelCity" RenderMode="Inline" UpdateMode="Conditional">
+     <ContentTemplate>
+      <ajaxToolkit:AutoCompleteExtender runat="server" ID="autoCompleteCity" TargetControlID="inputCity"
+       ServiceMethod="GetCitiesCompletionList" ServicePath="ScriptServices.asmx" MinimumPrefixLength="0" 
+       CompletionInterval="500" EnableCaching="true" CompletionSetCount="25" UseContextKey="true" />
+      <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" AutoPostBack="true" runat="server" />
+     </ContentTemplate>
+    </asp:UpdatePanel>
    </td>
   </tr>
   <tr>
    <td class="sncore_form_label">
     neighborhood:</td>
    <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputNeighborhood" runat="server" />
+    <asp:UpdatePanel runat="server" ID="panelNeighborhood" RenderMode="Inline" UpdateMode="Conditional">
+     <ContentTemplate>
+      <ajaxToolkit:AutoCompleteExtender runat="server" ID="autoCompleteNeighborhood" TargetControlID="inputNeighborhood"
+       ServiceMethod="GetNeighborhoodsCompletionList" ServicePath="ScriptServices.asmx" MinimumPrefixLength="0" 
+       CompletionInterval="500" EnableCaching="true" CompletionSetCount="25" UseContextKey="true" />
+      <asp:TextBox CssClass="sncore_form_textbox" ID="inputNeighborhood" runat="server" />
+     </ContentTemplate>
+    </asp:UpdatePanel>
    </td>
   </tr>
   <tr>

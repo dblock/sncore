@@ -128,6 +128,24 @@ namespace SnCore.Services
             return s;
         }
 
+        public static bool TryGetStateId(ISession session, string name, string country, out int id)
+        {
+            id = 0;
+            try
+            {
+                id = Find(session, name, country).Id;
+                return true;
+            }
+            catch (ManagedCountry.InvalidCountryException)
+            {
+                return false;
+            }
+            catch (ManagedState.InvalidStateException)
+            {
+                return false;
+            }
+        }
+
         public static int GetStateId(ISession session, string name, string country)
         {
             return Find(session, name, country).Id;

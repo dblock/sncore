@@ -65,5 +65,8 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebGroupService_WebGroupService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/SnCoreWeb/WebGroupService.asmx</Value>
     </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_ScriptServices_ScriptServices" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost/SnCoreWeb/ScriptServices.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

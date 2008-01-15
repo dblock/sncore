@@ -48,8 +48,7 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
             throw new Exception("Missing Place");
         }
 
-        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
-        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.LocationChanged += new EventHandler(LocationSelector_LocationChanged);
 
         if (!IsPostBack)
         {
@@ -129,7 +128,18 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
             save.Enabled = false;
         }
 
+        LocationSelector_LocationChanged(sender, e);
         SetDefaultButton(save);
+    }
+
+    void LocationSelector_LocationChanged(object sender, EventArgs e)
+    {
+        autoCompleteCity.ContextKey = string.Format("{0};{1}",
+            inputCountry.Text, inputState.Text);
+        panelCity.Update();
+        autoCompleteNeighborhood.ContextKey = string.Format("{0};{1};{2}",
+            inputCountry.Text, inputState.Text, inputCity.Text);
+        panelNeighborhood.Update();
     }
 
     public void save_Click(object sender, EventArgs e)
@@ -158,15 +168,5 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
             t, SessionManager.PlaceService.CreateOrUpdatePlaceChangeRequest);
 
         Redirect(linkBack.NavigateUrl);
-    }
-
-    void LocationSelector_StateChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    void LocationSelector_CountryChanged(object sender, EventArgs e)
-    {
-        panelCountryState.Update();
     }
 }

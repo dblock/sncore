@@ -110,6 +110,20 @@ namespace SnCore.Services
             return c;
         }
 
+        public static bool TryGetCountryId(ISession session, string name, out int id)
+        {
+            id = 0;
+            try
+            {
+                id = Find(session, name).Id;
+                return true;
+            }
+            catch (ManagedCountry.InvalidCountryException)
+            {
+                return false;
+            }
+        }
+
         public static int GetCountryId(ISession session, string name)
         {
             return Find(session, name).Id;

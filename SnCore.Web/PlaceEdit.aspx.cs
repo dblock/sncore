@@ -37,9 +37,7 @@ public partial class PlaceEdit : AuthenticatedPage
     public void Page_Load(object sender, EventArgs e)
     {
         gridPlaceNamesManage.OnGetDataSource += new EventHandler(gridPlaceNamesManage_OnGetDataSource);
-
-        LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
-        LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
+        LocationSelector.LocationChanged += new EventHandler(LocationSelector_LocationChanged);
 
         if (!IsPostBack)
         {
@@ -108,6 +106,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 placeredirect.Visible = false;
             }
 
+            LocationSelector_LocationChanged(sender, e);
             StackSiteMap(sitemapdata);
         }
 
@@ -120,6 +119,16 @@ public partial class PlaceEdit : AuthenticatedPage
         }
 
         SetDefaultButton(manageAdd);
+    }
+
+    void LocationSelector_LocationChanged(object sender, EventArgs e)
+    {
+        autoCompleteCity.ContextKey = string.Format("{0};{1}",
+            inputCountry.Text, inputState.Text);
+        panelCity.Update();
+        autoCompleteNeighborhood.ContextKey = string.Format("{0};{1};{2}",
+            inputCountry.Text, inputState.Text, inputCity.Text);
+        panelNeighborhood.Update();
     }
 
     public void save_Click(object sender, EventArgs e)
@@ -196,16 +205,6 @@ public partial class PlaceEdit : AuthenticatedPage
     {
         SessionManager.Delete<TransitPlace>(RequestId, SessionManager.PlaceService.DeletePlace);
         Redirect("AccountPlacesManage.aspx");
-    }
-
-    void LocationSelector_StateChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    void LocationSelector_CountryChanged(object sender, EventArgs e)
-    {
-        panelCountryState.Update();
     }
 
     public void linkLookup_Click(object sender, EventArgs e)

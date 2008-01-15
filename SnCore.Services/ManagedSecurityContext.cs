@@ -22,6 +22,11 @@ namespace SnCore.Services
             }
         }
 
+        public ManagedSecurityContext(ISession session)
+        {
+            mAccount = null;
+        }
+
         public ManagedSecurityContext(ISession session, int id)
         {
             mAccount = session.Load<Account>(id);

@@ -19,8 +19,26 @@ using SnCore.WebControls;
 
 public partial class AccountPreferencesManage : AuthenticatedPage
 {
+    private LocationSelectorCountryStateCityText mLocationSelector = null;
+
+    public LocationSelectorCountryStateCityText LocationSelector
+    {
+        get
+        {
+            if (mLocationSelector == null)
+            {
+                mLocationSelector = new LocationSelectorCountryStateCityText(
+                    this, true, inputCountry, inputState, inputCity);
+            }
+
+            return mLocationSelector;
+        }
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
+        LocationSelector.LocationChanged += new EventHandler(LocationSelector_LocationChanged);
+
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -40,32 +58,20 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputCity.Text = SessionManager.Account.City;
             inputTimeZone.SelectedTzIndex = SessionManager.Account.TimeZone;
 
-            List<TransitCountry> countries = new List<TransitCountry>();
-            if (SessionManager.Account.Country.Length == 0) countries.Add(new TransitCountry());
-            string defaultcountry = SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
-            countries.AddRange(SessionManager.GetCollection<TransitCountry, string>(
-                defaultcountry, (ServiceQueryOptions)null, SessionManager.LocationService.GetCountriesWithDefault));
-
-            List<TransitState> states = new List<TransitState>();
-            if (SessionManager.Account.State.Length == 0) states.Add(new TransitState());
-            states.AddRange(SessionManager.GetCollection<TransitState, string>(
-                SessionManager.Account.Country, (ServiceQueryOptions)null, SessionManager.LocationService.GetStatesByCountryName));
-
-            inputCountry.DataSource = countries;
-            inputCountry.DataBind();
-
-            inputState.DataSource = states;
-            inputState.DataBind();
-
-            ListItemManager.TrySelect(inputCountry, SessionManager.Account.Country);
-            ListItemManager.TrySelect(inputState, SessionManager.Account.State);
+            LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
+            LocationSelector_LocationChanged(sender, e);
 
             inputSignature.Text = SessionManager.Account.Signature;
-
             groups.AccountId = SessionManager.Account.Id;
-
             accountredirect.TargetUri = string.Format("AccountView.aspx?id={0}", SessionManager.Account.Id);
         }
+    }
+
+    void LocationSelector_LocationChanged(object sender, EventArgs e)
+    {
+        autoCompleteCity.ContextKey = string.Format("{0};{1}",
+            inputCountry.Text, inputState.Text);
+        panelCity.Update();
     }
 
     public void save_Click(object sender, EventArgs e)
@@ -86,19 +92,5 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             ta, SessionManager.AccountService.CreateOrUpdateAccount);
         Cache.Remove(string.Format("account:{0}", SessionManager.Ticket));
         ReportInfo("Profile saved.");
-    }
-
-    public void inputCountry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        List<TransitState> states = new List<TransitState>();
-        states.Add(new TransitState());
-        states.AddRange(SessionManager.GetCollection<TransitState, string>(
-            inputCountry.SelectedValue, (ServiceQueryOptions) null, 
-            SessionManager.LocationService.GetStatesByCountryName));
-
-        inputState.DataSource = states;
-        inputState.DataBind();
-
-        panelCountryState.Update();
     }
 }

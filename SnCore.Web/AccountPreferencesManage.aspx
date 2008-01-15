@@ -54,7 +54,15 @@
    <td class="sncore_form_label">
     city:</td>
    <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" MaxLength="64" runat="server" /></td>
+    <asp:UpdatePanel runat="server" ID="panelCity" RenderMode="Inline" UpdateMode="Conditional">
+     <ContentTemplate>
+      <ajaxToolkit:AutoCompleteExtender runat="server" ID="autoCompleteCity" TargetControlID="inputCity"
+       ServiceMethod="GetCitiesCompletionList" ServicePath="ScriptServices.asmx" MinimumPrefixLength="0" 
+       CompletionInterval="500" EnableCaching="true" CompletionSetCount="25" UseContextKey="true" />
+      <asp:TextBox CssClass="sncore_form_textbox" ID="inputCity" MaxLength="64" runat="server" />
+     </ContentTemplate>
+    </asp:UpdatePanel>
+   </td>
   </tr>
   <tr>
    <td class="sncore_form_label">
@@ -63,11 +71,10 @@
    <td class="sncore_form_value">
     <asp:UpdatePanel runat="server" ID="panelCountryState" UpdateMode="Conditional">
      <ContentTemplate>     
-     <asp:DropDownList CssClass="sncore_form_dropdown_small" OnSelectedIndexChanged="inputCountry_SelectedIndexChanged"
-      ID="inputCountry" DataTextField="Name" AutoPostBack="true" DataValueField="Name"
-      runat="server" />
+     <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputCountry" DataTextField="Name" 
+      AutoPostBack="true" DataValueField="Name" runat="server" />
      <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
-      DataValueField="Name" runat="server" />
+      DataValueField="Name" runat="server" AutoPostBack="true" />
      </ContentTemplate>
     </asp:UpdatePanel>
    </td>
