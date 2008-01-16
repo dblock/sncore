@@ -14,6 +14,11 @@
    <Directory Id="ProgramFilesFolder">
     <Directory Id="INSTALLDIR" Name="SnCore">
      <Component Guid="A50D18DE-C6F2-4037-9B2E-B7E73EDFF6DA" Id="SnCoreInstallDir">
+      <CreateFolder>
+       <Permission User="Everyone" GenericWrite="no" GenericExecute="yes" GenericRead="yes" />
+       <Permission User="SYSTEM" GenericAll="yes" />
+       <Permission User="Administrators" GenericAll="yes" />
+      </CreateFolder>
       <RegistryKey Id="SnCoreRegistryKey"  Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
        <RegistryValue Id="SnCoreRegistry_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
       </RegistryKey>

@@ -8,6 +8,7 @@
     <Component Id="SnCoreWebServices" Guid="8F5BDB58-59CF-4dea-AA07-0314AAC1326E" DiskId="1">
      <File Id="SnCoreServices_css" Name="Services.css" Source="$(var.SnCore.Deploy.Target.Path)\Services.css" />
      <File Id="SnCoreServices_htm" Name="Services.htm" Source="$(var.SnCore.Deploy.Target.Path)\Services.htm" />
+     <File Id="SnCoreScriptServices_asmx" Name="ScriptServices.asmx" Source="$(var.SnCore.Deploy.Target.Path)\ScriptServices.asmx" />
      <File Id="SnCoreWebAccountService_asmx" Name="WebAccountService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebAccountService.asmx" />
      <File Id="SnCoreWebBlogService_asmx" Name="WebBlogService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebBlogService.asmx" />
      <File Id="SnCoreWebBugService_asmx" Name="WebBugService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebBugService.asmx" />
@@ -372,7 +373,6 @@
      <File Id="SnCoreSearchDefaultControl_ascx" Name="SearchDefaultControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SearchDefaultControl.ascx" />
      <File Id="SnCoreSearchDiscussionPosts_aspx" Name="SearchDiscussionPosts.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SearchDiscussionPosts.aspx" />
      <File Id="SnCoreSearchDiscussionPostsControl_ascx" Name="SearchDiscussionPostsControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SearchDiscussionPostsControl.ascx" />
-     <File Id="SnCoreSearching_aspx" Name="Searching.aspx" Source="$(var.SnCore.Deploy.Target.Path)\Searching.aspx" />
      <File Id="SnCoreSearchPlacesControl_ascx" Name="SearchPlacesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SearchPlacesControl.ascx" />
      <File Id="SnCoreSearchSmallControl_ascx" Name="SearchSmallControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SearchSmallControl.ascx" />
      <File Id="SnCoreSelectDateControl_ascx" Name="SelectDateControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SelectDateControl.ascx" />

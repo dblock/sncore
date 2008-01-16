@@ -109,7 +109,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         a.Name = "Administrator";
         a.Password = ManagedAccount.GetPasswordHash("password");
         a.IsAdministrator = true;
-        a.IsPasswordExpired = false;
+        a.IsPasswordExpired = true;
         a.Created = a.Modified = a.LastLogin = DateTime.UtcNow;
         a.Birthday = DateTime.UtcNow;
         a.TimeZone = -1;
