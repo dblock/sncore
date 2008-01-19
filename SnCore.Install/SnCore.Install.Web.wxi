@@ -632,6 +632,7 @@
     <Directory Id="SnCoreIsapiRewrite" Name="IsapiRewrite">
      <Component Id="SnCoreIsapiRewrite" Guid="CB874C88-708E-4D61-96EE-A5297BB8BA96" DiskId="1">
       <File Id="SnCoreIsapiRewriteIsapiRewrite4_ini" Name="IsapiRewrite4.ini" Source="$(var.SnCore.Deploy.Target.Path)\IsapiRewrite\IsapiRewrite4.ini" />
+      <File Id="SnCoreIsapiRewriteIsapiRewrite4_dll" Name="IsapiRewrite4.dll" Source="$(var.SolutionDir)\IsapiRewrite\IsapiRewrite4.dll" />
      </Component>
     </Directory>
    </Directory>

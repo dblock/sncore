@@ -4,22 +4,26 @@
   <?include SnCore.Project.wxi ?>
   <PropertyRef Id="SNCORE_WEBSITE_DOMAINNAME" />
   <PropertyRef Id="SNCORE_WEBSITE_NAME" />
+  <PropertyRef Id="SNCORE_WEBSITE_URL" />
+  <PropertyRef Id="SNCORE_MOBILE_WEBSITE_URL" />
+  <PropertyRef Id="SNCORE_WEBSITE_ID" />
+  <PropertyRef Id="SNCORE_MOBILE_WEBSITE_ID" />
   <PropertyRef Id="SNCORE_SQL_DATABASE" />
   <PropertyRef Id="SNCORE_SQL_SERVER" />
   <IIS:WebSite Id="DefaultSystemWebSite" Description="Default Web Site">
    <IIS:WebAddress Id="DefaultWebSiteWebAddress" Port="80" />
   </IIS:WebSite>
   <DirectoryRef Id="INSTALLDIR">
-   <Directory Id="Logs" Name="Logs">
-    <Component Id="SnCoreEventSource" Guid="8D4CD0FF-6A13-458f-8B78-A0C8CEC10B9C" DiskId="1">
-     <File Id="SnCoreEventSourceLog" Name="[SNCORE_WEBSITE_NAME].evtx" Source="$(var.SnCore.Web.Deploy.Path)\Web.evtx" />
-     <Util:EventSource EventMessageFile="[#SnCoreEventSourceLog]" Log="[SNCORE_WEBSITE_NAME]" Name="[SNCORE_WEBSITE_NAME]" />
-    </Component>
-    <Component Id="SnCoreMobileEventSource" Guid="8F18A005-77B6-43c6-81DA-7162184CB76F" DiskId="1">
-     <File Id="SnCoreMobileEventSourceLog" Name="[SNCORE_MOBILEWEBSITE_NAME].evtx" Source="$(var.SnCore.MobileWeb.Deploy.Path)\MobileWeb.evtx" />
-     <Util:EventSource EventMessageFile="[#SnCoreMobileEventSourceLog]" Log="[SNCORE_WEBSITE_NAME]Mobile" Name="[SNCORE_WEBSITE_NAME]Mobile" />
-    </Component>
-   </Directory>
+   <Component Id="SnCoreEventSource" Guid="8D4CD0FF-6A13-458f-8B78-A0C8CEC10B9C" DiskId="1">
+    <RegistryKey Id="SnCoreEventSourceRegistryKey" Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Eventlog\Application\[SNCORE_WEBSITE_ID]" Action="createAndRemoveOnUninstall">
+     <RegistryValue Id="SnCoreEventSourceRegistryKey_EventMessageFile" Name="EventMessageFile" Value="[NETFRAMEWORK_INSTALLROOT]v2.0.50727\EventLogMessages.dll" Type="string" />
+    </RegistryKey>
+   </Component>
+   <Component Id="SnCoreMobileEventSource" Guid="8F18A005-77B6-43c6-81DA-7162184CB76F" DiskId="1">
+    <RegistryKey Id="SnCoreMobileEventSourceRegistryKey" Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Eventlog\Application\[SNCORE_MOBILE_WEBSITE_ID]" Action="createAndRemoveOnUninstall">
+     <RegistryValue Id="SnCoreMobileEventSourceRegistryKey_EventMessageFile" Name="EventMessageFile" Value="[NETFRAMEWORK_INSTALLROOT]v2.0.50727\EventLogMessages.dll" Type="string" />
+    </RegistryKey>
+   </Component>
   </DirectoryRef>
   <DirectoryRef Id="SnCore">
    <Component Id="SnCoreWebSiteRegistry" Guid="7F1C37CE-11B1-4bee-8A9B-0B8E43E83835" DiskId="1">
@@ -36,6 +40,7 @@
     <IIS:WebVirtualDir Id="SnCoreWebVirtualDirectory" Alias="[SNCORE_WEBSITE_NAME]" Directory="SnCore" WebSite="DefaultSystemWebSite">
      <IIS:WebApplication Id="SnCoreWebVirtualDirectoryApplication" Name="[SNCORE_WEBSITE_NAME].Application" Isolation="high" />
     </IIS:WebVirtualDir>
+    <IIS:WebFilter Id="SnCoreWebVirtualRedirectServicesFilter" Name="IsapiRewrite4.dll" Description="Redirects humanly readable urls to website content." Path="[#SnCoreIsapiRewriteIsapiRewrite4_dll]" WebSite="DefaultSystemWebSite" />
    </Component>
    <Component Id="SnCoreDefaultWebSite" Guid="B94B5658-EE45-4c76-8AEA-E22BE2F165BC" DiskId="1">
     <Condition><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Condition>
@@ -44,24 +49,25 @@
     <IIS:WebSite Id="DefaultWebSite" Description="[SNCORE_WEBSITE_DOMAINNAME]" Directory="SnCore" ConfigureIfExists="no" AutoStart="yes">
      <IIS:WebAddress Id="SnCoreWebSiteNameAddress" Header="[SNCORE_WEBSITE_DOMAINNAME]" Port="80" Secure="no" />
      <IIS:WebApplication Id="SnCoreWebApplication" Name="[SNCORE_WEBSITE_DOMAINNAME].Application" Isolation="high" />
+     <IIS:WebFilter Id="SnCoreRedirectServicesFilter" Name="SnCore Redirector" Description="Redirects humanly readable urls to website content." Path="[#SnCoreIsapiRewriteIsapiRewrite4_dll]" />
     </IIS:WebSite>
-   </Component>
+   </Component>   
   </DirectoryRef>
   <DirectoryRef Id="SnCore_mobile">
    <Component Id="SnCoreMobileWebSiteVirtualDirectory" Guid="C1B0D628-4BFE-4c30-ADA0-4F6404363317" DiskId="1">
     <Condition><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Condition>
     <File Id="SnCoreMobileVirtualDirectory_web_config" Name="web.config" Source="$(var.SnCore.MobileDeploy.Target.Path)\web.config" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_AccountService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='AccountService.WebAccountService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebAccountService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_SystemService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SystemService.WebSystemService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebSystemService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_StatsService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StatsService.WebStatsService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebStatsService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_SocialService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SocialService.WebSocialService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebSocialService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_ObjectService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='ObjectService.WebObjectService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebObjectService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_PlaceService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='PlaceService.WebPlaceService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebPlaceService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_LocationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='LocationService.WebLocationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebLocationService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_DiscussionService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='DiscussionService.WebDiscussionService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebDiscussionService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_SyndicationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SyndicationService.WebSyndicationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebSyndicationService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_StoryService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StoryService.WebStoryService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebStoryService.asmx" />
-    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_BlogService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='BlogService.WebBlogService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[ComputerName]/[SNCORE_WEBSITE_NAME]/WebBlogService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_AccountService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='AccountService.WebAccountService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebAccountService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_SystemService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SystemService.WebSystemService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebSystemService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_StatsService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StatsService.WebStatsService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebStatsService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_SocialService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SocialService.WebSocialService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebSocialService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_ObjectService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='ObjectService.WebObjectService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebObjectService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_PlaceService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='PlaceService.WebPlaceService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebPlaceService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_LocationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='LocationService.WebLocationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebLocationService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_DiscussionService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='DiscussionService.WebDiscussionService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebDiscussionService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_SyndicationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SyndicationService.WebSyndicationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebSyndicationService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_StoryService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StoryService.WebStoryService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebStoryService.asmx" />
+    <Util:XmlFile Id="SnCoreMobileVirtualDirectory_web_config_BlogService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='BlogService.WebBlogService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebBlogService.asmx" />
     <IIS:WebVirtualDir Id="SnCoreMobileWebVirtualDirectory" Alias="[SNCORE_WEBSITE_NAME]Mobile" Directory="SnCore_mobile" WebSite="DefaultSystemWebSite">
      <IIS:WebApplication Id="SnCoreMobileWebVirtualDirectoryApplication" Name="[SNCORE_WEBSITE_NAME].mobile.Application" Isolation="high" />
     </IIS:WebVirtualDir>
@@ -69,17 +75,17 @@
    <Component Id="SnCoreMobileWebSite" Guid="5A273A71-900D-4f36-B25A-3433B975CAAB" DiskId="1">
     <Condition><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Condition>
     <File Id="SnCoreMobile_web_config" Name="web.config" Source="$(var.SnCore.MobileDeploy.Target.Path)\web.config" />
-    <Util:XmlFile Id="SnCore_web_config_AccountService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='AccountService.WebAccountService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebAccountService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_SystemService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SystemService.WebSystemService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebSystemService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_StatsService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StatsService.WebStatsService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebStatsService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_SocialService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SocialService.WebSocialService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebSocialService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_ObjectService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='ObjectService.WebObjectService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebObjectService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_PlaceService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='PlaceService.WebPlaceService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebPlaceService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_LocationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='LocationService.WebLocationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebLocationService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_DiscussionService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='DiscussionService.WebDiscussionService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebDiscussionService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_SyndicationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SyndicationService.WebSyndicationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebSyndicationService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_StoryService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StoryService.WebStoryService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebStoryService.asmx" />
-    <Util:XmlFile Id="SnCore_web_config_BlogService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='BlogService.WebBlogService'[\]]/@value" File="[SnCore_mobile]web.config" Value="http://[SNCORE_WEBSITE_DOMAINNAME]/WebBlogService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_AccountService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='AccountService.WebAccountService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebAccountService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_SystemService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SystemService.WebSystemService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebSystemService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_StatsService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StatsService.WebStatsService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebStatsService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_SocialService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SocialService.WebSocialService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebSocialService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_ObjectService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='ObjectService.WebObjectService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebObjectService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_PlaceService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='PlaceService.WebPlaceService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebPlaceService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_LocationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='LocationService.WebLocationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebLocationService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_DiscussionService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='DiscussionService.WebDiscussionService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebDiscussionService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_SyndicationService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SyndicationService.WebSyndicationService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebSyndicationService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_StoryService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='StoryService.WebStoryService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebStoryService.asmx" />
+    <Util:XmlFile Id="SnCore_web_config_BlogService" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='BlogService.WebBlogService'[\]]/@value" File="[SnCore_mobile]web.config" Value="[SNCORE_WEBSITE_URL]/WebBlogService.asmx" />
     <IIS:WebSite Id="MobileWebSite" Description="mobile.[SNCORE_WEBSITE_DOMAINNAME]" Directory="SnCore_mobile" ConfigureIfExists="no" AutoStart="yes">
      <IIS:WebAddress Id="SnCoreMobileWebSiteNameAddress" Header="mobile.[SNCORE_WEBSITE_DOMAINNAME]" Port="80" Secure="no" />
      <IIS:WebAddress Id="SnCoreMWebSiteNameAddress" Header="m.[SNCORE_WEBSITE_DOMAINNAME]" Port="80" Secure="no" />
@@ -87,5 +93,23 @@
     </IIS:WebSite>
    </Component>
   </DirectoryRef>
+  <CustomAction Id="SetSnCoreWebsiteId_VirtualDirectory" Property="SNCORE_WEBSITE_ID" Value="[SNCORE_WEBSITE_NAME]" Execute="immediate" />
+  <CustomAction Id="SetSnCoreWebsiteId_Domain" Property="SNCORE_WEBSITE_ID" Value="[SNCORE_WEBSITE_DOMAIN]" Execute="immediate" />
+  <CustomAction Id="SetSnCoreMobileWebsiteId_VirtualDirectory" Property="SNCORE_MOBILE_WEBSITE_ID" Value="[SNCORE_WEBSITE_NAME]Mobile" Execute="immediate" />
+  <CustomAction Id="SetSnCoreMobileWebsiteId_Domain" Property="SNCORE_MOBILE_WEBSITE_ID" Value="mobile.[SNCORE_WEBSITE_DOMAIN]" Execute="immediate" />
+  <CustomAction Id="SetSnCoreWebsiteUrl_VirtualDirectory" Property="SNCORE_WEBSITE_URL" Value="[SNCORE_WEBSITE_URL]/" Execute="immediate" />
+  <CustomAction Id="SetSnCoreWebsiteUrl_Domain" Property="SNCORE_WEBSITE_URL" Value="[SNCORE_WEBSITE_URL]/" Execute="immediate" />
+  <CustomAction Id="SetSnCoreMobileWebsiteUrl_VirtualDirectory" Property="SNCORE_MOBILE_WEBSITE_URL" Value="[SNCORE_WEBSITE_URL]Mobile/" Execute="immediate" />
+  <CustomAction Id="SetSnCoreMobileWebsiteUrl_Domain" Property="SNCORE_MOBILE_WEBSITE_URL" Value="http://mobile.[SNCORE_WEBSITE_DOMAINNAME]/" Execute="immediate" />
+  <InstallUISequence>
+   <Custom Action="SetSnCoreWebsiteId_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>
+   <Custom Action="SetSnCoreWebsiteId_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
+   <Custom Action="SetSnCoreMobileWebsiteId_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>
+   <Custom Action="SetSnCoreMobileWebsiteId_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
+   <Custom Action="SetSnCoreWebsiteUrl_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>
+   <Custom Action="SetSnCoreWebsiteUrl_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
+   <Custom Action="SetSnCoreMobileWebsiteUrl_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>
+   <Custom Action="SetSnCoreMobileWebsiteUrl_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
+  </InstallUISequence>
  </Fragment>
 </Include>

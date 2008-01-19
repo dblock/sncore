@@ -22,22 +22,45 @@ namespace SnCore.Data.Hibernate
         private static ISessionFactory _factory = null;
         private static ISessionStorage _sessionsource = null;
         private static DomainModel _model = null;
-        private static bool http = false;
-
-        static Session()
+        
+        private static ISessionStorage SessionSource
         {
-            try
+            get
             {
-                System.Web.ProcessModelInfo.GetCurrentProcessInfo();
-                http = true;
+                if (_sessionsource == null)
+                {
+                    lock (_locker)
+                    {
+                        if (_sessionsource == null)
+                        {
+                            _sessionsource = new ThreadSessionSource();
+                        }
+                    }
+                }
+
+                return _sessionsource;
             }
-            catch (System.Web.HttpException) { }
-            if (http)
-                _sessionsource = new HttpSessionSource();
-            else
-                _sessionsource = new ThreadSessionSource();
+            set
+            {
+                lock (_locker)
+                {
+                    _sessionsource = value;
+                }
+            }
         }
 
+        public static void Initialize(bool http)
+        {
+            if (http)
+            {
+                SessionSource = new HttpSessionSource();
+            }
+            else
+            {
+                SessionSource = new ThreadSessionSource();
+            }
+        }
+        
         /// <summary>
         /// Returns an instance of <see cref="NHibernate.Cfg.Configuration"/> object
         /// containing the configuration for current application.
@@ -160,7 +183,7 @@ namespace SnCore.Data.Hibernate
         {
             if (HasCurrent())
                 Close();
-            _sessionsource.Set(null);
+            SessionSource.Set(null);
         }
 
         /// <summary>
@@ -171,13 +194,13 @@ namespace SnCore.Data.Hibernate
         {
             get
             {
-                ISession s = _sessionsource.Get();
+                ISession s = SessionSource.Get();
                 if (s == null)
                 {
                     s = Factory.OpenSession((IDbConnection)null);
                     s.FlushMode = FlushMode.Never;
                     s.Disconnect();
-                    _sessionsource.Set(s);
+                    SessionSource.Set(s);
                 }
                 return s;
             }
@@ -189,7 +212,7 @@ namespace SnCore.Data.Hibernate
         /// <returns><b>true</b> if there is a current session and <b>false</b> otherwise.</returns>
         private static bool HasCurrent()
         {
-            return _sessionsource.Get() != null;
+            return SessionSource.Get() != null;
         }
 
         public static IDisposable OpenConnection(IDbConnection connection)
@@ -208,12 +231,12 @@ namespace SnCore.Data.Hibernate
         /// </summary>
         public static void CloseAndFlush()
         {
-            ISession session = _sessionsource.Get();
+            ISession session = SessionSource.Get();
             if (session != null)
             {
                 session.Flush();
                 session.Close();
-                _sessionsource.Set(null);
+                SessionSource.Set(null);
             }
         }
 
@@ -223,14 +246,14 @@ namespace SnCore.Data.Hibernate
         /// <remarks><b>N.B.</b> Close do not flush the session.</remarks>
         public static void Close()
         {
-            ISession session = _sessionsource.Get();
+            ISession session = SessionSource.Get();
             if (session != null)
             {
                 session.Close();
                 session.Dispose();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                _sessionsource.Set(null);
+                SessionSource.Set(null);
             }
         }
 
@@ -239,7 +262,7 @@ namespace SnCore.Data.Hibernate
         /// </summary>
         public static void Flush()
         {
-            ISession session = _sessionsource.Get();
+            ISession session = SessionSource.Get();
             if (session != null)
                 session.Flush();
         }

@@ -8,6 +8,7 @@
   <Binary Id="SnCoreSqlServer" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlServer.sql" />
   <Binary Id="SnCoreSqlPerms" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlPermissions.sql" />
   <Binary Id="UpgradeLive" SourceFile="$(var.SnCore.Data.Path)\SnCoreSqlServer.sql" />
+  <!--<SQL:SqlDatabase Database="master" Server="[SNCORE_SQL_SERVER]" Id="MasterDatabaseInstance" />-->
   <DirectoryRef Id="INSTALLDIR">
    <Directory Id="SnCoreDatabase" Name="Database">
     <Component Id="SnCoreDatabase" Guid="F829AB89-1445-4282-9C9A-86475DD1DDBE" DiskId="1">
@@ -43,15 +44,16 @@
       <RegistryValue Id="SnCoreDatabaseRegistry_SqlDatabase"  Name="SqlDatabase" Value="[SNCORE_SQL_DATABASE]" Type="string" />
       <RegistryValue Id="SnCoreDatabaseRegistry_SqlServer" Name="SqlServer" Value="[SNCORE_SQL_SERVER]" Type="string" />
      </RegistryKey>
-     <SQL:SqlDatabase Database="[SNCORE_SQL_DATABASE]" Server="[SNCORE_SQL_SERVER]" ContinueOnError="no" Id="SnCoreDatabaseInstance" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnUninstall="yes">
-      <SQL:SqlScript BinaryKey="UpgradeLive" Id="SnCoreDatabaseInstanceUpgrade" ContinueOnError="no" ExecuteOnInstall="no" ExecuteOnUninstall="no" ExecuteOnReinstall="yes" />
+     <!--<SQL:SqlString Id="SnCoreSql_Offline" SQL="ALTER DATABASE [SNCORE_SQL_DATABASE] SET SINGLE_USER WITH ROLLBACK IMMEDIATE" ExecuteOnInstall="no" ExecuteOnReinstall="no" ExecuteOnUninstall="yes" Sequence="1" SqlDb="MasterDatabaseInstance" />-->
+     <SQL:SqlDatabase Database="[SNCORE_SQL_DATABASE]" Server="[SNCORE_SQL_SERVER]" ContinueOnError="no" Id="SnCoreDatabaseInstance" CreateOnInstall="yes" CreateOnReinstall="no" CreateOnUninstall="no" DropOnUninstall="no">
+      <SQL:SqlScript BinaryKey="UpgradeLive" Id="SnCoreDatabaseInstanceUpgrade" ContinueOnError="no" ExecuteOnInstall="no" ExecuteOnUninstall="no" ExecuteOnReinstall="yes" Sequence="1" />
       <SQL:SqlScript BinaryKey="SnCoreSqlFullText" ContinueOnError="no" ExecuteOnInstall="yes" ExecuteOnReinstall="yes" ExecuteOnUninstall="no" Id="SnCoreDatabaseInstanceFullText" Sequence="2" />
       <SQL:SqlScript BinaryKey="SnCoreSqlServer" ContinueOnError="no" ExecuteOnInstall="yes" ExecuteOnReinstall="yes" ExecuteOnUninstall="no" Id="SnCoreDatabaseInstanceSchema" Sequence="3" />
       <SQL:SqlScript BinaryKey="SnCoreSqlPerms" ContinueOnError="no" ExecuteOnInstall="yes" ExecuteOnReinstall="yes" ExecuteOnUninstall="no" Id="SnCoreDatabaseInstancePermissions" Sequence="3" />
       <SQL:SqlString Id="SnCoreSql_Bulk_AccountEventType" SQL="BULK INSERT AccountEventType FROM '[#AcctEventType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_AccountFlagType" SQL="BULK INSERT AccountFlagType FROM '[#AcctFlagType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_AccountPlaceType" SQL="BULK INSERT AccountPlaceType FROM '[#AcctPlaceType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
-      <SQL:SqlString Id="SnCoreSql_Bulk_Account" SQL="BULK INSERT Account FROM '[#Account_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Bulk_Account" SQL="BULK INSERT Account FROM '[#Account_txt]' WITH ( KEEPIDENTITY, DATAFILETYPE = 'widechar' )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_AccountEmail" SQL="BULK INSERT AccountEmail FROM '[#AccountEmail_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_AccountBlog" SQL="BULK INSERT AccountBlog FROM '[#AcctBlog_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_AccountBlogPost" SQL="BULK INSERT AccountBlogPost FROM '[#AcctBlogPost_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
@@ -72,7 +74,7 @@
       <SQL:SqlString Id="SnCoreSql_Bulk_PictureType" SQL="BULK INSERT PictureType FROM '[#PictureType_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_RefererHost" SQL="BULK INSERT RefererHost FROM '[#RHost_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
       <SQL:SqlString Id="SnCoreSql_Bulk_RefererHostDup" SQL="BULK INSERT RefererHostDup FROM '[#RHostDup_txt]' WITH ( KEEPIDENTITY )" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
-      <SQL:SqlString Id="SnCoreSql_Update_WebSiteUrl" SQL="UPDATE Configuration SET OptionValue='http://[ComputerName]/[SNCORE_WEBSITE_NAME]/' WHERE OptionName='SnCore.WebSite.Url'" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
+      <SQL:SqlString Id="SnCoreSql_Update_WebSiteUrl" SQL="UPDATE Configuration SET OptionValue='[SNCORE_WEBSITE_URL]' WHERE OptionName='SnCore.WebSite.Url'" ExecuteOnInstall="yes" ExecuteOnReinstall="no" ExecuteOnUninstall="no" Sequence="4" />
      </SQL:SqlDatabase>
     </Component>
    </Directory>

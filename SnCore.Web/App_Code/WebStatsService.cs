@@ -50,7 +50,7 @@ namespace SnCore.WebServices
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
+                    EventLogManager.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                         (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
                         (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
                         ex.Message),
@@ -80,7 +80,7 @@ namespace SnCore.WebServices
                     }
                     catch (Exception ex)
                     {
-                        EventLog.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
+                        EventLogManager.WriteEntry(string.Format("Error tracking {0} from {1}.\n{2}",
                             (request.RequestUri != null) ? request.RequestUri.ToString() : "an unknown url",
                             (request.RefererUri != null) ? request.RefererUri.ToString() : "an unknown referer",
                             ex.Message),

@@ -30,6 +30,9 @@ public class Global : SnCore.Tools.Web.HostedApplication
     {
         base.Application_Start(sender, e);
 
+        // initialize http nhibernate session
+        SnCore.Data.Hibernate.Session.Initialize(true);
+
         // ProtectAppConfig();
 
         using (SnCore.Data.Hibernate.Session.OpenConnection())
@@ -40,7 +43,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
 
         if (! SystemService.SystemServicesEnabled)
         {
-            EventLog.WriteEntry("System services disabled by configuration setting.",
+            EventLogManager.WriteEntry("System services disabled by configuration setting.",
                 EventLogEntryType.Warning);
 
             return;
@@ -52,7 +55,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         mSystemSyndicationService.Start();
 
         WebSystemService system = new WebSystemService();
-        EventLog.WriteEntry(string.Format("Running with web services {0}.", system.GetVersion()), EventLogEntryType.Information);
+        EventLogManager.WriteEntry(string.Format("Running with web services {0}.", system.GetVersion()), EventLogEntryType.Information);
     }
 
     protected void Session_Start(Object sender, EventArgs e)
@@ -192,7 +195,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         {
             if (!EncryptAppSettings)
             {
-                EventLog.WriteEntry("Not protecting App.config due to System.EncryptAppSettings setting.", EventLogEntryType.Information);
+                EventLogManager.WriteEntry("Not protecting App.config due to System.EncryptAppSettings setting.", EventLogEntryType.Information);
                 return;
             }
 
@@ -203,12 +206,12 @@ public class Global : SnCore.Tools.Web.HostedApplication
                 section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
                 section.SectionInformation.ForceSave = true;
                 config.Save(ConfigurationSaveMode.Full);
-                EventLog.WriteEntry(string.Format("Protected AppSettings in {0}", HostingEnvironment.ApplicationPhysicalPath), EventLogEntryType.Information);
+                EventLogManager.WriteEntry(string.Format("Protected AppSettings in {0}", HostingEnvironment.ApplicationPhysicalPath), EventLogEntryType.Information);
             }
         }
         catch (Exception ex)
         {
-            EventLog.WriteEntry(string.Format("Error protecting App.config.\n{0}", ex.Message), EventLogEntryType.Warning);
+            EventLogManager.WriteEntry(string.Format("Error protecting App.config.\n{0}", ex.Message), EventLogEntryType.Warning);
         }
     }
 }

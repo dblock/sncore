@@ -11,7 +11,7 @@ namespace SnCore.Tools.Web
     public class HostedApplication : System.Web.HttpApplication
     {
         private static DateTime mStarted;
-        private EventLog mEventLog = null;
+        private EventLog mEventLogManager = null;
 
         static HostedApplication()
         {
@@ -38,23 +38,25 @@ namespace SnCore.Tools.Web
 
             if (! EventLog.SourceExists(eventLogName))
             {
-                EventLog.CreateEventSource(eventLogName, "Application");
+                EventSourceCreationData data = new EventSourceCreationData(eventLogName, "Application");
+                EventLog.CreateEventSource(data);
             }
 
             EventLog result  = new EventLog();
+            result.Log = "Application";
             result.Source = eventLogName;
             return result;
         }
 
-        public EventLog EventLog
+        public EventLog EventLogManager
         {
             get
             {
-                if (mEventLog == null)
+                if (mEventLogManager == null)
                 {
-                    mEventLog = CreateEventLog();
+                    mEventLogManager = CreateEventLog();
                 }
-                return mEventLog;
+                return mEventLogManager;
             }
         }
 
@@ -62,7 +64,7 @@ namespace SnCore.Tools.Web
         {
             Exception ex = Server.GetLastError().GetBaseException();
 
-            EventLog.WriteEntry(String.Format("Application error in {0}.\n{1}\n\n{2}",
+            EventLogManager.WriteEntry(String.Format("Application error in {0}.\n{1}\n\n{2}",
                 Request.Url.ToString(),
                 ex.Message,
                 ex.StackTrace), 
@@ -71,7 +73,7 @@ namespace SnCore.Tools.Web
 
         protected virtual void Application_Start(Object sender, EventArgs e)
         {
-            EventLog.WriteEntry("Application starting.");
+            EventLogManager.WriteEntry("Application starting.");
         }
 
         protected virtual void Application_End(Object sender, EventArgs e)
@@ -90,7 +92,7 @@ namespace SnCore.Tools.Web
             string shutDownStack = (string)runtime.GetType().InvokeMember("_shutDownStack",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField, null, runtime, null);
 
-            EventLog.WriteEntry(String.Format("{0}\n{1}\n\n{2}",
+            EventLogManager.WriteEntry(String.Format("{0}\n{1}\n\n{2}",
                 System.Web.Hosting.HostingEnvironment.ShutdownReason,
                 shutDownMessage,
                 shutDownStack),

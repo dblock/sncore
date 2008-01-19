@@ -23,7 +23,7 @@ namespace SnCore.BackEndServices
         private Thread mThread = null;
         private bool mIsStopping = false;
         private List<SessionJobDelegate> mJobs = new List<SessionJobDelegate>();
-        private static EventLog mEventLog = null;
+        private static EventLog mEventLogManager = null;
 
         public SystemService()
         {
@@ -77,7 +77,7 @@ namespace SnCore.BackEndServices
             {
                 if (!bool.TryParse(enabled.ToString(), out result))
                 {
-                    EventLog.WriteEntry(string.Format("Configuration setting {0}=\"{1}\" is invalid.", name, enabled.ToString()),
+                    EventLogManager.WriteEntry(string.Format("Configuration setting {0}=\"{1}\" is invalid.", name, enabled.ToString()),
                         EventLogEntryType.Warning);
                 }
             }
@@ -126,7 +126,7 @@ namespace SnCore.BackEndServices
         {
             if (!IsEnabled)
             {
-                EventLog.WriteEntry(string.Format("Service {0} is disabled.", this.GetType().Name),
+                EventLogManager.WriteEntry(string.Format("Service {0} is disabled.", this.GetType().Name),
                     EventLogEntryType.Information);
 
                 return;
@@ -145,7 +145,7 @@ namespace SnCore.BackEndServices
         {
             if (IsDebug)
             {
-                EventLog.WriteEntry(string.Format("Service {0} is stopping.", this.GetType().Name),
+                EventLogManager.WriteEntry(string.Format("Service {0} is stopping.", this.GetType().Name),
                     EventLogEntryType.Information);
             }
 
@@ -157,7 +157,7 @@ namespace SnCore.BackEndServices
                 {
                     if (IsDebug)
                     {
-                        EventLog.WriteEntry(string.Format("Service {0} is stopping (forcefully).", this.GetType().Name),
+                        EventLogManager.WriteEntry(string.Format("Service {0} is stopping (forcefully).", this.GetType().Name),
                             EventLogEntryType.Warning);
                     }
 
@@ -168,7 +168,7 @@ namespace SnCore.BackEndServices
 
                 if (IsDebug)
                 {
-                    EventLog.WriteEntry(string.Format("Service {0} has been stopped.", this.GetType().Name),
+                    EventLogManager.WriteEntry(string.Format("Service {0} has been stopped.", this.GetType().Name),
                         EventLogEntryType.Information);
                 }
             }
@@ -229,7 +229,7 @@ namespace SnCore.BackEndServices
 
         public void Run()
         {
-            EventLog.WriteEntry(string.Format("Running {0} with {1} job(s).", this.GetType().Name, mJobs.Count),
+            EventLogManager.WriteEntry(string.Format("Running {0} with {1} job(s).", this.GetType().Name, mJobs.Count),
                 EventLogEntryType.Information);
 
             while (!IsStopping)
@@ -240,7 +240,7 @@ namespace SnCore.BackEndServices
 
                     if (IsDebug)
                     {
-                        EventLog.WriteEntry(string.Format("Service {0} is running \"{1}\".", this.GetType().Name, job.Method.Name),
+                        EventLogManager.WriteEntry(string.Format("Service {0} is running \"{1}\".", this.GetType().Name, job.Method.Name),
                             EventLogEntryType.Information);
                     }
                     
@@ -250,7 +250,7 @@ namespace SnCore.BackEndServices
 
                         if (IsDebug)
                         {
-                            EventLog.WriteEntry(string.Format("Service {0} finished running \"{1}\". Total run time was {2}.", 
+                            EventLogManager.WriteEntry(string.Format("Service {0} finished running \"{1}\". Total run time was {2}.", 
                                 this.GetType().Name, job.Method.Name, DateTime.UtcNow.Subtract(start)),
                                 EventLogEntryType.Information);
                         }
@@ -261,7 +261,7 @@ namespace SnCore.BackEndServices
                     }
                     catch (Exception ex)
                     {
-                        EventLog.WriteEntry(string.Format("{0}: Error running job.\n{1}", this.GetType().Name, ex.Message),
+                        EventLogManager.WriteEntry(string.Format("{0}: Error running job.\n{1}", this.GetType().Name, ex.Message),
                             EventLogEntryType.Error);
                     }
 
@@ -275,21 +275,21 @@ namespace SnCore.BackEndServices
             }
         }
 
-        public static EventLog EventLog
+        public static EventLog EventLogManager
         {
             get
             {
-                if (mEventLog == null)
+                if (mEventLogManager == null)
                 {
                     lock (_locker)
                     {
-                        if (mEventLog == null)
+                        if (mEventLogManager == null)
                         {
-                            mEventLog = HostedApplication.CreateEventLog();
+                            mEventLogManager = HostedApplication.CreateEventLog();
                         }
                     }
                 }
-                return mEventLog;
+                return mEventLogManager;
             }
         }
 

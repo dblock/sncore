@@ -15,22 +15,22 @@ namespace SnCore.WebServices
 {
     public class WebService : SoapService
     {
-        private EventLog mEventLog = null;
+        private EventLog mEventLogManager = null;
 
         public WebService()
         {
 
         }
 
-        public EventLog EventLog
+        public EventLog EventLogManager
         {
             get
             {
-                if (mEventLog == null)
+                if (mEventLogManager == null)
                 {
-                    mEventLog = HostedApplication.CreateEventLog();
+                    mEventLogManager = HostedApplication.CreateEventLog();
                 }
-                return mEventLog;
+                return mEventLogManager;
             }
         }
     }

@@ -5,7 +5,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLinkControl" Src="AccountContentGroupLinkControl.ascx" %>
 <div id="divTitle" class="sncore_h2" runat="server">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
-  <% Response.Write(BlogName); %>
+  <asp:Label ID="lblBlogName" runat="server" />
   <img src="images/site/right.gif" border="0" />
  </a>
 </div>

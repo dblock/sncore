@@ -29,18 +29,18 @@ namespace SnCore.Tools.Web
         }
 
         #region Infrastructure
-        
-        private EventLog mEventLog = null;
 
-        public EventLog EventLog
+        private EventLog mEventLogManager = null;
+
+        public EventLog EventLogManager
         {
             get
             {
-                if (mEventLog == null)
+                if (mEventLogManager == null)
                 {
-                    mEventLog = HostedApplication.CreateEventLog();
+                    mEventLogManager = HostedApplication.CreateEventLog();
                 }
-                return mEventLog;
+                return mEventLogManager;
             }
         }
 

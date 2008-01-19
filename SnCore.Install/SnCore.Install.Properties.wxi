@@ -4,6 +4,18 @@
   <Property Id="INSTALLDIR">
    <RegistrySearch Id='GetInstallDir' Type='raw' Root='HKLM' Key='SOFTWARE\Vestris Inc.\SnCore' Name='InstallDir' />
   </Property>
+  <Property Id="NETFRAMEWORK_INSTALLROOT">
+   <RegistrySearch Id="NetFrameworkInstallRootSearch" Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework" Type="raw" Name="InstallRoot" />
+  </Property>
+  <Property Id="ASPNET2">
+   <RegistrySearch Id="ASPNET2InstalledComponents" Root="HKLM" Key="SOFTWARE\Microsoft\ASP.NET\2.0.50727.0" Type="raw" Name="Path" />
+  </Property>
+  <Property Id="SNCORE_WEBSITE_ID" Value="SnCoreDemo">
+   <RegistrySearch Id="SnCoreWebSiteIdSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteId" Type="raw" />
+  </Property>
+  <Property Id="SNCORE_MOBILE_WEBSITE_ID" Value="SnCoreDemoMobile">
+   <RegistrySearch Id="SnCoreMobileWebSiteIdSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="MobileWebSiteId" Type="raw" />
+  </Property>
   <Property Id="SNCORE_WEBSITE_NAME" Value="SnCoreDemo">
    <RegistrySearch Id="SnCoreWebSiteNameSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteName" Type="raw" />
   </Property>
@@ -12,6 +24,12 @@
   </Property>
   <Property Id="SNCORE_WEBSITE_TYPE" Value="SnCoreWebSiteVirtualDirectory">
    <RegistrySearch Id="SnCoreWebSiteTypeSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteType" Type="raw" />
+  </Property>
+  <Property Id="SNCORE_WEBSITE_URL" Value="http://localhost/SnCoreDemo">
+   <RegistrySearch Id="SnCoreWebSiteUrlSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteUrl" Type="raw" />
+  </Property>
+  <Property Id="SNCORE_MOBILE_WEBSITE_URL" Value="http://localhost/SnCoreDemoMobile">
+   <RegistrySearch Id="SnCoreMobileWebSiteUrlSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="MobileWebSiteUrl" Type="raw" />
   </Property>
   <Property Id="SNCORE_SQL_DATABASE" Value="SnCoreDemo">
    <RegistrySearch Id="SnCoreSqlDatabaseSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\Database" Name="SqlDatabase" Type="raw" />

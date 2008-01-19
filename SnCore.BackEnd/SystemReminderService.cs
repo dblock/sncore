@@ -153,7 +153,7 @@ namespace SnCore.BackEndServices
                     }
                     catch (Exception ex)
                     {
-                        EventLog.WriteEntry(string.Format("Error sending an invitation reminder to {0} <{1}>: {2}",
+                        EventLogManager.WriteEntry(string.Format("Error sending an invitation reminder to {0} <{1}>: {2}",
                             invitation.Account.Id, invitation.Email, ex.Message), EventLogEntryType.Warning);
                     }
                     finally
@@ -261,7 +261,7 @@ namespace SnCore.BackEndServices
                         }
                         catch (Exception ex)
                         {
-                            EventLog.WriteEntry(string.Format("Error sending a reminder at {0} to account id {1}: {2}",
+                            EventLogManager.WriteEntry(string.Format("Error sending a reminder at {0} to account id {1}: {2}",
                                 reminder.Url, accountid, ex.Message), EventLogEntryType.Warning);
                         }
                     }

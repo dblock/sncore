@@ -534,7 +534,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
                 }
                 catch (Exception ex)
                 {
-                    EventLog.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
+                    EventLogManager.WriteEntry(string.Format("Error tracking multiple requests.\n{0}", ex.Message),
                         EventLogEntryType.Warning);
                 }
                 finally

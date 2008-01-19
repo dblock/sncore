@@ -217,12 +217,13 @@ namespace SnCore.DomainMail
 
         private static void Log(string message)
         {
+
             Log(message, EventLogEntryType.Information);
         }
 
         private static void Log(string message, EventLogEntryType type)
         {
-            EventLog.WriteEntry(Assembly.GetExecutingAssembly().FullName,
+            EventLogManager.WriteEntry(Assembly.GetExecutingAssembly().FullName,
               message, type);
         }
 

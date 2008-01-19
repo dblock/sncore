@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
  <?include SnCore.Project.wxi ?>
- <Product Id="43598990-5778-4241-baf7-f8abb82af3c9" Name="SnCore" Language="1033" Version="1.0.0.0" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
-  <Package InstallerVersion="200" Compressed="yes" />
+ <Product Id="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd" Name="SnCore" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
+  <Package InstallerVersion="200" Compressed="yes" Description="Social Networking Core SDK" />
+  <Upgrade Id="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
+   <UpgradeVersion Minimum="$(var.ProductVersion)" OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+   <UpgradeVersion Minimum="1.0.0.0" IncludeMinimum="yes" Maximum="$(var.ProductVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
+  </Upgrade>
   <Condition Message="You must be an administrator to install this product.">
    Privileged
   </Condition>
+  <Condition Message="This setup requires the ASP.NET 2 is configured in IIS.">
+   <![CDATA[ASPNET2]]>
+  </Condition>
   <Condition Message='This setup requires the .NET Framework 2.0 or higher.'>
    <![CDATA[MsiNetAssemblySupport >= "2.0.50727"]]>
+  </Condition>
+  <Condition Message="A later version of [ProductName] is already installed.">
+   NOT NEWERVERSIONDETECTED
   </Condition>
   <Media Id="1" Cabinet="SnCore.Install.cab" EmbedCab="yes" />
   <Directory Id="TARGETDIR" Name="SourceDir">
@@ -42,12 +52,10 @@
     <ComponentRef Id="SnCoreDefaultWebSite" />
     <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />
     <ComponentRef Id="SnCoreWebSiteRegistry" />
+    <ComponentRef Id="SnCoreIsapiRewrite" />
     <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
      <ComponentRef Id="SnCoreWebServices" />
      <ComponentRef Id="SnCoreBin" />
-    </Feature>
-    <Feature Id="SnCore.Web.IsapiRewrite.Feature" Title="Redirector Services" Level="1">
-     <ComponentRef Id="SnCoreIsapiRewrite" />
     </Feature>
    </Feature>
    <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
@@ -73,7 +81,14 @@
    <ComponentRef Id="Docs" />
   </Feature>
   <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+  <WixVariable Id="WixUIBannerBmp" Value="bitmaps\Banner.bmp" />
+  <WixVariable Id="WixUIDialogBmp" Value="bitmaps\Dialog.bmp" />
   <UIRef Id="SnCoreUI_FeatureTree" />
+  <!-- Install Sequences -->
+  <InstallExecuteSequence>
+   <FindRelatedProducts Before="LaunchConditions" />
+   <RemoveExistingProducts After="InstallValidate" />
+  </InstallExecuteSequence>
  </Product>
  <?include SnCore.Install.Properties.wxi ?>
  <?include SnCore.Install.Sql.wxi ?>

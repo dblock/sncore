@@ -50,17 +50,6 @@ public partial class AccountBlogPreviewControl : Control
         }
     }
 
-    public string BlogName
-    {
-        get
-        {
-            if (BlogId == 0)
-                return string.Empty;
-
-            return Renderer.Render(Blog.Name);
-        }
-    }
-
     public int BlogId
     {
         get
@@ -110,6 +99,8 @@ public partial class AccountBlogPreviewControl : Control
             {
                 TransitAccountBlog blog = SessionManager.GetInstance<TransitAccountBlog, int>(
                     BlogId, SessionManager.BlogService.GetAccountBlogById);
+
+                lblBlogName.Text = Renderer.Render(blog.Name);
 
                 gridManage.RepeatRows = blog.DefaultViewRows;
                 gridManage.VirtualItemCount = Math.Min(gridManage.PageSize, SessionManager.GetCount<TransitAccountBlogPost, int>(
