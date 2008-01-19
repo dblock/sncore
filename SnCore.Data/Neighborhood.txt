@@ -1,14 +1,23 @@
-1	1	Lower East Side
-2	1	Midtown
-3	1	Chelsea
-4	1	Hells Kitchen
-5	1	Murray Hill
-6	1	Theatre District
-7	1	West Village
-8	1	East Village
-9	1	Tribeca
-10	1	Upper West Side
-11	1	Upper East Side
-12	1	Harlem
-13	1	Garment District
-14	1	Clinton
+1	1	Morningside Heights
+2	1	Harlem
+3	1	Spanish Harlem
+4	1	Yorkville
+5	1	Upper West Side
+6	1	Central Park
+7	1	Upper East Side
+8	1	Clinton
+9	1	Midtown
+10	1	Theater District
+11	1	Garment District
+12	1	Murray Hill
+13	1	Chelsea
+14	1	Gramercy
+15	1	East Village
+16	1	Greenwich Village
+17	1	Tribeca
+18	1	Soho
+19	1	Little Italy
+20	1	Lower East Side
+21	1	Chinatown
+22	1	Financial District
+

@@ -5,7 +5,7 @@
  <?else?>
  <?define ConfigurationName = Release ?>
  <?endif ?>
- <?define ProductVersion = "1.0.119.0" ?>
+ <?define ProductVersion = "1.0.120.0" ?>
  <?define SnCore.Data.Path = $(var.SolutionDir)\SnCore.Data ?>
  <?define SnCore.Deploy.Target.Path = $(var.SolutionDir)\SnCore.Web.Deploy\$(var.ConfigurationName) ?>
  <?define SnCore.MobileDeploy.Target.Path = $(var.SolutionDir)\SnCore.MobileWeb.Deploy\$(var.ConfigurationName) ?>

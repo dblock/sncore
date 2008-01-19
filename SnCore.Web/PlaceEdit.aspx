@@ -96,7 +96,7 @@
       <asp:DropDownList AutoPostBack="true" CssClass="sncore_form_dropdown_small" ID="inputCountry" 
        DataTextField="Name" DataValueField="Name" runat="server" />       
       <asp:DropDownList CssClass="sncore_form_dropdown_small" ID="inputState" DataTextField="Name"
-       DataValueField="Name" runat="server" />
+       DataValueField="Name" runat="server" AutoPostBack="true" />
      </ContentTemplate>
     </asp:UpdatePanel>
    </td>
