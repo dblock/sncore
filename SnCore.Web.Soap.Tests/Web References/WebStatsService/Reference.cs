@@ -1980,9 +1980,33 @@ namespace SnCore.Web.Soap.Tests.WebStatsService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
     public partial class RefererHostQueryOptions {
         
+        private string sortOrderField;
+        
+        private bool sortAscendingField;
+        
         private bool newOnlyField;
         
         private bool hiddenField;
+        
+        /// <remarks/>
+        public string SortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool SortAscending {
+            get {
+                return this.sortAscendingField;
+            }
+            set {
+                this.sortAscendingField = value;
+            }
+        }
         
         /// <remarks/>
         public bool NewOnly {

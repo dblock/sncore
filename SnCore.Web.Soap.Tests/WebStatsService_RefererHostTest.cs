@@ -28,13 +28,15 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, null };
+            WebStatsService.RefererHostQueryOptions qopt = new WebStatsService.RefererHostQueryOptions();
+            object[] args = { ticket, qopt };
             return args;
         }
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, null, options };
+            WebStatsService.RefererHostQueryOptions qopt = new WebStatsService.RefererHostQueryOptions();
+            object[] args = { ticket, qopt, options };
             return args;
         }
     }

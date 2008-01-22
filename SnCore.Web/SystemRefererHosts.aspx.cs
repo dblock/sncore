@@ -40,11 +40,17 @@ public partial class SystemRefererHosts : AuthenticatedPage
         }
     }
 
-    private void GetData(object sender, EventArgs e)
+    RefererHostQueryOptions GetOptions()
     {
         RefererHostQueryOptions qopt = new RefererHostQueryOptions();
         qopt.NewOnly = inputNewOnly.Checked;
         qopt.Hidden = inputHidden.Checked;
+        return qopt;
+    }
+
+    private void GetData(object sender, EventArgs e)
+    {
+        RefererHostQueryOptions qopt = GetOptions();
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitRefererHost, RefererHostQueryOptions>(
             qopt, SessionManager.StatsService.GetRefererHostsCount);
@@ -54,9 +60,7 @@ public partial class SystemRefererHosts : AuthenticatedPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        RefererHostQueryOptions qopt = new RefererHostQueryOptions();
-        qopt.NewOnly = inputNewOnly.Checked;
-        qopt.Hidden = inputHidden.Checked;
+        RefererHostQueryOptions qopt = GetOptions();
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;

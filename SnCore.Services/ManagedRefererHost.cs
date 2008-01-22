@@ -16,6 +16,8 @@ namespace SnCore.Services
 {
     public class RefererHostQueryOptions
     {
+        public string SortOrder = "Total";
+        public bool SortAscending = false;
         private bool mNewOnly = false;
         private bool mHidden = false;
 
@@ -41,6 +43,38 @@ namespace SnCore.Services
             {
                 mHidden = value;
             }
+        }
+
+        public string CreateQuery()
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append("SELECT RefererHost FROM RefererHost RefererHost");
+            b.Append(CreateSubQuery());
+            if (!string.IsNullOrEmpty(SortOrder))
+            {
+                b.AppendFormat(" ORDER BY RefererHost.{0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+            }
+            return b.ToString();
+        }
+
+
+        public string CreateSubQuery()
+        {
+            StringBuilder b = new StringBuilder();
+
+            if (! Hidden)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("Hidden = 0");
+            }
+
+            if (NewOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("Created > '{0}'", DateTime.UtcNow.AddDays(-7));
+            }
+
+            return b.ToString();
         }
 
         public override int GetHashCode()
