@@ -12,25 +12,12 @@ using SnCore.Services;
 
 public partial class CounterViewControl : Control
 {
-    private TransitCounter mCounter;
     private string mUri = null;
 
-    public TransitCounter Counter
+    public TransitCounter GetCounter()
     {
-        get
-        {
-            if (mCounter == null)
-            {
-                mCounter = SessionManager.GetInstance<TransitCounter, string>(
-                    Uri, SessionManager.StatsService.GetCounterByUri);
-            }
-
-            return mCounter;
-        }
-        set
-        {
-            mCounter = value;
-        }
+        return SessionManager.GetInstance<TransitCounter, string>(
+            Uri, SessionManager.StatsService.GetCounterByUri);
     }
 
     public string Uri
@@ -53,8 +40,8 @@ public partial class CounterViewControl : Control
     {
         if (!IsPostBack)
         {
-            TransitCounter tc = Counter;
-            labelCounter.Text = string.Format("{0} since {1}", tc.Total, base.Adjust(tc.Modified).ToString("d"));
+            TransitCounter tc = GetCounter();
+            labelCounter.Text = string.Format("{0} since {1}", tc.Total, base.Adjust(tc.Created).ToString("d"));
         }
     }
 }
