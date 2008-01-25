@@ -143,6 +143,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="LinkUrl" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="FeedType" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Publish" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="PublishImgs" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="PublishMedia" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
@@ -227,10 +228,25 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="TransitAccountFeedQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PicturesOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="PublishedOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="WithFeedItemsOnly" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetAccountFeedsCountResponse">
         <s:complexType>
           <s:sequence>
@@ -242,7 +258,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedQueryOptions" />
             <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
@@ -259,51 +275,6 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFeed" nillable="true" type="tns:TransitAccountFeed" />
         </s:sequence>
       </s:complexType>
-      <s:element name="GetAllAccountFeedsCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedQueryOptions" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="TransitAccountFeedQueryOptions">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
-          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="PicturesOnly" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="PublishedOnly" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="WithFeedItemsOnly" type="s:boolean" />
-          <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetAllAccountFeedsCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetAllAccountFeedsCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllAccountFeeds">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFeedQueryOptions" />
-            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllAccountFeedsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountFeedsResult" type="tns:ArrayOfTransitAccountFeed" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="DeleteAccountFeed">
         <s:complexType>
           <s:sequence>
@@ -984,18 +955,6 @@
   <wsdl:message name="GetAccountFeedsSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountFeedsResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAllAccountFeedsCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllAccountFeedsCount" />
-  </wsdl:message>
-  <wsdl:message name="GetAllAccountFeedsCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllAccountFeedsCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAllAccountFeedsSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllAccountFeeds" />
-  </wsdl:message>
-  <wsdl:message name="GetAllAccountFeedsSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllAccountFeedsResponse" />
-  </wsdl:message>
   <wsdl:message name="DeleteAccountFeedSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountFeed" />
   </wsdl:message>
@@ -1229,16 +1188,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account feeds.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountFeedsSoapIn" />
       <wsdl:output message="tns:GetAccountFeedsSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountFeedsCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account feeds count.</wsdl:documentation>
-      <wsdl:input message="tns:GetAllAccountFeedsCountSoapIn" />
-      <wsdl:output message="tns:GetAllAccountFeedsCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountFeeds">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get updated account feeds.</wsdl:documentation>
-      <wsdl:input message="tns:GetAllAccountFeedsSoapIn" />
-      <wsdl:output message="tns:GetAllAccountFeedsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountFeed">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account feed.</wsdl:documentation>
@@ -1493,24 +1442,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountFeeds">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeeds" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountFeedsCount">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedsCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountFeeds">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeeds" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1883,24 +1814,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountFeeds">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFeeds" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountFeedsCount">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeedsCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountFeeds">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountFeeds" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

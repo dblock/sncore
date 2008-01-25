@@ -35,6 +35,7 @@ namespace SnCore.Services
         public string Name;
         public bool PicturesOnly = false;
         public bool PublishedOnly = true;
+        public bool Hidden = true;
         public bool WithFeedItemsOnly = true;
         public int AccountId = 0;
 
@@ -105,6 +106,12 @@ namespace SnCore.Services
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.Append("AccountFeed.Publish = 1");
+            }
+
+            if (! Hidden)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountFeed.Hidden = 0");
             }
 
             return b.ToString();
@@ -310,7 +317,7 @@ namespace SnCore.Services
             }
         }
 
-        private bool mPublish;
+        private bool mPublish = true;
 
         public bool Publish
         {
@@ -325,7 +332,22 @@ namespace SnCore.Services
             }
         }
 
-        private bool mPublishImgs;
+        private bool mHidden = false;
+
+        public bool Hidden
+        {
+            get
+            {
+
+                return mHidden;
+            }
+            set
+            {
+                mHidden = value;
+            }
+        }
+
+        private bool mPublishImgs = true;
 
         public bool PublishImgs
         {
@@ -340,7 +362,7 @@ namespace SnCore.Services
             }
         }
 
-        private bool mPublishMedia;
+        private bool mPublishMedia = true;
 
         public bool PublishMedia
         {
@@ -413,6 +435,7 @@ namespace SnCore.Services
             Publish = value.Publish;
             PublishImgs = value.PublishImgs;
             PublishMedia = value.PublishMedia;
+            Hidden = value.Hidden;
             base.SetInstance(value);
         }
 
@@ -431,6 +454,7 @@ namespace SnCore.Services
             instance.Publish = this.Publish;
             instance.PublishImgs = this.PublishImgs;
             instance.PublishMedia = this.PublishMedia;
+            instance.Hidden = this.Hidden;
             if (!string.IsNullOrEmpty(this.FeedType)) instance.FeedType = ManagedFeedType.Find(session, this.FeedType);
             return instance;
         }

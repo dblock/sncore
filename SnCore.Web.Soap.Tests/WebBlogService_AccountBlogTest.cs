@@ -46,6 +46,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             WebSyndicationService.WebSyndicationService syndication_endpoint = new WebSyndicationService.WebSyndicationService();
             WebSyndicationService.TransitAccountFeed t_feed = syndication_endpoint.GetAccountFeedById(GetAdminTicket(), feed_id);
             Assert.IsTrue(t_feed.FeedUrl.EndsWith(string.Format("/AccountBlogRss.aspx?id={0}", blog_id)));
+            Assert.IsTrue(t_feed.Hidden); // feed is hidden from homepage to avoid showing it twice
             syndication_endpoint.DeleteAccountFeed(GetAdminTicket(), t_feed.Id);
             Delete(GetAdminTicket(), blog_id);
         }

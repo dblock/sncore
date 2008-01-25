@@ -23,5 +23,6 @@
     <property name="Username" column="Username" type="String" />
     <property name="PublishImgs" column="PublishImgs" type="Boolean" />
     <property name="PublishMedia" column="PublishMedia" type="Boolean" />
+    <property name="Hidden" column="Hidden" type="Boolean" />
   </class>
 </hibernate-mapping>

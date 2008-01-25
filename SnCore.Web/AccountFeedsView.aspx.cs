@@ -134,7 +134,7 @@ public partial class AccountFeedsView : Page
 
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
-            options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
+            options, SessionManager.SyndicationService.GetAccountFeedsCount);
 
         TransitAccountFeedItemQueryOptions feeditem_options = new TransitAccountFeedItemQueryOptions();
         feeditem_options.City = options.City;
@@ -192,7 +192,7 @@ public partial class AccountFeedsView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeed, TransitAccountFeedQueryOptions>(
-            options, serviceoptions, SessionManager.SyndicationService.GetAllAccountFeeds);
+            options, serviceoptions, SessionManager.SyndicationService.GetAccountFeeds);
 
         if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
 

@@ -701,6 +701,7 @@ CREATE TABLE [dbo].[AccountFeed](
 	[Publish] [bit] NOT NULL CONSTRAINT [DF_AccountFeed_Publish]  DEFAULT ((1)),
 	[PublishImgs] [bit] NOT NULL,
 	[PublishMedia] [bit] NOT NULL,
+	[Hidden] [bit] NOT NULL,
  CONSTRAINT [PK_AccountFeed] PRIMARY KEY CLUSTERED 
 (
 	[AccountFeed_Id] ASC
@@ -5461,7 +5462,7 @@ GO
 ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_MadLib]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Neighborhood_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[Neighborhood]'))
-ALTER TABLE [dbo].[Neighborhood]  WITH CHECK ADD  CONSTRAINT [FK_Neighborhood_City] FOREIGN KEY([City_Id])
+ALTER TABLE [dbo].[Neighborhood]  WITH NOCHECK ADD  CONSTRAINT [FK_Neighborhood_City] FOREIGN KEY([City_Id])
 REFERENCES [dbo].[City] ([City_Id])
 ON DELETE CASCADE
 GO
@@ -5619,7 +5620,7 @@ GO
 ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_RefererHost]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererHostDup_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererHostDup]'))
-ALTER TABLE [dbo].[RefererHostDup]  WITH CHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
+ALTER TABLE [dbo].[RefererHostDup]  WITH NOCHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
 REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
 ON DELETE CASCADE
 GO
@@ -6330,7 +6331,7 @@ GO
 ALTER TABLE [dbo].[MadLibInstance] CHECK CONSTRAINT [FK_MadLibInstance_MadLib]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Neighborhood_City]') AND parent_object_id = OBJECT_ID(N'[dbo].[Neighborhood]'))
-ALTER TABLE [dbo].[Neighborhood]  WITH CHECK ADD  CONSTRAINT [FK_Neighborhood_City] FOREIGN KEY([City_Id])
+ALTER TABLE [dbo].[Neighborhood]  WITH NOCHECK ADD  CONSTRAINT [FK_Neighborhood_City] FOREIGN KEY([City_Id])
 REFERENCES [dbo].[City] ([City_Id])
 ON DELETE CASCADE
 GO
@@ -6488,7 +6489,7 @@ GO
 ALTER TABLE [dbo].[RefererAccount] CHECK CONSTRAINT [FK_RefererAccount_RefererHost]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RefererHostDup_RefererHost]') AND parent_object_id = OBJECT_ID(N'[dbo].[RefererHostDup]'))
-ALTER TABLE [dbo].[RefererHostDup]  WITH CHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
+ALTER TABLE [dbo].[RefererHostDup]  WITH NOCHECK ADD  CONSTRAINT [FK_RefererHostDup_RefererHost] FOREIGN KEY([RefererHost_Id])
 REFERENCES [dbo].[RefererHost] ([RefererHost_Id])
 ON DELETE CASCADE
 GO

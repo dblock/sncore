@@ -146,7 +146,7 @@ public partial class AccountFeedItemsView : Page
         feed_options.Country = options.Country;
         feed_options.WithFeedItemsOnly = true;
         int feedsCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
-            feed_options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
+            feed_options, SessionManager.SyndicationService.GetAccountFeedsCount);
 
         string feeds_queryargs = string.Format("city={0}&country={1}&state={2}",
             Renderer.UrlEncode(options.City),

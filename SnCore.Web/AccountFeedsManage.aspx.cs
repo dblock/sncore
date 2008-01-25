@@ -30,11 +30,19 @@ public partial class AccountFeedsManage : AuthenticatedPage
         }
     }
 
+    TransitAccountFeedQueryOptions GetOptions()
+    {
+        TransitAccountFeedQueryOptions qopt = new TransitAccountFeedQueryOptions();
+        qopt.AccountId = SessionManager.AccountId;
+        qopt.Hidden = true;
+        return qopt;
+    }
+
     public void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.SyndicationService.GetAccountFeedsCount(
-            SessionManager.Ticket, SessionManager.AccountId);
+            SessionManager.Ticket, GetOptions());
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -50,7 +58,7 @@ public partial class AccountFeedsManage : AuthenticatedPage
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
         gridManage.DataSource = SessionManager.SyndicationService.GetAccountFeeds(
-            SessionManager.Ticket, SessionManager.AccountId, options);
+            SessionManager.Ticket, GetOptions(), options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

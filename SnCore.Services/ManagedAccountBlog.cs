@@ -338,6 +338,7 @@ namespace SnCore.Services
                 feed.UpdateFrequency = 12;
                 feed.PublishImgs = true;
                 feed.Publish = true;
+                feed.Hidden = true;
                 feed.FeedUrl = FeedUrl;
                 feed.LinkUrl = LinkUrl;
                 feed.FeedType = ManagedFeedType.GetDefaultFeedType(Session);

@@ -102,7 +102,7 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
         options.PublishedOnly = false;
         options.PicturesOnly = false;
         int feedsCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
-            options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
+            options, SessionManager.SyndicationService.GetAccountFeedsCount);
 
         labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
             gridManage.VirtualItemCount, gridManage.VirtualItemCount == 1 ? string.Empty : "s",

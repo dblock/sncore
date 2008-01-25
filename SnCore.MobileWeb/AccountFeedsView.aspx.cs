@@ -68,7 +68,7 @@ public partial class AccountFeedsView : Page
 
         gridManage.CurrentPageIndex = 0;
         gridManage.VirtualItemCount = SessionManager.GetCount<SyndicationService.TransitAccountFeed, SyndicationService.ServiceQueryOptions, SyndicationService.TransitAccountFeedQueryOptions>(
-            options, SessionManager.SyndicationService.GetAllAccountFeedsCount);
+            options, SessionManager.SyndicationService.GetAccountFeedsCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -81,7 +81,7 @@ public partial class AccountFeedsView : Page
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GetCollection<SyndicationService.TransitAccountFeed, SyndicationService.ServiceQueryOptions, SyndicationService.TransitAccountFeedQueryOptions>(
-            options, serviceoptions, SessionManager.SyndicationService.GetAllAccountFeeds);
+            options, serviceoptions, SessionManager.SyndicationService.GetAccountFeeds);
     }
 
     public void cities_SelectedChanged(object sender, CommandEventArgs e)

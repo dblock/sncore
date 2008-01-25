@@ -198,32 +198,9 @@ namespace SnCore.WebServices
         /// <summary>
         /// Get account feeds count.
         /// </summary>
-        /// <returns>number of account feeds</returns>
-        [WebMethod(Description = "Get account feeds count.", CacheDuration = 60)]
-        public int GetAccountFeedsCount(string ticket, int id)
-        {
-            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
-                ticket, string.Format("WHERE AccountFeed.Account.Id = {0}", id));
-        }
-
-        /// <summary>
-        /// Get account feeds.
-        /// </summary>
-        /// <returns>list of account feeds</returns>
-        [WebMethod(Description = "Get account feeds.", CacheDuration = 60)]
-        public List<TransitAccountFeed> GetAccountFeeds(string ticket, int id, ServiceQueryOptions options)
-        {
-            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
-            return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetList(
-                ticket, options, expressions, null);
-        }
-
-        /// <summary>
-        /// Get all account feeds count.
-        /// </summary>
         /// <returns>all account feeds count</returns>
-        [WebMethod(Description = "Get all account feeds count.", CacheDuration = 60)]
-        public int GetAllAccountFeedsCount(string ticket, TransitAccountFeedQueryOptions qopt)
+        [WebMethod(Description = "Get account feeds count.", CacheDuration = 60)]
+        public int GetAccountFeedsCount(string ticket, TransitAccountFeedQueryOptions qopt)
         {
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetCount(
                 ticket, qopt.CreateCountQuery());
@@ -233,8 +210,8 @@ namespace SnCore.WebServices
         /// Get updated account feeds.
         /// </summary>
         /// <returns>list of updated account feeds</returns>
-        [WebMethod(Description = "Get updated account feeds.", CacheDuration = 60)]
-        public List<TransitAccountFeed> GetAllAccountFeeds(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options)
+        [WebMethod(Description = "Get account feeds.", CacheDuration = 60)]
+        public List<TransitAccountFeed> GetAccountFeeds(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitAccountFeed, ManagedAccountFeed, AccountFeed>.GetList(
                 ticket, options, qopt.CreateQuery());

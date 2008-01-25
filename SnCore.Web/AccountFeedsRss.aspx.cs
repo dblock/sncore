@@ -40,7 +40,7 @@ public partial class AccountFeedsRss : Page
             queryoptions.PageNumber = 0;
             queryoptions.PageSize = 10;
 
-            rssRepeater.DataSource = SessionManager.SyndicationService.GetAllAccountFeeds(
+            rssRepeater.DataSource = SessionManager.SyndicationService.GetAccountFeeds(
                 SessionManager.Ticket, options, queryoptions);
             rssRepeater.DataBind();
         }

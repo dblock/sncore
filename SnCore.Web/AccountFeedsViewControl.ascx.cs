@@ -35,11 +35,19 @@ public partial class AccountFeedsViewControl : Control
         }
     }
 
+    TransitAccountFeedQueryOptions GetOptions()
+    {
+        TransitAccountFeedQueryOptions qopt = new TransitAccountFeedQueryOptions();
+        qopt.AccountId = AccountId;
+        qopt.Hidden = false;
+        return qopt;
+    }
+
     void GetData(object sender, EventArgs e)
     {
         accountFeeds.CurrentPageIndex = 0;
-        accountFeeds.VirtualItemCount = SessionManager.GetCount<TransitAccountFeed, int>(
-            AccountId, SessionManager.SyndicationService.GetAccountFeedsCount);
+        accountFeeds.VirtualItemCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
+            GetOptions(), SessionManager.SyndicationService.GetAccountFeedsCount);
         accountFeeds_OnGetDataSource(sender, e);
         accountFeeds.DataBind();
         this.Visible = (accountFeeds.VirtualItemCount > 0);
@@ -50,8 +58,8 @@ public partial class AccountFeedsViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = accountFeeds.CurrentPageIndex;
         options.PageSize = accountFeeds.PageSize;
-        accountFeeds.DataSource = SessionManager.GetCollection<TransitAccountFeed, int>(
-            AccountId, options, SessionManager.SyndicationService.GetAccountFeeds);
+        accountFeeds.DataSource = SessionManager.GetCollection<TransitAccountFeed, TransitAccountFeedQueryOptions>(
+            GetOptions(), options, SessionManager.SyndicationService.GetAccountFeeds);
         panelGrid.Update();
     }
 }

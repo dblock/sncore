@@ -30,6 +30,7 @@
         private System.String m_Username;
         private System.Boolean m_PublishImgs;
         private System.Boolean m_PublishMedia;
+        private System.Boolean m_Hidden;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -462,6 +463,31 @@
             set
             {
                 m_PublishMedia = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Hidden' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Hidden' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean Hidden
+        {
+            get
+            {
+                return m_Hidden;
+            }
+            set
+            {
+                m_Hidden = value;
             }
         }
 

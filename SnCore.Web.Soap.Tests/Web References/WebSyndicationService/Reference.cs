@@ -62,10 +62,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private System.Threading.SendOrPostCallback GetAccountFeedsOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAllAccountFeedsCountOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAllAccountFeedsOperationCompleted;
-        
         private System.Threading.SendOrPostCallback DeleteAccountFeedOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllAccountFeedItemsCountOperationCompleted;
@@ -198,12 +194,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         public event GetAccountFeedsCompletedEventHandler GetAccountFeedsCompleted;
-        
-        /// <remarks/>
-        public event GetAllAccountFeedsCountCompletedEventHandler GetAllAccountFeedsCountCompleted;
-        
-        /// <remarks/>
-        public event GetAllAccountFeedsCompletedEventHandler GetAllAccountFeedsCompleted;
         
         /// <remarks/>
         public event DeleteAccountFeedCompletedEventHandler DeleteAccountFeedCompleted;
@@ -629,26 +619,26 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFeedsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountFeedsCount(string ticket, int id) {
+        public int GetAccountFeedsCount(string ticket, TransitAccountFeedQueryOptions qopt) {
             object[] results = this.Invoke("GetAccountFeedsCount", new object[] {
                         ticket,
-                        id});
+                        qopt});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountFeedsCountAsync(string ticket, int id) {
-            this.GetAccountFeedsCountAsync(ticket, id, null);
+        public void GetAccountFeedsCountAsync(string ticket, TransitAccountFeedQueryOptions qopt) {
+            this.GetAccountFeedsCountAsync(ticket, qopt, null);
         }
         
         /// <remarks/>
-        public void GetAccountFeedsCountAsync(string ticket, int id, object userState) {
+        public void GetAccountFeedsCountAsync(string ticket, TransitAccountFeedQueryOptions qopt, object userState) {
             if ((this.GetAccountFeedsCountOperationCompleted == null)) {
                 this.GetAccountFeedsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFeedsCountOperationCompleted);
             }
             this.InvokeAsync("GetAccountFeedsCount", new object[] {
                         ticket,
-                        id}, this.GetAccountFeedsCountOperationCompleted, userState);
+                        qopt}, this.GetAccountFeedsCountOperationCompleted, userState);
         }
         
         private void OnGetAccountFeedsCountOperationCompleted(object arg) {
@@ -660,27 +650,27 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFeeds", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountFeed[] GetAccountFeeds(string ticket, int id, ServiceQueryOptions options) {
+        public TransitAccountFeed[] GetAccountFeeds(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetAccountFeeds", new object[] {
                         ticket,
-                        id,
+                        qopt,
                         options});
             return ((TransitAccountFeed[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountFeedsAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountFeedsAsync(ticket, id, options, null);
+        public void GetAccountFeedsAsync(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetAccountFeedsAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetAccountFeedsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+        public void GetAccountFeedsAsync(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetAccountFeedsOperationCompleted == null)) {
                 this.GetAccountFeedsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFeedsOperationCompleted);
             }
             this.InvokeAsync("GetAccountFeeds", new object[] {
                         ticket,
-                        id,
+                        qopt,
                         options}, this.GetAccountFeedsOperationCompleted, userState);
         }
         
@@ -688,70 +678,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             if ((this.GetAccountFeedsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountFeedsCompleted(this, new GetAccountFeedsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountFeedsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAllAccountFeedsCount(string ticket, TransitAccountFeedQueryOptions qopt) {
-            object[] results = this.Invoke("GetAllAccountFeedsCount", new object[] {
-                        ticket,
-                        qopt});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAllAccountFeedsCountAsync(string ticket, TransitAccountFeedQueryOptions qopt) {
-            this.GetAllAccountFeedsCountAsync(ticket, qopt, null);
-        }
-        
-        /// <remarks/>
-        public void GetAllAccountFeedsCountAsync(string ticket, TransitAccountFeedQueryOptions qopt, object userState) {
-            if ((this.GetAllAccountFeedsCountOperationCompleted == null)) {
-                this.GetAllAccountFeedsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountFeedsCountOperationCompleted);
-            }
-            this.InvokeAsync("GetAllAccountFeedsCount", new object[] {
-                        ticket,
-                        qopt}, this.GetAllAccountFeedsCountOperationCompleted, userState);
-        }
-        
-        private void OnGetAllAccountFeedsCountOperationCompleted(object arg) {
-            if ((this.GetAllAccountFeedsCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAllAccountFeedsCountCompleted(this, new GetAllAccountFeedsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAllAccountFeeds", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountFeed[] GetAllAccountFeeds(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options) {
-            object[] results = this.Invoke("GetAllAccountFeeds", new object[] {
-                        ticket,
-                        qopt,
-                        options});
-            return ((TransitAccountFeed[])(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAllAccountFeedsAsync(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options) {
-            this.GetAllAccountFeedsAsync(ticket, qopt, options, null);
-        }
-        
-        /// <remarks/>
-        public void GetAllAccountFeedsAsync(string ticket, TransitAccountFeedQueryOptions qopt, ServiceQueryOptions options, object userState) {
-            if ((this.GetAllAccountFeedsOperationCompleted == null)) {
-                this.GetAllAccountFeedsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAccountFeedsOperationCompleted);
-            }
-            this.InvokeAsync("GetAllAccountFeeds", new object[] {
-                        ticket,
-                        qopt,
-                        options}, this.GetAllAccountFeedsOperationCompleted, userState);
-        }
-        
-        private void OnGetAllAccountFeedsOperationCompleted(object arg) {
-            if ((this.GetAllAccountFeedsCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAllAccountFeedsCompleted(this, new GetAllAccountFeedsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2948,6 +2874,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         
         private bool publishedOnlyField;
         
+        private bool hiddenField;
+        
         private bool withFeedItemsOnlyField;
         
         private int accountIdField;
@@ -3033,6 +2961,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         }
         
         /// <remarks/>
+        public bool Hidden {
+            get {
+                return this.hiddenField;
+            }
+            set {
+                this.hiddenField = value;
+            }
+        }
+        
+        /// <remarks/>
         public bool WithFeedItemsOnly {
             get {
                 return this.withFeedItemsOnlyField;
@@ -3108,6 +3046,8 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private string feedTypeField;
         
         private bool publishField;
+        
+        private bool hiddenField;
         
         private bool publishImgsField;
         
@@ -3244,6 +3184,16 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
             }
             set {
                 this.publishField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Hidden {
+            get {
+                return this.hiddenField;
+            }
+            set {
+                this.hiddenField = value;
             }
         }
         
@@ -3624,58 +3574,6 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationService {
         private object[] results;
         
         internal GetAccountFeedsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccountFeed[] Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccountFeed[])(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAllAccountFeedsCountCompletedEventHandler(object sender, GetAllAccountFeedsCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAllAccountFeedsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAllAccountFeedsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAllAccountFeedsCompletedEventHandler(object sender, GetAllAccountFeedsCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAllAccountFeedsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAllAccountFeedsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

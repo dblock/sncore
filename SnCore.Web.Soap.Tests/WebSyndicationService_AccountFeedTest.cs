@@ -51,16 +51,20 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
             t_instance.FeedUrl = GetNewUri();
             t_instance.LinkUrl = GetNewUri();
             t_instance.Name = GetNewString();
+            t_instance.Publish = true;
+            t_instance.PublishImgs = true;
+            t_instance.PublishMedia = true;
+            t_instance.Hidden = false;
             return t_instance;
         }
 
         [Test]
-        public void GetAllAccountFeedsTest()
+        public void GetAccountFeedsTest()
         {
             WebSyndicationService.TransitAccountFeedQueryOptions options = new WebSyndicationService.TransitAccountFeedQueryOptions();
-            int count = EndPoint.GetAllAccountFeedsCount(GetUserTicket(), options);
+            int count = EndPoint.GetAccountFeedsCount(GetUserTicket(), options);
             Assert.IsTrue(count >= 0);
-            WebSyndicationService.TransitAccountFeed[] feeds = EndPoint.GetAllAccountFeeds(GetUserTicket(), options, null);
+            WebSyndicationService.TransitAccountFeed[] feeds = EndPoint.GetAccountFeeds(GetUserTicket(), options, null);
         }
     }
 }

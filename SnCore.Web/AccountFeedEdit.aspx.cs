@@ -62,6 +62,7 @@ public partial class AccountFeedEdit : AuthenticatedPage
                 inputLinkUrl.Text = tf.LinkUrl;
                 inputFeedUrl.Text = tf.FeedUrl;
                 inputUsername.Text = tf.Username;
+                inputShown.Checked = ! tf.Hidden;
                 inputPublish.Checked = tf.Publish;
                 inputPublishImgs.Checked = tf.PublishImgs;
                 inputPublishMedia.Checked = tf.PublishMedia;
@@ -137,13 +138,16 @@ public partial class AccountFeedEdit : AuthenticatedPage
         s.FeedUrl = inputFeedUrl.Text;
         s.LinkUrl = inputLinkUrl.Text;
         s.Publish = inputPublish.Checked;
+        s.Hidden = ! inputShown.Checked;
         s.PublishImgs = inputPublishImgs.Checked;
         s.PublishMedia = inputPublishMedia.Checked;
 
         if (s.Id == 0)
         {
+            TransitAccountFeedQueryOptions qopt = new TransitAccountFeedQueryOptions();
+            qopt.AccountId = SessionManager.AccountId;
             List<TransitAccountFeed> feeds = SessionManager.SyndicationService.GetAccountFeeds(
-                SessionManager.Ticket, SessionManager.AccountId, null);
+                SessionManager.Ticket, qopt, null);
 
             foreach (TransitAccountFeed feed in feeds)
             {

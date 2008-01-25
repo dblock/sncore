@@ -233,3 +233,10 @@ GO
 -- resize Description column of AccountAuditEntry
 ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Description] nvarchar(384) NOT NULL
 GO
+-- create an Hidden option for AccountFeed
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'Hidden') 
+ALTER TABLE dbo.AccountFeed ADD [Hidden] bit NULL
+GO
+UPDATE dbo.AccountFeed SET [Hidden] = 0 WHERE Hidden IS NULL
+ALTER TABLE dbo.AccountFeed ALTER COLUMN [Hidden] bit NOT NULL
+GO
