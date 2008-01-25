@@ -205,7 +205,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountPlaceFavorite : ManagedService<AccountPlaceFavorite, TransitAccountPlaceFavorite>, IAuditableService
+    public class ManagedAccountPlaceFavorite : ManagedAuditableService<AccountPlaceFavorite, TransitAccountPlaceFavorite>
     {
         public ManagedAccountPlaceFavorite()
         {
@@ -268,14 +268,14 @@ namespace SnCore.Services
             return acl;
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has added [place:{1}] to his/her favorites",
+                        string.Format("[user:{0}] has added [place:{1}] to favorites",
                         mInstance.Account.Id, mInstance.Place.Id),
                         string.Format("PlaceView.aspx?id={0}", mInstance.Place.Id)));
                     break;

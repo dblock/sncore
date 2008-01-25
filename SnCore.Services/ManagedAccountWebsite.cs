@@ -102,7 +102,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountWebsite : ManagedService<AccountWebsite, TransitAccountWebsite>, IAuditableService
+    public class ManagedAccountWebsite : ManagedAuditableService<AccountWebsite, TransitAccountWebsite>
     {
         public class InvalidUriException : Exception
         {
@@ -190,14 +190,14 @@ namespace SnCore.Services
                 mInstance.Account.AccountWebsites);
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has added {1} to his/her websites",
+                        string.Format("[user:{0}] has added {1} to websites",
                         mInstance.Account.Id, mInstance.Url),
                         string.Format("AccountView.aspx?id={0}", mInstance.Account.Id)));
                     break;

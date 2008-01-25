@@ -498,7 +498,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlace : ManagedService<Place, TransitPlace>, IAuditableService
+    public class ManagedPlace : ManagedAuditableService<Place, TransitPlace>
     {
         public ManagedPlace()
         {
@@ -913,7 +913,7 @@ namespace SnCore.Services
             Session.Delete(p.Instance);
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             switch (op)
             {

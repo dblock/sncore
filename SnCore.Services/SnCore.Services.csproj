@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManagedAccountAuditEntryCollection.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -145,6 +146,7 @@
     <Compile Include="ManagedAccountSurveyAnswer.cs" />
     <Compile Include="ManagedACL.cs" />
     <Compile Include="ManagedAttribute.cs" />
+    <Compile Include="ManagedAuditableService.cs" />
     <Compile Include="ManagedBookmark.cs" />
     <Compile Include="ManagedBug.cs" />
     <Compile Include="ManagedBugLink.cs" />

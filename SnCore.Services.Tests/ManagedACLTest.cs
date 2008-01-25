@@ -13,7 +13,7 @@ namespace SnCore.Services.Tests
         public void TestBlankACLNoAccount()
         {
             ACL acl = new ACL();
-            acl.Check(new ManagedSecurityContext(null), DataOperation.Create);
+            acl.Check(new ManagedSecurityContext((Account) null), DataOperation.Create);
         }
 
         [Test, ExpectedException(typeof(ManagedAccount.AccessDeniedException))]
@@ -35,7 +35,7 @@ namespace SnCore.Services.Tests
         {
             ACL acl = new ACL();
             acl.Add(new ACLAccount(new Account(), DataOperation.All));
-            acl.Check(new ManagedSecurityContext(null), DataOperation.Create);
+            acl.Check(new ManagedSecurityContext((Account) null), DataOperation.Create);
         }
 
         [Test]

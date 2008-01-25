@@ -205,7 +205,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountGroupPlace : ManagedService<AccountGroupPlace, TransitAccountGroupPlace>, IAuditableService
+    public class ManagedAccountGroupPlace : ManagedAuditableService<AccountGroupPlace, TransitAccountGroupPlace>
     {
         public ManagedAccountGroupPlace()
         {
@@ -278,7 +278,7 @@ namespace SnCore.Services
             return base.CreateOrUpdate(t_instance, sec);
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

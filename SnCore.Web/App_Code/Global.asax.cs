@@ -39,6 +39,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         {
             CreateDataObjects();
             CreateAdministrator();
+            ManagedAccountAuditEntryCollection.SetMaxMessageLength();
         }
 
         if (! SystemService.SystemServicesEnabled)

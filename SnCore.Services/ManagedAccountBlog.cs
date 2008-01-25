@@ -200,7 +200,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlog : ManagedService<AccountBlog, TransitAccountBlog>, IAuditableService
+    public class ManagedAccountBlog : ManagedAuditableService<AccountBlog, TransitAccountBlog>
     {
         public ManagedAccountBlog()
         {
@@ -379,7 +379,7 @@ namespace SnCore.Services
             }
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

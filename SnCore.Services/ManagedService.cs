@@ -188,12 +188,7 @@ namespace SnCore.Services
         {
             if (this is IAuditableService)
             {
-                IList<AccountAuditEntry> audit_entries = ((IAuditableService)this).CreateAccountAuditEntries(
-                    Session, sec, op);
-
-                if (audit_entries != null)
-                    foreach (AccountAuditEntry audit_entry in audit_entries)
-                        Session.Save(audit_entry);
+                (this as IAuditableService).TryAudit(Session, op, sec);
             }
         }
 

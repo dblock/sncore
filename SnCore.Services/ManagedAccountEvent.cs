@@ -816,7 +816,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEvent : ManagedService<AccountEvent, TransitAccountEvent>, IAuditableService
+    public class ManagedAccountEvent : ManagedAuditableService<AccountEvent, TransitAccountEvent>
     {
         public ManagedAccountEvent()
         {
@@ -1061,7 +1061,7 @@ namespace SnCore.Services
             Session.Save(mInstance);
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

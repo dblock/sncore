@@ -10,5 +10,7 @@ namespace SnCore.Services
     public interface IAuditableService
     {
         IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op);
+        bool SuppressAccountAudit { get; set; }
+        bool TryAudit(ISession session, DataOperation op, ManagedSecurityContext sec);
     }
 }

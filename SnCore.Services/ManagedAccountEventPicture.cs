@@ -223,7 +223,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountEventPicture : ManagedService<AccountEventPicture, TransitAccountEventPicture>, IAuditableService
+    public class ManagedAccountEventPicture : ManagedAuditableService<AccountEventPicture, TransitAccountEventPicture>
     {
         public ManagedAccountEventPicture()
         {
@@ -310,7 +310,7 @@ namespace SnCore.Services
             Session.Save(mInstance);
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

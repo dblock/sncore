@@ -116,7 +116,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFriend : ManagedService<AccountFriend, TransitAccountFriend>, IAuditableService
+    public class ManagedAccountFriend : ManagedAuditableService<AccountFriend, TransitAccountFriend>
     {
         public ManagedAccountFriend()
         {
@@ -175,7 +175,7 @@ namespace SnCore.Services
             return acl;
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

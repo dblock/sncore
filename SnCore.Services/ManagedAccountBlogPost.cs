@@ -270,7 +270,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountBlogPost : ManagedService<AccountBlogPost, TransitAccountBlogPost>, IAuditableService
+    public class ManagedAccountBlogPost : ManagedAuditableService<AccountBlogPost, TransitAccountBlogPost>
     {
         public ManagedAccountBlogPost()
         {
@@ -352,7 +352,7 @@ namespace SnCore.Services
             return acl;
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

@@ -230,3 +230,6 @@ GO
 UPDATE dbo.RefererHost SET [Hidden] = 0 WHERE Hidden IS NULL
 ALTER TABLE dbo.RefererHost ALTER COLUMN [Hidden] bit NOT NULL
 GO
+-- resize Description column of AccountAuditEntry
+ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Description] nvarchar(384) NOT NULL
+GO

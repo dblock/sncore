@@ -361,7 +361,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedDiscussionPost : ManagedService<DiscussionPost, TransitDiscussionPost>, IAuditableService
+    public class ManagedDiscussionPost : ManagedAuditableService<DiscussionPost, TransitDiscussionPost>
     {
         public ManagedDiscussionPost()
         {
@@ -567,7 +567,7 @@ namespace SnCore.Services
                 ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

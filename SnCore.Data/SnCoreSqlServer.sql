@@ -155,7 +155,7 @@ BEGIN
 CREATE TABLE [dbo].[AccountAuditEntry](
 	[AccountAuditEntry_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Account_Id] [int] NOT NULL,
-	[Description] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Description] [nvarchar](384) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Url] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsPrivate] [bit] NOT NULL,
 	[IsSystem] [bit] NOT NULL,

@@ -436,7 +436,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountFeed : ManagedService<AccountFeed, TransitAccountFeed>, IAuditableService
+    public class ManagedAccountFeed : ManagedAuditableService<AccountFeed, TransitAccountFeed>
     {
         public ManagedAccountFeed()
         {
@@ -772,12 +772,31 @@ namespace SnCore.Services
                     }
                 }
 
-                foreach (AccountFeedItem item in updated)
+                // group items for auditing
+                ManagedAccountAuditEntryCollection audit_coll = new ManagedAccountAuditEntryCollection();
+                audit_coll.MessageFormat = string.Format("[user:{0}] has posted {{0}} in [feed:{1}]",
+                    mInstance.Account.Id, mInstance.Id);
+
+                for (int i = 0; i < updated.Count; i++)
                 {
+                    AccountFeedItem item = updated[i];
                     DataOperation op = (item.Id == 0 ? DataOperation.Create : DataOperation.Update);
                     Session.Save(item);
-                    ManagedAccountFeedItem m_item = new ManagedAccountFeedItem(Session, item);
-                    m_item.Audit(op, sec);
+                    if (op == DataOperation.Create)
+                    {
+                        string url = string.Format("AccountFeedItemView.aspx?id={0}", item.Id);
+                        string trace = string.Format("<a href=\"{0}\">{1}</a>", url, Renderer.Render(item.Title));
+                        audit_coll.Add(trace);
+                    }
+                }
+
+                IEnumerable<AccountAuditEntry> audit_entries = audit_coll.GetAccountAuditEntries(
+                    Session, mInstance.Account, string.Format("AccountFeedView.aspx?id={0}", mInstance.Id));
+
+                foreach(AccountAuditEntry entry in audit_entries)
+                {
+                    entry.Created = entry.Updated = mInstance.Updated;
+                    Session.Save(entry);
                 }
 
                 mInstance.AccountFeedItems = updated;
@@ -972,7 +991,7 @@ namespace SnCore.Services
             }
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

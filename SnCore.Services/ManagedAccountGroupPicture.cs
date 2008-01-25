@@ -213,7 +213,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed AccountGroup picture.
     /// </summary>
-    public class ManagedAccountGroupPicture : ManagedService<AccountGroupPicture, TransitAccountGroupPicture>, IAuditableService
+    public class ManagedAccountGroupPicture : ManagedAuditableService<AccountGroupPicture, TransitAccountGroupPicture>
     {
         public ManagedAccountGroupPicture()
         {
@@ -305,7 +305,7 @@ namespace SnCore.Services
             throw new Exception("Error migrating picture to group owner. Missing group owner.");
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

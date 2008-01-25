@@ -213,7 +213,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed place picture.
     /// </summary>
-    public class ManagedPlacePicture : ManagedService<PlacePicture, TransitPlacePicture>, IAuditableService
+    public class ManagedPlacePicture : ManagedAuditableService<PlacePicture, TransitPlacePicture>
     {
         public ManagedPlacePicture()
         {
@@ -414,7 +414,7 @@ namespace SnCore.Services
             }
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

@@ -180,7 +180,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedPlaceQueueItem : ManagedService<PlaceQueueItem, TransitPlaceQueueItem>, IAuditableService
+    public class ManagedPlaceQueueItem : ManagedAuditableService<PlaceQueueItem, TransitPlaceQueueItem>
     {
         public ManagedPlaceQueueItem()
         {
@@ -263,14 +263,14 @@ namespace SnCore.Services
             return acl;
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has added [place:{1}] to his/her queue",
+                        string.Format("[user:{0}] has added [place:{1}] to the queue",
                         mInstance.PlaceQueue.Account.Id, mInstance.Place.Id),
                         string.Format("PlaceView.aspx?id={0}", mInstance.Place.Id)));
                     break;

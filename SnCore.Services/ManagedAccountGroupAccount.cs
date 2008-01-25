@@ -190,7 +190,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountGroupAccount : ManagedService<AccountGroupAccount, TransitAccountGroupAccount>, IAuditableService
+    public class ManagedAccountGroupAccount : ManagedAuditableService<AccountGroupAccount, TransitAccountGroupAccount>
     {
         public ManagedAccountGroupAccount()
         {
@@ -337,7 +337,7 @@ namespace SnCore.Services
             return id;
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

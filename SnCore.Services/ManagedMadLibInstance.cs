@@ -207,7 +207,7 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedMadLibInstance : ManagedService<MadLibInstance, TransitMadLibInstance>, IAuditableService
+    public class ManagedMadLibInstance : ManagedAuditableService<MadLibInstance, TransitMadLibInstance>
     {
         public ManagedMadLibInstance()
         {
@@ -322,7 +322,7 @@ namespace SnCore.Services
                 .List<MadLibInstance>();
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)

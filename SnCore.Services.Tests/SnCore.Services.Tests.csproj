@@ -105,6 +105,10 @@
       <Project>{499527FF-AE52-450F-B3E3-4AD53E1712AD}</Project>
       <Name>SgmlReaderDll8</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
+      <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
+      <Name>SnCore.Data.Hibernate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.Data.Tests\SnCore.Data.Tests.csproj">
       <Name>SnCore.Data.Tests</Name>
       <Project>{67A52AD0-9E51-4899-82A8-D2E2E7455069}</Project>
@@ -131,6 +135,7 @@
     </Compile>
     <Compile Include="ManagedAccountAddressTest.cs" />
     <Compile Include="ManagedAccountAttributeTest.cs" />
+    <Compile Include="ManagedAccountAuditEntryCollectionTest.cs" />
     <Compile Include="ManagedAccountAuditEntryTest.cs" />
     <Compile Include="ManagedAccountBlogAuthorTest.cs" />
     <Compile Include="ManagedAccountBlogPostTest.cs" />

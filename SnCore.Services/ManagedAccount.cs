@@ -472,7 +472,7 @@ namespace SnCore.Services
     /// <summary>
     /// Managed account.
     /// </summary>
-    public class ManagedAccount : ManagedService<Account, TransitAccount>, IAuditableService
+    public class ManagedAccount : ManagedAuditableService<Account, TransitAccount>
     {
         public static int MinimumPasswordLength = 4;
         public static int MaxOfAnything = 250;
@@ -1576,7 +1576,7 @@ namespace SnCore.Services
             }
         }
 
-        public IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
+        public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             
@@ -1588,7 +1588,7 @@ namespace SnCore.Services
                     break;
                 case DataOperation.Update:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] has updated his/her profile", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                        string.Format("[user:{0}] has updated the public profile", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
                     break;
                 case DataOperation.Delete:
                     result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
