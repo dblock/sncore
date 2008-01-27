@@ -32,6 +32,8 @@
   runat="server" />
  <asp:LinkButton runat="server" ID="linkDelete" Text="&#187; Delete" OnClick="linkDelete_Click" 
   OnClientClick="return confirm('Are you sure you want to delete this event?')"/>
+ <asp:LinkButton runat="server" id="linkSummarize" Text="&#187; Summarize" OnClick="linkSummarize_Click"
+  CausesValidation="false" />
  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
  <table class="sncore_account_table">
@@ -127,6 +129,13 @@
    <td class="sncore_form_value">
     <SnCoreWebControls:Button ID="manageAdd" runat="server" Text="Save" CausesValidation="true"
      CssClass="sncore_form_button" OnClick="save_Click" OnClientClick="WebForm_OnSubmit();" />
+   </td>
+  </tr>
+ </table>
+ <table>
+  <tr>
+   <td>
+    <asp:Label ID="labelSummary" runat="server" />
    </td>
   </tr>
  </table>

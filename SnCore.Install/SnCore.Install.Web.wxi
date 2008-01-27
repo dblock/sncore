@@ -303,6 +303,7 @@
      <File Id="SnCoreEmailPlacePicture_aspx" Name="EmailPlacePicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\EmailPlacePicture.aspx" />
      <File Id="SnCoreEmailRefererAccount_aspx" Name="EmailRefererAccount.aspx" Source="$(var.SnCore.Deploy.Target.Path)\EmailRefererAccount.aspx" />
      <File Id="SnCoreFeatured_aspx" Name="Featured.aspx" Source="$(var.SnCore.Deploy.Target.Path)\Featured.aspx" />
+     <File Id="SnCoreNewContent_aspx" Name="NewContent.aspx" Source="$(var.SnCore.Deploy.Target.Path)\NewContent.aspx" />
      <File Id="SnCoreFeaturedAccountEventsRss_aspx" Name="FeaturedAccountEventsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\FeaturedAccountEventsRss.aspx" />
      <File Id="SnCoreFeaturedAccountEventsView_aspx" Name="FeaturedAccountEventsView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\FeaturedAccountEventsView.aspx" />
      <File Id="SnCoreFeaturedAccountFeedItemsRss_aspx" Name="FeaturedAccountFeedItemsRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\FeaturedAccountFeedItemsRss.aspx" />

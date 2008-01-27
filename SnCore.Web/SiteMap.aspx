@@ -107,6 +107,7 @@
       </ul>
       <li><b>Featured</b></li>
       <ul>
+       <li><a href="NewContent.aspx">New Content</a></li>
        <li><a href="FeaturedAccountFeedsView.aspx">Blogs</a></li>
        <li><a href="FeaturedAccountFeedItemsView.aspx">Blog Posts</a></li>
        <li><a href="FeaturedAccountsView.aspx">People</a></li>

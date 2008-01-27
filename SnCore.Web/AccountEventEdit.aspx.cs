@@ -197,4 +197,32 @@ public partial class AccountEventEdit : AuthenticatedPage
         SessionManager.InvalidateCache<TransitAccountEventInstance>();
         Redirect("AccountEventsToday.aspx");
     }
+
+    public void linkSummarize_Click(object sender, EventArgs e)
+    {
+        TransitAccountEvent tav = SessionManager.EventService.GetAccountEventById(
+            SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+
+        string imageuri = string.Format("AccountEventPictureThumbnail.aspx?id={0}", tav.PictureId);
+
+        labelSummary.Text = string.Format(
+            "<table cellpadding='4' cellspacing='4'>\n" +
+             "<tr>\n" +
+              "<td valign='middle'>\n" +
+               "<a href='{2}'><img border='0' src='{0}'></a>\n" +
+              "</td>\n" +
+              "<td valign='middle'>\n" +
+               "<p><a href='{2}'>{3}</a><br>\n" +
+                "<b><font style='font-size: smaller;'>{4}</font></b></p>\n" +
+               "<p>{1}</p>\n" +
+              "</td>\n" +
+             "</tr>\n" +
+            "</table>",
+            imageuri,
+            Renderer.GetSummary(tav.Description),
+            string.Format("AccountEventView.aspx?id={0}", RequestId),
+            Renderer.Render(tav.Name),
+            Renderer.Render(tav.Schedule));
+
+    }
 }

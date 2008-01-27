@@ -137,7 +137,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
         inputSummary.Text = Regex.Replace(inputSummary.Text, @"([\s*][\r\n]+[\s]*)(?<text>[^\r\n]*)", "<p>${text}</p>");
     }
 
-    public void summarize(object sender, EventArgs e)
+    public void linkSummarize_Click(object sender, EventArgs e)
     {
         List<HtmlImage> list = HtmlImageExtractor.Extract(inputSummary.Text);
         string imageuri = string.Empty;
@@ -146,14 +146,28 @@ public partial class AccountStoryEdit : AuthenticatedPage
             imageuri = list[0].Src;
             imageuri = imageuri.Replace("AccountStoryPicture.aspx", "AccountStoryPictureThumbnail.aspx");
         }
-        labelSummary.Text = string.Format("<table cellpadding=4 cellspacing=4><tr><td valign=middle>" +
-            "<a href='{2}'><img border=0 src='{0}'></a></td>" +
-            "<td valign=middle><p><a href='{2}'>{3}</a></p>" +
-            "<p>{1}</p><p class='sncore_link'><a href='{2}'>&#187; Read</a>" +
-            "</td></tr></table>",
+        else
+        {
+            TransitAccountStory ts = SessionManager.StoryService.GetAccountStoryById(
+                SessionManager.Ticket, RequestId);
+
+            imageuri = string.Format("AccountStoryPictureThumbnail.aspx?id={0}", ts.AccountStoryPictureId);
+        }
+        labelSummary.Text = string.Format(
+            "<table cellpadding='4' cellspacing='4'>\n" +
+             "<tr>\n" +
+              "<td valign='middle'>\n" +
+               "<a href='{2}'><img border='0' src='{0}'></a>\n" +
+              "</td>\n" +
+              "<td valign='middle'>\n" +
+               "<p><a href='{2}'>{3}</a></p>\n" +
+               "<p>{1}</p>\n" +
+              "</td>\n" +
+             "</tr>\n" +
+            "</table>",
             imageuri,
             Renderer.GetSummary(inputSummary.Text),
             string.Format("AccountStoryView.aspx?id={0}", RequestId),
-            inputName.Text);
+            Renderer.Render(inputName.Text));
     }
 }

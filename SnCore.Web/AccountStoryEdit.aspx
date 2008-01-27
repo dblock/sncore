@@ -14,6 +14,8 @@
   <asp:HyperLink ID="linkBack" runat="server" Text="&#187; Cancel" NavigateUrl="AccountStoriesView.aspx" />
   <asp:HyperLink ID="linkAddPictures" runat="server" Text="&#187; Add Photos" />
   <asp:HyperLink ID="linkView" runat="server" Text="&#187; Preview" Target="_blank" />
+  <asp:LinkButton runat="server" id="LinkButton1" Text="&#187; Summarize" OnClick="linkSummarize_Click"
+   OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" CausesValidation="false" />
  </div>
  <SnCoreWebControls:DirtyPanelExtender ID="panelPostExtender" runat="server" TargetControlID="panelEdit"
   OnLeaveMessage="Your story has not been saved!" />
@@ -68,8 +70,6 @@
       runat="server" text="Save and Continue Editing" Width="200" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
      <sncorewebcontrols:button id="linkClean" cssclass="sncore_form_button" onclick="clean"
       runat="server" text="Clean" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
-     <sncorewebcontrols:button id="linkSummarize" cssclass="sncore_form_button" onclick="summarize"
-      runat="server" text="Summarize" OnClientClick="DirtyPanelExtender_SuppressDirtyCheck(); WebForm_OnSubmit();" />
     </td>
    </tr>
    <tr>

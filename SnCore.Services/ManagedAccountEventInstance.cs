@@ -65,13 +65,13 @@ namespace SnCore.Services
                 b.AppendFormat("AccountEvent.AccountEventType.Name = '{0}'", Renderer.SqlEncode(Type));
             }
 
-            if (StartDateTime != DateTime.MinValue)
+            if (EndDateTime != DateTime.MinValue)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.AppendFormat("ScheduleInstance.StartDateTime < '{0}'", EndDateTime);
             }
 
-            if (EndDateTime != DateTime.MaxValue)
+            if (StartDateTime != DateTime.MaxValue)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.AppendFormat("ScheduleInstance.EndDateTime > '{0}'", StartDateTime);

@@ -713,7 +713,24 @@ namespace SnCore.Services
         {
             ScheduleInstance instance = GetOrCreateScheduleInstance(0);
             instance.StartDateTime = mInstance.StartDateTime;
-            instance.EndDateTime = mInstance.AllDay ? mInstance.EndDateTime.AddDays(1) : mInstance.EndDateTime;
+            if (mInstance.AllDay)
+            {
+                instance.EndDateTime = mInstance.EndDateTime.AddDays(1);
+            }
+            else if (mInstance.NoEndDateTime)
+            {
+                instance.EndDateTime = mInstance.StartDateTime.Date.AddDays(1);
+            }
+            else
+            {
+                instance.EndDateTime = mInstance.EndDateTime;
+            }
+
+            if (instance.EndDateTime < instance.StartDateTime)
+            {
+                // BUGBUG: this should never happen
+            }
+
             Session.Save(instance);
             return 1;
         }
