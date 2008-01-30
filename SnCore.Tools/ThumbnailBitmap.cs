@@ -142,10 +142,13 @@ namespace SnCore.Tools.Drawing
 
             try
             {
-                mBitmap = GetResizedImageBytesGIF89a(bitmap, full, s_ImageQuality, out mFullSize);
-                bitmap.Seek(0, SeekOrigin.Begin);
-                mThumbnail = GetThumbnailGIF89a(bitmap, min, thumb);
-                return true;
+                // BUGBUG: TryGet... still throws in some scenarios in NGIF
+                if (TryGetResizedImageBytesGIF89a(bitmap, full, s_ImageQuality, out mFullSize, out mBitmap))
+                {
+                    bitmap.Seek(0, SeekOrigin.Begin);
+                    mThumbnail = GetThumbnailGIF89a(bitmap, min, thumb);
+                    return true;
+                }
             }
             catch
             {
@@ -318,6 +321,20 @@ namespace SnCore.Tools.Drawing
             originalimage.Read(stream);
             sz = originalimage.GetFrameSize();
             return GetResizedImageBytesGIF89a(originalimage, stream, ts, quality);
+        }
+
+        public static bool TryGetResizedImageBytesGIF89a(Stream stream, Size ts, int quality, out Size sz, out byte[] bytes)
+        {
+            bytes = null;
+            sz = default(Size);
+
+            GifDecoder originalimage = new GifDecoder();
+            if (!originalimage.TryRead(stream))
+                return false;
+
+            sz = originalimage.GetFrameSize();
+            bytes = GetResizedImageBytesGIF89a(originalimage, stream, ts, quality);
+            return true;
         }
 
         public static byte[] GetResizedImageBytesGIF89a(GifDecoder originalimage, Stream stream, Size ts, int quality)

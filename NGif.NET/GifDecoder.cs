@@ -357,6 +357,14 @@ namespace Gif.Components
          */
         public void Read(Stream inStream)
         {
+            if (! TryRead(inStream))
+            {
+                throw new Exception("Invalid Format");
+            }
+        }
+
+        public bool TryRead(Stream inStream)
+        {
             Init();
 
             if (inStream == null)
@@ -365,12 +373,15 @@ namespace Gif.Components
             }
 
             this.inStream = inStream;
-            ReadHeader();
+            if (!TryReadHeader())
+                return false;
+
             ReadContents();
+
             if (frameCount < 0)
-            {
-                throw new Exception("Invalid Format");
-            }
+                return false;
+
+            return true;
         }
 
         /**
@@ -552,6 +563,13 @@ namespace Gif.Components
             return inStream.ReadByte();
         }
 
+        protected bool TryRead(out int result)
+        {
+            result = inStream.ReadByte();
+            if (result == -1) return false;
+            return true;
+        }
+
         /**
          * Reads next variable length block from input.
          *
@@ -698,28 +716,39 @@ namespace Gif.Components
             Read(); // block terminator
         }
 
+        protected void ReadHeader()
+        {
+            if (!TryReadHeader())
+            {
+                throw new FormatException();
+            }
+        }
+
         /**
          * Reads GIF file header information.
          */
-        protected void ReadHeader()
+        protected bool TryReadHeader()
         {
             String id = "";
             for (int i = 0; i < 6; i++)
             {
                 id += (char)Read();
             }
-            if (!id.StartsWith("GIF"))
-            {
-                throw new FormatException("Invalid ID");
-            }
 
-            ReadLSD();
+            if (!id.StartsWith("GIF"))
+                return false;
+
+            if (!TryReadLSD())
+                return false;
+
             if (gctFlag)
             {
                 gctbytes = ReadColorTableBytes(gctSize);
                 gct = ReadColorTable(gctSize, gctbytes);
                 bgColor = gct[bgIndex];
             }
+
+            return true;
         }
 
         public byte[] GetActiveColorTableBytes()
@@ -805,25 +834,45 @@ namespace Gif.Components
 
         }
 
+        protected void ReadLSD()
+        {
+            if (! TryReadLSD())
+            {
+                throw new FormatException();
+            }
+        }
+
         /**
          * Reads Logical Screen Descriptor
          */
-        protected void ReadLSD()
+        protected bool TryReadLSD()
         {
-
             // logical screen size
-            width = ReadShort();
-            height = ReadShort();
+            if (!TryReadShort(out width))
+                return false;
+
+            if (!TryReadShort(out height))
+                return false;
 
             // packed fields
-            int packed = Read();
+            int packed = 0;
+            if (!TryRead(out packed))
+                return false;
+
             gctFlag = (packed & 0x80) != 0; // 1   : global color table flag
             // 2-4 : color resolution
             // 5   : gct sort flag
             gctSize = 2 << (packed & 7); // 6-8 : gct size
 
-            bgIndex = Read(); // background color index
-            pixelAspect = Read(); // pixel aspect ratio
+            // background color index
+            if (!TryRead(out bgIndex))
+                return false;
+
+            // pixel aspect ratio
+            if (!TryRead(out pixelAspect))
+                return false;
+
+            return true;
         }
 
         /**
@@ -851,6 +900,23 @@ namespace Gif.Components
         {
             // read 16-bit value, LSB first
             return Read() | (Read() << 8);
+        }
+
+        protected bool TryReadShort(out int result)
+        {
+            // read 16-bit value, LSB first
+            result = 0;
+
+            int l = 0;
+            if (! TryRead(out l))
+                return false;
+
+            int r = 0;
+            if (!TryRead(out r))
+                return false;
+
+            result = l | (r << 8);
+            return true;
         }
 
         /**

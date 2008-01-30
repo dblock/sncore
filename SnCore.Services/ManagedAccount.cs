@@ -177,6 +177,8 @@ namespace SnCore.Services
             set
             {
                 mUrl = value;
+                // BUGBUG: Janrain OpenId appends port 80 to local urls, which some OpenId providers can't handle
+                mUrl = mUrl.Replace(":80/", "/");
             }
         }
 
@@ -199,8 +201,8 @@ namespace SnCore.Services
 
         public TransitOpenIdRedirect(string token, string url)
         {
-            mUrl = url;
-            mToken = token;
+            Url = url;
+            Token = token;
         }
     }
 

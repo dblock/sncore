@@ -85,7 +85,7 @@ namespace SnCore.WebServices
                         foreach (ICriterion criterion in criterions)
                             criteria.Add(criterion);
                     DataType instance = criteria.UniqueResult<DataType>();
-                    if (instance == null) throw new ObjectNotFoundException(criteria.ToString(), typeof(DataType));
+                    if (instance == null) return default(TransitType);
                     m_type.SetDbObjectInstance(session, instance);
                     return (TransitType)m_type.GetTransitServiceInstance(sec);
                 }
