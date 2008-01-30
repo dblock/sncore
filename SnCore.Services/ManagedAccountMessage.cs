@@ -298,12 +298,6 @@ namespace SnCore.Services
             base.Delete(sec);
         }
 
-        public void MarkMessageAsRetreiveUnRead(bool value)
-        {
-            mInstance.Unread = value;
-            Session.Save(mInstance);
-        }
-
         protected override void Save(ManagedSecurityContext sec)
         {
             bool fNew = (mInstance.Id == 0);

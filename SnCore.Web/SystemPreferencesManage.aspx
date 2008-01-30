@@ -19,16 +19,18 @@
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemBookmarksManage.aspx">Bookmarks</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="AccountMadLibsManage.aspx">Mad Libs</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="TagWordsManage.aspx">Tag&nbsp;Words</a></td></tr>
-    </table>
-    <table>
-     <tr><td width="30" align="center"><img src="images/account/contentgroups.gif" /></td><td width="*"><a href="AccountContentGroupsManage.aspx">Content</a></td></tr>
-     <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="MarketingCampaignsManage.aspx">Campaigns</a></td></tr>
-    </table>
-    <table>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemInvitationsManage.aspx">Invitations</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPropertyGroupsManage.aspx">Property Groups</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAttributesManage.aspx">Attributes</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountRedirectsManage.aspx">Redirects</a></td></tr>
+    </table>
+    <div class="sncore_h2">
+     Content
+    </div>
+    <table>
+     <tr><td width="30" align="center"><img src="images/account/contentgroups.gif" /></td><td width="*"><a href="NewContent.aspx">New Content</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/contentgroups.gif" /></td><td width="*"><a href="AccountContentGroupsManage.aspx">Content Groups</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="MarketingCampaignsManage.aspx">Campaigns</a></td></tr>
     </table>
     <div class="sncore_h2">
      Geography

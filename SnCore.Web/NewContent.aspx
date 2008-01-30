@@ -6,8 +6,8 @@
   <tr>
    <td valign="top" width="*">
     <h3>Featured People</h3>
-    <asp:DataList runat="server" ID="accounts" RepeatColumns="6" RepeatDirection="Horizontal" CssClass="sncore_table_noborder"
-     CellPadding="4" ItemStyle-HorizontalAlign="Center">    
+    <asp:DataList runat="server" ID="accounts" RepeatColumns="6" RepeatDirection="Horizontal"
+     CellPadding="4" ItemStyle-HorizontalAlign="Center" Width="100%">    
      <ItemTemplate>
       <div>
        <a href="AccountView.aspx?id=<%# Eval("DataRowId") %>">
@@ -25,8 +25,8 @@
      </ItemTemplate>
     </asp:DataList>
     <h3>Featured Places</h3>
-    <asp:DataList runat="server" ID="places" RepeatColumns="6" RepeatDirection="Horizontal" CssClass="sncore_table_noborder"
-     CellPadding="4" ItemStyle-HorizontalAlign="Center">    
+    <asp:DataList runat="server" ID="places" RepeatColumns="6" RepeatDirection="Horizontal"
+     CellPadding="4" ItemStyle-HorizontalAlign="Center" Width="100%">
      <ItemTemplate>
       <div>
        <a href="PlaceView.aspx?id=<%# Eval("DataRowId") %>">
@@ -44,8 +44,8 @@
      </ItemTemplate>
     </asp:DataList>
     <h3>Syndicated Blogs</h3>
-    <asp:DataList runat="server" ID="accountfeeds" RepeatColumns="6" RepeatDirection="Horizontal" CssClass="sncore_table_noborder"
-     CellPadding="4" ItemStyle-HorizontalAlign="Center">    
+    <asp:DataList runat="server" ID="accountfeeds" RepeatColumns="6" RepeatDirection="Horizontal"
+     CellPadding="4" ItemStyle-HorizontalAlign="Center" Width="100%">
      <ItemTemplate>
       <div>
        <a href="AccountFeedView.aspx?id=<%# Eval("DataRowId") %>">
@@ -60,8 +60,8 @@
      </ItemTemplate>
     </asp:DataList>
     <h3>Upcoming Events</h3>
-    <asp:DataList runat="server" ID="accountevents" RepeatColumns="6" RepeatDirection="Horizontal" CssClass="sncore_table_noborder"
-     CellPadding="4" ItemStyle-HorizontalAlign="Center">    
+    <asp:DataList runat="server" ID="accountevents" RepeatColumns="6" RepeatDirection="Horizontal"
+     CellPadding="4" ItemStyle-HorizontalAlign="Center" Width="100%">
      <ItemTemplate>
       <div>
        <a href="AccountEventView.aspx?id=<%# Eval("AccountEventId") %>">

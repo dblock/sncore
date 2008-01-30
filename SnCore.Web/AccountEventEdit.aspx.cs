@@ -212,8 +212,9 @@ public partial class AccountEventEdit : AuthenticatedPage
                "<a href='{2}'><img border='0' src='{0}'></a>\n" +
               "</td>\n" +
               "<td valign='middle'>\n" +
-               "<p><a href='{2}'>{3}</a><br>\n" +
-                "<b><font style='font-size: smaller;'>{4}</font></b></p>\n" +
+               "<p><a href='{2}'>{3}</a>\n" +
+                "<br><b><font style='font-size: smaller;'>{4}</font></b>\n" +
+                "<br><font style='font-size: smaller;'><a href='{6}'>{5}</a>, {7}</font></p>\n" +
                "<p>{1}</p>\n" +
               "</td>\n" +
              "</tr>\n" +
@@ -222,7 +223,11 @@ public partial class AccountEventEdit : AuthenticatedPage
             Renderer.GetSummary(tav.Description),
             string.Format("AccountEventView.aspx?id={0}", RequestId),
             Renderer.Render(tav.Name),
-            Renderer.Render(tav.Schedule));
+            Renderer.Render(tav.Schedule),
+            Renderer.Render(tav.PlaceName),
+            string.Format("PlaceView.aspx?id={0}", tav.PlaceId),
+            Renderer.Render(tav.PlaceCity)
+            );
 
     }
 }
