@@ -22,7 +22,6 @@ public partial class AccountBlogPreviewControl : Control
     private int mItemsShown = 0;
     private int mImagesShown = 0;
     private TransitAccountBlog mAccountBlog = null;
-    private ListItemCollection mContentLinkIds = new ListItemCollection();
 
     public int ItemsCollapseAfter
     {
@@ -59,31 +58,6 @@ public partial class AccountBlogPreviewControl : Control
         set
         {
             ViewState["BlogId"] = value;
-        }
-    }
-
-    public ListItemCollection ContentLinkIds
-    {
-        get
-        {
-            return mContentLinkIds;
-        }
-        set
-        {
-            mContentLinkIds = value;
-        }
-    }
-
-    protected override void OnLoad(EventArgs e)
-    {
-        base.OnLoad(e);
-
-        foreach (ListItem item in ContentLinkIds)
-        {
-            AccountContentGroupLinkControl link = (AccountContentGroupLinkControl)Page.LoadControl("AccountContentGroupLinkControl.ascx");
-            link.LowerCase = true;
-            link.ConfigurationName = item.Value;
-            divLinks.Controls.Add(link);
         }
     }
 

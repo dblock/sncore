@@ -394,76 +394,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountContent]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountContent](
-	[AccountContent_Id] [int] IDENTITY(1,1) NOT NULL,
-	[AccountContentGroup_Id] [int] NOT NULL,
-	[Tag] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Text] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
-	[Timestamp] [datetime] NOT NULL,
- CONSTRAINT [PK_AccountContent] PRIMARY KEY CLUSTERED 
-(
-	[AccountContent_Id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountContent]') AND name = N'IX_AccountContent')
-CREATE NONCLUSTERED INDEX [IX_AccountContent] ON [dbo].[AccountContent] 
-(
-	[AccountContentGroup_Id] ASC,
-	[Timestamp] DESC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountContent]') AND name = N'IX_AccountContent')
-CREATE NONCLUSTERED INDEX [IX_AccountContent] ON [dbo].[AccountContent] 
-(
-	[AccountContentGroup_Id] ASC,
-	[Timestamp] DESC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountContent]') AND name = N'PK_AccountContent')
-ALTER TABLE [dbo].[AccountContent] ADD  CONSTRAINT [PK_AccountContent] PRIMARY KEY CLUSTERED 
-(
-	[AccountContent_Id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[AccountContentGroup](
-	[AccountContentGroup_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Account_Id] [int] NOT NULL,
-	[Name] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Created] [datetime] NOT NULL,
-	[Modified] [datetime] NOT NULL,
-	[Trusted] [bit] NOT NULL,
-	[Login] [bit] NOT NULL CONSTRAINT [DF_AccountContentGroup_RequireLogin]  DEFAULT ((0)),
- CONSTRAINT [PK_AccountContentGroup] PRIMARY KEY CLUSTERED 
-(
-	[AccountContentGroup_Id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]') AND name = N'PK_AccountContentGroup')
-ALTER TABLE [dbo].[AccountContentGroup] ADD  CONSTRAINT [PK_AccountContentGroup] PRIMARY KEY CLUSTERED 
-(
-	[AccountContentGroup_Id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountEmail](
@@ -4897,20 +4827,6 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountBlogPost] CHECK CONSTRAINT [FK_AccountBlogPost_AccountBlog]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContent_AccountContentGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContent]'))
-ALTER TABLE [dbo].[AccountContent]  WITH CHECK ADD  CONSTRAINT [FK_AccountContent_AccountContentGroup] FOREIGN KEY([AccountContentGroup_Id])
-REFERENCES [dbo].[AccountContentGroup] ([AccountContentGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountContent] CHECK CONSTRAINT [FK_AccountContent_AccountContentGroup]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContentGroup_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]'))
-ALTER TABLE [dbo].[AccountContentGroup]  WITH CHECK ADD  CONSTRAINT [FK_AccountContentGroup_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountContentGroup] CHECK CONSTRAINT [FK_AccountContentGroup_Account]
-GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
 ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -5765,20 +5681,6 @@ REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountBlogPost] CHECK CONSTRAINT [FK_AccountBlogPost_AccountBlog]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContent_AccountContentGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContent]'))
-ALTER TABLE [dbo].[AccountContent]  WITH CHECK ADD  CONSTRAINT [FK_AccountContent_AccountContentGroup] FOREIGN KEY([AccountContentGroup_Id])
-REFERENCES [dbo].[AccountContentGroup] ([AccountContentGroup_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountContent] CHECK CONSTRAINT [FK_AccountContent_AccountContentGroup]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountContentGroup_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]'))
-ALTER TABLE [dbo].[AccountContentGroup]  WITH CHECK ADD  CONSTRAINT [FK_AccountContentGroup_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
-GO
-ALTER TABLE [dbo].[AccountContentGroup] CHECK CONSTRAINT [FK_AccountContentGroup_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
 ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])

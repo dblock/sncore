@@ -5,7 +5,6 @@
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AToZ" Src="AToZControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Cities" Src="AccountCitiesControl.ascx" %>
@@ -34,7 +33,6 @@
        <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
        <a href="RefererAccountsView.aspx">&#187; Top Traffickers</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
        <asp:Hyperlink id="linkPermalink" NavigateUrl="AccountsView.aspx" runat="server" Text="&#187; Permalink" />
        <a href="AccountCitiesView.aspx">&#187; Top Cities</a>
       </div>

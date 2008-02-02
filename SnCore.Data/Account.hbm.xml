@@ -124,10 +124,6 @@
       <key column="Account_Id" />
       <one-to-many class="RefererAccount, SnCore.Data" />
     </bag>
-    <bag lazy="true" name="AccountContentGroups" inverse="true">
-      <key column="Account_Id" />
-      <one-to-many class="AccountContentGroup, SnCore.Data" />
-    </bag>
     <bag lazy="true" name="AccountPropertyValues" inverse="true">
       <key column="Account_Id" />
       <one-to-many class="AccountPropertyValue, SnCore.Data" />

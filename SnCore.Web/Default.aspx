@@ -22,12 +22,7 @@
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
    <td valign="top" width="*">
-    <SnCore:BlogView ID="websiteBlog" runat="server">
-     <ContentLinkIds>
-      <asp:ListItem>SnCore.PressContentGroup.Id</asp:ListItem>
-      <asp:ListItem>SnCore.AddContentGroup.Id</asp:ListItem>
-     </ContentLinkIds>
-    </SnCore:BlogView>
+    <SnCore:BlogView ID="websiteBlog" runat="server" />
     <SnCore:AccountGroupFeaturedView id="featuredAccountGroup" runat="server" />
     <SnCore:AccountFeedItemsFeaturedView id="featuredAccountFeedItems" runat="server" />
     <SnCore:Featured id="featured" runat="server" />

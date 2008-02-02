@@ -5,7 +5,6 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
@@ -30,7 +29,6 @@
        <a href="AccountFeedItemsView.aspx">&#187; Content</a>
        <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
        <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
        <asp:LinkButton ID="linkEdit" runat="server" OnClick="linkEdit_Click" Text="&#187; Edit" />
       </div>
      </td>

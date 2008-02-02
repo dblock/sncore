@@ -140,8 +140,6 @@
     <Compile Include="ManagedAccountBlogAuthorTest.cs" />
     <Compile Include="ManagedAccountBlogPostTest.cs" />
     <Compile Include="ManagedAccountBlogTest.cs" />
-    <Compile Include="ManagedAccountContentGroupTest.cs" />
-    <Compile Include="ManagedAccountContentTest.cs" />
     <Compile Include="ManagedAccountCounterCollectionTest.cs" />
     <Compile Include="ManagedAccountEventICALTest.cs" />
     <Compile Include="ManagedAccountEventInstanceTest.cs" />

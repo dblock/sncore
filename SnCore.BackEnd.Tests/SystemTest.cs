@@ -31,7 +31,6 @@ namespace SnCore.BackEnd.Tests
             CleanupTestGenerated<ManagedAccountGroup, AccountGroup>(sec);
             CleanupTestGenerated<ManagedPlace, Place>(sec);
             CleanupTestGenerated<ManagedAccount, Account>(sec);
-            CleanupTestGenerated<ManagedAccountContentGroup, AccountContentGroup>(sec);
             CleanupTestGenerated<ManagedBug, Bug>(sec, "Subject");
             CleanupTestGenerated<ManagedCampaign, Campaign>(sec);
             CleanupTestGenerated<ManagedRefererHost, RefererHost>(sec, "Host");

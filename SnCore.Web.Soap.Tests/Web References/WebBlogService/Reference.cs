@@ -32,6 +32,12 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountBlog))]
     public partial class WebBlogService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback GetAccountBlogByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountBlogPostsCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountBlogPostsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAccountBlogsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAuthoredAccountBlogsOperationCompleted;
@@ -40,8 +46,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         private System.Threading.SendOrPostCallback GetAccountBlogsCountOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountBlogByIdOperationCompleted;
-        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountBlogOperationCompleted;
         
         private System.Threading.SendOrPostCallback SyndicateAccountBlogOperationCompleted;
@@ -49,10 +53,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         private System.Threading.SendOrPostCallback DeleteAccountBlogOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountBlogPostByIdOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountBlogPostsCountOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountBlogPostsOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountBlogPostOperationCompleted;
         
@@ -115,6 +115,15 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         }
         
         /// <remarks/>
+        public event GetAccountBlogByIdCompletedEventHandler GetAccountBlogByIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountBlogPostsCountCompletedEventHandler GetAccountBlogPostsCountCompleted;
+        
+        /// <remarks/>
+        public event GetAccountBlogPostsCompletedEventHandler GetAccountBlogPostsCompleted;
+        
+        /// <remarks/>
         public event GetAccountBlogsCompletedEventHandler GetAccountBlogsCompleted;
         
         /// <remarks/>
@@ -127,9 +136,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         public event GetAccountBlogsCountCompletedEventHandler GetAccountBlogsCountCompleted;
         
         /// <remarks/>
-        public event GetAccountBlogByIdCompletedEventHandler GetAccountBlogByIdCompleted;
-        
-        /// <remarks/>
         public event CreateOrUpdateAccountBlogCompletedEventHandler CreateOrUpdateAccountBlogCompleted;
         
         /// <remarks/>
@@ -140,12 +146,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         /// <remarks/>
         public event GetAccountBlogPostByIdCompletedEventHandler GetAccountBlogPostByIdCompleted;
-        
-        /// <remarks/>
-        public event GetAccountBlogPostsCountCompletedEventHandler GetAccountBlogPostsCountCompleted;
-        
-        /// <remarks/>
-        public event GetAccountBlogPostsCompletedEventHandler GetAccountBlogPostsCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountBlogPostCompletedEventHandler CreateOrUpdateAccountBlogPostCompleted;
@@ -179,6 +179,101 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         
         /// <remarks/>
         public event SearchAccountBlogPostsCountCompletedEventHandler SearchAccountBlogPostsCountCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountBlog GetAccountBlogById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountBlogById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountBlog)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountBlogByIdAsync(string ticket, int id) {
+            this.GetAccountBlogByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountBlogByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountBlogByIdOperationCompleted == null)) {
+                this.GetAccountBlogByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountBlogById", new object[] {
+                        ticket,
+                        id}, this.GetAccountBlogByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountBlogByIdOperationCompleted(object arg) {
+            if ((this.GetAccountBlogByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountBlogByIdCompleted(this, new GetAccountBlogByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogPostsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountBlogPostsCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountBlogPostsCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountBlogPostsCountAsync(string ticket, int id) {
+            this.GetAccountBlogPostsCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountBlogPostsCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountBlogPostsCountOperationCompleted == null)) {
+                this.GetAccountBlogPostsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogPostsCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountBlogPostsCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountBlogPostsCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountBlogPostsCountOperationCompleted(object arg) {
+            if ((this.GetAccountBlogPostsCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountBlogPostsCountCompleted(this, new GetAccountBlogPostsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogPosts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountBlogPost[] GetAccountBlogPosts(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountBlogPosts", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountBlogPost[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountBlogPostsAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountBlogPostsAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountBlogPostsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountBlogPostsOperationCompleted == null)) {
+                this.GetAccountBlogPostsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogPostsOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountBlogPosts", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountBlogPostsOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountBlogPostsOperationCompleted(object arg) {
+            if ((this.GetAccountBlogPostsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountBlogPostsCompleted(this, new GetAccountBlogPostsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogs", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -309,37 +404,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountBlog GetAccountBlogById(string ticket, int id) {
-            object[] results = this.Invoke("GetAccountBlogById", new object[] {
-                        ticket,
-                        id});
-            return ((TransitAccountBlog)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogByIdAsync(string ticket, int id) {
-            this.GetAccountBlogByIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogByIdAsync(string ticket, int id, object userState) {
-            if ((this.GetAccountBlogByIdOperationCompleted == null)) {
-                this.GetAccountBlogByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogByIdOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountBlogById", new object[] {
-                        ticket,
-                        id}, this.GetAccountBlogByIdOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountBlogByIdOperationCompleted(object arg) {
-            if ((this.GetAccountBlogByIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountBlogByIdCompleted(this, new GetAccountBlogByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountBlog", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateOrUpdateAccountBlog(string ticket, TransitAccountBlog blog) {
             object[] results = this.Invoke("CreateOrUpdateAccountBlog", new object[] {
@@ -459,70 +523,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             if ((this.GetAccountBlogPostByIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountBlogPostByIdCompleted(this, new GetAccountBlogPostByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogPostsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountBlogPostsCount(string ticket, int id) {
-            object[] results = this.Invoke("GetAccountBlogPostsCount", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogPostsCountAsync(string ticket, int id) {
-            this.GetAccountBlogPostsCountAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogPostsCountAsync(string ticket, int id, object userState) {
-            if ((this.GetAccountBlogPostsCountOperationCompleted == null)) {
-                this.GetAccountBlogPostsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogPostsCountOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountBlogPostsCount", new object[] {
-                        ticket,
-                        id}, this.GetAccountBlogPostsCountOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountBlogPostsCountOperationCompleted(object arg) {
-            if ((this.GetAccountBlogPostsCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountBlogPostsCountCompleted(this, new GetAccountBlogPostsCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountBlogPosts", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountBlogPost[] GetAccountBlogPosts(string ticket, int id, ServiceQueryOptions options) {
-            object[] results = this.Invoke("GetAccountBlogPosts", new object[] {
-                        ticket,
-                        id,
-                        options});
-            return ((TransitAccountBlogPost[])(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogPostsAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountBlogPostsAsync(ticket, id, options, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountBlogPostsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
-            if ((this.GetAccountBlogPostsOperationCompleted == null)) {
-                this.GetAccountBlogPostsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountBlogPostsOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountBlogPosts", new object[] {
-                        ticket,
-                        id,
-                        options}, this.GetAccountBlogPostsOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountBlogPostsOperationCompleted(object arg) {
-            if ((this.GetAccountBlogPostsCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountBlogPostsCompleted(this, new GetAccountBlogPostsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -897,29 +897,147 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class ServiceQueryOptions {
+    public partial class TransitAccountBlog : TransitServiceOfAccountBlog {
         
-        private int pageSizeField;
+        private string nameField;
         
-        private int pageNumberField;
+        private string descriptionField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime updatedField;
+        
+        private int accountIdField;
+        
+        private int accountPictureIdField;
+        
+        private string accountNameField;
+        
+        private bool enableCommentsField;
+        
+        private int defaultViewRowsField;
+        
+        private int postCountField;
         
         /// <remarks/>
-        public int PageSize {
+        public string Name {
             get {
-                return this.pageSizeField;
+                return this.nameField;
             }
             set {
-                this.pageSizeField = value;
+                this.nameField = value;
             }
         }
         
         /// <remarks/>
-        public int PageNumber {
+        public string Description {
             get {
-                return this.pageNumberField;
+                return this.descriptionField;
             }
             set {
-                this.pageNumberField = value;
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Updated {
+            get {
+                return this.updatedField;
+            }
+            set {
+                this.updatedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountPictureId {
+            get {
+                return this.accountPictureIdField;
+            }
+            set {
+                this.accountPictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountName {
+            get {
+                return this.accountNameField;
+            }
+            set {
+                this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool EnableComments {
+            get {
+                return this.enableCommentsField;
+            }
+            set {
+                this.enableCommentsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int DefaultViewRows {
+            get {
+                return this.defaultViewRowsField;
+            }
+            set {
+                this.defaultViewRowsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PostCount {
+            get {
+                return this.postCountField;
+            }
+            set {
+                this.postCountField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountBlog))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountBlog {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
             }
         }
     }
@@ -1251,152 +1369,112 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountBlog))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfAccountBlog {
+    public partial class ServiceQueryOptions {
         
-        private int idField;
+        private int pageSizeField;
+        
+        private int pageNumberField;
         
         /// <remarks/>
-        public int Id {
+        public int PageSize {
             get {
-                return this.idField;
+                return this.pageSizeField;
             }
             set {
-                this.idField = value;
+                this.pageSizeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PageNumber {
+            get {
+                return this.pageNumberField;
+            }
+            set {
+                this.pageNumberField = value;
             }
         }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountBlogByIdCompletedEventHandler(object sender, GetAccountBlogByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitAccountBlog : TransitServiceOfAccountBlog {
+    public partial class GetAccountBlogByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
-        private string nameField;
+        private object[] results;
         
-        private string descriptionField;
-        
-        private System.DateTime createdField;
-        
-        private System.DateTime updatedField;
-        
-        private int accountIdField;
-        
-        private int accountPictureIdField;
-        
-        private string accountNameField;
-        
-        private bool enableCommentsField;
-        
-        private int defaultViewRowsField;
-        
-        private int postCountField;
-        
-        /// <remarks/>
-        public string Name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
+        internal GetAccountBlogByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
         }
         
         /// <remarks/>
-        public string Description {
+        public TransitAccountBlog Result {
             get {
-                return this.descriptionField;
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountBlog)(this.results[0]));
             }
-            set {
-                this.descriptionField = value;
-            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountBlogPostsCountCompletedEventHandler(object sender, GetAccountBlogPostsCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountBlogPostsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountBlogPostsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
         }
         
         /// <remarks/>
-        public System.DateTime Created {
+        public int Result {
             get {
-                return this.createdField;
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
-            set {
-                this.createdField = value;
-            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountBlogPostsCompletedEventHandler(object sender, GetAccountBlogPostsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountBlogPostsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountBlogPostsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
         }
         
         /// <remarks/>
-        public System.DateTime Updated {
+        public TransitAccountBlogPost[] Result {
             get {
-                return this.updatedField;
-            }
-            set {
-                this.updatedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int AccountId {
-            get {
-                return this.accountIdField;
-            }
-            set {
-                this.accountIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int AccountPictureId {
-            get {
-                return this.accountPictureIdField;
-            }
-            set {
-                this.accountPictureIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string AccountName {
-            get {
-                return this.accountNameField;
-            }
-            set {
-                this.accountNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool EnableComments {
-            get {
-                return this.enableCommentsField;
-            }
-            set {
-                this.enableCommentsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int DefaultViewRows {
-            get {
-                return this.defaultViewRowsField;
-            }
-            set {
-                this.defaultViewRowsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PostCount {
-            get {
-                return this.postCountField;
-            }
-            set {
-                this.postCountField = value;
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountBlogPost[])(this.results[0]));
             }
         }
     }
@@ -1507,32 +1585,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAccountBlogByIdCompletedEventHandler(object sender, GetAccountBlogByIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountBlogByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountBlogByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccountBlog Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccountBlog)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void CreateOrUpdateAccountBlogCompletedEventHandler(object sender, CreateOrUpdateAccountBlogCompletedEventArgs e);
     
     /// <remarks/>
@@ -1609,58 +1661,6 @@ namespace SnCore.Web.Soap.Tests.WebBlogService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountBlogPost)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAccountBlogPostsCountCompletedEventHandler(object sender, GetAccountBlogPostsCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountBlogPostsCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountBlogPostsCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAccountBlogPostsCompletedEventHandler(object sender, GetAccountBlogPostsCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountBlogPostsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountBlogPostsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccountBlogPost[] Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccountBlogPost[])(this.results[0]));
             }
         }
     }

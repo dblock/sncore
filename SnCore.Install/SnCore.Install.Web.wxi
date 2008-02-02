@@ -12,7 +12,6 @@
      <File Id="SnCoreWebAccountService_asmx" Name="WebAccountService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebAccountService.asmx" />
      <File Id="SnCoreWebBlogService_asmx" Name="WebBlogService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebBlogService.asmx" />
      <File Id="SnCoreWebBugService_asmx" Name="WebBugService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebBugService.asmx" />
-     <File Id="SnCoreWebContentService_asmx" Name="WebContentService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebContentService.asmx" />
      <File Id="SnCoreWebDiscussionService_asmx" Name="WebDiscussionService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebDiscussionService.asmx" />
      <File Id="SnCoreWebEventService_asmx" Name="WebEventService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebEventService.asmx" />
      <File Id="SnCoreWebGroupService_asmx" Name="WebGroupService.asmx" Source="$(var.SnCore.Deploy.Target.Path)\WebGroupService.asmx" />
@@ -53,13 +52,6 @@
      <File Id="SnCoreAccountCitiesControl_ascx" Name="AccountCitiesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCitiesControl.ascx" />
      <File Id="SnCoreAccountCitiesView_aspx" Name="AccountCitiesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCitiesView.aspx" />
      <File Id="SnCoreAccountCityControl_ascx" Name="AccountCityControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCityControl.ascx" />
-     <File Id="SnCoreAccountContentEdit_aspx" Name="AccountContentEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentEdit.aspx" />
-     <File Id="SnCoreAccountContentGroupEdit_aspx" Name="AccountContentGroupEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentGroupEdit.aspx" />
-     <File Id="SnCoreAccountContentGroupLinkControl_ascx" Name="AccountContentGroupLinkControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentGroupLinkControl.ascx" />
-     <File Id="SnCoreAccountContentGroupsManage_aspx" Name="AccountContentGroupsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentGroupsManage.aspx" />
-     <File Id="SnCoreAccountContentGroupsViewList_aspx" Name="AccountContentGroupsViewList.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentGroupsViewList.aspx" />
-     <File Id="SnCoreAccountContentGroupView_aspx" Name="AccountContentGroupView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentGroupView.aspx" />
-     <File Id="SnCoreAccountContentGroupViewRss_aspx" Name="AccountContentGroupViewRss.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountContentGroupViewRss.aspx" />
      <File Id="SnCoreAccountCreate_aspx" Name="AccountCreate.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreate.aspx" />
      <File Id="SnCoreAccountCreateInvitation_aspx" Name="AccountCreateInvitation.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateInvitation.aspx" />
      <File Id="SnCoreAccountCreateInvitationWelcome_aspx" Name="AccountCreateInvitationWelcome.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateInvitationWelcome.aspx" />
@@ -517,7 +509,7 @@
       <Component Id="SnCoreImagesAccount" Guid="E20DA129-0BFA-44D0-8986-3D2B3D195E2D" DiskId="1">
        <File Id="SnCoreImagesAccountActivity_gif" Name="activity.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\activity.gif" />
        <File Id="SnCoreImagesAccountBlogs_gif" Name="blogs.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\blogs.gif" />
-       <File Id="SnCoreImagesAccountContentgroups_gif" Name="contentgroups.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\contentgroups.gif" />
+       <File Id="SnCoreImagesAccountContent_gif" Name="content.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\content.gif" />
        <File Id="SnCoreImagesAccountDiscussions_gif" Name="discussions.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\discussions.gif" />
        <File Id="SnCoreImagesAccountEmails_gif" Name="emails.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\emails.gif" />
        <File Id="SnCoreImagesAccountEvents_gif" Name="events.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\account\events.gif" />

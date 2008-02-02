@@ -2,7 +2,6 @@
  Inherits="AccountBlogPreviewControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLinkControl" Src="AccountContentGroupLinkControl.ascx" %>
 <div id="divTitle" class="sncore_h2" runat="server">
  <a href='AccountBlogView.aspx?id=<% Response.Write(BlogId); %>'>
   <asp:Label ID="lblBlogName" runat="server" />

@@ -23,12 +23,6 @@
     <Setting Name="SnCore_Web_Soap_Tests_WebLicenseService_WebLicenseService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/SnCoreWeb/WebLicenseService.asmx</Value>
     </Setting>
-    <Setting Name="SnCore_Web_Soap_Tests_WebContentService_WebContentService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost/SnCoreWeb/WebContentService.asmx</Value>
-    </Setting>
-    <Setting Name="SnCore_Web_Soap_Tests_WebLocationService_WebLocationService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost/SnCoreWeb/WebLocationService.asmx</Value>
-    </Setting>
     <Setting Name="SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/SnCoreWeb/WebMadLibService.asmx</Value>
     </Setting>
@@ -67,6 +61,9 @@
     </Setting>
     <Setting Name="SnCore_Web_Soap_Tests_ScriptServices_ScriptServices" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/SnCoreWeb/ScriptServices.asmx</Value>
+    </Setting>
+    <Setting Name="SnCore_Web_Soap_Tests_WebLocationService_WebLocationService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost/SnCoreWeb/WebLocationService.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

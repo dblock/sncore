@@ -140,12 +140,6 @@ public partial class SiteMap2 : Page
 
             listSurveys.DataSource = SessionManager.ObjectService.GetSurveys(SessionManager.Ticket, null);
             listSurveys.DataBind();
-
-            listContentGroups.DataSource = SessionManager.ContentService.GetAllAccountContentGroups(SessionManager.Ticket, null);
-            listContentGroups.DataBind();
-
-            listContentGroupNumbers.DataSource = GetPagedList(SessionManager.ContentService.GetAllAccountContentGroupsCount(SessionManager.Ticket));
-            listContentGroupNumbers.DataBind();
         }
     }
 }

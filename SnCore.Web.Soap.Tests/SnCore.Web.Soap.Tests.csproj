@@ -46,6 +46,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ScriptServices_LocationTests.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="TransitServiceCollection.cs" />
     <Compile Include="Web References\ScriptServices\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -63,11 +64,6 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\WebBugService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
-    <Compile Include="Web References\WebContentService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -240,9 +236,6 @@
     <Compile Include="WebBugService_BugStatus.cs" />
     <Compile Include="WebBugService_BugTest.cs" />
     <Compile Include="WebBugService_BugTypeTest.cs" />
-    <Compile Include="WebContentServiceTest.cs" />
-    <Compile Include="WebContentService_AccountContentGroupTest.cs" />
-    <Compile Include="WebContentService_AccountContentTest.cs" />
     <Compile Include="WebLicenseServiceTest.cs" />
     <Compile Include="WebLicenseService_AccountLicenseTest.cs" />
     <Compile Include="WebLocationServiceTest.cs" />
@@ -330,17 +323,6 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebBugService_WebBugService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebContentService.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\WebContentService\</RelPath>
-      <UpdateFromURL>http://localhost/SnCoreWeb/WebContentService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>SnCore_Web_Soap_Tests_WebContentService_WebContentService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://localhost/SnCoreWeb/WebDiscussionService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -600,7 +582,6 @@
     <None Include="Web References\WebStatsService\WebStatsService.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\WebContentService\WebContentService.wsdl" />
     <None Include="Web References\WebLicenseService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -611,37 +592,6 @@
     <None Include="Web References\WebLicenseService\WebLicenseService.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\WebContentService\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\WebContentService\TransitAccountContent.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebContentService\TransitAccountContentGroup.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebContentService\WebContentService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\WebLocationService\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\WebLocationService\TransitCity.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebLocationService\TransitCountry.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebLocationService\TransitNeighborhood.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebLocationService\TransitState.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WebLocationService\WebLocationService.disco" />
-    <None Include="Web References\WebLocationService\WebLocationService.wsdl" />
     <None Include="Web References\WebMadLibService\WebMadLibService.wsdl" />
   </ItemGroup>
   <ItemGroup>
@@ -1009,9 +959,6 @@
     </None>
     <None Include="Web References\WebGroupService\WebGroupService.disco" />
     <None Include="Web References\WebGroupService\WebGroupService.wsdl" />
-    <None Include="Web References\WebLocationService\TransitAccountCity.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
     <None Include="Web References\WebPlaceService\TransitPlaceChangeRequest.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
@@ -1037,6 +984,29 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\ScriptServices\ScriptServices.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WebLocationService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebLocationService\TransitAccountCity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitCity.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitCountry.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitNeighborhood.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\TransitState.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebLocationService\WebLocationService.disco" />
+    <None Include="Web References\WebLocationService\WebLocationService.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

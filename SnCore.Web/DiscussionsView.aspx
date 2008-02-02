@@ -2,7 +2,6 @@
  CodeFile="DiscussionsView.aspx.cs" Inherits="DiscussionsView" Title="Discussions" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
@@ -23,7 +22,6 @@
  <div class="sncore_h2sub">
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
-  <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
   <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" CausesValidation="false" />
  </div>
  <ajaxtoolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"

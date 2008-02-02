@@ -53,7 +53,6 @@
         private State m_State;
         private System.Collections.Generic.IList<Schedule> m_Schedules;
         private System.Collections.Generic.IList<RefererAccount> m_RefererAccounts;
-        private System.Collections.Generic.IList<AccountContentGroup> m_AccountContentGroups;
         private System.Collections.Generic.IList<AccountPropertyValue> m_AccountPropertyValues;
         private System.Collections.Generic.IList<AccountAttribute> m_AccountAttributes;
         private System.Collections.Generic.IList<AccountLicense> m_AccountLicenses;
@@ -1263,37 +1262,6 @@
             set
             {
                 m_RefererAccounts = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent many-one reference property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts multiple references to objects of the type 'AccountContentGroup'.
-        ///This property is part of a 'ManyToOne' relationship.
-        ///The data type for this property is 'System.Collections.IList'.
-        ///The inverse property for this property is 'AccountContentGroup.Account'.
-        ///This property inherits its mapping information from its inverse property.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_AccountContentGroups' that holds the value for this property is 'PrivateAccess'.
-        ///This property is marked as slave.
-        ///
-        ///Mapping information:
-        ///This class maps to the 'AccountContentGroup' table in the data source.
-        ///The property maps to the identity column 'Account_Id' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountContentGroup> AccountContentGroups
-        {
-            get
-            {
-                return m_AccountContentGroups;
-            }
-            set
-            {
-                m_AccountContentGroups = value;
             }
         }
 

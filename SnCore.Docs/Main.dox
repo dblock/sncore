@@ -37,7 +37,6 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebPlaceService "Place Management Services"
 \li \subpage SnCore::WebServices::WebBlogService "Personal Blogging Services"
 \li \subpage SnCore::WebServices::WebStatsService "System Statistics Services"
-\li \subpage SnCore::WebServices::WebContentService "Content Management Services"
 \li \subpage SnCore::WebServices::WebEventService "Event Scheduling Services"
 \li \subpage SnCore::WebServices::WebLicenseService "Licensing Services"
 

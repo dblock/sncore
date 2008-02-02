@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetCitiesCompletionList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prefixText" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="contextKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesCompletionListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCitiesCompletionListResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetNeighborhoodsCompletionList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prefixText" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="contextKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsCompletionListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNeighborhoodsCompletionListResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCitiesCompletionListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesCompletionList" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesCompletionListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesCompletionListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsCompletionListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsCompletionList" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsCompletionListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsCompletionListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ScriptServicesSoap">
+    <wsdl:operation name="GetCitiesCompletionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get cities completion list.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesCompletionListSoapIn" />
+      <wsdl:output message="tns:GetCitiesCompletionListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsCompletionList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get neighborhoods completion list.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodsCompletionListSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodsCompletionListSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ScriptServicesSoap" type="tns:ScriptServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCitiesCompletionList">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesCompletionList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsCompletionList">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsCompletionList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ScriptServicesSoap12" type="tns:ScriptServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCitiesCompletionList">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesCompletionList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsCompletionList">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsCompletionList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ScriptServices">
+    <wsdl:port name="ScriptServicesSoap" binding="tns:ScriptServicesSoap">
+      <soap:address location="http://localhost/SnCoreWeb/ScriptServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ScriptServicesSoap12" binding="tns:ScriptServicesSoap12">
+      <soap12:address location="http://localhost/SnCoreWeb/ScriptServices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

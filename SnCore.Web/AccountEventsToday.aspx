@@ -2,7 +2,6 @@
  Inherits="AccountEventsToday" Title="Events This Week" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
@@ -29,7 +28,6 @@
        <a href="AccountEventsView.aspx">&#187; All Events</a>
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; Local Events" />
        <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
      <td align="right" valign="middle">

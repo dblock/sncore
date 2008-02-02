@@ -28,8 +28,7 @@
      Content
     </div>
     <table>
-     <tr><td width="30" align="center"><img src="images/account/contentgroups.gif" /></td><td width="*"><a href="NewContent.aspx">New Content</a></td></tr>
-     <tr><td width="30" align="center"><img src="images/account/contentgroups.gif" /></td><td width="*"><a href="AccountContentGroupsManage.aspx">Content Groups</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/content.gif" /></td><td width="*"><a href="NewContent.aspx">New Content</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="MarketingCampaignsManage.aspx">Campaigns</a></td></tr>
     </table>
     <div class="sncore_h2">

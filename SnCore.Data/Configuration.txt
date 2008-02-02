@@ -9,7 +9,6 @@
 11	SnCore.Name	SnCoreSet	0
 12	SnCore.Description	<b>SnCore</b> - the SN base foundation.	0
 13	SnCore.Blog.Id	1	0
-14	SnCore.Web.UserAgent	sncore/1.0	0
-15	SnCore.Title	SnCoreDemo	0
-16	SnCore.PressContentGroup.Id	0	0
-17	SnCore.AddContentGroup.Id	0	0
+14	SnCore.PressBlog.Id	0	0
+15	SnCore.Web.UserAgent	sncore/1.0	0
+16	SnCore.Title	SnCoreDemo	0

@@ -96,26 +96,6 @@ namespace SnCore.Web.Soap.Tests.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/SnCoreWeb/WebContentService.asmx")]
-        public string SnCore_Web_Soap_Tests_WebContentService_WebContentService {
-            get {
-                return ((string)(this["SnCore_Web_Soap_Tests_WebContentService_WebContentService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/SnCoreWeb/WebLocationService.asmx")]
-        public string SnCore_Web_Soap_Tests_WebLocationService_WebLocationService {
-            get {
-                return ((string)(this["SnCore_Web_Soap_Tests_WebLocationService_WebLocationService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/SnCoreWeb/WebMadLibService.asmx")]
         public string SnCore_Web_Soap_Tests_WebMadLibService_WebMadLibService {
             get {
@@ -240,6 +220,16 @@ namespace SnCore.Web.Soap.Tests.Properties {
         public string SnCore_Web_Soap_Tests_ScriptServices_ScriptServices {
             get {
                 return ((string)(this["SnCore_Web_Soap_Tests_ScriptServices_ScriptServices"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/SnCoreWeb/WebLocationService.asmx")]
+        public string SnCore_Web_Soap_Tests_WebLocationService_WebLocationService {
+            get {
+                return ((string)(this["SnCore_Web_Soap_Tests_WebLocationService_WebLocationService"]));
             }
         }
     }

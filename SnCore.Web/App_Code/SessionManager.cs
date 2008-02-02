@@ -311,14 +311,6 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
 
     #region Web Services
 
-    public WebContentService ContentService
-    {
-        get
-        {
-            return CachedWebService<WebContentService>.GetEndPoint(Cache);
-        }
-    }
-
     public WebLicenseService LicenseService
     {
         get

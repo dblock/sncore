@@ -2,6 +2,47 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetAccountById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountByIdResult" type="tns:TransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="Login">
         <s:complexType>
           <s:sequence>
@@ -104,32 +145,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransitAccount">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccount">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
-              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccount" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="CreateAccountResponse">
         <s:complexType>
           <s:sequence>
@@ -271,21 +286,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAdminAccountResult" type="tns:TransitAccount" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountById">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountByIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountByIdResult" type="tns:TransitAccount" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -2919,6 +2919,12 @@
       </s:complexType>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetAccountByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="LoginSoapIn">
     <wsdl:part name="parameters" element="tns:Login" />
   </wsdl:message>
@@ -3008,12 +3014,6 @@
   </wsdl:message>
   <wsdl:message name="GetAdminAccountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAdminAccountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountById" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountByIdResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccount" />
@@ -3868,6 +3868,11 @@
     <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountIdResponse" />
   </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
+    <wsdl:operation name="GetAccountById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account information.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountByIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Login">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login.</wsdl:documentation>
       <wsdl:input message="tns:LoginSoapIn" />
@@ -3942,11 +3947,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an administrative account.</wsdl:documentation>
       <wsdl:input message="tns:GetAdminAccountSoapIn" />
       <wsdl:output message="tns:GetAdminAccountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account information.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountByIdSoapIn" />
-      <wsdl:output message="tns:GetAccountByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account.</wsdl:documentation>
@@ -4661,6 +4661,15 @@
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -4789,15 +4798,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAdminAccount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -6086,6 +6086,15 @@
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -6214,15 +6223,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAdminAccount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

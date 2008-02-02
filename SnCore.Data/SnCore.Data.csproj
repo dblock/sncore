@@ -107,12 +107,6 @@
     <Compile Include="AccountBlogPost.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AccountContent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AccountContentGroup.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AccountEmail.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -439,8 +433,6 @@
     <EmbeddedResource Include="AccountBlog.hbm.xml" />
     <EmbeddedResource Include="AccountBlogAuthor.hbm.xml" />
     <EmbeddedResource Include="AccountBlogPost.hbm.xml" />
-    <EmbeddedResource Include="AccountContent.hbm.xml" />
-    <EmbeddedResource Include="AccountContentGroup.hbm.xml" />
     <EmbeddedResource Include="AccountEmail.hbm.xml" />
     <EmbeddedResource Include="AccountEmailConfirmation.hbm.xml" />
     <EmbeddedResource Include="AccountEmailMessage.hbm.xml" />

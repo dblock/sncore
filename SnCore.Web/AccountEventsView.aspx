@@ -2,7 +2,6 @@
  CodeFile="AccountEventsView.aspx.cs" Inherits="AccountEventsView" Title="All Events" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountTimeZone" Src="AccountTimeZoneControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Cities" Src="AccountCitiesControl.ascx" %>
@@ -26,7 +25,6 @@
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events" OnClick="linkShowAll_Click" />
        <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="linkSearch_Click" />
        <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
        <asp:Hyperlink id="linkPermalink" NavigateUrl="PlacesView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>

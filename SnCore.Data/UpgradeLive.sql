@@ -34,10 +34,6 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND name = N'Hidden') 
 ALTER TABLE dbo.AccountPicture ADD [Hidden] bit NOT NULL DEFAULT 0
 GO
--- add a requirelogin field to content groups (2006-11-04)
-IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountContentGroup]') AND name = N'Login') 
-ALTER TABLE dbo.AccountContentGroup ADD [Login] bit NOT NULL DEFAULT 0
-GO
 -- add an account identity to place pictures (2006-11-16)
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[PlacePicture]') AND name = N'Account_Id') 
 ALTER TABLE dbo.PlacePicture ADD [Account_Id] int NOT NULL DEFAULT 0

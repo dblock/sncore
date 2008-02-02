@@ -2,7 +2,6 @@
  Inherits="AccountsByPropertyValueView" Title="Accounts" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel ID="panelLinks" UpdateMode="Conditional" RenderMode="Inline" runat="server">
@@ -15,7 +14,6 @@
       </div>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAll" runat="server" NavigateUrl="AccountsView.aspx" Text="&#187; All Accounts" />
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
       </div>
      </td>
      <td align="right" valign="middle">

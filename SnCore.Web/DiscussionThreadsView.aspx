@@ -2,7 +2,6 @@
  CodeFile="DiscussionThreadsView.aspx.cs" Inherits="DiscussionThreadsView" Title="New Posts" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
@@ -35,7 +34,6 @@
  <div class="sncore_h2sub">
   <a href="DiscussionsView.aspx">&#187; All Discussions</a>
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
-  <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
  </div>
  <asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">
   <ContentTemplate>

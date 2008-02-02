@@ -197,27 +197,6 @@
        <li><a href="SystemRefererQueries.aspx">Referer Queries</a></li>
        <li><a href="SystemStatsCache.aspx">Front-End Cache</a></li>
       </ul>
-      <li>Special Content</li>
-      <ul>
-       <asp:Repeater ID="listContentGroups" runat="server">
-        <ItemTemplate>
-         <a href='AccountContentGroupView.aspx?id=<%# Eval("Id") %>'>
-          <li><%# base.Render(Eval("Name")) %></li>
-         </a>
-        </ItemTemplate>
-       </asp:Repeater>
-      </ul>
-      <ul>
-       <li>
-        <asp:DataList RepeatLayout="Flow" RepeatDirection="Horizontal" ID="listContentGroupNumbers" runat="server">
-        <ItemStyle CssClass="sncore_link" />
-        <ItemTemplate>
-         <a href='AccountContentGroupsViewList.aspx?PageNumber=<%# Eval("PageNumber") %>&PageSize=<%# Eval("PageSize") %>&PageCount=<%# Eval("PageCount") %>'>
-          <%# Eval("Start") %>-<%# (int) Eval("Start") + (int) Eval("Count") - 1 %>
-         </a>
-        </ItemTemplate>
-       </asp:DataList>      
-      </ul>
       <li><a href="TermsOfUse.aspx">Terms of Use</a></li>
       <li><a href="PrivacyPolicy.aspx">Privacy Policy</a></li>
       <li><a href="CodeOfConduct.aspx">Code of Conduct</a></li>

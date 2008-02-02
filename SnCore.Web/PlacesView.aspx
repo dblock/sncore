@@ -2,7 +2,6 @@
  Inherits="PlacesView" Title="Places" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="SnCore" TagName="AccountContentGroupLink" Src="AccountContentGroupLinkControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceNeighborhoodsView" Src="PlaceNeighborhoodsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
@@ -30,7 +29,6 @@
        <a href="PlaceFriendsQueueView.aspx">&#187; My Friends Queue</a>
        <a href="PlacesFavoritesView.aspx">&#187; Favorites</a>
        <asp:LinkButton ID="linkSearch" OnClick="linkSearch_Click" runat="server" Text="&#187; Search" />
-       <SnCore:AccountContentGroupLink ID="linkAddGroup" runat="server" ConfigurationName="SnCore.AddContentGroup.Id" />
        <asp:Hyperlink id="linkPermalink" NavigateUrl="PlacesView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>
