@@ -4,9 +4,6 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_links">
-  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" />
- </div>
  <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage" PageSize="10"
   AllowCustomPaging="true" AllowPaging="true" AutoGenerateColumns="false" CssClass="sncore_table"
   ShowHeader="false" RepeatColumns="1" RepeatRows="5" RepeatDirection="Vertical">

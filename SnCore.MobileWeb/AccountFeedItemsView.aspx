@@ -18,7 +18,7 @@
    <asp:TemplateColumn ItemStyle-VerticalAlign="Middle" ItemStyle-HorizontalAlign="Left">
     <itemtemplate>
      <div>
-      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>'>
+      <a href='AccountFeedItemView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>'>
        <%# Renderer.Render(GetValue((string) Eval("Title"), "Untitled")) %>
       </a>
      </div>
@@ -27,10 +27,10 @@
        &#187; x-posted
       </a>
       in
-      <a href="AccountView.aspx?id=<%# Eval("AccountId") %>">
+      <a href="AccountView.aspx?id=<%# Eval("AccountId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
        <%# Renderer.Render((string) Eval("AccountName")) %>
       </a>'s
-      <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>'>
+      <a href='AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>'>
        <%# Renderer.Render(GetValue((string) Eval("AccountFeedName"), "Untitled")) %>
       </a>
       <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Created")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>

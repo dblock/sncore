@@ -30,7 +30,6 @@ public partial class PlacePicturesView : Page
                 RequestId, SessionManager.PlaceService.GetPlaceById);
 
             this.Title = string.Format("{0}'s Pictures", Renderer.Render(p.Name));
-            linkBack.NavigateUrl = string.Format("PlaceView.aspx?id={0}", p.Id);
 
             GetData(sender, e);
 

@@ -3,9 +3,6 @@
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_links">
-  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" NavigateUrl="~/AccountsView.aspx" />
- </div>
  <div>  
   <a id="accountLinkPictures" href="AccountPicturesView.aspx" runat="server">
    <asp:Image ID="accountImage" runat="server" BorderColor="0" />

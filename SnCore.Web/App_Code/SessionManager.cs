@@ -104,8 +104,6 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     public SessionManager(Cache cache, HttpRequest request, HttpResponse response, bool track)
         : base(cache, request, response)
     {
-        mMarkupRenderer = new MarkupRenderer<SessionManager>(this);
-
         CacheAuthCookie();
 
         if (!track || IsSystemRequest())
@@ -868,10 +866,23 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     #region Markup Renderer
 
     private MarkupRenderer<SessionManager> mMarkupRenderer = null;
-    
+
+    private MarkupRenderer<SessionManager> MarkupRenderer
+    {
+        get
+        {
+            if (mMarkupRenderer == null)
+            {
+                mMarkupRenderer = new MarkupRenderer<SessionManager>(this);
+            }
+
+            return mMarkupRenderer;
+        }
+    }
+
     public string RenderMarkups(string value)
     {
-        return mMarkupRenderer.Render(value);
+        return MarkupRenderer.Render(value);
     }
 
     public delegate string ToString<TransitType>(TransitType instance);

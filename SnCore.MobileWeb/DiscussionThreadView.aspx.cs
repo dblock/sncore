@@ -41,9 +41,10 @@ public partial class DiscussionThreadView : Page
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
 
-            sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, Request, td.ParentObjectUri));
             if (td.Personal)
             {
+                sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, Request, td.ParentObjectUri));
+
                 string uri = SessionManager.DiscussionService.GetDiscussionRedirectUri(
                     SessionManager.Ticket, td.Id);
 
@@ -60,8 +61,6 @@ public partial class DiscussionThreadView : Page
             sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", td.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Thread", Request.Url));
             StackSiteMap(sitemapdata);
-
-            discussionDescription.Text = Renderer.Render(td.Description);
 
             GetData(sender, e);
         }

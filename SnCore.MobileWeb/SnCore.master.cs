@@ -29,4 +29,23 @@ public partial class SnCoreMasterPage : MasterPage
             }
         }
     }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        string returnurl = Request["ReturnUrl"];
+        if (!string.IsNullOrEmpty(returnurl))
+        {
+            linkBack.NavigateUrl = returnurl;
+        }
+        else if (SiteMap.Enabled && SiteMap.CurrentNode != null && SiteMap.CurrentNode.ParentNode != null)
+        {
+            linkBack.NavigateUrl = SiteMap.CurrentNode.ParentNode.Url;
+        }
+        else
+        {
+            linkBack.Enabled = false;
+        }
+
+        base.OnPreRender(e);
+    }
 }

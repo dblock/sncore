@@ -5,7 +5,6 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_links">
-  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" NavigateUrl="~/AccountFeedItemsView.aspx" />
   &#187;
   <asp:HyperLink ID="feeditemXPosted" Text="x-posted" runat="server" />
   on

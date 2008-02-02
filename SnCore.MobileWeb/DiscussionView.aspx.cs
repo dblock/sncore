@@ -41,13 +41,15 @@ public partial class DiscussionView : Page
                 if (!string.IsNullOrEmpty(uri))
                 {
                     sitemapdata.Add(new SiteMapDataAttributeNode("...", Request, uri));
-                    linkBack.NavigateUrl = uri;
                 }
                 else
                 {
                     sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
-                    linkBack.NavigateUrl = "DiscussionsView.aspx";
                 }
+            }
+            else
+            {
+                sitemapdata.Add(new SiteMapDataAttributeNode("Discussions", Request, "DiscussionsView.aspx"));
             }
 
             sitemapdata.Add(new SiteMapDataAttributeNode(td.Name, Request, string.Format("DiscussionView.aspx?id={0}", RequestId)));
@@ -114,7 +116,6 @@ public partial class DiscussionView : Page
             return;
 
         DiscussionService.TransitDiscussion d = GetDiscussion();
-        discussionDescription.Text = Renderer.Render(d.Description);
         DiscussionService.ServiceQueryOptions options = new DiscussionService.ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
@@ -168,7 +169,7 @@ public partial class DiscussionView : Page
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
 
-        linkBack.Text = (gridManage.VirtualItemCount == 0 ? "No Posts &#187; Back" : "&#187; Back");
+        linkPosts.Visible = (gridManage.VirtualItemCount == 0);
     }
 
     public int OuterWidth
@@ -176,6 +177,15 @@ public partial class DiscussionView : Page
         get
         {
             return 200;
+        }
+    }
+
+    public string ReturnUrl
+    {
+        get
+        {
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? "DiscussionsView.aspx" : o.ToString());
         }
     }
 }

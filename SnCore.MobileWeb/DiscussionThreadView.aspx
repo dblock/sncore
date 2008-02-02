@@ -4,9 +4,6 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_description">
-  <asp:Label CssClass="sncore_description" ID="discussionDescription" runat="server" />
- </div>
  <SnCoreWebControls:PagedGrid BorderColor="White" ShowHeader="false" runat="server"
   ID="discussionThreadView" AutoGenerateColumns="false" CssClass="sncore_table" BorderWidth="0"
   AllowPaging="false" AllowCustomPaging="false">

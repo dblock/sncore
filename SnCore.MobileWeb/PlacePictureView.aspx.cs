@@ -30,8 +30,6 @@ public partial class PlacePictureView : Page
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("PlacePicturesView.aspx?id={0}", a.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));
             StackSiteMap(sitemapdata);
-
-            linkBack.NavigateUrl = string.Format("PlacePicturesView.aspx?id={0}", a.Id);
         }
 
     }

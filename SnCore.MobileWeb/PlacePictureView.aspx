@@ -3,9 +3,6 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
- <div class="sncore_links">
-  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" />
- </div>
  <div>
   <img runat="server" id="inputPicture" border="0" src="PlacePictureThumbnail.aspx?id=0" />
  </div>

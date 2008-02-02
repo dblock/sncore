@@ -16,12 +16,12 @@
    prevpagetext="Prev" PageButtonCount="5" />
   <ItemTemplate>
    <div>
-    <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+    <a href="PlaceView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
      <img border="0" src="PlacePictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
     </a>
    </div>
    <div>
-    <a href="PlaceView.aspx?id=<%# Eval("Id") %>">
+    <a href="PlaceView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
      <%# Renderer.Render(Eval("Name")) %>
     </a>
    </div>

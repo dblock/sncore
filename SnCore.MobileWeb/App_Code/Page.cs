@@ -18,6 +18,7 @@ using System.Threading;
 using SnCore.SiteMap;
 using SnCore.Services;
 using SnCore.WebControls;
+using System.Web.Services.Protocols;
 
 public class Page : System.Web.UI.Page
 {
@@ -84,8 +85,6 @@ public class Page : System.Web.UI.Page
                 SiteMapDataAttribute attribute = attributes[0];
                 StackSiteMap(attribute, Request.Url.PathAndQuery);
             }
-
-            base.OnLoad(e);
 
             base.OnLoad(e);
         }
@@ -180,6 +179,10 @@ public class Page : System.Web.UI.Page
         // BUGBUG: this doesn't work with a remote SOAP back-end
         //         the exception becomes a Exception that needs to be parsed
         //
+        if (ex is SoapException)
+        {
+            
+        }
 
         if (ex is ManagedAccount.AccessDeniedException
             && !SessionManager.IsLoggedIn)

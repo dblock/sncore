@@ -5,7 +5,6 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <div class="sncore_links">
-  <asp:HyperLink id="linkBack" runat="server" Text="&#187; Back" NavigateUrl="~/AccountFeedItemsView.aspx" />
   <asp:Label ID="feedDescription" runat="server" />
  </div>
  <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="5"

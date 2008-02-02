@@ -373,9 +373,22 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
 
     private MarkupRenderer<SessionManager> mMarkupRenderer = null;
 
+    private MarkupRenderer<SessionManager> MarkupRenderer
+    {
+        get
+        {
+            if (mMarkupRenderer == null)
+            {
+                mMarkupRenderer = new MarkupRenderer<SessionManager>(this);
+            }
+
+            return mMarkupRenderer;
+        }
+    }
+
     public string RenderMarkups(string value)
     {
-        return mMarkupRenderer.Render(value);
+        return MarkupRenderer.Render(value);
     }
 
     public string Handle(string tag, string tagname, string tagvalue)

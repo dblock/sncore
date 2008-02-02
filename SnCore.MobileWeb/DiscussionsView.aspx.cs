@@ -9,20 +9,12 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
-using SnCore.WebServices;
-using SnCore.Services;
 using SnCore.SiteMap;
 
 public partial class DiscussionsView : Page
 {
-    public DiscussionsView()
-    {
-        mIsMobileEnabled = true;
-    }
-
     public void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(search);
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
 
         if (!IsPostBack)
@@ -32,10 +24,10 @@ public partial class DiscussionsView : Page
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             if (IsObjectBound)
             {
-                int discussion_id = SessionManager.GetCount<TransitDiscussion, string, int>(
+                int discussion_id = SessionManager.GetCount<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, string, int>(
                     Type, ObjectId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 
-                TransitDiscussion td = SessionManager.GetInstance<TransitDiscussion, int>(
+                DiscussionService.TransitDiscussion td = SessionManager.GetInstance<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, int>(
                     discussion_id, SessionManager.DiscussionService.GetDiscussionById);
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(td.ParentObjectName, string.Format("{0}&ReturnUrl={1}", 
@@ -55,12 +47,12 @@ public partial class DiscussionsView : Page
         gridManage.CurrentPageIndex = 0;
         if (IsObjectBound)
         {
-            gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussion, string, int>(
+            gridManage.VirtualItemCount = SessionManager.GetCount<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, string, int>(
                 Type, ObjectId, SessionManager.DiscussionService.GetDiscussionsByObjectIdCount);
         }
         else
         {
-            gridManage.VirtualItemCount = SessionManager.GetCount<TransitDiscussion>(
+            gridManage.VirtualItemCount = SessionManager.GetCount<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions>(
                 SessionManager.DiscussionService.GetDiscussionsCount);
         }
         gridManage_OnGetDataSource(sender, e);
@@ -69,22 +61,19 @@ public partial class DiscussionsView : Page
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
+        DiscussionService.ServiceQueryOptions options = new DiscussionService.ServiceQueryOptions();
+        options.PageNumber = gridManage.CurrentPageIndex;
+        options.PageSize = gridManage.PageSize;
         if (IsObjectBound)
         {
-            gridManage.DataSource = SessionManager.GetCollection<TransitDiscussion, string, int>(
+            gridManage.DataSource = SessionManager.GetCollection<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions, string, int>(
                 Type, ObjectId, options, SessionManager.DiscussionService.GetDiscussionsByObjectId);
         }
         else
         {
-            gridManage.DataSource = SessionManager.GetCollection<TransitDiscussion>(
+            gridManage.DataSource = SessionManager.GetCollection<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions>(
                 options, SessionManager.DiscussionService.GetDiscussions);
         }
-    }
-
-    protected void search_Click(object sender, EventArgs e)
-    {
-        Redirect("SearchDiscussionPosts.aspx?q=" + Renderer.UrlEncode(inputSearch.Text));
     }
 
     public string Type

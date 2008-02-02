@@ -14,12 +14,12 @@
    prevpagetext="Prev" />
   <ItemTemplate>
    <div>
-    <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+    <a href="AccountView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
      <img border="0" src="AccountPictureThumbnail.aspx?id=<%# Eval("PictureId") %>" />
     </a>
    </div>
    <div>
-    <a href="AccountView.aspx?id=<%# Eval("Id") %>">
+    <a href="AccountView.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">
      <%# Renderer.Render(Eval("Name")) %>
     </a>
    </div>
