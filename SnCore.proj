@@ -14,6 +14,7 @@
    <Output TaskParameter="Revision" PropertyName="Build" />
   </SvnVersion>
   <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
+  <MakeDir Directories="SnCore.Common" />
   <AssemblyInfo CodeLanguage="CS" OutputFile="SnCore.Common\GlobalAssemblyInfo.cs"
    AssemblyTitle="SnCore" AssemblyDescription="Social networking core." AssemblyConfiguration=""
    AssemblyCompany="Vestris Inc." AssemblyProduct="SnCore" AssemblyCopyright="Copyright (c) Vestris Inc. 2008"

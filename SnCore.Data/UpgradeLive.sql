@@ -238,5 +238,5 @@ ALTER TABLE dbo.AccountFeed ALTER COLUMN [Hidden] bit NOT NULL
 GO
 -- delete old constraint for AccountEventPicture
 IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'UK_AccountEventPicture')
-ALTER TABLE [dbo].[AccountEventPicture] DROP CONSTRAINT [UK_AccountEventPicture]
+DROP INDEX UK_AccountEventPicture ON [dbo].[AccountEventPicture]
 GO
