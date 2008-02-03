@@ -558,14 +558,6 @@ CREATE NONCLUSTERED INDEX [IX_AccountEventPicture] ON [dbo].[AccountEventPicture
 	[AccountEvent_Id] DESC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'UK_AccountEventPicture')
-CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountEventPicture] ON [dbo].[AccountEventPicture] 
-(
-	[AccountEvent_Id] ASC,
-	[Name] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'IX_AccountEventPicture')
 CREATE NONCLUSTERED INDEX [IX_AccountEventPicture] ON [dbo].[AccountEventPicture] 
 (
@@ -577,13 +569,6 @@ ALTER TABLE [dbo].[AccountEventPicture] ADD  CONSTRAINT [PK_AccountEventPicture]
 (
 	[AccountEventPicture_Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-GO
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'UK_AccountEventPicture')
-CREATE UNIQUE NONCLUSTERED INDEX [UK_AccountEventPicture] ON [dbo].[AccountEventPicture] 
-(
-	[AccountEvent_Id] ASC,
-	[Name] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1179,6 +1164,19 @@ CREATE TABLE [dbo].[AccountGroupPicture](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]') AND name = N'IX_AccountGroupPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountGroupPicture] ON [dbo].[AccountGroupPicture] 
+(
+	[AccountGroup_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]') AND name = N'IX_AccountGroupPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountGroupPicture] ON [dbo].[AccountGroupPicture] 
+(
+	[AccountGroup_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupPicture]') AND name = N'PK_AccountGroupPicture')
 ALTER TABLE [dbo].[AccountGroupPicture] ADD  CONSTRAINT [PK_AccountGroupPicture] PRIMARY KEY CLUSTERED 
 (
@@ -1446,6 +1444,19 @@ CREATE TABLE [dbo].[AccountPicture](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND name = N'IX_AccountPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountPicture] ON [dbo].[AccountPicture] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND name = N'IX_AccountPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountPicture] ON [dbo].[AccountPicture] 
+(
+	[Account_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountPicture]') AND name = N'PK_AccountPicture')
 ALTER TABLE [dbo].[AccountPicture] ADD  CONSTRAINT [PK_AccountPicture] PRIMARY KEY CLUSTERED 
@@ -1974,6 +1985,19 @@ CREATE TABLE [dbo].[AccountStoryPicture](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]') AND name = N'IX_AccountStoryPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountStoryPicture] ON [dbo].[AccountStoryPicture] 
+(
+	[AccountStory_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]') AND name = N'IX_AccountStoryPicture')
+CREATE NONCLUSTERED INDEX [IX_AccountStoryPicture] ON [dbo].[AccountStoryPicture] 
+(
+	[AccountStory_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]') AND name = N'PK_AccountStoryPicture')
 ALTER TABLE [dbo].[AccountStoryPicture] ADD  CONSTRAINT [PK_AccountStoryPicture] PRIMARY KEY CLUSTERED 
@@ -3819,6 +3843,19 @@ CREATE TABLE [dbo].[PlacePicture](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[PlacePicture]') AND name = N'IX_PlacePicture')
+CREATE NONCLUSTERED INDEX [IX_PlacePicture] ON [dbo].[PlacePicture] 
+(
+	[Place_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[PlacePicture]') AND name = N'IX_PlacePicture')
+CREATE NONCLUSTERED INDEX [IX_PlacePicture] ON [dbo].[PlacePicture] 
+(
+	[Place_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[PlacePicture]') AND name = N'PK_PlacePicture')
 ALTER TABLE [dbo].[PlacePicture] ADD  CONSTRAINT [PK_PlacePicture] PRIMARY KEY CLUSTERED 

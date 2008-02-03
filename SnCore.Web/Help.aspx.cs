@@ -36,11 +36,6 @@ public partial class Help : Page
                 string.Format("DiscussionView.aspx?id={0}",
                    SessionManager.GetCachedConfiguration(
                         "SnCore.Site.DiscussionId", "0"));
-
-            linkPress.NavigateUrl =
-                string.Format("AccountBlogView.aspx?id={0}",
-                   SessionManager.GetCachedConfiguration(
-                        "SnCore.PressBlog.Id", "0"));
         }
     }
 }

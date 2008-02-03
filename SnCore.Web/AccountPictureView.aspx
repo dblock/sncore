@@ -19,8 +19,8 @@
      <td class="sncore_table_tr_td_images">
       <SnCoreWebControls:PagedList OnItemCommand="picturesView_ItemCommand" runat="server" ID="picturesView"
        RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true">
-       <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="&#187;"
-        prevpagetext="&#171;" horizontalalign="Center" />
+       <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="&#187;"
+        PrevPageText="&#171;" HorizontalAlign="Center" PageButtonCount="4" />
        <ItemTemplate>
         <asp:ImageButton ID="pictureThumbnail" runat="server" CommandName="Picture" CommandArgument='<%# Eval("Id") %>' 
          ImageUrl='<%# string.Format("AccountPictureThumbnail.aspx?id={0}", Eval("Id")) %>' AlternateText='<%# base.Render(Eval("Name")) %>' />

@@ -115,7 +115,7 @@
     <img src="images/Item.gif" />
    </td>
    <td class="sncore_table_tr_td">
-    <asp:HyperLink ID="linkPress" runat="server" />
+    <asp:HyperLink ID="linkPress" Text="Press" NavigateUrl="press" runat="server" />
     <br />
     Press and cuts.
    </td>
