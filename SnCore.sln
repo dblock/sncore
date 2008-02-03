@@ -274,6 +274,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bulk", "Bulk", "{008D8333-0
 		SnCore.Data\RefererHostDup.txt = SnCore.Data\RefererHostDup.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{96AFE929-B290-470A-8120-231316FA3FC5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
+		SnCore.proj = SnCore.proj
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET

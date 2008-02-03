@@ -1,0 +1,47 @@
+<Project DefaultTargets="all" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+ <PropertyGroup Condition="'$(Configuration)'==''">
+  <Configuration>Debug</Configuration> 
+ </PropertyGroup>
+ <Target Name="all" DependsOnTargets="announceprojectname;clean;deployables;package" />
+ <Target Name="sdk" DependsOnTargets="announceprojectname;clean;deployables;documentation;installer" />
+ <Target Name="announceprojectname">
+  <Message Importance="high" Text="Building $(SnCoreProjectName) ..." />
+ </Target>
+ <Target Name="clean">
+  <RemoveDir Directories="Target" />
+  <RemoveDir Directories="SnCore.Docs\Target" />
+  <RemoveDir Directories="SnCore.Deploy\Target" />
+  <MSBuild Projects="SnCore.sln" Targets="Clean" />
+ </Target>
+ <Target Name="deployables">
+  <MSBuild
+   Projects="SnCore.Web.Deploy\SnCore.Web.Deploy.wdproj;SnCore.MobileWeb.Deploy\SnCore.MobileWeb.Deploy.wdproj"
+   Properties="Configuration=$(Configuration);"
+   Targets="Build"
+   />
+ </Target>
+ <Target Name="documentation">
+  <Exec WorkingDirectory="SnCore.Docs" Command="..\doxygen\bin\doxygen.exe SnCore.Docs.doxygen" />
+ </Target>
+ <Target Name="package">
+  <MakeDir Directories="Target\$(Configuration)" />
+  <MakeDir Directories="SnCore.Deploy\Target" />
+  <MakeDir Directories="SnCore.Deploy\Target\$(Configuration)\$(SnCoreProjectName)" />
+  <MakeDir Directories="SnCore.Deploy\Target\$(Configuration)\mobile.$(SnCoreProjectName)" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.Web.Deploy\$(Configuration)\*.* $(SnCoreProjectName)" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.MobileWeb.Deploy\$(Configuration)\*.* mobile.$(SnCoreProjectName)" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\bin\zip32 -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip $(SnCoreProjectName)\*.*" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\bin\zip32 -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip mobile.$(SnCoreProjectName)\*.*" />
+  <Message Importance="high" Text="Created 'Target\$(Configuration)\$(SnCoreProjectName).zip'." />
+ </Target>
+ <Target Name="installer">
+  <MSBuild
+   Projects="SnCore.Install\SnCore.Install.wixproj"
+   Properties="Configuration=$(Configuration)"
+   Targets="Build"
+   />
+  <MakeDir Directories="Target\$(Configuration)" />
+  <Copy SourceFiles="SnCore.Install\bin\$(ConfigurationName)\SnCore.Install.msi" DestinationFiles="Target\$(ConfigurationName)\SnCore.msi" />
+ </Target>
+</Project>
+
