@@ -1,9 +1,61 @@
 <Project DefaultTargets="all" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+ <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
  <PropertyGroup Condition="'$(Configuration)'==''">
   <Configuration>Debug</Configuration> 
  </PropertyGroup>
- <Target Name="all" DependsOnTargets="announceprojectname;clean;deployables;package" />
- <Target Name="sdk" DependsOnTargets="announceprojectname;clean;deployables;documentation;installer" />
+ <Target Name="version">
+  <Version>
+   <Output TaskParameter="Major" PropertyName="Major" />
+   <Output TaskParameter="Minor" PropertyName="Minor" />
+   <Output TaskParameter="Build" PropertyName="Build" />
+   <Output TaskParameter="Revision" PropertyName="Revision" />
+  </Version>
+  <SvnVersion LocalPath="." ToolPath="$(BUILD_SVNDIR)\bin">
+   <Output TaskParameter="Revision" PropertyName="Build" />
+  </SvnVersion>
+  <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
+  <AssemblyInfo CodeLanguage="CS" OutputFile="SnCore.Common\GlobalAssemblyInfo.cs"
+   AssemblyTitle="SnCore" AssemblyDescription="Social networking core." AssemblyConfiguration=""
+   AssemblyCompany="Vestris Inc." AssemblyProduct="SnCore" AssemblyCopyright="Copyright (c) Vestris Inc. 2008"
+   AssemblyTrademark="" ComVisible="false" CLSCompliant="true"
+   AssemblyKeyFile="..\key.snk" AssemblyDelaySign="false" AssemblyKeyName="" AssemblyCulture=""
+   AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd.Tests\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Data\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Data.Hibernate\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Data.Script\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Data.Tests\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.MailSink\SnCore.DomainMail\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Services\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Services.Tests\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.SiteMap\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Stress.Tests\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Tools\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Tools.Tests\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Web.Soap.Tests\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Web.Tests\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.WebControls\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.WebServices\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.WebServices.Tests\Properties\AssemblyInfo.cs" />
+  <FileUpdate Files="SnCore.Install\SnCore.Project.wxi" Regex="(ProductVersion=\')([0-9.]*)(')" ReplacementText="ProductVersion='$(Major).$(Minor).$(Build).$(Revision)'" />
+ </Target>
+ <Target Name="all">
+  <CallTarget Targets="announceprojectname" />
+  <CallTarget Targets="version" />
+  <CallTarget Targets="clean" />
+  <CallTarget Targets="deployables" />
+  <CallTarget Targets="package" />
+ </Target>
+ <Target Name="sdk">
+  <CallTarget Targets="announceprojectname" />
+  <CallTarget Targets="version" />
+  <CallTarget Targets="clean" />
+  <CallTarget Targets="deployables" />
+  <CallTarget Targets="documentation" />
+  <CallTarget Targets="installer" />
+ </Target>
  <Target Name="announceprojectname">
   <Message Importance="high" Text="Building $(SnCoreProjectName) ..." />
  </Target>
@@ -34,14 +86,13 @@
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\bin\zip32 -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip mobile.$(SnCoreProjectName)\*.*" />
   <Message Importance="high" Text="Created 'Target\$(Configuration)\$(SnCoreProjectName).zip'." />
  </Target>
- <Target Name="installer">
+ <Target Name="installer">  
   <MSBuild
    Projects="SnCore.Install\SnCore.Install.wixproj"
    Properties="Configuration=$(Configuration)"
    Targets="Build"
    />
   <MakeDir Directories="Target\$(Configuration)" />
-  <Copy SourceFiles="SnCore.Install\bin\$(ConfigurationName)\SnCore.Install.msi" DestinationFiles="Target\$(ConfigurationName)\SnCore.msi" />
+  <Copy SourceFiles="SnCore.Install\bin\$(Configuration)\SnCore.Install.msi" DestinationFiles="Target\$(ConfigurationName)\SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
  </Target>
 </Project>
-

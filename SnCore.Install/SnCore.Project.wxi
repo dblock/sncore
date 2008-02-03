@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+﻿ï»¿<?xml version="1.0" encoding="Windows-1252"?>
 <Include>
  <?ifdef Debug ?>
- <?define ConfigurationName = Debug ?>
+ <?define ConfigurationName=Debug ?>
  <?else?>
- <?define ConfigurationName = Release ?>
+ <?define ConfigurationName=Release ?>
  <?endif ?>
  <?define SnCoreSolutionDir=$(sys.SOURCEFILEDIR)..\?>
- <?define ProductVersion = "1.0.120.0" ?>
- <?define SnCore.Data.Path = $(var.SnCoreSolutionDir)\SnCore.Data ?>
- <?define SnCore.Deploy.Target.Path = $(var.SnCoreSolutionDir)\SnCore.Web.Deploy\$(var.ConfigurationName) ?>
- <?define SnCore.MobileDeploy.Target.Path = $(var.SnCoreSolutionDir)\SnCore.MobileWeb.Deploy\$(var.ConfigurationName) ?>
- <?define SnCore.Docs.Target.Path = $(var.SnCoreSolutionDir)\SnCore.Docs\Target\html ?>
- <?define SnCore.WebUpgrade.Target.Path = $(var.SnCoreSolutionDir)\SnCore.WebUpgrade ?>
- <?define SnCore.Web.Deploy.Path = $(var.SnCoreSolutionDir)\SnCore.Web.Deploy ?>
- <?define SnCore.MobileWeb.Deploy.Path = $(var.SnCoreSolutionDir)\SnCore.MobileWeb.Deploy ?>
+ <?define ProductVersion='1.0.1383.0' ?>
+ <?define SnCore.Data.Path=$(var.SnCoreSolutionDir)\SnCore.Data ?>
+ <?define SnCore.Deploy.Target.Path=$(var.SnCoreSolutionDir)\SnCore.Web.Deploy\$(var.ConfigurationName) ?>
+ <?define SnCore.MobileDeploy.Target.Path=$(var.SnCoreSolutionDir)\SnCore.MobileWeb.Deploy\$(var.ConfigurationName) ?>
+ <?define SnCore.Docs.Target.Path=$(var.SnCoreSolutionDir)\SnCore.Docs\Target\html ?>
+ <?define SnCore.WebUpgrade.Target.Path=$(var.SnCoreSolutionDir)\SnCore.WebUpgrade ?>
+ <?define SnCore.Web.Deploy.Path=$(var.SnCoreSolutionDir)\SnCore.Web.Deploy ?>
+ <?define SnCore.MobileWeb.Deploy.Path=$(var.SnCoreSolutionDir)\SnCore.MobileWeb.Deploy ?>
 </Include>
