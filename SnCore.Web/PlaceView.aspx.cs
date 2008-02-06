@@ -53,7 +53,7 @@ public partial class PlaceView : Page
             {
                 try
                 {
-                    mPlace = SessionManager.GetInstance<TransitPlace, int>(
+                    mPlace = SessionManager.GetPrivateInstance<TransitPlace, int>(
                         RequestId, SessionManager.PlaceService.GetPlaceById);
                 }
                 catch
