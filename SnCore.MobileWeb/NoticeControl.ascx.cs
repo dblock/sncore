@@ -44,11 +44,6 @@ public partial class NoticeControl : Control
         }
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
-
     public string Style
     {
         get
@@ -191,6 +186,23 @@ public partial class NoticeControl : Control
         {
             Kind = NoticeKind.Error;
             Message = value;
+        }
+    }
+
+    public void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            linkContinue.NavigateUrl = ReturnUrl;
+        }
+    }
+
+    public string ReturnUrl
+    {
+        get
+        {
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? "Default.aspx" : o.ToString());
         }
     }
 }

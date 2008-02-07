@@ -7,6 +7,7 @@
   <asp:Label ID="labelDetail" runat="server" />
  </div>
  <div class="sncore_description" style="margin-top: 10px;">
-  <a href="Default.aspx">Click here to continue ...</a>
+  <asp:HyperLink ID="linkContinue" runat="server" NavigateUrl="~/Default.aspx"
+   Text="Click here to continue ..." />
  </div>
 </asp:Panel>

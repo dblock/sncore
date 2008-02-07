@@ -25,6 +25,11 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     private string mTicket = string.Empty;
     private AccountService.TransitAccount mAccount = null;
 
+    public bool HasVerifiedEmailAddress()
+    {
+        return GetBool<AccountService.TransitAccount, int>(AccountId, AccountService.HasVerifiedEmail);
+    }
+
     protected override int SessionTimeZone
     {
         get
@@ -584,6 +589,44 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     {
         WebClientImpl2<TransitType, ServiceQueryOptionsType>.Delete(
             Ticket, id, functor, Cache);
+    }
+
+    #endregion
+
+    #region Bool
+
+    /// ticket
+    public bool GetBool<TransitType>(
+        WebClientImpl<TransitType>.GetItemDelegateBool functor)
+    {
+        return WebClientImpl<TransitType>.GetBool(
+            Ticket, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
+    }
+
+    /// ticket + arg1
+    public bool GetBool<TransitType, ArgType1>(
+        ArgType1 arg1, WebClientImpl<TransitType>.GetItemDelegateBool<ArgType1> functor)
+    {
+        return WebClientImpl<TransitType>.GetBool(
+            Ticket, arg1, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
+    }
+
+    /// ticket + arg1 + arg2
+    public bool GetBool<TransitType, ArgType1, ArgType2>(
+        ArgType1 arg1, ArgType2 arg2,
+        WebClientImpl<TransitType>.GetItemDelegateBool<ArgType1, ArgType2> functor)
+    {
+        return WebClientImpl<TransitType>.GetBool(
+            Ticket, arg1, arg2, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
+    }
+
+    /// ticket + arg1 + arg2 + arg3
+    public bool GetBool<TransitType, ArgType1, ArgType2, ArgType3>(
+        ArgType1 arg1, ArgType2 arg2, ArgType3 arg3,
+        WebClientImpl<TransitType>.GetItemDelegateBool<ArgType1, ArgType2, ArgType3> functor)
+    {
+        return WebClientImpl<TransitType>.GetBool(
+            Ticket, arg1, arg2, arg3, functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
     }
 
     #endregion

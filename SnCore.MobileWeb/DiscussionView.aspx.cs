@@ -29,7 +29,10 @@ public partial class DiscussionView : Page
                 return;
             }
 
-            this.Title = Renderer.Render(td.Name);
+            Title = Renderer.Render(td.Name);
+            
+            linkPostNew.NavigateUrl = string.Format("DiscussionPost.aspx?did={0}&ReturnUrl={1}",
+                td.Id, Renderer.UrlEncode(Request.Url.PathAndQuery));
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
 

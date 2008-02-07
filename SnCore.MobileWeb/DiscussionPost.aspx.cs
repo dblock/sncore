@@ -9,24 +9,13 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
-using SnCore.Services;
 using SnCore.WebServices;
-using System.Text;
-using Wilco.Web.UI.WebControls;
-using SnCore.Tools.Drawing;
-using System.IO;
-using System.Drawing;
-using SnCore.Tools;
 using SnCore.SiteMap;
-using SnCore.Data.Hibernate;
+using System.Collections.Generic;
+using System.Text;
 
 public partial class DiscussionPostNew : AuthenticatedPage
 {
-    public DiscussionPostNew()
-    {
-        mIsMobileEnabled = true;
-    }
-
     public int PostId
     {
         get
@@ -61,33 +50,16 @@ public partial class DiscussionPostNew : AuthenticatedPage
         }
     }
 
-    public string ReturnUrl
-    {
-        get
-        {
-            string result = Request.Params["ReturnUrl"];
-            if (string.IsNullOrEmpty(result) && (DiscussionId > 0)) result = string.Format("DiscussionView.aspx?id={0}", DiscussionId);
-            return result;
-        }
-    }
-
     public void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            DomainClass cs = SessionManager.GetDomainClass("DiscussionPost");
-            inputSubject.MaxLength = cs["Subject"].MaxLengthInChars;
-
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-
-            this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
-
-            linkCancel.NavigateUrl = ReturnUrl;
 
             if (DiscussionId > 0)
             {
-                TransitDiscussion td = SessionManager.GetPrivateInstance<TransitDiscussion, int>(
-                    DiscussionId, SessionManager.DiscussionService.GetDiscussionById);
+                DiscussionService.TransitDiscussion td = SessionManager.DiscussionService.GetDiscussionById(
+                    SessionManager.Ticket, DiscussionId);
 
                 inputSticky.Enabled = td.CanUpdate;
 
@@ -110,8 +82,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
             if (PostId > 0)
             {
-                TransitDiscussionPost tw = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, PostId);
-                titleNewPost.Text = Renderer.Render(tw.Subject);
+                DiscussionService.TransitDiscussionPost tw = SessionManager.DiscussionService.GetDiscussionPostById(
+                    SessionManager.Ticket, PostId);
                 inputSubject.Text = tw.Subject;
                 inputSticky.Checked = tw.Sticky;
                 body.Append(tw.Body);
@@ -124,16 +96,17 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
             if (ParentId > 0)
             {
-                TransitDiscussionPost rp = SessionManager.DiscussionService.GetDiscussionPostById(SessionManager.Ticket, ParentId);
+                DiscussionService.TransitDiscussionPost rp = SessionManager.DiscussionService.GetDiscussionPostById(
+                    SessionManager.Ticket, ParentId);
                 panelReplyTo.Visible = true;
-                replytoSenderName.NavigateUrl = accountlink.HRef = "AccountView.aspx?id=" + rp.AccountId.ToString();
+                replytoSenderName.NavigateUrl = string.Format("AccountView.aspx?id={0}", rp.AccountId);
                 replytoSenderName.Text = Renderer.Render(rp.AccountName);
-                replyToBody.Text = base.RenderEx(rp.Body);
+                replyToBody.Text = Renderer.RenderEx(rp.Body);
                 replytoCreated.Text = SessionManager.ToAdjustedString(rp.Created);
-                replytoImage.ImageUrl = string.Format("AccountPictureThumbnail.aspx?id={0}&width=75&height=75", rp.AccountPictureId);
                 replytoSubject.Text = Renderer.Render(rp.Subject);
                 inputSubject.Text = rp.Subject.StartsWith("Re:") ? rp.Subject : "Re: " + rp.Subject;
                 rowsubject.Attributes["style"] = "display: none;";
+                labelPostingReplying.Text = "replying";
 
                 if (Quote)
                 {
@@ -169,7 +142,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
     public void post_Click(object sender, EventArgs e)
     {
-        TransitDiscussionPost tw = new TransitDiscussionPost();
+        DiscussionService.TransitDiscussionPost tw = new DiscussionService.TransitDiscussionPost();
         tw.Subject = inputSubject.Text;
         if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
         tw.Body = inputBody.Text;
@@ -177,52 +150,19 @@ public partial class DiscussionPostNew : AuthenticatedPage
         tw.DiscussionPostParentId = ParentId;
         tw.DiscussionId = DiscussionId;
         if (inputSticky.Enabled) tw.Sticky = inputSticky.Checked;
-        SessionManager.CreateOrUpdate<TransitDiscussionPost>(
+        SessionManager.CreateOrUpdate<DiscussionService.TransitDiscussionPost, DiscussionService.ServiceQueryOptions>(
             tw, SessionManager.DiscussionService.CreateOrUpdateDiscussionPost);
-        SessionManager.InvalidateCache<TransitDiscussion>();
-        SessionManager.InvalidateCache<TransitDiscussionThread>();
-        Redirect(linkCancel.NavigateUrl);
+        SessionManager.InvalidateCache<DiscussionService.TransitDiscussion, DiscussionService.ServiceQueryOptions>();
+        SessionManager.InvalidateCache<DiscussionService.TransitDiscussionThread, DiscussionService.ServiceQueryOptions>();
+        Redirect(ReturnUrl);
     }
 
-    protected void files_FilesPosted(object sender, FilesPostedEventArgs e)
+    public string ReturnUrl
     {
-        try
+        get
         {
-            if (e.PostedFiles.Count == 0)
-                return;
-
-            ExceptionCollection exceptions = new ExceptionCollection();
-            foreach (HttpPostedFile file in e.PostedFiles)
-            {
-                try
-                {
-                    TransitAccountPicture p = new TransitAccountPicture();
-
-                    ThumbnailBitmap t = new ThumbnailBitmap(file.InputStream);
-                    p.Bitmap = t.Bitmap;
-                    p.Name = Path.GetFileName(file.FileName);
-                    p.Description = string.Empty;
-                    p.Hidden = true;
-
-                    int id = SessionManager.CreateOrUpdate<TransitAccountPicture>(
-                        p, SessionManager.AccountService.CreateOrUpdateAccountPicture);
-
-                    Size size = t.GetNewSize(new Size(200, 200));
-
-                    inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
-                        size.Width, size.Height, id, inputBody.Text);
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(new Exception(string.Format("Error processing {0}: {1}",
-                        Renderer.Render(file.FileName), ex.Message), ex));
-                }
-            }
-            exceptions.Throw();
-        }
-        catch (Exception ex)
-        {
-            ReportException(ex);
+            object o = Request.QueryString["ReturnUrl"];
+            return (o == null ? string.Format("DiscussionView.aspx?id={0}", DiscussionId) : o.ToString());
         }
     }
 }
