@@ -181,6 +181,8 @@ public partial class SelectPlaceControl : Control
         IsChosen = false;
         IsEditing = true;
         panelSelectPlace.Update();
+        LocationSelector.ChangeCountry(sender, e);
+        LocationSelector.SelectLocation(sender, new LocationEventArgs(SessionManager.Account));
     }
 
     public void lookupPlace_Click(object sender, EventArgs e)
