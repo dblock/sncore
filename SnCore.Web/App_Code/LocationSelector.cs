@@ -152,14 +152,19 @@ public class LocationSelectorCountryState : LocationSelector
 
         if (!mPage.IsPostBack)
         {
-            List<TransitCountry> countries = new List<TransitCountry>();
-            if (InsertEmptySelection) countries.Add(new TransitCountry());
-            string defaultcountry = mPage.SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
-            countries.AddRange(mPage.SessionManager.GetCollection<TransitCountry, string>(
-                defaultcountry, (ServiceQueryOptions)null, mPage.SessionManager.LocationService.GetCountriesWithDefault));
-            mCountry.DataSource = countries;
-            mCountry.DataBind();
+            DataBindCountry();
         }
+    }
+
+    public void DataBindCountry()
+    {
+        List<TransitCountry> countries = new List<TransitCountry>();
+        if (InsertEmptySelection) countries.Add(new TransitCountry());
+        string defaultcountry = mPage.SessionManager.GetCachedConfiguration("SnCore.Country.Default", "United States");
+        countries.AddRange(mPage.SessionManager.GetCollection<TransitCountry, string>(
+            defaultcountry, (ServiceQueryOptions)null, mPage.SessionManager.LocationService.GetCountriesWithDefault));
+        mCountry.DataSource = countries;
+        mCountry.DataBind();
     }
 
     public virtual bool SelectLocation(object sender, LocationEventArgs e)
@@ -204,13 +209,7 @@ public class LocationSelectorCountryState : LocationSelector
         {
             if (mState != null)
             {
-                List<TransitState> states = new List<TransitState>();
-                if (InsertEmptySelection) states.Add(new TransitState());
-                states.AddRange(mPage.SessionManager.GetCollection<TransitState, string>(
-                    mCountry.SelectedValue, (ServiceQueryOptions) null, mPage.SessionManager.LocationService.GetStatesByCountryName));
-                mState.DataSource = states;
-                mState.DataBind();
-
+                DataBindState();
                 State_SelectedIndexChanged(sender, e);
             }
 
@@ -225,6 +224,17 @@ public class LocationSelectorCountryState : LocationSelector
         {
             mPage.ReportException(ex);
         }
+    }
+
+    public void DataBindState()
+    {
+        List<TransitState> states = new List<TransitState>();
+        if (InsertEmptySelection) states.Add(new TransitState());
+        states.AddRange(mPage.SessionManager.GetCollection<TransitState, string>(
+            mCountry.SelectedValue, (ServiceQueryOptions)null, mPage.SessionManager.LocationService.GetStatesByCountryName));
+        mState.DataSource = states;
+        mState.DataBind();
+
     }
 
     protected virtual void State_SelectedIndexChanged(object sender, EventArgs e)
@@ -354,14 +364,7 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         {
             if (mCity != null)
             {
-                List<TransitCity> cities = new List<TransitCity>();
-                if (InsertEmptySelection) cities.Add(new TransitCity());
-                cities.AddRange(mPage.SessionManager.GetCollection<TransitCity, string, string>(
-                    mCountry.SelectedValue, mState.SelectedValue, (ServiceQueryOptions) null, 
-                    mPage.SessionManager.LocationService.GetCitiesByLocation));
-                mCity.DataSource = cities;
-                mCity.DataBind();
-
+                DataBindCity();
                 City_SelectedIndexChanged(sender, e);
             }
         }
@@ -371,6 +374,17 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
         }
 
         base.State_SelectedIndexChanged(sender, e);
+    }
+
+    public void DataBindCity()
+    {
+        List<TransitCity> cities = new List<TransitCity>();
+        if (InsertEmptySelection) cities.Add(new TransitCity());
+        cities.AddRange(mPage.SessionManager.GetCollection<TransitCity, string, string>(
+            mCountry.SelectedValue, mState.SelectedValue, (ServiceQueryOptions)null,
+            mPage.SessionManager.LocationService.GetCitiesByLocation));
+        mCity.DataSource = cities;
+        mCity.DataBind();
     }
 
     public override void ClearSelection()
@@ -424,13 +438,7 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
         {
             if (mNeighborhood != null)
             {
-                List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
-                if (InsertEmptySelection) neighborhoods.Add(new TransitNeighborhood());
-                neighborhoods.AddRange(mPage.SessionManager.GetCollection<TransitNeighborhood, string, string, string>(
-                    mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue, (ServiceQueryOptions) null, 
-                    mPage.SessionManager.LocationService.GetNeighborhoodsByLocation)); 
-                mNeighborhood.DataSource = neighborhoods;
-                mNeighborhood.DataBind();
+                DataBindNeighborhood();
             }
         }
         catch (Exception ex)
@@ -439,6 +447,17 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
         }
 
         base.City_SelectedIndexChanged(sender, e);
+    }
+
+    public void DataBindNeighborhood()
+    {
+        List<TransitNeighborhood> neighborhoods = new List<TransitNeighborhood>();
+        if (InsertEmptySelection) neighborhoods.Add(new TransitNeighborhood());
+        neighborhoods.AddRange(mPage.SessionManager.GetCollection<TransitNeighborhood, string, string, string>(
+            mCountry.SelectedValue, mState.SelectedValue, mCity.SelectedValue, (ServiceQueryOptions)null,
+            mPage.SessionManager.LocationService.GetNeighborhoodsByLocation));
+        mNeighborhood.DataSource = neighborhoods;
+        mNeighborhood.DataBind();
     }
 
     public override void ClearSelection()
