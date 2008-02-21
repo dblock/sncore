@@ -154,6 +154,7 @@ public partial class PlacesView : Page
         LocationSelector.CountryChanged += new EventHandler(LocationSelector_CountryChanged);
         LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
         LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
+        LocationSelector.LocationChanged += new EventHandler(LocationSelector_LocationChanged);
 
         ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
 
@@ -198,6 +199,19 @@ public partial class PlacesView : Page
         }
 
         SetDefaultButton(search);
+    }
+
+    void LocationSelector_LocationChanged(object sender, EventArgs e)
+    {
+        linkSuggest.NavigateUrl =
+            string.Format("PlaceEdit.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
+                Renderer.UrlEncode(inputCity.SelectedValue),
+                Renderer.UrlEncode(inputState.SelectedValue),
+                Renderer.UrlEncode(inputCountry.SelectedValue),
+                Renderer.UrlEncode(inputNeighborhood.SelectedValue),
+                Renderer.UrlEncode(inputType.SelectedValue));
+
+        panelLinks.Update();
     }
 
     void History_Navigate(object sender, HistoryEventArgs e)

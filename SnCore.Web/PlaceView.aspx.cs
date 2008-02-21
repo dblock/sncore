@@ -205,6 +205,13 @@ public partial class PlaceView : Page
                         Renderer.UrlEncode(place.Country));
 
                 linkDirections.HRef = DrivingDirectionsUrl;
+                linkSuggest.NavigateUrl =
+                    string.Format("PlaceEdit.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
+                        Renderer.UrlEncode(place.City),
+                        Renderer.UrlEncode(place.State),
+                        Renderer.UrlEncode(place.Country),
+                        Renderer.UrlEncode(place.Neighborhood),
+                        Renderer.UrlEncode(place.Type));
 
                 placeAccounts.PlaceId = RequestId;
                 placeFriends.PlaceId = RequestId;

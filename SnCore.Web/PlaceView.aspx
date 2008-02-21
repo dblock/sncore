@@ -156,7 +156,7 @@
            on <asp:Label id="labelSuggestedOn" runat="server" />
           </td>
           <td style="font-size: smaller; text-align: right;">
-           <a href="PlaceEdit.aspx">&#187; suggest a place</a>
+           <asp:HyperLink ID="linkSuggest" runat="server" NavigateUrl="~/PlaceEdit.aspx" Text="&#187; suggest a place" />
           </td>
          </tr>
         </table>

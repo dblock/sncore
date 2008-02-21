@@ -24,7 +24,7 @@
       <div class="sncore_h2sub">
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Places" />
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Places" />
-       <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
+       <asp:HyperLink ID="linkSuggest" runat="server" Text="&#187; Suggest a Place" NavigateUrl="~/PlaceEdit.aspx" />
        <a href="AccountPlaceQueueManage.aspx">&#187; My Queue</a>
        <a href="PlaceFriendsQueueView.aspx">&#187; My Friends Queue</a>
        <a href="PlacesFavoritesView.aspx">&#187; Favorites</a>

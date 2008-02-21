@@ -96,7 +96,11 @@ public partial class PlaceEdit : AuthenticatedPage
                 string name = Request.QueryString["name"];
                 if (!string.IsNullOrEmpty(name)) inputName.Text = name;
 
-                LocationSelector.ChangeCityWithAccountDefault(sender, new CityLocationEventArgs(Request.QueryString["city"]));
+                if (!LocationSelector.SelectLocation(sender, new LocationEventArgs(Request)))
+                {
+                    LocationSelector.ChangeCityWithAccountDefault(sender, new CityLocationEventArgs(
+                        Request.QueryString["city"]));
+                }
 
                 linkDelete.Visible = false;
                 linkEditAttributes.Visible = false;
