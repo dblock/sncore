@@ -101,6 +101,9 @@
   <CustomAction Id="SetSnCoreWebsiteUrl_Domain" Property="SNCORE_WEBSITE_URL" Value="[SNCORE_WEBSITE_URL]/" Execute="immediate" />
   <CustomAction Id="SetSnCoreMobileWebsiteUrl_VirtualDirectory" Property="SNCORE_MOBILE_WEBSITE_URL" Value="[SNCORE_WEBSITE_URL]Mobile/" Execute="immediate" />
   <CustomAction Id="SetSnCoreMobileWebsiteUrl_Domain" Property="SNCORE_MOBILE_WEBSITE_URL" Value="http://mobile.[SNCORE_WEBSITE_DOMAINNAME]/" Execute="immediate" />
+  <CustomAction Id="LaunchWebSite" BinaryKey="WixCA" DllEntry="WixShellExec" Execute="immediate" Return="check" Impersonate="yes" />
+  <CustomAction Id="SetLaunchWebSiteCheckbox" Property="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" /> 
+  <CustomAction Id="SetLaunchWebSiteWixShellExecTarget" Property="WixShellExecTarget" Value="[SNCORE_WEBSITE_URL]" />
   <InstallUISequence>
    <Custom Action="SetSnCoreWebsiteId_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>
    <Custom Action="SetSnCoreWebsiteId_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
@@ -110,6 +113,9 @@
    <Custom Action="SetSnCoreWebsiteUrl_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
    <Custom Action="SetSnCoreMobileWebsiteUrl_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>
    <Custom Action="SetSnCoreMobileWebsiteUrl_Domain" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteDomain"]]></Custom>
+   <Custom Action="SetLaunchWebSiteCheckbox" After="CostInitialize" />
+   <Custom Action="SetLaunchWebSiteWixShellExecTarget" After="CostFinalize" />
   </InstallUISequence>
+  <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch WebSite" />
  </Fragment>
 </Include>

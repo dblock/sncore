@@ -10,11 +10,14 @@
   <Condition Message="You must be an administrator to install this product.">
    Privileged
   </Condition>
-  <Condition Message="This setup requires the ASP.NET 2 is configured in IIS.">
+  <Condition Message="This setup requires the Microsoft ASP.NET 2.0.">
    <![CDATA[ASPNET2]]>
   </Condition>
-  <Condition Message='This setup requires the .NET Framework 2.0 or higher.'>
+  <Condition Message='This setup requires the Microsoft .NET Framework 2.0 or higher.'>
    <![CDATA[MsiNetAssemblySupport >= "2.0.50727"]]>
+  </Condition>
+  <Condition Message="This setup requires Microsoft Web Service Enhancements (WSE3).">
+   <![CDATA[WSE3]]>
   </Condition>
   <Condition Message="A later version of [ProductName] is already installed.">
    NOT NEWERVERSIONDETECTED

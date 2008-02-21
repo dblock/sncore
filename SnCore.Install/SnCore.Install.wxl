@@ -9,6 +9,7 @@
  <String Id="WebSiteDomainNameLabel">&amp;Domain Name:</String>
  <String Id="WebSiteTypeDomainText">&amp;Create a New WebSite</String>
  <String Id="WebSiteTypeVirtualDirectoryText">&amp;Create Virtual Directories in Default Website</String>
+ <String Id="WebSiteLaunch">&amp;Launch WebSite</String>
  <String Id="SqlDlg_Title">[ProductName] Setup</String>
  <String Id="SqlDlgTitle">{\WixUI_Font_Title}SQL Server Information</String>
  <String Id="SqlDlgDescription">Please enter database information.</String>

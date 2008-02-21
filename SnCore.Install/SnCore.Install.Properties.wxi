@@ -7,6 +7,9 @@
   <Property Id="NETFRAMEWORK_INSTALLROOT">
    <RegistrySearch Id="NetFrameworkInstallRootSearch" Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework" Type="raw" Name="InstallRoot" />
   </Property>
+  <Property Id="WSE3">
+   <RegistrySearch Id="WSE3InstalledComponents" Root="HKLM" Key="SOFTWARE\Microsoft\WSE\{EDEA8AB7-7683-4ED2-AA19-E6C078064C0D}" Type="raw" />
+  </Property>
   <Property Id="ASPNET2">
    <RegistrySearch Id="ASPNET2InstalledComponents" Root="HKLM" Key="SOFTWARE\Microsoft\ASP.NET\2.0.50727.0" Type="raw" Name="Path" />
   </Property>
@@ -28,6 +31,7 @@
   <Property Id="SNCORE_WEBSITE_URL" Value="http://localhost/SnCoreDemo">
    <RegistrySearch Id="SnCoreWebSiteUrlSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="WebSiteUrl" Type="raw" />
   </Property>
+  <Property Id="SNCORE_WEBSITE_LAUNCH" Value="0" />
   <Property Id="SNCORE_MOBILE_WEBSITE_URL" Value="http://localhost/SnCoreDemoMobile">
    <RegistrySearch Id="SnCoreMobileWebSiteUrlSearch" Root="HKLM" Key="SOFTWARE\Vestris Inc.\SnCore\WebSite" Name="MobileWebSiteUrl" Type="raw" />
   </Property>
