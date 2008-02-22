@@ -71,6 +71,16 @@ namespace SnCore.Tools.Web.Html
         public bool ReplaceQuotes = false;
 
         /// <summary>
+        /// Allow CDATA blocs.
+        /// </summary>
+        public bool AllowCDATA = false;
+
+        /// <summary>
+        /// Allow HTML comments.
+        /// </summary>
+        public bool AllowComments = true;
+
+        /// <summary>
         /// Set the tag names in lower case which are allowed to go to output
         /// </summary>
         public string[] AllowedTags = new string[] { "p", "b", "i", "u", "em", "big", "small", "strike",
@@ -224,7 +234,10 @@ namespace SnCore.Tools.Web.Html
 
         public override void WriteComment(string text)
         {
-            if (!Options.FilterOutput) base.WriteComment(text);
+            if (!Options.FilterOutput || Options.AllowComments)
+            {
+                base.WriteComment(text);
+            }
         }
 
         /// <summary>
@@ -383,6 +396,14 @@ namespace SnCore.Tools.Web.Html
             else
             {
                 base.WriteAttributes(reader, defattr);
+            }
+        }
+
+        public override void WriteCData(string text)
+        {
+            if (! Options.FilterOutput || Options.AllowCDATA)
+            {
+                base.WriteCData(text);
             }
         }
     }

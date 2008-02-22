@@ -103,7 +103,39 @@ namespace SnCore.Tools.Tests
                 Console.WriteLine("{0}\n\t{1}", test._input, output);
                 Assert.AreEqual(test._output, output);
             }
+        }
 
+        [Test]
+        public void CleanupHTML()
+        {
+            TestDataItem[] testdata = 
+            {
+                new TestDataItem(
+                    "<tag>tag</tag>",
+                    "<stripped><stripped>tag</stripped></stripped>"),
+                new TestDataItem(
+                    "<%tag>tag</%tag>",
+                    "<stripped></stripped>"),
+                new TestDataItem(
+                    "<%tag%>tag",
+                    "<stripped>tag</stripped>"),
+                new TestDataItem(
+                    "<%# tag>tag",
+                    "<stripped></stripped>"),
+                new TestDataItem(
+                    "<%# Eval(\"foobar\") %>tag",
+                    "<stripped>tag</stripped>"),
+                new TestDataItem(
+                    "<!-- comment -->",
+                    "<!-- comment -->")
+            };
+
+            foreach (TestDataItem test in testdata)
+            {
+                string output = Renderer.CleanHtml(test._input);
+                Console.WriteLine("{0}\n{1}", test._input, output);
+                Assert.AreEqual(test._output, output);
+            }
         }
 
         [Test]
