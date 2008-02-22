@@ -77,9 +77,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug priority.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">priority id</param>
         [WebMethod(Description = "Delete a bug priority.")]
         public void DeleteBugPriority(string ticket, int id)
         {
@@ -138,9 +138,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug severity.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">severity id</param>
         [WebMethod(Description = "Delete a bug severity.")]
         public void DeleteBugSeverity(string ticket, int id)
         {
@@ -199,9 +199,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug resolution.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">resolution id</param>
         [WebMethod(Description = "Delete a bug resolution.")]
         public void DeleteBugResolution(string ticket, int id)
         {
@@ -260,9 +260,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug status.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">status id</param>
         [WebMethod(Description = "Delete a bug status.")]
         public void DeleteBugStatus(string ticket, int id)
         {
@@ -321,9 +321,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug type.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">type id</param>
         [WebMethod(Description = "Delete a bug type.")]
         public void DeleteBugType(string ticket, int id)
         {
@@ -382,9 +382,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug project.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">project id</param>
         [WebMethod(Description = "Delete a bug project.")]
         public void DeleteBugProject(string ticket, int id)
         {
@@ -472,9 +472,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">bug id</param>
         [WebMethod(Description = "Delete a bug.")]
         public void DeleteBug(string ticket, int id)
         {
@@ -597,9 +597,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug note.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">note id</param>
         [WebMethod(Description = "Delete a bug note.")]
         public void DeleteBugNote(string ticket, int id)
         {
@@ -662,9 +662,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bug link.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">link id</param>
         [WebMethod(Description = "Delete a bug link.")]
         public void DeleteBugLink(string ticket, int id)
         {

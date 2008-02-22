@@ -350,7 +350,6 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">account to delete</param>
-        /// <param name="password">current account password</param>
         [WebMethod(Description = "Delete an account.")]
         public void DeleteAccount(string ticket, int id)
         {
@@ -477,6 +476,11 @@ namespace SnCore.WebServices
             }
         }
 
+        /// <summary>
+        /// Decline an invitation to the system.
+        /// </summary>
+        /// <param name="id">invitation id</param>
+        /// <param name="code">invitation code</param>
         [WebMethod(Description = "Decline an invitation.")]
         public void DeclineInvitation(int id, string code)
         {
@@ -630,10 +634,10 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Delete a invitation.
+        /// Delete an invitation.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="invitationid">invitation id</param>
+        /// <param name="id">invitation id</param>
         [WebMethod(Description = "Delete a invitation.")]
         public void DeleteAccountInvitation(string ticket, int id)
         {
@@ -944,9 +948,8 @@ namespace SnCore.WebServices
         /// <summary>
         /// Delete an account e-mail.
         /// </summary>
-        /// <param name="ticket"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">e-mail id</param>
         [WebMethod(Description = "Delete an account e-mail.")]
         public void DeleteAccountEmail(string ticket, int id)
         {
@@ -1068,7 +1071,6 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket"></param>
         /// <param name="id"></param>
-        /// <returns></returns>
         [WebMethod(Description = "Delete an account e-mail confirmation.")]
         public void DeleteAccountEmailConfirmation(string ticket, int id)
         {
@@ -1093,6 +1095,11 @@ namespace SnCore.WebServices
                 ticket, options, expressions, null);
         }
 
+        /// <summary>
+        /// Get the number of open ids associated with an account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account id</param>
         [WebMethod(Description = "Get openids count.")]
         public int GetAccountOpenIdsCount(string ticket, int id)
         {
@@ -1287,10 +1294,10 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Delete a property group
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
+        /// Delete a property group.
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">property group id</param>
         [WebMethod(Description = "Delete a property group.")]
         public void DeleteAccountPropertyGroup(string ticket, int id)
         {
@@ -1350,9 +1357,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account property.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account property.")]
         public void DeleteAccountProperty(string ticket, int id)
         {
@@ -1550,9 +1557,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account property value.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account property value.")]
         public void DeleteAccountPropertyValue(string ticket, int id)
         {
@@ -1613,9 +1620,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account attribute.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account attribute id</param>
         [WebMethod(Description = "Delete an account attribute.")]
         public void DeleteAccountAttribute(string ticket, int id)
         {
@@ -1744,7 +1751,7 @@ namespace SnCore.WebServices
         /// Delete a redirect.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="redirectid">redirect id</param>
+        /// <param name="id">redirect id</param>
         [WebMethod(Description = "Delete a redirect.")]
         public void DeleteAccountRedirect(string ticket, int id)
         {
@@ -1810,9 +1817,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account address.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account address.")]
         public void DeleteAccountAddress(string ticket, int id)
         {
@@ -1872,9 +1879,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account website.
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">website id</param>
         [WebMethod(Description = "Delete an account website.")]
         public void DeleteAccountWebsite(string ticket, int id)
         {
@@ -1959,9 +1966,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a account picture
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="picture id">id</param>
         [WebMethod(Description = "Delete a account picture.")]
         public void DeleteAccountPicture(string ticket, int id)
         {
@@ -2086,7 +2093,7 @@ namespace SnCore.WebServices
         /// Delete a survey answer.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="surveyanswerid">survey answer id</param>
+        /// <param name="id">survey answer id</param>
         [WebMethod(Description = "Delete a survey answer.")]
         public void DeleteAccountSurveyAnswer(string ticket, int id)
         {
@@ -2203,7 +2210,7 @@ namespace SnCore.WebServices
         /// Delete a message folder.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="messagefolderid">message folder id</param>
+        /// <param name="id">message folder id</param>
         [WebMethod(Description = "Delete a message folder.")]
         public void DeleteAccountMessageFolder(string ticket, int id)
         {
@@ -2289,7 +2296,7 @@ namespace SnCore.WebServices
         /// Delete a message.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="messageid">message id</param>
+        /// <param name="id">message id</param>
         [WebMethod(Description = "Delete a message.")]
         public void DeleteAccountMessage(string ticket, int id)
         {
@@ -2301,14 +2308,14 @@ namespace SnCore.WebServices
         /// Delete messages in a folder.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="folderid">folder id</param>
+        /// <param name="id">folder id</param>
         [WebMethod(Description = "Delete messages in a folder.")]
-        public void DeleteAccountMessagesByFolder(string ticket, int folderid)
+        public void DeleteAccountMessagesByFolder(string ticket, int id)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccountMessageFolder f = new ManagedAccountMessageFolder(session, folderid);
+                ManagedAccountMessageFolder f = new ManagedAccountMessageFolder(session, id);
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 f.DeleteAccountMessages(sec);
                 SnCore.Data.Hibernate.Session.Flush();
@@ -2399,9 +2406,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account e-mail message.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account e-mail message.")]
         public void DeleteAccountEmailMessage(string ticket, int id)
         {
@@ -2460,9 +2467,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an flag type
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an flag type.")]
         public void DeleteAccountFlagType(string ticket, int id)
         {
@@ -2567,9 +2574,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a flag
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a flag.")]
         public void DeleteAccountFlag(string ticket, int id)
         {
@@ -2629,9 +2636,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a quota
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a quota.")]
         public void DeleteAccountQuota(string ticket, int id)
         {

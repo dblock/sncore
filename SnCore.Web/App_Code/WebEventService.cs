@@ -219,9 +219,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an event type
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="id">id</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">event type id</param>
         [WebMethod(Description = "Delete an event type.")]
         public void DeleteAccountEventType(string ticket, int id)
         {

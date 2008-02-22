@@ -103,9 +103,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account group.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account group.")]
         public void DeleteAccountGroup(string ticket, int id)
         {
@@ -215,9 +215,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account group account.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account group account.")]
         public void DeleteAccountGroupAccount(string ticket, int id)
         {
@@ -227,8 +227,10 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Retreive an account group account for a specific group.
-        /// <param name="ticket">authentication ticket</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="accountid">account id</param>
+        /// <param name="groupid">group id</param>
         [WebMethod(Description = "Retreive an account group account for a specific group.")]
         public TransitAccountGroupAccount GetAccountGroupAccountByAccountGroupId(string ticket, int accountid, int groupid)
         {
@@ -293,9 +295,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account group picture.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account group picture.")]
         public void DeleteAccountGroupPicture(string ticket, int id)
         {
@@ -375,9 +377,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account group place.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account group place.")]
         public void DeleteAccountGroupPlace(string ticket, int id)
         {
@@ -460,9 +462,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account group account invitation.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account group account invitation.")]
         public void DeleteAccountGroupAccountInvitation(string ticket, int id)
         {
@@ -600,9 +602,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account group account request.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account group account request.")]
         public void DeleteAccountGroupAccountRequest(string ticket, int id)
         {

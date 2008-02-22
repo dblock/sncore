@@ -79,9 +79,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place type
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place type.")]
         public void DeletePlaceType(string ticket, int id)
         {
@@ -141,9 +141,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place.")]
         public void DeletePlace(string ticket, int id)
         {
@@ -274,9 +274,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place picture
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place picture.")]
         public void DeletePlacePicture(string ticket, int id)
         {
@@ -354,9 +354,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a account place type
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a account place type.")]
         public void DeleteAccountPlaceType(string ticket, int id)
         {
@@ -440,9 +440,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a account place.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a account place.")]
         public void DeleteAccountPlace(string ticket, int id)
         {
@@ -525,9 +525,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place request.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place request.")]
         public void DeleteAccountPlaceRequest(string ticket, int id)
         {
@@ -537,9 +537,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Approve a place request.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Approve a place request.")]
         public void AcceptAccountPlaceRequest(string ticket, int id, string message)
         {
@@ -555,9 +555,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Reject a place request.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Reject a place request.")]
         public void RejectAccountPlaceRequest(string ticket, int id, string message)
         {
@@ -668,9 +668,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account place favorite.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account place favorite.")]
         public void DeleteAccountPlaceFavorite(string ticket, int id)
         {
@@ -837,9 +837,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place name
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place name.")]
         public void DeletePlaceName(string ticket, int id)
         {
@@ -898,9 +898,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a property group
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a property group.")]
         public void DeletePlacePropertyGroup(string ticket, int id)
         {
@@ -960,9 +960,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a property
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a property.")]
         public void DeletePlaceProperty(string ticket, int id)
         {
@@ -1242,9 +1242,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place property value.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place property value.")]
         public void DeletePlacePropertyValue(string ticket, int id)
         {
@@ -1303,9 +1303,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place attribute.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place attribute.")]
         public void DeletePlaceAttribute(string ticket, int id)
         {
@@ -1469,9 +1469,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place queue
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place queue.")]
         public void DeletePlaceQueue(string ticket, int id)
         {
@@ -1530,9 +1530,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place queueitem
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place queueitem.")]
         public void DeletePlaceQueueItem(string ticket, int id)
         {
@@ -1747,9 +1747,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a place change request.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a place change request.")]
         public void DeletePlaceChangeRequest(string ticket, int id)
         {

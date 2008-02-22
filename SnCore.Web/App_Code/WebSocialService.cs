@@ -300,6 +300,11 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Get an account friend request.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">request id</param>
         [WebMethod(Description = "Get an account friend request.")]
         public TransitAccountFriendRequest GetAccountFriendRequestById(string ticket, int id)
         {
@@ -431,9 +436,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account audit entry.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account audit entry.")]
         public void DeleteAccountAuditEntry(string ticket, int id)
         {

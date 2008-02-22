@@ -113,9 +113,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a tag word.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a tag word.")]
         public void DeleteTagWord(string ticket, int id)
         {

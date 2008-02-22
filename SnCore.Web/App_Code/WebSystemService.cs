@@ -135,9 +135,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a configuration.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a configuration.")]
         public void DeleteConfiguration(string ticket, int id)
         {

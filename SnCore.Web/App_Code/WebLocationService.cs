@@ -104,9 +104,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a country.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a country.")]
         public void DeleteCountry(string ticket, int id)
         {
@@ -214,9 +214,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a state.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a state.")]
         public void DeleteState(string ticket, int id)
         {
@@ -431,9 +431,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a city.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a city.")]
         public void DeleteCity(string ticket, int id)
         {
@@ -467,8 +467,8 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Merge cities.
-        /// <param name="ticket">authentication ticket</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Merge cities.")]
         public int MergeCities(string ticket, int target_id, int merge_id)
         {
@@ -485,8 +485,8 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Merge cities by city name.
-        /// <param name="ticket">authentication ticket</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Merge cities.")]
         public int MergeCitiesByName(string ticket, int target_id, string name, string state, string country)
         {
@@ -577,9 +577,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a neighborhood.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a neighborhood.")]
         public void DeleteNeighborhood(string ticket, int id)
         {
@@ -601,8 +601,8 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Merge neighborhoods.
-        /// <param name="ticket">authentication ticket</param>
         /// </summary>
+        /// <param name="ticket">authentication ticket</param>
         [WebMethod(Description = "Merge neighborhoods.")]
         public int MergeNeighborhoods(string ticket, int target_id, int merge_id)
         {

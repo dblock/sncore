@@ -185,9 +185,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a discussion.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">discussion id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a discussion.")]
         public void DeleteDiscussion(string ticket, int id)
         {
@@ -355,9 +355,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a discussion post.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">discussion post id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a discussion post.")]
         public void DeleteDiscussionPost(string ticket, int id)
         {

@@ -85,9 +85,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a schedule
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a schedule.")]
         public void DeleteSchedule(string ticket, int id)
         {
@@ -180,9 +180,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an attribute
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an attribute.")]
         public void DeleteAttribute(string ticket, int id)
         {
@@ -262,10 +262,10 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Create or update a survey.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="c">transit survey information</param>
         /// <returns>new survey id</returns>
-        /// </summary>
         [WebMethod(Description = "Add a survey.")]
         public int CreateOrUpdateSurvey(string ticket, TransitSurvey survey)
         {
@@ -275,9 +275,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a survey.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">survey id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a survey.")]
         public void DeleteSurvey(string ticket, int id)
         {
@@ -346,6 +346,12 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Get a picture if modified since.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">picture id</param>
+        /// <param name="ifModifiedSince">timestamp</param>
         [WebMethod(Description = "Get picture data if modified since.", BufferResponse = true)]
         public TransitPicture GetPictureIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
         {
@@ -416,9 +422,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a picture
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a picture.")]
         public void DeletePicture(string ticket, int id)
         {
@@ -478,9 +484,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a picture type
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a picture type.")]
         public void DeletePictureType(string ticket, int id)
         {
@@ -539,9 +545,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a reminder
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a reminder.")]
         public void DeleteReminder(string ticket, int id)
         {
@@ -614,9 +620,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a reminder account property
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a reminder account property.")]
         public void DeleteReminderAccountProperty(string ticket, int id)
         {
@@ -675,9 +681,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a reminder event
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a reminder event.")]
         public void DeleteReminderEvent(string ticket, int id)
         {
@@ -736,9 +742,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a data object
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a data object.")]
         public void DeleteDataObject(string ticket, int id)
         {
@@ -841,9 +847,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a bookmark
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a bookmark.")]
         public void DeleteBookmark(string ticket, int id)
         {
@@ -979,9 +985,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a feature.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a feature.")]
         public void DeleteFeature(string ticket, int id)
         {
@@ -991,9 +997,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete all features of an object.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="feature">token transit feature</param>
-        /// </summary>
         [WebMethod(Description = "Delete all feature of an object.")]
         public void DeleteAllFeatures(string ticket, TransitFeature token)
         {

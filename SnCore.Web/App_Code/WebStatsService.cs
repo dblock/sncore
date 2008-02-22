@@ -160,9 +160,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a referer host.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a referer host.")]
         public void DeleteRefererHost(string ticket, int id)
         {
@@ -222,9 +222,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a referer query.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a referer query.")]
         public void DeleteRefererQuery(string ticket, int id)
         {
@@ -300,9 +300,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a counter.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a counter.")]
         public void DeleteCounter(string ticket, int id)
         {
@@ -361,9 +361,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a referer host dup.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a referer host dup.")]
         public void DeleteRefererHostDup(string ticket, int id)
         {
@@ -424,9 +424,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete a referer account.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete a referer account.")]
         public void DeleteRefererAccount(string ticket, int id)
         {

@@ -91,9 +91,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account feed type
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account feed type.")]
         public void DeleteFeedType(string ticket, int id)
         {
@@ -219,9 +219,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account feed.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account feed.")]
         public void DeleteAccountFeed(string ticket, int id)
         {
@@ -257,9 +257,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account feed item.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account feed item.")]
         public void DeleteAccountFeedItem(string ticket, int id)
         {
@@ -416,9 +416,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account feed item image.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account feed item.")]
         public void DeleteAccountFeedItemImg(string ticket, int id)
         {
@@ -479,9 +479,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an account feed item media.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an account feed item.")]
         public void DeleteAccountFeedItemMedia(string ticket, int id)
         {
@@ -574,9 +574,9 @@ namespace SnCore.WebServices
 
         /// <summary>
         /// Delete an rss watch.
+        /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">id</param>
-        /// </summary>
         [WebMethod(Description = "Delete an rss watch.")]
         public void DeleteAccountRssWatch(string ticket, int id)
         {
@@ -588,6 +588,11 @@ namespace SnCore.WebServices
 
         #region Feature
         
+        /// <summary>
+        /// Find the latest feature of an AccountFeed via AccountFeedItems.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account feed id</param>
         [WebMethod(Description = "Find the latest feature of an AccountFeed via AccountFeedItems")]
         public TransitFeature GetLatestAccountFeedItemFeatureByAccountFeedId(string ticket, int id)
         {

@@ -27,6 +27,7 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \section main_api Open API Reference
 \li \subpage SnCore::WebServices::WebSystemService "System Management Services"
 \li \subpage SnCore::WebServices::WebAccountService "Account Management Services"
+\li \subpage SnCore::WebServices::WebGroupService "Group Management Services"
 \li \subpage SnCore::WebServices::WebLocationService "Geographical Location Services"
 \li \subpage SnCore::WebServices::WebSocialService "Social Networking Services"
 \li \subpage SnCore::WebServices::WebDiscussionService "Discussion Services"
@@ -39,6 +40,9 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebStatsService "System Statistics Services"
 \li \subpage SnCore::WebServices::WebEventService "Event Scheduling Services"
 \li \subpage SnCore::WebServices::WebLicenseService "Licensing Services"
+\li \subpage SnCore::WebServices::WebMadLibService "Mad Lib Services"
+\li \subpage SnCore::WebServices::WebMarketingService "Marketing Campaign Services"
+\li \subpage SnCore::WebServices::WebObjectService "Business Objects Services"
 
 \section main_money Licensing
 \li \subpage license
