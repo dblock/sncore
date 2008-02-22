@@ -23,7 +23,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mSubmitted;
             }
             set
@@ -38,7 +37,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountId;
             }
             set
@@ -53,7 +51,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountName;
             }
             set
@@ -68,7 +65,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mPlaceId;
             }
             set
@@ -83,7 +79,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mPlaceName;
             }
             set
@@ -98,7 +93,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mType;
             }
             set
@@ -113,7 +107,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mMessage;
             }
             set
@@ -267,7 +260,19 @@ namespace SnCore.Services
 
                 if (e_place != null)
                 {
-                    throw new Exception("You already have a relationship with this place.");
+                    throw new Exception(string.Format("You are already {0} of this place.", 
+                        Renderer.Render(e_place.Type.Name)));
+                }
+
+                AccountPlaceRequest e_placerequest = (AccountPlaceRequest)Session.CreateCriteria(typeof(AccountPlaceRequest))
+                    .Add(Expression.Eq("Account.Id", t_instance.AccountId))
+                    .Add(Expression.Eq("Place.Id", t_instance.PlaceId))
+                    .UniqueResult();
+
+                if (e_placerequest != null)
+                {
+                    throw new Exception(string.Format("You have already requested to be {0} of this place. Please be patient.",
+                        Renderer.Render(e_placerequest.Type.Name)));
                 }
             }
 
