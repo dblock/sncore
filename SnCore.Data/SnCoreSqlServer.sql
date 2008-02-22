@@ -1588,6 +1588,7 @@ CREATE TABLE [dbo].[AccountPlaceType](
 	[Name] [nvarchar](24) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CanWrite] [bit] NOT NULL,
 	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[DefaultType] [bit] NOT NULL,
  CONSTRAINT [PK_AccountPlaceType] PRIMARY KEY CLUSTERED 
 (
 	[AccountPlaceType_Id] ASC

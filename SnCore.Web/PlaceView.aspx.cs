@@ -224,7 +224,11 @@ public partial class PlaceView : Page
                 placeId.Text = string.Format("#{0}", place.Id);
 
                 linkManagePictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
+
+                linkClaimOwnership.Visible = !place.CanWrite;
                 linkClaimOwnership.NavigateUrl = string.Format("AccountPlaceRequestEdit.aspx?pid={0}", place.Id);
+
+                linkPlaceChangeRequestEdit.Visible = ! place.CanWrite;
                 linkPlaceChangeRequestEdit.NavigateUrl = string.Format("PlaceChangeRequestEdit.aspx?pid={0}", place.Id);
 
                 if (account != null)

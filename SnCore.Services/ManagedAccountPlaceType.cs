@@ -20,7 +20,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -35,7 +34,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mDescription;
             }
             set
@@ -50,12 +48,25 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCanWrite;
             }
             set
             {
                 mCanWrite = value;
+            }
+        }
+
+        private bool mDefaultType = false;
+
+        public bool DefaultType
+        {
+            get
+            {
+                return mDefaultType;
+            }
+            set
+            {
+                mDefaultType = value;
             }
         }
 
@@ -75,6 +86,7 @@ namespace SnCore.Services
             Name = instance.Name;
             Description = instance.Description;
             CanWrite = instance.CanWrite;
+            DefaultType = instance.DefaultType;
             base.SetInstance(instance);
         }
 
@@ -84,6 +96,7 @@ namespace SnCore.Services
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.CanWrite = this.CanWrite;
+            instance.DefaultType = this.DefaultType;
             return instance;
         }
     }

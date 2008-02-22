@@ -9,7 +9,7 @@
    Claim Ownership
   </div>
   <div class="sncore_h2sub">
-   Are you a chef at this restaurant? Do you work here? Is this your business?
+   Do you work here? Is this your business?
    You and your coworkers may claim ownership of the place which optionally gives you rights to publish,
    edit and delete content. 
   </div>

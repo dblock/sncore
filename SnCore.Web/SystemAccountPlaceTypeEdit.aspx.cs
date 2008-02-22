@@ -33,6 +33,7 @@ public partial class SystemAccountPlaceTypeEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
                 inputName.Text = t.Name;
                 inputDescription.Text = t.Description;
+                inputDefaultType.Checked = t.DefaultType;
                 inputCanWrite.Checked = t.CanWrite;
 
                 sitemapdata.Add(new SiteMapDataAttributeNode(t.Name, Request.Url));
@@ -54,6 +55,7 @@ public partial class SystemAccountPlaceTypeEdit : AuthenticatedPage
         t.Name = inputName.Text;
         t.Description = inputDescription.Text;
         t.CanWrite = inputCanWrite.Checked;
+        t.DefaultType = inputDefaultType.Checked;
         t.Id = RequestId;
         SessionManager.CreateOrUpdate<TransitAccountPlaceType>(
             t, SessionManager.PlaceService.CreateOrUpdateAccountPlaceType);

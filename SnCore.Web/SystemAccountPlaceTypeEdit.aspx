@@ -35,7 +35,14 @@
    <td class="sncore_form_label">
    </td>
    <td class="sncore_form_value">
-    <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputCanWrite" Text="owner relationship" runat="server" />
+    <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputCanWrite" Text="Owner Relationship" runat="server" />
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+   </td>
+   <td class="sncore_form_value">
+    <asp:CheckBox CssClass="sncore_form_checkbox" ID="inputDefaultType" runat="server" Text="Default" />
    </td>
   </tr>
   <tr>

@@ -240,3 +240,10 @@ GO
 IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEventPicture]') AND name = N'UK_AccountEventPicture')
 DROP INDEX UK_AccountEventPicture ON [dbo].[AccountEventPicture]
 GO
+-- create a default type in AccountPlaceType
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountPlaceType]') AND name = N'DefaultType') 
+ALTER TABLE dbo.AccountPlaceType ADD [DefaultType] bit NULL
+GO
+UPDATE dbo.AccountPlaceType SET DefaultType = 0 WHERE DefaultType IS NULL
+ALTER TABLE dbo.AccountPlaceType ALTER COLUMN [DefaultType] bit NOT NULL
+GO

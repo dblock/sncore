@@ -237,14 +237,15 @@ public partial class PlaceEdit : AuthenticatedPage
 
     private void GetPlaceTypes(object sender, EventArgs e)
     {
-        List<TransitPlaceType> types = SessionManager.PlaceService.GetPlaceTypes(SessionManager.Ticket, null);
+        IList<TransitPlaceType> types = SessionManager.GetCollection<TransitPlaceType>(
+            null, SessionManager.PlaceService.GetPlaceTypes);
 
         TransitPlaceType selected = null;
-        foreach (TransitPlaceType Placetype in types)
+        foreach (TransitPlaceType tp in types)
         {
-            if (Placetype.DefaultType)
+            if (tp.DefaultType)
             {
-                selected = Placetype;
+                selected = tp;
                 break;
             }
         }

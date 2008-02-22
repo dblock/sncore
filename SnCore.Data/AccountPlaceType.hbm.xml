@@ -15,5 +15,6 @@
     <property name="CanWrite" column="CanWrite" type="Boolean" />
     <property name="Description" column="Description" type="StringClob" />
     <property name="Name" column="Name" type="String" />
+    <property name="DefaultType" column="DefaultType" type="Boolean" />
   </class>
 </hibernate-mapping>

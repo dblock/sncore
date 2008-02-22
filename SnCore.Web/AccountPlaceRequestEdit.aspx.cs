@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using SnCore.SiteMap;
+using System.Collections.Generic;
+using SnCore.WebControls;
 
 public partial class AccountPlaceRequestEdit : AuthenticatedPage
 {
@@ -18,9 +20,7 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
-            inputType.DataSource = SessionManager.PlaceService.GetAccountPlaceTypes(
-                SessionManager.Ticket, null);
-            inputType.DataBind();
+            GetData(sender, e);
 
             if (ParentId != 0)
             {
@@ -40,6 +40,35 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
         }
 
         SetDefaultButton(manageAdd);
+    }
+
+    public void GetData(object sender, EventArgs e)
+    {
+        IList<TransitAccountPlaceType> types = SessionManager.GetCollection<TransitAccountPlaceType>(
+            null, SessionManager.PlaceService.GetAccountPlaceTypes);
+
+        TransitAccountPlaceType selected = null;
+        foreach (TransitAccountPlaceType Placetype in types)
+        {
+            if (Placetype.DefaultType)
+            {
+                selected = Placetype;
+                break;
+            }
+        }
+
+        if (selected == null)
+        {
+            types.Insert(0, new TransitAccountPlaceType());
+        }
+
+        inputType.DataSource = types;
+        inputType.DataBind();
+
+        if (selected != null)
+        {
+            ListItemManager.TrySelect(inputType, selected.Name);
+        }
     }
 
     public string ReturnUrl
