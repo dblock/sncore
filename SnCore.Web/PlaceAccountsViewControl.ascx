@@ -18,6 +18,9 @@
      <div class="sncore_link_description">
       <%# base.Render(Eval("AccountName")) %>
      </div>
+     <div class="sncore_description">
+      <%# base.Render(Eval("Type")) %>
+     </div>
     </a>
    </ItemTemplate>
   </SnCoreWebControls:PagedList>

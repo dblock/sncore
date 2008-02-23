@@ -44,6 +44,7 @@ public partial class AccountMessageView : AuthenticatedPage
                 message.UnRead = false;
                 SessionManager.CreateOrUpdate<TransitAccountMessage>(
                     message, SessionManager.AccountService.CreateOrUpdateAccountMessage);
+                SessionManager.InvalidateCache<TransitAccountMessageFolder>();
             }
 
             messageSenderLink.HRef = messageFrom.NavigateUrl = string.Format("AccountView.aspx?id={0}", message.SenderAccountId);

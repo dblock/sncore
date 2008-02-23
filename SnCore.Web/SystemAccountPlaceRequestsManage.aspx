@@ -39,7 +39,7 @@
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="What">
        <itemtemplate>
-       <a href='AccountView.aspx?id=<%# Eval("PlaceId") %>'>
+       <a href='PlaceView.aspx?id=<%# Eval("PlaceId") %>'>
         <%# base.Render(Eval("PlaceName")) %>
        </a>
       </itemtemplate>

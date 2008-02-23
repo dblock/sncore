@@ -31,6 +31,7 @@
  <tr><td width="30" align="center"><img src="images/account/queue.gif" /></td><td width="*"><a href="AccountPlaceQueueManage.aspx">Queue</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="AccountPlacesManage.aspx">Places</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="AccountPropertyManage.aspx">Property</a></td></tr>
+ <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a id="linkAccountPlaceRequests" runat="server" href="SystemAccountPlaceRequestsManage.aspx">Requests</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/events.gif" /></td><td width="*"><a href="AccountEventsManage.aspx">Events</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/openid.gif" /></td><td width="*"><a href="AccountOpenIdsManage.aspx">OpenId</a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/license.gif" /></td><td width="*"><a href="AccountLicenseEdit.aspx">License</a></td></tr>

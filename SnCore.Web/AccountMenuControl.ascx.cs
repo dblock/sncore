@@ -18,8 +18,8 @@ public partial class AccountMenuControl : Control
         {
             if (SessionManager.IsLoggedIn)
             {
-                TransitAccountMessageFolder inbox = SessionManager.AccountService.GetAccountMessageSystemFolder(
-                        SessionManager.Ticket, SessionManager.AccountId, "inbox");
+                TransitAccountMessageFolder inbox = SessionManager.GetInstance<TransitAccountMessageFolder, int, string>(
+                    SessionManager.AccountId, "inbox", SessionManager.AccountService.GetAccountMessageSystemFolder);
 
                 if (inbox != null)
                 {
@@ -28,12 +28,16 @@ public partial class AccountMenuControl : Control
                 }
 
                 linkRequests.InnerText = string.Format("Requests ({0})",
-                    SessionManager.SocialService.GetAccountFriendRequestsCount(
-                        SessionManager.Ticket, SessionManager.AccountId));
+                    SessionManager.GetCount<TransitAccountFriendRequest, int>(
+                        SessionManager.AccountId, SessionManager.SocialService.GetAccountFriendRequestsCount));
 
                 linkInvitations.InnerText = string.Format("Invitations ({0})",
-                    SessionManager.GroupService.GetAccountGroupAccountInvitationsByAccountIdCount(
-                        SessionManager.Ticket, SessionManager.AccountId));
+                    SessionManager.GetCount<TransitAccountGroupAccountInvitation, int>(
+                        SessionManager.AccountId, SessionManager.GroupService.GetAccountGroupAccountInvitationsByAccountIdCount));
+
+                linkAccountPlaceRequests.InnerText = string.Format("Requests ({0})",
+                    SessionManager.GetCount<TransitAccountPlaceRequest, int>(
+                        SessionManager.AccountId, SessionManager.PlaceService.GetAccountPlaceRequestsByAccountIdCount));
             }
         }
     }

@@ -343,7 +343,7 @@ namespace SnCore.Services
             foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
             {
                 acl.Add(new ACLAccount(relationship.Account,
-                    relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+                    relationship.Type.CanWrite ? DataOperation.All : DataOperation.Retreive));
             }
             return acl;
         }

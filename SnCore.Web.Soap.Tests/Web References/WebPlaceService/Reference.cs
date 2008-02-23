@@ -121,6 +121,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private System.Threading.SendOrPostCallback GetAccountPlaceRequestsByPlaceIdOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountPlaceRequestsByAccountIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DeleteAccountPlaceRequestOperationCompleted;
         
         private System.Threading.SendOrPostCallback AcceptAccountPlaceRequestOperationCompleted;
@@ -405,6 +407,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event GetAccountPlaceRequestsByPlaceIdCompletedEventHandler GetAccountPlaceRequestsByPlaceIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountPlaceRequestsByAccountIdCompletedEventHandler GetAccountPlaceRequestsByAccountIdCompleted;
         
         /// <remarks/>
         public event DeleteAccountPlaceRequestCompletedEventHandler DeleteAccountPlaceRequestCompleted;
@@ -1757,6 +1762,39 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             if ((this.GetAccountPlaceRequestsByPlaceIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountPlaceRequestsByPlaceIdCompleted(this, new GetAccountPlaceRequestsByPlaceIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountPlaceRequest[] GetAccountPlaceRequestsByAccountId(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetAccountPlaceRequestsByAccountId", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitAccountPlaceRequest[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountPlaceRequestsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetAccountPlaceRequestsByAccountIdAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountPlaceRequestsByAccountIdAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetAccountPlaceRequestsByAccountIdOperationCompleted == null)) {
+                this.GetAccountPlaceRequestsByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPlaceRequestsByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountPlaceRequestsByAccountId", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetAccountPlaceRequestsByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountPlaceRequestsByAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountPlaceRequestsByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountPlaceRequestsByAccountIdCompleted(this, new GetAccountPlaceRequestsByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -6133,6 +6171,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private bool canWriteField;
         
+        private bool defaultTypeField;
+        
         /// <remarks/>
         public string Name {
             get {
@@ -6160,6 +6200,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.canWriteField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool DefaultType {
+            get {
+                return this.defaultTypeField;
+            }
+            set {
+                this.defaultTypeField = value;
             }
         }
     }
@@ -7492,6 +7542,32 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         private object[] results;
         
         internal GetAccountPlaceRequestsByPlaceIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountPlaceRequest[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountPlaceRequest[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountPlaceRequestsByAccountIdCompletedEventHandler(object sender, GetAccountPlaceRequestsByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountPlaceRequestsByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountPlaceRequestsByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

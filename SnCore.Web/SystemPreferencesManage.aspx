@@ -64,7 +64,7 @@
      <tr><td width="30" align="center"><img src="images/account/places.gif" /></td><td width="*"><a href="PlacesManage.aspx">Places</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="PlaceTypesManage.aspx">Place Types</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPlaceTypesManage.aspx">Property Types</a></td></tr>
-     <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPlaceRequestsManage.aspx">Property Requests</a></td></tr>
+     <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemAccountPlaceRequestsManage.aspx?all=true">Property Requests</a></td></tr>
      <tr><td width="30" align="center"><img src="images/account/settings.gif" /></td><td width="*"><a href="SystemPlacePropertyGroupsManage.aspx">Property Groups</a></td></tr>
     </table>
     <div class="sncore_h2">

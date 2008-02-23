@@ -435,6 +435,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="CanWrite" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="DefaultType" type="s:boolean" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -755,6 +756,22 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAccountPlaceRequestsByPlaceIdResult" type="tns:ArrayOfTransitAccountPlaceRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPlaceRequestsByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPlaceRequestsByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPlaceRequestsByAccountIdResult" type="tns:ArrayOfTransitAccountPlaceRequest" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -2301,6 +2318,12 @@
   <wsdl:message name="GetAccountPlaceRequestsByPlaceIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountPlaceRequestsByPlaceIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountPlaceRequestsByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPlaceRequestsByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPlaceRequestsByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPlaceRequestsByAccountIdResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteAccountPlaceRequestSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountPlaceRequest" />
   </wsdl:message>
@@ -2894,6 +2917,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get place requests by place id.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountPlaceRequestsByPlaceIdSoapIn" />
       <wsdl:output message="tns:GetAccountPlaceRequestsByPlaceIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPlaceRequestsByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get place requests by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPlaceRequestsByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountPlaceRequestsByAccountIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountPlaceRequest">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a place request.</wsdl:documentation>
@@ -3564,6 +3592,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountPlaceRequestsByPlaceId">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByPlaceId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPlaceRequestsByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -4512,6 +4549,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountPlaceRequestsByPlaceId">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByPlaceId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPlaceRequestsByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

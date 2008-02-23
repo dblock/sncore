@@ -25,8 +25,7 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
             gridManage.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Property Requests", Request.Url));
             StackSiteMap(sitemapdata);
         }
@@ -40,10 +39,15 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
             requests = SessionManager.PlaceService.GetAccountPlaceRequestsByPlaceId(
                 SessionManager.Ticket, RequestId, null);
         }
-        else
+        else if (!string.IsNullOrEmpty(Request["all"]))
         {
             requests = SessionManager.PlaceService.GetAccountPlaceRequests(
                 SessionManager.Ticket, null);
+        }
+        else
+        {
+            requests = SessionManager.PlaceService.GetAccountPlaceRequestsByAccountId(
+                SessionManager.Ticket, SessionManager.AccountId, null);
         }
 
         gridManage.DataSource = requests;
@@ -94,6 +98,8 @@ public partial class SystemAccountPlaceRequestsManage : AuthenticatedPage
                         gridManage.DataBind();
                         break;
                 }
+                SessionManager.InvalidateCache<TransitAccountPlace>();
+                SessionManager.InvalidateCache<TransitAccountPlaceRequest>();
                 break;
         }
     }

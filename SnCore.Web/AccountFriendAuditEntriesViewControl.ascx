@@ -21,7 +21,7 @@
       </div>
       <div class='sncore_content' style='width: <%# base.OuterWidth %>px;'>
        <div class='sncore_message_body_halftable' style="padding: 10px 10px 10px 10px;">
-        <%# RenderEx(Render(Eval("Description"))) %>
+        <%# RenderEx(Eval("Description")) %>
        </div>
        <div class="sncore_footer">
         <span class='<%# (DateTime.UtcNow.Subtract((DateTime) Eval("Updated")).TotalDays < 3) ? "sncore_datetime_highlight" : string.Empty %>'>

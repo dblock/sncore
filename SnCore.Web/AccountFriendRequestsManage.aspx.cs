@@ -71,5 +71,7 @@ public partial class AccountFriendRequestsManage : AuthenticatedPage
                     break;
                 }
         }
+
+        SessionManager.InvalidateCache<TransitAccountFriendRequest>();
     }
 }

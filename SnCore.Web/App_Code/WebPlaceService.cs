@@ -524,6 +524,34 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get place requests by account id.
+        /// </summary>
+        /// <returns>list of transit place requests</returns>
+        [WebMethod(Description = "Get place requests by account id.", CacheDuration = 60)]
+        public List<TransitAccountPlaceRequest> GetAccountPlaceRequestsByAccountId(string ticket, int id, ServiceQueryOptions options)
+        {
+            return WebServiceImpl<TransitAccountPlaceRequest, ManagedAccountPlaceRequest, AccountPlaceRequest>.GetList(
+                ticket, options, "SELECT {AccountPlaceRequest.*} from AccountPlaceRequest {AccountPlaceRequest}, Place Place" +
+                    string.Format(" WHERE AccountPlaceRequest.Place_Id = Place.Place_Id AND ( Place.Account_Id = {0}" +
+                    " OR EXISTS ( " +
+                     " SELECT AccountPlace.AccountPlace_Id FROM AccountPlace AccountPlace, AccountPlaceType AccountPlaceType" +
+                     " WHERE AccountPlace.Place_Id = Place.Place_Id" +
+                      " AND AccountPlace.Account_Id = {0}" +
+                      " AND AccountPlaceType.AccountPlaceType_Id = AccountPlace.Type_Id" +
+                      " AND AccountPlaceType.CanWrite = 1 ))", id), "AccountPlaceRequest"); 
+        }
+
+        /// <summary>
+        /// Get the number of place requests by account id.
+        /// </summary>
+        [WebMethod(Description = "Get the number of place requests by account id.", CacheDuration = 60)]
+        public int GetAccountPlaceRequestsByAccountIdCount(string ticket, int id)
+        {
+            // TODO: implement more efficiently
+            return GetAccountPlaceRequestsByAccountId(ticket, id, null).Count;
+        }
+
+        /// <summary>
         /// Delete a place request.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>

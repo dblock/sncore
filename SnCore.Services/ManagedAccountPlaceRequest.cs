@@ -240,6 +240,14 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLAuthenticatedAllowCreateAndDelete());
             acl.Add(new ACLAccount(mInstance.Account, DataOperation.Delete | DataOperation.Retreive));
+            acl.Add(new ACLAccount(mInstance.Place.Account, DataOperation.AllExceptUpdate));
+            foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
+            {
+                if (relationship.Type.CanWrite)
+                {
+                    acl.Add(new ACLAccount(relationship.Account, DataOperation.AllExceptUpdate));
+                }
+            }
             return acl;
         }
 

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using SnCore.Services;
 
 public partial class AccountFriendRequestAct : AuthenticatedPage
 {
@@ -49,6 +50,7 @@ public partial class AccountFriendRequestAct : AuthenticatedPage
                         throw new Exception("Invalid action parameter.");
                 }
 
+                SessionManager.InvalidateCache<TransitAccountFriendRequest>();
                 ReportInfo("Request " + action + "ed.");
             }
     }

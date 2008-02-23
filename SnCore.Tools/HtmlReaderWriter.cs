@@ -207,8 +207,8 @@ namespace SnCore.Tools.Web.Html
                 // typical word quotes
                 if (Options.ReplaceQuotes)
                 {
-                    text = text.Replace("“", "&quote;");
-                    text = text.Replace("”", "&quote;");
+                    text = text.Replace("“", "&quot;");
+                    text = text.Replace("”", "&quot;");
                     text = text.Replace("’", "&apos;");
                 }
 
@@ -217,7 +217,7 @@ namespace SnCore.Tools.Web.Html
                 text = text.Replace("<", "&lt;");
                 text = text.Replace(">", "&gt;");
                 text = text.Replace("'", "&apos;");
-                text = text.Replace("\"", "&quote;");
+                text = text.Replace("\"", "&quot;");
 
                 base.WriteRaw(text);
             }
