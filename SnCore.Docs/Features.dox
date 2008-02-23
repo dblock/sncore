@@ -2,19 +2,23 @@
 
 \section features_features Features
 
+SnCore is an integrated platform that implements a large volume of features commonly found in any social network.
+
 <ul>
  <li>Personal account management, including sign-up, passwords, location, timezone, e-mail addresses, postal addresses, 
-     websites and pictures.
- <li>Support for <a href="http://www.openid.net" target="_blank">OpenId</a>.
- <li>Personal content management, including stories, surveys, RSS syndication and blogs.
+     websites and photos.
+ <li>Support for e-mail based password authentication with account reclaim. Also an early adopter of
+     <a href="http://www.openid.net" target="_blank">OpenId</a>.
+ <li>Personal content management, including stories, surveys and blogs.
+ <li>RSS syndication framework for virtually all dynamic data, aggregation and rollup. RSS subscriptions and 
+     notifications engine.
  <li>Social networking, including invitations, friends, friends of friends, messages and testimonials.
  <li>Discussions framework with threading, highlight, e-mail alerts and abuse reporting.
- <li>Places framework with full or member ownership and delegation.
- <li>Complete one-time and recurrent events framework, with Microsoft Outlook feature parity.
+ <li>World-wide geography, location and place management framework with full or member ownership and delegation.
+ <li>Complete one-time and recurrent events framework, with virtually Microsoft Outlook feature parity.
  <li>Rich groups framework, including private and public groups.
  <li>Web-based system management with administrative access with system reminders.
  <li>Fully integrated bug and feature tracking system.
- <li>Rss server feeds, client aggregation and rollup.
  <li>Full text search and tag indexing of rich content.
  <li>Integrated <a href="http://creativecommons.org/" target="_blank">Creative Commons</a> licensing for syndicated content.
  <li>Integrated usage statistics framework, including hourly, daily, weekly, monthly and yearly counters,
@@ -32,6 +36,7 @@
  <li>Two-level services and Business Layer, exposed through consistent CRUD and BL web services implemented with Web Services Extensions 3.0.
  <li>Bundled <a href="http://www.asp.net" target="_blank">ASP.NET 2.0</a> UI with <a href="http://atlas.asp.net/" target="_blank">Atlas (AJAX)</a>.
  <li>Virtually complete back-end code coverage with NUnit unit tests.
+ <li>MSI installer implemented with <a href="http://wix.sourceforge.com">WiX</a>.
 </ul>
 
 \section features_credits Additional Credits
@@ -52,6 +57,7 @@
  <li><a href="http://www.doxygen.org" target="_blank">Doxygen</a>
  <li><a href="http://sourceforge.net/projects/icalparser/" target="_blank">iCalendar .NET Parser</a>
  <li><a href="http://www.nikhilk.net/" target="_blank">Nikhil Kothari's UpdateHistory</a>
+ <li><a href="http://wix.sourceforge.com">Windows Installer XML (Wix)</a>.
 </ul>
 
 */

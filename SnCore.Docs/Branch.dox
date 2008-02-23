@@ -1,17 +1,28 @@
 /*! \page branch Branching and Branding
 
+\section branch_intro Introduction
+
+You have reached a point where the out-of-the-box functionality of SnCore is not enough. The API does not implement
+functionality that you want. You have decided to extend the system, add or modify features. This section is for you. 
+
+It is possible to create a fork of SnCore and to continue getting updates.
+
 \section branch_depot Remote Depot
-To create a new SnCore-based project in a remote depot (in your own source control) you should mirror SnCore branch and then create
-a branch off that mirror. Thus you can pickup SnCore updates and integrate them to the child branch(es). This process is known as 
-reflection.
+
+To create a new SnCore-based project in a remote depot (in your own source control) you should mirror the SnCore branch 
+and then create a branch off that mirror. Thus you can pickup SnCore updates and integrate them to the child branch(es). 
+This process is known as reflection.
 
 \section branch_branch Branching
 <ol>
  <li>To do ...
 </ol>
 
-\section branch_project Configuring Project
-This is a little involved for right now.
+\section branch_project Changing the SnCore Project Name
+
+This isn't necessary to use SnCore under different branding, but might be desirable change the SnCore project name
+for large social networking implementations with dedicated development resources. This is a little involved for right now.
+
 <ol>
  <li>Edit <em>sncore.sln</em> and replace <em>http://localhost/SnCore</em> by <em>http://localhost/MyProject</em>. This sets new virtual
      directories within IIS.
@@ -40,7 +51,10 @@ This is a little involved for right now.
  <li>Run \ref unittests.
 </ol>
 
-\section branch_brandhing Branding
+\section branch_branding Branding
+
+This will become more dynamic through settings in the future.
+
 <ol>
  <li>Replace <em>toplogo.jpg</em> in <em>SnCore.Web/images/site</em> and <em>SnCore.Docs\Images</em>.
  <li>Edit <em>SnCore.master</em> for menus and general titles.

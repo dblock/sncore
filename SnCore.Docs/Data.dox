@@ -4,43 +4,42 @@
 This page will guide you through the SnCore data development process. It's really easy and powerful. 
 
 \section dev_req Prerequisites 
-\li Microsoft SQL Server 2000
+\li Microsoft SQL Server 2005
 \li Puzzle Framework (ObjectMapper)
 
-\section dev_sql SQL Server
-This is where everything starts. Think object oriented approach at a 100 percent. To create a new concept you must
+\section dev_sql SQL Server 2005
+This is where everything starts. Think 100% object oriented approach. To create a new concept you must
 first create a new table. This is typically done in Enterprise Manager. There're a few rules of thumb.
 
 <ol>
 <li>There must be an automatic Id to every table with a primary key.
 <li>Unique keys are named UK_.
-<li>Foreign keys cascade delete in 99 percent of cases.
+<li>Foreign keys cascade delete in most cases.
 </ol>
 
-After you create new tables, export the database schema to <em>src/SnCore.Data/SnCoreSqlServer.sql</em>.
+After you create new tables, export the database schema to <em>src/SnCore.Data/SnCoreSqlServer.sql</em> from the 
+SnCore.Data directory and the SnCore.Data.Script.exe program.
 
-<ol>
-<li>Right click on the <em>SnCore</em> database in Enterprise Manager.
-<li>Choose <em>All Tasks</em>, <em>Generate SQL Script</em>.
-<li>Click <em>Show All</em>, select <em>Script All Objects</em>.
-<li>In <em>Formatting</em> remove the generation of <em>DROP</em> commands to preserve data on upgrade.
-<li>In <em>Options</em>, check all four <em>Table Scripting Options</em>.
-<li>Choose the <em>MS-DOS</em> file format and <em>Create one file</em>.
-<li>Confirm and save to <em>SnCore.Data/SnCoreSqlServer.sql</em>.
-</ol>
+\code
+c:\source\sncore\sncore.data > ..\SnCore.Data.Script\bin\Debug\SnCore.Data.Script.exe
+Processing 112 tables ...
+Server[@Name='DBLOCK-GREEN']/Database[@Name='SnCore']/Table[@Name='Account' and @Schema='dbo']
+...
+\endcode
 
 \section dev_puzzle Puzzle Framework and ObjectMapper
 
-ObjectMapper is heavily used to generate NHibernate code to access data objects.
+SnCore uses a tool called ObjectMapper to generate NHibernate code to access data objects. This is a semi-automated process.
 
 <ol>
-<li>Download Puzzle Framework from http://www.puzzleframework.com/.
+<li>Download Puzzle Framework from http://www.puzzleframework.com/. Puzzle is a constantly evolving project so you 
+    might need to build ObjectMapper from source.
 <li>Launch <em>ObjectMapper</em> and open the <em>src/SnCore.omproj</em> project.
 <li>You must sync <em>Data Source to Model</em>, <em>Tables to Classes</em> and finally <em>Model to Code</em>. This 
     produces the .cs and the .hbm.xml files in <em>src/SnCore.Data</em>.
 <li>Until this is fixed in Puzzle there're a few replacements to be made in all .hbm.xml files. Thse enable lazy binding
     in NHibernate, fix ID naming and fix byte array types. I use a macro to do this after each synchronization with the data
-    model. The source code for the macro is in <em>src/SnCore.Data/PuzzleMacros.vb</em>.
+    model. The source code for the macro is in <em>src/SnCore.Data/PuzzleMacros.vb</em> and can be run from Visual Studio.
 <li>You should be able to successfully run all unit tests after a synchronization and rebuild. See \ref unittests for more
     information.
 </ol>   

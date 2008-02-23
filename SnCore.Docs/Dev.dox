@@ -1,9 +1,9 @@
 /*! \page dev Dev HowTo
 
 \section dev_intro Introduction
-This page will guide you through the SnCore development process. At first it may look complicated, but it's actually extremely easy
-to get going and it's event easier to write useful code since a large portion of the infrastructure has been completely figured out 
-for you.
+This page will guide you through the SnCore development process. At first it may look complicated, but it's actually not hard
+to get going and it's event easier to write useful code quickly and error-free since most of the complex infrastructure 
+has been completely figured out for you.
 
 \section dev_req Prerequisites 
 \li Microsoft Windows 2000, 2003, XP or Vista. 
@@ -46,6 +46,9 @@ On Windows Vista, some security restrictions must be lifted.
     and <b>SnCoreMobileWeb</b>.
 
 \section dev_datalifecycle Data LifeCycle
+
+Most functionality in the system is data-driven. For example, you won't find a method to send a message, but you will find
+a complete API to Create, Retrieve, Update and Delete a message (CRUD).
 
 <ol>
  <li>Add a new SQL table and generate NHibernate class and mapping for it. This is all you have to do to be able to create, retrieve
