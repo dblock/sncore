@@ -15,7 +15,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -30,7 +29,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -45,7 +43,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mModified;
             }
             set
@@ -60,7 +57,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mPlaceId;
             }
             set
@@ -170,7 +166,7 @@ namespace SnCore.Services
             foreach (AccountPlace relationship in Collection<AccountPlace>.GetSafeCollection(mInstance.Place.AccountPlaces))
             {
                 acl.Add(new ACLAccount(relationship.Account,
-                    relationship.Type.CanWrite ? DataOperation.Update : DataOperation.Retreive));
+                    relationship.Type.CanWrite ? DataOperation.All : DataOperation.Retreive));
             }
             return acl;
         }
