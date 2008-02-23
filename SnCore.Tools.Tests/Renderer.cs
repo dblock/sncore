@@ -127,7 +127,13 @@ namespace SnCore.Tools.Tests
                     "<stripped>tag</stripped>"),
                 new TestDataItem(
                     "<!-- comment -->",
-                    "<!-- comment -->")
+                    "<!-- comment -->"),
+                new TestDataItem(
+                    "<%# variable %>",
+                    "<stripped></stripped>"),
+                new TestDataItem(
+                    "&lt;%# variable %&gt;",
+                    "<stripped>&lt;%# variable %&gt;</stripped>")
             };
 
             foreach (TestDataItem test in testdata)

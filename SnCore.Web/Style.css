@@ -100,7 +100,6 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_default_search_textbox { width: 250px; font-size: 10pt; text-align: left; border: 1px black solid; }
 .sncore_link_small { font-size: smaller; }
 .sncore_search_link { font-size: smaller; }
-.sncore_post_quote { font-size: smaller; color: Silver; }
 .sncore_summary { margin-top: 10px; }
 .sncore_bookmarks_table { margin: 2px; }
 .sncore_bookmarks_table_tr_td { padding: 2px; }
@@ -124,6 +123,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_collapsed_div { height: 0px; overflow: hidden; }
 .sncore_title_table { margin-top: 10px; overflow: hidden; width: 827px; }
 .sncore_datetime_highlight { color: Red; font-weight: bold; }
+.sncore_quote { border: dotted 1px gray; color: gray; padding: 5px; font-size: xx-small; }
 
 body span.sncore_message_tr_td_span { padding-top: 10px; padding-bottom: 5px; border-bottom: dotted 1px silver; float: left; }
 body td.sncore_message_tr_td_halftable { border-bottom: dotted 1px silver; padding-bottom: 2px; padding-top: 5px; }

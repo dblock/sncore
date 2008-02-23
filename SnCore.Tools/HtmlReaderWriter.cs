@@ -194,13 +194,6 @@ namespace SnCore.Tools.Web.Html
             //text = text.Replace("<![CDATA[", "");
             //text = text.Replace("]]>", "");
 
-            // Do some encoding of our own because we are going to use WriteRaw which won't
-            // do any of the necessary encoding
-            //text = text.Replace("<", "&lt;");
-            //text = text.Replace(">", "&gt;");
-            //text = text.Replace("'", "&apos;");
-            //text = text.Replace("\"", "&quote;");
-
             if (Options.FilterOutput)
             {
                 // text = text.Trim();
@@ -214,10 +207,17 @@ namespace SnCore.Tools.Web.Html
                 // typical word quotes
                 if (Options.ReplaceQuotes)
                 {
-                    text = text.Replace("“", "\"");
-                    text = text.Replace("”", "\"");
-                    text = text.Replace("’", "'");
+                    text = text.Replace("“", "&quote;");
+                    text = text.Replace("”", "&quote;");
+                    text = text.Replace("’", "&apos;");
                 }
+
+                // Do some encoding of our own because we are going to use WriteRaw which won't
+                // do any of the necessary encoding
+                text = text.Replace("<", "&lt;");
+                text = text.Replace(">", "&gt;");
+                text = text.Replace("'", "&apos;");
+                text = text.Replace("\"", "&quote;");
 
                 base.WriteRaw(text);
             }

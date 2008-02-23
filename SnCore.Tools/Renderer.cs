@@ -249,7 +249,7 @@ namespace SnCore.Tools.Web
                 Add("[/image]", "\"/>");
                 Add("[center]", "<div style=\"text-align: center;\">");
                 Add("[/center]", "</div>");
-                Add("[quote]", "<div style=\"border: dotted 1px silver; color: Silver; padding: 5px; font-size: xx-small;\">");
+                Add("[quote]", "<div class=\"sncore_quote\">");
                 Add("[/quote]", "</div>");
             }
         };
