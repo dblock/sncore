@@ -207,17 +207,17 @@ namespace SnCore.Tools.Web.Html
                 // typical word quotes
                 if (Options.ReplaceQuotes)
                 {
-                    text = text.Replace("“", "&quot;");
-                    text = text.Replace("”", "&quot;");
-                    text = text.Replace("’", "&apos;");
+                    text = text.Replace("“", "\"");
+                    text = text.Replace("”", "\"");
+                    // text = text.Replace("’", "&apos;");
                 }
 
                 // Do some encoding of our own because we are going to use WriteRaw which won't
                 // do any of the necessary encoding
                 text = text.Replace("<", "&lt;");
                 text = text.Replace(">", "&gt;");
-                text = text.Replace("'", "&apos;");
-                text = text.Replace("\"", "&quot;");
+                // text = text.Replace("'", "&apos;");
+                // text = text.Replace("\"", "&quot;");
 
                 base.WriteRaw(text);
             }
