@@ -1,0 +1,531 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FacebookNET.Web</name>
+    </assembly>
+    <members>
+        <member name="T:Facebook.Web.Configuration.FacebookSection">
+            <summary>
+            Represents the Facebook configuration section which contains settings for
+            Facebook applications.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookSection.Applications">
+            <summary>
+            The list of applications defined in configuration.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookSection.Properties">
+            <internalonly />
+        </member>
+        <member name="T:Facebook.Web.FacebookProxy">
+            <summary>
+            This class implements an ASP.NET endpoint that serves as a server-side
+            proxy for performing Facebook API requests on behalf of client-side
+            code.
+            Even though Facebook supports cross-domain requests (using JSONP for
+            example), that would require sending the application secret to the client
+            which is insecure; hence a server-side proxy.
+            The proxy itself is simply a REST service. You send Facebook API parameters
+            as form-url-encoded name/value pairs in a POST request, and send additional
+            meta-information about the method being invoked, and the Facebook context
+            information as HTTP headers (fbMethod and fbContext).
+            </summary>
+        </member>
+        <member name="T:Facebook.Web.Configuration.FacebookApplicationSettingsCollection">
+            <summary>
+            The list of configured Facebook applications.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.Add(Facebook.Web.Configuration.FacebookApplicationSettings)">
+            <summary>
+            Adds the specified application to the list.
+            </summary>
+            <param name="application">The application to be added.</param>
+        </member>
+        <member name="M:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.Remove(Facebook.Web.Configuration.FacebookApplicationSettings)">
+            <summary>
+            Removes the specified application from the list.
+            </summary>
+            <param name="application">The application to be removed.</param>
+        </member>
+        <member name="M:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.Clear">
+            <summary>
+            Clears the list of applications.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.CreateNewElement">
+            <internalonly />
+        </member>
+        <member name="M:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.CollectionType">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.ElementName">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.Properties">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.Item(System.Int32)">
+            <summary>
+            Gets or sets a FacebookApplicationSettings object by index.
+            </summary>
+            <param name="index">The specified index.</param>
+            <returns>The FacebookApplicationSettings object at the specified index.</returns>
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettingsCollection.Item(System.String)">
+            <summary>
+            Gets a FacebookApplicationSettings object by name.
+            </summary>
+            <param name="name">The specified name.</param>
+            <returns>The FacebookApplicationSettings object at the specified index.</returns>
+        </member>
+        <member name="T:Facebook.Web.FacebookServerSession">
+            <summary>
+            Represents a Facebook session that is used within a Web
+            application that serves requests coming from Facebook.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.FacebookServerSession.#ctor(Facebook.Web.FacebookApplication,System.String,System.String)">
+            <summary>
+            Creates an instance of a FacebookServerSession with the
+            specified application information.
+            </summary>
+            <param name="application">The FacebookApplication control that owns this session.</param>
+            <param name="appKey">The application key used as an API key.</param>
+            <param name="secret">The application secret used to sign requests.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookServerSession.Initialize(System.Web.HttpContext)">
+            <summary>
+            Initializes the FacebookServiceSession instance based on the
+            current request to the server.
+            </summary>
+            <param name="context">Represents the current request being processed.</param>
+            <returns>A URL to redirect to if a redirect needs to be performed; null otherwise.</returns>
+        </member>
+        <member name="M:Facebook.Web.FacebookServerSession.LoadState(System.Object)">
+            <summary>
+            Loads any state information preserved as part of the page.
+            </summary>
+            <param name="state">The previously preserved state.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookServerSession.SaveState">
+            <summary>
+            Saves any relevant state information that is to be saved as part of the page.
+            </summary>
+            <returns>The saved state that needs to be preserved.</returns>
+        </member>
+        <member name="P:Facebook.Web.FacebookServerSession.Application">
+            <summary>
+            The current FacebookApplication control that is using this session.
+            </summary>
+        </member>
+        <member name="T:Facebook.Web.FacebookApplicationMode">
+            <summary>
+            The type of user interface used by the Facebook application.
+            </summary>
+        </member>
+        <member name="F:Facebook.Web.FacebookApplicationMode.IFrame">
+            <summary>
+            Application UI is embedded within an iframe.
+            </summary>
+        </member>
+        <member name="F:Facebook.Web.FacebookApplicationMode.Fbml">
+            <summary>
+            Application UI is implemented as FBML markup.
+            </summary>
+        </member>
+        <member name="T:Facebook.Web.Configuration.FacebookApplicationSettings">
+            <summary>
+            Represents configuration information for a single Facebook application.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettings.ApiKey">
+            <summary>
+            The application key used to uniquely identify the application.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettings.Name">
+            <summary>
+            The name of the application used to uniquely identify it on the server.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettings.Properties">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.Configuration.FacebookApplicationSettings.Secret">
+            <summary>
+            The application secret used to authenticate API calls issued by the application.
+            </summary>
+        </member>
+        <member name="T:Facebook.Web.FacebookSessionCreatingEventArgs">
+            <summary>
+            The event object associated with the SessionCreating event.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.FacebookSessionCreatingEventArgs.SetInfiniteSession(System.String,System.String)">
+            <summary>
+            Allows the event handler to provide session information of an already
+            established infinite session to use. This is useful if the page is
+            being browsed externally, i.e. outside of Facebook, and the page
+            wants to access Facebook APIs in the context of an infinite session.
+            </summary>
+            <param name="sessionKey">The session key of the infinite session.</param>
+            <param name="userID">The ID of the user associated with the infinite session.</param>
+        </member>
+        <member name="T:Facebook.Web.FacebookSessionCreatingEventHandler">
+            <summary>
+            The event handler signature used to handle the SessionCreating event.
+            </summary>
+            <param name="sender">The object raising the event.</param>
+            <param name="e">The event object associated with the event.</param>
+        </member>
+        <member name="T:Facebook.Design.Web.FqlDataSourceDesigner">
+            <summary>
+            The designer associated with the <see cref="T:Facebook.Web.FqlDataSource"/> control.
+            </summary>
+        </member>
+        <member name="M:Facebook.Design.Web.FqlDataSourceDesigner.GetView(System.String)">
+            <summary>
+            Gets the designer data source view associated with the particular view name.
+            </summary>
+            <param name="viewName">The name of the view.</param>
+            <returns>The associated designer data source view.</returns>
+        </member>
+        <member name="M:Facebook.Design.Web.FqlDataSourceDesigner.GetViewNames">
+            <summary>
+            Gets the names of the available designer data source views.
+            </summary>
+            <returns>The list of designer data source view names.</returns>
+        </member>
+        <member name="M:Facebook.Design.Web.FqlDataSourceDesigner.Initialize(System.ComponentModel.IComponent)">
+            <summary>
+            Initalizes an instance of a FqlDataSourceDesigner with its associated
+            component.
+            </summary>
+            <param name="component">The associated component.</param>
+        </member>
+        <member name="T:Facebook.Design.Web.IFrame.FacebookHyperLinkDesigner">
+            <summary>
+            The designer associated with a FacebookHyperLink control.
+            </summary>
+        </member>
+        <member name="M:Facebook.Design.Web.IFrame.FacebookHyperLinkDesigner.GetDesignTimeHtml">
+            <summary>
+            Gets the design-time HTML used to render the control on the design surface.
+            </summary>
+            <returns>The appropriate design-time HTML.</returns>
+        </member>
+        <member name="M:Facebook.Design.Web.IFrame.FacebookHyperLinkDesigner.Initialize(System.ComponentModel.IComponent)">
+            <summary>
+            Initalizes an instance of a FacebookHyperLinkDesigner with its associated
+            component.
+            </summary>
+            <param name="component">The associated component.</param>
+        </member>
+        <member name="T:Facebook.Web.FacebookApplication">
+            <summary>
+            Represents a Facebook application. This control manages establishing a session
+            and provides access to the Facebook APIs.
+            Only one instance of this control can be placed on the page.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.GetCurrent(System.Web.UI.Page)">
+            <summary>
+            Gets the current FacebookApplication control instance on the page.
+            </summary>
+            <param name="page">The page that contains the control; should be the current page instance.</param>
+            <returns>The FacebookApplication instance if there is one; null otherwise.</returns>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.LoadControlState(System.Object)">
+            <summary>
+            Loads the state of the control.
+            </summary>
+            <param name="savedState">The previously saved state.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.OnInit(System.EventArgs)">
+            <summary>
+            Initializes the control, and registers it with the page as the current
+            FacebookApplication instance.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.OnPreRender(System.EventArgs)">
+            <summary>
+            Prepares the control for rendering.
+            </summary>
+            <param name="e">The event information associated with the event.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.OnSessionCreated(System.EventArgs)">
+            <summary>
+            Raises the SessionCreated event upon successful creation of a Facebook session.
+            </summary>
+            <param name="e">The event information associated with the event.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.OnSessionCreating(Facebook.Web.FacebookSessionCreatingEventArgs)">
+            <summary>
+            Raises the SessionCreating event before creation of a Facebook session.
+            </summary>
+            <param name="e">The event information associated with the event.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.Redirect(System.String)">
+            <summary>
+            Performs a redirect appropriately based on the type of Facebook application.
+            </summary>
+            <param name="url">The URL to redirect to.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Renders the control into markup.
+            </summary>
+            <param name="writer">The writer into which the markup is rendered.</param>
+        </member>
+        <member name="M:Facebook.Web.FacebookApplication.SaveControlState">
+            <summary>
+            Saves control state associated with the control.
+            </summary>
+            <returns>The state of the control to be preserved.</returns>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.ApplicationKey">
+            <summary>
+            The application key used to uniquely identify the application that is available
+            at application registration time.
+            This can only be set during initialization of the page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.ApplicationName">
+            <summary>
+            The name of the application. This is used to create the application's canvas
+            page URL, i.e. http://apps.facebook.com/[name]/.
+            On the server, this is used to load settings from configuration. Specifically,
+            the facebook section in configuration is looked up for an application object
+            with the given name.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.ApplicationSettings">
+            <summary>
+            Gets the configuration settings for this application if the ApplicationName
+            property is set.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.EnableAjaxScenarios">
+            <summary>
+            Whether to enable rendering of Ajax support functionality in IFrame
+            pages.
+            Specifically it adds the fbContext global variable which identifies the
+            application and session information, which may be consumed by client
+            applications to use when invoking the FacebookProxy.axd service. The
+            path to the proxy itself is written out as the fbProxy global variable.
+            You must set ApplicationName in order to use this feature.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.EnableDebugging">
+            <summary>
+            Whether to enable debug information to be sent as part of the response in
+            the case of an error.
+            This can only be set during initialization of the page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.EnableExternalBrowsing">
+            <summary>
+            Whether to enable IFrame pages to be browsed externally as a regular Web application, i.e.,
+            outside Facebook when a particular user's session information is not available.
+            This can only be set during initialization of the page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.EnableTheming">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.EnableViewState">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.IsApplicationAdded">
+            <summary>
+            Whether the application has been added by the current user.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.InCanvasPage">
+            <summary>
+            Whether the request is being made in the context of a canvas page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.InIFramePage">
+            <summary>
+            Whether the request is being made in the context of an iframe page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.IsSessionCreated">
+            <summary>
+            Indicates whether a Facebook session has been established or not.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.Mode">
+            <summary>
+            The type of user interface used by the Facebook application.
+            This can only be set during initialization of the page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.Secret">
+            <summary>
+            The application secret used to authenticate API calls issued by the application that is
+            available at application registration time.
+            This can only be set during initialization of the page.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.Service">
+            <summary>
+            The Facebook service providing access to the Facebook APIs.
+            This is only available once a Facebook session has been established.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.Session">
+            <summary>
+            The current Facebook session if one has been established. A session
+            is established after page initialization is complete. The SessionCreated
+            event signals successful creation of a session.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.UserID">
+            <summary>
+            The unique ID of the user associated with the current Facebook session.
+            If a Facebook session has not been established, it returns an empty string.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FacebookApplication.Visible">
+            <summary>
+            Whether the control is visible. A FacebookApplication control should always be
+            set to visible.
+            </summary>
+        </member>
+        <member name="E:Facebook.Web.FacebookApplication.SessionCreated">
+            <summary>
+            Raised when a Facebook session has been created.
+            </summary>
+        </member>
+        <member name="E:Facebook.Web.FacebookApplication.SessionCreating">
+            <summary>
+            Raised when a Facebook session is being created.
+            </summary>
+        </member>
+        <member name="T:Facebook.Web.IFrame.FacebookHyperLink">
+            <summary>
+            A hyperlink control for IFrame Facebook applications to render anchors
+            to other IFrame pages within the application such that pages are
+            navigated appropriately within the Facebook environment so as to
+            preserve user session information as well as enable bookmarkability
+            of application pages.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.IFrame.FacebookHyperLink.#ctor">
+            <summary>
+            Initializes a FacebookHyperLink control.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.IFrame.FacebookHyperLink.AddAttributesToRender(System.Web.UI.HtmlTextWriter)">
+            <internalonly/>
+        </member>
+        <member name="M:Facebook.Web.IFrame.FacebookHyperLink.OnPreRender(System.EventArgs)">
+            <internalonly/>
+        </member>
+        <member name="M:Facebook.Web.IFrame.FacebookHyperLink.RenderContents(System.Web.UI.HtmlTextWriter)">
+            <internalonly/>
+        </member>
+        <member name="P:Facebook.Web.IFrame.FacebookHyperLink.ImageUrl">
+            <summary>
+            Gets or sets the image to display within the hyperlink.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.IFrame.FacebookHyperLink.NavigateUrl">
+            <summary>
+            Gets or sets the URL to navigate to.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.IFrame.FacebookHyperLink.Text">
+            <summary>
+            Gets or sets the text to display within the hyperlink (or the alternate text
+            if an image is displayed instead).
+            </summary>
+        </member>
+        <member name="T:Facebook.Web.FqlDataSource">
+            <summary>
+            Encapsulates Facebook's FQL-based queries and the fql.query service APIs
+            into an ASP.NET datasource control.
+            </summary>
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.GetView(System.String)">
+            <summary>
+            Gets the specified data source view that can be used to retrieve
+            data from this data source.
+            </summary>
+            <param name="viewName">The name of the view.</param>
+            <returns>The appropriate DataSourceView instance.</returns>
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.GetViewNames">
+            <summary>
+            Gets the list of available data source views surfaced by this data source.
+            </summary>
+            <returns>The list of names.</returns>
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.LoadViewState(System.Object)">
+            <internalonly />
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.OnInit(System.EventArgs)">
+            <internalonly />
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.OnPreRender(System.EventArgs)">
+            <internalonly />
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.SaveViewState">
+            <internalonly />
+        </member>
+        <member name="M:Facebook.Web.FqlDataSource.TrackViewState">
+            <internalonly />
+        </member>
+        <member name="P:Facebook.Web.FqlDataSource.FqlQuery">
+            <summary>
+            The FQL query to execute.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FqlDataSource.Parameters">
+            <summary>
+            The set of named parameters to use to execute the FQL query.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FqlDataSource.SortDirection">
+            <summary>
+            Gets or sets the direction in which to sort the results.
+            </summary>
+        </member>
+        <member name="P:Facebook.Web.FqlDataSource.SortField">
+            <summary>
+            Gets or sets the name of the field on which to sort the results.
+            </summary>
+        </member>
+        <member name="T:Facebook.Design.Web.FacebookApplicationDesigner">
+            <summary>
+            The designer associated with the <see cref="T:Facebook.Web.FacebookApplication"/> control.
+            </summary>
+        </member>
+        <member name="M:Facebook.Design.Web.FacebookApplicationDesigner.GetDesignTimeHtml">
+            <summary>
+            Gets the design-time representation of the FacebookApplication control.
+            </summary>
+            <returns>The design-time HTML used to implement the designer experience.</returns>
+        </member>
+        <member name="M:Facebook.Design.Web.FacebookApplicationDesigner.Initialize(System.ComponentModel.IComponent)">
+            <summary>
+            Initalizes an instance of a FacebookApplicationDesigner with its associated
+            component.
+            </summary>
+            <param name="component">The associated component.</param>
+        </member>
+        <member name="P:Facebook.Design.Web.FacebookApplicationDesigner.ActionLists">
+            <summary>
+            Gets the list of designer actions associated with this designer.
+            </summary>
+        </member>
+    </members>
+</doc>

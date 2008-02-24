@@ -1,0 +1,1337 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FacebookNET</name>
+    </assembly>
+    <members>
+        <member name="T:Facebook.Service.Core.FacebookResponse">
+            <summary>
+            Represents a response resulting from invoking a Facebook API method.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookResponse.ErrorMessage">
+            <summary>
+            Gets the error message if the response represents an error.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookResponse.IsError">
+            <summary>
+            Indicates whether the response represents an error.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookResponse.RawResponse">
+            <summary>
+            Gets the raw, textual response content.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookResponse.Result">
+            <summary>
+            Gets the result contained within the response.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookResponse.Status">
+            <summary>
+            Gets more specific success or failure status of the response.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.UserNetwork">
+            <summary>
+            Represents a Facebook network.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.FacebookEntity">
+            <summary>
+            Represents a data object returned from the Facebook service.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FacebookEntity.#ctor(System.Collections.Hashtable)">
+            <summary>
+            Initializes a Facebook entity with the specified data.
+            </summary>
+            <param name="entityState">A set of name/value pairs representing the entity.</param>
+        </member>
+        <member name="M:Facebook.Service.FacebookEntity.GetState``1(System.String)">
+            <summary>
+            Gets the specified name value from the entity's state.
+            </summary>
+            <typeparam name="T">The type of the value.</typeparam>
+            <param name="key">The name of the value.</param>
+            <returns>The current value associated with the specified name.</returns>
+        </member>
+        <member name="P:Facebook.Service.FacebookEntity.Item(System.String)">
+            <summary>
+            Gets or sets the specified name value from the entity's state.
+            </summary>
+            <param name="key">The name of the value.</param>
+            <returns>The current value associated with the specified name.</returns>
+        </member>
+        <member name="P:Facebook.Service.UserNetwork.ID">
+            <summary>
+            The unique ID of the network.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.UserNetwork.Name">
+            <summary>
+            The name of the network.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.UserNetwork.Status">
+            <summary>
+            The status of the network, such as graduation status if the network
+            is a college network.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.UserNetwork.Type">
+            <summary>
+            The type of the network.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.UserNetwork.Year">
+            <summary>
+            The year associated with the network, if any.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.EventStatus">
+            <summary>
+            Represents the RSVP status for a Facebook event.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.EventStatus.Attending">
+            <summary>
+            Attending the event.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.EventStatus.Unsure">
+            <summary>
+            Unsure about attending the event.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.EventStatus.Declined">
+            <summary>
+            Not attending the event.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.EventStatus.NotReplied">
+            <summary>
+            RSVP status not specified.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Album">
+            <summary>
+            Represents a Facebook photo album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.CoverID">
+            <summary>
+            The unique ID of the cover photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.Description">
+            <summary>
+            The description of this photo album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.CreatedDate">
+            <summary>
+            The date this album was created.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.Count">
+            <summary>
+            The number of photos in this album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.ID">
+            <summary>
+            The unique ID of the album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.LinkUrl">
+            <summary>
+            The url associated with the album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.Location">
+            <summary>
+            The location associated with this album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.ModifiedDate">
+            <summary>
+            The date this album was modified.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.Name">
+            <summary>
+            The name of this photo album.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Album.OwnerID">
+            <summary>
+            The unique ID of the user who owns this album.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.FacebookService">
+            <summary>
+            This class provides access to the APIs exposed by the Facebook service.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FacebookService.#ctor(Facebook.Service.Core.FacebookSession)">
+            <summary>
+            Initializes an instance of a FacebookService with the specified
+            session.
+            </summary>
+            <param name="session">The session associated with requests issued to the service.</param>
+        </member>
+        <member name="M:Facebook.Service.FacebookService.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates an instance of a FacebookService with the specified application
+            and infinite session information.
+            </summary>
+            <param name="appKey">The application key used as an API key.</param>
+            <param name="secret">The application secret used to sign requests.</param>
+            <param name="sessionKey">The previously saved infinite session key.</param>
+            <param name="userID">The user ID associated with the saved session key.</param>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Events">
+            <summary>
+            Gets the service APIs that allow accessing event information.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Fbml">
+            <summary>
+            Gets the service APIs related to working against FBML.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Feed">
+            <summary>
+            Gets the service APIs related to the user's feeds on Facebook.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Fql">
+            <summary>
+            Gets the service APIs that allow executing FQL-based queries.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Friends">
+            <summary>
+            Gets the service APIs related to the user's friends on Facebook.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Groups">
+            <summary>
+            Gets the service APIs that allow accessing group information.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Notifications">
+            <summary>
+            Gets the service APIs that allow accessing and sending notifications.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Photos">
+            <summary>
+            Gets the service APIs that allow accessing photo information.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Profile">
+            <summary>
+            Gets the service APIs related to the user's profile page on Facebook.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Session">
+            <summary>
+            The current Facebook session associated with this service.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.UserProfileUrl">
+            <summary>
+            Gets the URL of the user's profile on Facebook.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.UserID">
+            <summary>
+            Gets the ID of the user associated with the current session.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FacebookService.Users">
+            <summary>
+            Gets the service APIs that allow access to information on Facebook users.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.ProfileService">
+            <summary>
+            Represents the service APIs related to the user's profile page on Facebook.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.ProfileService.GetFbml(System.String)">
+            <summary>
+            Gets the FBML that shows up on the profile for the current
+            application for the specified user. This corresponds to the
+            profile.getFBML Facebook method.
+            </summary>
+            <param name="userID">The user whose profile is to be accessed; null if it is the current user.</param>
+            <returns>The FBML associated with the application.</returns>
+        </member>
+        <member name="M:Facebook.Service.ProfileService.SetFbml(System.String,System.String)">
+            <summary>
+            Sets the FBML that shows up on the profile for the current
+            application for the specified user. This corresponds to the
+            Facebook profile.setFBML method.
+            </summary>
+            <param name="fbmlMarkup">The new FBML markup to display on the profile.</param>
+            <param name="userID">The user whose profile is to be accessed; null if it is the current user.</param>
+            <returns>true if successful; false otherwise.</returns>
+        </member>
+        <member name="T:Facebook.Service.PhotosService">
+            <summary>
+            Represents the service APIs that allow accessing photo information.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetAlbum(System.String)">
+            <summary>
+            Gets the album identified by its ID.
+            </summary>
+            <param name="albumID">The unique ID of the album.</param>
+            <returns>The album information for the specified album.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetAlbums(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Gets the albums identified by the specified IDs.
+            </summary>
+            <param name="albumIDs">The unique IDs of the albums.</param>
+            <returns>The list of identified albums.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetAlbumsOfUser(System.String)">
+            <summary>
+            Gets the list of albums created by the specified user.
+            </summary>
+            <param name="userID">The unique ID of the user.</param>
+            <returns>The list of matching albums.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetPhoto(System.String)">
+            <summary>
+            Gets the photo identified by its ID.
+            </summary>
+            <param name="photoID">The unique ID of the photo.</param>
+            <returns>The photo information for the specified photo.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetPhotos(System.String)">
+            <summary>
+            Gets the photos belonging to the specified album.
+            </summary>
+            <param name="albumID">The unique ID of the album.</param>
+            <returns>The list of photos contained within the album.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetPhotos(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Gets the list of the specified photos.
+            </summary>
+            <param name="photoIDs">The unique IDs of the photos.</param>
+            <returns>The list of identified photos.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.GetPhotosOfUser(System.String)">
+            <summary>
+            Gets the list of photos tagged with the specified user.
+            </summary>
+            <param name="userID">The unique ID of the user.</param>
+            <returns>The list of matching photos.</returns>
+        </member>
+        <member name="M:Facebook.Service.PhotosService.UploadPhoto(System.String,System.IO.Stream,System.String,System.String,System.String)">
+            <summary>
+            Uploads a photo contained within the specified stream.
+            </summary>
+            <param name="name">The file name of the photo.</param>
+            <param name="photoStream">The stream containing the data.</param>
+            <param name="contentType">The content type of the photo.</param>
+            <param name="caption">The optional caption of the photo.</param>
+            <param name="albumID">The optional album ID that should contain the photo.</param>
+            <returns>The information about the uploaded photo.</returns>
+        </member>
+        <member name="T:Facebook.Service.Location">
+            <summary>
+            Represents a Facebook location on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Location.City">
+            <summary>
+            The city of the location.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Location.Country">
+            <summary>
+            The country of the location.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Location.State">
+            <summary>
+            The state of the location.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Location.Zip">
+            <summary>
+            The zip code of the location.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.FriendFilter">
+            <summary>
+            A filter used to trim the results of the friends query.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.FriendFilter.AllFriends">
+            <summary>
+            All friends.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.FriendFilter.AppUsers">
+            <summary>
+            All friends who have also added the application.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.FriendFilter.NonAppUsers">
+            <summary>
+            All friends who have not added the application.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.FriendsService">
+            <summary>
+            Represents the service APIs related to the user's friends on Facebook.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FriendsService.AreFriends(System.String,System.String)">
+            <summary>
+            Checks if the specified users are friends. This corresponds to the
+            friends.areFriends Facebook method.
+            </summary>
+            <param name="userID1">The first user ID.</param>
+            <param name="userID2">The second user ID.</param>
+            <returns>true if the users are friends; false otherwise.</returns>
+        </member>
+        <member name="M:Facebook.Service.FriendsService.GetFriends(Facebook.Service.FriendFilter)">
+            <summary>
+            Gets the list of friends of the current user. This corresponds to the
+            friends.get and friends.getAppUsers methods.
+            </summary>
+            <param name="filter">The filter to apply to the list of friends.</param>
+            <returns>A list of user IDs corresponding to the user's friends.</returns>
+        </member>
+        <member name="T:Facebook.Service.EventMembership">
+            <summary>
+            Represents the membership list of a Facebook group.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Membership">
+            <summary>
+            Represents a membership list.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.Membership.#ctor(System.Collections.Hashtable)">
+            <summary>
+            Initializes a FacebookMembership object with its state.
+            </summary>
+            <param name="membershipState">The state containing membership information.</param>
+        </member>
+        <member name="M:Facebook.Service.Membership.TransformUserList(System.Collections.ArrayList)">
+            <summary>
+            Transforms a raw user list in the membership state into a list of user IDs.
+            </summary>
+            <param name="userList">The raw user list.</param>
+            <returns>The list of user IDs.</returns>
+        </member>
+        <member name="P:Facebook.Service.EventMembership.AttendingUsers">
+            <summary>
+            The user IDs of those who accepted the event.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.EventMembership.DeclinedUsers">
+            <summary>
+            The user IDs of those who declined the event.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.EventMembership.NotRepliedUsers">
+            <summary>
+            The user IDs of those who haven't responded.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.EventMembership.UnsureUsers">
+            <summary>
+            The user IDs of those who are unsure about the event.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Core.FacebookResponseStatus">
+            <summary>
+            Represents the status of a response resulting from invoking a
+            Facebook API method.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.Succeeded">
+            <summary>
+            The call succeeded.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.UnknownError">
+            <summary>
+            There was an unknown error in making the call.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.ServiceUnavailable">
+            <summary>
+            The Facebook service was not available.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.RequestLimitExceeded">
+            <summary>
+            The number of allowed requests have been reached.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.DisallowedHost">
+            <summary>
+            The host was disallowed.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.InvalidParameter">
+            <summary>
+            There was an invalid parameter value.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.InvalidApiKey">
+            <summary>
+            The API key used to represent the application was invalid.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.IncorrectSignature">
+            <summary>
+            The request was not signed correctly.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.Core.FacebookResponseStatus.HttpError">
+            <summary>
+            There was an HTTP error in issuing the request.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.User">
+            <summary>
+            Represents a Facebook user.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.User.BasicFields">
+            <summary>
+            The list of basic user information fields such as ID and name.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.User.AllFields">
+            <summary>
+            The list of all user information fields.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.About">
+            <summary>
+            The "About Me" section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Activities">
+            <summary>
+            The Activities section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Birthday">
+            <summary>
+            The user's birthday information as shared on the profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Books">
+            <summary>
+            The Books section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.CurrentLocation">
+            <summary>
+            The Current Location entry on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.EducationHistory">
+            <summary>
+            Any education history listed on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.FirstName">
+            <summary>
+            The user's first name.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Gender">
+            <summary>
+            The user's gender as shared on the profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Hometown">
+            <summary>
+            The user's home town as shared on the profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.ID">
+            <summary>
+            The unique ID of the user.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Interests">
+            <summary>
+            The Interests section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.InterestedInGenders">
+            <summary>
+            The list of desired relationship genders as shared on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.InterestedInRelationships">
+            <summary>
+            The list of desired relationship types as shared on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.IsAppUser">
+            <summary>
+            Whether the user has added the current application.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.LargePictureUrl">
+            <summary>
+            The URL of the larger version of the user's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.LastName">
+            <summary>
+            The user's last name.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Movies">
+            <summary>
+            The Movies section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Music">
+            <summary>
+            The Music section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Name">
+            <summary>
+            The user's full name.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Networks">
+            <summary>
+            The list of networks that the user is affiliated with.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.PictureUrl">
+            <summary>
+            The URL of the normal sized version of the user's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.PoliticalView">
+            <summary>
+            The user's political view as shared on the profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Quotes">
+            <summary>
+            The Quotes section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Relationship">
+            <summary>
+            The user's relationship status as shared on the profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Religion">
+            <summary>
+            The user's religious views as shared on the profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.RelatedUserID">
+            <summary>
+            The ID of the user related to the user in their relationship status.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.SmallPictureUrl">
+            <summary>
+            The URL of the small version of the user's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.SquarePictureUrl">
+            <summary>
+            The URL of the square section of the user's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.Status">
+            <summary>
+            The latest status associated with the user.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.TimeZoneOffset">
+            <summary>
+            The user's time zone offset.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.TVShows">
+            <summary>
+            The TV Shows section of the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.WallPosts">
+            <summary>
+            The number of wall posts on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.User.WorkHistory">
+            <summary>
+            Any work history listed on the user's profile.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Photo">
+            <summary>
+            Represents a Facebook photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.AlbumID">
+            <summary>
+            The unique ID of the album containing this photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.Caption">
+            <summary>
+            The caption of this photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.CreatedDate">
+            <summary>
+            The date this photo was created.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.ID">
+            <summary>
+            The unique ID of the photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.ImageUrl">
+            <summary>
+            The url of the image.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.LargeImageUrl">
+            <summary>
+            The url of the large version of the image.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.LinkUrl">
+            <summary>
+            The url associated with the photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.OwnerID">
+            <summary>
+            The unique ID of the user who owns this photo.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Photo.SmallImageUrl">
+            <summary>
+            The url of the small version of the image.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.FeedImage">
+            <summary>
+            Represents an image and its associated link within a user feed story.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FeedImage.#ctor(System.String,System.String)">
+            <summary>
+            Initializes an instance of a feed image with its URL and link target.
+            </summary>
+            <param name="imageUrl">The URL of the picture or a Facebook picture ID.</param>
+            <param name="imageLinkUrl">The URL representing the target of the image.</param>
+        </member>
+        <member name="P:Facebook.Service.FeedImage.ImageLinkUrl">
+            <summary>
+            The URL representing the target of the image.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.FeedImage.ImageUrl">
+            <summary>
+            The URL of the picture or a Facebook picture ID.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.EventsService">
+            <summary>
+            Represents the service APIs that allow accessing event information.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.EventsService.GetMembers(System.String)">
+            <summary>
+            Gets the membership information for the specified event. This corresponds to the
+            Facebook events.getMembers method.
+            </summary>
+            <param name="eventID">The unique ID of the event.</param>
+            <returns>The list of members of the specified event.</returns>
+        </member>
+        <member name="T:Facebook.Service.FbmlService">
+            <summary>
+            Represents the service APIs that allow working against FBML.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FbmlService.RefreshContentHandle(System.String,System.String)">
+            <summary>
+            Updates the FBML markup associated with a named handle.
+            A named handle can then be used in FBML with the &lt;fb:ref handle="..." /&gt;
+            construct.
+            </summary>
+            <param name="handleName">The name of the handle.</param>
+            <param name="fbmlMarkup">The markup associated with the handle.</param>
+            <returns>true if successful; false otherwise.</returns>
+        </member>
+        <member name="M:Facebook.Service.FbmlService.RefreshContentLink(System.String)">
+            <summary>
+            Updates the FBML markup cached for the specified URL. The FBML returned
+            by the specified callback URL can be used with the &lt;fb:ref url="..." /&gt;
+            construct.
+            </summary>
+            <param name="url">The url that is to be refreshed.</param>
+            <returns>true if successful; false otherwise.</returns>
+        </member>
+        <member name="M:Facebook.Service.FbmlService.RefreshReferencedImage(System.String)">
+            <summary>
+            Updates the image cached for the specified URL.
+            </summary>
+            <param name="url"></param>
+            <returns>true if successful; false otherwise.</returns>
+        </member>
+        <member name="T:Facebook.Service.EducationHistory">
+            <summary>
+            Represents a Facebook education history entry on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.EducationHistory.Concentrations">
+            <summary>
+            The list of named concentrations.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.EducationHistory.Name">
+            <summary>
+            The name of the school.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.EducationHistory.Year">
+            <summary>
+            The year of graduation.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.UserGender">
+            <summary>
+            The gender of a Facebook user.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserGender.NotSpecified">
+            <summary>
+            Unspecified gender.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserGender.Male">
+            <summary>
+            Male gender.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserGender.Female">
+            <summary>
+            Female gender.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Group">
+            <summary>
+            Represents a Facebook group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.CreatorUserID">
+            <summary>
+            The unique user ID of the group's creator if available.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.Description">
+            <summary>
+            The description of the group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.ID">
+            <summary>
+            The unique ID of the group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.LargePictureUrl">
+            <summary>
+            The URL of the larger version of the group's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.NetworkID">
+            <summary>
+            The ID of the network that the group belongs to, and 0 if the group is
+            a global group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.PictureUrl">
+            <summary>
+            The URL of the the group's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.SmallPictureUrl">
+            <summary>
+            The URL of the small version of the group's profile picture.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.SubType">
+            <summary>
+            The sub-type of the group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Group.Type">
+            <summary>
+            The type of the group.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Core.FacebookRequestParameterList">
+            <summary>
+            Represents a collection of name/value pairs, where each pair corresponds to a parameter
+            within requests sent to the Facebook service.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.NotificationsService">
+            <summary>
+            Represents the service APIs related to the user's notifications on Facebook.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.NotificationsService.Send(System.String,System.String,System.String)">
+            <summary>
+            Sends a notification to the specified user, and optionally sends email.
+            </summary>
+            <param name="userID">The ID of the user to notify.</param>
+            <param name="notification">The notification to send.</param>
+            <param name="email">The email address to send email to; null if no email is to be sent.</param>
+            <returns>A URL to redirect to if a confirmation is required.</returns>
+        </member>
+        <member name="M:Facebook.Service.NotificationsService.SendNotification(System.Collections.Generic.ICollection{System.String},System.String,System.String)">
+            <summary>
+            Sends a notification to the specified users, and optionally sends email.
+            </summary>
+            <param name="userIDs">The ID of the users to notify.</param>
+            <param name="notification">The notification to send.</param>
+            <param name="email">The email address to send email to; null if no email is to be sent.</param>
+            <returns>A URL to redirect to if a confirmation is required.</returns>
+        </member>
+        <member name="M:Facebook.Service.NotificationsService.SendRequest(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Sends a request or an invitation to the specified user.
+            </summary>
+            <param name="userID">The ID of the user to send a request.</param>
+            <param name="requestType">The type of request.</param>
+            <param name="content">The content of the request.</param>
+            <param name="imageURL">The image associated with the request.</param>
+            <param name="isInvitation">Whether the request is an invitation.</param>
+            <returns>A URL to redirect to if a confirmation is required.</returns>
+        </member>
+        <member name="M:Facebook.Service.NotificationsService.SendRequest(System.Collections.Generic.ICollection{System.String},System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Sends a request or an invitation to the specified set of users.
+            </summary>
+            <param name="userIDs">The ID of the users to send a request.</param>
+            <param name="requestType">The type of request.</param>
+            <param name="content">The content of the request.</param>
+            <param name="imageURL">The image associated with the request.</param>
+            <param name="isInvitation">Whether the request is an invitation.</param>
+            <returns>A URL to redirect to if a confirmation is required.</returns>
+        </member>
+        <member name="T:Facebook.Service.GroupsService">
+            <summary>
+            Represents the service APIs related to user groups on Facebook.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.GroupsService.GetGroup(System.String)">
+            <summary>
+            Gets the Facebook group identified by the specified ID.
+            </summary>
+            <param name="groupID">The unique ID of the group.</param>
+            <returns>The information about the specified group.</returns>
+        </member>
+        <member name="M:Facebook.Service.GroupsService.GetGroups(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Gets the list of Facebook groups identified by the specified IDs.
+            </summary>
+            <param name="groupIDs">The list of IDs of the groups.</param>
+            <returns>The information about the specified groups.</returns>
+        </member>
+        <member name="M:Facebook.Service.GroupsService.GetGroups(System.Collections.Generic.ICollection{System.String},System.String)">
+            <summary>
+            Gets the list of Facebook groups associated with the user if a user is specified.
+            </summary>
+            <param name="groupIDs">The list of IDs of the groups.</param>
+            <param name="userID">The unique ID of the user if the list of the groups is to be filtered by the user.</param>
+            <returns>The information about the specified groups.</returns>
+        </member>
+        <member name="M:Facebook.Service.GroupsService.GetGroupsByUser(System.String)">
+            <summary>
+            Gets the list of Facebook groups that the user is a member of.
+            </summary>
+            <param name="userID">The unique ID of the user.</param>
+            <returns>The information about the specified groups.</returns>
+        </member>
+        <member name="M:Facebook.Service.GroupsService.GetMembers(System.String)">
+            <summary>
+            Gets the membership information for the specified group. This corresponds to the
+            Facebook groups.getMembers method.
+            </summary>
+            <param name="groupID">The unique ID of the group.</param>
+            <returns>The list of members of the specified group.</returns>
+        </member>
+        <member name="T:Facebook.Service.GroupMembership">
+            <summary>
+            Represents the membership list of a Facebook group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.GroupMembership.Admins">
+            <summary>
+            The user IDs of administrators of a group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.GroupMembership.Members">
+            <summary>
+            The user IDs of members of a group.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.GroupMembership.NotRepliedUsers">
+            <summary>
+            The user IDs of members who haven't replied to a group invitation.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.GroupMembership.Officers">
+            <summary>
+            The user IDs of officers of a group.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Core.FacebookSession">
+            <summary>
+            A Facebook session represents a logical user login, and
+            allows an application to access Facebook services in the context
+            of the specific user.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookSession.#ctor(System.String,System.String)">
+            <summary>
+            Initializes an instance of a <see cref="T:Facebook.Service.Core.FacebookSession"/>.
+            </summary>
+            <param name="appKey">The application key representing the application.</param>
+            <param name="secret">The application secret used to authenticate requests.</param>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookSession.InitializeFriends(System.String[])">
+            <summary>
+            Initializes the list of friend IDs associated with the user
+            that is logged in under this session.
+            </summary>
+            <param name="friendIDs">The set of friend IDs.</param>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookSession.InitializeSessionKey(System.String,System.Boolean)">
+            <summary>
+            Initializes the session information once a session has been created.
+            </summary>
+            <param name="sessionKey">The unique identifier of the session.</param>
+            <param name="sessionExpires">Whether the session expires or is long-lived.</param>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookSession.InitializeUserID(System.String)">
+            <summary>
+            Initializes the user associated with this session.
+            </summary>
+            <param name="userID">The ID of the user associated with the session.</param>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookSession.ApplicationKey">
+            <summary>
+            The application key representing the application.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookSession.Secret">
+            <summary>
+            The application secret used to authenticate requests.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookSession.SessionExpires">
+            <summary>
+            Whether the session expires or is long-lived.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookSession.SessionKey">
+            <summary>
+            The unique identifier of the session.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookSession.UserID">
+            <summary>
+            The ID of the user associated with the session.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookSession.Version">
+            <summary>
+            The version of the Facebook API accessible with this session.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.FqlService">
+            <summary>
+            Represents the service APIs that allow executing FQL-based queries.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FqlService.ExecuteQuery(System.String)">
+            <summary>
+            Executes the specified FQL-based query.
+            </summary>
+            <param name="query">The FQL-based query.</param>
+            <returns>The result set associated with the query.</returns>
+        </member>
+        <member name="T:Facebook.Service.FeedService">
+            <summary>
+            Represents the service APIs related to the user's feeds on Facebook.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.FeedService.PublishNewsFeedStory(System.String,System.String,System.Collections.Generic.ICollection{Facebook.Service.FeedImage})">
+            <summary>
+            Publishes a story to the user's news feed. This corresponds to the feed.publishStoryToUser
+            Facebook method.
+            </summary>
+            <param name="title">The title of the story.</param>
+            <param name="body">An optional body containing the story.</param>
+            <param name="images">An optional set of up to 4 images associated with the story.</param>
+            <returns>true on success; false otherwise.</returns>
+        </member>
+        <member name="M:Facebook.Service.FeedService.PublishMiniFeedStory(System.String,System.String,System.Collections.Generic.ICollection{Facebook.Service.FeedImage})">
+            <summary>
+            Publishes a story to the user's mini-feed, and the user's friends' news feed.
+            This corresponds to the feed.publishActionOfUser Facebook method.
+            </summary>
+            <param name="title">The title of the story.</param>
+            <param name="body">An optional body containing the story.</param>
+            <param name="images">An optional set of up to 4 images associated with the story.</param>
+            <returns>true on success; false otherwise.</returns>
+        </member>
+        <member name="T:Facebook.Service.UserStatus">
+            <summary>
+            Represents the status information on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.UserStatus.Message">
+            <summary>
+            The status message if any.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.UserStatus.UpdateDate">
+            <summary>
+            The date/time stamp of the status message if any.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Core.FacebookRequest">
+            <summary>
+            Represents a request used to invoke a Facebook API method.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.#ctor(Facebook.Service.Core.FacebookSession)">
+            <summary>
+            Creates an new instance of a request with the specified session.
+            </summary>
+            <param name="session">The session to use to issue the request.</param>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.BeginCreateAuthToken(System.AsyncCallback,System.Object)">
+            <summary>
+            Starts an asynchronous call to create an authorization token. This corresponds to the
+            Facebook auth.createToken method.
+            </summary>
+            <param name="callback">The async callback that is invoked when the request completes.</param>
+            <param name="asyncState">The state to associate with the asynchronous call.</param>
+            <returns>An async result that represents the asynchronous call.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.BeginCreateSession(System.String,System.AsyncCallback,System.Object)">
+            <summary>
+            Starts an asynchronous call to create a session. This corresponds to the
+            Facebook auth.getSession method.
+            </summary>
+            <param name="authToken">The authorization token to use to create the session.</param>
+            <param name="callback">The async callback that is invoked when the request completes.</param>
+            <param name="asyncState">The state to associate with the asynchronous call.</param>
+            <returns>An async result that represents the asynchronous call.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.BeginInvokeMethod(System.String,System.AsyncCallback,System.Object)">
+            <summary>
+            Starts an asynchronous call to invoke the specified method.
+            </summary>
+            <param name="method">The name of the API method to invoke.</param>
+            <param name="callback">The async callback that is invoked when the request completes.</param>
+            <param name="asyncState">The state to associate with the asynchronous call.</param>
+            <returns>An async result that represents the asynchronous call.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.CreateAuthToken">
+            <summary>
+            Creates an authorization token. This corresponds to the Facebook auth.createToken method.
+            </summary>
+            <returns>A new authorization token on success.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.CreateSession(System.String,System.String@,System.Boolean@)">
+            <summary>
+            Creates a new session token. This corresponds to the Facebook auth.getSession method.
+            </summary>
+            <param name="authToken">The authorization token to use to create the session.</param>
+            <param name="userID">The user ID associated with the session.</param>
+            <param name="expires">Whether the created session expires or is long-lived.</param>
+            <returns>A new session.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.EndCreateAuthToken(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous call to create an authorization token.
+            </summary>
+            <param name="asyncResult">The async result from the corresponding BeginCreateAuthToken call.</param>
+            <returns>A new authorization token on success.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.EndCreateSession(System.IAsyncResult,System.String@,System.Boolean@)">
+            <summary>
+            Completes an asynchronous call to create a new session.
+            </summary>
+            <param name="asyncResult">The async result from the corresponding BeginCreateSession call.</param>
+            <param name="userID">The user ID associated with the session.</param>
+            <param name="expires">Whether the created session expires or is long-lived.</param>
+            <returns>A new session.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.EndInvokeMethod(System.IAsyncResult)">
+            <summary>
+            Completes an asynchronous call to invoke an API method.
+            </summary>
+            <param name="asyncResult">The async result from the corresponding BeginCreateSession call.</param>
+            <returns>The resulting response.</returns>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookRequest.InvokeMethod(System.String)">
+            <summary>
+            Invokes the specified API method.
+            </summary>
+            <param name="method">The name of the API method to invoke.</param>
+            <returns>The resulting response.</returns>
+        </member>
+        <member name="P:Facebook.Service.Core.FacebookRequest.Parameters">
+            <summary>
+            Gets the collection of parameters associated with the request.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.UsersService">
+            <summary>
+            Represents the service APIs that allow access to information on Facebook users.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.UsersService.GetUser(System.String,System.String)">
+            <summary>
+            Gets the desired information about the specified user ID. This corresponds to the
+            users.getInfo Facebook method.
+            </summary>
+            <param name="userID">The requested user ID, or null to get information about the current user.</param>
+            <param name="fields">The comma-separated list of fields, or null to get all known fields.</param>
+            <returns>The information about the specific user; null if the call fails.</returns>
+        </member>
+        <member name="M:Facebook.Service.UsersService.GetUsers(System.Collections.Generic.ICollection{System.String},System.String)">
+            <summary>
+            Gets the desired information about the specified user IDs. This corresponds to the
+            users.getInfo Facebook method.
+            </summary>
+            <param name="userIDs">The list of requested user IDs.</param>
+            <param name="fields">The comma-separated list of fields, or null to get all known fields.</param>
+            <returns>The information about the specified users; null if the call fails.</returns>
+        </member>
+        <member name="T:Facebook.Service.WorkHistory">
+            <summary>
+            Represents a Facebook work history entry on the user's profile.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.WorkHistory.Location">
+            <summary>
+            The location associated with the workplace.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.WorkHistory.EndDate">
+            <summary>
+            The end date associated with the workplace if any.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.WorkHistory.Name">
+            <summary>
+            The name of the company associated with the workplace.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.WorkHistory.Description">
+            <summary>
+            The description of the work.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.WorkHistory.Position">
+            <summary>
+            The position held by the user at the workplace.
+            </summary>
+        </member>
+        <member name="P:Facebook.Service.WorkHistory.StartDate">
+            <summary>
+            The start date associated with the workplace if any.
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Core.FacebookInfiniteSession">
+            <summary>
+            Represents a Facebook "infinite" session that is used by a Facebook
+            application that has been saved for extended use, i.e. until the user
+            logs out of an application.
+            </summary>
+        </member>
+        <member name="M:Facebook.Service.Core.FacebookInfiniteSession.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates an instance of a FacebookInfiniteSession with the
+            specified application information and session key.
+            </summary>
+            <param name="appKey">The application key used as an API key.</param>
+            <param name="secret">The application secret used to sign requests.</param>
+            <param name="sessionKey">The previously saved infinite session key.</param>
+            <param name="userID">The user ID associated with the saved session key.</param>
+        </member>
+        <member name="T:Facebook.Service.UserNetworkType">
+            <summary>
+            Represents the type of network that a user is affiliated with.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserNetworkType.College">
+            <summary>
+            A college-based network.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserNetworkType.HighSchool">
+            <summary>
+            A high school-based network.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserNetworkType.Work">
+            <summary>
+            A work-based network.
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserNetworkType.Region">
+            <summary>
+            A geographic region-based network
+            </summary>
+        </member>
+        <member name="F:Facebook.Service.UserNetworkType.Other">
+            <summary>
+            A different type of network
+            </summary>
+        </member>
+        <member name="T:Facebook.Service.Event">
+            <summary>
+            Represents a Facebook event.
+            </summary>
+        </member>
+    </members>
+</doc>

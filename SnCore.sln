@@ -284,6 +284,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{96AFE929
 		SnCore.proj = SnCore.proj
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreFaceBookWeb/", "http://localhost/SnCoreFaceBookWeb", "{3457FB18-BF57-43A7-819C-A4BE7AB9604D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.VirtualPath = "/SnCoreFaceBookWeb"
+		Debug.AspNetCompiler.PhysicalPath = "SnCore.FaceBook.Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\SnCoreFaceBookWeb\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/SnCoreFaceBookWeb"
+		Release.AspNetCompiler.PhysicalPath = "SnCore.FaceBook.Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\SnCoreFaceBookWeb\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "SnCore.FaceBook.Web\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -694,6 +713,18 @@ Global
 		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{42DF97E0-ADD5-41D3-A6AA-63BB122F8F09}.Release|Win32.ActiveCfg = Release|Any CPU
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Debug|.NET.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Debug|.NET.Build.0 = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Debug|Win32.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|.NET.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|.NET.Build.0 = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Win32.ActiveCfg = Debug|.NET
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

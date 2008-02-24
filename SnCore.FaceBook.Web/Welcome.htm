@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Facebook Application Starter Kit</title>
+  <style type="text/css">
+  body { 
+    font-family: Verdana; 
+    font-size: 0.7em;
+  }
+  h1 {
+    font-size:14.0pt;
+    font-family: Verdana;
+    color:#0070C0;
+  }  
+  </style>
+</head>
+<body>
+  <h1>
+    Facebook.NET Application Starter Kit</h1>
+  Starter Kit created by <a href="http://www.stevetrefethen.com/blog">Steve Trefethen</a><br />
+  <a href="http://www.codeplex.com/FacebookNET/">Facebook.NET</a> 0.2.1.0 API created by <a href="http://www.nikhilk.net/">Nikhil Kothari</a><br />  
+  <a href="http://www.stevetrefethen.com/">http://www.stevetrefethen.com/</a><br />
+  Updated: January 14, 2008
+  <p></p>
+  Revision History:
+  0.2<br />
+  &nbsp; - Updated to 0.3 of Facebook.NET
+  0.1<br />
+  &nbsp; - Initial Release
+  <p></p>  
+  Welcome to your new <strong>Facebook.NET Application</strong>. Follow the steps below
+  to use this project to build your own Facebook application.<br />
+  <br />
+  <span style="color: #ff0066"><strong>PLEASE READ</strong></span>&nbsp;<br />
+  <br />
+  NOTE: These steps assume you already have a Facebook account, if not you should
+  <a href="https://register.facebook.com/r.php">create one now</a>. Many of the links
+  below will <em>not</em> work unless you have an FB account. This application
+  includes the <a href="http://www.codeplex.com/FacebookNET/">
+    Facebook.NET</a> assembly though you should check <a href="http://www.codeplex.com/FacebookNET">codeplex</a> for the latest version.<br />
+  <br />
+  <strong>Setting up your application on Facebook using an IFrame*</strong><br />
+  <ol>
+    <li>Add the <a href="http://www.facebook.com/apps/application.php?id=2345053339">Developer
+      application</a> to your account (you need an account for that link to work) </li>
+    <li>Click <a href="http://www.facebook.com/developers/">Developer application</a>
+      from the left column and select click <a href="http://www.facebook.com/developers/editapp.php?new">
+        Set Up New Application</a> </li>
+    <li>Enter the Application Name and expand Optional Fields </li>
+    <li>Under Base Options
+      <ul>
+        <li>Callback URL -> http://localhost:nnnn/MyApp/<br />
+          Using localhost makes it easy for you to debug locally</li>
+        <li>Select "Use iframe"</li>
+        <li>Can your application be added to Facebook? -&gt; Yes (this will display additional
+          options)</li>
+        <li>TOS URL -&gt; http://localhost:nnnn/MyApp/Install/TOS.aspx</li>
+      </ul>
+    </li>
+    <li>Under Installation Options
+      <ul>
+        <li>Check "Developer Mode" </li>
+        <li>Post-Add URL -&gt; http://localhost:nnnn/MyApp/Install/PostAdd.aspx </li>
+        <li>Fill in your application description </li>
+        <li>Post-Remove URL -&gt; http://localhost:nnnn/MyApp/Install/PostRemove.aspx </li>
+      </ul>
+    </li>
+    <li>Under Installation Options
+      <ul>
+        <li>Check "Developer Mode" </li>
+        <li>Post-Add URL -&gt; http://localhost:nnnn/MyApp/Install/PostAdd.aspx </li>
+        <li>Fill in your application description </li>
+        <li>Post-Remove URL -&gt; http://localhost:nnnn/MyApp/Install/PostRemove.aspx </li>
+      </ul>
+    </li>
+    <li>Under Integration Points
+      <ul>
+        <li>Site Nav -&gt; http://apps.facebook.com/{appname} basically, use the same URL
+          from Canvas Page URL (see Optional Fields) </li>
+        <li>Privacy URL -&gt; http://localhost:nnnn/MyApp/Integ/Privacy.aspx </li>
+        <li>Help URL -&gt; http://localhost:nnnn/MyApp/Integ/Help.aspx </li>
+      </ul>
+    </li>      
+  </ol>
+  <strong>Accessing your application on Facebook<br />
+  </strong>
+  <br />
+  Once you've created your application you'll want to add it to your FB sidebar so
+  you can use it easily. To do that follow these steps:
+  <ol>
+    <li>Click Save then from the Developers Application browse to <a href="http://www.facebook.com/developers/apps.php">
+      My Applications</a> </li>
+    <li>Click View About Page then click Add Application </li>
+  </ol>
+  <p>
+    <strong>Configuring your application</strong></p>
+  <p>
+    The Facebook Developer platform requires both an APPKEY and a SECRET key that are
+    used for authentication. You need to follow these steps to set up the property variables.</p>
+  <p>
+  </p>
+  <ol>
+    <li>Open both web.config and in the &lt;facebook&gt; section fill in [AppKey] and [Secret] attributes with the values for your application
+      from Facebook. </li>
+    <li>Fire up the browser and hit your http://apps.facebook.com/{appname};
+      and you're off!</li>
+  </ol>
+  <p>
+    <strong>*What about FBML?</strong></p>
+  <p>
+    You can use FBML and the <a href="http://www.codeplex.com/FacebookNET/">Facebook.NET</a>
+    download from CodePlex has an example.</p>
+</body>
+</html>
