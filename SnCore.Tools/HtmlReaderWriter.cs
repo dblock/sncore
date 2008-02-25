@@ -194,7 +194,7 @@ namespace SnCore.Tools.Web.Html
             //text = text.Replace("<![CDATA[", "");
             //text = text.Replace("]]>", "");
 
-            if (Options.FilterOutput)
+            if (Options.FilterOutput && ! string.IsNullOrEmpty(text))
             {
                 // text = text.Trim();
 
