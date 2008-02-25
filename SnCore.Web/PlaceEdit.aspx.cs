@@ -157,6 +157,11 @@ public partial class PlaceEdit : AuthenticatedPage
         t.Neighborhood = inputNeighborhood.Text;
         t.State = inputState.SelectedValue;
         t.Country = inputCountry.SelectedValue;
+
+        if (string.IsNullOrEmpty(t.Name)) throw new Exception("Please enter a name.");
+        if (string.IsNullOrEmpty(t.City)) throw new Exception("Please enter a city.");
+        if (string.IsNullOrEmpty(t.Country)) throw new Exception("Please enter a country.");
+
         int place_id = SessionManager.CreateOrUpdate<TransitPlace>(
             t, SessionManager.PlaceService.CreateOrUpdatePlace);
 

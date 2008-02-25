@@ -16,8 +16,6 @@
   <asp:HyperLink runat="server" ID="linkEditAttributes" Text="&#187; Attributes" />
   <asp:HyperLink runat="server" ID="linkEditPictures" Text="&#187; Pictures" />
  </div>
- <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
-  ShowSummary="true" />
  <table cellpadding="4" class="sncore_account_table" border="1">
   <tr>
    <td class="sncore_form_label">
@@ -34,8 +32,6 @@
    </td>
    <td class="sncore_form_value">
     <asp:TextBox CssClass="sncore_form_textbox" ID="inputName" runat="server" />
-    <asp:RequiredFieldValidator ID="inputNameRequired" runat="server" ControlToValidate="inputName"
-     CssClass="sncore_form_validator" ErrorMessage="name is required" Display="Dynamic" />
     <asp:UpdatePanel id="panelLookupButton" runat="server" UpdateMode="Conditional">
      <ContentTemplate>
       <asp:LinkButton ID="linkLookup" Text="&#187; check duplicate" runat="server" CausesValidation="false"
