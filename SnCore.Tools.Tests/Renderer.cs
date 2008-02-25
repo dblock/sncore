@@ -133,7 +133,11 @@ namespace SnCore.Tools.Tests
                     "<stripped></stripped>"),
                 new TestDataItem(
                     "&lt;%# variable %&gt;",
-                    "<stripped>&lt;%# variable %&gt;</stripped>")
+                    "<stripped>&lt;%# variable %&gt;</stripped>"),
+                // null tag (note the img without any arguments)
+                new TestDataItem(
+                    "<img id=\"image2610\" img class=\"center\" />",
+                    "<stripped><img id=\"image2610\" img=\"\" class=\"center\" /></stripped>")
             };
 
             foreach (TestDataItem test in testdata)
