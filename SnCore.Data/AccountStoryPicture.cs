@@ -9,17 +9,17 @@
     ///This class maps to the 'AccountStoryPicture' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountStoryPicture : IDbObject
+    public class AccountStoryPicture : IDbPictureObject, IDbObject
     {
 #region " Generated Code Region "
 
         private System.Int32 m_Id;
         private AccountStory m_AccountStory;
         private System.DateTime m_Created;
-        private System.Int32 m_Location;
         private System.DateTime m_Modifed;
         private System.String m_Name;
         private System.Byte[] m_Picture;
+        private System.Int32 m_Position;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -101,31 +101,6 @@
         ///Persistent primitive property.
         ///</summary>
         ///<remarks>
-        ///This property accepts values of the type 'System.Int32'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Location' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Location' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Location
-        {
-            get
-            {
-                return m_Location;
-            }
-            set
-            {
-                m_Location = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
         ///This property accepts values of the type 'System.DateTime'.
         ///The accessibility level for this property is 'PublicAccess'.
         ///The accessibility level for the field 'm_Modifed' that holds the value for this property is 'PrivateAccess'.
@@ -193,6 +168,31 @@
             set
             {
                 m_Picture = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Position' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Position' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Int32 Position
+        {
+            get
+            {
+                return m_Position;
+            }
+            set
+            {
+                m_Position = value;
             }
         }
 

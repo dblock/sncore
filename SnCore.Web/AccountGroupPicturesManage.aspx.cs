@@ -20,7 +20,7 @@ using SnCore.SiteMap;
 
 public partial class AccountGroupPicturesManage : AuthenticatedPage
 {
-    public void Page_Load()
+    public void Page_Load(object sender, EventArgs e)
     {
         this.addFile.Attributes["onclick"] = this.files.GetAddFileScriptReference() + "return false;";
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
@@ -29,8 +29,7 @@ public partial class AccountGroupPicturesManage : AuthenticatedPage
         {
             TransitAccountGroup group = SessionManager.GroupService.GetAccountGroupById(SessionManager.Ticket, RequestId);
 
-            gridManage_OnGetDataSource(this, null);
-            gridManage.DataBind();
+            GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Groups", Request, "AccountGroupsView.aspx"));
@@ -49,10 +48,22 @@ public partial class AccountGroupPicturesManage : AuthenticatedPage
         }
     }
 
+    public void GetData(object sender, EventArgs e)
+    {
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = SessionManager.GroupService.GetAccountGroupPicturesCount(
+            SessionManager.Ticket, RequestId);
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
+    }
+
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageSize = gridManage.PageSize;
+        options.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.GroupService.GetAccountGroupPictures(
-            SessionManager.Ticket, RequestId, null);
+            SessionManager.Ticket, RequestId, options);
     }
 
     private enum Cells
@@ -60,24 +71,37 @@ public partial class AccountGroupPicturesManage : AuthenticatedPage
         id = 0
     };
 
-    public void gridManage_ItemCommand(object source, DataGridCommandEventArgs e)
+    public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)
     {
-        switch (e.Item.ItemType)
+        switch (e.CommandName)
         {
-            case ListItemType.AlternatingItem:
-            case ListItemType.Item:
-            case ListItemType.SelectedItem:
-            case ListItemType.EditItem:
-                int id = int.Parse(e.Item.Cells[(int)Cells.id].Text);
-                switch (e.CommandName)
+            case "Delete":
                 {
-                    case "Delete":
-                        SessionManager.Delete<TransitAccountGroupPicture>(id, SessionManager.GroupService.DeleteAccountGroupPicture);
-                        ReportInfo("Picture deleted.");
-                        gridManage.CurrentPageIndex = 0;
-                        gridManage_OnGetDataSource(source, e);
-                        gridManage.DataBind();
-                        break;
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.Delete<TransitAccountGroupPicture>(id, SessionManager.GroupService.DeleteAccountGroupPicture);
+                    ReportInfo("Picture deleted.");
+                    GetData(sender, e);
+                }
+                break;
+            case "Right":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.GroupService.MoveAccountGroupPicture(SessionManager.Ticket, id, 1);
+                    if (e.Item.ItemIndex + 1 == gridManage.Items.Count && gridManage.CurrentPageIndex + 1 < gridManage.PagedDataSource.PageCount)
+                        gridManage.CurrentPageIndex++;
+                    SessionManager.InvalidateCache<TransitAccountGroupPicture>();
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
+                break;
+            case "Left":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.GroupService.MoveAccountGroupPicture(SessionManager.Ticket, id, -1);
+                    if (e.Item.ItemIndex == 0 && gridManage.CurrentPageIndex > 0) gridManage.CurrentPageIndex--;
+                    SessionManager.InvalidateCache<TransitAccountGroupPicture>();
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
                 }
                 break;
         }

@@ -126,6 +126,27 @@ public partial class AccountPicturesManage : AuthenticatedPage
                     gridManage.DataBind();
                 }
                 break;
+            case "Right":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.AccountService.MoveAccountPicture(SessionManager.Ticket, id, 1);
+                    if (e.Item.ItemIndex + 1 == gridManage.Items.Count && gridManage.CurrentPageIndex + 1 < gridManage.PagedDataSource.PageCount)
+                        gridManage.CurrentPageIndex++;
+                    SessionManager.InvalidateCache<TransitAccountPicture>();
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
+                break;
+            case "Left":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.AccountService.MoveAccountPicture(SessionManager.Ticket, id, -1);
+                    if (e.Item.ItemIndex == 0 && gridManage.CurrentPageIndex > 0) gridManage.CurrentPageIndex--;
+                    SessionManager.InvalidateCache<TransitAccountPicture>();
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
+                break;
         }
     }
 }

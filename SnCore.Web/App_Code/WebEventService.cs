@@ -289,10 +289,27 @@ namespace SnCore.WebServices
         public List<TransitAccountEventPicture> GetAccountEventPictures(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountEvent.Id", id) };
-            Order[] orders = { Order.Desc("Created") };
-
+            Order[] orders = { Order.Asc("Position"), Order.Desc("Created") };
             return WebServiceImpl<TransitAccountEventPicture, ManagedAccountEventPicture, AccountEventPicture>.GetList(
                 ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Move an account event picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="disp">displace by positions</param>
+        /// <param name="id">picture id</param>
+        [WebMethod(Description = "Move an account event picture.")]
+        public void MoveAccountEventPicture(string ticket, int id, int disp)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountEventPicture m_instance = new ManagedAccountEventPicture(session, id);
+                m_instance.Move(sec, disp);
+            }
         }
 
         /// <summary>

@@ -267,9 +267,9 @@ namespace SnCore.WebServices
         public List<TransitPlacePicture> GetPlacePictures(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
-            Order[] orders = { Order.Desc("Created") };
+            Order[] orders = { Order.Asc("Position"), Order.Desc("Created") };
             return WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.GetList(
-                ticket, options, expressions, null);
+                ticket, options, expressions, orders);
         }
 
         /// <summary>
@@ -282,6 +282,24 @@ namespace SnCore.WebServices
         {
             WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.Delete(
                 ticket, id);
+        }
+
+        /// <summary>
+        /// Move a place picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="disp">displace by positions</param>
+        /// <param name="id">picture id</param>
+        [WebMethod(Description = "Move a place picture.")]
+        public void MovePlacePicture(string ticket, int id, int disp)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedPlacePicture m_instance = new ManagedPlacePicture(session, id);
+                m_instance.Move(sec, disp);
+            }
         }
 
         /// <summary>

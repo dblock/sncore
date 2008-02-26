@@ -22,33 +22,32 @@
    </td>
   </tr>
  </table>
- <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="gridManage" PageSize="15"
-  AllowPaging="true" OnItemCommand="gridManage_ItemCommand" AutoGenerateColumns="false"
-  CssClass="sncore_account_table">
-  <PagerStyle CssClass="sncore_table_pager" Position="TopAndBottom" NextPageText="Next"
-   PrevPageText="Prev" HorizontalAlign="Center" />
-  <ItemStyle HorizontalAlign="Center" CssClass="sncore_table_tr_td" />
-  <HeaderStyle HorizontalAlign="Center" CssClass="sncore_table_tr_th" />
-  <Columns>
-   <asp:BoundColumn DataField="Id" Visible="false" />
-   <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
-    <itemtemplate>
-  <a href='AccountEventPictureView.aspx?id=<%# Eval("Id") %>'><img 
-   border="0" src='AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0' /></a>
- </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn HeaderText="Name">
-    <itemtemplate>
-     <b><%# base.Render(Eval("Name")) %></b>
-     <br /><%# base.Render(Eval("Description")) %>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:TemplateColumn>
-    <itemtemplate>
-     <a href='AccountEventPictureEdit.aspx?pid=<%# base.RequestId %>&id=<%# Eval("Id") %>'>Edit</a>
-    </itemtemplate>
-   </asp:TemplateColumn>
-   <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete"></asp:ButtonColumn>
-  </Columns>
- </SnCoreWebControls:PagedGrid>
+ <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
+  <ContentTemplate>
+   <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
+    ID="gridManage" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+    OnItemCommand="gridManage_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"
+    RepeatRows="3" AllowCustomPaging="true">
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     prevpagetext="Prev" horizontalalign="Center" />
+    <ItemTemplate>
+     <a href='AccountEventPictureEdit.aspx?id=<%# Eval("Id") %>&pid=<%# Eval("AccountEventId") %>'>
+      <img border="0" src="AccountEventPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0" alt="<%# base.Render(Eval("Name")) %>" />
+     </a>
+     <div style="font-size: smaller;">
+     <a href='AccountEventPictureEdit.aspx?id=<%# Eval("Id") %>&pid=<%# Eval("AccountEventId") %>'>
+      &#187; Edit
+     </div>
+     <div style="font-size: smaller;">
+      <asp:LinkButton Text="&#187; Delete" ID="deletePicture" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
+       CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
+     </div>
+     <div style="font-size: smaller;">
+      <asp:LinkButton Text="&#171;" ID="linkLeft" runat="server" CommandName="Left" CommandArgument='<%# Eval("Id") %>' />
+      <asp:LinkButton Text="&#187;" ID="linkRight" runat="server" CommandName="Right" CommandArgument='<%# Eval("Id") %>' />
+     </div>
+    </ItemTemplate>
+   </SnCoreWebControls:PagedList>
+  </ContentTemplate>
+ </asp:UpdatePanel>
 </asp:Content>

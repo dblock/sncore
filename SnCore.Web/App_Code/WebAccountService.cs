@@ -1906,6 +1906,24 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Move an account picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="disp">displace by positions</param>
+        /// <param name="id">picture id</param>
+        [WebMethod(Description = "Move an account picture.")]
+        public void MoveAccountPicture(string ticket, int id, int disp)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountPicture m_instance = new ManagedAccountPicture(session, id);
+                m_instance.Move(sec, disp);
+            }
+        }
+
+        /// <summary>
         /// Get a account picture.
         /// </summary>
         /// <returns>transit account picture</returns>
@@ -1959,7 +1977,7 @@ namespace SnCore.WebServices
             List<ICriterion> expressions = new List<ICriterion>();
             expressions.Add(Expression.Eq("Account.Id", id));
             if (qopt != null && !qopt.Hidden) expressions.Add(Expression.Eq("Hidden", false));
-            Order[] orders = { Order.Desc("Created") };
+            Order[] orders = { Order.Asc("Position"), Order.Desc("Created") };
             return WebServiceImpl<TransitAccountPicture, ManagedAccountPicture, AccountPicture>.GetList(
                 ticket, options, expressions.ToArray(), orders);
         }

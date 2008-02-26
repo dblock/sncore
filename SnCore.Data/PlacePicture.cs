@@ -9,7 +9,7 @@
     ///This class maps to the 'PlacePicture' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlacePicture : IDbObject
+    public class PlacePicture : IDbPictureObject, IDbObject
     {
 #region " Generated Code Region "
 
@@ -21,6 +21,7 @@
         private System.String m_Name;
         private Place m_Place;
         private Account m_Account;
+        private System.Int32 m_Position;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -221,6 +222,31 @@
             set
             {
                 m_Account = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Position' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Position' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Int32 Position
+        {
+            get
+            {
+                return m_Position;
+            }
+            set
+            {
+                m_Position = value;
             }
         }
 

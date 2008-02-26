@@ -11,5 +11,6 @@
     <property name="Description" column="Description" type="StringClob" />
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Name" column="Name" type="String" />
+    <property name="Position" column="Position" type="Int32" />
   </class>
 </hibernate-mapping>

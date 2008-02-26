@@ -29,28 +29,32 @@
    </td>
   </tr>
  </table>
- <asp:UpdatePanel runat="server" id="panelStory" UpdateMode="Always">
+ <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
-   <asp:DataList ItemStyle-HorizontalAlign="center" ItemStyle-Width="200px" RepeatColumns="4"
-    runat="server" ID="gridManage" ShowHeader="false" CssClass="sncore_table" RepeatDirection="Horizontal"
-    OnItemCommand="gridManage_ItemCommand">
+   <SnCoreWebControls:PagedList CssClass="sncore_table" runat="server" RepeatDirection="Horizontal"
+    ID="gridManage" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
+    OnItemCommand="gridManage_ItemCommand" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="4"
+    RepeatRows="3" AllowCustomPaging="true">
+    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+     prevpagetext="Prev" horizontalalign="Center" />
     <ItemTemplate>
-     <a href='AccountStoryPictureView.aspx?id=<%# Eval("Id") %>'>
-      <img border="0" alt='<%# Eval("Name") %>' src='AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>' />
+     <a href='AccountStoryPictureEdit.aspx?id=<%# Eval("Id") %>&pid=<%# Eval("AccountStoryId") %>'>
+      <img border="0" src="AccountStoryPictureThumbnail.aspx?id=<%# Eval("Id") %>&CacheDuration=0" alt="<%# base.Render(Eval("Name")) %>" />
      </a>
-     <div>
-      <asp:LinkButton CssClass="sncore_link" ID="linkDelete" runat="server" CommandArgument='<%# Eval("Id") %>'
-       CommandName="Delete" OnClientClick="return confirm('Are you sure you want to delete this picture?');"
-       Text="Delete" />
+     <div style="font-size: smaller;">
+     <a href='AccountStoryPictureEdit.aspx?id=<%# Eval("Id") %>&pid=<%# Eval("AccountStoryId") %>'>
+      &#187; Edit
      </div>
-     <div>
-      <asp:LinkButton CssClass="sncore_link" ID="linkUp" runat="server" CommandArgument='<%# Eval("Id") %>'
-       CommandName="Up" Text="<" />
-      <asp:LinkButton CssClass="sncore_link" ID="linkDown" runat="server" CommandArgument='<%# Eval("Id") %>'
-       CommandName="Down" Text=">" />
+     <div style="font-size: smaller;">
+      <asp:LinkButton Text="&#187; Delete" ID="deletePicture" runat="server" OnClientClick="return confirm('Are you sure you want to do this?')"
+       CommandName="Delete" CommandArgument='<%# Eval("Id") %>' />
+     </div>
+     <div style="font-size: smaller;">
+      <asp:LinkButton Text="&#171;" ID="linkLeft" runat="server" CommandName="Left" CommandArgument='<%# Eval("Id") %>' />
+      <asp:LinkButton Text="&#187;" ID="linkRight" runat="server" CommandName="Right" CommandArgument='<%# Eval("Id") %>' />
      </div>
     </ItemTemplate>
-   </asp:DataList>
+   </SnCoreWebControls:PagedList>
   </ContentTemplate>
  </asp:UpdatePanel>
  <sncore:accountreminder id="accountReminder" runat="server" style="width: 582px;" />

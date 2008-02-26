@@ -210,24 +210,6 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Move a story picture.
-        /// </summary>
-        /// <param name="ticket">authentication ticket</param>
-        /// <param name="storypictureid">story picture id</param>
-        /// <param name="disp">displacement</param>
-        [WebMethod(Description = "Move a story picture.")]
-        public void MoveAccountStoryPicture(string ticket, int id, int disp)
-        {
-            using (SnCore.Data.Hibernate.Session.OpenConnection())
-            {
-                ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                ManagedAccountStoryPicture s = new ManagedAccountStoryPicture(session, id);
-                s.Move(sec, disp);
-            }
-        }
-
-        /// <summary>
         /// Get story pictures count.
         /// </summary>
         /// <param name="story">story id</param>
@@ -247,9 +229,27 @@ namespace SnCore.WebServices
         public List<TransitAccountStoryPicture> GetAccountStoryPictures(string ticket, int id, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountStory.Id", id) };
-            Order[] orders = { Order.Asc("Location") };
+            Order[] orders = { Order.Asc("Position"), Order.Desc("Created") };
             return WebServiceImpl<TransitAccountStoryPicture, ManagedAccountStoryPicture, AccountStoryPicture>.GetList(
                 ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Move a story picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="disp">disstory by positions</param>
+        /// <param name="id">picture id</param>
+        [WebMethod(Description = "Move a story picture.")]
+        public void MoveAccountStoryPicture(string ticket, int id, int disp)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountStoryPicture m_instance = new ManagedAccountStoryPicture(session, id);
+                m_instance.Move(sec, disp);
+            }
         }
 
         /// <summary>

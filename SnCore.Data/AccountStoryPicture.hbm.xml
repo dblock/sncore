@@ -6,9 +6,9 @@
     </id>
     <many-to-one name="AccountStory" column="AccountStory_Id" class="AccountStory, SnCore.Data" />
     <property name="Created" column="Created" type="DateTime" />
-    <property name="Location" column="Location" type="Int32" />
     <property name="Modifed" column="Modifed" type="DateTime" />
     <property name="Name" column="Name" type="String" />
     <property name="Picture" column="Picture" type="BinaryBlob" />
+    <property name="Position" column="Position" type="Int32" />
   </class>
 </hibernate-mapping>

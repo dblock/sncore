@@ -46,7 +46,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCommentCount;
             }
             set
@@ -61,7 +60,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountEventId;
             }
             set
@@ -76,7 +74,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mHasPicture;
             }
             set
@@ -91,7 +88,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -120,7 +116,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -135,7 +130,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mModified;
             }
             set
@@ -186,6 +180,20 @@ namespace SnCore.Services
             }
         }
 
+        private int mPosition = 0;
+
+        public int Position
+        {
+            get
+            {
+                return mPosition;
+            }
+            set
+            {
+                mPosition = value;
+            }
+        }
+
         public TransitAccountEventPicture()
         {
 
@@ -204,22 +212,24 @@ namespace SnCore.Services
             AccountName = instance.Account.Name;
             Created = instance.Created;
             Modified = instance.Modified;
+            Position = instance.Position;
         }
 
         public override AccountEventPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountEventPicture t_instance = base.GetInstance(session, sec);
+            AccountEventPicture p = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                if (AccountEventId > 0) t_instance.AccountEvent = session.Load<AccountEvent>(this.AccountEventId);
-                t_instance.Account = GetOwner(session, AccountId, sec);
+                if (AccountEventId > 0) p.AccountEvent = session.Load<AccountEvent>(this.AccountEventId);
+                p.Account = GetOwner(session, AccountId, sec);
+                p.Position = Position;
             }
 
-            t_instance.Name = this.Name;
-            t_instance.Description = this.Description;
-            if (this.Picture != null) t_instance.Picture = this.Picture;
-            return t_instance;
+            p.Name = this.Name;
+            p.Description = this.Description;
+            if (this.Picture != null) p.Picture = this.Picture;
+            return p;
         }
     }
 
@@ -259,9 +269,17 @@ namespace SnCore.Services
             return t_instance;
         }
 
+        public void Move(ManagedSecurityContext sec, int disp)
+        {
+            GetACL().Check(sec, DataOperation.Update);
+            ManagedPictureServiceImpl<AccountEventPicture>.Move(Session, mInstance, mInstance.AccountEvent.AccountEventPictures, disp);
+            Session.Flush();
+        }
+
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedDiscussion.FindAndDelete(Session, mInstance.AccountEvent.Account.Id, typeof(AccountEventPicture), mInstance.Id, sec);
+            ManagedPictureServiceImpl<AccountEventPicture>.Delete(Session, mInstance, mInstance.AccountEvent.AccountEventPictures);
             Collection<AccountEventPicture>.GetSafeCollection(mInstance.AccountEvent.AccountEventPictures).Remove(mInstance);
             base.Delete(sec);
         }
@@ -270,6 +288,7 @@ namespace SnCore.Services
         {
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            ManagedPictureServiceImpl<AccountEventPicture>.Save(Session, mInstance, mInstance.AccountEvent.AccountEventPictures);
             base.Save(sec);
         }
 

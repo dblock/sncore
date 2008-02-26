@@ -544,6 +544,7 @@ CREATE TABLE [dbo].[AccountEventPicture](
 	[Name] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Description] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Account_Id] [int] NOT NULL DEFAULT ((0)),
+	[Position] [int] NOT NULL,
  CONSTRAINT [PK_AccountEventPicture] PRIMARY KEY CLUSTERED 
 (
 	[AccountEventPicture_Id] ASC
@@ -1157,6 +1158,7 @@ CREATE TABLE [dbo].[AccountGroupPicture](
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
 	[Account_Id] [int] NOT NULL DEFAULT ((0)),
+	[Position] [int] NOT NULL,
  CONSTRAINT [PK_AccountGroupPicture] PRIMARY KEY CLUSTERED 
 (
 	[AccountGroupPicture_Id] ASC
@@ -1438,6 +1440,7 @@ CREATE TABLE [dbo].[AccountPicture](
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
 	[Hidden] [bit] NOT NULL CONSTRAINT [DF_AccountPicture_HideProfile]  DEFAULT ((0)),
+	[Position] [int] NOT NULL,
  CONSTRAINT [PK_AccountPicture] PRIMARY KEY CLUSTERED 
 (
 	[AccountPicture_Id] ASC
@@ -1975,11 +1978,11 @@ BEGIN
 CREATE TABLE [dbo].[AccountStoryPicture](
 	[AccountStoryPicture_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Picture] [image] NULL,
-	[Location] [int] NOT NULL,
 	[AccountStory_Id] [int] NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Modifed] [datetime] NOT NULL,
 	[Name] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Position] [int] NOT NULL,
  CONSTRAINT [PK_AccountStoryPicture] PRIMARY KEY CLUSTERED 
 (
 	[AccountStoryPicture_Id] ASC
@@ -3838,6 +3841,7 @@ CREATE TABLE [dbo].[PlacePicture](
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
 	[Account_Id] [int] NOT NULL DEFAULT ((0)),
+	[Position] [int] NOT NULL,
  CONSTRAINT [PK_PlacePicture] PRIMARY KEY CLUSTERED 
 (
 	[PlacePicture_Id] ASC

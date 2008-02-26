@@ -333,6 +333,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IDbObject.cs" />
+    <Compile Include="IDbPictureObject.cs" />
     <Compile Include="MadLib.cs">
       <SubType>Code</SubType>
     </Compile>

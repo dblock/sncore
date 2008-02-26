@@ -31,7 +31,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
 
             linkBack.NavigateUrl = string.Format("AccountStoryEdit.aspx?id={0}", ts.Id);
 
-            GetImagesData(sender, e);
+            GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
@@ -52,31 +52,56 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
         SetDefaultButton(picturesAdd);
     }
 
-    public void GetImagesData(object sender, EventArgs e)
+    public void GetData(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.StoryService.GetAccountStoryPictures(
-            SessionManager.Ticket, RequestId, null);
+        gridManage.CurrentPageIndex = 0;
+        gridManage.VirtualItemCount = SessionManager.StoryService.GetAccountStoryPicturesCount(
+            SessionManager.Ticket, RequestId);
+        gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
 
-    public void gridManage_ItemCommand(object source, DataListCommandEventArgs e)
+    void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        int id = int.Parse(e.CommandArgument.ToString());
+        ServiceQueryOptions options = new ServiceQueryOptions();
+        options.PageSize = gridManage.PageSize;
+        options.PageNumber = gridManage.CurrentPageIndex;
+        gridManage.DataSource = SessionManager.StoryService.GetAccountStoryPictures(
+            SessionManager.Ticket, RequestId, options);
+    }
 
+    public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)
+    {
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.Delete<TransitAccountStoryPicture>(id, SessionManager.StoryService.DeleteAccountStoryPicture);
-                ReportInfo("Image deleted.");
-                GetImagesData(source, e);
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.Delete<TransitAccountStoryPicture>(id, SessionManager.StoryService.DeleteAccountStoryPicture);
+                    ReportInfo("Picture deleted.");
+                    GetData(sender, e);
+                }
                 break;
-            case "Up":
-                SessionManager.StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, -1);
-                GetImagesData(source, e);
+            case "Right":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, 1);
+                    if (e.Item.ItemIndex + 1 == gridManage.Items.Count && gridManage.CurrentPageIndex + 1 < gridManage.PagedDataSource.PageCount)
+                        gridManage.CurrentPageIndex++;
+                    SessionManager.InvalidateCache<TransitAccountStoryPicture>();
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
                 break;
-            case "Down":
-                SessionManager.StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, 1);
-                GetImagesData(source, e);
+            case "Left":
+                {
+                    int id = int.Parse(e.CommandArgument.ToString());
+                    SessionManager.StoryService.MoveAccountStoryPicture(SessionManager.Ticket, id, -1);
+                    if (e.Item.ItemIndex == 0 && gridManage.CurrentPageIndex > 0) gridManage.CurrentPageIndex--;
+                    SessionManager.InvalidateCache<TransitAccountStoryPicture>();
+                    gridManage_OnGetDataSource(sender, e);
+                    gridManage.DataBind();
+                }
                 break;
         }
     }
@@ -108,8 +133,7 @@ public partial class AccountStoryPicturesManage : AuthenticatedPage
                 }
             }
 
-
-            GetImagesData(sender, e);
+            GetData(sender, e);
             exceptions.Throw();
         }
         catch (Exception ex)

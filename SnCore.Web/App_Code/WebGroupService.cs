@@ -277,9 +277,27 @@ namespace SnCore.WebServices
         public List<TransitAccountGroupPicture> GetAccountGroupPictures(string ticket, int groupid, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
-            Order[] orders = { Order.Desc("Created") };
+            Order[] orders = { Order.Asc("Position"), Order.Desc("Created") };
             return WebServiceImpl<TransitAccountGroupPicture, ManagedAccountGroupPicture, AccountGroupPicture>.GetList(
                 ticket, options, expressions, orders);
+        }
+
+        /// <summary>
+        /// Move a group picture.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="disp">disgroup by positions</param>
+        /// <param name="id">picture id</param>
+        [WebMethod(Description = "Move a group picture.")]
+        public void MoveAccountGroupPicture(string ticket, int id, int disp)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountGroupPicture m_instance = new ManagedAccountGroupPicture(session, id);
+                m_instance.Move(sec, disp);
+            }
         }
 
         /// <summary>

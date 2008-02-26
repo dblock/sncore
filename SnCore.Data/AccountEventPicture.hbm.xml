@@ -11,5 +11,6 @@
     <property name="Name" column="Name" type="String" />
     <property name="Picture" column="Picture" type="BinaryBlob" />
     <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
+    <property name="Position" column="Position" type="Int32" />
   </class>
 </hibernate-mapping>

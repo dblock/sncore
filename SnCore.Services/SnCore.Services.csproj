@@ -171,6 +171,7 @@
     <Compile Include="ManagedMadLibInstance.cs" />
     <Compile Include="ManagedNeighborhood.cs" />
     <Compile Include="ManagedPicture.cs" />
+    <Compile Include="ManagedPictureService.cs" />
     <Compile Include="ManagedPictureType.cs" />
     <Compile Include="ManagedPlace.cs" />
     <Compile Include="ManagedPlaceAttribute.cs" />

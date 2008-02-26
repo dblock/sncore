@@ -50,18 +50,17 @@ namespace SnCore.Services
             }
         }
 
-        private int mLocation = 0;
+        private int mPosition = 0;
 
-        public int Location
+        public int Position
         {
             get
             {
-
-                return mLocation;
+                return mPosition;
             }
             set
             {
-                mLocation = value;
+                mPosition = value;
             }
         }
 
@@ -71,7 +70,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountStoryId;
             }
             set
@@ -86,7 +84,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -101,7 +98,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -116,7 +112,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mModified;
             }
             set
@@ -153,7 +148,7 @@ namespace SnCore.Services
         public override void SetInstance(AccountStoryPicture instance)
         {
             base.SetInstance(instance);
-            Location = instance.Location;
+            Position = instance.Position;
             AccountStoryId = instance.AccountStory.Id;
             Name = instance.Name;
             Created = instance.Created;
@@ -165,8 +160,11 @@ namespace SnCore.Services
         public override AccountStoryPicture GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountStoryPicture instance = base.GetInstance(session, sec);
-            if (Id == 0) instance.AccountStory = session.Load<AccountStory>(AccountStoryId);
-            if (Id == 0) instance.Location = Location;
+            if (Id == 0)
+            {
+                instance.AccountStory = session.Load<AccountStory>(AccountStoryId);
+                instance.Position = Position;
+            }
             instance.Name = Name;
             if (Picture != null) instance.Picture = Picture;
             return instance;
@@ -198,14 +196,6 @@ namespace SnCore.Services
 
         }
 
-        public int Location
-        {
-            get
-            {
-                return mInstance.Location;
-            }
-        }
-
         public int AccountId
         {
             get
@@ -214,66 +204,29 @@ namespace SnCore.Services
             }
         }
 
+        public void Move(ManagedSecurityContext sec, int disp)
+        {
+            GetACL().Check(sec, DataOperation.Update);
+            ManagedPictureServiceImpl<AccountStoryPicture>.Move(Session, mInstance, mInstance.AccountStory.AccountStoryPictures, disp);
+            Session.Flush();
+        }
+
         public override void Delete(ManagedSecurityContext sec)
         {
             ManagedDiscussion.FindAndDelete(Session, mInstance.AccountStory.Account.Id, typeof(AccountStoryPicture), mInstance.Id, sec);
-
-            // renumber the order of Pictures
-            foreach (AccountStoryPicture p in Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures))
-            {
-                if (p.Location >= Object.Location)
-                {
-                    p.Location = p.Location - 1;
-                    Session.Save(p);
-                }
-            }
-
+            ManagedPictureServiceImpl<AccountStoryPicture>.Delete(Session, mInstance, mInstance.AccountStory.AccountStoryPictures);
             Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Remove(mInstance);
             base.Delete(sec);
-        }
-
-        public void Move(ManagedSecurityContext sec, int Disp)
-        {
-            GetACL().Check(sec, DataOperation.Update);
-
-            int newLocation = mInstance.Location + Disp;
-
-            if (newLocation < 1 || newLocation > mInstance.AccountStory.AccountStoryPictures.Count)
-            {
-                // throw new ArgumentOutOfRangeException();
-                return;
-            }
-
-            foreach (AccountStoryPicture p in Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures))
-            {
-                if (p.Location == mInstance.Location)
-                {
-                    // this item
-                }
-                else if (p.Location < mInstance.Location && p.Location >= newLocation)
-                {
-                    // item was before me but switched sides
-                    p.Location++;
-                }
-                else if (p.Location > mInstance.Location && p.Location <= newLocation)
-                {
-                    // item was after me, but switched sides
-                    p.Location--;
-                }
-
-                Session.Save(p);
-            }
-
-            mInstance.Location = newLocation;
-            Session.Save(mInstance);
-            Session.Flush();
         }
 
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Modifed = DateTime.UtcNow;
-            if (mInstance.Id == 0) mInstance.Created = mInstance.Modifed;
-            if (mInstance.Id == 0) mInstance.Location = Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Count + 1;
+            if (mInstance.Id == 0)
+            {
+                mInstance.Created = mInstance.Modifed;
+            }
+            ManagedPictureServiceImpl<AccountStoryPicture>.Save(Session, mInstance, mInstance.AccountStory.AccountStoryPictures);
             base.Save(sec);
         }
 

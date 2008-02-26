@@ -185,6 +185,7 @@
     <property name="Name" columns="Name" type="System.String" />
     <property name="Picture" columns="Picture" type="System.Byte()" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountEventPictures" type="Account" />
+    <property name="Position" columns="Position" type="System.Int32" />
   </class>
   <class name="AccountEventType" table="AccountEventType">
     <property name="Id" id="true" columns="AccountEventType_Id" type="System.Int32" />
@@ -322,6 +323,7 @@
     <property name="Description" columns="Description" type="System.String" />
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
+    <property name="Position" columns="Position" type="System.Int32" />
   </class>
   <class name="AccountGroupPlace" table="AccountGroupPlace">
     <property name="Id" id="true" columns="AccountGroupPlace_Id" type="System.Int32" />
@@ -387,6 +389,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Hidden" columns="Hidden" type="System.Boolean" />
+    <property name="Position" columns="Position" type="System.Int32" />
   </class>
   <class name="AccountPlace" table="AccountPlace">
     <property name="Id" id="true" columns="AccountPlace_Id" type="System.Int32" />
@@ -487,10 +490,10 @@
     <property name="Id" id="true" columns="AccountStoryPicture_Id" type="System.Int32" />
     <property name="AccountStory" columns="AccountStory_Id" ref="OneToMany" inverse="AccountStoryPictures" type="AccountStory" />
     <property name="Created" columns="Created" type="System.DateTime" />
-    <property name="Location" columns="Location" type="System.Int32" />
     <property name="Modifed" columns="Modifed" type="System.DateTime" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Picture" columns="Picture" type="System.Byte()" />
+    <property name="Position" columns="Position" type="System.Int32" />
   </class>
   <class name="AccountSurveyAnswer" table="AccountSurveyAnswer">
     <property name="Id" id="true" columns="AccountSurveyAnswer_Id" type="System.Int32" />
@@ -872,6 +875,7 @@
     <property name="Name" columns="Name" type="System.String" />
     <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlacePictures" type="Place" />
     <property name="Account" columns="Account_Id" ref="OneToMany" inverse="PlacePictures" type="Account" />
+    <property name="Position" columns="Position" type="System.Int32" />
   </class>
   <class name="PlaceProperty" table="PlaceProperty">
     <property name="Id" id="true" columns="PlaceProperty_Id" type="System.Int32" />
@@ -1196,6 +1200,7 @@
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="Picture" type="Object" prec="0" allow-null="true" length="16" scale="0" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountEventPicture_Account" default="((0))" />
+      <column name="Position" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="AccountEventType">
       <column name="AccountEventType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1323,6 +1328,7 @@
       <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
+      <column name="Position" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="AccountGroupPlace">
       <column name="AccountGroupPlace_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1386,6 +1392,7 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
       <column name="Hidden" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
+      <column name="Position" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="AccountPlace">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountPlace_Account" />
@@ -1477,13 +1484,13 @@
       <column name="Publish" type="Boolean" prec="1" length="1" scale="0" default="((1))" />
     </table>
     <table name="AccountStoryPicture">
-      <column name="AccountStoryPicture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="AccountStory_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountStory" primary-column="AccountStory_Id" foreign-key="FK_AccountStoryPicture_AccountStory" />
+      <column name="AccountStoryPicture_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Location" type="Int32" prec="10" length="4" scale="0" />
       <column name="Modifed" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="Picture" type="Object" prec="0" allow-null="true" length="16" scale="0" />
+      <column name="Position" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="AccountSurveyAnswer">
       <column name="AccountSurveyAnswer_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1822,6 +1829,7 @@
       <column name="Name" type="String" prec="64" allow-null="true" length="128" scale="0" />
       <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlacePicture_Place" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlacePicture_Account" default="((0))" />
+      <column name="Position" type="Int32" prec="10" length="4" scale="0" />
     </table>
     <table name="PlaceProperty">
       <column name="PlaceProperty_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

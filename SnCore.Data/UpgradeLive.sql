@@ -79,9 +79,9 @@ IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Sc
 ALTER TABLE dbo.Schedule ADD [NoEndDateTime] bit NOT NULL DEFAULT 0
 GO
 -- set precompute data to 1 for faster FREETEXTTABLE queries
-EXEC sp_configure 'precompute rank', '1';
-GO
-RECONFIGURE;
+EXEC sp_configure 'show advanced options', '1'
+EXEC sp_configure 'precompute rank', '1'
+RECONFIGURE
 GO
 -- delete old constraint for AccountFeed, now two: Name and Uri
 IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'UK_AccountFeed')
@@ -159,7 +159,7 @@ CREATE PROCEDURE dbo.[sp_migrate_discussion_post]
 	, @discussion_name VARCHAR(128)
 AS
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 	DECLARE @comments_id int
 	SELECT @comments_id = DataObject_Id FROM DataObject WHERE [Name] = @data_object_name
 	UPDATE Discussion SET DataObject_Id = @comments_id
@@ -246,4 +246,34 @@ ALTER TABLE dbo.AccountPlaceType ADD [DefaultType] bit NULL
 GO
 UPDATE dbo.AccountPlaceType SET DefaultType = 0 WHERE DefaultType IS NULL
 ALTER TABLE dbo.AccountPlaceType ALTER COLUMN [DefaultType] bit NOT NULL
+GO
+-- create a Position for pictures
+CREATE PROCEDURE dbo.[sp_add_picture_position]
+	  @table_name VARCHAR(128)
+AS
+BEGIN
+	SET NOCOUNT ON
+    IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[' + @table_name + ']') AND name = N'Position') 
+    BEGIN
+		PRINT 'Altering ' + @table_name + ' ...'
+		EXEC('ALTER TABLE dbo.' + @table_name + ' ADD [Position] int NULL')
+		EXEC('UPDATE dbo.' + @table_name + ' SET [Position] = 0 WHERE Position IS NULL')
+		EXEC('ALTER TABLE dbo.' + @table_name + ' ALTER COLUMN [Position] int NOT NULL')
+	END
+END
+GO
+EXEC [sp_add_picture_position] @table_name = 'AccountEventPicture'
+EXEC [sp_add_picture_position] @table_name = 'AccountGroupPicture'
+EXEC [sp_add_picture_position] @table_name = 'AccountPicture'
+EXEC [sp_add_picture_position] @table_name = 'AccountStoryPicture'
+GO
+IF EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]') AND name = N'Location')
+EXEC('UPDATE dbo.AccountStoryPicture SET Position = Location')
+GO
+IF EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountStoryPicture]') AND name = N'Location') 
+ALTER TABLE dbo.AccountStoryPicture DROP COLUMN Location
+GO
+EXEC [sp_add_picture_position] @table_name = 'PlacePicture'
+GO
+DROP PROCEDURE dbo.[sp_add_picture_position]
 GO

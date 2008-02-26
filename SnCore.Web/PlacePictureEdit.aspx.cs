@@ -28,6 +28,7 @@ public partial class PlacePictureEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             TransitPlace p = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
+            linkBack.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", PlaceId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));

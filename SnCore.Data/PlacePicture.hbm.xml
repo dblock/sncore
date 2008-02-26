@@ -11,5 +11,6 @@
     <property name="Name" column="Name" type="String" />
     <many-to-one name="Place" column="Place_Id" class="Place, SnCore.Data" />
     <many-to-one name="Account" column="Account_Id" class="Account, SnCore.Data" />
+    <property name="Position" column="Position" type="Int32" />
   </class>
 </hibernate-mapping>
