@@ -54,11 +54,11 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
         
         private System.Threading.SendOrPostCallback DeleteAccountStoryPictureOperationCompleted;
         
-        private System.Threading.SendOrPostCallback MoveAccountStoryPictureOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetAccountStoryPicturesCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountStoryPicturesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback MoveAccountStoryPictureOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountStoryPictureIfModifiedSinceByIdOperationCompleted;
         
@@ -136,13 +136,13 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
         public event DeleteAccountStoryPictureCompletedEventHandler DeleteAccountStoryPictureCompleted;
         
         /// <remarks/>
-        public event MoveAccountStoryPictureCompletedEventHandler MoveAccountStoryPictureCompleted;
-        
-        /// <remarks/>
         public event GetAccountStoryPicturesCountCompletedEventHandler GetAccountStoryPicturesCountCompleted;
         
         /// <remarks/>
         public event GetAccountStoryPicturesCompletedEventHandler GetAccountStoryPicturesCompleted;
+        
+        /// <remarks/>
+        public event MoveAccountStoryPictureCompletedEventHandler MoveAccountStoryPictureCompleted;
         
         /// <remarks/>
         public event GetAccountStoryPictureIfModifiedSinceByIdCompletedEventHandler GetAccountStoryPictureIfModifiedSinceByIdCompleted;
@@ -496,38 +496,6 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveAccountStoryPicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void MoveAccountStoryPicture(string ticket, int id, int disp) {
-            this.Invoke("MoveAccountStoryPicture", new object[] {
-                        ticket,
-                        id,
-                        disp});
-        }
-        
-        /// <remarks/>
-        public void MoveAccountStoryPictureAsync(string ticket, int id, int disp) {
-            this.MoveAccountStoryPictureAsync(ticket, id, disp, null);
-        }
-        
-        /// <remarks/>
-        public void MoveAccountStoryPictureAsync(string ticket, int id, int disp, object userState) {
-            if ((this.MoveAccountStoryPictureOperationCompleted == null)) {
-                this.MoveAccountStoryPictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveAccountStoryPictureOperationCompleted);
-            }
-            this.InvokeAsync("MoveAccountStoryPicture", new object[] {
-                        ticket,
-                        id,
-                        disp}, this.MoveAccountStoryPictureOperationCompleted, userState);
-        }
-        
-        private void OnMoveAccountStoryPictureOperationCompleted(object arg) {
-            if ((this.MoveAccountStoryPictureCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.MoveAccountStoryPictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountStoryPicturesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int GetAccountStoryPicturesCount(string ticket, int id) {
             object[] results = this.Invoke("GetAccountStoryPicturesCount", new object[] {
@@ -588,6 +556,38 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
             if ((this.GetAccountStoryPicturesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountStoryPicturesCompleted(this, new GetAccountStoryPicturesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveAccountStoryPicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MoveAccountStoryPicture(string ticket, int id, int disp) {
+            this.Invoke("MoveAccountStoryPicture", new object[] {
+                        ticket,
+                        id,
+                        disp});
+        }
+        
+        /// <remarks/>
+        public void MoveAccountStoryPictureAsync(string ticket, int id, int disp) {
+            this.MoveAccountStoryPictureAsync(ticket, id, disp, null);
+        }
+        
+        /// <remarks/>
+        public void MoveAccountStoryPictureAsync(string ticket, int id, int disp, object userState) {
+            if ((this.MoveAccountStoryPictureOperationCompleted == null)) {
+                this.MoveAccountStoryPictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveAccountStoryPictureOperationCompleted);
+            }
+            this.InvokeAsync("MoveAccountStoryPicture", new object[] {
+                        ticket,
+                        id,
+                        disp}, this.MoveAccountStoryPictureOperationCompleted, userState);
+        }
+        
+        private void OnMoveAccountStoryPictureOperationCompleted(object arg) {
+            if ((this.MoveAccountStoryPictureCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MoveAccountStoryPictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -891,7 +891,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
         
         private int commentCountField;
         
-        private int locationField;
+        private int positionField;
         
         private int accountStoryIdField;
         
@@ -925,12 +925,12 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
         }
         
         /// <remarks/>
-        public int Location {
+        public int Position {
             get {
-                return this.locationField;
+                return this.positionField;
             }
             set {
-                this.locationField = value;
+                this.positionField = value;
             }
         }
         
@@ -1413,10 +1413,6 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void MoveAccountStoryPictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void GetAccountStoryPicturesCountCompletedEventHandler(object sender, GetAccountStoryPicturesCountCompletedEventArgs e);
     
     /// <remarks/>
@@ -1466,6 +1462,10 @@ namespace SnCore.Web.Soap.Tests.WebStoryService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MoveAccountStoryPictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]

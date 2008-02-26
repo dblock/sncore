@@ -2,21 +2,33 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
-      <s:element name="GetAccountBlogById">
+      <s:element name="GetAccountBlogs">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAccountBlogByIdResponse">
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountBlogsResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogByIdResult" type="tns:TransitAccountBlog" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogsResult" type="tns:ArrayOfTransitAccountBlog" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="ArrayOfTransitAccountBlog">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountBlog" nillable="true" type="tns:TransitAccountBlog" />
+        </s:sequence>
+      </s:complexType>
       <s:complexType name="TransitAccountBlog">
         <s:complexContent mixed="false">
           <s:extension base="tns:TransitServiceOfAccountBlog">
@@ -38,96 +50,6 @@
       <s:complexType name="TransitServiceOfAccountBlog" abstract="true">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetAccountBlogPostsCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountBlogPostsCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetAccountBlogPostsCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountBlogPosts">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ServiceQueryOptions">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetAccountBlogPostsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogPostsResult" type="tns:ArrayOfTransitAccountBlogPost" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfTransitAccountBlogPost">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountBlogPost" nillable="true" type="tns:TransitAccountBlogPost" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="TransitAccountBlogPost">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccountBlogPost">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AccountBlogId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountBlogName" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="CanEdit" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="CanDelete" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="EnableComments" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="Sticky" type="s:boolean" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccountBlogPost" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetAccountBlogs">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountBlogsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogsResult" type="tns:ArrayOfTransitAccountBlog" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfTransitAccountBlog">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountBlog" nillable="true" type="tns:TransitAccountBlog" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetAuthoredAccountBlogs">
@@ -173,6 +95,21 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="GetAccountBlogsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBlogById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBlogByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogByIdResult" type="tns:TransitAccountBlog" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -232,6 +169,69 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="TransitAccountBlogPost">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountBlogPost">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountBlogId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountBlogName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CanEdit" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="CanDelete" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="EnableComments" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Sticky" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountBlogPost" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountBlogPostsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBlogPostsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountBlogPostsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBlogPosts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBlogPostsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBlogPostsResult" type="tns:ArrayOfTransitAccountBlogPost" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountBlogPost">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountBlogPost" nillable="true" type="tns:TransitAccountBlogPost" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="CreateOrUpdateAccountBlogPost">
         <s:complexType>
           <s:sequence>
@@ -417,24 +417,6 @@
       </s:element>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="GetAccountBlogByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogById" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogByIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogPostsCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogPostsCount" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogPostsCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogPostsCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogPostsSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogPosts" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountBlogPostsSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountBlogPostsResponse" />
-  </wsdl:message>
   <wsdl:message name="GetAccountBlogsSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountBlogs" />
   </wsdl:message>
@@ -459,6 +441,12 @@
   <wsdl:message name="GetAccountBlogsCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountBlogsCountResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountBlogByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountBlogById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBlogByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountBlogByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountBlogSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountBlog" />
   </wsdl:message>
@@ -482,6 +470,18 @@
   </wsdl:message>
   <wsdl:message name="GetAccountBlogPostByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountBlogPostByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBlogPostsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountBlogPostsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBlogPostsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountBlogPostsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBlogPostsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountBlogPosts" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBlogPostsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountBlogPostsResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountBlogPostSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountBlogPost" />
@@ -550,21 +550,6 @@
     <wsdl:part name="parameters" element="tns:SearchAccountBlogPostsCountResponse" />
   </wsdl:message>
   <wsdl:portType name="WebBlogServiceSoap">
-    <wsdl:operation name="GetAccountBlogById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog by id.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountBlogByIdSoapIn" />
-      <wsdl:output message="tns:GetAccountBlogByIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPostsCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog posts count.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountBlogPostsCountSoapIn" />
-      <wsdl:output message="tns:GetAccountBlogPostsCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPosts">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog posts.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountBlogPostsSoapIn" />
-      <wsdl:output message="tns:GetAccountBlogPostsSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetAccountBlogs">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blogs.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountBlogsSoapIn" />
@@ -585,6 +570,11 @@
       <wsdl:input message="tns:GetAccountBlogsCountSoapIn" />
       <wsdl:output message="tns:GetAccountBlogsCountSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountBlogByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountBlogByIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountBlog">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create a blog.</wsdl:documentation>
       <wsdl:input message="tns:CreateOrUpdateAccountBlogSoapIn" />
@@ -604,6 +594,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog post by id.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountBlogPostByIdSoapIn" />
       <wsdl:output message="tns:GetAccountBlogPostByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogPostsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog posts count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountBlogPostsCountSoapIn" />
+      <wsdl:output message="tns:GetAccountBlogPostsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogPosts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog posts.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountBlogPostsSoapIn" />
+      <wsdl:output message="tns:GetAccountBlogPostsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountBlogPost">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create a blog post.</wsdl:documentation>
@@ -663,33 +663,6 @@
   </wsdl:portType>
   <wsdl:binding name="WebBlogServiceSoap" type="tns:WebBlogServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetAccountBlogById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogById" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPostsCount">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostsCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPosts">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPosts" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAccountBlogs">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogs" style="document" />
       <wsdl:input>
@@ -726,6 +699,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountBlog">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountBlog" style="document" />
       <wsdl:input>
@@ -755,6 +737,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountBlogPostById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogPostsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogPosts">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPosts" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -864,33 +864,6 @@
   </wsdl:binding>
   <wsdl:binding name="WebBlogServiceSoap12" type="tns:WebBlogServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetAccountBlogById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogById" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPostsCount">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostsCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountBlogPosts">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPosts" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAccountBlogs">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogs" style="document" />
       <wsdl:input>
@@ -927,6 +900,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountBlog">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountBlog" style="document" />
       <wsdl:input>
@@ -956,6 +938,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountBlogPostById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogPostsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPostsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBlogPosts">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogPosts" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

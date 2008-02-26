@@ -80,8 +80,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             {
                 WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
                 WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
-                Assert.AreEqual(1, t_instance1_copy.Location, "First instance location is not one.");
-                Assert.AreEqual(2, t_instance2_copy.Location, "Second instnace location is not two.");
+                Assert.AreEqual(1, t_instance1_copy.Position, "First instance location is not one.");
+                Assert.AreEqual(2, t_instance2_copy.Position, "Second instnace location is not two.");
             }
 
             EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instance2.Id, -1);
@@ -89,8 +89,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             {
                 WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
                 WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
-                Assert.AreEqual(2, t_instance1_copy.Location, "First instance location is not two after move.");
-                Assert.AreEqual(1, t_instance2_copy.Location, "Second instnace location is not one after move.");
+                Assert.AreEqual(2, t_instance1_copy.Position, "First instance location is not two after move.");
+                Assert.AreEqual(1, t_instance2_copy.Position, "Second instnace location is not one after move.");
             }
 
             EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instance2.Id, 1);
@@ -98,8 +98,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             {
                 WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
                 WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
-                Assert.AreEqual(1, t_instance1_copy.Location, "First instance location is not one after move.");
-                Assert.AreEqual(2, t_instance2_copy.Location, "Second instnace location is not two after move.");
+                Assert.AreEqual(1, t_instance1_copy.Position, "First instance location is not one after move.");
+                Assert.AreEqual(2, t_instance2_copy.Position, "Second instnace location is not two after move.");
             }
 
             EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instance2.Id, 100);
@@ -107,8 +107,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             {
                 WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
                 WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
-                Assert.AreEqual(1, t_instance1_copy.Location, "First instance location is not one after move.");
-                Assert.AreEqual(2, t_instance2_copy.Location, "Second instnace location is not two after move.");
+                Assert.AreEqual(1, t_instance1_copy.Position, "First instance location is not one after move.");
+                Assert.AreEqual(2, t_instance2_copy.Position, "Second instnace location is not two after move.");
             }
 
             Delete(GetAdminTicket(), t_instance1.Id);

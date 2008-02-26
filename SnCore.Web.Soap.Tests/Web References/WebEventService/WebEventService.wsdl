@@ -328,6 +328,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -437,6 +438,18 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountEventPicture" nillable="true" type="tns:TransitAccountEventPicture" />
         </s:sequence>
       </s:complexType>
+      <s:element name="MoveAccountEventPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="disp" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveAccountEventPictureResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="GetAccountEventPictureIfModifiedSinceById">
         <s:complexType>
           <s:sequence>
@@ -650,6 +663,12 @@
   <wsdl:message name="GetAccountEventPicturesSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountEventPicturesResponse" />
   </wsdl:message>
+  <wsdl:message name="MoveAccountEventPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveAccountEventPicture" />
+  </wsdl:message>
+  <wsdl:message name="MoveAccountEventPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveAccountEventPictureResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAccountEventPictureIfModifiedSinceByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountEventPictureIfModifiedSinceById" />
   </wsdl:message>
@@ -758,6 +777,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event pictures.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountEventPicturesSoapIn" />
       <wsdl:output message="tns:GetAccountEventPicturesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountEventPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move an account event picture.</wsdl:documentation>
+      <wsdl:input message="tns:MoveAccountEventPictureSoapIn" />
+      <wsdl:output message="tns:MoveAccountEventPictureSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountEventPictureIfModifiedSinceById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get event picture data if modified since.</wsdl:documentation>
@@ -932,6 +956,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountEventPictures">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictures" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountEventPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountEventPicture" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1124,6 +1157,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountEventPictures">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountEventPictures" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountEventPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountEventPicture" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

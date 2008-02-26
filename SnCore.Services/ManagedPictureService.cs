@@ -49,11 +49,8 @@ namespace SnCore.Services
 
             int newPosition = instance.Position + disp;
 
-            if (newPosition < 1 || newPosition > safecollection.Count)
-            {
-                // throw new ArgumentOutOfRangeException();
-                return;
-            }
+            if (newPosition < 1) newPosition = 1;
+            else if (newPosition > safecollection.Count) newPosition = safecollection.Count;
 
             foreach (DatabaseType p in safecollection)
             {

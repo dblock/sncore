@@ -83,6 +83,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private System.Threading.SendOrPostCallback DeletePlacePictureOperationCompleted;
         
+        private System.Threading.SendOrPostCallback MovePlacePictureOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetPlacePictureIfModifiedSinceByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountPlaceTypeOperationCompleted;
@@ -122,6 +124,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         private System.Threading.SendOrPostCallback GetAccountPlaceRequestsByPlaceIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountPlaceRequestsByAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountPlaceRequestsByAccountIdCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteAccountPlaceRequestOperationCompleted;
         
@@ -352,6 +356,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         public event DeletePlacePictureCompletedEventHandler DeletePlacePictureCompleted;
         
         /// <remarks/>
+        public event MovePlacePictureCompletedEventHandler MovePlacePictureCompleted;
+        
+        /// <remarks/>
         public event GetPlacePictureIfModifiedSinceByIdCompletedEventHandler GetPlacePictureIfModifiedSinceByIdCompleted;
         
         /// <remarks/>
@@ -410,6 +417,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event GetAccountPlaceRequestsByAccountIdCompletedEventHandler GetAccountPlaceRequestsByAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountPlaceRequestsByAccountIdCountCompletedEventHandler GetAccountPlaceRequestsByAccountIdCountCompleted;
         
         /// <remarks/>
         public event DeleteAccountPlaceRequestCompletedEventHandler DeleteAccountPlaceRequestCompleted;
@@ -1175,6 +1185,38 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MovePlacePicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MovePlacePicture(string ticket, int id, int disp) {
+            this.Invoke("MovePlacePicture", new object[] {
+                        ticket,
+                        id,
+                        disp});
+        }
+        
+        /// <remarks/>
+        public void MovePlacePictureAsync(string ticket, int id, int disp) {
+            this.MovePlacePictureAsync(ticket, id, disp, null);
+        }
+        
+        /// <remarks/>
+        public void MovePlacePictureAsync(string ticket, int id, int disp, object userState) {
+            if ((this.MovePlacePictureOperationCompleted == null)) {
+                this.MovePlacePictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMovePlacePictureOperationCompleted);
+            }
+            this.InvokeAsync("MovePlacePicture", new object[] {
+                        ticket,
+                        id,
+                        disp}, this.MovePlacePictureOperationCompleted, userState);
+        }
+        
+        private void OnMovePlacePictureOperationCompleted(object arg) {
+            if ((this.MovePlacePictureCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MovePlacePictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlacePictureIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public TransitPlacePicture GetPlacePictureIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
             object[] results = this.Invoke("GetPlacePictureIfModifiedSinceById", new object[] {
@@ -1795,6 +1837,37 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             if ((this.GetAccountPlaceRequestsByAccountIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountPlaceRequestsByAccountIdCompleted(this, new GetAccountPlaceRequestsByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountIdCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountPlaceRequestsByAccountIdCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountPlaceRequestsByAccountIdCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountPlaceRequestsByAccountIdCountAsync(string ticket, int id) {
+            this.GetAccountPlaceRequestsByAccountIdCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountPlaceRequestsByAccountIdCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountPlaceRequestsByAccountIdCountOperationCompleted == null)) {
+                this.GetAccountPlaceRequestsByAccountIdCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPlaceRequestsByAccountIdCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountPlaceRequestsByAccountIdCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountPlaceRequestsByAccountIdCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountPlaceRequestsByAccountIdCountOperationCompleted(object arg) {
+            if ((this.GetAccountPlaceRequestsByAccountIdCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountPlaceRequestsByAccountIdCountCompleted(this, new GetAccountPlaceRequestsByAccountIdCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -6428,6 +6501,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private string accountNameField;
         
+        private int positionField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
         public byte[] Thumbnail {
@@ -6537,6 +6612,16 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Position {
+            get {
+                return this.positionField;
+            }
+            set {
+                this.positionField = value;
             }
         }
     }
@@ -7107,6 +7192,10 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MovePlacePictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void GetPlacePictureIfModifiedSinceByIdCompletedEventHandler(object sender, GetPlacePictureIfModifiedSinceByIdCompletedEventArgs e);
     
     /// <remarks/>
@@ -7577,6 +7666,32 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountPlaceRequest[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountPlaceRequestsByAccountIdCountCompletedEventHandler(object sender, GetAccountPlaceRequestsByAccountIdCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountPlaceRequestsByAccountIdCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountPlaceRequestsByAccountIdCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

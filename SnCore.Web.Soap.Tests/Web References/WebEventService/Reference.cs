@@ -70,6 +70,8 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
         
         private System.Threading.SendOrPostCallback GetAccountEventPicturesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback MoveAccountEventPictureOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAccountEventPictureIfModifiedSinceByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountEventInstancesOperationCompleted;
@@ -167,6 +169,9 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
         
         /// <remarks/>
         public event GetAccountEventPicturesCompletedEventHandler GetAccountEventPicturesCompleted;
+        
+        /// <remarks/>
+        public event MoveAccountEventPictureCompletedEventHandler MoveAccountEventPictureCompleted;
         
         /// <remarks/>
         public event GetAccountEventPictureIfModifiedSinceByIdCompletedEventHandler GetAccountEventPictureIfModifiedSinceByIdCompleted;
@@ -739,6 +744,38 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
             if ((this.GetAccountEventPicturesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountEventPicturesCompleted(this, new GetAccountEventPicturesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveAccountEventPicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MoveAccountEventPicture(string ticket, int id, int disp) {
+            this.Invoke("MoveAccountEventPicture", new object[] {
+                        ticket,
+                        id,
+                        disp});
+        }
+        
+        /// <remarks/>
+        public void MoveAccountEventPictureAsync(string ticket, int id, int disp) {
+            this.MoveAccountEventPictureAsync(ticket, id, disp, null);
+        }
+        
+        /// <remarks/>
+        public void MoveAccountEventPictureAsync(string ticket, int id, int disp, object userState) {
+            if ((this.MoveAccountEventPictureOperationCompleted == null)) {
+                this.MoveAccountEventPictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveAccountEventPictureOperationCompleted);
+            }
+            this.InvokeAsync("MoveAccountEventPicture", new object[] {
+                        ticket,
+                        id,
+                        disp}, this.MoveAccountEventPictureOperationCompleted, userState);
+        }
+        
+        private void OnMoveAccountEventPictureOperationCompleted(object arg) {
+            if ((this.MoveAccountEventPictureCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MoveAccountEventPictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1555,6 +1592,8 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
         
         private string accountNameField;
         
+        private int positionField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
         public byte[] Picture {
@@ -1674,6 +1713,16 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
             }
             set {
                 this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Position {
+            get {
+                return this.positionField;
+            }
+            set {
+                this.positionField = value;
             }
         }
     }
@@ -2817,6 +2866,10 @@ namespace SnCore.Web.Soap.Tests.WebEventService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MoveAccountEventPictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
