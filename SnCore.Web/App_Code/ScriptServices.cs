@@ -13,6 +13,9 @@ using SnCore.Services;
 
 namespace SnCore.WebServices
 {
+    /// <summary>
+    /// AJAX Completion Script Services
+    /// </summary>
     [WebService(Namespace = "http://www.vestris.com/sncore/ns/", Name = "ScriptServices")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]

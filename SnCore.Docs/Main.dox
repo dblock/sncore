@@ -43,6 +43,7 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebMadLibService "Mad Lib Services"
 \li \subpage SnCore::WebServices::WebMarketingService "Marketing Campaign Services"
 \li \subpage SnCore::WebServices::WebObjectService "Business Objects Services"
+\li \subpage SnCore::WebServices::ScriptServices "AJAX Completion Script Services"
 
 \section main_money Licensing
 \li \subpage license
