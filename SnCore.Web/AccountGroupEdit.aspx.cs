@@ -44,6 +44,7 @@ public partial class AccountGroupEdit : AuthenticatedPage
             }
             else
             {
+                linkNewDiscussion.Visible = false;
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Group", Request.Url));
             }
 
