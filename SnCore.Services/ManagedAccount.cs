@@ -840,9 +840,13 @@ namespace SnCore.Services
 
         public static string GetPasswordHash(string password)
         {
+            return Encoding.Default.GetString(GetPasswordHashBytes(password));
+        }
+
+        public static byte[] GetPasswordHashBytes(string password)
+        {
             if (password == null) password = string.Empty;
-            return Encoding.Default.GetString(
-             new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(password)));
+            return new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(password));
         }
 
         protected int InternalCreate(string emailaddress, TransitAccount ta, bool emailverified, ManagedSecurityContext sec)
@@ -1044,6 +1048,11 @@ namespace SnCore.Services
         public static ManagedAccount Login(ISession session, string email, string password)
         {
             return LoginMd5(session, email, GetPasswordHash(password));
+        }
+
+        public static ManagedAccount LoginMd5(ISession session, string email, byte[] passwordhash)
+        {
+            return LoginMd5(session, email, Encoding.Default.GetString(passwordhash));
         }
 
         public static ManagedAccount LoginMd5(ISession session, string email, string passwordhash)

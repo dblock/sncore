@@ -143,10 +143,10 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             int group_id = group.Create(GetAdminTicket());
             Assert.IsTrue(group_id > 0);
             Console.WriteLine("Group: {0}", group_id);
-            // the group should have no pre-built discussions
+            // the group has an automatically created pre-built discussion
             int count = EndPoint.GetDiscussionsByObjectIdCount(GetAdminTicket(), "AccountGroup", group_id);
             Console.WriteLine("Group discussions: {0}", count);
-            Assert.AreEqual(0, count);
+            Assert.AreEqual(1, count);
             // create the default group discussion
             int discussion_id = EndPoint.GetOrCreateDiscussionId(GetAdminTicket(), "AccountGroup", group_id);
             Console.WriteLine("Discussion: {0}", discussion_id);

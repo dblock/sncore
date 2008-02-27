@@ -32,13 +32,17 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, GetUserAccount().Id };
+            WebSyndicationService.TransitAccountFeedQueryOptions qopt = new WebSyndicationService.TransitAccountFeedQueryOptions();
+            qopt.AccountId = GetUserAccount().Id;
+            object[] args = { ticket, qopt };
             return args;
         }
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, GetUserAccount().Id, options };
+            WebSyndicationService.TransitAccountFeedQueryOptions qopt = new WebSyndicationService.TransitAccountFeedQueryOptions();
+            qopt.AccountId = GetUserAccount().Id;
+            object[] args = { ticket, qopt, options };
             return args;
         }
 

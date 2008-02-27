@@ -100,7 +100,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mPlaceId;
             }
             set

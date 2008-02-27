@@ -78,12 +78,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(0, accounts.Length);
         }
 
-        public override object[] GetDeleteArgs(string ticket, int id)
-        {
-            object[] args = { ticket, id, string.Empty };
-            return args;
-        }
-
         [Test]
         public void SendAccountEmailMessageTest()
         {

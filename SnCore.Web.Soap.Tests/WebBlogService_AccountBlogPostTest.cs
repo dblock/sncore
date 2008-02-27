@@ -169,6 +169,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
             Console.WriteLine("Post: {0}", t_post.Id);
             // create a second post
+            System.Threading.Thread.Sleep(1000);
             WebBlogService.TransitAccountBlogPost t_post2 = GetTransitInstance();
             t_post2.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post2);
             Console.WriteLine("Post: {0}", t_post2.Id);

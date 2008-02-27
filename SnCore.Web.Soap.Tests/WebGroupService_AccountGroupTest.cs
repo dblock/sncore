@@ -78,7 +78,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             t_group.Id = Create(GetAdminTicket(), t_group);
             // fetch the discussion
             WebDiscussionService.WebDiscussionService discussionendpoint = new WebDiscussionService.WebDiscussionService();
-            int discussion_id = discussionendpoint.GetOrCreateDiscussionId(GetUserTicket(), "AccountGroup", t_group.Id);
+            int discussion_id = discussionendpoint.GetOrCreateDiscussionId(GetAdminTicket(), "AccountGroup", t_group.Id);
             Console.WriteLine("Discussion: {0}", discussion_id);
             Assert.AreNotEqual(0, discussion_id);
             // make sure a regular user can't post a thread (must be member of a group)

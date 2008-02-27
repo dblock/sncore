@@ -2,6 +2,117 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetAccountById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountByIdResult" type="tns:TransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccount">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccount" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountPictureById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPictureByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPictureByIdResult" type="tns:TransitAccountPicture" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountPicture">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitArrayElementServiceOfAccountPicture">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="Thumbnail" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
+              <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitArrayElementServiceOfAccountPicture">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountPicture">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NextIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PrevIndex" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Index" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="NextId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PrevId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountPicture" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitCounter">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCounter">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
+              <s:element minOccurs="0" maxOccurs="1" name="Uri" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCounter" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="Login">
         <s:complexType>
           <s:sequence>
@@ -64,7 +175,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="emailaddress" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="passwordhash" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passwordhash" type="s:base64Binary" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -104,32 +215,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransitAccount">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccount">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
-              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Birthday" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="LastLogin" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="PictureId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccount" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="CreateAccountResponse">
         <s:complexType>
           <s:sequence>
@@ -271,21 +356,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAdminAccountResult" type="tns:TransitAccount" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountById">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountByIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountByIdResult" type="tns:TransitAccount" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1859,61 +1929,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransitAccountPicture">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitArrayElementServiceOfAccountPicture">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
-              <s:element minOccurs="0" maxOccurs="1" name="Thumbnail" type="s:base64Binary" />
-              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
-              <s:element minOccurs="1" maxOccurs="1" name="Hidden" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:int" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitArrayElementServiceOfAccountPicture">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccountPicture">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="NextIndex" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="PrevIndex" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="Index" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="NextId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="PrevId" type="s:int" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccountPicture" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="TransitCounter">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfCounter">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:long" />
-              <s:element minOccurs="0" maxOccurs="1" name="Uri" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfCounter" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="CreateOrUpdateAccountPictureResponse">
         <s:complexType>
           <s:sequence>
@@ -1932,21 +1947,6 @@
       </s:element>
       <s:element name="MoveAccountPictureResponse">
         <s:complexType />
-      </s:element>
-      <s:element name="GetAccountPictureById">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPictureByIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPictureByIdResult" type="tns:TransitAccountPicture" />
-          </s:sequence>
-        </s:complexType>
       </s:element>
       <s:element name="GetAccountPictureIfModifiedSinceById">
         <s:complexType>
@@ -2932,6 +2932,18 @@
       </s:complexType>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetAccountByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPictureByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPictureById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPictureByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPictureByIdResponse" />
+  </wsdl:message>
   <wsdl:message name="LoginSoapIn">
     <wsdl:part name="parameters" element="tns:Login" />
   </wsdl:message>
@@ -3021,12 +3033,6 @@
   </wsdl:message>
   <wsdl:message name="GetAdminAccountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAdminAccountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountById" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountByIdResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccount" />
@@ -3562,12 +3568,6 @@
   <wsdl:message name="MoveAccountPictureSoapOut">
     <wsdl:part name="parameters" element="tns:MoveAccountPictureResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAccountPictureByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountPictureById" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPictureByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountPictureByIdResponse" />
-  </wsdl:message>
   <wsdl:message name="GetAccountPictureIfModifiedSinceByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountPictureIfModifiedSinceById" />
   </wsdl:message>
@@ -3887,6 +3887,16 @@
     <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountIdResponse" />
   </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
+    <wsdl:operation name="GetAccountById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account information.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPictureById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a account picture.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPictureByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountPictureByIdSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Login">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login.</wsdl:documentation>
       <wsdl:input message="tns:LoginSoapIn" />
@@ -3961,11 +3971,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an administrative account.</wsdl:documentation>
       <wsdl:input message="tns:GetAdminAccountSoapIn" />
       <wsdl:output message="tns:GetAdminAccountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account information.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountByIdSoapIn" />
-      <wsdl:output message="tns:GetAccountByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account.</wsdl:documentation>
@@ -4412,11 +4417,6 @@
       <wsdl:input message="tns:MoveAccountPictureSoapIn" />
       <wsdl:output message="tns:MoveAccountPictureSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAccountPictureById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a account picture.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountPictureByIdSoapIn" />
-      <wsdl:output message="tns:GetAccountPictureByIdSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetAccountPictureIfModifiedSinceById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account picture picture data if modified since.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountPictureIfModifiedSinceByIdSoapIn" />
@@ -4685,6 +4685,24 @@
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPictureById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -4813,15 +4831,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAdminAccount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5630,15 +5639,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAccountPictureById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureById" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAccountPictureIfModifiedSinceById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureIfModifiedSinceById" style="document" />
       <wsdl:input>
@@ -6119,6 +6119,24 @@
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPictureById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -6247,15 +6265,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAdminAccount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAdminAccount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -7057,15 +7066,6 @@
     </wsdl:operation>
     <wsdl:operation name="MoveAccountPicture">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountPicture" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPictureById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPictureById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

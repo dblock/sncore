@@ -108,7 +108,7 @@ namespace SnCore.WebServices
         /// <param name="passwordhash">valid password MD5 hash</param>
         /// <returns>authentication ticket for the current session</returns>
         [WebMethod(Description = "Login using a password hash.")]
-        public string LoginMd5(string emailaddress, string passwordhash)
+        public string LoginMd5(string emailaddress, byte[] passwordhash)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {

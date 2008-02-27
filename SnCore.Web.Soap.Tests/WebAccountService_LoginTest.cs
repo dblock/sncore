@@ -29,10 +29,12 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        public void AdminLoginTest()
+        public void LoginUserTest()
         {
-            string ticket = EndPoint.Login("admin@localhost.com", "password");
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
+            string ticket = EndPoint.Login(user.email, user.password);
             Assert.IsFalse(string.IsNullOrEmpty(ticket));
+            DeleteUser(user.id);
         }
 
         [Test]
@@ -42,12 +44,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
-        public void LoginMd5Test()
+        public void LoginUserMd5Test()
         {
-            string password = Encoding.Default.GetString(
-             new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes("password")));
-            string ticket = EndPoint.LoginMd5("admin@localhost.com", password);
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
+            byte[] password_hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(user.password));
+            Console.WriteLine("Password hash: {0}", password_hash);
+            string ticket = EndPoint.LoginMd5(user.email, password_hash);
             Assert.IsFalse(string.IsNullOrEmpty(ticket));
+            DeleteUser(user.id);
         }
     }
 }

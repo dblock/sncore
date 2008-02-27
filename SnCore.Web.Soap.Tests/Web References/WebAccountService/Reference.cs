@@ -35,8 +35,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountMessageFolder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfSurvey))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountSurveyAnswer))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCounter))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountPicture))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountWebsite))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountAddress))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountRedirect))]
@@ -49,8 +47,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmailConfirmation))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountEmail))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountInvitation))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfCounter))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountPicture))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     public partial class WebAccountService : System.Web.Services.Protocols.SoapHttpClientProtocol {
+        
+        private System.Threading.SendOrPostCallback GetAccountByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountPictureByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback LoginOperationCompleted;
         
@@ -81,8 +85,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private System.Threading.SendOrPostCallback GetAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAdminAccountOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAccountByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountOperationCompleted;
         
@@ -262,8 +264,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback MoveAccountPictureOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountPictureByIdOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetAccountPictureIfModifiedSinceByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountPicturesCountOperationCompleted;
@@ -409,6 +409,12 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        public event GetAccountByIdCompletedEventHandler GetAccountByIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountPictureByIdCompletedEventHandler GetAccountPictureByIdCompleted;
+        
+        /// <remarks/>
         public event LoginCompletedEventHandler LoginCompleted;
         
         /// <remarks/>
@@ -452,9 +458,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event GetAdminAccountCompletedEventHandler GetAdminAccountCompleted;
-        
-        /// <remarks/>
-        public event GetAccountByIdCompletedEventHandler GetAccountByIdCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountCompletedEventHandler CreateOrUpdateAccountCompleted;
@@ -724,9 +727,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event MoveAccountPictureCompletedEventHandler MoveAccountPictureCompleted;
         
         /// <remarks/>
-        public event GetAccountPictureByIdCompletedEventHandler GetAccountPictureByIdCompleted;
-        
-        /// <remarks/>
         public event GetAccountPictureIfModifiedSinceByIdCompletedEventHandler GetAccountPictureIfModifiedSinceByIdCompleted;
         
         /// <remarks/>
@@ -886,6 +886,68 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event GetAccountNumbersByAccountIdCompletedEventHandler GetAccountNumbersByAccountIdCompleted;
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccount GetAccountById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccount)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountByIdAsync(string ticket, int id) {
+            this.GetAccountByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountByIdOperationCompleted == null)) {
+                this.GetAccountByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountById", new object[] {
+                        ticket,
+                        id}, this.GetAccountByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountByIdOperationCompleted(object arg) {
+            if ((this.GetAccountByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountByIdCompleted(this, new GetAccountByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPictureById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountPicture GetAccountPictureById(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountPictureById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountPicture)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountPictureByIdAsync(string ticket, int id) {
+            this.GetAccountPictureByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountPictureByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountPictureByIdOperationCompleted == null)) {
+                this.GetAccountPictureByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPictureByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountPictureById", new object[] {
+                        ticket,
+                        id}, this.GetAccountPictureByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountPictureByIdOperationCompleted(object arg) {
+            if ((this.GetAccountPictureByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountPictureByIdCompleted(this, new GetAccountPictureByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string Login(string email, string password) {
             object[] results = this.Invoke("Login", new object[] {
@@ -984,7 +1046,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/LoginMd5", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string LoginMd5(string emailaddress, string passwordhash) {
+        public string LoginMd5(string emailaddress, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] passwordhash) {
             object[] results = this.Invoke("LoginMd5", new object[] {
                         emailaddress,
                         passwordhash});
@@ -992,12 +1054,12 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
-        public void LoginMd5Async(string emailaddress, string passwordhash) {
+        public void LoginMd5Async(string emailaddress, byte[] passwordhash) {
             this.LoginMd5Async(emailaddress, passwordhash, null);
         }
         
         /// <remarks/>
-        public void LoginMd5Async(string emailaddress, string passwordhash, object userState) {
+        public void LoginMd5Async(string emailaddress, byte[] passwordhash, object userState) {
             if ((this.LoginMd5OperationCompleted == null)) {
                 this.LoginMd5OperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginMd5OperationCompleted);
             }
@@ -1346,37 +1408,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.GetAdminAccountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAdminAccountCompleted(this, new GetAdminAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccount GetAccountById(string ticket, int id) {
-            object[] results = this.Invoke("GetAccountById", new object[] {
-                        ticket,
-                        id});
-            return ((TransitAccount)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountByIdAsync(string ticket, int id) {
-            this.GetAccountByIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountByIdAsync(string ticket, int id, object userState) {
-            if ((this.GetAccountByIdOperationCompleted == null)) {
-                this.GetAccountByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountByIdOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountById", new object[] {
-                        ticket,
-                        id}, this.GetAccountByIdOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountByIdOperationCompleted(object arg) {
-            if ((this.GetAccountByIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountByIdCompleted(this, new GetAccountByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -4184,37 +4215,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPictureById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountPicture GetAccountPictureById(string ticket, int id) {
-            object[] results = this.Invoke("GetAccountPictureById", new object[] {
-                        ticket,
-                        id});
-            return ((TransitAccountPicture)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountPictureByIdAsync(string ticket, int id) {
-            this.GetAccountPictureByIdAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountPictureByIdAsync(string ticket, int id, object userState) {
-            if ((this.GetAccountPictureByIdOperationCompleted == null)) {
-                this.GetAccountPictureByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPictureByIdOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountPictureById", new object[] {
-                        ticket,
-                        id}, this.GetAccountPictureByIdOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountPictureByIdOperationCompleted(object arg) {
-            if ((this.GetAccountPictureByIdCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountPictureByIdCompleted(this, new GetAccountPictureByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPictureIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public TransitAccountPicture GetAccountPictureIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
             object[] results = this.Invoke("GetAccountPictureIfModifiedSinceById", new object[] {
@@ -5897,34 +5897,190 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitOpenIdLogin {
+    public partial class TransitAccount : TransitServiceOfAccount {
         
-        private string consumerUrlField;
+        private bool isPasswordExpiredField;
         
-        private string ticketField;
+        private System.DateTime createdField;
+        
+        private bool isAdministratorField;
+        
+        private string nameField;
+        
+        private System.DateTime birthdayField;
+        
+        private System.DateTime lastLoginField;
+        
+        private int pictureIdField;
+        
+        private string stateField;
+        
+        private string countryField;
+        
+        private string cityField;
+        
+        private int timeZoneField;
+        
+        private string signatureField;
+        
+        private string passwordField;
         
         /// <remarks/>
-        public string ConsumerUrl {
+        public bool IsPasswordExpired {
             get {
-                return this.consumerUrlField;
+                return this.isPasswordExpiredField;
             }
             set {
-                this.consumerUrlField = value;
+                this.isPasswordExpiredField = value;
             }
         }
         
         /// <remarks/>
-        public string Ticket {
+        public System.DateTime Created {
             get {
-                return this.ticketField;
+                return this.createdField;
             }
             set {
-                this.ticketField = value;
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsAdministrator {
+            get {
+                return this.isAdministratorField;
+            }
+            set {
+                this.isAdministratorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Birthday {
+            get {
+                return this.birthdayField;
+            }
+            set {
+                this.birthdayField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime LastLogin {
+            get {
+                return this.lastLoginField;
+            }
+            set {
+                this.lastLoginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PictureId {
+            get {
+                return this.pictureIdField;
+            }
+            set {
+                this.pictureIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string State {
+            get {
+                return this.stateField;
+            }
+            set {
+                this.stateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string City {
+            get {
+                return this.cityField;
+            }
+            set {
+                this.cityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TimeZone {
+            get {
+                return this.timeZoneField;
+            }
+            set {
+                this.timeZoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Signature {
+            get {
+                return this.signatureField;
+            }
+            set {
+                this.signatureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccount))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccount {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
             }
         }
     }
@@ -6935,333 +7091,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.hiddenField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitCounter))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfCounter {
-        
-        private int idField;
-        
-        /// <remarks/>
-        public int Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitCounter : TransitServiceOfCounter {
-        
-        private System.DateTime createdField;
-        
-        private System.DateTime modifiedField;
-        
-        private long totalField;
-        
-        private string uriField;
-        
-        /// <remarks/>
-        public System.DateTime Created {
-            get {
-                return this.createdField;
-            }
-            set {
-                this.createdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Modified {
-            get {
-                return this.modifiedField;
-            }
-            set {
-                this.modifiedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public long Total {
-            get {
-                return this.totalField;
-            }
-            set {
-                this.totalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Uri {
-            get {
-                return this.uriField;
-            }
-            set {
-                this.uriField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitArrayElementServiceOfAccountPicture))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountPicture))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfAccountPicture {
-        
-        private int idField;
-        
-        /// <remarks/>
-        public int Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountPicture))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitArrayElementServiceOfAccountPicture : TransitServiceOfAccountPicture {
-        
-        private int countField;
-        
-        private int nextIndexField;
-        
-        private int prevIndexField;
-        
-        private int indexField;
-        
-        private int nextIdField;
-        
-        private int prevIdField;
-        
-        /// <remarks/>
-        public int Count {
-            get {
-                return this.countField;
-            }
-            set {
-                this.countField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int NextIndex {
-            get {
-                return this.nextIndexField;
-            }
-            set {
-                this.nextIndexField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PrevIndex {
-            get {
-                return this.prevIndexField;
-            }
-            set {
-                this.prevIndexField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int Index {
-            get {
-                return this.indexField;
-            }
-            set {
-                this.indexField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int NextId {
-            get {
-                return this.nextIdField;
-            }
-            set {
-                this.nextIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PrevId {
-            get {
-                return this.prevIdField;
-            }
-            set {
-                this.prevIdField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitAccountPicture : TransitArrayElementServiceOfAccountPicture {
-        
-        private byte[] bitmapField;
-        
-        private byte[] thumbnailField;
-        
-        private string nameField;
-        
-        private string descriptionField;
-        
-        private System.DateTime createdField;
-        
-        private System.DateTime modifiedField;
-        
-        private int accountIdField;
-        
-        private int commentCountField;
-        
-        private TransitCounter counterField;
-        
-        private bool hiddenField;
-        
-        private int positionField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] Bitmap {
-            get {
-                return this.bitmapField;
-            }
-            set {
-                this.bitmapField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] Thumbnail {
-            get {
-                return this.thumbnailField;
-            }
-            set {
-                this.thumbnailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Description {
-            get {
-                return this.descriptionField;
-            }
-            set {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Created {
-            get {
-                return this.createdField;
-            }
-            set {
-                this.createdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public System.DateTime Modified {
-            get {
-                return this.modifiedField;
-            }
-            set {
-                this.modifiedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int AccountId {
-            get {
-                return this.accountIdField;
-            }
-            set {
-                this.accountIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int CommentCount {
-            get {
-                return this.commentCountField;
-            }
-            set {
-                this.commentCountField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public TransitCounter Counter {
-            get {
-                return this.counterField;
-            }
-            set {
-                this.counterField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool Hidden {
-            get {
-                return this.hiddenField;
-            }
-            set {
-                this.hiddenField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int Position {
-            get {
-                return this.positionField;
-            }
-            set {
-                this.positionField = value;
             }
         }
     }
@@ -8594,14 +8423,46 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccount))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public abstract partial class TransitServiceOfAccount {
+    public partial class TransitOpenIdLogin {
+        
+        private string consumerUrlField;
+        
+        private string ticketField;
+        
+        /// <remarks/>
+        public string ConsumerUrl {
+            get {
+                return this.consumerUrlField;
+            }
+            set {
+                this.consumerUrlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Ticket {
+            get {
+                return this.ticketField;
+            }
+            set {
+                this.ticketField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitCounter))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfCounter {
         
         private int idField;
         
@@ -8617,49 +8478,20 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountActivity))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
-    public partial class TransitAccount : TransitServiceOfAccount {
-        
-        private bool isPasswordExpiredField;
+    public partial class TransitCounter : TransitServiceOfCounter {
         
         private System.DateTime createdField;
         
-        private bool isAdministratorField;
+        private System.DateTime modifiedField;
         
-        private string nameField;
+        private long totalField;
         
-        private System.DateTime birthdayField;
-        
-        private System.DateTime lastLoginField;
-        
-        private int pictureIdField;
-        
-        private string stateField;
-        
-        private string countryField;
-        
-        private string cityField;
-        
-        private int timeZoneField;
-        
-        private string signatureField;
-        
-        private string passwordField;
-        
-        /// <remarks/>
-        public bool IsPasswordExpired {
-            get {
-                return this.isPasswordExpiredField;
-            }
-            set {
-                this.isPasswordExpiredField = value;
-            }
-        }
+        private string uriField;
         
         /// <remarks/>
         public System.DateTime Created {
@@ -8672,12 +8504,190 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
-        public bool IsAdministrator {
+        public System.DateTime Modified {
             get {
-                return this.isAdministratorField;
+                return this.modifiedField;
             }
             set {
-                this.isAdministratorField = value;
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public long Total {
+            get {
+                return this.totalField;
+            }
+            set {
+                this.totalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Uri {
+            get {
+                return this.uriField;
+            }
+            set {
+                this.uriField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitArrayElementServiceOfAccountPicture))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountPicture))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfAccountPicture {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountPicture))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitArrayElementServiceOfAccountPicture : TransitServiceOfAccountPicture {
+        
+        private int countField;
+        
+        private int nextIndexField;
+        
+        private int prevIndexField;
+        
+        private int indexField;
+        
+        private int nextIdField;
+        
+        private int prevIdField;
+        
+        /// <remarks/>
+        public int Count {
+            get {
+                return this.countField;
+            }
+            set {
+                this.countField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int NextIndex {
+            get {
+                return this.nextIndexField;
+            }
+            set {
+                this.nextIndexField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PrevIndex {
+            get {
+                return this.prevIndexField;
+            }
+            set {
+                this.prevIndexField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Index {
+            get {
+                return this.indexField;
+            }
+            set {
+                this.indexField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int NextId {
+            get {
+                return this.nextIdField;
+            }
+            set {
+                this.nextIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PrevId {
+            get {
+                return this.prevIdField;
+            }
+            set {
+                this.prevIdField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountPicture : TransitArrayElementServiceOfAccountPicture {
+        
+        private byte[] bitmapField;
+        
+        private byte[] thumbnailField;
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private int accountIdField;
+        
+        private int commentCountField;
+        
+        private TransitCounter counterField;
+        
+        private bool hiddenField;
+        
+        private int positionField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Thumbnail {
+            get {
+                return this.thumbnailField;
+            }
+            set {
+                this.thumbnailField = value;
             }
         }
         
@@ -8692,92 +8702,82 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
-        public System.DateTime Birthday {
+        public string Description {
             get {
-                return this.birthdayField;
+                return this.descriptionField;
             }
             set {
-                this.birthdayField = value;
+                this.descriptionField = value;
             }
         }
         
         /// <remarks/>
-        public System.DateTime LastLogin {
+        public System.DateTime Created {
             get {
-                return this.lastLoginField;
+                return this.createdField;
             }
             set {
-                this.lastLoginField = value;
+                this.createdField = value;
             }
         }
         
         /// <remarks/>
-        public int PictureId {
+        public System.DateTime Modified {
             get {
-                return this.pictureIdField;
+                return this.modifiedField;
             }
             set {
-                this.pictureIdField = value;
+                this.modifiedField = value;
             }
         }
         
         /// <remarks/>
-        public string State {
+        public int AccountId {
             get {
-                return this.stateField;
+                return this.accountIdField;
             }
             set {
-                this.stateField = value;
+                this.accountIdField = value;
             }
         }
         
         /// <remarks/>
-        public string Country {
+        public int CommentCount {
             get {
-                return this.countryField;
+                return this.commentCountField;
             }
             set {
-                this.countryField = value;
+                this.commentCountField = value;
             }
         }
         
         /// <remarks/>
-        public string City {
+        public TransitCounter Counter {
             get {
-                return this.cityField;
+                return this.counterField;
             }
             set {
-                this.cityField = value;
+                this.counterField = value;
             }
         }
         
         /// <remarks/>
-        public int TimeZone {
+        public bool Hidden {
             get {
-                return this.timeZoneField;
+                return this.hiddenField;
             }
             set {
-                this.timeZoneField = value;
+                this.hiddenField = value;
             }
         }
         
         /// <remarks/>
-        public string Signature {
+        public int Position {
             get {
-                return this.signatureField;
+                return this.positionField;
             }
             set {
-                this.signatureField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Password {
-            get {
-                return this.passwordField;
-            }
-            set {
-                this.passwordField = value;
+                this.positionField = value;
             }
         }
     }
@@ -8835,6 +8835,58 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.newSyndicatedContentField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountByIdCompletedEventHandler(object sender, GetAccountByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccount Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccount)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountPictureByIdCompletedEventHandler(object sender, GetAccountPictureByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountPictureByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountPictureByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountPicture Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountPicture)(this.results[0]));
             }
         }
     }
@@ -9194,32 +9246,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         private object[] results;
         
         internal GetAdminAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccount Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccount)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAccountByIdCompletedEventHandler(object sender, GetAccountByIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -11106,32 +11132,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void MoveAccountPictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    public delegate void GetAccountPictureByIdCompletedEventHandler(object sender, GetAccountPictureByIdCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountPictureByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountPictureByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccountPicture Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccountPicture)(this.results[0]));
-            }
-        }
-    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
