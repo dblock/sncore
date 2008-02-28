@@ -1,14 +1,16 @@
 /*! \page install Installation HowTo
 
 \section install_intro Introduction
+
 This page will guide you through the installation process. It's pretty easy.
 
-\section install_req Prerequisites 
-\li Microsoft Windows 2000, 2003, XP or Vista
-\li Microsoft SQL Server 2005
-\li Microsoft .NET Framework 2.0
-\li Microsoft IIS 6.0 or 7.0 running ASP.NET 2.0
-\li Microsoft Web Services Extensions (WSE) 3.0
+\section install_requirements_ref Software and Hardware Requirements
+
+See \subpage install_requirements.
+
+\section install_download Download
+
+Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>.
 
 \section install_howto Installation
 

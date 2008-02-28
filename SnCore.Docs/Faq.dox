@@ -1,14 +1,7 @@
 /*! \page faq Frequently Asked Questions
 
 \section faq_general_top General
-\li \ref faq_general_love
-\li \ref faq_general_ask
-\li \ref faq_general_dating
 \li \ref faq_general_contribute_dev
-\li \ref faq_general_contribute_content
-
-\section faq_ads Advertising
-\li \ref faq_ads_why
 
 \section faq_signup_top Sign-Up
 \li \ref faq_signup_birthday
@@ -48,36 +41,12 @@
 \section faq_search_top Search and Tags
 \li \ref faq_tags_how
 
-\section faq_invite_top Invitations
-\li \ref faq_invite_friends
-
-\section faq_misc_top Miscellaneous
-\li \ref faq_misc_life
-
 <hr>
 
 \section faq_general General
 
-\subsection faq_general_love I adore this site! How can I show the love?
-Thank you. We love you too. The best way to show the love is to invite all your friends to the site and to purchase ad space.
-
-\subsection faq_general_ask Help! Where can I ask questions?
-Please use <em>Site Discussions</em>. If you are not a member, contact the administrator by following a link in 
-the <a href="/Help.aspx">Help</a> section.
-
-\subsection faq_general_dating Is this a dating site?
-This site is all about meeting people with similar interests. This can lead to dating, cooking together, marriage and sometimes even 
-children. We strongly recommend safe sex and saying no to drugs.
-
 \subsection faq_general_contribute_dev I am a software engineer. How can I contribute?
 You can contribute to this site through the social networking core SDK. See \ref dev for details.
-
-\subsection faq_general_contribute_content How do I contribute with my time, content or services?
-We appreciate your time. Please contact the site administrator through the <a href="/Help.aspx">Help</a> section.
-
-\section faq_ads Advertising
-\subsection faq_ads_why What's up with ads? Don't you make enough money?
-No, really, I don't. Please support this site by purchasing ad space. Follow links on the front-page.
 
 \section faq_signup Sign-Up
 
@@ -361,15 +330,5 @@ When the request is approved by the system or by one of the existing owners, sev
 You don't need to tag your content. This is done automatically by the system, which periodically indexes all stories
 and surveys. The administrator then promotes context-specific tags to the the cloud. You can see most frequently used 
 and promoted tags on the front page.  
-
-\section faq_invite Invitations
-
-\subsection faq_invite_friends Should I invite all my friends to this site?
-Yes. Absolutely.
-
-\section faq_misc Miscellaneous
-
-\subsection faq_misc_life What is the meaning of Life?
-I wish I knew.
 
 */

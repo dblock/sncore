@@ -1,0 +1,57 @@
+/*! \page install_requirements Hardware, Software and Hosting Requirements
+
+\section install_hardware Hardware Requirements
+
+\li <b>Processor</b>: Pentium III-compatible processor or higher
+\li <b>Processor speed</b>: Minimum: 600 MHz, recommended: 1 GHz or higher
+\li <b>Memory (RAM)</b>: Minimum: 512 MB, recommended: 1 GB or more
+\li <b>Hard Disk Space</b>: Minimum 128 MB for base software, recommended: 2 GB or more
+
+\subsection install_hardware_diskspace Disk Space Considerations
+
+Actual hard disk space requirements depend on your system configuration and the applications and features users utilize.
+The database size will grow with the number of active users and the popularity of your site. Statistics of production 
+deployments show that a live system requires approximately 1GB per 1000 active users.
+
+\section install_software Software Requirements
+
+\li Microsoft Windows 2000, 2003, XP or Vista
+\li Microsoft SQL Server 2005, any edition with Full Text Search (SQL Server Express with Advanced Features, Standard, Enterprise, etc.)
+\li <a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=0856EACB-4362-4B0D-8EDD-AAB15C5E04F5&displaylang=en">Microsoft .NET Framework 2.0</a>,
+    available via Windows Update
+\li Microsoft Internet Information Services (IIS) 5.0 or later w/ ASP.NET 2.0,
+    available via Control Panel, Add/Remove Windows Components
+\li <a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=018a09fd-3a74-43c5-8ec1-8d789091255d&displaylang=en">Microsoft Web Services Extensions (WSE) 3.0</a>
+
+\subsection install_software_virtual Virtual Operating System Support
+
+You can install SnCore on VMWare, Microsoft Virtual Server and on Microsoft Virtual PC on supported operating systems and hardware.
+
+\section install_hosting Hosted Environment Considerations
+
+Dedicated hosting is recommended for production environments. Multi-processor configurations and multi-server configurations
+are encouraged. 
+
+The CPU is typically shared between the following components.
+
+\li Database Services
+\li Front-End Web Services
+\li Mobile Front-End Web Services
+\li FaceBook Front-End Web Services
+\li Back-End Web Services
+
+\subsection install_hosting_scale Scaling Hardware
+
+System performance is measured by page load time. If typical page load is slower than 0.25 of a second it is recommended to
+consider hardware scaling options in the following order.
+
+<ol>
+ <li>Separate the database services: move the database to dedicated hardware. Although there're no known limitations, SQL Server
+     clusters have not been tested.
+ <li>Separate the front-end services: move the mobile front-end and the facebook front-end to separate hardware.
+ <li>Add front-end servers with load balancing: both software web farm and hardware load balancing are supported.
+ <li>Separate individual back-end services: move syndication engine, mail processing engine, etc., to dedicated hardware. Note 
+     that not all the services are currently repeatable.
+</ol>
+
+*/

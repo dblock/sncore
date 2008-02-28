@@ -676,6 +676,7 @@
      <File Id="hierarchy_html" Name="hierarchy.html" Source="$(var.SnCore.Docs.Target.Path)\hierarchy.html" />
      <File Id="index_html" Name="index.html" Source="$(var.SnCore.Docs.Target.Path)\index.html" />
      <File Id="install_html" Name="install.html" Source="$(var.SnCore.Docs.Target.Path)\install.html" />
+     <File Id="install_requirements_html" Name="install_requirements.html" Source="$(var.SnCore.Docs.Target.Path)\install_requirements.html" />
      <File Id="interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter_members_htm" Name="interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter-members.html" Source="$(var.SnCore.Docs.Target.Path)\interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter-members.html" />
      <File Id="interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter_html" Name="interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter.html" Source="$(var.SnCore.Docs.Target.Path)\interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter.html" />
      <File Id="interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter_png" Name="interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter.png" Source="$(var.SnCore.Docs.Target.Path)\interface_semaview_1_1_shared_1_1_i_cal_parser_1_1_i_emitter.png" />

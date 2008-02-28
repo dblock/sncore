@@ -3,6 +3,23 @@
  <PropertyGroup Condition="'$(Configuration)'==''">
   <Configuration>Debug</Configuration> 
  </PropertyGroup>
+ <Target Name="all">
+  <CallTarget Targets="announceprojectname" />
+  <CallTarget Targets="version" />
+  <CallTarget Targets="clean" />
+  <CallTarget Targets="deployables" />
+  <CallTarget Targets="package" />
+  <CallTarget Targets="revertversion" />
+ </Target>
+ <Target Name="sdk">
+  <CallTarget Targets="announceprojectname" />
+  <CallTarget Targets="version" />
+  <CallTarget Targets="clean" />
+  <CallTarget Targets="deployables" />
+  <CallTarget Targets="documentation" />
+  <CallTarget Targets="installer" />
+  <CallTarget Targets="revertversion" />
+ </Target>
  <Target Name="version">
   <Version>
    <Output TaskParameter="Major" PropertyName="Major" />
@@ -42,20 +59,28 @@
   <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.WebServices.Tests\Properties\AssemblyInfo.cs" />
   <FileUpdate Files="SnCore.Install\SnCore.Project.wxi" Regex="(ProductVersion=\')([0-9.]*)(')" ReplacementText="ProductVersion='$(Major).$(Minor).$(Build).$(Revision)'" />
  </Target>
- <Target Name="all">
-  <CallTarget Targets="announceprojectname" />
-  <CallTarget Targets="version" />
-  <CallTarget Targets="clean" />
-  <CallTarget Targets="deployables" />
-  <CallTarget Targets="package" />
- </Target>
- <Target Name="sdk">
-  <CallTarget Targets="announceprojectname" />
-  <CallTarget Targets="version" />
-  <CallTarget Targets="clean" />
-  <CallTarget Targets="deployables" />
-  <CallTarget Targets="documentation" />
-  <CallTarget Targets="installer" />
+ <Target Name="revertversion">
+  <SvnClient Command="revert" Arguments="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.BackEnd.Tests\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Data\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Data.Hibernate\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Data.Script\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Data.Tests\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.MailSink\SnCore.DomainMail\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Services\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Services.Tests\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.SiteMap\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Stress.Tests\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Tools\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Tools.Tests\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Web.Soap.Tests\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Web.Tests\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.WebControls\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.WebServices\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.WebServices.Tests\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.Install\SnCore.Project.wxi" />
  </Target>
  <Target Name="announceprojectname">
   <Message Importance="high" Text="Building $(SnCoreProjectName) ..." />
@@ -73,8 +98,10 @@
    Targets="Build"
    />
  </Target>
- <Target Name="documentation">
-  <Exec WorkingDirectory="SnCore.Docs" Command="..\doxygen\bin\doxygen.exe SnCore.Docs.doxygen" />
+ <Target Name="documentation" DependsOnTargets="version">
+  <Exec WorkingDirectory="SnCore.Docs" Command="..\tools\doxygen\doxygen.exe SnCore.Docs.doxygen" />
+  <MakeDir Directories="Target\$(Configuration)" />
+  <Exec WorkingDirectory="SnCore.Docs\target" Command="..\..\tools\zip32\zip32.exe -r ..\..\Target\$(Configuration)\Documentation_$(Major).$(Minor).$(Build).$(Revision).zip html" />
  </Target>
  <Target Name="package">
   <MakeDir Directories="Target\$(Configuration)" />
@@ -83,17 +110,20 @@
   <MakeDir Directories="SnCore.Deploy\Target\$(Configuration)\mobile.$(SnCoreProjectName)" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.Web.Deploy\$(Configuration)\*.* $(SnCoreProjectName)" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.MobileWeb.Deploy\$(Configuration)\*.* mobile.$(SnCoreProjectName)" />
-  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\bin\zip32 -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip $(SnCoreProjectName)\*.*" />
-  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\bin\zip32 -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip mobile.$(SnCoreProjectName)\*.*" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\..\tools\zip32\zip32.exe -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip $(SnCoreProjectName)\*.*" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" Command="..\..\..\tools\zip32\zip32.exe -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip mobile.$(SnCoreProjectName)\*.*" />
   <Message Importance="high" Text="Created 'Target\$(Configuration)\$(SnCoreProjectName).zip'." />
  </Target>
- <Target Name="installer">  
+ <Target Name="installer" DependsOnTargets="version">
   <MSBuild
    Projects="SnCore.Install\SnCore.Install.wixproj"
    Properties="Configuration=$(Configuration)"
    Targets="Build"
    />
   <MakeDir Directories="Target\$(Configuration)" />
-  <Copy SourceFiles="SnCore.Install\bin\$(Configuration)\SnCore.Install.msi" DestinationFiles="Target\$(ConfigurationName)\SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
+  <Copy SourceFiles="SnCore.Install\bin\$(Configuration)\SnCore.Install.msi" DestinationFiles="Target\$(Configuration)\SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
+  <Exec WorkingDirectory="Target\$(Configuration)" Command="..\..\tools\wix\setupbld.exe -out SnCore_$(Major).$(Minor).$(Build).$(Revision).exe -setup ..\..\tools\wix\setup.exe -mcsu SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
+  <Delete Files="Target\$(Configuration)\SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
+  <Message Importance="high" Text="Successfully built Target\$(Configuration)\SnCore_$(Major).$(Minor).$(Build).$(Revision).exe"/>
  </Target>
 </Project>
