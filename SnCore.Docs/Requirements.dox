@@ -40,10 +40,10 @@ The CPU is typically shared between the following components.
 \li FaceBook Front-End Web Services
 \li Back-End Web Services
 
-\subsection install_hosting_scale Scaling Hardware
+\subsection install_hosting_scale Scaling With Hardware
 
-System performance is measured by page load time. If typical page load is slower than 0.25 of a second it is recommended to
-consider hardware scaling options in the following order.
+System performance is visible to your users by increasing page load time. If typical page load is slower than 0.25 of a second 
+it is recommended to consider hardware scaling options in the following order.
 
 <ol>
  <li>Separate the database services: move the database to dedicated hardware. Although there're no known limitations, SQL Server

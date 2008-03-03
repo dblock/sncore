@@ -1,10 +1,11 @@
-/*! \page unittests Unit Tests
+/*! \page unittests Writing Unit Tests
 
 \section dev_intro Introduction
-This page will guide you through the SnCore unit testing.
+This page will guide you through the SnCore unit testing. SnCore has almost 100% unit test coverage, which ensures stable
+product evolution.
 
 \section dev_req Prerequisites 
-\li NUnit 2.2, checked-in under <em>nunit</em>.
+\li NUnit 2.2
 
 \section dev_run Running Unit Tests
 <ol>
@@ -15,8 +16,14 @@ This page will guide you through the SnCore unit testing.
 
 \section dev_write Writing Unit Tests
 SnCore unit tests live in the following assemblies: 
-\li <em>SnCore.Data.Tests</em>: straightforward N-Hibernate mappings.
-\li <em>SnCore.Services.Tests</em>: business logic tests.
+\li <em>SnCore.Tools.Tests</em>: utility functions tests
+\li <em>SnCore.Data.Tests</em>: straightforward N-Hibernate mappings
+\li <em>SnCore.Services.Tests</em>: low-level business logic tests
+\li <em>SnCore.BackEnd.Tests</em>: back-end services tests
+\li <em>SnCore.Web.Tests</em>: generic website tests
+\li <em>SnCore.WebServices.Tests</em>: elementary web services tests
+\li <em>SnCore.Web.Soap.Tests</em>: detailed SOAP interface layer tests
+\li <em>SnCore.Stress.Tests</em>: performance tests
 
 To write a new set of unit tests, create a class that inherits SnCore::Data::Tests::NHibernateTest. This gives you access
 to an NHibernate <em>Session</em> object to run database operations. Use <em>[TestFixure]</em> and <em>[Test]</em> attributes

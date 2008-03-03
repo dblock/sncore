@@ -23,6 +23,7 @@ SnCore is an integrated platform that implements a large volume of features comm
  <li>Integrated <a href="http://creativecommons.org/" target="_blank">Creative Commons</a> licensing for syndicated content.
  <li>Integrated usage statistics framework, including hourly, daily, weekly, monthly and yearly counters,
      new and returning visitors, new members charts, aggregated referer hosts and referer search queries.
+ <li>Mobile Web interface supporting most phone and PDA browsers.
 </ul>
 
 \section features_technology Technology

@@ -1,4 +1,4 @@
-/*! \page dev Dev HowTo
+/*! \page dev Development Process
 
 \section dev_intro Introduction
 This page will guide you through the SnCore development process. At first it may look complicated, but it's actually not hard
@@ -20,7 +20,9 @@ has been completely figured out for you.
     <br>http://www.puzzleframework.com
 \li MSBuild Tasks
     <br>http://msbuildtasks.tigris.org/
-    
+\li NUnit
+    <br>http://www.nunit.org
+
 \section dev_source Source Code
 <ol>
  <li>Download and install a Subversion client from http://subversion.tigris.org/.

@@ -4,6 +4,7 @@
   <DirectoryRef Id="SnCore">
    <Directory Id="Docs" Name="docs">
     <Component Id="Docs" Guid="463F1088-556F-4EBA-98EA-814B123F4FBB" DiskId="1">
+     <File Id="contact_html" Name="contact.html" Source="$(var.SnCore.Docs.Target.Path)\contact.html" />
      <File Id="annotated_html" Name="annotated.html" Source="$(var.SnCore.Docs.Target.Path)\annotated.html" />
      <File Id="branch_html" Name="branch.html" Source="$(var.SnCore.Docs.Target.Path)\branch.html" />
      <File Id="classmimelib_1_1_quoted_printable_members_html" Name="classmimelib_1_1_quoted_printable-members.html" Source="$(var.SnCore.Docs.Target.Path)\classmimelib_1_1_quoted_printable-members.html" />

@@ -66,6 +66,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Contact.dox"
+			>
+		</File>
+		<File
 			RelativePath=".\Data.dox"
 			>
 		</File>
@@ -115,6 +119,10 @@
 		</File>
 		<File
 			RelativePath=".\Redirect.dox"
+			>
+		</File>
+		<File
+			RelativePath=".\Requirements.dox"
 			>
 		</File>
 		<File

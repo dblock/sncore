@@ -1,4 +1,4 @@
-/*! \page install Installation HowTo
+/*! \page install Installation (Getting Started)
 
 \section install_intro Introduction
 
@@ -16,8 +16,28 @@ Download the SnCore installation package <a href="http://sncore.vestris.com/down
 
 \subsection install_howto_installer Installer Distribution
 
-Run the <b>SnCore.Install.msi</b> package. It will guide you through the installation process, create the database, 
-the website, etc.
+Before you install, please read \ref install_requirements. Run the <b>SnCore.Install.msi</b> package. It will guide you 
+through the installation process, create the database, the website, etc.
+
+\subsection install_howto_website WebSite Options
+
+The installer offers two installation options for web sites: <em>virtual directory</em> and <em>full domain</em>. 
+The virtual directory installation will create virtual directories in your IIS metabase, while the full domain will
+create a complete website. After choosing a full domain installation you must adjust DNS settings in order for your site
+to be accessible. Please contact your network provider for setting this up.
+
+\subsection install_howto_database Database Options
+
+Currently, only Windows authentication is supported. You can always adjust settings manually by editing the site's web.config.
+
+\subsection install_howto_troubleshoting Troubleshooing Installation
+
+If the installer fails, run the installer from command line as follows, collect the installer log and contact support. 
+See \ref contact for contact information.
+
+\code
+msiexec /i SnCore_X.Y.Z.msi /l*v out.log
+\endcode
 
 \section install_firststeps First Steps and Simple Tasks
 
