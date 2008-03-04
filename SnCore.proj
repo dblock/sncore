@@ -131,7 +131,6 @@
    DestinationFiles="Target\$(Configuration)\SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
   <Exec WorkingDirectory="Target\$(Configuration)" 
    Command="..\..\tools\wix\setupbld.exe -out SnCore_$(Major).$(Minor).$(Build).$(Revision).exe -setup ..\..\tools\wix\setup.exe -mcsu SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
-  <Delete Files="Target\$(Configuration)\SnCore_$(Major).$(Minor).$(Build).$(Revision).msi" />
   <Message Importance="high" Text="Successfully built Target\$(Configuration)\SnCore_$(Major).$(Minor).$(Build).$(Revision).exe"/>
  </Target>
  <Target Name="unittests" DependsOnTargets="version">

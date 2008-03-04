@@ -10,14 +10,17 @@ See \subpage install_requirements.
 
 \section install_download Download
 
-Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>.
+Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>. The latest known good
+version is <a href="download/SnCore_1.0.1422.0.exe">1.0.1422.0</a>
+.
+
 
 \section install_howto Installation
 
 \subsection install_howto_installer Installer Distribution
 
-Before you install, please read \ref install_requirements. Run the <b>SnCore.Install.msi</b> package. It will guide you 
-through the installation process, create the database, the website, etc.
+Before you install, please read \ref install_requirements. Run the <b>SnCore_...exe</b> package (eg. SnCore_1.0.1422.0.exe).
+It will guide you through the installation process, create the database, the website, etc.
 
 \subsection install_howto_website WebSite Options
 
