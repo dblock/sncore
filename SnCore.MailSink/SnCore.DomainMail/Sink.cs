@@ -23,6 +23,8 @@ namespace SnCore.DomainMail
     public class Sink : IMailTransportSubmission
     {
         private static bool s_Debug = true;
+        private static bool s_Dump = false;
+        private static string s_DumpDirectory = string.Empty;
         private static FileSystemWatcher s_ConfigurationChangeWatcher = null;
 
         static Sink()
@@ -43,12 +45,31 @@ namespace SnCore.DomainMail
             }
         }
 
+        public static bool Dump
+        {
+            get
+            {
+                return s_Dump;
+            }
+        }
+
         private static void Configure(string filename)
         {
             SnCore.DomainMail.Configuration cnf = new SnCore.DomainMail.Configuration(filename);
             object debug = cnf["debug"];
             s_Debug = (debug == null) ? true : bool.Parse(debug.ToString());
+
+            object dump = cnf["dump"];
+            s_Dump = (dump == null) ? false : bool.Parse(dump.ToString());
+            
             LogDebug(string.Format("Loaded configuration file \"{0}\".", filename));
+
+            if (s_Dump)
+            {
+                s_DumpDirectory = Path.Combine(Path.GetTempPath(), "Dump");
+                if (!Directory.Exists(s_DumpDirectory)) Directory.CreateDirectory(s_DumpDirectory);
+                LogDebug(string.Format("Dumping messages into \"{0}\".", s_DumpDirectory));
+            }
 
             IDictionary hibernate = cnf.GetConfig("nhibernate");
             if (hibernate != null)
@@ -171,18 +192,31 @@ namespace SnCore.DomainMail
             try
             {
                 Message message = new Message(mailmsg);
-                LogDebug(string.Format("Processing message \"{0}\".", message.Rfc822MsgSubject));
-                string raw = Encoding.ASCII.GetString(message.ReadContent(0, message.GetContentSize()));
+                LogDebug(string.Format("Processing message \"{0}\" ({1} byte(s)).", message.Rfc822MsgSubject, message.GetContentSize()));
+
+                byte[] content = message.ReadContent(0, message.GetContentSize());
+
+                if (s_Dump)
+                {
+                    string filename = s_DumpDirectory + "\\" + message.Rfc822MsgId;
+                    filename = filename.Replace("<", "_").Replace(">", "_").Replace(" ", "_");
+                    LogDebug(string.Format("Dumping message \"{0}\" to {1}.", message.Rfc822MsgSubject, filename));
+                    File.WriteAllBytes(filename, content);
+                }
+
+                string raw = Encoding.ASCII.GetString(content);
 
                 MimeMessage msg = new MimeMessage();
                 msg.LoadBody(raw);
 
                 ArrayList bodylist = new ArrayList();
                 msg.GetBodyPartList(bodylist);
+                LogDebug(string.Format("Loaded {0} parts of message \"{1}\".", bodylist.Count, message.Rfc822MsgSubject));
 
                 for (int i = 0; i < bodylist.Count; i++)
                 {
                     MimeBody ab = (MimeBody)bodylist[i];
+                    LogDebug(string.Format("Parsing body part {0}: \"{1}\".", i, ab.GetName()));
                     switch (ab.GetContentType())
                     {
                         case "message/delivery-status":
@@ -203,6 +237,8 @@ namespace SnCore.DomainMail
                             break;
                     }
                 }
+
+                LogDebug(string.Format("Processed message \"{0}\".", message.Rfc822MsgSubject));
             }
             catch (Exception ex)
             {
@@ -217,13 +253,12 @@ namespace SnCore.DomainMail
 
         private static void Log(string message)
         {
-
             Log(message, EventLogEntryType.Information);
         }
 
         private static void Log(string message, EventLogEntryType type)
         {
-            EventLogManager.WriteEntry(Assembly.GetExecutingAssembly().FullName,
+            EventLog.WriteEntry(Assembly.GetExecutingAssembly().FullName,
               message, type);
         }
 

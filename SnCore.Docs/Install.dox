@@ -11,9 +11,7 @@ See \subpage install_requirements.
 \section install_download Download
 
 Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>. The latest known good
-version is <a href="download/SnCore_1.0.1422.0.exe">1.0.1422.0</a>
-.
-
+version is <a href="download/SnCore_1.0.1422.0.exe">1.0.1422.0</a>.
 
 \section install_howto Installation
 
@@ -35,12 +33,33 @@ Currently, only Windows authentication is supported. You can always adjust setti
 
 \subsection install_howto_troubleshoting Troubleshooing Installation
 
-If the installer fails, run the installer from command line as follows, collect the installer log and contact support. 
-See \ref contact for contact information.
+There're two installers available: an executable installer and an MSI installer. The executable is a simple wrapper that
+automatically enables minor upgrades.
+
+If the executable installer fails, collect the installer log and contact support. Setup automatically creates an 
+SnCore_X.Y.Z.0000?.log file in your %TEMP% directory (eg. SnCore_1.0.1420.000001.log). 
 
 \code
-msiexec /i SnCore_X.Y.Z.msi /l*v out.log
+C:\Users\dblock >echo %TEMP%
+C:\Users\dblock\AppData\Local\Temp
+
+C:\Users\dblock >dir %TEMP%\SnCore*.log
+...
+Directory of C:\Users\dblock\AppData\Local\Temp
+
+02/27/2008  09:28 PM            71,014 SnCore_1.0.1420.000000.log
+03/04/2008  08:46 AM            70,968 SnCore_1.0.1422.000000.log
+03/04/2008  08:49 AM            10,768 SnCore_1.0.1422.000001.log
+...
 \endcode
+
+If the msi installer fails, rerun the installer as follows and collect the log file.
+
+\code
+msiexec /i SnCore_1.0.1422.msi /l*v error.log
+\endcode
+
+See \ref contact for contact information.
 
 \section install_firststeps First Steps and Simple Tasks
 

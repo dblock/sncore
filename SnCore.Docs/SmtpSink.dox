@@ -1,6 +1,7 @@
 /*! \page smtpsink Smtp Sink
 
 \section smtp_intro Introduction
+
 The SMTP sink implements a systematic way to manage e-mail bounces. When a failed e-mail arrives on the SMTP gateway it will
 be processed and the database AccountEmail table will be marked with a failure.
 
@@ -12,5 +13,45 @@ the value of SnCore.Admin.EmailAddress and/or addresses of e-mail campaigns.
 \code
 cscript smtpreg.vbs /add 1 OnArrival "SnCore.DomainMail" SnCore.DomainMail.Sink  "rcpt to=*@mysncore.com"
 \endcode
+
+\section smtp_config Smtp Sink Configuration
+The SMTP mail sink can be configured via the SnCore.DomainMail.dll.config file.
+
+\code
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+ <configSections>
+  <section name="nhibernate" type="System.Configuration.NameValueSectionHandler, System, Version=1.0.5000.0,Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
+ </configSections>
+ <nhibernate>
+  <add key="hibernate.connection.provider" value="NHibernate.Connection.DriverConnectionProvider"/>
+  <add key="hibernate.dialect" value="NHibernate.Dialect.MsSql2005Dialect"/>
+  <add key="hibernate.connection.driver_class" value="NHibernate.Driver.SqlClientDriver"/>
+  <add key="hibernate.connection.connection_string" value="Server=localhost;initial catalog=SnCoreDemo;Integrated Security=SSPI"/>
+  <add key="hibernate.default_schema" value="SnCoreDemo.dbo"/>
+  <add key="hibernate.connection.isolation" value="ReadCommitted"/>
+ </nhibernate>
+ <appSettings>
+  <add key="debug" value="true" />
+  <add key="dump" value="false" />
+ </appSettings>
+</configuration>
+\endcode
+
+<table class="settingTable" cellpadding="4px" cellspacing="0">
+ <tr><td class="settingLeft">hibernate.connection.provider</td><td class="settingRight">NHibernate connection provider</td></tr>
+ <tr><td class="settingLeft">hibernate.dialect</td><td class="settingRight">NHibernate SQL dialect</td></tr>
+ <tr><td class="settingLeft">hibernate.connection.driver_class</td><td class="settingRight">NHibernate SQL client driver</td></tr>
+ <tr><td class="settingLeft">hibernate.connection.connection_string</td><td class="settingRight">database connection string</td></tr>
+ <tr><td class="settingLeft">hibernate.default_schema</td><td class="settingRight">default database schema</td></tr>
+ <tr><td class="settingLeft">hibernate.connection.isolation</td><td class="settingRight">connection isolation</td></tr>
+ <tr><td class="settingLeft">debug</td><td class="settingRight">send debug messages to the Windows event log; default is false, where only delivery failures and system errors are logged</td></tr>
+ <tr><td class="settingLeft">dump</td><td class="settingRight">dump message content to the %TEMP%\Dump directory (will be created); this enables debugging of processing failures</td></tr>
+</table>
+
+\section smtp_impact Smtp Sink Performance Impact
+
+There's a small negative impact on your SMTP gateway performance since the sink will look at every message passed through 
+the gateway.
 
 */
