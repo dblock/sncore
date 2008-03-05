@@ -19,8 +19,10 @@ BEGIN
 END
 GO
 
+DECLARE @machine_name nvarchar(20)
+SELECT @machine_name = RTRIM(CONVERT(char(20), SERVERPROPERTY('MachineName')))
 DECLARE @aspnet_username nvarchar(128)
-SELECT @aspnet_username = @@SERVERNAME + '\ASPNET'
+SELECT @aspnet_username = @machine_name + '\ASPNET'
 EXEC sp_sncore_adduser @username = @aspnet_username
 EXEC sp_sncore_adduser @username = 'NT AUTHORITY\NETWORK SERVICE'
 GO
