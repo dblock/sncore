@@ -35,6 +35,10 @@ public partial class AccountFeedsManage : AuthenticatedPage
         TransitAccountFeedQueryOptions qopt = new TransitAccountFeedQueryOptions();
         qopt.AccountId = SessionManager.AccountId;
         qopt.Hidden = true;
+        qopt.PicturesOnly = false;
+        qopt.PublishedOnly = false;
+        qopt.Hidden = true;
+        qopt.WithFeedItemsOnly = false;
         return qopt;
     }
 
