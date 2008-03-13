@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Collections;
 using MIME;
+using System.IO;
 
 namespace MIME.NET.Tests
 {
@@ -40,6 +41,43 @@ namespace MIME.NET.Tests
                             Console.WriteLine("{0}: {1}", r.Action, r.FinalRecipientEmailAddress);
                         }
                         break;
+                }
+            }
+        }
+
+        [Test]
+        public void TestHangingMimeMessage()
+        {
+            string[] messages = Directory.GetFiles(@"c:\temp\sncore.mail.dump\dump1");
+            foreach (string message in messages)
+            {
+                Console.WriteLine(message);
+                MimeMessage msg = new MimeMessage();
+                msg.ReadFromFile(message);
+
+                ArrayList bodylist = new ArrayList();
+                msg.GetBodyPartList(bodylist);
+
+                for (int i = 0; i < bodylist.Count; i++)
+                {
+                    MIME.MimeBody ab = (MimeBody)bodylist[i];
+                    Console.WriteLine(ab.GetType().Name);
+                    Console.WriteLine(" {0}", ab.GetContentType());
+                    switch (ab.GetContentType())
+                    {
+                        case "message/delivery-status":
+                            /// TODO: move to Mime processor
+                            MimeDSN dsn = new MimeDSN();
+                            dsn.LoadBody(ab.GetText());
+                            Console.WriteLine("ReportingMTA: {0}", dsn.ReportingMTA);
+                            Console.WriteLine("ReceivedFromMTA: {0}", dsn.ReceivedFromMTA);
+                            Console.WriteLine("OriginalEnvelopeId: {0}", dsn.OriginalEnvelopeId);
+                            foreach (MimeDSNRecipient r in dsn.Recipients)
+                            {
+                                Console.WriteLine("{0}: {1}", r.Action, r.FinalRecipientEmailAddress);
+                            }
+                            break;
+                    }
                 }
             }
         }

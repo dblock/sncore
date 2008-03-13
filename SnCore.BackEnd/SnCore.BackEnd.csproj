@@ -43,10 +43,15 @@
     <Compile Include="SystemMailMessageService.cs" />
     <Compile Include="SystemReminderService.cs" />
     <Compile Include="SystemService.cs" />
+    <Compile Include="SystemSMTPMessageService.cs" />
     <Compile Include="SystemSyndicationService.cs" />
     <Compile Include="SystemTagWordService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MIME.NET\MIME.NET.csproj">
+      <Project>{634B0667-4C7D-4E0A-BA15-FEAD9DA0F44A}</Project>
+      <Name>MIME.NET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.Data.Hibernate\SnCore.Data.Hibernate.csproj">
       <Project>{437F9693-8C20-49BD-A4FD-68A88E9A92C0}</Project>
       <Name>SnCore.Data.Hibernate</Name>

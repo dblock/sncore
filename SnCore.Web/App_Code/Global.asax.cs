@@ -20,6 +20,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
     private SystemTagWordService mTagWordService = new SystemTagWordService();
     private SystemReminderService mSystemReminderService = new SystemReminderService();
     private SystemSyndicationService mSystemSyndicationService = new SystemSyndicationService();
+    private SystemSMTPMessageService mSMTPMessageService = new SystemSMTPMessageService();
 
     public Global()
     {
@@ -54,6 +55,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         mTagWordService.Start();
         mSystemReminderService.Start();
         mSystemSyndicationService.Start();
+        mSMTPMessageService.Start();
 
         WebSystemService system = new WebSystemService();
         EventLogManager.WriteEntry(string.Format("Running with web services {0}.", system.GetVersion()), EventLogEntryType.Information);

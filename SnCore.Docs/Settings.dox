@@ -23,6 +23,7 @@
  <tr><td class="settingLeft">SnCore.MadLibs.Place.Id</td><td class="settingRight">madlib id for places</td></tr>
  <tr><td class="settingLeft">SnCore.Country.Default</td><td class="settingRight">default country, eg. United States</td></tr> 
  <tr><td class="settingLeft">SnCore.Web.UserAgent</td><td class="settingRight">user-agent for outgoing requests, default is SnCore/1.0</td></tr> 
+ <tr><td class="settingLeft">SnCore.SMTP.Queue</td><td class="settingRight">SMTP queue location, redirected by the SMTP domain mail sink</td></tr>
 </table>
 
 \section settings_appconfig Web.config Settings

@@ -8,13 +8,8 @@ using System.Threading;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using MIME;
 using System.Collections;
 using System.Collections.Generic;
-using SnCore.Data;
-using SnCore.Data.Hibernate;
-using NHibernate;
-using NHibernate.Expression;
 
 namespace SnCore.DomainMail
 {
@@ -22,10 +17,9 @@ namespace SnCore.DomainMail
     [ComVisible(true)]
     public class Sink : IMailTransportSubmission
     {
-        private static bool s_Debug = true;
-        private static bool s_Dump = false;
-        private static string s_DumpDirectory = string.Empty;
-        private static FileSystemWatcher s_ConfigurationChangeWatcher = null;
+        private static bool s_Debug = false;
+        private static string s_QueuePath = string.Empty;
+        // private static FileSystemWatcher s_ConfigurationChangeWatcher = null;
 
         static Sink()
         {
@@ -45,44 +39,22 @@ namespace SnCore.DomainMail
             }
         }
 
-        public static bool Dump
-        {
-            get
-            {
-                return s_Dump;
-            }
-        }
-
         private static void Configure(string filename)
         {
             SnCore.DomainMail.Configuration cnf = new SnCore.DomainMail.Configuration(filename);
-            object debug = cnf["debug"];
-            s_Debug = (debug == null) ? true : bool.Parse(debug.ToString());
-
-            object dump = cnf["dump"];
-            s_Dump = (dump == null) ? false : bool.Parse(dump.ToString());
-            
             LogDebug(string.Format("Loaded configuration file \"{0}\".", filename));
 
-            if (s_Dump)
+            bool.TryParse(cnf["Debug"], out s_Debug);
+
+            s_QueuePath = cnf["QueuePath"];
+
+            if (string.IsNullOrEmpty(s_QueuePath))
             {
-                s_DumpDirectory = Path.Combine(Path.GetTempPath(), "Dump");
-                if (!Directory.Exists(s_DumpDirectory)) Directory.CreateDirectory(s_DumpDirectory);
-                LogDebug(string.Format("Dumping messages into \"{0}\".", s_DumpDirectory));
+                s_QueuePath = Path.Combine(Path.GetTempPath(), "Queue");
             }
 
-            IDictionary hibernate = cnf.GetConfig("nhibernate");
-            if (hibernate != null)
-            {
-                IDictionaryEnumerator enumerator = hibernate.GetEnumerator();
-                while (enumerator.MoveNext())
-                {
-                    string name = enumerator.Key.ToString();
-                    string value = enumerator.Value.ToString();
-                    SnCore.Data.Hibernate.Session.Configuration.Properties[name] = value;
-                    LogDebug(string.Format("{0}=\"{1}\".", name, value));
-                }
-            }
+            if (!Directory.Exists(s_QueuePath)) Directory.CreateDirectory(s_QueuePath);
+            LogDebug(string.Format("Queuing messages in \"{0}\".", s_QueuePath));
         }
 
         private static void LoadConfiguration()
@@ -96,9 +68,9 @@ namespace SnCore.DomainMail
                     Configure(filename);
                 }
 
-                s_ConfigurationChangeWatcher = new FileSystemWatcher(Path.GetDirectoryName(filename), "*.config");
-                s_ConfigurationChangeWatcher.Created += new FileSystemEventHandler(s_ConfigurationChangeWatcher_Changed);
-                s_ConfigurationChangeWatcher.Changed += new FileSystemEventHandler(s_ConfigurationChangeWatcher_Changed);
+                // s_ConfigurationChangeWatcher = new FileSystemWatcher(Path.GetDirectoryName(filename), "*.config");
+                // s_ConfigurationChangeWatcher.Created += new FileSystemEventHandler(s_ConfigurationChangeWatcher_Changed);
+                // s_ConfigurationChangeWatcher.Changed += new FileSystemEventHandler(s_ConfigurationChangeWatcher_Changed);
             }
             catch (Exception ex)
             {
@@ -106,81 +78,10 @@ namespace SnCore.DomainMail
             }
         }
 
-        static void s_ConfigurationChangeWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            Configure(e.FullPath);
-        }
-
-        private void UpdateFailureEmails(MimeDSNRecipient r, ISession session)
-        {
-            IList<AccountEmail> emails = session.CreateCriteria(typeof(AccountEmail))
-                .Add(Expression.Eq("Address", r.FinalRecipientEmailAddress))
-                .List<AccountEmail>();
-
-            if (emails == null)
-                return;
-
-            foreach (AccountEmail email in emails)
-            {
-                if (email.Failed)
-                    continue;
-
-                Log(string.Format("Marked {0} [{1}] (id:{2}) with failure [{3}].",
-                    email.Account.Name, email.Address, email.Id, r.DiagnosticCode));
-
-                // check whether there're pending invitations for this e-mail
-                foreach (AccountEmailConfirmation confirmation in Collection<AccountEmailConfirmation>.GetSafeCollection(email.AccountEmailConfirmations))
-                {
-                    session.Delete(confirmation);
-                }
-
-                email.Failed = true;
-                email.LastError = r.DiagnosticCode;
-                email.Modified = DateTime.UtcNow;
-                session.Save(email);
-                session.Flush();
-            }
-        }
-
-        private void UpdateFailureInvitations(MimeDSNRecipient r, ISession session)
-        {
-            IList<AccountInvitation> invitations = session.CreateCriteria(typeof(AccountInvitation))
-                .Add(Expression.Eq("Email", r.FinalRecipientEmailAddress))
-                .List<AccountInvitation>();
-
-            if (invitations == null)
-                return;
-
-            foreach (AccountInvitation invitation in invitations)
-            {
-                if (invitation.Failed)
-                    continue;
-
-                Log(string.Format("Marked \"{0}\" [invited by {1}] (id:{2}) with failure [{3}].",
-                    invitation.Email, invitation.Account.Name, invitation.Id, r.DiagnosticCode));
-
-                invitation.Failed = true;
-                invitation.LastError = r.DiagnosticCode;
-                invitation.Modified = DateTime.UtcNow;
-                session.Save(invitation);
-                session.Flush();
-            }
-        }
-
-        private void UpdateFailure(MimeDSNRecipient r)
-        {
-            ISession session = SnCore.Data.Hibernate.Session.Factory.OpenSession();
-            try
-            {
-                LogDebug(string.Format("Searching for {0}.", r.FinalRecipientEmailAddress));
-                UpdateFailureEmails(r, session);
-                UpdateFailureInvitations(r, session);
-            }
-            finally
-            {
-                session.Close();
-            }
-        }
+        //static void s_ConfigurationChangeWatcher_Changed(object sender, FileSystemEventArgs e)
+        //{
+        //    Configure(e.FullPath);
+        //}
 
         void IMailTransportSubmission.OnMessageSubmission(
              MailMsg mailmsg,
@@ -193,52 +94,11 @@ namespace SnCore.DomainMail
             {
                 Message message = new Message(mailmsg);
                 LogDebug(string.Format("Processing message \"{0}\" ({1} byte(s)).", message.Rfc822MsgSubject, message.GetContentSize()));
-
                 byte[] content = message.ReadContent(0, message.GetContentSize());
-
-                if (s_Dump)
-                {
-                    string filename = s_DumpDirectory + "\\" + message.Rfc822MsgId;
-                    filename = filename.Replace("<", "_").Replace(">", "_").Replace(" ", "_");
-                    LogDebug(string.Format("Dumping message \"{0}\" to {1}.", message.Rfc822MsgSubject, filename));
-                    File.WriteAllBytes(filename, content);
-                }
-
-                string raw = Encoding.ASCII.GetString(content);
-
-                MimeMessage msg = new MimeMessage();
-                msg.LoadBody(raw);
-
-                ArrayList bodylist = new ArrayList();
-                msg.GetBodyPartList(bodylist);
-                LogDebug(string.Format("Loaded {0} parts of message \"{1}\".", bodylist.Count, message.Rfc822MsgSubject));
-
-                for (int i = 0; i < bodylist.Count; i++)
-                {
-                    MimeBody ab = (MimeBody)bodylist[i];
-                    LogDebug(string.Format("Parsing body part {0}: \"{1}\".", i, ab.GetName()));
-                    switch (ab.GetContentType())
-                    {
-                        case "message/delivery-status":
-                            /// TODO: move to Mime processor
-                            MimeDSN dsn = new MimeDSN();
-                            dsn.LoadBody(ab.GetText());
-                            foreach (MimeDSNRecipient r in dsn.Recipients)
-                            {
-                                switch (r.Action)
-                                {
-                                    case "failed":
-                                        Log(string.Format("Processing {0} ({1}) in {2} with subject \"{3}\".",
-                                            r.FinalRecipientEmailAddress, r.Action, message.Rfc822MsgId, message.Rfc822MsgSubject));
-                                        UpdateFailure(r);
-                                        break;
-                                }
-                            }
-                            break;
-                    }
-                }
-
-                LogDebug(string.Format("Processed message \"{0}\".", message.Rfc822MsgSubject));
+                string filename = s_QueuePath + "\\" + message.Rfc822MsgId;
+                filename = filename.Replace("<", "_").Replace(">", "_").Replace(" ", "_");
+                LogDebug(string.Format("Dumping message \"{0}\" to {1}.", message.Rfc822MsgSubject, filename));
+                File.WriteAllBytes(filename, content);
             }
             catch (Exception ex)
             {
@@ -247,7 +107,9 @@ namespace SnCore.DomainMail
             finally
             {
                 if (null != mailmsg)
+                {
                     Marshal.ReleaseComObject(mailmsg);
+                }
             }
         }
 
