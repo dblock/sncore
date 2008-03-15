@@ -81,6 +81,19 @@
   </tr>
   <tr>
    <td class="sncore_form_label">
+    language &amp; region:
+   </td>
+   <td class="sncore_form_value">
+    <asp:UpdatePanel runat="server" ID="panelLocale" UpdateMode="Conditional">
+     <ContentTemplate>
+     <asp:DropDownList CssClass="sncore_form_dropdown" ID="inputLocale" 
+      DataTextField="NativeName" AutoPostBack="true" DataValueField="LCID" runat="server" />
+     </ContentTemplate>
+    </asp:UpdatePanel>
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
     timezone:</td>
    <td class="sncore_form_value">
     <SnCore:SelectTimeZone runat="server" ID="inputTimeZone" />

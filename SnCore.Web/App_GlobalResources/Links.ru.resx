@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Abuse" xml:space="preserve">
+    <value>Жалобы</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Подписчики</value>
+  </data>
+  <data name="Activity" xml:space="preserve">
+    <value>Деятельность</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Признаки</value>
+  </data>
+  <data name="Blogs" xml:space="preserve">
+    <value>Блоги</value>
+  </data>
+  <data name="Bookmarks" xml:space="preserve">
+    <value>Закладки</value>
+  </data>
+  <data name="BugProjects" xml:space="preserve">
+    <value>Баги</value>
+  </data>
+  <data name="Bugs" xml:space="preserve">
+    <value>Баги</value>
+  </data>
+  <data name="Campaigns" xml:space="preserve">
+    <value>Кампании</value>
+  </data>
+  <data name="Cities" xml:space="preserve">
+    <value>Города</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Содержание</value>
+  </data>
+  <data name="Countries" xml:space="preserve">
+    <value>Страны</value>
+  </data>
+  <data name="Discussions" xml:space="preserve">
+    <value>Обсуждения</value>
+  </data>
+  <data name="Emails" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>События</value>
+  </data>
+  <data name="EventTypes" xml:space="preserve">
+    <value>Типы Событий</value>
+  </data>
+  <data name="Favorites" xml:space="preserve">
+    <value>Фавориты</value>
+  </data>
+  <data name="FeedTypes" xml:space="preserve">
+    <value>Типы Подачи</value>
+  </data>
+  <data name="FlagTypes" xml:space="preserve">
+    <value>Типы Флага</value>
+  </data>
+  <data name="Friends" xml:space="preserve">
+    <value>Друзья</value>
+  </data>
+  <data name="FrontEndCache" xml:space="preserve">
+    <value>Буфер</value>
+  </data>
+  <data name="Geography" xml:space="preserve">
+    <value>География</value>
+  </data>
+  <data name="GotABlog" xml:space="preserve">
+    <value>Имеете Блог?</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Группы</value>
+  </data>
+  <data name="HitStats" xml:space="preserve">
+    <value>Статистика Хитов</value>
+  </data>
+  <data name="HostDups" xml:space="preserve">
+    <value>Дубликаты Серверов</value>
+  </data>
+  <data name="Inbox" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="Invitations" xml:space="preserve">
+    <value>Приглашения</value>
+  </data>
+  <data name="InviteFriends" xml:space="preserve">
+    <value>Пригласить</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>Лицензия</value>
+  </data>
+  <data name="MadLibs" xml:space="preserve">
+    <value>Безумки</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Управлять</value>
+  </data>
+  <data name="Neighborhoods" xml:space="preserve">
+    <value>Кварталы</value>
+  </data>
+  <data name="NewContent" xml:space="preserve">
+    <value>Новое</value>
+  </data>
+  <data name="OpenId" xml:space="preserve">
+    <value>OpenId</value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>Люди</value>
+  </data>
+  <data name="Pictures" xml:space="preserve">
+    <value>Фотографии</value>
+  </data>
+  <data name="PictureTypes" xml:space="preserve">
+    <value>Типы Фотографий</value>
+  </data>
+  <data name="Places" xml:space="preserve">
+    <value>Места</value>
+  </data>
+  <data name="PlaceTypes" xml:space="preserve">
+    <value>Типы Мест</value>
+  </data>
+  <data name="PostNew" xml:space="preserve">
+    <value>Написать</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="PreviewMe" xml:space="preserve">
+    <value>Посмотреть</value>
+  </data>
+  <data name="Priorities" xml:space="preserve">
+    <value>Приоритеты</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Собственность</value>
+  </data>
+  <data name="PropertyGroups" xml:space="preserve">
+    <value>Группы Собственности</value>
+  </data>
+  <data name="PropertyRequests" xml:space="preserve">
+    <value>Запросы Собственности</value>
+  </data>
+  <data name="PropertyTypes" xml:space="preserve">
+    <value>Типы Собственности</value>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Очередь</value>
+  </data>
+  <data name="Redirects" xml:space="preserve">
+    <value>Переводы</value>
+  </data>
+  <data name="RefererAccounts" xml:space="preserve">
+    <value>Подписчики</value>
+  </data>
+  <data name="RefererHosts" xml:space="preserve">
+    <value>Хозяева Серверов</value>
+  </data>
+  <data name="RefererQueries" xml:space="preserve">
+    <value>Поиски с Серверов</value>
+  </data>
+  <data name="Reminders" xml:space="preserve">
+    <value>Напоминания</value>
+  </data>
+  <data name="ReportedAbuse" xml:space="preserve">
+    <value>Жалобы</value>
+  </data>
+  <data name="Requests" xml:space="preserve">
+    <value>Запросы</value>
+  </data>
+  <data name="Resolutions" xml:space="preserve">
+    <value>Решения</value>
+  </data>
+  <data name="Runtime" xml:space="preserve">
+    <value>Рантаьм</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Посланные</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройка</value>
+  </data>
+  <data name="Severities" xml:space="preserve">
+    <value>Серьезность</value>
+  </data>
+  <data name="States" xml:space="preserve">
+    <value>Штаты</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="Statuses" xml:space="preserve">
+    <value>Статусы</value>
+  </data>
+  <data name="Stories" xml:space="preserve">
+    <value>Истории</value>
+  </data>
+  <data name="Subscriptions" xml:space="preserve">
+    <value>Подписки</value>
+  </data>
+  <data name="Surveys" xml:space="preserve">
+    <value>Обзоры</value>
+  </data>
+  <data name="Syndication" xml:space="preserve">
+    <value>Синдикаты</value>
+  </data>
+  <data name="SystemSettings" xml:space="preserve">
+    <value>Параметры Системы</value>
+  </data>
+  <data name="TagWords" xml:space="preserve">
+    <value>Слова</value>
+  </data>
+  <data name="Trash" xml:space="preserve">
+    <value>Хлам</value>
+  </data>
+  <data name="Types" xml:space="preserve">
+    <value>Типы</value>
+  </data>
+  <data name="Websites" xml:space="preserve">
+    <value>Вебсайты</value>
+  </data>
+</root>

@@ -20,6 +20,7 @@ CREATE TABLE [dbo].[Account](
 	[IsAdministrator] [bit] NULL CONSTRAINT [DF_Account_IsAdministrator]  DEFAULT ((0)),
 	[IsPasswordExpired] [bit] NULL,
 	[TimeZone] [int] NOT NULL DEFAULT ((-1)),
+	[LCID] [int] NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[Account_Id] ASC

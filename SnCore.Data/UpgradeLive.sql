@@ -277,3 +277,6 @@ EXEC [sp_add_picture_position] @table_name = 'PlacePicture'
 GO
 DROP PROCEDURE dbo.[sp_add_picture_position]
 GO
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Account]') AND name = N'LCID') 
+ALTER TABLE dbo.Account ADD [LCID] int NULL
+GO

@@ -74,6 +74,7 @@
         private System.Collections.Generic.IList<AccountFlag> m_FlaggedAccountAccountFlags;
         private System.Collections.Generic.IList<PlaceChangeRequest> m_PlaceChangeRequests;
         private System.Collections.Generic.IList<AccountQuota> m_AccountQuotas;
+        private System.Int32 m_Lcid;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1901,6 +1902,31 @@
             set
             {
                 m_AccountQuotas = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Int32'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Lcid' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'LCID' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Int32 Lcid
+        {
+            get
+            {
+                return m_Lcid;
+            }
+            set
+            {
+                m_Lcid = value;
             }
         }
 

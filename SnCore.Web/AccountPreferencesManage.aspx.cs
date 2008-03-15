@@ -16,6 +16,7 @@ using System.Web.Caching;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
 using SnCore.WebControls;
+using System.Globalization;
 
 public partial class AccountPreferencesManage : AuthenticatedPage
 {
@@ -64,6 +65,11 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputSignature.Text = SessionManager.Account.Signature;
             groups.AccountId = SessionManager.Account.Id;
             accountredirect.TargetUri = string.Format("AccountView.aspx?id={0}", SessionManager.Account.Id);
+            
+            inputLocale.DataSource = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            inputLocale.DataBind();
+            inputLocale.Items.Insert(0, new ListItem("Web Browser Culture", "0"));
+            ListItemManager.TrySelect(inputLocale, SessionManager.Account.LCID.ToString());
         }
     }
 
@@ -84,6 +90,7 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         ta.State = inputState.SelectedValue;
         ta.TimeZone = inputTimeZone.SelectedTzIndex;
         ta.Signature = inputSignature.Text;
+        ta.LCID = int.Parse(inputLocale.SelectedValue);
 
         if (ta.Signature.Length > inputSignature.MaxLength)
             throw new Exception(string.Format("Signature may not exceed {0} characters.", inputSignature.MaxLength));
@@ -91,6 +98,6 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         SessionManager.CreateOrUpdate<TransitAccount>(
             ta, SessionManager.AccountService.CreateOrUpdateAccount);
         Cache.Remove(string.Format("account:{0}", SessionManager.Ticket));
-        ReportInfo("Profile saved.");
+        Redirect("AccountManage.aspx");
     }
 }

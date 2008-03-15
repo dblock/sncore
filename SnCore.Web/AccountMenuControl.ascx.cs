@@ -24,18 +24,23 @@ public partial class AccountMenuControl : Control
                 if (inbox != null)
                 {
                     linkRequestsStar.Visible = (inbox.UnReadMessageCount > 0);
-                    linkInbox.InnerText = string.Format("Inbox ({0})", inbox.UnReadMessageCount);
+                    linkInbox.InnerText = string.Format("{0} ({1})",
+                        HttpContext.GetGlobalResourceObject("Links", "Inbox"),
+                        inbox.UnReadMessageCount);
                 }
 
-                linkRequests.InnerText = string.Format("Requests ({0})",
+                linkRequests.InnerText = string.Format("{0} ({1})",
+                    HttpContext.GetGlobalResourceObject("Links", "Requests"),
                     SessionManager.GetCount<TransitAccountFriendRequest, int>(
                         SessionManager.AccountId, SessionManager.SocialService.GetAccountFriendRequestsCount));
 
-                linkInvitations.InnerText = string.Format("Invitations ({0})",
+                linkInvitations.InnerText = string.Format("{0} ({1})",
+                    HttpContext.GetGlobalResourceObject("Links", "Invitations"),
                     SessionManager.GetCount<TransitAccountGroupAccountInvitation, int>(
                         SessionManager.AccountId, SessionManager.GroupService.GetAccountGroupAccountInvitationsByAccountIdCount));
 
-                linkAccountPlaceRequests.InnerText = string.Format("Requests ({0})",
+                linkAccountPlaceRequests.InnerText = string.Format("{0} ({1})",
+                    HttpContext.GetGlobalResourceObject("Links", "Requests"),
                     SessionManager.GetCount<TransitAccountPlaceRequest, int>(
                         SessionManager.AccountId, SessionManager.PlaceService.GetAccountPlaceRequestsByAccountIdCount));
             }

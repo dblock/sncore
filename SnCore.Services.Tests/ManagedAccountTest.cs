@@ -268,5 +268,16 @@ namespace SnCore.Services.Tests
             }
         }
 
+        [Test]
+        public void TestAccountLocaleLCID()
+        {
+            TransitAccount t_a = GetTransitInstance();
+            Console.WriteLine("LCID: {0}", t_a.LCID);
+            Console.WriteLine("Culture: {0}", t_a.Culture);
+            t_a.LCID = 1025;
+            Console.WriteLine("LCID: {0}", t_a.LCID);
+            Console.WriteLine("Culture: {0}", t_a.Culture);
+            Assert.AreEqual(t_a.Culture, "ar-SA");
+        }
     }
 }

@@ -202,5 +202,6 @@
       <key column="Account_Id" />
       <one-to-many class="AccountQuota, SnCore.Data" />
     </bag>
+    <property name="Lcid" column="LCID" type="Int32" />
   </class>
 </hibernate-mapping>

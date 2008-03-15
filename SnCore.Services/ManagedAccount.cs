@@ -21,6 +21,7 @@ using Janrain.OpenId;
 using Janrain.OpenId.Consumer;
 using SnCore.Tools;
 using SnCore.Data.Hibernate;
+using System.Globalization;
 
 namespace SnCore.Services
 {
@@ -230,6 +231,7 @@ namespace SnCore.Services
             Signature = instance.Signature;
             IsAdministrator = instance.IsAdministrator;
             IsPasswordExpired = instance.IsPasswordExpired;
+            LCID = instance.Lcid;
             // random picture from the account
             PictureId = ManagedAccount.GetRandomAccountPictureId(instance);
             Created = instance.Created;
@@ -253,12 +255,12 @@ namespace SnCore.Services
                 instance.LastLogin = DateTime.UtcNow;
             }
 
-            instance.State = string.IsNullOrEmpty(State) 
-                ? null 
+            instance.State = string.IsNullOrEmpty(State)
+                ? null
                 : ManagedState.Find(session, State, Country);
-            
-            instance.Country = string.IsNullOrEmpty(Country) 
-                ? null 
+
+            instance.Country = string.IsNullOrEmpty(Country)
+                ? null
                 : ManagedCountry.Find(session, Country);
 
             if (instance.State != null && instance.Country != null)
@@ -272,6 +274,7 @@ namespace SnCore.Services
             instance.City = City;
             instance.TimeZone = TimeZone;
             instance.Signature = Signature;
+            instance.Lcid = LCID;
             return instance;
         }
 
@@ -337,7 +340,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mBirthday;
             }
             set
@@ -352,7 +354,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mLastLogin;
             }
             set
@@ -367,7 +368,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mPictureId;
             }
             set
@@ -382,7 +382,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mState;
             }
             set
@@ -397,7 +396,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCountry;
             }
             set
@@ -412,7 +410,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCity;
             }
             set
@@ -427,7 +424,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mTimeZone;
             }
             set
@@ -442,12 +438,41 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mSignature;
             }
             set
             {
                 mSignature = value;
+            }
+        }
+
+        private int mLCID = 0;
+
+        public int LCID
+        {
+            get
+            {
+                return mLCID;
+            }
+            set
+            {
+                mLCID = value;
+            }
+        }
+
+        public string Culture
+        {
+            get
+            {
+                if (mLCID == 0) return CultureInfo.InstalledUICulture.Name;
+                return new CultureInfo(mLCID).Name;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    mLCID = CultureInfo.CreateSpecificCulture(value).LCID;
+                }
             }
         }
 
@@ -490,7 +515,7 @@ namespace SnCore.Services
 
         public class InvalidUsernamePasswordException : Exception
         {
-            public InvalidUsernamePasswordException() 
+            public InvalidUsernamePasswordException()
                 : base("Invalid username and/or password")
             {
 
@@ -513,7 +538,7 @@ namespace SnCore.Services
                 }
             }
 
-            public AccessDeniedException() 
+            public AccessDeniedException()
                 : base("Access denied")
             {
 
@@ -758,7 +783,7 @@ namespace SnCore.Services
                 }
 
                 // leave groups
-                foreach(AccountGroupAccount groupaccount in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+                foreach (AccountGroupAccount groupaccount in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
                 {
                     ManagedAccountGroupAccount m_groupaccount = new ManagedAccountGroupAccount(Session, groupaccount);
                     m_groupaccount.Delete(sec);
@@ -965,7 +990,7 @@ namespace SnCore.Services
 
             foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
             {
-                if (e.Verified && ! e.Failed)
+                if (e.Verified && !e.Failed)
                 {
                     address = e.Address;
                     if (e.Principal)
@@ -989,14 +1014,14 @@ namespace SnCore.Services
             {
                 address = e.Address;
 
-                if (e.Verified && e.Principal && ! e.Failed)
+                if (e.Verified && e.Principal && !e.Failed)
                 {
                     // pickup the principal address first
                     break;
                 }
             }
 
-            return ! string.IsNullOrEmpty(address);
+            return !string.IsNullOrEmpty(address);
         }
 
         public static ManagedAccount FindByEmailAndBirthday(ISession session, string emailaddress, DateTime dateofbirth)
@@ -1156,7 +1181,7 @@ namespace SnCore.Services
                     .UniqueResult();
 
             if (account != null)
-            { 
+            {
                 t_result.Account = account.Account;
                 t_result.Account.LastLogin = DateTime.UtcNow;
                 session.Save(t_result.Account);
@@ -1590,8 +1615,8 @@ namespace SnCore.Services
         public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
-            
-            switch(op)
+
+            switch (op)
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,

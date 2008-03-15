@@ -29,8 +29,8 @@
     <tr>
      <td width="*">
       <asp:Panel runat="server" ID="panelMain" CssClass="sncore_menu">
-       <SnCore:MenuItem runat="server" ID="menuHome" Text="home" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
-        runat="server" ID="menuPeople" Text="people" NavigateUrl="AccountsView.aspx">
+       <SnCore:MenuItem runat="server" ID="menuHome" Text="<%$ Resources:Concepts, Home %>" NavigateUrl="Default.aspx" /><SnCore:MenuItem 
+        runat="server" ID="menuPeople" Text="<%$ Resources:Concepts, People %>" NavigateUrl="AccountsView.aspx">
         <Highlights>
          <asp:ListItem>/Account.*View.aspx</asp:ListItem>
         </Highlights>
@@ -42,7 +42,7 @@
          <asp:ListItem>/AccountEvent.*.aspx</asp:ListItem>
         </Downlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuFeeds" Text="blogs" NavigateUrl="AccountFeedItemsView.aspx">
+        runat="server" ID="menuFeeds" Text="<%$ Resources:Concepts, Blogs %>" NavigateUrl="AccountFeedItemsView.aspx">
         <Highlights>
          <asp:ListItem>/AccountFeed.*.aspx</asp:ListItem>
          <asp:ListItem>/AccountBlog.*.aspx</asp:ListItem>
@@ -55,12 +55,12 @@
          <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
         </Downlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuPlaces" Text="places" NavigateUrl="PlacesView.aspx">
+        runat="server" ID="menuPlaces" Text="<%$ Resources:Concepts, Places %>" NavigateUrl="PlacesView.aspx">
         <Highlights>
          <asp:ListItem>/Place.*aspx</asp:ListItem>
         </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuEvents" Text="events" NavigateUrl="AccountEventsToday.aspx">
+        runat="server" ID="menuEvents" Text="<%$ Resources:Concepts, Events %>" NavigateUrl="AccountEventsToday.aspx">
         <Highlights>
          <asp:ListItem>/AccountEvent.*</asp:ListItem>
         </Highlights>
@@ -69,17 +69,17 @@
          <asp:ListItem>/AccountEventEdit.aspx</asp:ListItem>
         </Downlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuDiscuss" Text="discuss" NavigateUrl="DiscussionsView.aspx">
+        runat="server" ID="menuDiscuss" Text="<%$ Resources:Concepts, Discuss %>" NavigateUrl="DiscussionsView.aspx">
         <Highlights>
          <asp:ListItem>/Discuss.*</asp:ListItem>
         </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuLogin" Text="login" NavigateUrl="AccountLogin.aspx">
+        runat="server" ID="menuLogin" Text="<%$ Resources:Concepts, Login %>" NavigateUrl="AccountLogin.aspx">
         <Highlights>
          <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
         </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuMe" Text="me me" NavigateUrl="AccountManage.aspx">
+        runat="server" ID="menuMe" Text="<%$ Resources:Concepts, MeMe %>" NavigateUrl="AccountManage.aspx">
         <Downlights>
          <asp:ListItem>/Account.*View.aspx</asp:ListItem>
          <asp:ListItem>/Account.*Today.aspx</asp:ListItem>
@@ -90,14 +90,14 @@
          <asp:ListItem>/System.*</asp:ListItem>
         </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
-        runat="server" ID="menuInvite" CssClass="sncore_menu_item" Text="invite"
+        runat="server" ID="menuInvite" CssClass="sncore_menu_item" Text="<%$ Resources:Concepts, Invite %>"
         NavigateUrl="AccountInvitationsManage.aspx" /><asp:LinkButton 
-        runat="server" ID="menuLogout" Text="logout" CssClass="sncore_menu_item"
+        runat="server" ID="menuLogout" Text="<%$ Resources:Concepts, Logout %>" CssClass="sncore_menu_item"
         OnClick="menuLogout_Click" CausesValidation="false" /><SnCore:MenuItem 
          runat="server"
-         ID="menuSignUp" CssClass="sncore_menu_item" Text="join" 
+         ID="menuSignUp" CssClass="sncore_menu_item" Text="<%$ Resources:Concepts, Join %>" 
          NavigateUrl="AccountCreate.aspx" /><SnCore:MenuItem 
-          runat="server" ID="menuHelp" Text="help" NavigateUrl="Help.aspx">
+          runat="server" ID="menuHelp" Text="<%$ Resources:Concepts, Help %>" NavigateUrl="Help.aspx">
         <Highlights>
          <asp:ListItem>/About.aspx</asp:ListItem>
          <asp:ListItem>/Bug.*</asp:ListItem>
@@ -144,7 +144,8 @@
    <a href="CodeOfConduct.aspx">code of conduct</a> | 
    <a href="PrivacyPolicy.aspx">privacy policy</a> | 
    <a href="TermsOfUse.aspx">terms of use</a> | 
-   <a href="Help.aspx">about &amp; help</a> 
+   <a href="Help.aspx">about &amp; help</a> | 
+   <asp:HyperLink NavigateUrl="~/AccountPreferencesManage.aspx" ID="linkCulture" runat="server" />
    <br />
    (c) 2006-2007 Vestris Inc. - All Rights Reserved
   </div>

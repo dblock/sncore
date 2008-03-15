@@ -18,6 +18,7 @@ using System.Threading;
 using SnCore.SiteMap;
 using SnCore.Services;
 using SnCore.WebControls;
+using System.Globalization;
 
 public class Page : System.Web.UI.Page
 {
@@ -35,6 +36,20 @@ public class Page : System.Web.UI.Page
         {            
             ReportException(ex);
         }
+    }
+
+    protected override void InitializeCulture()
+    {
+        Culture = string.Format("auto:{0}", CultureInfo.InstalledUICulture.Name);
+        UICulture = "auto";
+
+        if (SessionManager.IsLoggedIn && SessionManager.Account.LCID > 0)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(SessionManager.Account.LCID);
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+        }
+
+        base.InitializeCulture();
     }
 
     protected override void RaisePostBackEvent(IPostBackEventHandler sourceControl, string eventArgument)
