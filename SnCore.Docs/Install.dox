@@ -11,13 +11,13 @@ See \subpage install_requirements.
 \section install_download Download
 
 Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>. The latest known good
-version is <a href="download/SnCore_1.0.1426.0.exe">1.0.1426.0</a>.
+version is <a href="download/SnCore_1.0.1426.0.msi">1.0.1426.0</a>.
 
 \section install_howto Installation
 
 \subsection install_howto_installer Installer Distribution
 
-Before you install, please read \ref install_requirements. Run the <b>SnCore_...exe</b> package (eg. SnCore_1.0.1426.0.exe).
+Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1426.0.msi).
 It will guide you through the installation process, create the database, the website, etc.
 
 \subsection install_howto_website WebSite Options
@@ -33,26 +33,6 @@ Currently, only Windows authentication is supported. You can always adjust setti
 
 \subsection install_howto_troubleshoting Troubleshooing Installation
 
-There're two installers available: an executable installer and an MSI installer. The executable is a simple wrapper that
-automatically enables minor upgrades.
-
-If the executable installer fails, collect the installer log and contact support. Setup automatically creates an 
-SnCore_X.Y.Z.0000?.log file in your %TEMP% directory (eg. SnCore_1.0.1420.000001.log). 
-
-\code
-C:\Users\dblock >echo %TEMP%
-C:\Users\dblock\AppData\Local\Temp
-
-C:\Users\dblock >dir %TEMP%\SnCore*.log
-...
-Directory of C:\Users\dblock\AppData\Local\Temp
-
-02/27/2008  09:28 PM            71,014 SnCore_1.0.1420.000000.log
-03/04/2008  08:46 AM            70,968 SnCore_1.0.1426.000000.log
-03/04/2008  08:49 AM            10,768 SnCore_1.0.1426.000001.log
-...
-\endcode
-
 If the msi installer fails, rerun the installer as follows and collect the log file.
 
 \code
@@ -66,6 +46,14 @@ See \ref contact for contact information.
 Navigate to the website. This is typically http://localhost/SnCoreWeb/. By default the system creates an administrative 
 account with username <em>admin@localhost.com</em> and password: <em>password</em>. It also creates a bug project, a
 general site discussion and adjusts default \ref settings.
+
+\section upgrade_howto Upgrading
+
+To upgrade to a newer version of SnCore, run the following command.
+
+\code
+msiexec /i SnCore_1.0.1426.msi REINSTALLMODE=vomus REINSTALL=ALL
+\endcode
 
 \section install_next What's Next?
 

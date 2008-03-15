@@ -80,6 +80,9 @@ ALTER TABLE dbo.Schedule ADD [NoEndDateTime] bit NOT NULL DEFAULT 0
 GO
 -- set precompute data to 1 for faster FREETEXTTABLE queries
 EXEC sp_configure 'show advanced options', '1'
+RECONFIGURE
+GO
+EXEC sp_configure 'show advanced options', '1'
 EXEC sp_configure 'precompute rank', '1'
 RECONFIGURE
 GO
