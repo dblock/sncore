@@ -453,8 +453,8 @@
       <File Id="SnCoreBinApp_Code_dll" Name="App_Code.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_Code.dll" />
       <File Id="SnCoreBinApp_global_asax_compiled" Name="App_global.asax.compiled" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_global.asax.compiled" />
       <File Id="SnCoreBinApp_global_asax_dll" Name="App_global.asax.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_global.asax.dll" />
-      <File Id="SnCoreBinApp_GlobalResources_asax_compiled" Name="App_GlobalResources.asax.compiled" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_GlobalResources.asax.compiled" />
-      <File Id="SnCoreBinApp_GlobalResources_asax_dll" Name="App_GlobalResources.asax.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_GlobalResources.asax.dll" />
+      <File Id="SnCoreBinApp_GlobalResources_compiled" Name="App_GlobalResources.compiled" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_GlobalResources.compiled" />
+      <File Id="SnCoreBinApp_GlobalResources_dll" Name="App_GlobalResources.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_GlobalResources.dll" />
       <File Id="SnCoreBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Atom.NET.dll" />
       <File Id="SnCoreBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Castle.DynamicProxy.dll" />
       <File Id="SnCoreBinCastle_DynamicProxy_xml" Name="Castle.DynamicProxy.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\Castle.DynamicProxy.xml" />

@@ -62,6 +62,7 @@
     <property name="FlaggedAccountAccountFlags" table="AccountFlag" id-columns="FlaggedAccount_Id" list="true" item-type="AccountFlag" slave="true" ref="ManyToOne" inverse="FlaggedAccount" inherits-inverse="true" />
     <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Account_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountQuotas" table="AccountQuota" id-columns="Account_Id" list="true" item-type="AccountQuota" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
+    <property name="Lcid" columns="LCID" type="System.Int32" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -1082,6 +1083,7 @@
       <column name="Signature" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="State_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="State" primary-column="State_Id" foreign-key="FK_Account_State" />
       <column name="TimeZone" type="Int32" prec="10" length="4" scale="0" default="((-1))" />
+      <column name="LCID" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
     </table>
     <table name="AccountAddress">
       <column name="AccountAddress_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
