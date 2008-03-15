@@ -491,6 +491,11 @@
       <File Id="SnCoreBinWilco_Web_dll" Name="Wilco.Web.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Wilco.Web.dll" />
       <File Id="SnCoreBinWilco_Web_XML" Name="Wilco.Web.XML" Source="$(var.SnCore.Deploy.Target.Path)\bin\Wilco.Web.XML" />
      </Component>
+     <Directory Id="SnCoreBin_RU" Name="ru">
+      <Component Id="SnCoreBin_RU" Guid="78713CB0-AFF7-4446-9D2E-C928BEFEA423" DiskId="1">
+       <File Id="SnCoreBin_RU_App_GlobalResources_resources_dll" Name="App_GlobalResources.resources.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\ru\App_GlobalResources.resources.dll" />
+      </Component>
+     </Directory>
     </Directory>
     <Directory Id="SnCoreImages" Name="images">
      <Component Id="SnCoreImages" Guid="A1378F73-5EAD-4269-80DE-982B4CDFDA91" DiskId="1">

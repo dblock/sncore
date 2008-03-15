@@ -44,6 +44,7 @@
     <ComponentRef Id="SnCoreInstallDir" />
     <ComponentRef Id="SnCore" />
     <ComponentRef Id="SnCoreBin" />
+    <ComponentRef Id="SnCoreBin_RU" />
     <ComponentRef Id="SnCoreImages" />
     <ComponentRef Id="SnCoreImagesAccount" />
     <ComponentRef Id="SnCoreImagesBookmarksFull" />
