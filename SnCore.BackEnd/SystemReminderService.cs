@@ -22,9 +22,12 @@ namespace SnCore.BackEndServices
 {
     public class SystemReminderService : SystemService
     {
+        public static string Name = "SnCore System Reminder Service";
+        public static string Description = "Runs subscriptions, reminders and other cleanup tasks.";
+
         public SystemReminderService()
         {
-
+            ServiceName = Name;
         }
 
         public override void SetUp()

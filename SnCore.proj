@@ -38,7 +38,7 @@
    AssemblyTrademark="" ComVisible="false" CLSCompliant="true"
    AssemblyKeyFile="..\key.snk" AssemblyDelaySign="false" AssemblyKeyName="" AssemblyCulture=""
    AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
-  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd.Service\Properties\AssemblyInfo.cs" />
   <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
   <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.BackEnd.Tests\Properties\AssemblyInfo.cs" />
   <Copy SourceFiles="SnCore.Common\GlobalAssemblyInfo.cs" DestinationFiles="SnCore.Data\AssemblyInfo.cs" />
@@ -61,8 +61,7 @@
    ReplacementText="ProductVersion='$(Major).$(Minor).$(Build).$(Revision)'" />
  </Target>
  <Target Name="revertversion">
-  <SvnClient Command="revert" Arguments="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
-  <SvnClient Command="revert" Arguments="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
+  <SvnClient Command="revert" Arguments="SnCore.BackEnd.Service\Properties\AssemblyInfo.cs" />
   <SvnClient Command="revert" Arguments="SnCore.BackEnd\Properties\AssemblyInfo.cs" />
   <SvnClient Command="revert" Arguments="SnCore.BackEnd.Tests\Properties\AssemblyInfo.cs" />
   <SvnClient Command="revert" Arguments="SnCore.Data\AssemblyInfo.cs" />
@@ -94,7 +93,7 @@
  </Target>
  <Target Name="deployables">
   <MSBuild
-   Projects="SnCore.Web.Deploy\SnCore.Web.Deploy.wdproj;SnCore.MobileWeb.Deploy\SnCore.MobileWeb.Deploy.wdproj"
+   Projects="SnCore.BackEnd.Service;SnCore.Web.Deploy\SnCore.Web.Deploy.wdproj;SnCore.MobileWeb.Deploy\SnCore.MobileWeb.Deploy.wdproj"
    Properties="Configuration=$(Configuration);"
    Targets="Build"
    />
@@ -110,10 +109,13 @@
   <MakeDir Directories="SnCore.Deploy\Target" />
   <MakeDir Directories="SnCore.Deploy\Target\$(Configuration)\$(SnCoreProjectName)" />
   <MakeDir Directories="SnCore.Deploy\Target\$(Configuration)\mobile.$(SnCoreProjectName)" />
+  <MakeDir Directories="SnCore.Deploy\Target\$(Configuration)\service.$(SnCoreProjectName)" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" 
    Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.Web.Deploy\$(Configuration)\*.* $(SnCoreProjectName)" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" 
    Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.MobileWeb.Deploy\$(Configuration)\*.* mobile.$(SnCoreProjectName)" />
+  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)"
+   Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.BackEnd.Service\bin\$(Configuration)\*.* service.$(SnCoreProjectName)" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" 
    Command="..\..\..\tools\zip32\zip32.exe -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip $(SnCoreProjectName)\*.*" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" 

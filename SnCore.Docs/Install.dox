@@ -11,13 +11,13 @@ See \subpage install_requirements.
 \section install_download Download
 
 Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>. The latest known good
-version is <a href="download/SnCore_1.0.1426.0.msi">1.0.1426.0</a>.
+version is <a href="download/SnCore_1.0.1432.0.msi">1.0.1432.0</a>.
 
 \section install_howto Installation
 
 \subsection install_howto_installer Installer Distribution
 
-Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1426.0.msi).
+Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1432.0.msi).
 It will guide you through the installation process, create the database, the website, etc.
 
 \subsection install_howto_website WebSite Options
@@ -36,26 +36,56 @@ Currently, only Windows authentication is supported. You can always adjust setti
 If the msi installer fails, rerun the installer as follows and collect the log file.
 
 \code
-msiexec /i SnCore_1.0.1426.msi /l*v error.log
+msiexec /i SnCore_1.0.1432.msi /l*v error.log
 \endcode
 
 See \ref contact for contact information.
-
-\section install_firststeps First Steps and Simple Tasks
-
-Navigate to the website. This is typically http://localhost/SnCoreWeb/. By default the system creates an administrative 
-account with username <em>admin@localhost.com</em> and password: <em>password</em>. It also creates a bug project, a
-general site discussion and adjusts default \ref settings.
 
 \section upgrade_howto Upgrading
 
 To upgrade to a newer version of SnCore, run the following command.
 
 \code
-msiexec /i SnCore_1.0.1426.msi REINSTALLMODE=vomus REINSTALL=ALL
+msiexec /i SnCore_1.0.1432.msi REINSTALLMODE=vomus REINSTALL=ALL
 \endcode
 
+\section install_howto_services Deploying System Services
+
+SnCore has several back-end services that process various queues, including e-mail or syndication and perform
+cleanup tasks. These services can be run in the same AppDomain as the website or can be installed as full 
+Windows services thus not sharing the same memory space as the website. The latter is recommended for heavy load
+and distributed scenarios.
+
+The installer has back-end services disabled by default. If you choose to install these it will create a services
+directory in your installation. The services installation is currently not integrated in the installer. Run the
+following command.
+
+\code
+%WINDIR%\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe /i SnCore.BackEnd.Service.exe
+\endcode
+
+Run the following command to uninstall the services.
+
+\code
+%WINDIR%\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe /u SnCore.BackEnd.Service.exe
+\endcode
+
+Edit the website's web.config to disable the services in the website's appdomain.
+
+\code
+<appSettings>
+ <add key="SystemServices.Enabled" value="false"/>
+</appSettings>
+\endcode
+
+Start the services manually from the service control manager the first time. They are marked automatic and will
+restart on reboot.
+
 \section install_next What's Next?
+
+Navigate to the website. This is typically http://localhost/SnCoreWeb/. By default the system creates an administrative 
+account with username <em>admin@localhost.com</em> and password: <em>password</em>. It also creates a bug project, a
+general site discussion and adjusts default \ref settings.
 
 \li \ref dev
 \li \ref branch

@@ -16,6 +16,14 @@ namespace SnCore.BackEndServices
 {
     public class SystemSMTPMessageService : SystemService
     {
+        public static string Name = "SnCore System SMTP Queue Service";
+        public static string Description = "Routes NDRs processed and queued by the SMTP sink.";
+
+        public SystemSMTPMessageService()
+        {
+            ServiceName = Name;
+        }
+
         public override void SetUp()
         {
             AddJob(new SessionJobDelegate(RunQueue));

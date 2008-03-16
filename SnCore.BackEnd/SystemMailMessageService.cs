@@ -22,6 +22,9 @@ namespace SnCore.BackEndServices
 {
     public class SystemMailMessageService : SystemService
     {
+        public static string Name = "SnCore System PostMaster Service";
+        public static string Description = "Routes e-mails between the SnCore users and an SMTP server.";
+        
         private int mChunkSize = 10;
 
         public int ChunkSize
@@ -38,7 +41,7 @@ namespace SnCore.BackEndServices
 
         public SystemMailMessageService()
         {
-
+            ServiceName = Name;
         }
 
         public override void SetUp()

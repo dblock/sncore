@@ -17,14 +17,19 @@ using System.Net.Mail;
 using System.Diagnostics;
 using System.Reflection;
 using SnCore.Tools.Web;
+using System.ServiceProcess;
 
 namespace SnCore.BackEndServices
 {
     public class SystemSyndicationService : SystemService
     {
+        public static string Name = "SnCore System Syndication Service";
+        public static string Description = "Runs RSS feed syndication updates.";
+
         public SystemSyndicationService()
         {
-
+            ServiceName = Name;
+            EventLogManager = EventLog;         
         }
 
         public override void SetUp()

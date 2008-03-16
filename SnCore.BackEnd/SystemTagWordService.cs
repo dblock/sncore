@@ -19,9 +19,12 @@ namespace SnCore.BackEndServices
 {
     public class SystemTagWordService : SystemService
     {
+        public static string Name = "SnCore System Tag Service";
+        public static string Description = "Indexes content into meta tags.";
+        
         public SystemTagWordService()
         {
-
+            ServiceName = Name;
         }
 
         public override void SetUp()

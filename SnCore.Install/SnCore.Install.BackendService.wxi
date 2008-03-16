@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Include>
+ <Fragment Id="SnCore.Install.BackendService.Fragment" xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
+  <?include SnCore.Project.wxi ?>
+  <DirectoryRef Id="SnCore">
+   <Directory Id="SnCoreServices" Name="services">
+    <Component Id="SnCoreServicesBin" Guid="98108DA7-187B-483f-9FF6-A2E0FD35FB76" DiskId="1">
+     <File Id="SnCoreServicesBin_Atom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Atom.NET.dll" />
+     <File Id="SnCoreServicesBin_Castle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Castle.DynamicProxy.dll" />
+     <File Id="SnCoreServicesBin_ICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\ICalParser.dll" />
+     <File Id="SnCoreServicesBin_Iesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Iesi.Collections.dll" />
+     <File Id="SnCoreServicesBin_Janrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Janrain.OpenId.dll" />
+     <File Id="SnCoreServicesBin_log4net_dll" Name="log4net.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\log4net.dll" />
+     <File Id="SnCoreServicesBin_MIME_NET_dll" Name="MIME.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\MIME.NET.dll" />
+     <File Id="SnCoreServicesBin_NGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\NGif.NET.dll" />
+     <File Id="SnCoreServicesBin_NHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\NHibernate.dll" />
+     <File Id="SnCoreServicesBin_RSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\RSS.NET.dll" />
+     <File Id="SnCoreServicesBin_SgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SgmlReaderDll.dll" />
+     <File Id="SnCoreServicesBin_SnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.dll" />
+     <File Id="SnCoreServicesBin_SnCore_BackEnd_Service.exe" Name="SnCore.BackEnd.Service.exe" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.Service.exe" />
+     <File Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe_config" Name="SnCore.BackEnd.Service.exe.config" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.Service.exe.config" />
+     <File Id="SnCoreServicesBin_SnCore_Data_dll" Name="SnCore.Data.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.dll" />
+     <File Id="SnCoreServicesBin_SnCore_Data_Hibernate_dll" Name="SnCore.Data.Hibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.Hibernate.dll" />
+     <File Id="SnCoreServicesBin_SnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Services.dll" />
+     <File Id="SnCoreServicesBin_SnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Tools.dll" />
+    </Component>
+   </Directory>
+  </DirectoryRef>
+ </Fragment>
+</Include>

@@ -303,6 +303,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost/SnCoreFace
 		SlnRelativePath = "SnCore.FaceBook.Web\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.BackEnd.Service", "SnCore.BackEnd.Service\SnCore.BackEnd.Service.csproj", "{02A079EA-3FD3-4500-B632-D465380B1C4F}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -725,6 +731,18 @@ Global
 		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
 		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Mixed Platforms.Build.0 = Debug|.NET
 		{3457FB18-BF57-43A7-819C-A4BE7AB9604D}.Release|Win32.ActiveCfg = Debug|.NET
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|.NET.ActiveCfg = Release|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

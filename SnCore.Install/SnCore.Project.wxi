@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <Include>
  <?ifdef Debug ?>
  <?define ConfigurationName=Debug ?>
@@ -14,4 +14,5 @@
  <?define SnCore.WebUpgrade.Target.Path=$(var.SnCoreSolutionDir)\SnCore.WebUpgrade ?>
  <?define SnCore.Web.Deploy.Path=$(var.SnCoreSolutionDir)\SnCore.Web.Deploy ?>
  <?define SnCore.MobileWeb.Deploy.Path=$(var.SnCoreSolutionDir)\SnCore.MobileWeb.Deploy ?>
+ <?define SnCore.BackEnd.Service.Target.Path=$(var.SnCoreSolutionDir)\SnCore.BackEnd.Service\bin\$(var.ConfigurationName) ?>
 </Include>

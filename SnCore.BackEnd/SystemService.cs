@@ -12,10 +12,11 @@ using System.Web.Hosting;
 using SnCore.Tools.Web;
 using SnCore.Services;
 using NHibernate.Dialect.Function;
+using System.ServiceProcess;
 
 namespace SnCore.BackEndServices
 {
-    public abstract class SystemService
+    public abstract class SystemService : ServiceBase
     {
         public delegate void SessionJobDelegate(ISession session, ManagedSecurityContext sec);
         private int mInterruptInterval = 1;
@@ -131,6 +132,11 @@ namespace SnCore.BackEndServices
 
                 return;
             }
+            else
+            {
+                EventLogManager.WriteEntry(string.Format("Service {0} is starting.", this.GetType().Name),
+                    EventLogEntryType.Information);
+            }
 
             mThread = new Thread(ThreadProc);
             mThread.Start(this);
@@ -178,7 +184,6 @@ namespace SnCore.BackEndServices
         {
             Thread.CurrentThread.Priority = ThreadPriority.Lowest;
             SystemService s = (SystemService) service;
-            Thread.Sleep(1000 * 30); // let the system come up
             s.SetUp();
             s.Run();
         }
@@ -231,6 +236,12 @@ namespace SnCore.BackEndServices
         {
             EventLogManager.WriteEntry(string.Format("Running {0} with {1} job(s).", this.GetType().Name, mJobs.Count),
                 EventLogEntryType.Information);
+
+            if (SystemServicesDebug)
+            {
+                EventLogManager.WriteEntry(string.Format("{0}, SystemServicesDebug=\"{1}\", ServiceDebug=\"{2}\".", this.GetType().Name,
+                    SystemServicesDebug, IsDebug), EventLogEntryType.Information);
+            }
 
             while (!IsStopping)
             {
@@ -291,8 +302,24 @@ namespace SnCore.BackEndServices
                 }
                 return mEventLogManager;
             }
+            set
+            {
+                mEventLogManager = value;
+            }
         }
 
         public abstract void SetUp();
+
+        protected override void OnStart(string[] args)
+        {
+            Start();
+            base.OnStart(args);
+        }
+
+        protected override void OnStop()
+        {
+            Stop();
+            base.OnStop();
+        }
     }
 }

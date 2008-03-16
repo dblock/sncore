@@ -80,6 +80,10 @@
    <ComponentRef Id="SnCoreInstallDir" />
    <ComponentRef Id="SnCoreDatabase" />
   </Feature>
+  <Feature Id="SnCore.BackEndService.Feature" Title="Back-End Services" Level="2" Display="expand">
+   <ComponentRef Id="SnCoreInstallDir" />
+   <ComponentRef Id="SnCoreServicesBin" />
+  </Feature>
   <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
    <ComponentRef Id="SnCoreInstallDir" />
    <ComponentRef Id="Docs" />
@@ -102,4 +106,5 @@
  <?include SnCore.Install.UI.wxi ?>
  <?include SnCore.Install.UI.ChooseWebSiteName.wxi ?>
  <?include SnCore.Install.UI.ChooseSql.wxi ?>
+ <?include SnCore.Install.BackEndService.wxi ?>
 </Wix>

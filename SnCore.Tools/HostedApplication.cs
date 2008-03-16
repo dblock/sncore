@@ -32,9 +32,25 @@ namespace SnCore.Tools.Web
 
         public static EventLog CreateEventLog()
         {
-            string eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
-            if (eventLogName.Length == 0) eventLogName = HostingEnvironment.SiteName;
-            if (eventLogName.Length == 0) eventLogName = "Application";
+            return CreateEventLog("SnCore");
+        }
+
+        public static EventLog CreateEventLog(string name)
+        {
+            string eventLogName = string.Empty;
+
+            try
+            {
+                eventLogName = HostingEnvironment.ApplicationVirtualPath.Trim("/".ToCharArray());
+                if (string.IsNullOrEmpty(eventLogName)) eventLogName = HostingEnvironment.SiteName;
+            }
+            catch
+            {
+                // not running under a hosted environment
+            }
+
+            if (string.IsNullOrEmpty(eventLogName)) eventLogName = name;
+            if (string.IsNullOrEmpty(eventLogName)) eventLogName = "SnCore";
 
             if (! EventLog.SourceExists(eventLogName))
             {

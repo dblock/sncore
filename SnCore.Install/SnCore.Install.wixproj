@@ -30,6 +30,7 @@
     <Content Include="SnCore.Install.UI.wxi" />
     <Content Include="SnCore.Install.Web.wxi" />
     <Content Include="SnCore.Install.WebSite.wxi" />
+    <Content Include="SnCore.Install.BackEndService.wxi" />
     <Content Include="SnCore.Project.wxi" />
   </ItemGroup>
   <ItemGroup>
