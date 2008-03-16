@@ -93,7 +93,7 @@
  </Target>
  <Target Name="deployables">
   <MSBuild
-   Projects="SnCore.BackEnd.Service;SnCore.Web.Deploy\SnCore.Web.Deploy.wdproj;SnCore.MobileWeb.Deploy\SnCore.MobileWeb.Deploy.wdproj"
+   Projects="SnCore.BackEnd.Service\SnCore.BackEnd.Service.csproj;SnCore.Web.Deploy\SnCore.Web.Deploy.wdproj;SnCore.MobileWeb.Deploy\SnCore.MobileWeb.Deploy.wdproj"
    Properties="Configuration=$(Configuration);"
    Targets="Build"
    />
@@ -117,9 +117,7 @@
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)"
    Command="xcopy /EXCLUDE:..\..\XCopy.exclude /s /i ..\..\..\SnCore.BackEnd.Service\bin\$(Configuration)\*.* service.$(SnCoreProjectName)" />
   <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" 
-   Command="..\..\..\tools\zip32\zip32.exe -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip $(SnCoreProjectName)\*.*" />
-  <Exec WorkingDirectory="SnCore.Deploy\Target\$(Configuration)" 
-   Command="..\..\..\tools\zip32\zip32.exe -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip mobile.$(SnCoreProjectName)\*.*" />
+   Command="..\..\..\tools\zip32\zip32.exe -r ..\..\..\Target\$(Configuration)\$(SnCoreProjectName).zip $(SnCoreProjectName)\*.* mobile.$(SnCoreProjectName)\*.* service.$(SnCoreProjectName)\*.*" />
   <Message Importance="high" Text="Created 'Target\$(Configuration)\$(SnCoreProjectName).zip'." />
  </Target>
  <Target Name="installer" DependsOnTargets="version">
