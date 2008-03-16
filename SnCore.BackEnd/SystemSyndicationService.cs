@@ -29,7 +29,6 @@ namespace SnCore.BackEndServices
         public SystemSyndicationService()
         {
             ServiceName = Name;
-            EventLogManager = EventLog;         
         }
 
         public override void SetUp()

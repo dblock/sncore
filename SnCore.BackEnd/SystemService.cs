@@ -24,7 +24,7 @@ namespace SnCore.BackEndServices
         private Thread mThread = null;
         private bool mIsStopping = false;
         private List<SessionJobDelegate> mJobs = new List<SessionJobDelegate>();
-        private static EventLog mEventLogManager = null;
+        private EventLog mEventLogManager = null;
 
         public SystemService()
         {
@@ -70,7 +70,7 @@ namespace SnCore.BackEndServices
                     "hibernate.connection.connection_string"));
         }
 
-        public static bool GetAppSetting(string name, bool defaultvalue)
+        public bool GetAppSetting(string name, bool defaultvalue)
         {
             bool result = defaultvalue;
             object enabled = ConfigurationManager.AppSettings[name];
@@ -85,7 +85,7 @@ namespace SnCore.BackEndServices
             return result;
         }
 
-        public static bool SystemServicesEnabled
+        public bool SystemServicesEnabled
         {
             get
             {
@@ -104,7 +104,7 @@ namespace SnCore.BackEndServices
             }
         }
 
-        public static bool SystemServicesDebug
+        public bool SystemServicesDebug
         {
             get
             {
@@ -286,7 +286,7 @@ namespace SnCore.BackEndServices
             }
         }
 
-        public static EventLog EventLogManager
+        public EventLog EventLogManager
         {
             get
             {
@@ -312,8 +312,9 @@ namespace SnCore.BackEndServices
 
         protected override void OnStart(string[] args)
         {
-            Start();
             base.OnStart(args);
+            EventLogManager = EventLog;
+            Start();
         }
 
         protected override void OnStop()

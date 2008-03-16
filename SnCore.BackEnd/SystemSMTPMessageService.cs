@@ -29,7 +29,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunQueue));
         }
 
-        private static void UpdateFailureEmails(MimeDSNRecipient r, ISession session)
+        private void UpdateFailureEmails(MimeDSNRecipient r, ISession session)
         {
             IList<AccountEmail> emails = session.CreateCriteria(typeof(AccountEmail))
                 .Add(Expression.Eq("Address", r.FinalRecipientEmailAddress))
@@ -60,7 +60,7 @@ namespace SnCore.BackEndServices
             }
         }
 
-        private static void UpdateFailureInvitations(MimeDSNRecipient r, ISession session)
+        private void UpdateFailureInvitations(MimeDSNRecipient r, ISession session)
         {
             IList<AccountInvitation> invitations = session.CreateCriteria(typeof(AccountInvitation))
                 .Add(Expression.Eq("Email", r.FinalRecipientEmailAddress))

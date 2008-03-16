@@ -43,7 +43,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
             ManagedAccountAuditEntryCollection.SetMaxMessageLength();
         }
 
-        if (! SystemService.SystemServicesEnabled)
+        if (! mMailMessageService.SystemServicesEnabled)
         {
             EventLogManager.WriteEntry("System services disabled by configuration setting.",
                 EventLogEntryType.Warning);
