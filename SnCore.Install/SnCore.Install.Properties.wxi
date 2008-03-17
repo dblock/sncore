@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
  <Fragment>
+  <Property Id="ALLUSERS">
+   <![CDATA[2]]>
+  </Property>
   <Property Id="INSTALLDIR">
    <RegistrySearch Id='GetInstallDir' Type='raw' Root='HKLM' Key='SOFTWARE\Vestris Inc.\SnCore' Name='InstallDir' />
   </Property>
+  <Property Id="ARPPRODUCTICON" Value="SnCoreIcon" />
   <Property Id="NETFRAMEWORK_INSTALLROOT">
    <RegistrySearch Id="NetFrameworkInstallRootSearch" Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework" Type="raw" Name="InstallRoot" />
   </Property>

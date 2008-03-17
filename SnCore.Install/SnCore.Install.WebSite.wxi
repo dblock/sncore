@@ -27,11 +27,15 @@
   </DirectoryRef>
   <DirectoryRef Id="SnCore">
    <Component Id="SnCoreWebSiteRegistry" Guid="7F1C37CE-11B1-4bee-8A9B-0B8E43E83835" DiskId="1">
+    <RegistryKey Id="SnCoreWebSiteRegistryKey_HKCU" Root="HKCU" Key="Software\Vestris Inc.\SnCore\WebSite" Action="createAndRemoveOnUninstall">
+     <RegistryValue Id="SnCoreWebSiteRegistry_HKCU_WebSiteName" Name="WebSiteName" Value="[SNCORE_WEBSITE_NAME]" Type="string" />
+    </RegistryKey>
     <RegistryKey Id="SnCoreWebSiteRegistryKey" Root="HKLM" Key="Software\Vestris Inc.\SnCore\WebSite" Action="createAndRemoveOnUninstall">
      <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteName" Name="WebSiteName" Value="[SNCORE_WEBSITE_NAME]" Type="string" />
      <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteDomainName" Name="WebSiteDomainName" Value="[SNCORE_WEBSITE_DOMAINNAME]" Type="string" />
      <RegistryValue Id="SnCoreWebSiteRegistry_WebSiteType" Name="WebSiteType" Value="[SNCORE_WEBSITE_TYPE]" Type="string" />
     </RegistryKey>
+    <Shortcut Id="SnCoreDefaultWebSiteShortcut" Directory="SnCoreMenuFolder" Name="Launch WebSite" Target="[SNCORE_WEBSITE_URL]" Icon="SnCoreIcon" />
    </Component>
    <Component Id="SnCoreDefaultWebSiteVirtualDirectory" Guid="0E784EE4-0DC3-468a-B529-9D483433BEB7" DiskId="1">
     <Condition><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Condition>
@@ -51,7 +55,7 @@
      <IIS:WebApplication Id="SnCoreWebApplication" Name="[SNCORE_WEBSITE_DOMAINNAME].Application" Isolation="high" />
      <!--<IIS:WebFilter Id="SnCoreRedirectServicesFilter" Name="SnCore Redirector" Description="Redirects humanly readable urls to website content." Path="[#SnCoreIsapiRewriteIsapiRewrite4_dll]" />-->
     </IIS:WebSite>
-   </Component>   
+   </Component>
   </DirectoryRef>
   <DirectoryRef Id="SnCore_mobile">
    <Component Id="SnCoreMobileWebSiteVirtualDirectory" Guid="C1B0D628-4BFE-4c30-ADA0-4F6404363317" DiskId="1">
@@ -102,7 +106,7 @@
   <CustomAction Id="SetSnCoreMobileWebsiteUrl_VirtualDirectory" Property="SNCORE_MOBILE_WEBSITE_URL" Value="[SNCORE_WEBSITE_URL]Mobile/" Execute="immediate" />
   <CustomAction Id="SetSnCoreMobileWebsiteUrl_Domain" Property="SNCORE_MOBILE_WEBSITE_URL" Value="http://mobile.[SNCORE_WEBSITE_DOMAINNAME]/" Execute="immediate" />
   <CustomAction Id="LaunchWebSite" BinaryKey="WixCA" DllEntry="WixShellExec" Execute="immediate" Return="check" Impersonate="yes" />
-  <CustomAction Id="SetLaunchWebSiteCheckbox" Property="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" /> 
+  <CustomAction Id="SetLaunchWebSiteCheckbox" Property="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
   <CustomAction Id="SetLaunchWebSiteWixShellExecTarget" Property="WixShellExecTarget" Value="[SNCORE_WEBSITE_URL]" />
   <InstallUISequence>
    <Custom Action="SetSnCoreWebsiteId_VirtualDirectory" After="CostInitialize"><![CDATA[SNCORE_WEBSITE_TYPE="SnCoreWebSiteVirtualDirectory"]]></Custom>

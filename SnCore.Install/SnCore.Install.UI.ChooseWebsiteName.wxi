@@ -31,9 +31,11 @@
   </UI>
   <CustomAction Id="SetSnCoreDirectory" Property="SnCore" Value="[INSTALLDIR][SNCORE_WEBSITE_DOMAINNAME]" Execute="immediate" />
   <CustomAction Id="SetSnCoreMobileDirectory" Property="SnCore_mobile" Value="[INSTALLDIR]mobile.[SNCORE_WEBSITE_DOMAINNAME]" Execute="immediate" />
+  <CustomAction Id="SetSnCoreShortcutDirectoryName" Property="SnCoreMenuFolder" Value="[ProgramMenuFolder][SNCORE_WEBSITE_NAME]" Execute="immediate" />
   <InstallExecuteSequence>
    <Custom Action="SetSnCoreDirectory" Before="CostFinalize" />
    <Custom Action="SetSnCoreMobileDirectory" After="SetSnCoreDirectory" />
+   <Custom Action="SetSnCoreShortcutDirectoryName" After="SetSnCoreMobileDirectory" />
   </InstallExecuteSequence>
  </Fragment>
 </Include>

@@ -3,7 +3,7 @@
  <Fragment>
   <DirectoryRef Id="SnCore">
    <Directory Id="Docs" Name="docs">
-    <Component Id="Docs" Guid="463F1088-556F-4EBA-98EA-814B123F4FBB" DiskId="1">
+    <Component Id="SnCoreDocs" Guid="463F1088-556F-4EBA-98EA-814B123F4FBB" DiskId="1">
      <File Id="contact_html" Name="contact.html" Source="$(var.SnCore.Docs.Target.Path)\contact.html" />
      <File Id="annotated_html" Name="annotated.html" Source="$(var.SnCore.Docs.Target.Path)\annotated.html" />
      <File Id="branch_html" Name="branch.html" Source="$(var.SnCore.Docs.Target.Path)\branch.html" />
@@ -696,13 +696,19 @@
      <File Id="smtpsink_html" Name="smtpsink.html" Source="$(var.SnCore.Docs.Target.Path)\smtpsink.html" />
      <File Id="struct_rss_1_1_d_b_bool_members_html" Name="struct_rss_1_1_d_b_bool-members.html" Source="$(var.SnCore.Docs.Target.Path)\struct_rss_1_1_d_b_bool-members.html" />
      <File Id="struct_rss_1_1_d_b_bool_html" Name="struct_rss_1_1_d_b_bool.html" Source="$(var.SnCore.Docs.Target.Path)\struct_rss_1_1_d_b_bool.html" />
-     <File Id="Style_css" Source="$(var.SnCore.Docs.Target.Path)\Style.css" />
-     <File Id="tabs_css" Source="$(var.SnCore.Docs.Target.Path)\tabs.css" />
-     <File Id="tab_b_gif" Source="$(var.SnCore.Docs.Target.Path)\tab_b.gif" />
-     <File Id="tab_l_gif" Source="$(var.SnCore.Docs.Target.Path)\tab_l.gif" />
-     <File Id="tab_r_gif" Source="$(var.SnCore.Docs.Target.Path)\tab_r.gif" />
-     <File Id="toplogo_jpg" Source="$(var.SnCore.Docs.Target.Path)\toplogo.jpg" />
+     <File Id="Style_css" Name="Style.css" Source="$(var.SnCore.Docs.Target.Path)\Style.css" />
+     <File Id="tabs_css" Name="tabs.css" Source="$(var.SnCore.Docs.Target.Path)\tabs.css" />
+     <File Id="tab_b_gif" Name="tab_b.gif" Source="$(var.SnCore.Docs.Target.Path)\tab_b.gif" />
+     <File Id="tab_l_gif" Name="tab_l.gif" Source="$(var.SnCore.Docs.Target.Path)\tab_l.gif" />
+     <File Id="tab_r_gif" Name="tab_r.gif" Source="$(var.SnCore.Docs.Target.Path)\tab_r.gif" />
+     <File Id="toplogo_jpg" Name="toplogo.jpg"  Source="$(var.SnCore.Docs.Target.Path)\toplogo.jpg" />
      <File Id="unittests_html" Name="unittests.html" Source="$(var.SnCore.Docs.Target.Path)\unittests.html" />
+    </Component>
+    <Component Id="SnCoreDocsRegistry" Guid="446336DB-1ECF-41a6-BF7A-CEAB3125A9FF" DiskId="1">
+     <RegistryKey Id="SnCoreDocsRegistryKey_HKCU" Root="HKCU" Key="Software\Vestris Inc.\SnCore\Docs" Action="createAndRemoveOnUninstall">
+      <RegistryValue Id="SnCoreDocsRegistry_HKCU_WebSiteName" Name="WebSiteName" Value="[SNCORE_WEBSITE_NAME]" Type="string" />
+     </RegistryKey>
+     <Shortcut Id="SnCoreDocsShortcut" Directory="SnCoreMenuFolder" Name="SnCore Help" Target="[SNCORE_WEBSITE_URL]docs/index.html" Icon="HelpIcon" />
     </Component>
    </Directory>
   </DirectoryRef>

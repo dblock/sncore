@@ -22,6 +22,8 @@
   <Condition Message="A later version of [ProductName] is already installed.">
    NOT NEWERVERSIONDETECTED
   </Condition>
+  <Icon Id="HelpIcon" src="icons/help.ico" />
+  <Icon Id="SnCoreIcon" src="icons/sncore.ico" />
   <Media Id="1" Cabinet="SnCore.Install.cab" EmbedCab="yes" />
   <Directory Id="TARGETDIR" Name="SourceDir">
    <Directory Id="ProgramFilesFolder">
@@ -32,15 +34,27 @@
        <Permission User="SYSTEM" GenericAll="yes" />
        <Permission User="Administrators" GenericAll="yes" />
       </CreateFolder>
-      <RegistryKey Id="SnCoreRegistryKey"  Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
-       <RegistryValue Id="SnCoreRegistry_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+      <RegistryKey Id="SnCoreRegistryKeyProgramFilesFolder" Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
+       <RegistryValue Id="SnCoreRegistryProgramFilesFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
       </RegistryKey>
+     </Component>
+    </Directory>
+   </Directory>
+   <Directory Id="ProgramMenuFolder" Name="ProgMenu">
+    <Directory Id="SnCoreMenuFolder" Name="SnCore">
+     <Component Guid="58410D64-B64F-4516-AAA5-D42C3B90118C" Id="SnCoreMenuDir">
+      <CreateFolder />
+      <RegistryKey Id="SnCoreRegistryKeyMenuFolder" Root="HKCU" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
+       <RegistryValue Id="SnCoreRegistryMenuFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+      </RegistryKey>
+      <RemoveFolder Id="SnCoreMenuFolderRemove" Directory="SnCoreMenuFolder" On="uninstall" />
      </Component>
     </Directory>
    </Directory>
   </Directory>
   <Feature Id="SnCore.WebSites.Feature" Title="Web Sites" Level="1" Display="expand" ConfigurableDirectory="INSTALLDIR">
    <Feature Id="SnCore.Web.Feature" Title="Default WebSite" Level="1" Display="expand">
+    <ComponentRef Id="SnCoreMenuDir" />
     <ComponentRef Id="SnCoreInstallDir" />
     <ComponentRef Id="SnCore" />
     <ComponentRef Id="SnCoreBin" />
@@ -63,6 +77,7 @@
     </Feature>
    </Feature>
    <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
+    <ComponentRef Id="SnCoreMenuDir" />
     <ComponentRef Id="SnCoreInstallDir" />
     <ComponentRef Id="SnCore_mobile" />
     <ComponentRef Id="SnCore_mobileBin" />
@@ -77,16 +92,20 @@
    </Feature>
   </Feature>
   <Feature Id="SnCore.Database.Feature" Title="System Database" Level="1">
+   <ComponentRef Id="SnCoreMenuDir" />
    <ComponentRef Id="SnCoreInstallDir" />
    <ComponentRef Id="SnCoreDatabase" />
   </Feature>
   <Feature Id="SnCore.BackEndService.Feature" Title="Back-End Services" Level="2" Display="expand">
+   <ComponentRef Id="SnCoreMenuDir" />
    <ComponentRef Id="SnCoreInstallDir" />
    <ComponentRef Id="SnCoreServicesBin" />
   </Feature>
   <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
+   <ComponentRef Id="SnCoreMenuDir" />
    <ComponentRef Id="SnCoreInstallDir" />
-   <ComponentRef Id="Docs" />
+   <ComponentRef Id="SnCoreDocs" />
+   <ComponentRef Id="SnCoreDocsRegistry" />
   </Feature>
   <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
   <WixVariable Id="WixUIBannerBmp" Value="bitmaps\Banner.bmp" />
