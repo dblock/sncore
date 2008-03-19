@@ -25,6 +25,7 @@ DECLARE @aspnet_username nvarchar(128)
 SELECT @aspnet_username = @machine_name + '\ASPNET'
 EXEC sp_sncore_adduser @username = @aspnet_username
 EXEC sp_sncore_adduser @username = 'NT AUTHORITY\NETWORK SERVICE'
+EXEC sp_sncore_adduser @username = 'NT AUTHORITY\SYSTEM'
 GO
 DROP PROCEDURE [sp_sncore_adduser]
 GO

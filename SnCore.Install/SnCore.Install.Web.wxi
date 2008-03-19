@@ -457,23 +457,17 @@
       <File Id="SnCoreBinApp_GlobalResources_dll" Name="App_GlobalResources.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\App_GlobalResources.dll" />
       <File Id="SnCoreBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Atom.NET.dll" />
       <File Id="SnCoreBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Castle.DynamicProxy.dll" />
-      <File Id="SnCoreBinCastle_DynamicProxy_xml" Name="Castle.DynamicProxy.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\Castle.DynamicProxy.xml" />
       <File Id="SnCoreBinDirtyPanel_dll" Name="DirtyPanel.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\DirtyPanel.dll" />
       <File Id="SnCoreBinFreeTextBox_dll" Name="FreeTextBox.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\FreeTextBox.dll" />
       <File Id="SnCoreBinICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\ICalParser.dll" />
       <File Id="SnCoreBinIesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Iesi.Collections.dll" />
-      <File Id="SnCoreBinIesi_Collections_xml" Name="Iesi.Collections.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\Iesi.Collections.xml" />
       <File Id="SnCoreBinJanrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Janrain.OpenId.dll" />
-      <File Id="SnCoreBinJanrain_OpenId_xml" Name="Janrain.OpenId.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\Janrain.OpenId.xml" />
       <File Id="SnCoreBinLog4net_dll" Name="log4net.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\log4net.dll" />
-      <File Id="SnCoreBinLog4net_xml" Name="log4net.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\log4net.xml" />
       <File Id="SnCoreBinMicrosoft_Web_Preview_dll" Name="Microsoft.Web.Preview.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Microsoft.Web.Preview.dll" />
       <File Id="SnCoreBinNGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\NGif.NET.dll" />
       <File Id="SnCoreBinNHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\NHibernate.dll" />
-      <File Id="SnCoreBinNHibernate_xml" Name="NHibernate.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\NHibernate.xml" />
       <File Id="SnCoreBinNStuff_UpdateControls_dll" Name="nStuff.UpdateControls.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\nStuff.UpdateControls.dll" />
       <File Id="SnCoreBinNunit_framework_dll" Name="nunit.framework.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\nunit.framework.dll" />
-      <File Id="SnCoreBinNunit_framework_xml" Name="nunit.framework.xml" Source="$(var.SnCore.Deploy.Target.Path)\bin\nunit.framework.xml" />
       <File Id="SnCoreBinRSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\RSS.NET.dll" />
       <File Id="SnCoreBinSgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\SgmlReaderDll.dll" />
       <File Id="SnCoreBinSnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\SnCore.BackEnd.dll" />
@@ -489,7 +483,6 @@
       <File Id="SnCoreBinUnhandledExceptionModule_dll" Name="UnhandledExceptionModule.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\UnhandledExceptionModule.dll" />
       <File Id="SnCoreBinWebChart_dll" Name="WebChart.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\WebChart.dll" />
       <File Id="SnCoreBinWilco_Web_dll" Name="Wilco.Web.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Wilco.Web.dll" />
-      <File Id="SnCoreBinWilco_Web_XML" Name="Wilco.Web.XML" Source="$(var.SnCore.Deploy.Target.Path)\bin\Wilco.Web.XML" />
      </Component>
      <Directory Id="SnCoreBin_RU" Name="ru">
       <Component Id="SnCoreBin_RU" Guid="78713CB0-AFF7-4446-9D2E-C928BEFEA423" DiskId="1">
@@ -682,20 +675,14 @@
       <File Id="SnCore_mobileBinApp_WebReferences_dll" Name="App_WebReferences.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\App_WebReferences.dll" />
       <File Id="SnCore_mobileBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Atom.NET.dll" />
       <File Id="SnCore_mobileBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Castle.DynamicProxy.dll" />
-      <File Id="SnCore_mobileBinCastle_DynamicProxy_xml" Name="Castle.DynamicProxy.xml" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Castle.DynamicProxy.xml" />
       <File Id="SnCore_mobileBinFreeTextBox_dll" Name="FreeTextBox.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\FreeTextBox.dll" />
       <File Id="SnCore_mobileBinICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\ICalParser.dll" />
       <File Id="SnCore_mobileBinIesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Iesi.Collections.dll" />
-      <File Id="SnCore_mobileBinIesi_Collections_xml" Name="Iesi.Collections.xml" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Iesi.Collections.xml" />
       <File Id="SnCore_mobileBinJanrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Janrain.OpenId.dll" />
-      <File Id="SnCore_mobileBinJanrain_OpenId_xml" Name="Janrain.OpenId.xml" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Janrain.OpenId.xml" />
       <File Id="SnCore_mobileBinLog4net_dll" Name="log4net.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\log4net.dll" />
-      <File Id="SnCore_mobileBinLog4net_xml" Name="log4net.xml" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\log4net.xml" />
       <File Id="SnCore_mobileBinNGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\NGif.NET.dll" />
       <File Id="SnCore_mobileBinNHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\NHibernate.dll" />
-      <File Id="SnCore_mobileBinNHibernate_xml" Name="NHibernate.xml" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\NHibernate.xml" />
       <File Id="SnCore_mobileBinNunit_framework_dll" Name="nunit.framework.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\nunit.framework.dll" />
-      <File Id="SnCore_mobileBinNunit_framework_xml" Name="nunit.framework.xml" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\nunit.framework.xml" />
       <File Id="SnCore_mobileBinRSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\RSS.NET.dll" />
       <File Id="SnCore_mobileBinSgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\SgmlReaderDll.dll" />
       <File Id="SnCore_mobileBinSnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\SnCore.BackEnd.dll" />
@@ -708,7 +695,6 @@
       <File Id="SnCore_mobileBinSnCore_WebControls_dll" Name="SnCore.WebControls.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\SnCore.WebControls.dll" />
       <File Id="SnCore_mobileBinSnCore_WebServices_dll" Name="SnCore.WebServices.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\SnCore.WebServices.dll" />
       <File Id="SnCore_mobileBinWilco_Web_dll" Name="Wilco.Web.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Wilco.Web.dll" />
-      <File Id="SnCore_mobileBinWilco_Web_XML" Name="Wilco.Web.XML" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Wilco.Web.XML" />
      </Component>
     </Directory>
     <Directory Id="SnCore_mobileBrowsers" Name="Browsers">
