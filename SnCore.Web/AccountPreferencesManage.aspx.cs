@@ -65,10 +65,13 @@ public partial class AccountPreferencesManage : AuthenticatedPage
             inputSignature.Text = SessionManager.Account.Signature;
             groups.AccountId = SessionManager.Account.Id;
             accountredirect.TargetUri = string.Format("AccountView.aspx?id={0}", SessionManager.Account.Id);
-            
-            inputLocale.DataSource = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+            // TODO: cache
+            inputLocale.DataSource = SessionManager.GetCollection<TransitCultureInfo>(
+                SessionManager.SystemService.GetInstalledCultures);
             inputLocale.DataBind();
-            inputLocale.Items.Insert(0, new ListItem("Web Browser Culture", "0"));
+            inputLocale.Items.Insert(0, new ListItem("Web Browser Language", "0"));
+
             ListItemManager.TrySelect(inputLocale, SessionManager.Account.LCID.ToString());
         }
     }
@@ -91,6 +94,9 @@ public partial class AccountPreferencesManage : AuthenticatedPage
         ta.TimeZone = inputTimeZone.SelectedTzIndex;
         ta.Signature = inputSignature.Text;
         ta.LCID = int.Parse(inputLocale.SelectedValue);
+
+        // overwrite the culture cookie
+        Response.Cookies.Add(new HttpCookie(SessionManager.sSnCoreCulture, inputLocale.SelectedValue));
 
         if (ta.Signature.Length > inputSignature.MaxLength)
             throw new Exception(string.Format("Signature may not exceed {0} characters.", inputSignature.MaxLength));

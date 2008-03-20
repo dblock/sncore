@@ -18,6 +18,7 @@
 <%@ Register TagPrefix="SnCore" TagName="BlogView" Src="AccountBlogPreviewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountFeedItemsFeaturedView" Src="AccountFeedItemsFeaturedViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountGroupFeaturedView" Src="AccountGroupFeaturedViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="SelectCulture" Src="SelectCultureControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>

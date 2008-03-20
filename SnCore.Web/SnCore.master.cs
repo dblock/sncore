@@ -31,8 +31,8 @@ public partial class SnCoreMasterPage : MasterPage
                     siteMapPath.Visible = false;
                 }
 
-                string language = Thread.CurrentThread.CurrentCulture.NativeName.Split("(".ToCharArray())[0];                
-                linkCulture.Text = string.Format("{0} &#187; change", language);
+                //string language = Thread.CurrentThread.CurrentCulture.NativeName.Split("(".ToCharArray())[0];                
+                //linkCulture.Text = string.Format("{0} &#187; change", language);
 
                 GetMobileWeb(sender, e);
             }

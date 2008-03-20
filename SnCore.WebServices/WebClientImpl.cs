@@ -129,6 +129,27 @@ namespace SnCore.WebServices
 
         #region Collection
 
+        #region no parameters
+
+        public delegate IList<TransitType> GetCollectionDelegateNoArgs();
+
+        public static IList<TransitType> GetCollection(
+            GetCollectionDelegateNoArgs functor, Cache cache, TimeSpan ts,
+            string cacheticket)
+        {
+            if (cache == null) return functor();
+            string key = GetCacheKey(functor.Method.Name, cacheticket);
+            IList<TransitType> collection = null;
+            if (!TryGet(cache, key, out collection))
+            {
+                collection = functor();
+                Insert(cache, key, collection, ts);
+            }
+            return collection;
+        }
+
+        #endregion
+
         #region ticket + ServiceQueryOptionsType
 
         public delegate IList<TransitType> GetCollectionDelegate(string ticket, ServiceQueryOptionsType options);

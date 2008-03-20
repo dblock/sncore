@@ -29,12 +29,13 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     public static TimeSpan DefaultCacheTimeSpan = new TimeSpan(0, 5, 0);
     public static string DefaultCacheTicket = string.Empty;
 
-    const string sSnCoreOpenIdTokenCookieName = "SnCore.openidtoken";
-    const string sSnCoreAuthCookieName = "SnCore.authcookie";
-    const string sSnCoreImpersonateCookieName = "SnCore.impersonatecookie";
-    const string sSnCoreRememberLogin = "SnCore.rememberlogin";
-    const string sSnCoreLastVisit = "SnCore.lastvisit";
-    const string sSnCoreLastMonthVisit = "SnCore.lastmonthvisit";
+    public const string sSnCoreOpenIdTokenCookieName = "SnCore.openidtoken";
+    public const string sSnCoreAuthCookieName = "SnCore.authcookie";
+    public const string sSnCoreImpersonateCookieName = "SnCore.impersonatecookie";
+    public const string sSnCoreRememberLogin = "SnCore.rememberlogin";
+    public const string sSnCoreLastVisit = "SnCore.lastvisit";
+    public const string sSnCoreLastMonthVisit = "SnCore.lastmonthvisit";
+    public const string sSnCoreCulture = "SnCore.culture";
 
     private string mTicket = string.Empty;
     private TransitAccount mAccount = null;
@@ -584,6 +585,14 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     #region Strongly Typed
 
     #region Collection
+
+    /// no parameters
+    public IList<TransitType> GetCollection<TransitType>(
+        WebClientImpl<TransitType>.GetCollectionDelegateNoArgs functor)
+    {
+        return WebClientImpl<TransitType>.GetCollection(
+            functor, Cache, DefaultCacheTimeSpan, DefaultCacheTicket);
+    }
 
     /// ticket + ServiceQueryOptions
     public IList<TransitType> GetCollection<TransitType>(

@@ -66,6 +66,7 @@
     <ComponentRef Id="SnCoreImagesBugs" />
     <ComponentRef Id="SnCoreImagesButtons" />
     <ComponentRef Id="SnCoreImagesSite" />
+    <ComponentRef Id="SnCoreImagesCulture" />
     <ComponentRef Id="SnCoreEventSource" />
     <ComponentRef Id="SnCoreDefaultWebSite" />
     <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />

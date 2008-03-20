@@ -54,32 +54,15 @@ msiexec /i SnCore_1.0.1432.msi REINSTALLMODE=vomus REINSTALL=ALL
 SnCore has several back-end services that process various queues, including e-mail or syndication and perform
 cleanup tasks. These services can be run in the same AppDomain as the website or can be installed as full 
 Windows services thus not sharing the same memory space as the website. The latter is recommended for heavy load
-and distributed scenarios.
+and distributed scenarios and is the default.
 
-The installer has back-end services disabled by default. If you choose to install these it will create a services
-directory in your installation. The services installation is currently not integrated in the installer. Run the
-following command.
-
-\code
-%WINDIR%\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe /i SnCore.BackEnd.Service.exe
-\endcode
-
-Run the following command to uninstall the services.
-
-\code
-%WINDIR%\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe /u SnCore.BackEnd.Service.exe
-\endcode
-
-Edit the website's web.config to disable the services in the website's appdomain.
+Hosted services are disabled by default by the website's web.config.
 
 \code
 <appSettings>
  <add key="SystemServices.Enabled" value="false"/>
 </appSettings>
 \endcode
-
-Start the services manually from the service control manager the first time. They are marked automatic and will
-restart on reboot.
 
 \section install_next What's Next?
 

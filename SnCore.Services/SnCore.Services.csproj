@@ -160,6 +160,7 @@
     <Compile Include="ManagedCity.cs" />
     <Compile Include="ManagedAccountCity.cs" />
     <Compile Include="ManagedCounter.cs" />
+    <Compile Include="ManagedCultureInfo.cs" />
     <Compile Include="ManagedDiscussionMap.cs" />
     <Compile Include="ManagedFeature.cs" />
     <Compile Include="ManagedFeedType.cs" />

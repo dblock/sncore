@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="SnCore" TagName="MenuItem" Src="MenuItemControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountCity" Src="AccountCityControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="SelectCulture" Src="SelectCultureControl.ascx" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
@@ -145,7 +146,8 @@
    <a href="PrivacyPolicy.aspx">privacy policy</a> | 
    <a href="TermsOfUse.aspx">terms of use</a> | 
    <a href="Help.aspx">about &amp; help</a> | 
-   <asp:HyperLink NavigateUrl="~/AccountPreferencesManage.aspx" ID="linkCulture" runat="server" />
+   <SnCore:SelectCulture runat="server" ID="selectCulture" />
+   <!--<asp:HyperLink NavigateUrl="~/AccountPreferencesManage.aspx" ID="linkCulture" runat="server" />-->
    <br />
    (c) 2006-2007 Vestris Inc. - All Rights Reserved
   </div>

@@ -48,6 +48,22 @@ public class Page : System.Web.UI.Page
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(SessionManager.Account.LCID);
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
         }
+        else
+        {
+            HttpCookie culture_cookie = Request.Cookies[SessionManager.sSnCoreCulture];
+            if (culture_cookie != null)
+            {
+                try
+                {
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(int.Parse(culture_cookie.Value));
+                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+                }
+                catch
+                {
+                    Response.Cookies.Add(new HttpCookie(SessionManager.sSnCoreCulture));
+                }
+            }
+        }
 
         base.InitializeCulture();
     }

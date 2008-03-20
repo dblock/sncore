@@ -13,6 +13,7 @@ using Microsoft.Web.Services3.Design;
 using System.Reflection;
 using System.Web.Services.Protocols;
 using SnCore.Data.Hibernate;
+using System.Globalization;
 
 namespace SnCore.WebServices
 {
@@ -226,6 +227,29 @@ namespace SnCore.WebServices
             }
         }
 
+        #endregion
+
+        #region Regions and Cultures
+
+        [WebMethod(Description = "Get the installed language cultures.", CacheDuration=60)]
+        public List<TransitCultureInfo> GetInstalledCultures()
+        {
+            // todo: dynamically find out which cultures are installed
+            // CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+            CultureInfo[] installed_cultures = {
+                new CultureInfo("en-US"),
+                new CultureInfo("ru-RU")
+            };
+
+            List<TransitCultureInfo> cultures = new List<TransitCultureInfo>(installed_cultures.Length);
+            foreach (CultureInfo info in installed_cultures)
+            {
+                cultures.Add(new TransitCultureInfo(info));
+            }
+
+            return cultures;
+        }
         #endregion
     }
 }

@@ -372,6 +372,7 @@
      <File Id="SnCoreSelectPlaceControl_ascx" Name="SelectPlaceControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SelectPlaceControl.ascx" />
      <File Id="SnCoreSelectTimeControl_ascx" Name="SelectTimeControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SelectTimeControl.ascx" />
      <File Id="SnCoreSelectTimeZoneControl_ascx" Name="SelectTimeZoneControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SelectTimeZoneControl.ascx" />
+     <File Id="SnCoreSelectCultureControl_ascx" Name="SelectCultureControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\SelectCultureControl.ascx" />
      <File Id="SnCoreServices_config" Name="Services.config" Source="$(var.SnCore.Deploy.Target.Path)\Services.config" />
      <File Id="SnCoreSiteMap_aspx" Name="SiteMap.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SiteMap.aspx" />
      <File Id="SnCoreSnCore_master" Name="SnCore.master" Source="$(var.SnCore.Deploy.Target.Path)\SnCore.master" />
@@ -620,6 +621,12 @@
        <File Id="SnCoreImagesSiteToplogo_jpg" Name="toplogo.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\site\toplogo.jpg" />
        <File Id="SnCoreImagesSiteWarning_gif" Name="warning.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\site\warning.gif" />
       </Component>
+     </Directory>
+     <Directory Id="SnCoreImagesCulture" Name="culture">
+      <Component Id="SnCoreImagesCulture" Guid="0759865C-87E2-432b-898D-88211400D1FE" DiskId="1">
+       <File Id="SnCoreImagesCulture_1033_png" Name="1033.png" Source="$(var.SnCore.Deploy.Target.Path)\images\culture\1033.png" />
+       <File Id="SnCoreImagesCulture_1049_png" Name="1049.png" Source="$(var.SnCore.Deploy.Target.Path)\images\culture\1049.png" />
+      </Component>      
      </Directory>
     </Directory>
     <Directory Id="SnCoreIsapiRewrite" Name="IsapiRewrite">
