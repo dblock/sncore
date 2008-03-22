@@ -241,20 +241,23 @@ namespace SnCore.WebServices
             {
                 // non-compiled resources
                 string resourcespath = Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, "App_GlobalResources");
-                DirectoryInfo di = new DirectoryInfo(resourcespath);
-                foreach (FileInfo fi in di.GetFiles("*.*.resx", SearchOption.AllDirectories))
+                if (Directory.Exists(resourcespath))
                 {
-                    try
+                    DirectoryInfo di = new DirectoryInfo(resourcespath);
+                    foreach (FileInfo fi in di.GetFiles("*.*.resx", SearchOption.AllDirectories))
                     {
-                        // take the cultureName from resx filename, will be smt like en-US
-                        string[] parts = Path.GetFileNameWithoutExtension(fi.Name).Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                        CultureInfo ci = new CultureInfo(parts[parts.Length - 1]);
-                        TransitCultureInfo tci = new TransitCultureInfo(ci);
-                        if (!cultures.Contains(tci))
-                            cultures.Add(tci);
-                    }
-                    catch (ArgumentException)
-                    {
+                        try
+                        {
+                            // take the cultureName from resx filename, will be smt like en-US
+                            string[] parts = Path.GetFileNameWithoutExtension(fi.Name).Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                            CultureInfo ci = new CultureInfo(parts[parts.Length - 1]);
+                            TransitCultureInfo tci = new TransitCultureInfo(ci);
+                            if (!cultures.Contains(tci))
+                                cultures.Add(tci);
+                        }
+                        catch (ArgumentException)
+                        {
+                        }
                     }
                 }
             }
