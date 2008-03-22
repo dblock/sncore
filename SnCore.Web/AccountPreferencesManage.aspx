@@ -81,7 +81,7 @@
   </tr>
   <tr>
    <td class="sncore_form_label">
-    language &amp; region:
+    language:
    </td>
    <td class="sncore_form_value">
     <asp:UpdatePanel runat="server" ID="panelLocale" UpdateMode="Conditional">

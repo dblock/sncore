@@ -69,6 +69,22 @@ namespace SnCore.Services
             mNativeName = ci.NativeName;
         }
 
+        public bool Equals(TransitCultureInfo value)
+        {
+            return mLCID == value.LCID;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is TransitCultureInfo)
+            {
+                return Equals(obj as TransitCultureInfo);
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
         public TransitCultureInfo()
             : this(CultureInfo.CurrentCulture)
         {

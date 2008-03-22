@@ -626,6 +626,8 @@
       <Component Id="SnCoreImagesCulture" Guid="0759865C-87E2-432b-898D-88211400D1FE" DiskId="1">
        <File Id="SnCoreImagesCulture_1033_png" Name="1033.png" Source="$(var.SnCore.Deploy.Target.Path)\images\culture\1033.png" />
        <File Id="SnCoreImagesCulture_1049_png" Name="1049.png" Source="$(var.SnCore.Deploy.Target.Path)\images\culture\1049.png" />
+       <File Id="SnCoreImagesCulture_25_png" Name="25.png" Source="$(var.SnCore.Deploy.Target.Path)\images\culture\25.png" />
+       <File Id="SnCoreImagesCulture_9_png" Name="9.png" Source="$(var.SnCore.Deploy.Target.Path)\images\culture\9.png" />
       </Component>      
      </Directory>
     </Directory>

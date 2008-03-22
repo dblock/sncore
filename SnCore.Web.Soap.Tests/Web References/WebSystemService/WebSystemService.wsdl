@@ -253,6 +253,28 @@
           <s:element minOccurs="1" maxOccurs="1" name="SS_DATA_TYPE" type="s:short" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetInstalledCultures">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetInstalledCulturesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInstalledCulturesResult" type="tns:ArrayOfTransitCultureInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitCultureInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitCultureInfo" nillable="true" type="tns:TransitCultureInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitCultureInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LCID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="NativeName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetVersionSoapIn">
@@ -345,6 +367,12 @@
   <wsdl:message name="GetTypeColumnsSoapOut">
     <wsdl:part name="parameters" element="tns:GetTypeColumnsResponse" />
   </wsdl:message>
+  <wsdl:message name="GetInstalledCulturesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInstalledCultures" />
+  </wsdl:message>
+  <wsdl:message name="GetInstalledCulturesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInstalledCulturesResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebSystemServiceSoap">
     <wsdl:operation name="GetVersion">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">System version.</wsdl:documentation>
@@ -420,6 +448,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the underlying domain model for a type.</wsdl:documentation>
       <wsdl:input message="tns:GetTypeColumnsSoapIn" />
       <wsdl:output message="tns:GetTypeColumnsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInstalledCultures">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the installed language cultures.</wsdl:documentation>
+      <wsdl:input message="tns:GetInstalledCulturesSoapIn" />
+      <wsdl:output message="tns:GetInstalledCulturesSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebSystemServiceSoap" type="tns:WebSystemServiceSoap">
@@ -559,6 +592,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetInstalledCultures">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetInstalledCultures" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebSystemServiceSoap12" type="tns:WebSystemServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -690,6 +732,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetTypeColumns">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetTypeColumns" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInstalledCultures">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetInstalledCultures" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

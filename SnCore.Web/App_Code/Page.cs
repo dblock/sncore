@@ -45,8 +45,9 @@ public class Page : System.Web.UI.Page
 
         if (SessionManager.IsLoggedIn && SessionManager.Account.LCID > 0)
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(SessionManager.Account.LCID);
-            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+            CultureInfo ci = new CultureInfo(SessionManager.Account.LCID);
+            Thread.CurrentThread.CurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
         }
         else
         {
@@ -55,8 +56,9 @@ public class Page : System.Web.UI.Page
             {
                 try
                 {
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(int.Parse(culture_cookie.Value));
-                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+                    CultureInfo ci = new CultureInfo(int.Parse(culture_cookie.Value));
+                    Thread.CurrentThread.CurrentUICulture = ci;
+                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
                 }
                 catch
                 {

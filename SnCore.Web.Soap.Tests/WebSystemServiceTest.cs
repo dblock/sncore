@@ -40,5 +40,16 @@ namespace SnCore.Web.Soap.Tests.WebSystemServiceTests
             Assert.IsNotEmpty(endpoint.GetCopyright());
             Console.WriteLine("Copyright: {0}", endpoint.GetCopyright());
         }
+
+        [Test]
+        public void GetInstalledCulturesTest()
+        {
+            WebSystemService.WebSystemService endpoint = new WebSystemService.WebSystemService();
+            WebSystemService.TransitCultureInfo[] cultures = endpoint.GetInstalledCultures();
+            foreach (WebSystemService.TransitCultureInfo culture in cultures)
+            {
+                Console.WriteLine("Culture: {0}: {1} ({2})", culture.LCID, culture.Name, culture.NativeName);
+            }
+        }
     }
 }

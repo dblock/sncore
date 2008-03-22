@@ -1007,6 +1007,9 @@
     </None>
     <None Include="Web References\WebLocationService\WebLocationService.disco" />
     <None Include="Web References\WebLocationService\WebLocationService.wsdl" />
+    <None Include="Web References\WebSystemService\TransitCultureInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Web.Services.Protocols;
 using SnCore.Data.Hibernate;
 using System.Globalization;
+using System.IO;
 
 namespace SnCore.WebServices
 {
@@ -234,18 +235,46 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get the installed language cultures.", CacheDuration=60)]
         public List<TransitCultureInfo> GetInstalledCultures()
         {
-            // todo: dynamically find out which cultures are installed
-            // CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+            List<TransitCultureInfo> cultures = new List<TransitCultureInfo>();
+            cultures.Add(new TransitCultureInfo(new CultureInfo("en")));
 
-            CultureInfo[] installed_cultures = {
-                new CultureInfo("en-US"),
-                new CultureInfo("ru-RU")
-            };
-
-            List<TransitCultureInfo> cultures = new List<TransitCultureInfo>(installed_cultures.Length);
-            foreach (CultureInfo info in installed_cultures)
             {
-                cultures.Add(new TransitCultureInfo(info));
+                // non-compiled resources
+                string resourcespath = Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, "App_GlobalResources");
+                DirectoryInfo di = new DirectoryInfo(resourcespath);
+                foreach (FileInfo fi in di.GetFiles("*.*.resx", SearchOption.AllDirectories))
+                {
+                    try
+                    {
+                        // take the cultureName from resx filename, will be smt like en-US
+                        string[] parts = Path.GetFileNameWithoutExtension(fi.Name).Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        CultureInfo ci = new CultureInfo(parts[parts.Length - 1]);
+                        TransitCultureInfo tci = new TransitCultureInfo(ci);
+                        if (!cultures.Contains(tci))
+                            cultures.Add(tci);
+                    }
+                    catch (ArgumentException)
+                    {
+                    }
+                }
+            }
+
+            {
+                // compiled resources
+                DirectoryInfo di = new DirectoryInfo(System.Web.HttpRuntime.BinDirectory);
+                foreach (DirectoryInfo fi in di.GetDirectories())
+                {
+                    try
+                    {
+                        CultureInfo ci = new CultureInfo(fi.Name);
+                        TransitCultureInfo tci = new TransitCultureInfo(ci);
+                        if (!cultures.Contains(tci))
+                            cultures.Add(tci);
+                    }
+                    catch (ArgumentException)
+                    {
+                    }
+                }
             }
 
             return cultures;

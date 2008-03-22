@@ -60,6 +60,8 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         
         private System.Threading.SendOrPostCallback GetTypeColumnsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetInstalledCulturesOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -142,6 +144,9 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         
         /// <remarks/>
         public event GetTypeColumnsCompletedEventHandler GetTypeColumnsCompleted;
+        
+        /// <remarks/>
+        public event GetInstalledCulturesCompletedEventHandler GetInstalledCulturesCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetVersion", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -588,6 +593,33 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetInstalledCultures", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitCultureInfo[] GetInstalledCultures() {
+            object[] results = this.Invoke("GetInstalledCultures", new object[0]);
+            return ((TransitCultureInfo[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetInstalledCulturesAsync() {
+            this.GetInstalledCulturesAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetInstalledCulturesAsync(object userState) {
+            if ((this.GetInstalledCulturesOperationCompleted == null)) {
+                this.GetInstalledCulturesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetInstalledCulturesOperationCompleted);
+            }
+            this.InvokeAsync("GetInstalledCultures", new object[0], this.GetInstalledCulturesOperationCompleted, userState);
+        }
+        
+        private void OnGetInstalledCulturesOperationCompleted(object arg) {
+            if ((this.GetInstalledCulturesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetInstalledCulturesCompleted(this, new GetInstalledCulturesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -669,6 +701,51 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitCultureInfo {
+        
+        private string nameField;
+        
+        private int lCIDField;
+        
+        private string nativeNameField;
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int LCID {
+            get {
+                return this.lCIDField;
+            }
+            set {
+                this.lCIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string NativeName {
+            get {
+                return this.nativeNameField;
+            }
+            set {
+                this.nativeNameField = value;
             }
         }
     }
@@ -1307,6 +1384,32 @@ namespace SnCore.Web.Soap.Tests.WebSystemService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((sp_column[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetInstalledCulturesCompletedEventHandler(object sender, GetInstalledCulturesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetInstalledCulturesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetInstalledCulturesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitCultureInfo[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitCultureInfo[])(this.results[0]));
             }
         }
     }
