@@ -40,6 +40,9 @@
      <ServiceInstall Id="SnCoreServiceTag" Name="SnCore System Tag Service" DisplayName="SnCore System Tag Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Indexes content into meta tags." />
      <ServiceControl Id="SnCoreServiceTag_Start" Name="SnCore System Tag Service" Start="install" Wait="no" />
      <ServiceControl Id="SnCoreServiceTag_Stop" Name="SnCore System Tag Service" Stop="both" Wait="yes" Remove="uninstall" />
+     <ServiceInstall Id="SnCoreServiceThumbnail" Name="SnCore System Thumbnail Generation Service" DisplayName="SnCore System Thumbnail Generation Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Updates website and feed thumbnails." />
+     <ServiceControl Id="SnCoreServiceThumbnail_Start" Name="SnCore System Thumbnail Generation Service" Start="install" Wait="no" />
+     <ServiceControl Id="SnCoreServiceThumbnail_Stop" Name="SnCore System Thumbnail Generation Service" Stop="both" Wait="yes" Remove="uninstall" />
     </Component>
    </Directory>
   </DirectoryRef>

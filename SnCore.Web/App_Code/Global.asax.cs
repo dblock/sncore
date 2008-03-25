@@ -21,6 +21,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
     private SystemReminderService mSystemReminderService = new SystemReminderService();
     private SystemSyndicationService mSystemSyndicationService = new SystemSyndicationService();
     private SystemSMTPMessageService mSMTPMessageService = new SystemSMTPMessageService();
+    private SystemThumbnailService mThumbnailService = new SystemThumbnailService();
 
     public Global()
     {
@@ -47,6 +48,7 @@ public class Global : SnCore.Tools.Web.HostedApplication
         mTagWordService.Start();
         mSystemReminderService.Start();
         mSystemSyndicationService.Start();
+        mThumbnailService.Start();
         mSMTPMessageService.Start();
 
         WebSystemService system = new WebSystemService();

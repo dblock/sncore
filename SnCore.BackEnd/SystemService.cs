@@ -147,7 +147,7 @@ namespace SnCore.BackEndServices
             mJobs.Add(job);
         }
 
-        public void Stop()
+        public new void Stop()
         {
             if (IsDebug)
             {

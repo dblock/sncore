@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +46,7 @@
     <Compile Include="SystemReminderServiceTest.cs" />
     <Compile Include="SystemSyndicationServiceTest.cs" />
     <Compile Include="SystemTest.cs" />
+    <Compile Include="SystemThumbnailServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SnCore.BackEnd\SnCore.BackEnd.csproj">

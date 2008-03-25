@@ -133,6 +133,9 @@
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountMessageFolder.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountNumbers.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\SnCore.WebServices.WebAccountService\TransitAccountOpenId.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

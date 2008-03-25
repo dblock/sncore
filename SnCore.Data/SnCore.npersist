@@ -510,6 +510,9 @@
     <property name="Description" columns="Description" type="System.String" />
     <property name="Name" columns="Name" type="System.String" />
     <property name="Url" columns="Url" type="System.String" />
+    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
   </class>
   <class name="Attribute" table="Attribute">
     <property name="Id" id="true" columns="Attribute_Id" type="System.Int32" />
@@ -1508,6 +1511,9 @@
       <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="Name" type="String" prec="64" length="128" scale="0" />
       <column name="Url" type="AnsiString" prec="128" length="128" scale="0" />
+      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
     </table>
     <table name="Attribute">
       <column name="Attribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

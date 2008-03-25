@@ -18,6 +18,9 @@
         private System.String m_Description;
         private System.String m_Name;
         private System.String m_Url;
+        private System.Byte[] m_Bitmap;
+        private System.DateTime m_Created;
+        private System.DateTime m_Modified;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -141,6 +144,81 @@
             set
             {
                 m_Url = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Byte()'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Bitmap' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Bitmap' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Byte[] Bitmap
+        {
+            get
+            {
+                return m_Bitmap;
+            }
+            set
+            {
+                m_Bitmap = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Created' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Created' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.DateTime Created
+        {
+            get
+            {
+                return m_Created;
+            }
+            set
+            {
+                m_Created = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Modified' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.DateTime Modified
+        {
+            get
+            {
+                return m_Modified;
+            }
+            set
+            {
+                m_Modified = value;
             }
         }
 

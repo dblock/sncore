@@ -219,6 +219,8 @@
      <File Id="SnCoreAccountView_aspx" Name="AccountView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountView.aspx" />
      <File Id="SnCoreAccountWebsiteEdit_aspx" Name="AccountWebsiteEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsiteEdit.aspx" />
      <File Id="SnCoreAccountWebsitesManage_aspx" Name="AccountWebsitesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsitesManage.aspx" />
+     <File Id="SnCoreAccountWebsitePicture_aspx" Name="AccountWebsitePicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsitePicture.aspx" />
+     <File Id="SnCoreAccountWebsitePictureThumbnail_aspx" Name="AccountWebsitePictureThumbnail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsitePictureThumbnail.aspx" />
      <File Id="SnCoreAccountWebsitesViewControl_ascx" Name="AccountWebsitesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountWebsitesViewControl.ascx" />
      <File Id="SnCoreAds_js" Name="ads.js" Source="$(var.SnCore.Deploy.Target.Path)\ads.js" />
      <File Id="SnCoreAToZControl_ascx" Name="AToZControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AToZControl.ascx" />

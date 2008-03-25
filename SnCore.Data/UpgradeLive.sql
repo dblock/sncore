@@ -283,3 +283,25 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Account]') AND name = N'LCID') 
 ALTER TABLE dbo.Account ADD [LCID] int NULL
 GO
+-- add a timestamp to AccountWebsite
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND name = N'Created') 
+ALTER TABLE dbo.AccountWebsite ADD [Created] datetime NULL
+GO
+UPDATE dbo.AccountWebsite SET Created = getutcdate() WHERE Created IS NULL
+ALTER TABLE dbo.AccountWebsite ALTER COLUMN [Created] datetime NOT NULL
+GO
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND name = N'Modified') 
+ALTER TABLE dbo.AccountWebsite ADD [Modified] datetime NULL
+GO
+UPDATE dbo.AccountWebsite SET Modified = getutcdate() WHERE Modified IS NULL
+ALTER TABLE dbo.AccountWebsite ALTER COLUMN [Modified] datetime NOT NULL
+GO
+-- add a bitmap to AccountWebsite
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountWebsite]') AND name = N'Bitmap') 
+ALTER TABLE dbo.AccountWebsite ADD [Bitmap] image NULL
+GO
+-- add a picture type
+IF NOT EXISTS (SELECT * FROM [PictureType] WHERE [Name] = 'AccountWebsite')
+INSERT INTO [PictureType] VALUES ( 'AccountWebsite ')
+GO
+

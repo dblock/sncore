@@ -19,10 +19,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("SnCore")]
 [assembly: AssemblyCopyright("Copyright (c) Vestris Inc. 2008")]
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
 [assembly: AssemblyKeyFile("..\\key.snk")]
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyVersion("1.0.1391.0")]
-[assembly: AssemblyFileVersion("1.0.1391.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 
 

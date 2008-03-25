@@ -416,6 +416,11 @@ namespace SnCore.Tools.Drawing
             throw new Exception(string.Format("No encoder found for {0}.", fmt));
         }
 
+        public static Bitmap GetBitmapFromText(string message, int fontsize, Size size)
+        {
+            return GetBitmapFromText(message, fontsize, size.Width, size.Height);
+        }
+
         public static Bitmap GetBitmapFromText(string message, int fontsize, int width, int height)
         {
             Bitmap result = new Bitmap(1, 1);
@@ -445,6 +450,11 @@ namespace SnCore.Tools.Drawing
         public static byte[] GetBitmapDataFromText(string message, int fontsize, int width, int height)
         {
             return GetBitmap(GetBitmapFromText(message, fontsize, width, height));
+        }
+
+        public static byte[] GetBitmapDataFromText(string message, int fontsize, Size size)
+        {
+            return GetBitmap(GetBitmapFromText(message, fontsize, size));
         }
     }
 }

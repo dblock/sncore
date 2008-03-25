@@ -1889,6 +1889,25 @@ namespace SnCore.WebServices
                 ticket, id);
         }
 
+        /// <summary>
+        /// Get an account website if modified since.
+        /// </summary>
+        /// <param name="id">website id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get account website if modified since.", BufferResponse = true)]
+        public TransitAccountWebsite GetAccountWebsiteIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitAccountWebsite t_instance = WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
+        }
+
         #endregion
 
         #region AccountPicture

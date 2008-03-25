@@ -258,7 +258,11 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private System.Threading.SendOrPostCallback DeleteAccountWebsiteOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAccountWebsiteIfModifiedSinceByIdOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountPictureOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback MoveAccountPictureOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountPictureByIdOperationCompleted;
         
@@ -365,6 +369,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         private System.Threading.SendOrPostCallback DeleteAccountQuotaOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountQuotaByObjectNameOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountNumbersByAccountIdOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -714,7 +720,13 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         public event DeleteAccountWebsiteCompletedEventHandler DeleteAccountWebsiteCompleted;
         
         /// <remarks/>
+        public event GetAccountWebsiteIfModifiedSinceByIdCompletedEventHandler GetAccountWebsiteIfModifiedSinceByIdCompleted;
+        
+        /// <remarks/>
         public event CreateOrUpdateAccountPictureCompletedEventHandler CreateOrUpdateAccountPictureCompleted;
+        
+        /// <remarks/>
+        public event MoveAccountPictureCompletedEventHandler MoveAccountPictureCompleted;
         
         /// <remarks/>
         public event GetAccountPictureByIdCompletedEventHandler GetAccountPictureByIdCompleted;
@@ -876,6 +888,9 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         public event GetAccountQuotaByObjectNameCompletedEventHandler GetAccountQuotaByObjectNameCompleted;
         
         /// <remarks/>
+        public event GetAccountNumbersByAccountIdCompletedEventHandler GetAccountNumbersByAccountIdCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string Login(string email, string password) {
             object[] results = this.Invoke("Login", new object[] {
@@ -974,7 +989,7 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/LoginMd5", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string LoginMd5(string emailaddress, string passwordhash) {
+        public string LoginMd5(string emailaddress, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] passwordhash) {
             object[] results = this.Invoke("LoginMd5", new object[] {
                         emailaddress,
                         passwordhash});
@@ -982,12 +997,12 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
-        public void LoginMd5Async(string emailaddress, string passwordhash) {
+        public void LoginMd5Async(string emailaddress, byte[] passwordhash) {
             this.LoginMd5Async(emailaddress, passwordhash, null);
         }
         
         /// <remarks/>
-        public void LoginMd5Async(string emailaddress, string passwordhash, object userState) {
+        public void LoginMd5Async(string emailaddress, byte[] passwordhash, object userState) {
             if ((this.LoginMd5OperationCompleted == null)) {
                 this.LoginMd5OperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginMd5OperationCompleted);
             }
@@ -1403,27 +1418,25 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void DeleteAccount(string ticket, int id, string password) {
+        public void DeleteAccount(string ticket, int id) {
             this.Invoke("DeleteAccount", new object[] {
                         ticket,
-                        id,
-                        password});
+                        id});
         }
         
         /// <remarks/>
-        public void DeleteAccountAsync(string ticket, int id, string password) {
-            this.DeleteAccountAsync(ticket, id, password, null);
+        public void DeleteAccountAsync(string ticket, int id) {
+            this.DeleteAccountAsync(ticket, id, null);
         }
         
         /// <remarks/>
-        public void DeleteAccountAsync(string ticket, int id, string password, object userState) {
+        public void DeleteAccountAsync(string ticket, int id, object userState) {
             if ((this.DeleteAccountOperationCompleted == null)) {
                 this.DeleteAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountOperationCompleted);
             }
             this.InvokeAsync("DeleteAccount", new object[] {
                         ticket,
-                        id,
-                        password}, this.DeleteAccountOperationCompleted, userState);
+                        id}, this.DeleteAccountOperationCompleted, userState);
         }
         
         private void OnDeleteAccountOperationCompleted(object arg) {
@@ -2288,26 +2301,24 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/VerifyAccountEmail", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string VerifyAccountEmail(string password, int id, string code) {
+        public string VerifyAccountEmail(int id, string code) {
             object[] results = this.Invoke("VerifyAccountEmail", new object[] {
-                        password,
                         id,
                         code});
             return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void VerifyAccountEmailAsync(string password, int id, string code) {
-            this.VerifyAccountEmailAsync(password, id, code, null);
+        public void VerifyAccountEmailAsync(int id, string code) {
+            this.VerifyAccountEmailAsync(id, code, null);
         }
         
         /// <remarks/>
-        public void VerifyAccountEmailAsync(string password, int id, string code, object userState) {
+        public void VerifyAccountEmailAsync(int id, string code, object userState) {
             if ((this.VerifyAccountEmailOperationCompleted == null)) {
                 this.VerifyAccountEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnVerifyAccountEmailOperationCompleted);
             }
             this.InvokeAsync("VerifyAccountEmail", new object[] {
-                        password,
                         id,
                         code}, this.VerifyAccountEmailOperationCompleted, userState);
         }
@@ -4115,6 +4126,39 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountWebsiteIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountWebsite GetAccountWebsiteIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetAccountWebsiteIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince});
+            return ((TransitAccountWebsite)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountWebsiteIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetAccountWebsiteIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountWebsiteIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetAccountWebsiteIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetAccountWebsiteIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountWebsiteIfModifiedSinceByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountWebsiteIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince}, this.GetAccountWebsiteIfModifiedSinceByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountWebsiteIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetAccountWebsiteIfModifiedSinceByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountWebsiteIfModifiedSinceByIdCompleted(this, new GetAccountWebsiteIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdateAccountPicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateOrUpdateAccountPicture(string ticket, TransitAccountPicture accountpicture) {
             object[] results = this.Invoke("CreateOrUpdateAccountPicture", new object[] {
@@ -4142,6 +4186,38 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             if ((this.CreateOrUpdateAccountPictureCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.CreateOrUpdateAccountPictureCompleted(this, new CreateOrUpdateAccountPictureCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/MoveAccountPicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void MoveAccountPicture(string ticket, int id, int disp) {
+            this.Invoke("MoveAccountPicture", new object[] {
+                        ticket,
+                        id,
+                        disp});
+        }
+        
+        /// <remarks/>
+        public void MoveAccountPictureAsync(string ticket, int id, int disp) {
+            this.MoveAccountPictureAsync(ticket, id, disp, null);
+        }
+        
+        /// <remarks/>
+        public void MoveAccountPictureAsync(string ticket, int id, int disp, object userState) {
+            if ((this.MoveAccountPictureOperationCompleted == null)) {
+                this.MoveAccountPictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveAccountPictureOperationCompleted);
+            }
+            this.InvokeAsync("MoveAccountPicture", new object[] {
+                        ticket,
+                        id,
+                        disp}, this.MoveAccountPictureOperationCompleted, userState);
+        }
+        
+        private void OnMoveAccountPictureOperationCompleted(object arg) {
+            if ((this.MoveAccountPictureCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.MoveAccountPictureCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -4941,25 +5017,25 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountMessagesByFolder", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void DeleteAccountMessagesByFolder(string ticket, int folderid) {
+        public void DeleteAccountMessagesByFolder(string ticket, int id) {
             this.Invoke("DeleteAccountMessagesByFolder", new object[] {
                         ticket,
-                        folderid});
+                        id});
         }
         
         /// <remarks/>
-        public void DeleteAccountMessagesByFolderAsync(string ticket, int folderid) {
-            this.DeleteAccountMessagesByFolderAsync(ticket, folderid, null);
+        public void DeleteAccountMessagesByFolderAsync(string ticket, int id) {
+            this.DeleteAccountMessagesByFolderAsync(ticket, id, null);
         }
         
         /// <remarks/>
-        public void DeleteAccountMessagesByFolderAsync(string ticket, int folderid, object userState) {
+        public void DeleteAccountMessagesByFolderAsync(string ticket, int id, object userState) {
             if ((this.DeleteAccountMessagesByFolderOperationCompleted == null)) {
                 this.DeleteAccountMessagesByFolderOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAccountMessagesByFolderOperationCompleted);
             }
             this.InvokeAsync("DeleteAccountMessagesByFolder", new object[] {
                         ticket,
-                        folderid}, this.DeleteAccountMessagesByFolderOperationCompleted, userState);
+                        id}, this.DeleteAccountMessagesByFolderOperationCompleted, userState);
         }
         
         private void OnDeleteAccountMessagesByFolderOperationCompleted(object arg) {
@@ -5809,6 +5885,37 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountNumbers GetAccountNumbersByAccountId(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountNumbersByAccountId", new object[] {
+                        ticket,
+                        id});
+            return ((TransitAccountNumbers)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountNumbersByAccountIdAsync(string ticket, int id) {
+            this.GetAccountNumbersByAccountIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountNumbersByAccountIdAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountNumbersByAccountIdOperationCompleted == null)) {
+                this.GetAccountNumbersByAccountIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountNumbersByAccountIdOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountNumbersByAccountId", new object[] {
+                        ticket,
+                        id}, this.GetAccountNumbersByAccountIdOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountNumbersByAccountIdOperationCompleted(object arg) {
+            if ((this.GetAccountNumbersByAccountIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountNumbersByAccountIdCompleted(this, new GetAccountNumbersByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -5856,6 +5963,63 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             }
             set {
                 this.ticketField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.312")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountNumbers {
+        
+        private int postsCountField;
+        
+        private int firstDegreeCountField;
+        
+        private int secondDegreeCountField;
+        
+        private int allCountField;
+        
+        /// <remarks/>
+        public int PostsCount {
+            get {
+                return this.postsCountField;
+            }
+            set {
+                this.postsCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int FirstDegreeCount {
+            get {
+                return this.firstDegreeCountField;
+            }
+            set {
+                this.firstDegreeCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int SecondDegreeCount {
+            get {
+                return this.secondDegreeCountField;
+            }
+            set {
+                this.secondDegreeCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AllCount {
+            get {
+                return this.allCountField;
+            }
+            set {
+                this.allCountField = value;
             }
         }
     }
@@ -7025,6 +7189,8 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private bool hiddenField;
         
+        private int positionField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
         public byte[] Bitmap {
@@ -7126,6 +7292,16 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
                 this.hiddenField = value;
             }
         }
+        
+        /// <remarks/>
+        public int Position {
+            get {
+                return this.positionField;
+            }
+            set {
+                this.positionField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -7166,6 +7342,14 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private int accountIdField;
         
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private byte[] bitmapField;
+        
+        private byte[] thumbnailField;
+        
         /// <remarks/>
         public string Url {
             get {
@@ -7203,6 +7387,48 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             }
             set {
                 this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Thumbnail {
+            get {
+                return this.thumbnailField;
+            }
+            set {
+                this.thumbnailField = value;
             }
         }
     }
@@ -8294,6 +8520,10 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private string accountNameField;
         
+        private bool failedField;
+        
+        private string lastErrorField;
+        
         /// <remarks/>
         public string Email {
             get {
@@ -8361,6 +8591,26 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             }
             set {
                 this.accountNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Failed {
+            get {
+                return this.failedField;
+            }
+            set {
+                this.failedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string LastError {
+            get {
+                return this.lastErrorField;
+            }
+            set {
+                this.lastErrorField = value;
             }
         }
     }
@@ -8487,6 +8737,10 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
         
         private string signatureField;
         
+        private int lCIDField;
+        
+        private string cultureField;
+        
         private string passwordField;
         
         /// <remarks/>
@@ -8606,6 +8860,26 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             }
             set {
                 this.signatureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int LCID {
+            get {
+                return this.lCIDField;
+            }
+            set {
+                this.lCIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Culture {
+            get {
+                return this.cultureField;
+            }
+            set {
+                this.cultureField = value;
             }
         }
         
@@ -10917,6 +11191,32 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountWebsiteIfModifiedSinceByIdCompletedEventHandler(object sender, GetAccountWebsiteIfModifiedSinceByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountWebsiteIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountWebsiteIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountWebsite Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountWebsite)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
     public delegate void CreateOrUpdateAccountPictureCompletedEventHandler(object sender, CreateOrUpdateAccountPictureCompletedEventArgs e);
     
     /// <remarks/>
@@ -10940,6 +11240,10 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void MoveAccountPictureCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
@@ -12051,6 +12355,32 @@ namespace SnCore.Web.Tests.SnCore.WebServices.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountQuota)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    public delegate void GetAccountNumbersByAccountIdCompletedEventHandler(object sender, GetAccountNumbersByAccountIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.312")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountNumbersByAccountIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountNumbersByAccountIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountNumbers Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountNumbers)(this.results[0]));
             }
         }
     }

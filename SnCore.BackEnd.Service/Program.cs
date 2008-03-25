@@ -18,7 +18,8 @@ namespace SnCore.BackEnd.Service
                 new SystemTagWordService(),
                 new SystemReminderService(),
                 new SystemSyndicationService(),
-                new SystemSMTPMessageService()
+                new SystemThumbnailService(),
+                new SystemSMTPMessageService(),
             };
 
             ServiceBase.Run(services);

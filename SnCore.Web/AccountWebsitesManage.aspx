@@ -43,7 +43,12 @@
        </div>
        <div class="sncore_description">
         <%# base.Render(Eval("Description")) %>
-       </div>        
+       </div>
+      </itemtemplate>
+     </asp:TemplateColumn>
+     <asp:TemplateColumn>
+      <itemtemplate>
+       <img src='AccountWebsitePictureThumbnail.aspx?id=<%# Eval("Id") %>' alt='<%# Renderer.Render(Eval("Name")) %>' />
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn>

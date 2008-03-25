@@ -34,6 +34,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +63,7 @@
     <Compile Include="TimeZoneInformation.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="UriBuilder.cs" />
+    <Compile Include="WebsiteBitmap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NGif.NET\NGif.NET.csproj">

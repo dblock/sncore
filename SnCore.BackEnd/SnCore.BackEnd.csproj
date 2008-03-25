@@ -59,6 +59,9 @@
     <Compile Include="SystemTagWordService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SystemThumbnailService.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MIME.NET\MIME.NET.csproj">

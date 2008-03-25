@@ -33,7 +33,8 @@ namespace SnCore.BackEnd.Service
                 new ServiceNameDescription( SystemReminderService.Name, SystemReminderService.Description ),
                 new ServiceNameDescription( SystemSMTPMessageService.Name, SystemSMTPMessageService.Description ),
                 new ServiceNameDescription( SystemTagWordService.Name, SystemTagWordService.Description ),
-                new ServiceNameDescription( SystemSyndicationService.Name, SystemSyndicationService.Description )
+                new ServiceNameDescription( SystemSyndicationService.Name, SystemSyndicationService.Description ),
+                new ServiceNameDescription( SystemThumbnailService.Name, SystemThumbnailService.Description )
             };
 
             foreach (ServiceNameDescription service in services)

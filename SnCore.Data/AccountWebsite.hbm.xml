@@ -8,5 +8,8 @@
     <property name="Description" column="Description" type="StringClob" />
     <property name="Name" column="Name" type="String" />
     <property name="Url" column="Url" type="String" />
+    <property name="Bitmap" column="Bitmap" type="BinaryBlob" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Modified" column="Modified" type="DateTime" />
   </class>
 </hibernate-mapping>

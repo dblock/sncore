@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
 using SnCore.Data.Hibernate;
+using SnCore.Tools.Drawing;
 
 namespace SnCore.Services
 {
@@ -17,7 +18,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mUrl;
             }
             set
@@ -32,7 +32,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mName;
             }
             set
@@ -47,7 +46,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mDescription;
             }
             set
@@ -62,12 +60,67 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mAccountId;
             }
             set
             {
                 mAccountId = value;
+            }
+        }
+
+        private DateTime mCreated;
+
+        public DateTime Created
+        {
+            get
+            {
+                return mCreated;
+            }
+            set
+            {
+                mCreated = value;
+            }
+        }
+
+        private DateTime mModified;
+
+        public DateTime Modified
+        {
+            get
+            {
+                return mModified;
+            }
+            set
+            {
+                mModified = value;
+            }
+        }
+
+        private byte[] mBitmap;
+
+        public byte[] Bitmap
+        {
+            get
+            {
+                return mBitmap;
+            }
+            set
+            {
+                mBitmap = value;
+            }
+        }
+
+        private byte[] mThumbnail;
+
+        public byte[] Thumbnail
+        {
+            get
+            {
+                return mThumbnail;
+            }
+            set
+            {
+                mThumbnail = value;
             }
         }
 
@@ -88,16 +141,26 @@ namespace SnCore.Services
             Name = instance.Name;
             Description = instance.Description;
             AccountId = instance.Account.Id;
+            Created = instance.Created;
+            Modified = instance.Modified;
+            Bitmap = instance.Bitmap;
+            if (Bitmap != null) Thumbnail = new ThumbnailBitmap(Bitmap).Thumbnail;
             base.SetInstance(instance);
         }
 
         public override AccountWebsite GetInstance(ISession session, ManagedSecurityContext sec)
         {
             AccountWebsite instance = base.GetInstance(session, sec);
-            if (Id == 0) instance.Account = base.GetOwner(session, AccountId, sec);
+            instance.Modified = DateTime.UtcNow;
+            if (Id == 0)
+            {
+                instance.Account = base.GetOwner(session, AccountId, sec);
+                instance.Created = instance.Modified;
+            }
             instance.Name = this.Name;
             instance.Description = this.Description;
             instance.Url = this.Url;
+            instance.Bitmap = Bitmap;
             return instance;
         }
     }
@@ -203,6 +266,14 @@ namespace SnCore.Services
                     break;
             }
             return result;
+        }
+
+        public void UpdateThumbnail()
+        {
+            WebsiteBitmap bitmap = new WebsiteBitmap();
+            mInstance.Bitmap = ThumbnailBitmap.GetBitmap(bitmap.GetBitmapFromWeb(mInstance.Url));
+            mInstance.Modified = DateTime.UtcNow;
+            Session.Save(mInstance);
         }
     }
 }
