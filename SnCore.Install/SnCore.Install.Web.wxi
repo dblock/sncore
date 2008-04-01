@@ -403,6 +403,7 @@
      <File Id="SnCoreSystemCitiesManage_aspx" Name="SystemCitiesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemCitiesManage.aspx" />
      <File Id="SnCoreSystemCityEdit_aspx" Name="SystemCityEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemCityEdit.aspx" />
      <File Id="SnCoreSystemConfigurationEdit_aspx" Name="SystemConfigurationEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemConfigurationEdit.aspx" />
+     <File Id="SnCoreSystemConfigurationEmailEdit_aspx" Name="SystemConfigurationEmailEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemConfigurationEmailEdit.aspx" />
      <File Id="SnCoreSystemConfigurationsManage_aspx" Name="SystemConfigurationsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemConfigurationsManage.aspx" />
      <File Id="SnCoreSystemCounters_aspx" Name="SystemCounters.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemCounters.aspx" />
      <File Id="SnCoreSystemCountriesManage_aspx" Name="SystemCountriesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\SystemCountriesManage.aspx" />

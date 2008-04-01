@@ -64,6 +64,23 @@ Hosted services are disabled by default by the website's web.config.
 </appSettings>
 \endcode
 
+\section install_howto_settings Configuring the System
+
+You can configure various aspects of the system from the <em>Manage</em> page. Log-in as the system administrator and
+click on <em>Me Me</em>. Click <em>Manage</em> on the bottom left in the user menu.
+
+\section install_howto_email Configuring the E-Mail Subsystem
+
+You can configure and test the e-mail subsystem via a configuration wizard available 
+from the Settings page or by changing the SnCore.Mail.* settings directly. See \ref settings for 
+more information.
+
+Adjust the SnCore.Mail.Delivery setting to route e-mail via the following standard options. 
+
+\li \b Network: Email is sent through the network to an SMTP server. Unauthenticated and authenticated e-mail gateways are supported.
+\li \b SpecifiedPickupDirectory: Email is copied to the directory specified by the SnCore.Mail.PickupDirectoryLocation option.
+\li \b PickupDirectoryFromIis: Email is copied to the pickup directory used by a local Internet Information Services (IIS) for delivery.
+
 \section install_next What's Next?
 
 Navigate to the website. This is typically http://localhost/SnCoreWeb/. By default the system creates an administrative 

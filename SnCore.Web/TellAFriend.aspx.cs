@@ -46,61 +46,60 @@ public partial class TellAFriend : AuthenticatedPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-            if (!IsPostBack)
+        if (!IsPostBack)
+        {
+            string subject = HttpUtility.HtmlDecode(Request.Params["Subject"]);
+            linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
+            Title = inputSubject.Text = string.Format("Check out {0}", subject);
+
+            if (!SessionManager.HasVerifiedEmailAddress())
             {
-                string subject = HttpUtility.HtmlDecode(Request.Params["Subject"]);
-                linkPage.NavigateUrl = linkCancel.NavigateUrl = Url;
-                Title = inputSubject.Text = string.Format("Check out {0}", subject);
+                ReportWarning("You don't have any verified e-mail addresses.\n" +
+                    "You must add/confirm a valid e-mail address before using this feature.");
 
-                if (!SessionManager.HasVerifiedEmailAddress())
-                {
-                    ReportWarning("You don't have any verified e-mail addresses.\n" +
-                        "You must add/confirm a valid e-mail address before using this feature.");
-
-                    send.Enabled = false;
-                }
-
-                SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("Tell a Friend > {0}", subject), Request.Url));
-                StackSiteMap(sitemapdata);
+                send.Enabled = false;
             }
+
+            SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
+            sitemapdata.Add(new SiteMapDataAttributeNode(string.Format("Tell a Friend > {0}", subject), Request.Url));
+            StackSiteMap(sitemapdata);
+        }
     }
 
     public void send_Click(object Sender, EventArgs e)
     {
-            if (string.IsNullOrEmpty(inputEmailAddress.Text))
+        if (string.IsNullOrEmpty(inputEmailAddress.Text))
+        {
+            throw new Exception("Missing E-Mail");
+        }
+
+        TransitAccountEmailMessage message = new TransitAccountEmailMessage();
+        message.Body = GetContent();
+        message.Subject = inputSubject.Text;
+        message.DeleteSent = true;
+        ExceptionCollection exceptions = new ExceptionCollection();
+        List<string> invalidemails = new List<string>();
+        foreach (string address in inputEmailAddress.Text.Split("\n".ToCharArray()))
+        {
+            if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(address.Trim()))
+                continue;
+
+            try
             {
-                throw new Exception("Missing E-Mail");
+                message.MailTo = new MailAddress(address.Trim()).ToString();
+                SessionManager.AccountService.CreateOrUpdateAccountEmailMessage(
+                    SessionManager.Ticket, message);
             }
-
-            
-            TransitAccountEmailMessage message = new TransitAccountEmailMessage();
-            message.Body = GetContent();
-            message.Subject = inputSubject.Text;
-            message.DeleteSent = true;
-            ExceptionCollection exceptions = new ExceptionCollection();
-            List<string> invalidemails = new List<string>();
-            foreach (string address in inputEmailAddress.Text.Split("\n".ToCharArray()))
+            catch (Exception ex)
             {
-                if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(address.Trim()))
-                    continue;
-
-                try
-                {
-                    message.MailTo = new MailAddress(address.Trim()).ToString();
-                    SessionManager.AccountService.CreateOrUpdateAccountEmailMessage(
-                        SessionManager.Ticket, message);
-                }
-                catch (Exception ex)
-                {
-                    invalidemails.Add(address);
-                    exceptions.Add(new Exception(string.Format("Error sending message to \"{0}\".\n{1}", 
-                        address.Trim(), ex.Message), ex));
-                }
+                invalidemails.Add(address);
+                exceptions.Add(new Exception(string.Format("Error sending message to \"{0}\".\n{1}",
+                    address.Trim(), ex.Message), ex));
             }
+        }
 
-            inputEmailAddress.Text = string.Join("\n", invalidemails.ToArray());
-            exceptions.Throw();
-            Redirect(Url);
+        inputEmailAddress.Text = string.Join("\n", invalidemails.ToArray());
+        exceptions.Throw();
+        Redirect(Url);
     }
 }

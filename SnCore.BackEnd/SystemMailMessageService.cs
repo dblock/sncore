@@ -59,49 +59,13 @@ namespace SnCore.BackEndServices
 
             SleepInterval = emailmessages.Count >= ChunkSize ? 1 : 15;
 
-            SmtpClient smtp = new SmtpClient(
-                ManagedConfiguration.GetValue(session, "SnCore.Mail.Server", "localhost"),
-                int.Parse(ManagedConfiguration.GetValue(session, "SnCore.Mail.Port", "25")));
-            smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
-                ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
-            smtp.PickupDirectoryLocation = ManagedConfiguration.GetValue(
-                session, "SnCore.Mail.PickupDirectoryLocation", string.Empty);
-
-            string smtpusername = ManagedConfiguration.GetValue(
-                session, "SnCore.Mail.Username", string.Empty);
-
-            string smtppassword = ManagedConfiguration.GetValue(
-                session, "SnCore.Mail.Password", string.Empty);
-
-            if (!string.IsNullOrEmpty(smtpusername))
-            {
-                smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
-            }
-            else
-            {
-                smtp.UseDefaultCredentials = true;
-            }
+            SmtpClient smtp = ManagedAccountEmailMessage.GetSmtpClientInstance(session);
 
             foreach (AccountEmailMessage m in emailmessages)
             {
                 try
                 {
-                    MailMessage message = new MailMessage();
-                    message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
-                        ManagedSystem.Title, ManagedSystem.ProductVersion));
-                    message.Headers.Add("Content-class", "urn:content-classes:message");
-                    message.Headers.Add("Content-Type", "text/html; charset=\"ISO-8859-1\"");
-                    message.IsBodyHtml = true;
-                    Encoding iso8859 = Encoding.GetEncoding(28591);
-                    message.BodyEncoding = iso8859;
-                    message.Body = m.Body;
-                    message.ReplyTo = new MailAddress(m.MailFrom);
-                    message.From = new MailAddress(
-                        ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
-                        ManagedConfiguration.GetValue(session, "SnCore.Admin.Name", "Admin")
-                        );
-                    message.To.Add(new MailAddress(m.MailTo));
-                    message.Subject = m.Subject;
+                    MailMessage message = ManagedAccountEmailMessage.GetMessageInstance(session, m);
                     smtp.Send(message);
                     m.Sent = true;
                     if (m.DeleteSent)

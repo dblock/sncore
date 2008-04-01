@@ -3,6 +3,8 @@ using NHibernate;
 using System.Collections;
 using SnCore.Data.Hibernate;
 using System.Net.Mail;
+using System.Text;
+using System.Net;
 
 namespace SnCore.Services
 {
@@ -359,6 +361,67 @@ namespace SnCore.Services
             }
 
             base.Check(t_instance, sec);
+        }
+
+        public void Send(ManagedSecurityContext sec, TransitAccountEmailMessage t_instance)
+        {
+            if (!sec.IsAdministrator())
+            {
+                throw new ManagedAccount.AccessDeniedException();
+            }
+
+            SmtpClient smtp = GetSmtpClientInstance(Session);
+            MailMessage message = GetMessageInstance(Session, t_instance.GetInstance(Session, sec));
+            smtp.Send(message);
+        }
+
+        public static MailMessage GetMessageInstance(ISession session, AccountEmailMessage instance)
+        {
+            MailMessage message = new MailMessage();
+            message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
+                ManagedSystem.Title, ManagedSystem.ProductVersion));
+            message.Headers.Add("Content-class", "urn:content-classes:message");
+            message.Headers.Add("Content-Type", "text/html; charset=\"ISO-8859-1\"");
+            message.IsBodyHtml = true;
+            Encoding iso8859 = Encoding.GetEncoding(28591);
+            message.BodyEncoding = iso8859;
+            message.Body = instance.Body;
+            message.ReplyTo = new MailAddress(instance.MailFrom);
+            message.From = new MailAddress(
+                ManagedConfiguration.GetValue(session, "SnCore.Admin.EmailAddress", "admin@localhost.com"),
+                ManagedConfiguration.GetValue(session, "SnCore.Admin.Name", "Admin")
+                );
+            message.To.Add(new MailAddress(instance.MailTo));
+            message.Subject = instance.Subject;
+            return message;
+        }
+
+        public static SmtpClient GetSmtpClientInstance(ISession session)
+        {
+            SmtpClient smtp = new SmtpClient(
+                ManagedConfiguration.GetValue(session, "SnCore.Mail.Server", "localhost"),
+                int.Parse(ManagedConfiguration.GetValue(session, "SnCore.Mail.Port", "25")));
+            smtp.DeliveryMethod = (SmtpDeliveryMethod)Enum.Parse(typeof(SmtpDeliveryMethod),
+                ManagedConfiguration.GetValue(session, "SnCore.Mail.Delivery", "Network"));
+            smtp.PickupDirectoryLocation = ManagedConfiguration.GetValue(
+                session, "SnCore.Mail.PickupDirectoryLocation", string.Empty);
+
+            string smtpusername = ManagedConfiguration.GetValue(
+                session, "SnCore.Mail.Username", string.Empty);
+
+            string smtppassword = ManagedConfiguration.GetValue(
+                session, "SnCore.Mail.Password", string.Empty);
+
+            if (!string.IsNullOrEmpty(smtpusername))
+            {
+                smtp.Credentials = new NetworkCredential(smtpusername, smtppassword);
+            }
+            else
+            {
+                smtp.UseDefaultCredentials = true;
+            }
+
+            return smtp;
         }
     }
 }

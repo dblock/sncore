@@ -2400,12 +2400,28 @@ namespace SnCore.WebServices
         /// Create or update a AccountEmailMessage.
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
-        /// <param name="AccountEmailMessage">transit AccountEmailMessage</param>
-        [WebMethod(Description = "Create or update a AccountEmailMessage.")]
-        public int CreateOrUpdateAccountEmailMessage(string ticket, TransitAccountEmailMessage AccountEmailMessage)
+        /// <param name="AccountEmailMessage">transit message</param>
+        [WebMethod(Description = "Create or update a message.")]
+        public int CreateOrUpdateAccountEmailMessage(string ticket, TransitAccountEmailMessage message)
         {
             return WebServiceImpl<TransitAccountEmailMessage, ManagedAccountEmailMessage, AccountEmailMessage>.CreateOrUpdate(
-                ticket, AccountEmailMessage);
+                ticket, message);
+        }
+
+        /// <summary>
+        /// Send an AccountEmailMessage immediately (administrators only).
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="message">message</param>
+        public void SendAccountEmailMessage(string ticket, TransitAccountEmailMessage message)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccountEmailMessage m_instance = new ManagedAccountEmailMessage(session);
+                m_instance.Send(sec, message);
+            }
         }
 
         /// <summary>

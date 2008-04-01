@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using SnCore.Tools.Web;
 
 public partial class SystemConfigurationsManage : AuthenticatedPage
 {
@@ -57,5 +58,16 @@ public partial class SystemConfigurationsManage : AuthenticatedPage
                 gridManage.DataBind();
                 break;
         }
+    }
+
+    public string GetValue(bool password, string value)
+    {
+        if (password) 
+            return "**********";
+
+        if (string.IsNullOrEmpty(value))
+            return string.Empty;
+
+        return Renderer.GetSummary(value, 0, 24);
     }
 }

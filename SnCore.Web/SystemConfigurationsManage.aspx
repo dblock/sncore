@@ -9,6 +9,7 @@
  </div>
  <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemConfigurationEdit.aspx"
   runat="server" />
+ <a href="SystemConfigurationEmailEdit.aspx">&#187; E-Mail Subsystem</a>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"
@@ -34,7 +35,7 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn HeaderText="Value" ItemStyle-HorizontalAlign="Left">
       <itemtemplate>
-       <%# (bool) Eval("Password") ? "**********" : Renderer.Render(Eval("Value"))%>
+       <%# GetValue((bool) Eval("Password"), (string) Eval("Value")) %>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:TemplateColumn>
