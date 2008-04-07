@@ -15,5 +15,9 @@
  <String Id="SqlDlgDescription">Please enter database information.</String>
  <String Id="SqlDlgBannerBitmap">WixUI_Bmp_Banner</String>
  <String Id="SqlDatabaseLabel">&amp;Database Name:</String>
- <String Id="SqlServerLabel">&amp;SQL Server:</String> 
+ <String Id="SqlServerLabel">&amp;SQL Server:</String>
+ <String Id="UpgradeWelcomeDlg_Title">[ProductName] Upgrade</String>
+ <String Id="UpgradeWelcomeDlgBitmap">WixUI_Bmp_Dialog</String>
+ <String Id="UpgradeWelcomeDlgTitle">{\WixUI_Font_Title}Upgrade Information</String>
+ <String Id="UpgradeWelcomeDlgDescription">Setup will upgrade [ProductName] from version [INSTALLEDPRODUCTVERSION] to [ProductVersion].</String>
 </WixLocalization>

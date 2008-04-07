@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
  <?include SnCore.Project.wxi ?>
- <Product Id="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd" Name="SnCore Social Network" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
+ <Product Id="*" Name="SnCore Social Network" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
   <Package InstallerVersion="200" Compressed="yes" Description="SnCore Social Network" Id="*" />
   <Upgrade Id="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
    <UpgradeVersion Minimum="$(var.ProductVersion)" OnlyDetect="no" Property="NEWERVERSIONDETECTED" />
@@ -36,6 +36,7 @@
       </CreateFolder>
       <RegistryKey Id="SnCoreRegistryKeyProgramFilesFolder" Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
        <RegistryValue Id="SnCoreRegistryProgramFilesFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+       <RegistryValue Id="SnCoreRegistryProgramFilesFolder_Version" Name="Version" Value="$(var.ProductVersion)" Type="string" />
       </RegistryKey>
      </Component>
     </Directory>
@@ -123,6 +124,8 @@
  <?include SnCore.Install.Web.wxi ?>
  <?include SnCore.Install.WebSite.wxi ?>
  <?include SnCore.Install.Docs.wxi ?>
+ <?include SnCore.Install.UI.InstallWelcomeDlg.wxi ?>
+ <?include SnCore.Install.UI.UpgradeWelcomeDlg.wxi ?>
  <?include SnCore.Install.UI.wxi ?>
  <?include SnCore.Install.UI.ChooseWebSiteName.wxi ?>
  <?include SnCore.Install.UI.ChooseSql.wxi ?>

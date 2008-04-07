@@ -17,12 +17,16 @@
    <DialogRef Id="ProgressDlg" />
    <DialogRef Id="ResumeDlg" />
    <DialogRef Id="UserExit" />
+   <DialogRef Id="InstallWelcomeDlg" />
+   <DialogRef Id="UpgradeWelcomeDlg" />
 
    <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
-   <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-   
-   <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+   <Publish Dialog="InstallWelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+   <Publish Dialog="UpgradeWelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+   <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+   <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="InstallWelcomeDlg">1</Publish>
    <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="WebSiteNameDlg">LicenseAccepted="1"</Publish>
 
    <Publish Dialog="WebSiteNameDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
@@ -41,8 +45,6 @@
    <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode="Change"</Publish>
    <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed</Publish>
 
-   <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
    <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
    <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
    <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
@@ -50,6 +52,10 @@
 
    <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchWebSite" Order="1">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
   </UI>
+  <InstallUISequence>
+   <Show Dialog="UpgradeWelcomeDlg" Before="ProgressDlg">OLDERVERSIONBEINGUPGRADED</Show>
+   <Show Dialog="InstallWelcomeDlg" Before="ProgressDlg">NOT Installed AND NOT OLDERVERSIONBEINGUPGRADED</Show>
+  </InstallUISequence>
   <UIRef Id="WixUI_Common" />
  </Fragment>
 </Include>

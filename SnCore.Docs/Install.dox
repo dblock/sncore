@@ -11,13 +11,13 @@ See \subpage install_requirements.
 \section install_download Download
 
 Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>. The latest known good
-version is <a href="download/SnCore_1.0.1442.0.msi">1.0.1442.0</a>.
+version is <a href="download/SnCore_1.0.1445.0.msi">1.0.1445.0</a>.
 
 \section install_howto Installation
 
 \subsection install_howto_installer Installer Distribution
 
-Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1442.0.msi).
+Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1445.0.msi).
 It will guide you through the installation process, create the database, the website, etc.
 
 \subsection install_howto_website WebSite Options
@@ -33,21 +33,24 @@ Currently, only Windows authentication is supported. You can always adjust setti
 
 \subsection install_howto_troubleshoting Troubleshooing Installation
 
-If the msi installer fails, rerun the installer as follows and collect the log file.
+If the msi installer fails, rerun the installer as follows and collect the installation log file.
 
 \code
-msiexec /i SnCore_1.0.1442.msi /l*v error.log
+msiexec /i SnCore_1.0.1445.msi /l*v install.log
 \endcode
 
 See \ref contact for contact information.
 
 \section upgrade_howto Upgrading
 
-To upgrade to a newer version of SnCore, run the following command.
+To upgrade to a newer version of SnCore, run the installer normally. The first installer screen will confirm that it is
+performing an upgrade and you will not be prompted for information collected during the installation the first time. The
+latter is stored in registry during first-time install under HKLM\\SOFTWARE\\Vestris Inc.\\SnCore.
 
-\code
-msiexec /i SnCore_1.0.1442.msi REINSTALLMODE=vomus REINSTALL=ALL
-\endcode
+Note that it is safe to uninstall the product and reinstall it. This is the recommended procedure if upgrade fails.
+The automatic upgrade performs a <em>major upgrade</em>, uninstalling the previous version and installing the new one. 
+The database will never be dropped by the installer, thus preserving existing data. An upgrade or a fresh install over 
+an existing database will safely upgrade the schema if necessary.
 
 \section install_howto_services Deploying System Services
 
@@ -71,11 +74,10 @@ click on <em>Me Me</em>. Click <em>Manage</em> on the bottom left in the user me
 
 \section install_howto_email Configuring the E-Mail Subsystem
 
-You can configure and test the e-mail subsystem via a configuration wizard available 
-from the Settings page or by changing the SnCore.Mail.* settings directly. See \ref settings for 
-more information.
+You can configure and test the outgoing e-mail subsystem via a configuration wizard available from the Settings page or 
+by changing the SnCore.Mail.* settings directly. See \ref settings for more information.
 
-Adjust the SnCore.Mail.Delivery setting to route e-mail via the following standard options. 
+Adjust the SnCore.Mail.Delivery setting to route outgoing e-mail via the following standard options. 
 
 \li \b Network: Email is sent through the network to an SMTP server. Unauthenticated and authenticated e-mail gateways are supported.
 \li \b SpecifiedPickupDirectory: Email is copied to the directory specified by the SnCore.Mail.PickupDirectoryLocation option.

@@ -9,7 +9,7 @@
  </div>
  <asp:HyperLink ID="linkNew" Text="&#187; Create New" CssClass="sncore_createnew" NavigateUrl="SystemConfigurationEdit.aspx"
   runat="server" />
- <a href="SystemConfigurationEmailEdit.aspx">&#187; E-Mail Subsystem</a>
+ <a href="SystemConfigurationEmailEdit.aspx">&#187; Configure Outgoing E-Mail</a>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <SnCoreWebControls:PagedGrid CellPadding="4" OnItemCommand="gridManage_ItemCommand"

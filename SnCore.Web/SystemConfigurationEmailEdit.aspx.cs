@@ -64,7 +64,7 @@ public partial class SystemConfigurationEmailEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Settings", Request, "SystemConfigurationsManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("EMail Subsystem", Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Outgoing E-Mail", Request.Url));
             StackSiteMap(sitemapdata);
 
             DomainClass cs = SessionManager.GetDomainClass("Configuration");
@@ -83,8 +83,6 @@ public partial class SystemConfigurationEmailEdit : AuthenticatedPage
             inputUsername.Text = SessionManager.GetCachedConfiguration("SnCore.Mail.Username", string.Empty);
             inputPort.Text = SessionManager.GetCachedConfiguration("SnCore.Mail.Port", "25");
             inputPickupDirectoryLocation.Text = SessionManager.GetCachedConfiguration("SnCore.Mail.PickupDirectoryLocation", string.Empty);
-
-            save.Enabled = false;
         }
 
         SetDefaultButton(save);
@@ -133,12 +131,6 @@ public partial class SystemConfigurationEmailEdit : AuthenticatedPage
         base.OnPreRender(e);
     }
 
-    public void inputDelivery_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        test.Enabled = false;
-        save.Enabled = true;
-    }
-
     public void save_Click(object sender, EventArgs e)
     {
         // delivery method
@@ -182,9 +174,6 @@ public partial class SystemConfigurationEmailEdit : AuthenticatedPage
         SessionManager.CreateOrUpdate<TransitConfiguration>(t_pickupdirectorylocation,
             SessionManager.SystemService.CreateOrUpdateConfiguration);
 
-        test.Enabled = true;
-        save.Enabled = false;
-        
         ReportInfo("Configuration saved.");
     }
 }
