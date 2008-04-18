@@ -92,11 +92,19 @@ public partial class AccountBlogView : Page
         }
     }
 
+    private TransitAccountBlogPostQueryOptions GetBlogPostsOptions()
+    {
+        TransitAccountBlogPostQueryOptions qopt = new TransitAccountBlogPostQueryOptions();
+        qopt.PublishedOnly = true;
+        qopt.BlogId = RequestId;
+        return qopt;
+    }
+
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
-            RequestId, SessionManager.BlogService.GetAccountBlogPostsCount);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, TransitAccountBlogPostQueryOptions>(
+            GetBlogPostsOptions(), SessionManager.BlogService.GetAccountBlogPostsCount);
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -106,8 +114,8 @@ public partial class AccountBlogView : Page
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.GetPrivateCollection<TransitAccountBlogPost, int>(
-            RequestId, options, SessionManager.BlogService.GetAccountBlogPosts);
+        gridManage.DataSource = SessionManager.GetPrivateCollection<TransitAccountBlogPost, TransitAccountBlogPostQueryOptions>(
+            GetBlogPostsOptions(), options, SessionManager.BlogService.GetAccountBlogPosts);
     }
 
     public string GetComments(int count)

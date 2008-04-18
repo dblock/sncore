@@ -77,6 +77,16 @@
    <td>
    </td>
    <td class="sncore_form_value">
+    <asp:CheckBox ID="inputPublish" runat="server" Checked="true" Text="Publish Blog Post" />
+    <div class="sncore_description">
+     uncheck to save as draft
+    </div>
+   </td>
+  </tr>
+  <tr>
+   <td>
+   </td>
+   <td class="sncore_form_value">
     <asp:CheckBox ID="inputSticky" runat="server" Checked="false" Text="Sticky" />
     <div class="sncore_description">
      post will stick to the top of the blog when checked

@@ -501,6 +501,7 @@
       <File Id="SnCoreImagesCalendar_gif" Name="calendar.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\calendar.gif" />
       <File Id="SnCoreImagesFolder_gif" Name="folder.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Folder.gif" />
       <File Id="SnCoreImagesItem_gif" Name="item.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Item.gif" />
+      <File Id="SnCoreImagesDraft_gif" Name="draft.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Draft.gif" />
       <File Id="SnCoreImagesOpenid_gif" Name="openid.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\openid.gif" />
       <File Id="SnCoreImagesQuestion_gif" Name="question.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Question.gif" />
       <File Id="SnCoreImagesRss_gif" Name="rss.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\rss.gif" />

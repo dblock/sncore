@@ -23,6 +23,7 @@
         private System.String m_Title;
         private System.Boolean m_EnableComments;
         private System.Boolean m_Sticky;
+        private System.Boolean m_Publish;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -271,6 +272,31 @@
             set
             {
                 m_Sticky = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Publish' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Publish' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean Publish
+        {
+            get
+            {
+                return m_Publish;
+            }
+            set
+            {
+                m_Publish = value;
             }
         }
 

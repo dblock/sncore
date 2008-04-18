@@ -11,13 +11,13 @@ See \subpage install_requirements.
 \section install_download Download
 
 Download the SnCore installation package <a href="http://sncore.vestris.com/download/">here</a>. The latest known good
-version is <a href="download/SnCore_1.0.1445.0.msi">1.0.1445.0</a>.
+version is <a href="download/SnCore_1.0.1446.0.msi">1.0.1446.0</a>.
 
 \section install_howto Installation
 
 \subsection install_howto_installer Installer Distribution
 
-Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1445.0.msi).
+Before you install, please read \ref install_requirements. Run the <b>SnCore_..msi</b> package (eg. SnCore_1.0.1446.0.msi).
 It will guide you through the installation process, create the database, the website, etc.
 
 \subsection install_howto_website WebSite Options
@@ -36,7 +36,7 @@ Currently, only Windows authentication is supported. You can always adjust setti
 If the msi installer fails, rerun the installer as follows and collect the installation log file.
 
 \code
-msiexec /i SnCore_1.0.1445.msi /l*v install.log
+msiexec /i SnCore_1.0.1446.msi /l*v install.log
 \endcode
 
 See \ref contact for contact information.
@@ -72,9 +72,9 @@ Hosted services are disabled by default by the website's web.config.
 You can configure various aspects of the system from the <em>Manage</em> page. Log-in as the system administrator and
 click on <em>Me Me</em>. Click <em>Manage</em> on the bottom left in the user menu.
 
-\section install_howto_email Configuring the E-Mail Subsystem
+\section install_howto_email Configuring Outgoing E-Mail
 
-You can configure and test the outgoing e-mail subsystem via a configuration wizard available from the Settings page or 
+You can configure and test outgoing e-mail via a configuration wizard available from the Settings page or 
 by changing the SnCore.Mail.* settings directly. See \ref settings for more information.
 
 Adjust the SnCore.Mail.Delivery setting to route outgoing e-mail via the following standard options. 

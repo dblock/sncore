@@ -69,11 +69,19 @@ public partial class AccountGroupRss : AccountPersonPage
             // get new blog posts
             if (AccountGroup.AccountBlogId > 0)
             {
-                rssRepeaterBlogItems.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
-                    AccountGroup.AccountBlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
+                rssRepeaterBlogItems.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, TransitAccountBlogPostQueryOptions>(
+                    GetBlogPostsOptions(), options, SessionManager.BlogService.GetAccountBlogPosts);
                 rssRepeaterBlogItems.DataBind();
             }
         }
+    }
+
+    private TransitAccountBlogPostQueryOptions GetBlogPostsOptions()
+    {
+        TransitAccountBlogPostQueryOptions qopt = new TransitAccountBlogPostQueryOptions();
+        qopt.PublishedOnly = true;
+        qopt.BlogId = AccountGroup.AccountBlogId;
+        return qopt;
     }
 
     protected override void OnPreRender(EventArgs e)

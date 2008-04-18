@@ -68,6 +68,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
                 inputBody.Text = post.Body;
                 inputTitle.Text = post.Title;
                 inputSticky.Checked = post.Sticky;
+                inputPublish.Checked = post.Publish;
                 labelLastSaved.Text = string.Format("Last saved: {0}", Adjust(post.Modified));
                 sitemapdata.Add(new SiteMapDataAttributeNode(post.Title, Request.Url));
                 linkPreview.NavigateUrl = string.Format("AccountBlogPostView.aspx?id={0}", RequestId);
@@ -93,6 +94,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
         tp.Id = RequestId;
         tp.EnableComments = enableComments.Checked;
         tp.Sticky = inputSticky.Checked;
+        tp.Publish = inputPublish.Checked;
         tp.Id = SessionManager.CreateOrUpdate<TransitAccountBlogPost>(
             tp, SessionManager.BlogService.CreateOrUpdateAccountBlogPost);
         SessionManager.InvalidateCache<TransitAccountBlog>();

@@ -129,6 +129,7 @@
     <property name="Title" columns="Title" type="System.String" />
     <property name="EnableComments" columns="EnableComments" type="System.Boolean" />
     <property name="Sticky" columns="Sticky" type="System.Boolean" />
+    <property name="Publish" columns="Publish" type="System.Boolean" />
   </class>
   <class name="AccountEmail" table="AccountEmail">
     <property name="Id" id="true" columns="AccountEmail_Id" type="System.Int32" />
@@ -1150,6 +1151,7 @@
       <column name="Title" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="EnableComments" type="Boolean" prec="1" length="1" scale="0" />
       <column name="Sticky" type="Boolean" prec="1" length="1" scale="0" />
+      <column name="Publish" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountEmail">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountEmail_Account" />

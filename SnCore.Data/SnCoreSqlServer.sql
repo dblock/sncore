@@ -347,6 +347,7 @@ CREATE TABLE [dbo].[AccountBlogPost](
 	[AccountName] [nvarchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[EnableComments] [bit] NOT NULL,
 	[Sticky] [bit] NOT NULL,
+	[Publish] [bit] NOT NULL,
  CONSTRAINT [PK_AccountBlogPost] PRIMARY KEY CLUSTERED 
 (
 	[AccountBlogPost_Id] ASC

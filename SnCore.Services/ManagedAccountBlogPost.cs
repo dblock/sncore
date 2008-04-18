@@ -12,9 +12,59 @@ using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
 using SnCore.Data.Hibernate;
+using SnCore.Tools;
 
 namespace SnCore.Services
 {
+    public class TransitAccountBlogPostQueryOptions
+    {
+        public int BlogId = 0;
+        public bool PublishedOnly = true;
+
+        public TransitAccountBlogPostQueryOptions()
+        {
+
+        }
+
+        public string CreateSubQuery()
+        {
+            StringBuilder b = new StringBuilder();
+
+            if (BlogId > 0)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountBlogPost.AccountBlog.Id = {0}", BlogId);
+            }
+
+            if (PublishedOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountBlogPost.Publish = 1");
+            }
+
+            return b.ToString();
+        }
+
+        public string CreateCountQuery()
+        {
+            return CreateSubQuery();
+        }
+
+        public string CreateQuery()
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append("SELECT AccountBlogPost FROM AccountBlogPost AccountBlogPost");
+            b.Append(CreateSubQuery());
+            b.Append(" ORDER BY AccountBlogPost.Sticky DESC, AccountBlogPost.Created DESC");
+            return b.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
+    };
+
     public class TransitAccountBlogPost : TransitService<AccountBlogPost>
     {
         private int mAccountBlogId;
@@ -222,6 +272,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mPublish = true;
+
+        public bool Publish
+        {
+            get
+            {
+                return mPublish;
+            }
+            set
+            {
+                mPublish = value;
+            }
+        }
+
         public TransitAccountBlogPost()
         {
 
@@ -243,6 +307,7 @@ namespace SnCore.Services
             AccountId = instance.AccountId;
             EnableComments = instance.EnableComments && instance.AccountBlog.EnableComments;
             Sticky = instance.Sticky;
+            Publish = instance.Publish;
 
             AccountName = instance.AccountName;
             AccountBlogName = instance.AccountBlog.Name;
@@ -257,6 +322,7 @@ namespace SnCore.Services
             instance.Body = this.Body;
             instance.EnableComments = this.EnableComments;
             instance.Sticky = this.Sticky;
+            instance.Publish = this.Publish;
 
             if (Id == 0)
             {

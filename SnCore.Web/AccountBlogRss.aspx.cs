@@ -64,6 +64,13 @@ public partial class AccountBlogRss : Page
         }
     }
 
+    private TransitAccountBlogPostQueryOptions GetBlogPostsOptions()
+    {
+        TransitAccountBlogPostQueryOptions qopt = new TransitAccountBlogPostQueryOptions();
+        qopt.PublishedOnly = true;
+        qopt.BlogId = RequestId;
+        return qopt;
+    }
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -72,8 +79,8 @@ public partial class AccountBlogRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 10;
-            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
-                RequestId, options, SessionManager.BlogService.GetAccountBlogPosts);
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, TransitAccountBlogPostQueryOptions>(
+                GetBlogPostsOptions(), options, SessionManager.BlogService.GetAccountBlogPosts);
             rssRepeater.DataBind();
         }
     }

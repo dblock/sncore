@@ -41,18 +41,27 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             t_instance.Title = GetNewString();
             t_instance.EnableComments = true;
             t_instance.Sticky = false;
+            t_instance.Publish = true;
             return t_instance;
+        }
+
+        private WebBlogService.TransitAccountBlogPostQueryOptions GetBlogPostQueryOptions()
+        {
+            WebBlogService.TransitAccountBlogPostQueryOptions qopt = new WebBlogService.TransitAccountBlogPostQueryOptions();
+            qopt.PublishedOnly = false;
+            qopt.BlogId = _blog_id;
+            return qopt;
         }
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, _blog_id, options };
+            object[] args = { ticket, GetBlogPostQueryOptions(), options };
             return args;
         }
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, _blog_id };
+            object[] args = { ticket, GetBlogPostQueryOptions() };
             return args;
         }
 
@@ -68,16 +77,25 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         public void SearchAccountBlogPostsTest()
         {
             WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
-            int post_id = Create(GetAdminTicket(), t_post);
+            t_post.Id = Create(GetAdminTicket(), t_post);
             Thread.Sleep(2000);
             int count = EndPoint.SearchAccountBlogPostsCount(GetAdminTicket(), t_post.Title);
             Console.WriteLine("Found {0} posts.", count);
             Assert.IsTrue(count > 0);
             WebBlogService.TransitAccountBlogPost[] posts = EndPoint.SearchAccountBlogPosts(GetAdminTicket(), t_post.Title, null);
             Assert.IsTrue(posts.Length > 0);
-            bool bFound = new TransitServiceCollection<WebBlogService.TransitAccountBlogPost>(posts).ContainsId(post_id);
+            bool bFound = new TransitServiceCollection<WebBlogService.TransitAccountBlogPost>(posts).ContainsId(t_post.Id);
             Assert.IsTrue(bFound);
-            Delete(GetAdminTicket(), post_id);
+            // unpublish the post
+            t_post.Publish = false;
+            EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            // search, should not be found
+            WebBlogService.TransitAccountBlogPost[] posts_after = EndPoint.SearchAccountBlogPosts(GetAdminTicket(), t_post.Title, null);
+            Assert.AreEqual(posts.Length, posts_after.Length + 1);
+            bFound = new TransitServiceCollection<WebBlogService.TransitAccountBlogPost>(posts_after).ContainsId(t_post.Id);
+            Assert.IsFalse(bFound);
+            // delete everything
+            Delete(GetAdminTicket(), t_post.Id);
         }
 
         [Test]
@@ -148,14 +166,18 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             _post.SetUp();
             int post_id = _post.Create(GetAdminTicket());
             Console.WriteLine("Post: {0}", post_id);
+            // query options
+            WebBlogService.TransitAccountBlogPostQueryOptions qopt = new WebBlogService.TransitAccountBlogPostQueryOptions();
+            qopt.BlogId = _blog_id;
+            qopt.PublishedOnly = false;
             // make sure there're no posts in the blog
-            int blog_posts_count = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), _blog_id);
+            int blog_posts_count = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), qopt);
             Assert.AreEqual(0, blog_posts_count);
             // move the discussion post
             int moved_post_id = EndPoint.MoveDiscussionPost(GetAdminTicket(), post_id, _blog_id);
             Console.WriteLine("Moved Post: {0}", moved_post_id);
             Assert.AreNotEqual(0, moved_post_id);
-            int blog_posts_count2 = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), _blog_id);
+            int blog_posts_count2 = EndPoint.GetAccountBlogPostsCount(GetAdminTicket(), qopt);
             Assert.AreEqual(1, blog_posts_count2);
             _post.TearDown();
         }
@@ -173,8 +195,12 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             WebBlogService.TransitAccountBlogPost t_post2 = GetTransitInstance();
             t_post2.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post2);
             Console.WriteLine("Post: {0}", t_post2.Id);
+            // query options
+            WebBlogService.TransitAccountBlogPostQueryOptions qopt = new WebBlogService.TransitAccountBlogPostQueryOptions();
+            qopt.BlogId = _blog_id;
+            qopt.PublishedOnly = false;
             // make sure these are in order
-            WebBlogService.TransitAccountBlogPost[] posts = EndPoint.GetAccountBlogPosts(GetAdminTicket(), _blog_id, null);
+            WebBlogService.TransitAccountBlogPost[] posts = EndPoint.GetAccountBlogPosts(GetAdminTicket(), qopt, null);
             Assert.AreEqual(2, posts.Length);
             Assert.AreEqual(t_post.Id, posts[1].Id); // newest post first
             Assert.AreEqual(t_post2.Id, posts[0].Id);
@@ -192,7 +218,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
             // get posts, make sure the last one stuck
             WebBlogService.TransitAccountBlogPost[] posts_after = EndPoint.GetAccountBlogPosts(
-                GetAdminTicket(), _blog_id, null);
+                GetAdminTicket(), qopt, null);
             Assert.AreEqual(2, posts_after.Length);
             Assert.AreEqual(t_post2.Id, posts_after[1].Id); // newest post first
             Assert.AreEqual(t_post.Id, posts_after[0].Id);
@@ -205,10 +231,64 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
             // recheck after stickyness
             WebBlogService.TransitAccountBlogPost[] posts_final = EndPoint.GetAccountBlogPosts(
-                GetAdminTicket(), _blog_id, null);
+                GetAdminTicket(), qopt, null);
             Assert.AreEqual(2, posts_final.Length);
             Assert.AreEqual(t_post.Id, posts_final[1].Id); // newest post first
             Assert.AreEqual(t_post2.Id, posts_final[0].Id);
+            // delete everything
+            EndPoint.DeleteAccountBlogPost(GetAdminTicket(), t_post.Id);
+            EndPoint.DeleteAccountBlogPost(GetAdminTicket(), t_post2.Id);
+        }
+
+        [Test]
+        public void AccountBlogPostPublishTest()
+        {
+            // create a first post
+            WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
+            t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            Console.WriteLine("Post: {0}", t_post.Id);
+            // create a second post
+            System.Threading.Thread.Sleep(1000);
+            WebBlogService.TransitAccountBlogPost t_post2 = GetTransitInstance();
+            t_post2.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post2);
+            Console.WriteLine("Post: {0}", t_post2.Id);
+            // query options
+            WebBlogService.TransitAccountBlogPostQueryOptions qopt = new WebBlogService.TransitAccountBlogPostQueryOptions();
+            qopt.BlogId = _blog_id;
+            qopt.PublishedOnly = true;
+            // make sure these are in order
+            WebBlogService.TransitAccountBlogPost[] posts = EndPoint.GetAccountBlogPosts(GetAdminTicket(), qopt, null);
+            Assert.AreEqual(2, posts.Length);
+            // flip publish of the first post
+            WebBlogService.TransitAccountBlogPost t_post_copy = EndPoint.GetAccountBlogPostById(
+                GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(true, t_post_copy.Publish);
+            Assert.AreEqual(t_post.Publish, t_post_copy.Publish);
+            t_post.Publish = false;
+            t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            t_post_copy = EndPoint.GetAccountBlogPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(false, t_post_copy.Publish);
+            Assert.AreEqual(t_post.Publish, t_post_copy.Publish);
+            // get posts, it should be one less
+            WebBlogService.TransitAccountBlogPost[] posts_after = EndPoint.GetAccountBlogPosts(
+                GetAdminTicket(), qopt, null);
+            Assert.AreEqual(1, posts_after.Length);
+            Assert.AreEqual(t_post2.Id, posts_after[0].Id); // newest post first
+            // reset publish
+            t_post.Publish = true;
+            t_post.Id = EndPoint.CreateOrUpdateAccountBlogPost(GetAdminTicket(), t_post);
+            t_post_copy = EndPoint.GetAccountBlogPostById(GetAdminTicket(), t_post.Id);
+            Assert.AreEqual(t_post.Id, t_post_copy.Id);
+            Assert.AreEqual(true, t_post_copy.Publish);
+            Assert.AreEqual(t_post.Publish, t_post_copy.Publish);
+            // recheck after change
+            WebBlogService.TransitAccountBlogPost[] posts_final = EndPoint.GetAccountBlogPosts(
+                GetAdminTicket(), qopt, null);
+            Assert.AreEqual(2, posts_final.Length);
+            Assert.AreEqual(t_post2.Id, posts_final[0].Id); // newest post first
+            Assert.AreEqual(t_post.Id, posts_final[1].Id);
             // delete everything
             EndPoint.DeleteAccountBlogPost(GetAdminTicket(), t_post.Id);
             EndPoint.DeleteAccountBlogPost(GetAdminTicket(), t_post2.Id);

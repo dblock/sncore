@@ -71,11 +71,19 @@ public partial class AccountBlogEdit : AuthenticatedPage
         SetDefaultButton(linkSave);
     }
 
+    private TransitAccountBlogPostQueryOptions GetBlogPostsOptions()
+    {
+        TransitAccountBlogPostQueryOptions qopt = new TransitAccountBlogPostQueryOptions();
+        qopt.PublishedOnly = false;
+        qopt.BlogId = RequestId;
+        return qopt;
+    }
+
     private void GetBlogPostsData(object sender, EventArgs e)
     {
         gridManagePosts.CurrentPageIndex = 0;
         gridManagePosts.VirtualItemCount = SessionManager.BlogService.GetAccountBlogPostsCount(
-            SessionManager.Ticket, RequestId);
+            SessionManager.Ticket, GetBlogPostsOptions());
         gridManagePosts_OnGetDataSource(this, null);
         gridManagePosts.DataBind();
     }
@@ -135,7 +143,7 @@ public partial class AccountBlogEdit : AuthenticatedPage
         options.PageNumber = gridManagePosts.CurrentPageIndex;
         options.PageSize = gridManagePosts.PageSize;
         gridManagePosts.DataSource = SessionManager.BlogService.GetAccountBlogPosts(
-            SessionManager.Ticket, RequestId, options);
+            SessionManager.Ticket, GetBlogPostsOptions(), options);
     }
 
     void gridManageAuthors_OnGetDataSource(object sender, EventArgs e)

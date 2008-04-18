@@ -304,4 +304,10 @@ GO
 IF NOT EXISTS (SELECT * FROM [PictureType] WHERE [Name] = 'AccountWebsite')
 INSERT INTO [PictureType] VALUES ( 'AccountWebsite ')
 GO
-
+-- create an Publish option for AccountBlogPost
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]') AND name = N'Publish') 
+ALTER TABLE dbo.AccountBlogPost ADD [Publish] bit NULL
+GO
+UPDATE dbo.AccountBlogPost SET [Publish] = 1 WHERE Publish IS NULL
+ALTER TABLE dbo.AccountBlogPost ALTER COLUMN [Publish] bit NOT NULL
+GO

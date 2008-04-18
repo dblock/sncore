@@ -13,5 +13,6 @@
     <property name="Title" column="Title" type="String" />
     <property name="EnableComments" column="EnableComments" type="Boolean" />
     <property name="Sticky" column="Sticky" type="Boolean" />
+    <property name="Publish" column="Publish" type="Boolean" />
   </class>
 </hibernate-mapping>

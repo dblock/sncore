@@ -41,6 +41,14 @@ public partial class AccountBlogViewControl : Control
         }
     }
 
+    private TransitAccountBlogPostQueryOptions GetBlogPostsOptions()
+    {
+        TransitAccountBlogPostQueryOptions qopt = new TransitAccountBlogPostQueryOptions();
+        qopt.PublishedOnly = false;
+        qopt.BlogId = BlogId;
+        return qopt;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
@@ -61,8 +69,8 @@ public partial class AccountBlogViewControl : Control
 
                 if (tb.DefaultViewRows > 0)
                 {
-                    gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, int>(
-                        BlogId, SessionManager.BlogService.GetAccountBlogPostsCount);
+                    gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountBlogPost, TransitAccountBlogPostQueryOptions>(
+                        GetBlogPostsOptions(), SessionManager.BlogService.GetAccountBlogPostsCount);
                     gridManage_OnGetDataSource(this, null);
                     gridManage.DataBind();
                 }
@@ -83,7 +91,7 @@ public partial class AccountBlogViewControl : Control
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
-        gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, int>(
-            BlogId, options, SessionManager.BlogService.GetAccountBlogPosts);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountBlogPost, TransitAccountBlogPostQueryOptions>(
+            GetBlogPostsOptions(), options, SessionManager.BlogService.GetAccountBlogPosts);
     }
 }

@@ -162,10 +162,10 @@ namespace SnCore.WebServices
         /// <param name="id">account feed id</param>
         /// <returns>transit account blog posts count</returns>
         [WebMethod(Description = "Get account blog posts count.", CacheDuration = 60)]
-        public int GetAccountBlogPostsCount(string ticket, int id)
+        public int GetAccountBlogPostsCount(string ticket, TransitAccountBlogPostQueryOptions qopt)
         {
             return WebServiceImpl<TransitAccountBlogPost, ManagedAccountBlogPost, AccountBlogPost>.GetCount(
-                ticket, string.Format("WHERE AccountBlogPost.AccountBlog.Id = {0}", id));
+                ticket, qopt.CreateCountQuery());
         }
 
         /// <summary>
@@ -173,12 +173,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>transit account blog posts</returns>
         [WebMethod(Description = "Get account blog posts.", CacheDuration = 60)]
-        public List<TransitAccountBlogPost> GetAccountBlogPosts(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountBlogPost> GetAccountBlogPosts(string ticket, TransitAccountBlogPostQueryOptions qopt, ServiceQueryOptions options)
         {
-            ICriterion[] expressions = { Expression.Eq("AccountBlog.Id", id) };
-            Order[] orders = { Order.Desc("Sticky"), Order.Desc("Created") };
             return WebServiceImpl<TransitAccountBlogPost, ManagedAccountBlogPost, AccountBlogPost>.GetList(
-                ticket, options, expressions, orders);
+                ticket, options, qopt.CreateQuery());
         }
 
         /// <summary>
@@ -338,6 +336,7 @@ namespace SnCore.WebServices
             query.AppendFormat(" INNER JOIN FREETEXTTABLE(AccountBlogPost, ([Title], [Body]), '{0}', {1}) AS ft",
                 Renderer.SqlEncode(s), maxsearchresults);
             query.Append(" ON AccountBlogPost.AccountBlogPost_Id = ft.[KEY] ");
+            query.Append(" WHERE AccountBlogPost.Publish = 1");
             query.Append(" ORDER BY ft.[RANK] DESC");
 
             return WebServiceImpl<TransitAccountBlogPost, ManagedAccountBlogPost, AccountBlogPost>.GetList(

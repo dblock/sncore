@@ -106,8 +106,8 @@
       <asp:BoundColumn DataField="Id" Visible="false" />
       <asp:TemplateColumn ItemStyle-HorizontalAlign="Center">
        <itemtemplate>
-       <img src="images/Item.gif" />
-      </itemtemplate>
+        <img src="<%# (bool) Eval("Publish") ? "images/Item.gif" : "images/Draft.gif" %>" />
+       </itemtemplate>
       </asp:TemplateColumn>
       <asp:TemplateColumn HeaderText="Entry" ItemStyle-HorizontalAlign="Left">
        <itemtemplate>
