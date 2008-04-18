@@ -61,13 +61,5 @@ namespace SnCore.WebServices.Tests
                 GetTicket(), id);
             Assert.IsNull(deleted_instance, string.Format("{0} object created hasn't been deleted from store.", typeof(DataType).Name));
         }
-
-        public override void SetUp()
-        {
-#if DEBUG
-            ManagedAccount.EncryptTickets = false;
-#endif
-            base.SetUp();
-        }
     }
 }

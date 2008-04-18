@@ -44,13 +44,5 @@ namespace SnCore.WebServices.Tests
 
             Console.WriteLine("Result Set: {0}", rs.Count);
         }
-
-        public override void SetUp()
-        {
-#if DEBUG
-            ManagedAccount.EncryptTickets = false;
-#endif
-            base.SetUp();
-        }
     }
 }

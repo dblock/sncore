@@ -17,10 +17,6 @@ namespace SnCore.BackEnd.Tests
         [SetUp]
         public override void SetUp()
         {
-#if DEBUG
-            ManagedAccount.EncryptTickets = false;
-            ContentPage.EnableRemoteContent = false;
-#endif
             service = new SystemThumbnailService();
             base.SetUp();
         }

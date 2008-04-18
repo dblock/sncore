@@ -30,6 +30,7 @@ namespace SnCore.BackEnd.Tests
             CleanupTestGenerated<ManagedAccountEvent, AccountEvent>(sec);
             CleanupTestGenerated<ManagedAccountGroup, AccountGroup>(sec);
             CleanupTestGenerated<ManagedPlace, Place>(sec);
+            CleanupTestGenerated<ManagedAccountMessageFolder, AccountMessageFolder>(sec);
             CleanupTestGenerated<ManagedAccount, Account>(sec);
             CleanupTestGenerated<ManagedBug, Bug>(sec, "Subject");
             CleanupTestGenerated<ManagedCampaign, Campaign>(sec);

@@ -650,22 +650,6 @@ namespace SnCore.Services
             return mInstance.Password == password;
         }
 
-#if DEBUG
-        private static bool _encrypttickets = true;
-
-        public static bool EncryptTickets
-        {
-            get
-            {
-                return _encrypttickets;
-            }
-            set
-            {
-                _encrypttickets = value;
-            }
-        }
-#endif
-
         public static int GetAccountId(string ticket, int def)
         {
             if (string.IsNullOrEmpty(ticket))
@@ -673,42 +657,11 @@ namespace SnCore.Services
                 return def;
             }
 
-#if DEBUG
-            if (!_encrypttickets)
-            {
-                return int.Parse(ticket);
-            }
-#endif
-
-            FormsAuthenticationTicket t = FormsAuthentication.Decrypt(ticket);
-            if (t == null)
-            {
-                return def;
-            }
+            string id = DPAPI.Decrypt(ticket);
 
             int result = 0;
-
-            int.TryParse(t.Name, out result);
-
+            int.TryParse(id, out result);
             return result;
-        }
-
-        public static int GetAccountId(string ticket)
-        {
-#if DEBUG
-            if (!_encrypttickets)
-            {
-                return int.Parse(ticket);
-            }
-#endif
-
-            FormsAuthenticationTicket t = FormsAuthentication.Decrypt(ticket);
-            if (t == null)
-            {
-                throw new ManagedAccount.AccessDeniedException();
-            }
-
-            return int.Parse(t.Name);
         }
 
         public static ManagedAccount FindByEmail(ISession session, string emailaddress)
@@ -1541,13 +1494,7 @@ namespace SnCore.Services
         public static string GetUserTicket(ISession session, int id)
         {
             Account account = session.Load<Account>(id);
-#if DEBUG
-            if (!EncryptTickets)
-            {
-                return account.Id.ToString();
-            }
-#endif
-            return FormsAuthentication.GetAuthCookie(account.Id.ToString(), false).Value;
+            return GetTicketFromAccount(account);
         }
 
         public static ManagedSecurityContext GetUserSecurityContext(ISession session, int user_id)
@@ -1633,6 +1580,40 @@ namespace SnCore.Services
             }
 
             return result;
+        }
+
+        public static string GetTicketFromAccount(Account acct)
+        {
+            return GetTicketFromAccountId(acct.Id);
+        }
+
+        public static string GetTicketFromAccountId(int id)
+        {
+            return DPAPI.Encrypt(id.ToString());
+        }
+
+        public static int GetAccountIdFromTicket(string ticket)
+        {
+            try
+            {
+                // new: use DPAPI
+                return int.Parse(DPAPI.Decrypt(ticket));
+            }
+            catch
+            {
+                try
+                {
+                    // backwards compatbility: forms encryption
+                    FormsAuthenticationTicket t = FormsAuthentication.Decrypt(ticket);
+                    if (t == null) throw new ManagedAccount.AccessDeniedException();
+                    int result = int.Parse(t.Name);
+                    return result;
+                }
+                catch
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+            }
         }
     }
 }

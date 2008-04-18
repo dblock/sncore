@@ -39,8 +39,19 @@ namespace SnCore.Services
 
         public ManagedSecurityContext(ISession session, string ticket)
         {
-            int id = ManagedAccount.GetAccountId(ticket, 0);
-            mAccount = (id > 0 ? session.Load<Account>(id) : null);
+            mAccount = null;
+            
+            try
+            {
+                if (!string.IsNullOrEmpty(ticket))
+                {
+                    int id = ManagedAccount.GetAccountIdFromTicket(ticket);
+                    mAccount = (id > 0 ? session.Load<Account>(id) : null);
+                }
+            }
+            catch (ManagedAccount.AccessDeniedException)
+            {
+            }
         }
 
         public bool IsAdministrator()

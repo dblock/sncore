@@ -24,23 +24,11 @@ namespace SnCore.Services
 
         public static Cookie GetAdminAuthCookie(ISession session)
         {
-#if DEBUG
-            if (! ContentPage.EnableRemoteContent)
-            {
-                return null;
-            }
-#endif
             return new Cookie(sSnCoreAuthCookieName, ManagedAccount.GetAdminTicket(session));
         }
 
         public static Cookie GetUserAuthCookie(ISession session, int user_id)
         {
-#if DEBUG
-            if (!ContentPage.EnableRemoteContent)
-            {
-                return null;
-            }
-#endif
             return new Cookie(sSnCoreAuthCookieName, ManagedAccount.GetUserTicket(session, user_id));
         }
 

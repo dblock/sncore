@@ -12,21 +12,12 @@ namespace SnCore.Services.Tests
 {
     public class ManagedServiceTest : NHibernateTest
     {
-        private bool mEnableRemoteContent = false;
         private ManagedSecurityContext mAdminSecurityContext;
 
         public override void SetUp()
         {
-            mEnableRemoteContent = ContentPage.EnableRemoteContent;
-            ContentPage.EnableRemoteContent = false;
             base.SetUp();
             mAdminSecurityContext = ManagedAccount.GetAdminSecurityContext(Session);
-        }
-
-        public override void TearDown()
-        {
-            base.TearDown();
-            ContentPage.EnableRemoteContent = mEnableRemoteContent;
         }
 
         public ManagedSecurityContext AdminSecurityContext

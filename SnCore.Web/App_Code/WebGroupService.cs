@@ -499,7 +499,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Accept an invitation.")]
         public void AcceptAccountGroupAccountInvitation(string ticket, int id, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int userid = ManagedAccount.GetAccountIdFromTicket(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -639,7 +639,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Accept a membership request.")]
         public void AcceptAccountGroupAccountRequest(string ticket, int id, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int userid = ManagedAccount.GetAccountIdFromTicket(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

@@ -49,9 +49,9 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = ManagedAccount.Login(session, email, password);
-                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                string ticket = ManagedAccount.GetTicketFromAccountId(acct.Id);
                 SnCore.Data.Hibernate.Session.Flush();
-                return cookie.Value;
+                return ticket;
             }
         }
 
@@ -68,9 +68,9 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = ManagedAccount.LoginOpenId(session, token, new NameValueCollectionSerializer(names, values).Collection);
-                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                string ticket = ManagedAccount.GetTicketFromAccountId(acct.Id);
                 SnCore.Data.Hibernate.Session.Flush();
-                return cookie.Value;
+                return ticket;
             }
         }
 
@@ -92,9 +92,9 @@ namespace SnCore.WebServices
                 t_result.ConsumerUrl = t_login.ConsumerUri.ToString();
                 if (t_login.Account != null)
                 {
-                    HttpCookie cookie = FormsAuthentication.GetAuthCookie(t_login.Account.Id.ToString(), false);
+                    string ticket = ManagedAccount.GetTicketFromAccount(t_login.Account);
                     SnCore.Data.Hibernate.Session.Flush();
-                    t_result.Ticket = cookie.Value;
+                    t_result.Ticket = ticket;
                 }
                 return t_result;
             }
@@ -114,9 +114,9 @@ namespace SnCore.WebServices
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedAccount acct = ManagedAccount.LoginMd5(session, emailaddress, passwordhash);
-                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                string ticket = ManagedAccount.GetTicketFromAccountId(acct.Id);
                 SnCore.Data.Hibernate.Session.Flush();
-                return cookie.Value;
+                return ticket;
             }
         }
 
@@ -280,7 +280,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account id.", CacheDuration = 60)]
         public int GetAccountId(string ticket)
         {
-            return ManagedAccount.GetAccountId(ticket);
+            return ManagedAccount.GetAccountIdFromTicket(ticket);
         }
 
         /// <summary>
@@ -428,9 +428,9 @@ namespace SnCore.WebServices
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                ManagedAccount account = new ManagedAccount(session, id);
-                HttpCookie cookie = FormsAuthentication.GetAuthCookie(account.Id.ToString(), false);
-                return cookie.Value;
+                ManagedAccount acct = new ManagedAccount(session, id);
+                string ticket = ManagedAccount.GetTicketFromAccountId(acct.Id);
+                return ticket;
             }
         }
 
@@ -749,9 +749,9 @@ namespace SnCore.WebServices
                 }
 
                 ManagedAccount acct = new ManagedAccount(session, id);
-                HttpCookie cookie = FormsAuthentication.GetAuthCookie(acct.Id.ToString(), false);
+                string return_ticket = ManagedAccount.GetTicketFromAccountId(acct.Id);
                 SnCore.Data.Hibernate.Session.Flush();
-                return cookie.Value;
+                return return_ticket;
             }
         }
 

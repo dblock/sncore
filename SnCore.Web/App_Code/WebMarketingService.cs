@@ -280,7 +280,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Import accounts into a marketing campaign by location.")]
         public int ImportCampaignAccountLocation(string ticket, int campaign_id, string country, string state, string city)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int userid = ManagedAccount.GetAccountIdFromTicket(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -347,7 +347,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Import accounts into a marketing campaign by matching property value.")]
         public int ImportCampaignAccountPropertyValues(string ticket, int campaign_id, int pid, string value, bool unset)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int userid = ManagedAccount.GetAccountIdFromTicket(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

@@ -19,10 +19,6 @@ namespace SnCore.BackEnd.Tests
         public override void SetUp()
         {
             service = new SystemReminderService();
-#if DEBUG
-            ManagedAccount.EncryptTickets = false;
-            ContentPage.EnableRemoteContent = false;
-#endif
             base.SetUp();
         }
 

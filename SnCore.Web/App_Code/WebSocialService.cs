@@ -170,7 +170,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Create a new friend request.")]
         public int CreateOrUpdateAccountFriendRequest(string ticket, int friendid, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int userid = ManagedAccount.GetAccountIdFromTicket(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -191,7 +191,7 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Accept a friend request.")]
         public void AcceptAccountFriendRequest(string ticket, int id, string message)
         {
-            int userid = ManagedAccount.GetAccountId(ticket);
+            int userid = ManagedAccount.GetAccountIdFromTicket(ticket);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;

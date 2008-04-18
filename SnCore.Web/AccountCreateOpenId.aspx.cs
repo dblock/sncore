@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using SnCore.Services;
 using SnCore.Tools.Web;
 using SnCore.SiteMap;
+using SnCore.Tools;
 
 [SiteMapDataAttribute("Join with Open-Id")]
 public partial class AccountCreateOpenId : Page
@@ -79,7 +80,7 @@ public partial class AccountCreateOpenId : Page
                     inputEmailAddress.Text,
                     ta);
 
-                string ticket = FormsAuthentication.GetAuthCookie(id.ToString(), false).Value;
+                string ticket = ManagedAccount.GetTicketFromAccountId(id);
                 SessionManager.Login(ticket, false);
                 Redirect("AccountCreateWelcome.aspx");
             }

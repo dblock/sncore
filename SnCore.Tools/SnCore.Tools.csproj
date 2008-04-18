@@ -41,6 +41,7 @@
     <Compile Include="CBusinessDay.cs" />
     <Compile Include="ContentPage.cs" />
     <Compile Include="CssAbsoluteLinksWriter.cs" />
+    <Compile Include="DPAPI.cs" />
     <Compile Include="ExceptionCollection.cs" />
     <Compile Include="HostedApplication.cs" />
     <Compile Include="HostedSessionManager.cs" />
