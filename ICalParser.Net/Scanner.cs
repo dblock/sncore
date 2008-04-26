@@ -38,7 +38,7 @@ namespace Semaview.Shared.ICalParser
     {
         private string fileName = null;
         private Stream stream = null;
-        private TextReader rdr = null;
+        private StreamReader rdr = null;
         private int lineNumber = -1;
         private bool newlineFound = false;
 
@@ -80,7 +80,7 @@ namespace Semaview.Shared.ICalParser
             stream = _stream;
         }
 
-        public Scanner(TextReader _reader)
+        public Scanner(StreamReader _reader)
         {
             rdr = _reader;
         }
@@ -397,10 +397,10 @@ namespace Semaview.Shared.ICalParser
 
         public bool isEOF()
         {
-            return Peek() == -1;
+            return reader.EndOfStream;
         }
 
-        private TextReader reader
+        private StreamReader reader
         {
             get
             {
@@ -441,8 +441,8 @@ namespace Semaview.Shared.ICalParser
                 HardRead();  // read to EOL
                 newlineFound = true;
 
-                char peek = (char) HardPeek();
-                if (peek == ' ' || peek == '\t')
+                char c = (char)HardPeek();
+                if (c == ' ' || c == '\t')
                 {
                     // continuation char, consume it
                     newlineFound = false;

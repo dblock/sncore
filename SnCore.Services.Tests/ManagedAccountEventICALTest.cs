@@ -28,5 +28,21 @@ namespace SnCore.Services.Tests
             Console.WriteLine(emitter.AccountEvent.Description);
             Console.WriteLine(emitter.AccountEvent.StartDateTime);
         }
+
+        [Test]
+        public void TestMeetup()
+        {
+            string url = "http://dessert.meetup.com/3/calendar/7801237/ical/Cupcake+Social+2.0/";
+            Console.WriteLine(SnCore.Tools.Web.Renderer.UrlEncode(url));
+            TransitAccountEventICALEmitter emitter = new TransitAccountEventICALEmitter();
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            StreamReader sr = new StreamReader(response.GetResponseStream());
+            Parser parser = new Parser(sr, emitter);
+            parser.Parse();
+            Console.WriteLine(emitter.AccountEvent.Name);
+            Console.WriteLine(emitter.AccountEvent.Description);
+            Console.WriteLine(emitter.AccountEvent.StartDateTime);
+        }
     }
 }

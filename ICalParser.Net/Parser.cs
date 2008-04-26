@@ -78,7 +78,7 @@ namespace Semaview.Shared.ICalParser
         /// </summary>
         /// <param name="reader">The reader that contains the stream of text iCalendar</param>
         /// <param name="_emitter">The emitter that will transform the iCalendar elements</param>
-        public Parser(TextReader reader, IEmitter _emitter)
+        public Parser(StreamReader reader, IEmitter _emitter)
         {
             scanner = new Scanner(reader);
             emitter = _emitter;
@@ -469,7 +469,7 @@ namespace Semaview.Shared.ICalParser
                 if (id.TokenVal == TokenValue.Trrule)
                 {
                     // this is a special case - the value will be an attribute list...
-                    parseAttributes(new Scanner(new StringReader(val.TokenText)));
+                    parseAttributes(new Scanner(new StreamReader(val.TokenText)));
                 }
                 else
                 {
