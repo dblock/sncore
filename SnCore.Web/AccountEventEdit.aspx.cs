@@ -40,6 +40,7 @@ public partial class AccountEventEdit : AuthenticatedPage
             GetAccountEventTypes(sender, e);
 
             linkBack.NavigateUrl = ReturnUrl;
+            linkDelete.Visible = linkSummarize.Visible = (RequestId > 0);
 
             if (RequestId > 0)
             {
