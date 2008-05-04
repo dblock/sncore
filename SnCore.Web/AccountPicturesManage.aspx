@@ -20,7 +20,7 @@
  <table class="sncore_account_table">
   <tr>
    <td style="vertical-align: top;" class="sncore_form_label">
-    add photos:
+    add pictures:
    </td>
    <td>
     <WilcoWebControls:MultiFileUpload ID="files" runat="server" InputCssClass="sncore_form_upload"

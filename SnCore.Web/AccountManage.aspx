@@ -13,10 +13,15 @@
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_account_table">
   <tr>
-   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 100px;">
+   <td class="sncore_table_tr_td" style="text-align: center; vertical-align: top; width: 150px;">
     <a runat="server" id="linkPictures" href="AccountView.aspx">
      <img border="0" src="AccountPictureThumbnail.aspx" runat="server" id="accountImage" />
     </a>
+    <div class="sncore_link">
+     <a href="AccountPicturesManage.aspx">
+      &#187; upload a picture
+     </a>
+    </div>
    </td>
    <td valign="top" width="*">
     <div class="sncore_h2">
