@@ -70,7 +70,7 @@ public partial class AccountChangePassword : AuthenticatedPage
     {
         try
         {
-            if (inputNewPassword.Text != inputNewPassword2.Text)
+            if (inputNewPassword.Text.Trim() != inputNewPassword2.Text.Trim())
             {
                 throw new ArgumentException("Passwords don't match.");
             }
@@ -83,15 +83,15 @@ public partial class AccountChangePassword : AuthenticatedPage
                     SessionManager.Ticket,
                     account_id,
                     PasswordHash,
-                    inputNewPassword.Text);
+                    inputNewPassword.Text.Trim());
             }
             else
             {
                 SessionManager.AccountService.ChangePassword(
                     SessionManager.Ticket,
                     account_id,
-                    inputOldPassword.Text,
-                    inputNewPassword.Text);
+                    inputOldPassword.Text.Trim(),
+                    inputNewPassword.Text.Trim());
             }
 
             ReportInfo("Password changed.");
@@ -104,9 +104,9 @@ public partial class AccountChangePassword : AuthenticatedPage
         }
         catch
         {
-            inputOldPassword.Attributes["value"] = inputOldPassword.Text;
-            inputNewPassword.Attributes["value"] = inputNewPassword.Text;
-            inputNewPassword2.Attributes["value"] = inputNewPassword2.Text;
+            inputOldPassword.Attributes["value"] = inputOldPassword.Text.Trim();
+            inputNewPassword.Attributes["value"] = inputNewPassword.Text.Trim();
+            inputNewPassword2.Attributes["value"] = inputNewPassword2.Text.Trim();
             throw;
         }
     }

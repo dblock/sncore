@@ -38,7 +38,7 @@ public partial class AccountCreateInvitation : Page
 
     protected void create_Click(object sender, EventArgs e)
     {
-        if (inputPassword.Text != inputPassword2.Text)
+        if (inputPassword.Text.Trim() != inputPassword2.Text.Trim())
         {
             throw new ArgumentException("Passwords don't match.");
         }
@@ -46,7 +46,7 @@ public partial class AccountCreateInvitation : Page
         TransitAccount ta = new TransitAccount();
         ta.Name = inputName.Text;
         ta.Birthday = inputBirthday.SelectedDate;
-        ta.Password = inputPassword.Text;
+        ta.Password = inputPassword.Text.Trim();
 
 
         SessionManager.AccountService.CreateAccountWithInvitation(
@@ -56,7 +56,7 @@ public partial class AccountCreateInvitation : Page
 
         panelCreate.Visible = false;
 
-        string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+        string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text.Trim(), inputPassword.Text.Trim());
         SessionManager.Login(ticket, false);
         Redirect("AccountCreateInvitationWelcome.aspx");
     }

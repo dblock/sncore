@@ -32,24 +32,24 @@ public partial class AccountCreate : Page
         }
         else
         {
-            inputBetaPassword.Attributes["value"] = inputBetaPassword.Text;
-            inputPassword.Attributes["value"] = inputPassword.Text;
-            inputPassword2.Attributes["value"] = inputPassword2.Text;
+            inputBetaPassword.Attributes["value"] = inputBetaPassword.Text.Trim();
+            inputPassword.Attributes["value"] = inputPassword.Text.Trim();
+            inputPassword2.Attributes["value"] = inputPassword2.Text.Trim();
         }
     }
 
     protected void create_Click(object sender, EventArgs e)
     {
-        inputBetaPassword.Attributes["value"] = inputBetaPassword.Text;
-        inputPassword.Attributes["value"] = inputPassword.Text;
-        inputPassword2.Attributes["value"] = inputPassword2.Text;
+        inputBetaPassword.Attributes["value"] = inputBetaPassword.Text.Trim();
+        inputPassword.Attributes["value"] = inputPassword.Text.Trim();
+        inputPassword2.Attributes["value"] = inputPassword2.Text.Trim();
 
         if (string.IsNullOrEmpty(inputName.Text))
         {
             throw new ArgumentException("Please enter a name.");
         }
 
-        if (inputPassword.Text != inputPassword2.Text)
+        if (inputPassword.Text.Trim() != inputPassword2.Text.Trim())
         {
             throw new ArgumentException("Passwords don't match.");
         }
@@ -59,7 +59,7 @@ public partial class AccountCreate : Page
             throw new ArgumentException("Please select a valid date.");
         }
 
-        if (string.IsNullOrEmpty(inputPassword.Text))
+        if (string.IsNullOrEmpty(inputPassword.Text.Trim()))
         {
             throw new ArgumentException("Please enter a password.");
         }
@@ -67,12 +67,12 @@ public partial class AccountCreate : Page
         TransitAccount ta = new TransitAccount();
         ta.Name = inputName.Text;
         ta.Birthday = inputBirthday.SelectedDate;
-        ta.Password = inputPassword.Text;
+        ta.Password = inputPassword.Text.Trim();
 
         try
         {
             // check whether there's already an account with the same e-mail and password
-            string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+            string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text.Trim(), inputPassword.Text.Trim());
             ReportWarning("There's already an account with the same e-mail address and password.");
             return;
         }
@@ -83,11 +83,11 @@ public partial class AccountCreate : Page
         try
         {
             SessionManager.AccountService.CreateAccount(
-                inputBetaPassword.Text,
-                inputEmailAddress.Text,
+                inputBetaPassword.Text.Trim(),
+                inputEmailAddress.Text.Trim(),
                 ta);
 
-            string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text, inputPassword.Text);
+            string ticket = SessionManager.AccountService.Login(inputEmailAddress.Text.Trim(), inputPassword.Text.Trim());
             SessionManager.Login(ticket, false);
             Redirect("AccountCreateWelcome.aspx");
         }
@@ -99,7 +99,7 @@ public partial class AccountCreate : Page
                 string.Format(
                     "Account created. An e-mail was sent to '{0}' for confirmation. " +
                     "You must confirm this e-mail address before you log-in.",
-                    inputEmailAddress.Text));
+                    inputEmailAddress.Text.Trim()));
 
             panelCreate.Visible = false;
         }

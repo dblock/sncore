@@ -65,7 +65,7 @@ public partial class AccountLogin : Page
             string ticket;
             if (!string.IsNullOrEmpty(loginEmailAddress.Text))
             {
-                ticket = SessionManager.AccountService.Login(loginEmailAddress.Text, loginPassword.Text);
+                ticket = SessionManager.AccountService.Login(loginEmailAddress.Text.Trim(), loginPassword.Text.Trim());
                 SessionManager.Login(ticket, loginRememberMe.Checked);
 
                 TransitAccount ta = SessionManager.AccountService.GetAccount(ticket, true);

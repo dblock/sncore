@@ -158,11 +158,11 @@ public partial class SystemConfigurationEmailEdit : AuthenticatedPage
         SessionManager.CreateOrUpdate<TransitConfiguration>(t_username,
             SessionManager.SystemService.CreateOrUpdateConfiguration);
         // password
-        if (!string.IsNullOrEmpty(inputPassword.Text))
+        if (!string.IsNullOrEmpty(inputPassword.Text.Trim()))
         {
             TransitConfiguration t_password = SessionManager.GetInstance<TransitConfiguration, string, string>(
             "SnCore.Mail.Password", string.Empty, SessionManager.SystemService.GetConfigurationByNameWithDefault);
-            t_password.Value = inputPassword.Text;
+            t_password.Value = inputPassword.Text.Trim();
             t_password.Password = true;
             SessionManager.CreateOrUpdate<TransitConfiguration>(t_password,
                 SessionManager.SystemService.CreateOrUpdateConfiguration);

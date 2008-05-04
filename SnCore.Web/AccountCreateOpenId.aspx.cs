@@ -75,9 +75,9 @@ public partial class AccountCreateOpenId : Page
                 ta.Birthday = inputBirthday.SelectedDate;
  
                 int id = SessionManager.AccountService.CreateAccountWithOpenId(
-                    inputBetaPassword.Text,
+                    inputBetaPassword.Text.Trim(),
                     consumerurl,
-                    inputEmailAddress.Text,
+                    inputEmailAddress.Text.Trim(),
                     ta);
 
                 string ticket = ManagedAccount.GetTicketFromAccountId(id);
@@ -113,8 +113,8 @@ public partial class AccountCreateOpenId : Page
         TransitOpenIdRedirect redirect = SessionManager.AccountService.GetOpenIdRedirect(inputOpenId.Text, Request.Url.ToString());
         SessionManager.OpenIdToken = redirect.Token;
         Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Name", inputName.Text));
-        Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.BetaPassword", inputBetaPassword.Text.ToString()));
-        Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Email", inputEmailAddress.Text));
+        Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.BetaPassword", inputBetaPassword.Text.Trim()));
+        Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Email", inputEmailAddress.Text.Trim()));
         Response.Cookies.Add(new HttpCookie("SnCore.AccountCreate.Birthday", inputBirthday.SelectedDate.ToString()));
         Redirect(redirect.Url);
     }

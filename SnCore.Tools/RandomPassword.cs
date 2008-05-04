@@ -97,7 +97,7 @@ namespace SnCore.Tools
             PASSWORD_CHARS_LCASE.ToCharArray(),
             PASSWORD_CHARS_UCASE.ToCharArray(),
             PASSWORD_CHARS_NUMERIC.ToCharArray(),
-            PASSWORD_CHARS_SPECIAL.ToCharArray()
+//            PASSWORD_CHARS_SPECIAL.ToCharArray()
         };
 
             // Use this array to track the number of unused characters in each
