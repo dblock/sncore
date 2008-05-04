@@ -146,6 +146,9 @@ public partial class AccountFeedEdit : AuthenticatedPage
         {
             TransitAccountFeedQueryOptions qopt = new TransitAccountFeedQueryOptions();
             qopt.AccountId = SessionManager.AccountId;
+            qopt.PublishedOnly = false;
+            qopt.PicturesOnly = false;
+            qopt.WithFeedItemsOnly = false;
             List<TransitAccountFeed> feeds = SessionManager.SyndicationService.GetAccountFeeds(
                 SessionManager.Ticket, qopt, null);
 
