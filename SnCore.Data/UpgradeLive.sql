@@ -311,3 +311,14 @@ GO
 UPDATE dbo.AccountBlogPost SET [Publish] = 1 WHERE Publish IS NULL
 ALTER TABLE dbo.AccountBlogPost ALTER COLUMN [Publish] bit NOT NULL
 GO
+-- make Description column of AccountAuditEntry ntext
+IF EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'UK_AccountAuditEntry')
+DROP INDEX [UK_AccountAuditEntry] ON [dbo].[AccountAuditEntry] 
+GO
+ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Description] ntext NOT NULL
+GO
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'Md5') 
+ALTER TABLE dbo.AccountAuditEntry ADD [Md5] varchar(16) NULL
+UPDATE dbo.AccountAuditEntry SET [Md5]=[AccountAuditEntry_Id] WHERE [Md5] IS NULL
+ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Md5] varchar(16) NOT NULL
+GO

@@ -211,6 +211,7 @@ namespace SnCore.Services
         protected override void Save(ManagedSecurityContext sec)
         {
             mInstance.Updated = DateTime.UtcNow;
+            mInstance.Md5 = GetHash(mInstance.Description);
             if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
             base.Save(sec);
         }
@@ -251,6 +252,17 @@ namespace SnCore.Services
             return acl;
         }
 
+        public static string GetHash(string description)
+        {
+            return Encoding.Default.GetString(GetHashBytes(description));
+        }
+
+        public static byte[] GetHashBytes(string description)
+        {
+            if (description == null) description = string.Empty;
+            return new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(description));
+        }
+
         private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session, 
             Account account, string descr, string url, bool is_system, bool is_private)
         {
@@ -258,7 +270,7 @@ namespace SnCore.Services
                 .Add(Expression.Eq("AccountId", account.Id))
                 .Add(Expression.Eq("IsSystem", is_system))
                 .Add(Expression.Eq("IsPrivate", is_private))
-                .Add(Expression.Eq("Description", descr))
+                .Add(Expression.Eq("Md5", GetHash(descr)))
                 .UniqueResult<AccountAuditEntry>();
 
             if (audit_entry == null)

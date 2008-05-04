@@ -12,5 +12,6 @@
     <property name="Count" column="Count" type="Int32" />
     <property name="Updated" column="Updated" type="DateTime" />
     <property name="Url" column="Url" type="String" />
+    <property name="Md5" column="Md5" type="String" />
   </class>
 </hibernate-mapping>

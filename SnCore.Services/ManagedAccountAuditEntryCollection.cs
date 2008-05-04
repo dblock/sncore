@@ -14,7 +14,7 @@ namespace SnCore.Services
         private string mMessageFormat;
         private string mDelimiter = ", ";
         private string mLastDelimiter = " and ";
-        private static int s_mMaxMessageLength = 256;
+        private static int s_mMaxMessageLength = 2048;
         private List<string> mTraces = new List<string>();
 
         private int MaxDelimiterLength
@@ -148,7 +148,6 @@ namespace SnCore.Services
 
             return result_strings;
         }
-
 
         public IEnumerable<AccountAuditEntry> GetAccountAuditEntries(ISession session, Account account, string url)
         {

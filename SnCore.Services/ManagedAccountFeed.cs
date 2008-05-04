@@ -820,6 +820,7 @@ namespace SnCore.Services
                 foreach(AccountAuditEntry entry in audit_entries)
                 {
                     entry.Created = entry.Updated = mInstance.Updated;
+                    entry.Md5 = ManagedAccountAuditEntry.GetHash(entry.Description);
                     Session.Save(entry);
                 }
 

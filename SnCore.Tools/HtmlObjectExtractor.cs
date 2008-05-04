@@ -165,7 +165,7 @@ namespace SnCore.Tools.Web.Html
                         {
                             mCurrent = embed;
                         }
-                        else
+                        else if (mObjectControls.Count > 0)
                         {
                             mObjectControls.Peek().Controls.Add(embed);
                         }

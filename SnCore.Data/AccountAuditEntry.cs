@@ -22,6 +22,7 @@
         private System.Int32 m_Count;
         private System.DateTime m_Updated;
         private System.String m_Url;
+        private System.String m_Md5;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -243,6 +244,31 @@
             set
             {
                 m_Url = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.String'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Md5' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'MD5' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.String Md5
+        {
+            get
+            {
+                return m_Md5;
+            }
+            set
+            {
+                m_Md5 = value;
             }
         }
 
