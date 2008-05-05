@@ -11,17 +11,20 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
     {
         private PlaceTest _place = new PlaceTest();
         private int _place_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _place.SetUp();
             _place_id = _place.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             _place.Delete(GetAdminTicket(), _place_id);
             _place.TearDown();
         }
@@ -34,7 +37,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitAccountPlaceFavorite GetTransitInstance()
         {
             WebPlaceService.TransitAccountPlaceFavorite t_instance = new WebPlaceService.TransitAccountPlaceFavorite();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.PlaceId = _place_id;
             return t_instance;
         }
@@ -92,20 +95,20 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         [Test]
         public void CreateAndDeleteAccountPlaceFavoriteTest()
         {
-            int count1 = EndPoint.GetAccountPlaceFavoritesCount(GetUserTicket(), GetUserAccount().Id);
+            int count1 = EndPoint.GetAccountPlaceFavoritesCount(_user.ticket, _user.id);
             Console.WriteLine("Count: {0}", count1);
             WebPlaceService.TransitAccountPlaceFavorite t_instance = GetTransitInstance();
-            t_instance.AccountId = GetUserAccount().Id;
-            t_instance.Id = Create(GetUserTicket(), t_instance);
-            int count2 = EndPoint.GetAccountPlaceFavoritesCountByAccountId(GetUserTicket(), GetUserAccount().Id);
+            t_instance.AccountId = _user.id;
+            t_instance.Id = Create(_user.ticket, t_instance);
+            int count2 = EndPoint.GetAccountPlaceFavoritesCountByAccountId(_user.ticket, _user.id);
             Console.WriteLine("Count: {0}", count2);
             Assert.AreEqual(count1 + 1, count2, "AccountPlaceFavorite count isn't correct after adding a place favorite.");
             WebPlaceService.TransitAccountPlaceFavorite[] favorites = EndPoint.GetAccountPlaceFavoritesByAccountId(
-                GetUserTicket(), GetUserAccount().Id, null);
+                _user.ticket, _user.id, null);
             Console.WriteLine("Length: {0}", favorites.Length);
             Assert.AreEqual(count2, favorites.Length);
             Assert.IsTrue(new TransitServiceCollection<WebPlaceService.TransitAccountPlaceFavorite>(favorites).ContainsId(t_instance.Id));
-            Delete(GetUserTicket(), t_instance.Id);
+            Delete(_user.ticket, t_instance.Id);
         }
     }
 }

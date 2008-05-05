@@ -9,6 +9,20 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
     [TestFixture]
     public class AccountTest : WebServiceTest<WebAccountService.TransitAccount, WebAccountServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        public override void SetUp()
+        {
+            base.SetUp();
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        public override void TearDown()
+        {
+            DeleteUser(_user.id);
+            base.TearDown();
+        }
+
         public AccountTest()
             : base("Account")
         {
@@ -43,29 +57,29 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void GetAccountIdTest()
         {
             Assert.AreEqual(GetAdminAccount().Id, EndPoint.GetAccountId(GetAdminTicket()));
-            Assert.AreEqual(GetUserAccount().Id, EndPoint.GetAccountId(GetUserTicket()));
-            Assert.AreNotEqual(GetAdminAccount().Id, EndPoint.GetAccountId(GetUserTicket()));
+            Assert.AreEqual(_user.id, EndPoint.GetAccountId(_user.ticket));
+            Assert.AreNotEqual(GetAdminAccount().Id, EndPoint.GetAccountId(_user.ticket));
         }
 
         [Test]
         public void GetAccountByIdTest()
         {
-            WebAccountService.TransitAccount t_instance = EndPoint.GetAccountById(GetUserTicket(), GetUserAccount().Id);
+            WebAccountService.TransitAccount t_instance = EndPoint.GetAccountById(_user.ticket, _user.id);
             Assert.IsTrue(string.IsNullOrEmpty(t_instance.Password));
-            Assert.AreEqual(t_instance.Id, GetUserAccount().Id);
+            Assert.AreEqual(t_instance.Id, _user.id);
         }
 
         [Test]
         public void FindByEmailTest()
         {
-            WebAccountService.TransitAccount t_instance = EndPoint.FindByEmail(GetUserTicket(), "admin@localhost.com");
+            WebAccountService.TransitAccount t_instance = EndPoint.FindByEmail(_user.ticket, "admin@localhost.com");
             Assert.AreEqual(t_instance.Id, GetAdminAccount().Id);
         }
 
         [Test]
         public void SearchAccountsTest()
         {
-            WebAccountService.TransitAccount[] accounts = EndPoint.SearchAccounts(GetUserTicket(), GetAdminAccount().Name, null);
+            WebAccountService.TransitAccount[] accounts = EndPoint.SearchAccounts(_user.ticket, GetAdminAccount().Name, null);
             Console.WriteLine("Accounts: {0}", accounts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebAccountService.TransitAccount>(accounts).ContainsId(GetAdminAccount().Id));
         }
@@ -74,7 +88,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void SearchAccountsEmptyTest()
         {
             WebAccountService.TransitAccount[] accounts = EndPoint.SearchAccounts(
-                GetUserTicket(), string.Empty, null);
+                _user.ticket, string.Empty, null);
             Assert.AreEqual(0, accounts.Length);
         }
 
@@ -108,7 +122,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
                 t_instance.MailFrom = GetNewEmailAddress();
                 t_instance.MailTo = GetNewEmailAddress();
                 t_instance.Subject = GetNewString();
-                t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(user.ticket, t_instance);
+                t_instance.Id = EndPoint.CreateOrUpdateAccountEmailMessage(_user.ticket, t_instance);
                 Console.WriteLine("Message: {0}", t_instance.Id);
                 Assert.IsTrue(false, "Expected an access denied.");
             }
@@ -124,7 +138,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void GetAdminAccountTest()
         {
-            WebAccountService.TransitAccount t_instance = EndPoint.GetAdminAccount(GetUserTicket());
+            WebAccountService.TransitAccount t_instance = EndPoint.GetAdminAccount(_user.ticket);
             Assert.IsNotNull(t_instance);
             Assert.IsTrue(t_instance.IsAdministrator);
         }

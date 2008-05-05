@@ -12,12 +12,14 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
     {
         private PlaceTest _place = new PlaceTest();
         private int _place_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _place.SetUp();
             _place_id = _place.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
@@ -25,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             _place.Delete(GetAdminTicket(), _place_id);
             _place.TearDown();
+            DeleteUser(_user.id);
         }
 
         public PlacePictureTest()
@@ -101,13 +104,13 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
                 t_instance.Description = GetNewString();
                 t_instance.Name = GetNewString();
                 t_instance.PlaceId = _place_id;
-                t_instance.Id = EndPoint.CreateOrUpdatePlacePicture(GetUserTicket(), t_instance);
+                t_instance.Id = EndPoint.CreateOrUpdatePlacePicture(_user.ticket, t_instance);
                 Console.WriteLine("Picture: {0}", t_instance.Id);
             }
 
             // check that the pictures are numbered 1 through count
             WebPlaceService.TransitPlacePicture[] t_instances = EndPoint.GetPlacePictures(
-                    GetUserTicket(), _place_id, null);
+                    _user.ticket, _place_id, null);
             Assert.AreEqual(count, t_instances.Length);
             for (int i = 0; i < count; i++)
             {
@@ -137,7 +140,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             {
                 Console.WriteLine("Moving {0} by {1}", t_instances[action._index - 1].Id, action._disp);
                 EndPoint.MovePlacePicture(GetAdminTicket(), t_instances[action._index - 1].Id, action._disp);
-                Assert.IsTrue(action.Compare(EndPoint.GetPlacePictures(GetUserTicket(), _place_id, null)));
+                Assert.IsTrue(action.Compare(EndPoint.GetPlacePictures(_user.ticket, _place_id, null)));
             }
         }
     }

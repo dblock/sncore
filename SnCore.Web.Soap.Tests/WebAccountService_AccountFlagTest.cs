@@ -13,22 +13,22 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
     {
         private AccountFlagTypeTest _type = new AccountFlagTypeTest();
         private int _type_id = 0;
-        private AccountTest _account = new AccountTest();
-        private int _account_id = 0;
-
+        private UserInfo _bad_user = null;
+        private UserInfo _good_user = null;
+        
         [SetUp]
         public override void SetUp()
         {
             _type_id = _type.Create(GetAdminTicket());
-            _account.SetUp();
-            _account_id = _account.Create(GetAdminTicket());
+            _bad_user = CreateUserWithVerifiedEmailAddress();
+            _good_user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            _account.Delete(GetAdminTicket(), _account_id);
-            _account.TearDown();
+            DeleteUser(_good_user.id);
+            DeleteUser(_bad_user.id);
             _type.Delete(GetAdminTicket(), _type_id);
         }
 
@@ -42,8 +42,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccountFlag t_instance = new WebAccountService.TransitAccountFlag();
             t_instance.Description = GetNewString();
             t_instance.AccountFlagType = (string) _type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
-            t_instance.AccountId = GetUserAccount().Id;
-            t_instance.FlaggedAccountId = _account_id;
+            t_instance.AccountId = _good_user.id;
+            t_instance.FlaggedAccountId = _bad_user.id;
             return t_instance;
         }
 
@@ -51,13 +51,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void GetAccountFlagsByAccountIdTest()
         {
             WebAccountService.TransitAccountFlag t_instance = GetTransitInstance();
-            t_instance.Id = Create(GetUserTicket(), t_instance);
+            t_instance.Id = Create(_good_user.ticket, t_instance);
             int count = EndPoint.GetAccountFlagsByAccountIdCount(
-                GetUserTicket(), GetUserAccount().Id);
+                _good_user.ticket, _good_user.id);
             Console.WriteLine("Count: {0}", count);
             Assert.IsTrue(count > 0);
             WebAccountService.TransitAccountFlag[] flags = EndPoint.GetAccountFlagsByAccountId(
-                GetUserTicket(), GetUserAccount().Id, null);
+                _good_user.ticket, _good_user.id, null);
             Console.WriteLine("Flags: {0}", flags.Length);
             Assert.AreEqual(count, flags.Length);
             Delete(GetAdminTicket(), t_instance.Id);
@@ -67,13 +67,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void GetAccountFlagsByFlaggedAccountIdTest()
         {
             WebAccountService.TransitAccountFlag t_instance = GetTransitInstance();
-            t_instance.Id = Create(GetUserTicket(), t_instance);
+            t_instance.Id = Create(_good_user.ticket, t_instance);
             int count = EndPoint.GetAccountFlagsByFlaggedAccountIdCount(
-                GetAdminTicket(), _account_id);
+                GetAdminTicket(), _bad_user.id);
             Console.WriteLine("Count: {0}", count);
             Assert.IsTrue(count > 0);
             WebAccountService.TransitAccountFlag[] flags = EndPoint.GetAccountFlagsByFlaggedAccountId(
-                GetAdminTicket(), _account_id, null);
+                GetAdminTicket(), _bad_user.id, null);
             Console.WriteLine("Flags: {0}", flags.Length);
             Assert.AreEqual(count, flags.Length);
             Delete(GetAdminTicket(), t_instance.Id);

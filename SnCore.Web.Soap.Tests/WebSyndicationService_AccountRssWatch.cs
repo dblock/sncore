@@ -9,14 +9,18 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
     [TestFixture]
     public class AccountRssWatchTest : WebServiceTest<WebSyndicationService.TransitAccountRssWatch, WebSyndicationServiceNoCache>
     {
+        private UserInfo _user = null;
+
         [SetUp]
         public override void SetUp()
         {
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
         }
 
         public AccountRssWatchTest()
@@ -27,20 +31,20 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, GetUserAccount().Id };
+            object[] args = { ticket, _user.id };
             return args;
         }
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, GetUserAccount().Id, options };
+            object[] args = { ticket, _user.id, options };
             return args;
         }
 
         public override WebSyndicationService.TransitAccountRssWatch GetTransitInstance()
         {
             WebSyndicationService.TransitAccountRssWatch t_instance = new WebSyndicationService.TransitAccountRssWatch();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Name = GetNewString();
             t_instance.Enabled = true;
             t_instance.UpdateFrequency = 24;

@@ -11,16 +11,19 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
     {
         private MadLibTest _madlib = new MadLibTest();
         private int _madlib_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _madlib_id = _madlib.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             _madlib.Delete(GetAdminTicket(), _madlib_id);
         }
 
@@ -33,7 +36,7 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
         public override WebMadLibService.TransitMadLibInstance GetTransitInstance()
         {
             WebMadLibService.TransitMadLibInstance t_instance = new WebMadLibService.TransitMadLibInstance();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.ObjectName = "Place";
             t_instance.ObjectId = 123;
             t_instance.Text = GetNewString();

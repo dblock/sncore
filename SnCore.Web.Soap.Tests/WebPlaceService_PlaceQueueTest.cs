@@ -9,6 +9,20 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
     [TestFixture]
     public class PlaceQueueTest : WebServiceTest<WebPlaceService.TransitPlaceQueue, WebPlaceServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         public PlaceQueueTest()
             : base("PlaceQueue")
         {
@@ -40,7 +54,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public void GetOrCreatePlaceQueueByNameTest()
         {
             string name = GetNewString();
-            WebPlaceService.TransitPlaceQueue t_instance = EndPoint.GetOrCreatePlaceQueueByName(GetAdminTicket(), GetUserAccount().Id, name);
+            WebPlaceService.TransitPlaceQueue t_instance = EndPoint.GetOrCreatePlaceQueueByName(GetAdminTicket(), _user.id, name);
             Assert.IsNotNull(t_instance);
             Assert.IsTrue(t_instance.Id > 0);
             EndPoint.DeletePlaceQueue(GetAdminTicket(), t_instance.Id);

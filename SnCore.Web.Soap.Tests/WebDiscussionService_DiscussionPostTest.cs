@@ -12,12 +12,14 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
     {
         public DiscussionTest _discussion = new DiscussionTest();
         public int _discussion_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _discussion.SetUp();
             _discussion_id = _discussion.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
             base.SetUp();
         }
 
@@ -25,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         public override void TearDown()
         {
             base.TearDown();
+            DeleteUser(_user.id);
             _discussion.Delete(GetAdminTicket(), _discussion_id);
             _discussion.TearDown();
         }
@@ -65,7 +68,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             WebDiscussionService.ServiceQueryOptions options = new WebDiscussionService.ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
-            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetLatestDiscussionPosts(GetUserTicket(), null);
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetLatestDiscussionPosts(_user.ticket, null);
             Assert.IsTrue(posts.Length > 0);
             Console.WriteLine("Posts: {0}", posts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(t_post.Id));
@@ -81,7 +84,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             options.PageNumber = 0;
             options.PageSize = 25;
             WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetLatestDiscussionPostsById(
-                GetUserTicket(), t_post.DiscussionId, null);
+                _user.ticket, t_post.DiscussionId, null);
             Assert.IsTrue(posts.Length > 0);
             Console.WriteLine("Posts: {0}", posts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(t_post.Id));
@@ -92,7 +95,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         public void SearchDiscussionPostsEmptyTest()
         {
             WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.SearchDiscussionPosts(
-                GetUserTicket(), string.Empty, null);
+                _user.ticket, string.Empty, null);
             Assert.AreEqual(0, posts.Length);
         }
 
@@ -106,7 +109,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             options.PageNumber = 0;
             options.PageSize = 25;
             WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.SearchDiscussionPosts(
-                GetUserTicket(), t_post.Subject, null);
+                _user.ticket, t_post.Subject, null);
             Assert.IsTrue(posts.Length > 0);
             Console.WriteLine("Posts: {0}", posts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(t_post.Id));
@@ -123,7 +126,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             options.PageNumber = 0;
             options.PageSize = 25;
             WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.SearchDiscussionPostsById(
-                GetUserTicket(), t_post.DiscussionId, t_post.Subject, null);
+                _user.ticket, t_post.DiscussionId, t_post.Subject, null);
             Assert.IsTrue(posts.Length > 0);
             Console.WriteLine("Posts: {0}", posts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(t_post.Id));
@@ -204,14 +207,14 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             t_discussion.Name = GetNewString();
             t_discussion.Personal = false;
             t_discussion.Description = GetNewString();
-            t_discussion.Id = EndPoint.CreateOrUpdateDiscussion(GetUserTicket(), t_discussion);
+            t_discussion.Id = EndPoint.CreateOrUpdateDiscussion(_user.ticket, t_discussion);
             // check that the discussion admin can create and flip the stickyness of the post
             WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
             t_post.DiscussionId = t_discussion.Id;
-            t_post.AccountId = GetUserAccount().Id;
-            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
+            t_post.AccountId = _user.id;
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(_user.ticket, t_post);
             Console.WriteLine("Post: {0}", t_post.Id);
-            WebDiscussionService.TransitDiscussionPost t_post_copy = EndPoint.GetDiscussionPostById(GetUserTicket(), t_post.Id);
+            WebDiscussionService.TransitDiscussionPost t_post_copy = EndPoint.GetDiscussionPostById(_user.ticket, t_post.Id);
             Assert.AreEqual(t_post.Id, t_post_copy.Id);
             Assert.AreEqual(false, t_post_copy.Sticky);
             Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
@@ -229,8 +232,8 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
                 Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
             }
             // check the that discussion admin can
-            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
-            t_post_copy = EndPoint.GetDiscussionPostById(GetUserTicket(), t_post.Id);
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(_user.ticket, t_post);
+            t_post_copy = EndPoint.GetDiscussionPostById(_user.ticket, t_post.Id);
             Assert.AreEqual(t_post.Id, t_post_copy.Id);
             Assert.AreEqual(true, t_post_copy.Sticky);
             Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
@@ -245,13 +248,13 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
                 Console.WriteLine("Expected exception: {0}", ex.Message);
                 Assert.IsTrue(ex.Message.StartsWith("System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> SnCore.Services.ManagedAccount+AccessDeniedException: Access denied"));
             }
-            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post);
-            t_post_copy = EndPoint.GetDiscussionPostById(GetUserTicket(), t_post.Id);
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(_user.ticket, t_post);
+            t_post_copy = EndPoint.GetDiscussionPostById(_user.ticket, t_post.Id);
             Assert.AreEqual(t_post.Id, t_post_copy.Id);
             Assert.AreEqual(false, t_post_copy.Sticky);
             Assert.AreEqual(t_post.Sticky, t_post_copy.Sticky);
-            EndPoint.DeleteDiscussionPost(GetUserTicket(), t_post.Id);
-            EndPoint.DeleteDiscussion(GetUserTicket(), t_discussion.Id);
+            EndPoint.DeleteDiscussionPost(_user.ticket, t_post.Id);
+            EndPoint.DeleteDiscussion(_user.ticket, t_discussion.Id);
             DeleteUser(user.id);
         }
 

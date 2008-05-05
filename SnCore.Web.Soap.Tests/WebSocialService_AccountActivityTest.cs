@@ -8,11 +8,25 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
     [TestFixture]
     public class AccountActivityTest : WebServiceBaseTest<WebSocialServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         [Test]
         public void GetNewAccountsTest()
         {
             WebSocialService.TransitAccount[] accounts = EndPoint.GetNewAccounts(
-                GetUserTicket(), (WebSocialService.ServiceQueryOptions)GetServiceQueryOptions(0, 10));
+                _user.ticket, (WebSocialService.ServiceQueryOptions)GetServiceQueryOptions(0, 10));
             Console.WriteLine("New instances: {0}", accounts.Length);
             Nullable<DateTime> previous = new Nullable<DateTime>();
             foreach (WebSocialService.TransitAccount account in accounts)
@@ -28,7 +42,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
         public void GetActiveAccountsTest()
         {
             WebSocialService.TransitAccount[] accounts = EndPoint.GetActiveAccounts(
-                GetUserTicket(), (WebSocialService.ServiceQueryOptions)GetServiceQueryOptions(0, 10));
+                _user.ticket, (WebSocialService.ServiceQueryOptions)GetServiceQueryOptions(0, 10));
             Console.WriteLine("Active instances: {0}", accounts.Length);
             Nullable<DateTime> previous = new Nullable<DateTime>();
             foreach (WebSocialService.TransitAccount account in accounts)
@@ -46,20 +60,20 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             WebSocialService.AccountActivityQueryOptions options = new WebSocialService.AccountActivityQueryOptions();
             options.BloggersOnly = false;
             options.PicturesOnly = false;
-            int count = EndPoint.GetAccountActivityCount(GetUserTicket(), options);
+            int count = EndPoint.GetAccountActivityCount(_user.ticket, options);
             Console.WriteLine("Activity count: {0}", count);
             WebSocialService.TransitAccountActivity[] activity = EndPoint.GetAccountActivity(
-                GetUserTicket(), options, (WebSocialService.ServiceQueryOptions) GetServiceQueryOptions(0, 10));
+                _user.ticket, options, (WebSocialService.ServiceQueryOptions) GetServiceQueryOptions(0, 10));
             Console.WriteLine("Activity instances: {0}", activity.Length);
         }
 
         [Test]
         public void GetFriendsAccountActivityTest()
         {
-            int count = EndPoint.GetFriendsAccountActivityCount(GetUserTicket(), GetAdminAccount().Id);
+            int count = EndPoint.GetFriendsAccountActivityCount(_user.ticket, GetAdminAccount().Id);
             Console.WriteLine("Friends activity count: {0}", count);
             WebSocialService.TransitAccountActivity[] activity = EndPoint.GetFriendsAccountActivity(
-                GetUserTicket(), GetAdminAccount().Id, (WebSocialService.ServiceQueryOptions)GetServiceQueryOptions(0, 10));
+                _user.ticket, GetAdminAccount().Id, (WebSocialService.ServiceQueryOptions)GetServiceQueryOptions(0, 10));
             Console.WriteLine("Activity instances: {0}", activity.Length);
         }
     }

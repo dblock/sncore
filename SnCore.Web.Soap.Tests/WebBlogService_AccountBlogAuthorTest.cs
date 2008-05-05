@@ -11,6 +11,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
     {
         private AccountBlogTest _blog = new AccountBlogTest();
         private int _blog_id = 0;
+        private UserInfo _user = null;
 
         public AccountBlogAuthorTest()
             : base("AccountBlogAuthor")
@@ -22,19 +23,21 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         public override void SetUp()
         {
             _blog_id = _blog.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
             _blog.Delete(GetAdminTicket(), _blog_id);
+            DeleteUser(_user.id);
         }
 
         public override WebBlogService.TransitAccountBlogAuthor GetTransitInstance()
         {
             WebBlogService.TransitAccountBlogAuthor t_instance = new WebBlogService.TransitAccountBlogAuthor();
             t_instance.AccountBlogId = _blog_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.AllowDelete = t_instance.AllowEdit = t_instance.AllowPost = true;
             return t_instance;
         }

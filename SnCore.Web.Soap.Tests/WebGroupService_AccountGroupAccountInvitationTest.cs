@@ -12,17 +12,20 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
     {
         private AccountGroupTest _group = new AccountGroupTest();
         private int _group_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _group.SetUp();
             _group_id = _group.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             _group.Delete(GetAdminTicket(), _group_id);
             _group.TearDown();
         }
@@ -49,7 +52,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
             WebGroupService.TransitAccountGroupAccountInvitation t_instance = new WebGroupService.TransitAccountGroupAccountInvitation();
             t_instance.AccountGroupId = _group_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Message = GetNewString();
             return t_instance;
         }
@@ -59,7 +62,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
             // get the pending account's invitations
             WebGroupService.TransitAccountGroupAccountInvitation[] invitations1 = EndPoint.GetAccountGroupAccountInvitationsByAccountId(
-                GetUserTicket(), GetUserAccount().Id, null);
+                _user.ticket, _user.id, null);
             Assert.IsNotNull(invitations1);
             // update the group to private
             WebGroupService.TransitAccountGroup t_group = EndPoint.GetAccountGroupById(GetAdminTicket(), _group_id);
@@ -69,16 +72,16 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // create an invitatoin for user
             WebGroupService.TransitAccountGroupAccountInvitation t_instance = new WebGroupService.TransitAccountGroupAccountInvitation();
             t_instance.AccountGroupId = _group_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.RequesterId = GetAdminAccount().Id;
             t_instance.Message = GetNewString();
             t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetAdminTicket(), t_instance);
             Console.WriteLine("Created invitation: {0}", t_instance.Id);
             // make sure the user isn't member of the group
-            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), GetUserAccount().Id, _group_id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), _user.id, _group_id));
             // get the pending account's invitations
             WebGroupService.TransitAccountGroupAccountInvitation[] invitations2 = EndPoint.GetAccountGroupAccountInvitationsByAccountId(
-                GetUserTicket(), GetUserAccount().Id, null);
+                _user.ticket, _user.id, null);
             Assert.IsNotNull(invitations2);
             Assert.AreEqual(invitations1.Length + 1, invitations2.Length);
             Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccountInvitation>(invitations2).ContainsId(
@@ -97,14 +100,14 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // only members can create invitations
             WebGroupService.TransitAccountGroupAccountInvitation t_instance = GetTransitInstance();
             t_instance.AccountId = t_user.Id;
-            t_instance.RequesterId = GetUserAccount().Id;
+            t_instance.RequesterId = _user.id;
             try
             {
                 // make sure the user is not a member of the group
                 Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(
-                    GetAdminTicket(), GetUserAccount().Id, _group_id));
+                    GetAdminTicket(), _user.id, _group_id));
                 // create the account group invitation
-                EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetUserTicket(), t_instance);
+                EndPoint.CreateOrUpdateAccountGroupAccountInvitation(_user.ticket, t_instance);
                 Assert.IsTrue(false, "Expected Access Denied exception.");
             }
             catch (Exception ex)
@@ -117,11 +120,11 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // the user joins the group
             WebGroupService.TransitAccountGroupAccount t_accountinstance = new WebGroupService.TransitAccountGroupAccount();
             t_accountinstance.AccountGroupId = _group_id;
-            t_accountinstance.AccountId = GetUserAccount().Id;
+            t_accountinstance.AccountId = _user.id;
             t_accountinstance.IsAdministrator = false;
             t_accountinstance.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_accountinstance);
             // make sure the invitation can be now sent
-            t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetUserTicket(), t_instance);
+            t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(_user.ticket, t_instance);
             Assert.AreNotEqual(0, t_instance.Id);
 
             // TODO: make sure another user can't see invitation
@@ -133,7 +136,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // the user joins the group
             WebGroupService.TransitAccountGroupAccount t_accountinstance = new WebGroupService.TransitAccountGroupAccount();
             t_accountinstance.AccountGroupId = _group_id;
-            t_accountinstance.AccountId = GetUserAccount().Id;
+            t_accountinstance.AccountId = _user.id;
             t_accountinstance.IsAdministrator = false;
             t_accountinstance.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_accountinstance);
             Assert.AreNotEqual(0, t_accountinstance.Id);
@@ -141,8 +144,8 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             try
             {
                 WebGroupService.TransitAccountGroupAccountInvitation t_instance = GetTransitInstance();
-                t_instance.AccountId = GetUserAccount().Id;
-                t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetUserTicket(), t_instance);
+                t_instance.AccountId = _user.id;
+                t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(_user.ticket, t_instance);
                 Assert.IsTrue(false, "Expected user is already a member of the group exception.");
             }
             catch (Exception ex)
@@ -179,19 +182,19 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // create an invitatoin for user
             WebGroupService.TransitAccountGroupAccountInvitation t_instance = new WebGroupService.TransitAccountGroupAccountInvitation();
             t_instance.AccountGroupId = _group_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.RequesterId = t_account.AccountId;
             t_instance.Message = GetNewString();
             t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetAdminTicket(), t_instance);
             Console.WriteLine("Created invitation: {0}", t_instance.Id);
             // make sure the user isn't member of the group
-            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), GetUserAccount().Id, _group_id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), _user.id, _group_id));
             // get the pending group membership requests
             WebGroupService.TransitAccountGroupAccountRequest[] requests1 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);
             Console.WriteLine("Pending requests: {0}", requests1.Length);
             // accept invitation
-            EndPoint.AcceptAccountGroupAccountInvitation(GetUserTicket(), t_instance.Id, GetNewString());
+            EndPoint.AcceptAccountGroupAccountInvitation(_user.ticket, t_instance.Id, GetNewString());
             // this has created a new request on the group, it should be +1
             WebGroupService.TransitAccountGroupAccountRequest[] requests2 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);
@@ -200,13 +203,13 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // make sure there's an AccountId in the requests for the user
             WebGroupService.TransitAccountGroupAccountRequest request = null;
             Assert.IsTrue(new TransitServiceCollection<WebGroupService.TransitAccountGroupAccountRequest>(requests2).ContainsId(
-                GetUserAccount().Id, "AccountId", out request));
+                _user.id, "AccountId", out request));
             Assert.IsNotNull(request);
             Console.WriteLine("New request: {0}", request.Id);
             // accept the request by admin
             EndPoint.AcceptAccountGroupAccountRequest(GetAdminTicket(), request.Id, GetNewString());
             // make sure the invitation was deleted
-            Assert.IsNull(EndPoint.GetAccountGroupAccountInvitationById(GetUserTicket(), t_instance.Id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountInvitationById(_user.ticket, t_instance.Id));
             // make sure the request cannot be found any more
             WebGroupService.TransitAccountGroupAccountRequest[] requests3 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);
@@ -214,10 +217,10 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             Assert.AreEqual(requests1.Length, requests3.Length);
             // make sure the user is member of the group
             WebGroupService.TransitAccountGroupAccount t_groupaccount = EndPoint.GetAccountGroupAccountByAccountGroupId(
-                GetAdminTicket(), GetUserAccount().Id, _group_id);
+                GetAdminTicket(), _user.id, _group_id);
             Assert.IsNotNull(t_groupaccount);
             Console.WriteLine("Account: {0}", t_groupaccount.Id);
-            Assert.AreEqual(t_groupaccount.AccountId, GetUserAccount().Id);
+            Assert.AreEqual(t_groupaccount.AccountId, _user.id);
             _account.Delete(GetAdminTicket(), t_user.Id);
         }
 
@@ -232,31 +235,31 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // create an invitatoin for user
             WebGroupService.TransitAccountGroupAccountInvitation t_instance = new WebGroupService.TransitAccountGroupAccountInvitation();
             t_instance.AccountGroupId = _group_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.RequesterId = GetAdminAccount().Id;
             t_instance.Message = GetNewString();
             t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetAdminTicket(), t_instance);
             Console.WriteLine("Created invitation: {0}", t_instance.Id);
             // make sure the user isn't member of the group
-            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), GetUserAccount().Id, _group_id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), _user.id, _group_id));
             // get the pending group membership requests
             WebGroupService.TransitAccountGroupAccountRequest[] requests1 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);
             Console.WriteLine("Pending requests: {0}", requests1.Length);
             // accept invitation
-            EndPoint.AcceptAccountGroupAccountInvitation(GetUserTicket(), t_instance.Id, GetNewString());
+            EndPoint.AcceptAccountGroupAccountInvitation(_user.ticket, t_instance.Id, GetNewString());
             // since the invitation comes from a group admin, this has not created a new request on the group
             WebGroupService.TransitAccountGroupAccountRequest[] requests2 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);
             Console.WriteLine("Pending requests: {0}", requests2.Length);
             Assert.AreEqual(requests1.Length, requests2.Length);
             // make sure the invitation was deleted
-            Assert.IsNull(EndPoint.GetAccountGroupAccountInvitationById(GetUserTicket(), t_instance.Id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountInvitationById(_user.ticket, t_instance.Id));
             // make sure the user is member of the group
-            WebGroupService.TransitAccountGroupAccount t_account = EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), GetUserAccount().Id, _group_id);
+            WebGroupService.TransitAccountGroupAccount t_account = EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), _user.id, _group_id);
             Assert.IsNotNull(t_account);
             Console.WriteLine("Account: {0}", t_account.Id);
-            Assert.AreEqual(t_account.AccountId, GetUserAccount().Id);
+            Assert.AreEqual(t_account.AccountId, _user.id);
         }
 
         [Test]
@@ -270,21 +273,21 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // create an invitatoin for user
             WebGroupService.TransitAccountGroupAccountInvitation t_instance = new WebGroupService.TransitAccountGroupAccountInvitation();
             t_instance.AccountGroupId = _group_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.RequesterId = GetAdminAccount().Id;
             t_instance.Message = GetNewString();
             t_instance.Id = EndPoint.CreateOrUpdateAccountGroupAccountInvitation(GetAdminTicket(), t_instance);
             Console.WriteLine("Created invitation: {0}", t_instance.Id);
             // make sure the user isn't member of the group
-            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), GetUserAccount().Id, _group_id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(GetAdminTicket(), _user.id, _group_id));
             // get the pending group membership requests
             WebGroupService.TransitAccountGroupAccountRequest[] requests1 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);
             Console.WriteLine("Pending requests: {0}", requests1.Length);
             // accept invitation
-            EndPoint.RejectAccountGroupAccountInvitation(GetUserTicket(), t_instance.Id, GetNewString());
+            EndPoint.RejectAccountGroupAccountInvitation(_user.ticket, t_instance.Id, GetNewString());
             // make sure the invitation was deleted
-            Assert.IsNull(EndPoint.GetAccountGroupAccountInvitationById(GetUserTicket(), t_instance.Id));
+            Assert.IsNull(EndPoint.GetAccountGroupAccountInvitationById(_user.ticket, t_instance.Id));
             // this has not created a new request on the group, it should be =
             WebGroupService.TransitAccountGroupAccountRequest[] requests2 = EndPoint.GetAccountGroupAccountRequests(
                 GetAdminTicket(), _group_id, null);

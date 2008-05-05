@@ -11,10 +11,12 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
     {
         private AccountFeedTest _accountfeed = new AccountFeedTest();
         private int _accountfeed_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
+            _user = CreateUserWithVerifiedEmailAddress();
             _accountfeed.SetUp();
             _accountfeed_id = _accountfeed.Create(GetAdminTicket());
         }
@@ -24,6 +26,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         {
             _accountfeed.Delete(GetAdminTicket(), _accountfeed_id);
             _accountfeed.TearDown();
+            DeleteUser(_user.id);
         }
 
         public AccountFeedItemTest()
@@ -48,7 +51,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         {
             WebSyndicationService.TransitAccountFeedItem t_instance = new WebSyndicationService.TransitAccountFeedItem();
             t_instance.AccountFeedId = _accountfeed_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Description = GetNewString();
             t_instance.Guid = GetNewString();
             t_instance.Link = GetNewUri();
@@ -60,7 +63,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public void SearchAccountFeedItemsEmptyTest()
         {
             WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.SearchAccountFeedItems(
-                GetUserTicket(), string.Empty, null);
+                _user.ticket, string.Empty, null);
             Assert.AreEqual(0, items.Length);
         }
 
@@ -68,9 +71,9 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public void SearchAccountFeedItemsTest()
         {
             string s = GetNewString();
-            int count = EndPoint.SearchAccountFeedItemsCount(GetUserTicket(), s);
+            int count = EndPoint.SearchAccountFeedItemsCount(_user.ticket, s);
             Assert.IsTrue(count >= 0);
-            WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.SearchAccountFeedItems(GetUserTicket(), s, null);
+            WebSyndicationService.TransitAccountFeedItem[] items = EndPoint.SearchAccountFeedItems(_user.ticket, s, null);
             Assert.IsNotNull(items);
             Console.WriteLine("Feed items: {0}", items.Length);
         }

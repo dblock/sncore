@@ -11,16 +11,19 @@ namespace SnCore.Web.Soap.Tests.WebMarketingServiceTests
     {
         private CampaignTest _campaign = new CampaignTest();
         private int _campaign_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _campaign_id = _campaign.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             _campaign.Delete(GetAdminTicket(), _campaign_id);
         }
 
@@ -54,7 +57,7 @@ namespace SnCore.Web.Soap.Tests.WebMarketingServiceTests
         public void ImportCampaignAccountRecepientsTest()
         {
             WebMarketingService.TransitCampaignAccountRecepient recepient1 = new WebMarketingService.TransitCampaignAccountRecepient();
-            recepient1.AccountId = GetUserAccount().Id;
+            recepient1.AccountId = _user.id;
             recepient1.CampaignId = _campaign_id;
             WebMarketingService.TransitCampaignAccountRecepient recepient2 = new WebMarketingService.TransitCampaignAccountRecepient();
             recepient2.AccountId = GetAdminAccount().Id;

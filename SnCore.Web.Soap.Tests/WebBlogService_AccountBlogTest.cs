@@ -9,6 +9,22 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
     [TestFixture]
     public class AccountBlogTest : WebServiceTest<WebBlogService.TransitAccountBlog, WebBlogServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+            base.SetUp();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            base.TearDown();
+            DeleteUser(_user.id);
+        }
+
         public AccountBlogTest()
             : base("AccountBlog")
         {
@@ -55,15 +71,15 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         public void GetAuthoredAccountBlogsTest()
         {
             int blog_id = Create(GetAdminTicket());
-            int count = EndPoint.GetAuthoredAccountBlogsCount(GetUserTicket(), GetUserAccount().Id);
+            int count = EndPoint.GetAuthoredAccountBlogsCount(_user.ticket, _user.id);
             Console.WriteLine("Blogs: {0}", count);
             WebBlogService.TransitAccountBlogAuthor t_author = new WebBlogService.TransitAccountBlogAuthor();
             t_author.AccountBlogId = blog_id;
-            t_author.AccountId = GetUserAccount().Id;
+            t_author.AccountId = _user.id;
             t_author.AllowDelete = t_author.AllowEdit = t_author.AllowPost = true;
             int author_id = EndPoint.CreateOrUpdateAccountBlogAuthor(GetAdminTicket(), t_author);
             Console.WriteLine("Created author: {0}", author_id);
-            WebBlogService.TransitAccountBlog[] blogs = EndPoint.GetAuthoredAccountBlogs(GetUserTicket(), GetUserAccount().Id, null);
+            WebBlogService.TransitAccountBlog[] blogs = EndPoint.GetAuthoredAccountBlogs(_user.ticket, _user.id, null);
             Console.WriteLine("Blogs: {0}", blogs.Length);
             Assert.AreEqual(count + 1, blogs.Length);
             Delete(GetAdminTicket(), blog_id);

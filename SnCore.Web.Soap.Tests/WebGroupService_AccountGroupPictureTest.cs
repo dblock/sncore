@@ -12,12 +12,14 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
     {
         private AccountGroupTest _group = new AccountGroupTest();
         private int _group_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _group.SetUp();
             _group_id = _group.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
@@ -25,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
             _group.Delete(GetAdminTicket(), _group_id);
             _group.TearDown();
+            DeleteUser(_user.id);
         }
 
         public override object[] GetCountArgs(string ticket)
@@ -49,7 +52,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
             WebGroupService.TransitAccountGroupPicture t_instance = new WebGroupService.TransitAccountGroupPicture();
             t_instance.AccountGroupId = _group_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Bitmap = GetNewBitmap();
             t_instance.Description = GetNewString();
             t_instance.Name = GetNewString();
@@ -61,14 +64,14 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
             // make sure only members can add a picture to a group
             WebGroupService.TransitAccountGroupPicture t_instance = GetTransitInstance();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             try
             {
                 // make sure the user is not a member of the group
                 Assert.IsNull(EndPoint.GetAccountGroupAccountByAccountGroupId(
-                    GetAdminTicket(), GetUserAccount().Id, _group_id));
+                    GetAdminTicket(), _user.id, _group_id));
                 // create the account group picture
-                EndPoint.CreateOrUpdateAccountGroupPicture(GetUserTicket(), t_instance);
+                EndPoint.CreateOrUpdateAccountGroupPicture(_user.ticket, t_instance);
                 Assert.IsTrue(false, "Expected Access Denied exception.");
             }
             catch (Exception ex)
@@ -81,12 +84,12 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // the user joins the group
             WebGroupService.TransitAccountGroupAccount t_accountinstance = new WebGroupService.TransitAccountGroupAccount();
             t_accountinstance.AccountGroupId = _group_id;
-            t_accountinstance.AccountId = GetUserAccount().Id;
+            t_accountinstance.AccountId = _user.id;
             t_accountinstance.IsAdministrator = false;
             t_accountinstance.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_accountinstance);
             Assert.AreNotEqual(0, t_accountinstance.Id);
             // check that the user now can add a picture
-            t_instance.Id = EndPoint.CreateOrUpdateAccountGroupPicture(GetUserTicket(), t_instance);
+            t_instance.Id = EndPoint.CreateOrUpdateAccountGroupPicture(_user.ticket, t_instance);
             Assert.AreNotEqual(0, t_instance.Id);
         }
 
@@ -108,7 +111,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             try
             {
                 WebGroupService.TransitAccountGroupPicture[] pictures = EndPoint.GetAccountGroupPictures(
-                    GetUserTicket(), t_group.Id, null);
+                    _user.ticket, t_group.Id, null);
                 Assert.IsTrue(false, "Expected Access Denied exception.");
             }
             catch (Exception ex)
@@ -175,7 +178,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
 
             // check that the pictures are numbered 1 through count
             WebGroupService.TransitAccountGroupPicture[] t_instances = EndPoint.GetAccountGroupPictures(
-                    GetUserTicket(), _group_id, null);
+                    _user.ticket, _group_id, null);
             Assert.AreEqual(count, t_instances.Length);
             for (int i = 0; i < count; i++)
             {
@@ -205,7 +208,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             {
                 Console.WriteLine("Moving {0} by {1}", t_instances[action._index - 1].Id, action._disp);
                 EndPoint.MoveAccountGroupPicture(GetAdminTicket(), t_instances[action._index - 1].Id, action._disp);
-                Assert.IsTrue(action.Compare(EndPoint.GetAccountGroupPictures(GetUserTicket(), _group_id, null)));
+                Assert.IsTrue(action.Compare(EndPoint.GetAccountGroupPictures(_user.ticket, _group_id, null)));
             }
         }
     }

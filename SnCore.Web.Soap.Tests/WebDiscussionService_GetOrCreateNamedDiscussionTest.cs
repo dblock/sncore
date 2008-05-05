@@ -18,6 +18,20 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
     [TestFixture]
     public class GetOrCreateNamedDiscussionTest : WebServiceBaseTest<WebDiscussionServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         public delegate int CreateInstanceDelegate(string ticket);
 
         protected void GetOrCreateDiscussionIdTest<TransitType, WebServiceType>(
@@ -25,8 +39,6 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             WebServiceTest<TransitType, WebServiceType> objecttest)
             where WebServiceType : new()
         {
-            UserInfo user = CreateUserWithVerifiedEmailAddress();
-
             // create a discussion
 
             Console.WriteLine("Type: {0}", typename);
@@ -35,15 +47,15 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             int objecttest_id = objecttest.Create(GetAdminTicket());
             Assert.IsTrue(objecttest_id > 0);
 
-            int discussion_id = EndPoint.GetOrCreateDiscussionId(user.ticket, typename, objecttest_id);
+            int discussion_id = EndPoint.GetOrCreateDiscussionId(_user.ticket, typename, objecttest_id);
             Assert.IsTrue(discussion_id > 0);
 
             WebDiscussionService.TransitDiscussion t_discussion = EndPoint.GetDiscussionById(
-                user.ticket, discussion_id);
+                _user.ticket, discussion_id);
 
             Console.WriteLine("Discussion: {0}", t_discussion.Name);
 
-            string redirecturi = EndPoint.GetDiscussionRedirectUri(user.ticket, discussion_id);
+            string redirecturi = EndPoint.GetDiscussionRedirectUri(_user.ticket, discussion_id);
             Console.WriteLine("Uri: {0}", redirecturi);
 
             Assert.AreEqual(t_discussion.ParentObjectUri, redirecturi);
@@ -54,17 +66,16 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             // post to a discussion as a regular user
             WebDiscussionService.TransitDiscussionPost t_post = new WebDiscussionService.TransitDiscussionPost();
             t_post.DiscussionId = discussion_id;
-            t_post.AccountId = user.id;
+            t_post.AccountId = _user.id;
             t_post.Body = GetNewString();
             t_post.Subject = GetNewString();
-            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
+            t_post.Id = EndPoint.CreateOrUpdateDiscussionPost(_user.ticket, t_post);
 
             objecttest.Delete(GetAdminTicket(), objecttest_id);
             objecttest.TearDown();
 
-            t_discussion = EndPoint.GetDiscussionById(user.ticket, discussion_id);
+            t_discussion = EndPoint.GetDiscussionById(_user.ticket, discussion_id);
             Assert.IsNull(t_discussion, "Discussion has not been deleted with object.");
-            DeleteUser(user.id);
         }
 
         [Test]

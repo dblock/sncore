@@ -11,16 +11,19 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
     {
         private FeedTypeTest _feedtype = new FeedTypeTest();
         private int _feedtype_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _feedtype_id = _feedtype.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             _feedtype.Delete(GetAdminTicket(), _feedtype_id);
         }
 
@@ -33,7 +36,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public override object[] GetCountArgs(string ticket)
         {
             WebSyndicationService.TransitAccountFeedQueryOptions qopt = new WebSyndicationService.TransitAccountFeedQueryOptions();
-            qopt.AccountId = GetUserAccount().Id;
+            qopt.AccountId = _user.id;
             object[] args = { ticket, qopt };
             return args;
         }
@@ -41,7 +44,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public override object[] GetArgs(string ticket, object options)
         {
             WebSyndicationService.TransitAccountFeedQueryOptions qopt = new WebSyndicationService.TransitAccountFeedQueryOptions();
-            qopt.AccountId = GetUserAccount().Id;
+            qopt.AccountId = _user.id;
             object[] args = { ticket, qopt, options };
             return args;
         }
@@ -49,9 +52,9 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public override WebSyndicationService.TransitAccountFeed GetTransitInstance()
         {
             WebSyndicationService.TransitAccountFeed t_instance = new WebSyndicationService.TransitAccountFeed();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Description = GetNewString();
-            t_instance.FeedType = (string) _feedtype.GetInstancePropertyById(GetUserTicket(), _feedtype_id, "Name");
+            t_instance.FeedType = (string) _feedtype.GetInstancePropertyById(_user.ticket, _feedtype_id, "Name");
             t_instance.FeedUrl = GetNewUri();
             t_instance.LinkUrl = GetNewUri();
             t_instance.Name = GetNewString();
@@ -66,9 +69,9 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         public void GetAccountFeedsTest()
         {
             WebSyndicationService.TransitAccountFeedQueryOptions options = new WebSyndicationService.TransitAccountFeedQueryOptions();
-            int count = EndPoint.GetAccountFeedsCount(GetUserTicket(), options);
+            int count = EndPoint.GetAccountFeedsCount(_user.ticket, options);
             Assert.IsTrue(count >= 0);
-            WebSyndicationService.TransitAccountFeed[] feeds = EndPoint.GetAccountFeeds(GetUserTicket(), options, null);
+            WebSyndicationService.TransitAccountFeed[] feeds = EndPoint.GetAccountFeeds(_user.ticket, options, null);
         }
     }
 }

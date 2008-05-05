@@ -12,19 +12,24 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
     {
         private AccountEventTest _event = new AccountEventTest();
         private int _event_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _event.SetUp();
             _event_id = _event.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             _event.Delete(GetAdminTicket(), _event_id);
             _event.TearDown();
+            DeleteUser(_user.id);
         }
 
         public AccountEventPictureTest()
@@ -107,7 +112,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
 
             // check that the pictures are numbered 1 through count
             WebEventService.TransitAccountEventPicture[] t_instances = EndPoint.GetAccountEventPictures(
-                    GetUserTicket(), _event_id, null);
+                    _user.ticket, _event_id, null);
             Assert.AreEqual(count, t_instances.Length);
             for (int i = 0; i < count; i++)
             {
@@ -137,7 +142,7 @@ namespace SnCore.Web.Soap.Tests.WebEventServiceTests
             {
                 Console.WriteLine("Moving {0} by {1}", t_instances[action._index - 1].Id, action._disp);
                 EndPoint.MoveAccountEventPicture(GetAdminTicket(), t_instances[action._index - 1].Id, action._disp);
-                Assert.IsTrue(action.Compare(EndPoint.GetAccountEventPictures(GetUserTicket(), _event_id, null)));
+                Assert.IsTrue(action.Compare(EndPoint.GetAccountEventPictures(_user.ticket, _event_id, null)));
             }
         }
     }

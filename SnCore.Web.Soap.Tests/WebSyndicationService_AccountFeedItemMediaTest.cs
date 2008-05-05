@@ -12,12 +12,14 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
     {
         private AccountFeedItemTest _accountfeeditem = new AccountFeedItemTest();
         private int _accountfeeditem_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _accountfeeditem.SetUp();
             _accountfeeditem_id = _accountfeeditem.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
@@ -25,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         {
             _accountfeeditem.Delete(GetAdminTicket(), _accountfeeditem_id);
             _accountfeeditem.TearDown();
+            DeleteUser(_user.id);
         }
 
         public AccountFeedItemMediaTest()
@@ -37,7 +40,7 @@ namespace SnCore.Web.Soap.Tests.WebSyndicationServiceTests
         {
             WebSyndicationService.TransitAccountFeedItemMedia t_instance = new WebSyndicationService.TransitAccountFeedItemMedia();
             t_instance.AccountFeedItemId = _accountfeeditem_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.EmbeddedHtml = GetNewString();
             t_instance.Type = GetNewString();
             return t_instance;

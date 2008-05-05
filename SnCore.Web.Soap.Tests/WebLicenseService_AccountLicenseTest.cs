@@ -9,6 +9,20 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
     [TestFixture]
     public class AccountLicenseTest : WebServiceTest<WebLicenseService.TransitAccountLicense, WebLicenseServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         public AccountLicenseTest()
             : base("AccountLicense")
         {
@@ -18,7 +32,7 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
         public override WebLicenseService.TransitAccountLicense GetTransitInstance()
         {
             WebLicenseService.TransitAccountLicense t_instance = new WebLicenseService.TransitAccountLicense();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.ImageUrl = GetNewUri();
             t_instance.LicenseUrl = GetNewUri();
             t_instance.Name = GetNewString();
@@ -27,13 +41,13 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, GetUserAccount().Id };
+            object[] args = { ticket, _user.id };
             return args;
         }
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, GetUserAccount().Id, options };
+            object[] args = { ticket, _user.id, options };
             return args;
         }
 
@@ -41,7 +55,7 @@ namespace SnCore.Web.Soap.Tests.WebLicenseServiceTests
         public void GetAccountLicenseByAccountIdTest()
         {
             WebLicenseService.TransitAccountLicense t_instance = EndPoint.GetAccountLicenseByAccountId(
-                GetAdminTicket(), GetUserAccount().Id);
+                GetAdminTicket(), _user.id);
             if (t_instance != null) Console.WriteLine(t_instance.Name);
         }
     }

@@ -10,15 +10,19 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
     [TestFixture]
     public class AccountPictureTest : AccountBaseTest<WebAccountService.TransitAccountPicture>
     {
+        private UserInfo _user = null;
+
         [SetUp]
         public override void SetUp()
         {
+            _user = CreateUserWithVerifiedEmailAddress();
             base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             base.TearDown();
         }
 

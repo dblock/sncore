@@ -16,6 +16,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public int _neighborhood_id = 0;
         public PlaceTypeTest _type = new PlaceTypeTest();
         public int _type_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
@@ -24,6 +25,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             _neighborhood_id = _neighborhood.Create(GetAdminTicket());
             _type.SetUp();
             _type_id = _type.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
@@ -33,6 +35,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             _neighborhood.TearDown();
             _type.Delete(GetAdminTicket(), _type_id);
             _type.TearDown();
+            DeleteUser(_user.id);
         }
 
         public PlaceTest()
@@ -80,12 +83,12 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             WebPlaceService.TransitPlace t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
             WebPlaceService.TransitPlacePicture t_picture = new WebPlaceService.TransitPlacePicture();
-            t_picture.AccountId = GetUserAccount().Id;
+            t_picture.AccountId = _user.id;
             t_picture.Bitmap = GetNewBitmap();
             t_picture.Description = GetNewString();
             t_picture.Name = GetNewString();
             t_picture.PlaceId = t_instance.Id;
-            t_picture.Id = EndPoint.CreateOrUpdatePlacePicture(GetUserTicket(), t_picture);
+            t_picture.Id = EndPoint.CreateOrUpdatePlacePicture(_user.ticket, t_picture);
             Assert.IsTrue(t_picture.Id > 0);
             WebPlaceService.TransitPlace[] places = EndPoint.GetNewPlaces(GetAdminTicket(), null);
             Assert.IsNotNull(places);
@@ -99,9 +102,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             WebPlaceService.TransitPlace t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
-            string tag = (string) _neighborhood._city.GetInstancePropertyById(GetUserTicket(), _neighborhood._city_id, "Tag");
+            string tag = (string) _neighborhood._city.GetInstancePropertyById(_user.ticket, _neighborhood._city_id, "Tag");
             Console.WriteLine("City tag: {0}", tag);
-            WebPlaceService.TransitPlace t_found = EndPoint.FindPlace(GetUserTicket(), tag, t_instance.Name);
+            WebPlaceService.TransitPlace t_found = EndPoint.FindPlace(_user.ticket, tag, t_instance.Name);
             Assert.IsNotNull(t_found);
             Assert.AreEqual(t_found.Id, t_instance.Id);
             Delete(GetAdminTicket(), t_instance.Id);
@@ -114,7 +117,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             t_instance.Id = Create(GetAdminTicket(), t_instance);
             // give time to reindex
             Thread.Sleep(2000);
-            WebPlaceService.TransitPlace[] t_found = EndPoint.SearchPlaces(GetUserTicket(), t_instance.Name, null);
+            WebPlaceService.TransitPlace[] t_found = EndPoint.SearchPlaces(_user.ticket, t_instance.Name, null);
             Assert.IsNotNull(t_found);
             Console.WriteLine("Found: {0}", t_found.Length);
             Assert.IsTrue(t_found.Length > 0);
@@ -126,7 +129,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public void SearchPlacesEmptyTest()
         {
             WebPlaceService.TransitPlace[] t_found = EndPoint.SearchPlaces(
-                GetUserTicket(), string.Empty, null);
+                _user.ticket, string.Empty, null);
             Assert.AreEqual(0, t_found.Length);
         }
 

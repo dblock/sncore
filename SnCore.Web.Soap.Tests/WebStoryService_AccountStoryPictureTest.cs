@@ -13,16 +13,21 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
     {
         private AccountStoryTest _story = new AccountStoryTest();
         int _story_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
         {
             _story_id = _story.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
+            DeleteUser(_user.id);
             _story.Delete(GetAdminTicket(), _story_id);
         }
 
@@ -58,13 +63,13 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         {
             WebStoryService.TransitAccountStoryPicture t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
-            WebStoryService.TransitAccountStoryPicture t_instance2 = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance.Id);
+            WebStoryService.TransitAccountStoryPicture t_instance2 = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance.Id);
             Assert.AreEqual(t_instance.Id, t_instance2.Id);
-            WebStoryService.TransitAccountStoryPicture t_instance3 = EndPoint.GetAccountStoryPictureIfModifiedSinceById(GetUserTicket(), t_instance.Id, t_instance2.Modified);
+            WebStoryService.TransitAccountStoryPicture t_instance3 = EndPoint.GetAccountStoryPictureIfModifiedSinceById(_user.ticket, t_instance.Id, t_instance2.Modified);
             Assert.IsNull(t_instance3, "If-Modified-Since at last modified date returned a non-null value.");
-            WebStoryService.TransitAccountStoryPicture t_instance4 = EndPoint.GetAccountStoryPictureIfModifiedSinceById(GetUserTicket(), t_instance.Id, t_instance2.Modified.AddHours(-1));
+            WebStoryService.TransitAccountStoryPicture t_instance4 = EndPoint.GetAccountStoryPictureIfModifiedSinceById(_user.ticket, t_instance.Id, t_instance2.Modified.AddHours(-1));
             Assert.IsNotNull(t_instance4, "If-Modified-Since at before last modified date returned a null value.");
-            WebStoryService.TransitAccountStoryPicture t_instance5 = EndPoint.GetAccountStoryPictureIfModifiedSinceById(GetUserTicket(), t_instance.Id, t_instance2.Modified.AddHours(1));
+            WebStoryService.TransitAccountStoryPicture t_instance5 = EndPoint.GetAccountStoryPictureIfModifiedSinceById(_user.ticket, t_instance.Id, t_instance2.Modified.AddHours(1));
             Assert.IsNull(t_instance3, "If-Modified-Since after last modified date returned a non-null value.");
             Delete(GetAdminTicket(), t_instance.Id);
         }
@@ -78,8 +83,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             t_instance2.Id = Create(GetAdminTicket(), t_instance2);
 
             {
-                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
-                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance1.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance2.Id);
                 Assert.AreEqual(1, t_instance1_copy.Position, "First instance location is not one.");
                 Assert.AreEqual(2, t_instance2_copy.Position, "Second instnace location is not two.");
             }
@@ -87,8 +92,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instance2.Id, -1);
 
             {
-                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
-                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance1.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance2.Id);
                 Assert.AreEqual(2, t_instance1_copy.Position, "First instance location is not two after move.");
                 Assert.AreEqual(1, t_instance2_copy.Position, "Second instnace location is not one after move.");
             }
@@ -96,8 +101,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instance2.Id, 1);
 
             {
-                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
-                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance1.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance2.Id);
                 Assert.AreEqual(1, t_instance1_copy.Position, "First instance location is not one after move.");
                 Assert.AreEqual(2, t_instance2_copy.Position, "Second instnace location is not two after move.");
             }
@@ -105,8 +110,8 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instance2.Id, 100);
 
             {
-                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance1.Id);
-                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(GetUserTicket(), t_instance2.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance1_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance1.Id);
+                WebStoryService.TransitAccountStoryPicture t_instance2_copy = EndPoint.GetAccountStoryPictureById(_user.ticket, t_instance2.Id);
                 Assert.AreEqual(1, t_instance1_copy.Position, "First instance location is not one after move.");
                 Assert.AreEqual(2, t_instance2_copy.Position, "Second instnace location is not two after move.");
             }
@@ -161,13 +166,13 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
                 t_instance.Picture = GetNewBitmap();
                 t_instance.Name = GetNewString();
                 t_instance.AccountStoryId = _story_id;
-                t_instance.Id = EndPoint.CreateOrUpdateAccountStoryPicture(GetUserTicket(), t_instance);
+                t_instance.Id = EndPoint.CreateOrUpdateAccountStoryPicture(_user.ticket, t_instance);
                 Console.WriteLine("Picture: {0}", t_instance.Id);
             }
 
             // check that the pictures are numbered 1 through count
             WebStoryService.TransitAccountStoryPicture[] t_instances = EndPoint.GetAccountStoryPictures(
-                    GetUserTicket(), _story_id, null);
+                    _user.ticket, _story_id, null);
             Assert.AreEqual(count, t_instances.Length);
             for (int i = 0; i < count; i++)
             {
@@ -197,7 +202,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
             {
                 Console.WriteLine("Moving {0} by {1}", t_instances[action._index - 1].Id, action._disp);
                 EndPoint.MoveAccountStoryPicture(GetAdminTicket(), t_instances[action._index - 1].Id, action._disp);
-                Assert.IsTrue(action.Compare(EndPoint.GetAccountStoryPictures(GetUserTicket(), _story_id, null)));
+                Assert.IsTrue(action.Compare(EndPoint.GetAccountStoryPictures(_user.ticket, _story_id, null)));
             }
         }
     }

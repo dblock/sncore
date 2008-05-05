@@ -9,6 +9,20 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
     [TestFixture]
     public class AccountCityTest : WebServiceBaseTest<WebLocationServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         public AccountCityTest()
         {
 
@@ -18,7 +32,7 @@ namespace SnCore.Web.Soap.Tests.WebLocationServiceTests
         public void GetAccountCitiesTest()
         {
             WebLocationService.TransitAccountCity[] t_collection = EndPoint.GetAccountCities(
-                GetUserTicket(), null);
+                _user.ticket, null);
             Console.WriteLine("Cities: {0}", t_collection.Length);
             foreach (WebLocationService.TransitAccountCity t_instance in t_collection)
             {

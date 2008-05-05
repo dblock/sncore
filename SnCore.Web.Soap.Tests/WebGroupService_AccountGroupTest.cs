@@ -9,6 +9,20 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
     [TestFixture]
     public class AccountGroupTest : WebServiceTest<WebGroupService.TransitAccountGroup, WebGroupServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public override void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         public AccountGroupTest()
             : base("AccountGroup")
         {
@@ -43,20 +57,20 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
         {
             // test that leaving a group with a single owner orphans it correctly to the admin
             WebGroupService.TransitAccountGroup t_instance = GetTransitInstance();
-            int id = Create(GetUserTicket(), t_instance);
+            int id = Create(_user.ticket, t_instance);
             WebGroupService.TransitAccountGroupAccount[] groupaccounts = EndPoint.GetAccountGroupAccounts(
-                GetUserTicket(), id, null);
+                _user.ticket, id, null);
             Assert.AreEqual(1, groupaccounts.Length, "Group accounts size isn't one.");
             Console.WriteLine("Owner: {0}", groupaccounts[0].AccountName);
-            Assert.AreEqual(groupaccounts[0].AccountId, GetUserAccount().Id);
+            Assert.AreEqual(groupaccounts[0].AccountId, _user.id);
             Assert.IsTrue(groupaccounts[0].IsAdministrator);
             // delete the user group account
-            EndPoint.DeleteAccountGroupAccount(GetUserTicket(), groupaccounts[0].Id);
+            EndPoint.DeleteAccountGroupAccount(_user.ticket, groupaccounts[0].Id);
             // a system admin must now be the owner of the group
             WebGroupService.TransitAccountGroupAccount[] groupaccounts2 = EndPoint.GetAccountGroupAccounts(
                 GetAdminTicket(), id, null);
             Assert.AreEqual(1, groupaccounts2.Length, "Group accounts size isn't one ater deleting last admin.");
-            Assert.AreNotEqual(groupaccounts2[0].AccountId, GetUserAccount().Id);
+            Assert.AreNotEqual(groupaccounts2[0].AccountId, _user.id);
             Assert.IsTrue(groupaccounts2[0].IsAdministrator);
             Console.WriteLine("New owner: {0}", groupaccounts2[0].AccountName);
             Delete(GetAdminTicket(), id);
@@ -85,12 +99,12 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             try
             {
                 WebDiscussionService.TransitDiscussionPost t_post1 = new WebDiscussionService.TransitDiscussionPost();
-                t_post1.AccountId = GetUserAccount().Id;
+                t_post1.AccountId = _user.id;
                 t_post1.DiscussionId = discussion_id;
                 t_post1.DiscussionThreadId = 0;
                 t_post1.Subject = GetNewString();
                 t_post1.Body = GetNewString();
-                t_post1.Id = discussionendpoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_post1);
+                t_post1.Id = discussionendpoint.CreateOrUpdateDiscussionPost(_user.ticket, t_post1);
                 Console.WriteLine("Post: {0}", t_post1.Id);
                 Assert.IsFalse(true, "Expected an Access Denied exception.");
             }
@@ -114,7 +128,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             try
             {
                 WebDiscussionService.TransitDiscussionPost t_post3 = discussionendpoint.GetDiscussionPostById(
-                    GetUserTicket(), t_post2.Id);
+                    _user.ticket, t_post2.Id);
                 Console.WriteLine("Post: {0}", t_post3.Id);
                 Assert.IsFalse(true, "Expected an Access Denied exception.");
             }
@@ -128,14 +142,14 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // join the user to the group
             WebGroupService.TransitAccountGroupAccount t_account = new WebGroupService.TransitAccountGroupAccount();
             t_account.AccountGroupId = t_group.Id;
-            t_account.AccountId = GetUserAccount().Id;
+            t_account.AccountId = _user.id;
             t_account.IsAdministrator = false;
             t_account.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_account);
             Console.WriteLine("Joined: {0}", t_account.Id);
             Assert.AreNotEqual(0, t_account.Id);
             // the user now can retrieve the post
             WebDiscussionService.TransitDiscussionPost t_post4 = discussionendpoint.GetDiscussionPostById(
-                GetUserTicket(), t_post2.Id);
+                _user.ticket, t_post2.Id);
             Console.WriteLine("Post: {0}", t_post4.Id);
             // done
             Delete(GetAdminTicket(), t_group.Id);
@@ -150,7 +164,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             // join a user to a group
             WebGroupService.TransitAccountGroupAccount t_account = new WebGroupService.TransitAccountGroupAccount();
             t_account.AccountGroupId = t_instance.Id;
-            t_account.AccountId = GetUserAccount().Id;
+            t_account.AccountId = _user.id;
             t_account.IsAdministrator = false;
             t_account.Id = EndPoint.CreateOrUpdateAccountGroupAccount(GetAdminTicket(), t_account);
             Console.WriteLine("Joined: {0}", t_account.Id);
@@ -158,7 +172,7 @@ namespace SnCore.Web.Soap.Tests.WebGroupServiceTests
             try
             {
                 t_account.IsAdministrator = true;
-                EndPoint.CreateOrUpdateAccountGroupAccount(GetUserTicket(), t_account);
+                EndPoint.CreateOrUpdateAccountGroupAccount(_user.ticket, t_account);
                 Assert.IsTrue(false, "Expected Access Denied exception.");
             }
             catch (Exception ex)

@@ -13,6 +13,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
     {
         private AccountBlogTest _blog = new AccountBlogTest();
         private int _blog_id = 0;
+        private UserInfo _user = null;
 
         public AccountBlogPostTest()
             : base("AccountBlogPost")
@@ -24,11 +25,13 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         public override void SetUp()
         {
             _blog_id = _blog.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             _blog.Delete(GetAdminTicket(), _blog_id);
         }
 
@@ -36,7 +39,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         {
             WebBlogService.TransitAccountBlogPost t_instance = new WebBlogService.TransitAccountBlogPost();
             t_instance.AccountBlogId = _blog_id;
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Body = GetNewString();
             t_instance.Title = GetNewString();
             t_instance.EnableComments = true;
@@ -112,7 +115,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
             t_discussion_post_1.Body = GetNewString();
             t_discussion_post_1.DiscussionId = discussion_id;
             t_discussion_post_1.Subject = GetNewString();
-            t_discussion_post_1.Id = DiscussionEndpoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_discussion_post_1);
+            t_discussion_post_1.Id = DiscussionEndpoint.CreateOrUpdateDiscussionPost(_user.ticket, t_discussion_post_1);
             Console.WriteLine("Post: {0}", t_discussion_post_1.Id);
             // disable comments on the blog
             WebBlogService.TransitAccountBlog t_blog = EndPoint.GetAccountBlogById(GetAdminTicket(), _blog_id);
@@ -125,7 +128,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
                 t_discussion_post_2.Body = GetNewString();
                 t_discussion_post_2.DiscussionId = discussion_id;
                 t_discussion_post_2.Subject = GetNewString();
-                t_discussion_post_2.Id = DiscussionEndpoint.CreateOrUpdateDiscussionPost(GetUserTicket(), t_discussion_post_2);
+                t_discussion_post_2.Id = DiscussionEndpoint.CreateOrUpdateDiscussionPost(_user.ticket, t_discussion_post_2);
                 Console.WriteLine("Post: {0}", t_discussion_post_2.Id);
                 Assert.IsTrue(false, "Expected an access denied.");
             }

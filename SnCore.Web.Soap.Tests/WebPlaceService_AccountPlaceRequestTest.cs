@@ -13,6 +13,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         private int _place_id = 0;
         private AccountPlaceTypeTest _type = new AccountPlaceTypeTest();
         private int _type_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
@@ -20,6 +21,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             _place.SetUp();
             _type_id = _type.Create(GetAdminTicket());
             _place_id = _place.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
@@ -28,6 +30,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             _place.Delete(GetAdminTicket(), _place_id);
             _type.Delete(GetAdminTicket(), _type_id);
             _place.TearDown();
+            DeleteUser(_user.id);
         }
 
         public AccountPlaceRequestTest()
@@ -38,7 +41,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public override WebPlaceService.TransitAccountPlaceRequest GetTransitInstance()
         {
             WebPlaceService.TransitAccountPlaceRequest t_instance = new WebPlaceService.TransitAccountPlaceRequest();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Message = GetNewString();
             t_instance.PlaceId = _place_id;
             t_instance.Type = (string) _type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
@@ -49,11 +52,11 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         public void AcceptAccountPlaceRequestTest()
         {
             // convince ourselves that the user cannot edit the place
-            WebPlaceService.TransitPlace t_place = _place.EndPoint.GetPlaceById(GetUserTicket(), _place_id);
+            WebPlaceService.TransitPlace t_place = _place.EndPoint.GetPlaceById(_user.ticket, _place_id);
             Console.WriteLine("Place: {0}", t_place.Name);
             try
             {
-                EndPoint.CreateOrUpdatePlace(GetUserTicket(), t_place);
+                EndPoint.CreateOrUpdatePlace(_user.ticket, t_place);
                 Assert.IsTrue(false, "Expected an access denied.");
             }
             catch (Exception ex)
@@ -63,11 +66,11 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             }
             // create a request
             WebPlaceService.TransitAccountPlaceRequest t_instance = GetTransitInstance();
-            t_instance.Id = Create(GetUserTicket(), t_instance);
+            t_instance.Id = Create(_user.ticket, t_instance);
             // admin accepts the request
             EndPoint.AcceptAccountPlaceRequest(GetAdminTicket(), t_instance.Id, GetNewString());
             // check that requester is owner
-            WebPlaceService.TransitAccountPlace[] places = EndPoint.GetAccountPlaces(GetAdminTicket(), GetUserAccount().Id, null);
+            WebPlaceService.TransitAccountPlace[] places = EndPoint.GetAccountPlaces(GetAdminTicket(), _user.id, null);
             Console.WriteLine("Places: {0}", places.Length);
             Assert.IsTrue(places.Length > 0);
             bool bFound = false;
@@ -81,13 +84,13 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             }
             Assert.IsTrue(bFound);
             // the requester can now edit the place
-            EndPoint.CreateOrUpdatePlace(GetUserTicket(), t_place);
+            EndPoint.CreateOrUpdatePlace(_user.ticket, t_place);
             // the requester can now add an alternate name
             WebPlaceService.TransitPlaceName t_name = new WebPlaceService.TransitPlaceName();
             t_name.Name = GetNewString();
             t_name.PlaceId = _place_id;
-            t_name.Id = EndPoint.CreateOrUpdatePlaceName(GetUserTicket(), t_name);
-            EndPoint.DeletePlaceName(GetUserTicket(), t_name.Id);
+            t_name.Id = EndPoint.CreateOrUpdatePlaceName(_user.ticket, t_name);
+            EndPoint.DeletePlaceName(_user.ticket, t_name.Id);
             // the requester can now delete a picture
             WebPlaceService.TransitPlacePicture t_pic = new WebPlaceService.TransitPlacePicture();
             t_pic.AccountId = GetAdminAccount().Id;
@@ -95,18 +98,18 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             t_pic.Name = GetNewString();
             t_pic.PlaceId = _place_id;
             t_pic.Id = EndPoint.CreateOrUpdatePlacePicture(GetAdminTicket(), t_pic);
-            EndPoint.DeletePlacePicture(GetUserTicket(), t_pic.Id);
+            EndPoint.DeletePlacePicture(_user.ticket, t_pic.Id);
         }
 
         [Test]
         public void RejectAccountPlaceRequestTest()
         {
             // convince ourselves that the user cannot edit the place
-            WebPlaceService.TransitPlace t_place = _place.EndPoint.GetPlaceById(GetUserTicket(), _place_id);
+            WebPlaceService.TransitPlace t_place = _place.EndPoint.GetPlaceById(_user.ticket, _place_id);
             Console.WriteLine("Place: {0}", t_place.Name);
             try
             {
-                EndPoint.CreateOrUpdatePlace(GetUserTicket(), t_place);
+                EndPoint.CreateOrUpdatePlace(_user.ticket, t_place);
                 Assert.IsTrue(false, "Expected an access denied.");
             }
             catch (Exception ex)
@@ -120,7 +123,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             // admin accepts the request
             EndPoint.RejectAccountPlaceRequest(GetAdminTicket(), t_instance.Id, GetNewString());
             // check that requester is owner
-            WebPlaceService.TransitAccountPlace[] places = EndPoint.GetAccountPlaces(GetAdminTicket(), GetUserAccount().Id, null);
+            WebPlaceService.TransitAccountPlace[] places = EndPoint.GetAccountPlaces(GetAdminTicket(), _user.id, null);
             Console.WriteLine("Places: {0}", places.Length);
             bool bFound = false;
             foreach (WebPlaceService.TransitAccountPlace place in places)
@@ -133,11 +136,11 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             }
             Assert.IsFalse(bFound);
             // convince ourselves that the user still cannot edit the place
-            WebPlaceService.TransitPlace t_place2 = _place.EndPoint.GetPlaceById(GetUserTicket(), _place_id);
+            WebPlaceService.TransitPlace t_place2 = _place.EndPoint.GetPlaceById(_user.ticket, _place_id);
             Console.WriteLine("Place: {0}", t_place2.Name);
             try
             {
-                EndPoint.CreateOrUpdatePlace(GetUserTicket(), t_place2);
+                EndPoint.CreateOrUpdatePlace(_user.ticket, t_place2);
                 Assert.IsTrue(false, "Expected an access denied.");
             }
             catch (Exception ex)
@@ -191,8 +194,8 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             // third user requests ownership
             WebPlaceService.TransitAccountPlaceRequest t_request_2 = GetTransitInstance();
             t_request_2.PlaceId = t_place.Id;
-            t_request_2.AccountId = GetUserAccount().Id;
-            t_request_2.Id = Create(GetUserTicket(), t_request_2);
+            t_request_2.AccountId = _user.id;
+            t_request_2.Id = Create(_user.ticket, t_request_2);
             Console.WriteLine("Request (2): {0}", t_request_2.Id);
 
             // the owner user has one request

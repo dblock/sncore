@@ -28,8 +28,6 @@ namespace SnCore.Web.Soap.Tests
         private EndPointType mEndPoint;
         private string mAdminTicket = string.Empty;
 
-        private UserInfo mUserInfo = null;
-
         public WebServiceBaseTest()
         {
             mEndPoint = new EndPointType();
@@ -78,11 +76,6 @@ namespace SnCore.Web.Soap.Tests
             return result;
         }
 
-        protected WebAccountService.TransitAccount GetUserAccount()
-        {
-            return GetUser().account;
-        }
-
         protected int CreateUser(string email, string password)
         {
             return CreateUser(email, password, DateTime.UtcNow.AddYears(-10));
@@ -118,38 +111,10 @@ namespace SnCore.Web.Soap.Tests
             return endpoint.Login(email, password);
         }
 
-        public UserInfo GetUser()
-        {
-            if (mUserInfo == null)
-            {
-                mUserInfo = new UserInfo();
-                try
-                {
-                    mUserInfo.email = "user@localhost.com";
-                    mUserInfo.password = "password";
-                    mUserInfo.ticket = Login(mUserInfo.email, mUserInfo.password);
-                }
-                catch (Exception)
-                {
-                    mUserInfo = CreateUserWithVerifiedEmailAddress("user@localhost.com", "password");
-                }
-
-                WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
-                mUserInfo.account = endpoint.GetAccount(mUserInfo.ticket, true);
-            }
-
-            return mUserInfo;
-        }
-
         public WebAccountService.TransitAccount GetAdminAccount()
         {
             WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
             return endpoint.GetAccount(GetAdminTicket(), true);
-        }
-
-        public string GetUserTicket()
-        {
-            return GetUser().ticket;
         }
 
         public string GetAdminTicket()

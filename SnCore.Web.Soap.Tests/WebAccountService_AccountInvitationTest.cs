@@ -9,15 +9,17 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
     [TestFixture]
     public class AccountInvitationTest : WebServiceTest<WebAccountService.TransitAccountInvitation, WebAccountServiceNoCache>
     {
-        [SetUp]
+        private UserInfo _user = null;
+
         public override void SetUp()
         {
             base.SetUp();
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
-        [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             base.TearDown();
         }
 
@@ -30,7 +32,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountInvitation GetTransitInstance()
         {
             WebAccountService.TransitAccountInvitation t_instance = new WebAccountService.TransitAccountInvitation();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.Email = GetNewEmailAddress();
             t_instance.Message = GetNewString();
             t_instance.Code = GetNewString(); // only useful when admin
@@ -134,28 +136,25 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void GetAccountInvitationsByAccountIdTest()
         {
-            UserInfo user = CreateUserWithVerifiedEmailAddress();
-
             int count1 = EndPoint.GetAccountInvitationsCountByAccountId(
-                user.ticket, user.id);
+                _user.ticket, _user.id);
             Console.WriteLine("Count: {0}", count1);
             Assert.IsTrue(count1 >= 0);
             WebAccountService.TransitAccountInvitation t_instance = GetTransitInstance();
-            t_instance.AccountId = user.id;
-            int id = Create(user.ticket, t_instance);
+            t_instance.AccountId = _user.id;
+            int id = Create(_user.ticket, t_instance);
             int count2 = EndPoint.GetAccountInvitationsCountByAccountId(
-                user.ticket, user.id);
+                _user.ticket, _user.id);
             Console.WriteLine("Count: {0}", count2);
             Assert.AreEqual(count1 + 1, count2);
             WebAccountService.TransitAccountInvitation[] invitations = EndPoint.GetAccountInvitationsByAccountId(
-                user.ticket, user.id, null);
+                _user.ticket, _user.id, null);
             Console.WriteLine("Invitations: {0}", invitations.Length);
             Assert.AreEqual(invitations.Length, count2);
-            Delete(user.ticket, id);
+            Delete(_user.ticket, id);
             int count3 = EndPoint.GetAccountInvitationsCountByAccountId(
-                user.ticket, user.id);
+                _user.ticket, _user.id);
             Assert.AreEqual(count1, count3);
-            DeleteUser(user.id);
         }
     }
 }

@@ -15,6 +15,20 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
     [TestFixture]
     public class DiscusisonThreadTest : WebServiceBaseTest<WebDiscussionServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            DeleteUser(_user.id);
+        }
+
         [Test]
         public void GetDiscussionThreadsTest()
         {
@@ -53,10 +67,10 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
             DiscussionPostTest post = new DiscussionPostTest();
             post.SetUp();
             int post_id = post.Create(GetAdminTicket());
-            int count = EndPoint.GetDiscussionThreadsCountByDiscussionId(GetUserTicket(), post._discussion_id);
+            int count = EndPoint.GetDiscussionThreadsCountByDiscussionId(_user.ticket, post._discussion_id);
             Console.WriteLine("Count: {0}", count);
             Assert.AreEqual(count, 1);
-            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetDiscussionThreadsByDiscussionId(GetUserTicket(), post._discussion_id, null);
+            WebDiscussionService.TransitDiscussionPost[] posts = EndPoint.GetDiscussionThreadsByDiscussionId(_user.ticket, post._discussion_id, null);
             Console.WriteLine("Length: {0}", posts.Length);
             Assert.AreEqual(count, posts.Length);
             Assert.IsTrue(new TransitServiceCollection<WebDiscussionService.TransitDiscussionPost>(posts).ContainsId(post_id));

@@ -9,6 +9,20 @@ namespace SnCore.Web.Soap.Tests.WebTagWordServiceTests
     [TestFixture]
     public class TagWordTest : WebServiceTest<WebTagWordService.TransitTagWord, WebTagWordServiceNoCache>
     {
+        private UserInfo _user = null;
+
+        public override void SetUp()
+        {
+            base.SetUp();
+            _user = CreateUserWithVerifiedEmailAddress();
+        }
+
+        public override void TearDown()
+        {
+            DeleteUser(_user.id);
+            base.TearDown();
+        }
+
         public TagWordTest()
             : base("TagWord")
         {
@@ -41,7 +55,7 @@ namespace SnCore.Web.Soap.Tests.WebTagWordServiceTests
         public void GetTagWordAccountsByIdTest()
         {
             int id = Create(GetAdminTicket());
-            WebTagWordService.TransitAccount[] accounts = EndPoint.GetTagWordAccountsById(GetUserTicket(), id, null);
+            WebTagWordService.TransitAccount[] accounts = EndPoint.GetTagWordAccountsById(_user.ticket, id, null);
             Assert.IsNotNull(accounts);
             Console.WriteLine("Found {0} accounts.", accounts.Length);
             Delete(GetAdminTicket(), id);
@@ -52,7 +66,7 @@ namespace SnCore.Web.Soap.Tests.WebTagWordServiceTests
         {
             WebTagWordService.TransitTagWord t_instance = GetTransitInstance();
             int id = Create(GetAdminTicket(), t_instance);
-            WebTagWordService.TransitAccount[] accounts = EndPoint.SearchTagWordAccounts(GetUserTicket(), "khtzw" /*t_instance.Word*/, null);
+            WebTagWordService.TransitAccount[] accounts = EndPoint.SearchTagWordAccounts(_user.ticket, "khtzw" /*t_instance.Word*/, null);
             Console.WriteLine("Found {0} accounts.", accounts.Length);
             Assert.IsNotNull(accounts);
             Delete(GetAdminTicket(), id);

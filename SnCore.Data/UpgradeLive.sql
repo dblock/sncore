@@ -319,6 +319,7 @@ ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Description] ntext NOT NULL
 GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'Md5') 
 ALTER TABLE dbo.AccountAuditEntry ADD [Md5] varchar(16) NULL
+GO
 UPDATE dbo.AccountAuditEntry SET [Md5]=[AccountAuditEntry_Id] WHERE [Md5] IS NULL
 ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Md5] varchar(16) NOT NULL
 GO

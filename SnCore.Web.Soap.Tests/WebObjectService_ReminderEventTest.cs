@@ -11,6 +11,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
     {
         public ReminderTest _reminder = new ReminderTest();
         public int _reminder_id = 0;
+        private UserInfo _user = null;
 
         [SetUp]
         public override void SetUp()
@@ -18,6 +19,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
             base.SetUp();
             _reminder.SetUp();
             _reminder_id = _reminder.Create(GetAdminTicket());
+            _user = CreateUserWithVerifiedEmailAddress();
         }
 
         [TearDown]
@@ -25,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         {
             _reminder.Delete(GetAdminTicket(), _reminder_id);
             _reminder.TearDown();
+            DeleteUser(_user.id);
             base.TearDown();
         }
 
@@ -37,7 +40,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public override WebObjectService.TransitReminderEvent GetTransitInstance()
         {
             WebObjectService.TransitReminderEvent t_instance = new WebObjectService.TransitReminderEvent();
-            t_instance.AccountId = GetUserAccount().Id;
+            t_instance.AccountId = _user.id;
             t_instance.ReminderId = _reminder_id;
             return t_instance;
         }

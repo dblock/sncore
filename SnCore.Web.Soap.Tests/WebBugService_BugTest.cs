@@ -17,6 +17,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         int _resolution_id = 0;
         int _resolution2_id = 0;
         int _project_id = 0;
+        private UserInfo _user = null;
 
         public BugTest()
             : base("Bug")
@@ -26,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         [SetUp]
         public override void SetUp()
         {
+            _user = CreateUserWithVerifiedEmailAddress();
             _priority_id = new BugPriorityTest().Create(GetAdminTicket());
             _severity_id = new BugSeverityTest().Create(GetAdminTicket());
             _type_id = new BugTypeTest().Create(GetAdminTicket());
@@ -38,6 +40,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         [TearDown]
         public override void TearDown()
         {
+            DeleteUser(_user.id);
             new BugProjectTest().Delete(GetAdminTicket(), _project_id);
             new BugPriorityTest().Delete(GetAdminTicket(), _priority_id);
             new BugSeverityTest().Delete(GetAdminTicket(), _severity_id);
@@ -106,7 +109,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         [Test]
         public void AsUserTest()
         {
-            string ticket = GetUserTicket();
+            string ticket = _user.ticket;
             int count1 = GetCount(ticket);
             int id1 = Create(ticket);
             int count2 = GetCount(ticket);
@@ -125,7 +128,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         [Test, ExpectedException(typeof(SoapException))]
         public void DeleteAsUserTest()
         {
-            string ticket = GetUserTicket();
+            string ticket = _user.ticket;
             int id = Create(ticket);
             Delete(ticket, id);
         }
@@ -138,7 +141,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
             WebBugService.TransitBugNote t_instance = new WebBugService.TransitBugNote();
             t_instance.BugId = id;
             t_instance.Details = GetNewString();
-            int note_id = EndPoint.CreateOrUpdateBugNote(GetUserTicket(), t_instance);
+            int note_id = EndPoint.CreateOrUpdateBugNote(_user.ticket, t_instance);
             Console.WriteLine("Created BugNote: {0}", note_id);
             Assert.IsTrue(note_id > 0);
 
