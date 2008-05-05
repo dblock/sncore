@@ -65,7 +65,10 @@ namespace SnCore.Services
                 return false;
 
             foreach (AccountAuditEntry audit_entry in audit_entries)
+            {
+                audit_entry.Md5 = ManagedAccountAuditEntry.GetHash(audit_entry.Description);
                 session.Save(audit_entry);
+            }
 
             return true;
         }
