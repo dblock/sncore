@@ -214,6 +214,7 @@ public partial class PlaceView : Page
                         Renderer.UrlEncode(place.Type));
 
                 placeAccounts.PlaceId = RequestId;
+                placeAccountEvents.PlaceId = RequestId;
                 placeFriends.PlaceId = RequestId;
                 attributesView.PlaceId = RequestId;
                 picturesView.PlaceId = RequestId;

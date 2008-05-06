@@ -487,6 +487,8 @@
           <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="PlaceId" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetAccountEventInstancesResponse">

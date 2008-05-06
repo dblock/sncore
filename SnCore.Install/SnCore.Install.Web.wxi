@@ -323,6 +323,8 @@
      <File Id="SnCoreMenuItemControl_ascx" Name="MenuItemControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\MenuItemControl.ascx" />
      <File Id="SnCoreNoticeControl_ascx" Name="NoticeControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\NoticeControl.ascx" />
      <File Id="SnCorePlaceAccountsViewControl_ascx" Name="PlaceAccountsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\PlaceAccountsViewControl.ascx" />
+     <File Id="SnCorePlaceAccountEventsViewControl_ascx" Name="PlaceAccountEventsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\PlaceAccountEventsViewControl.ascx" />
+     <File Id="SnCoreAccountEventsViewControl_ascx" Name="AccountEventsViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountEventsViewControl.ascx" />
      <File Id="SnCorePlaceAttributeEdit_aspx" Name="PlaceAttributeEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\PlaceAttributeEdit.aspx" />
      <File Id="SnCorePlaceAttributesManage_aspx" Name="PlaceAttributesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\PlaceAttributesManage.aspx" />
      <File Id="SnCorePlaceAttributesViewControl_ascx" Name="PlaceAttributesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\PlaceAttributesViewControl.ascx" />

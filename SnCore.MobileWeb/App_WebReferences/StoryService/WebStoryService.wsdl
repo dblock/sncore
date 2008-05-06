@@ -196,7 +196,7 @@
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="Picture" type="s:base64Binary" />
               <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="Location" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountStoryId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
@@ -253,18 +253,6 @@
       <s:element name="DeleteAccountStoryPictureResponse">
         <s:complexType />
       </s:element>
-      <s:element name="MoveAccountStoryPicture">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="disp" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="MoveAccountStoryPictureResponse">
-        <s:complexType />
-      </s:element>
       <s:element name="GetAccountStoryPicturesCount">
         <s:complexType>
           <s:sequence>
@@ -301,6 +289,18 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountStoryPicture" nillable="true" type="tns:TransitAccountStoryPicture" />
         </s:sequence>
       </s:complexType>
+      <s:element name="MoveAccountStoryPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="disp" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveAccountStoryPictureResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="GetAccountStoryPictureIfModifiedSinceById">
         <s:complexType>
           <s:sequence>
@@ -400,12 +400,6 @@
   <wsdl:message name="DeleteAccountStoryPictureSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountStoryPictureResponse" />
   </wsdl:message>
-  <wsdl:message name="MoveAccountStoryPictureSoapIn">
-    <wsdl:part name="parameters" element="tns:MoveAccountStoryPicture" />
-  </wsdl:message>
-  <wsdl:message name="MoveAccountStoryPictureSoapOut">
-    <wsdl:part name="parameters" element="tns:MoveAccountStoryPictureResponse" />
-  </wsdl:message>
   <wsdl:message name="GetAccountStoryPicturesCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountStoryPicturesCount" />
   </wsdl:message>
@@ -417,6 +411,12 @@
   </wsdl:message>
   <wsdl:message name="GetAccountStoryPicturesSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountStoryPicturesResponse" />
+  </wsdl:message>
+  <wsdl:message name="MoveAccountStoryPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveAccountStoryPicture" />
+  </wsdl:message>
+  <wsdl:message name="MoveAccountStoryPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveAccountStoryPictureResponse" />
   </wsdl:message>
   <wsdl:message name="GetAccountStoryPictureIfModifiedSinceByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountStoryPictureIfModifiedSinceById" />
@@ -486,11 +486,6 @@
       <wsdl:input message="tns:DeleteAccountStoryPictureSoapIn" />
       <wsdl:output message="tns:DeleteAccountStoryPictureSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="MoveAccountStoryPicture">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a story picture.</wsdl:documentation>
-      <wsdl:input message="tns:MoveAccountStoryPictureSoapIn" />
-      <wsdl:output message="tns:MoveAccountStoryPictureSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetAccountStoryPicturesCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get story pictures count.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountStoryPicturesCountSoapIn" />
@@ -500,6 +495,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get story pictures.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountStoryPicturesSoapIn" />
       <wsdl:output message="tns:GetAccountStoryPicturesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountStoryPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a story picture.</wsdl:documentation>
+      <wsdl:input message="tns:MoveAccountStoryPictureSoapIn" />
+      <wsdl:output message="tns:MoveAccountStoryPictureSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountStoryPictureIfModifiedSinceById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get story picture picture data if modified since.</wsdl:documentation>
@@ -613,15 +613,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="MoveAccountStoryPicture">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountStoryPicture" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAccountStoryPicturesCount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPicturesCount" style="document" />
       <wsdl:input>
@@ -633,6 +624,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountStoryPictures">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictures" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountStoryPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountStoryPicture" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -760,15 +760,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="MoveAccountStoryPicture">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountStoryPicture" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAccountStoryPicturesCount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPicturesCount" style="document" />
       <wsdl:input>
@@ -780,6 +771,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountStoryPictures">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountStoryPictures" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveAccountStoryPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountStoryPicture" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

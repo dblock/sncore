@@ -99,6 +99,7 @@ public partial class AccountView : Page
             feedsView.AccountId = AccountId;
             blogsView.AccountId = AccountId;
             licenseView.AccountId = AccountId;
+            eventsView.AccountId = AccountId;
 
             if (Account == null)
             {

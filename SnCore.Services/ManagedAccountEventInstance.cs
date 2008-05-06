@@ -20,6 +20,8 @@ namespace SnCore.Services
         public string Type;
         public DateTime StartDateTime = DateTime.MinValue;
         public DateTime EndDateTime = DateTime.MaxValue;
+        public int PlaceId = 0;
+        public int AccountId = 0;
 
         public TransitAccountEventInstanceQueryOptions()
         {
@@ -75,6 +77,18 @@ namespace SnCore.Services
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.AppendFormat("ScheduleInstance.EndDateTime > '{0}'", StartDateTime);
+            }
+
+            if (PlaceId != 0)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountEvent.Place.Id = {0}", PlaceId);
+            }
+
+            if (AccountId != 0)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("AccountEvent.Account.Id = {0}", AccountId);
             }
 
             // exclude non-published events

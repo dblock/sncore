@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="DiscussionFullView" Src="DiscussionFullViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceAccountsView" Src="PlaceAccountsViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="PlaceAccountEventsView" Src="PlaceAccountEventsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoriteAccountsView" Src="PlaceFavoriteAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
@@ -179,6 +180,9 @@
         </asp:Panel>
         <asp:Panel ID="panelOwners" runat="server">
          <SnCore:PlaceAccountsView ID="placeAccounts" runat="server" />
+        </asp:Panel>
+        <asp:Panel ID="panelEvents" runat="server">
+         <SnCore:PlaceAccountEventsView ID="placeAccountEvents" runat="server" />
         </asp:Panel>
         <asp:UpdatePanel ID="panelFriends" runat="server" UpdateMode="Conditional">
          <ContentTemplate>

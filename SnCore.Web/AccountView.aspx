@@ -23,6 +23,7 @@
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountPicturesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="AccountEventsView" Src="AccountEventsViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccount" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -131,6 +132,7 @@
      <SnCore:WebsitesView runat="server" ID="websitesView" />
      <SnCore:PlacesView runat="server" ID="placesView" />
      <SnCore:GroupsView runat="server" ID="groupsView" />
+     <SnCore:AccountEventsView runat="server" ID="eventsView" />
      <SnCore:SurveysView runat="server" ID="surveysView" />
      <a name="Testimonials" />
      <SnCore:DiscussionFullView runat="server" ID="discussionTags" PostNewText="&#187; Leave a Testimonial" />

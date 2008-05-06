@@ -40,6 +40,9 @@
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountPictureId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="EnableComments" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="DefaultViewRows" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="PostCount" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -182,6 +185,9 @@
               <s:element minOccurs="1" maxOccurs="1" name="CommentCount" type="s:int" />
               <s:element minOccurs="1" maxOccurs="1" name="CanEdit" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="CanDelete" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="EnableComments" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Sticky" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Publish" type="s:boolean" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -195,10 +201,16 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountBlogPostQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="TransitAccountBlogPostQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="BlogId" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PublishedOnly" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetAccountBlogPostsCountResponse">
         <s:complexType>
           <s:sequence>
@@ -210,7 +222,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountBlogPostQueryOptions" />
             <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>
@@ -251,6 +263,18 @@
         </s:complexType>
       </s:element>
       <s:element name="DeleteAccountBlogPostResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="MoveAccountBlogPost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="postid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="targetid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveAccountBlogPostResponse">
         <s:complexType />
       </s:element>
       <s:element name="GetAccountBlogAuthorsCount">
@@ -350,6 +374,22 @@
       </s:element>
       <s:element name="DeleteAccountBlogAuthorResponse">
         <s:complexType />
+      </s:element>
+      <s:element name="MoveDiscussionPost">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="postid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="targetid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveDiscussionPostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MoveDiscussionPostResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="SearchAccountBlogPosts">
         <s:complexType>
@@ -462,6 +502,12 @@
   <wsdl:message name="DeleteAccountBlogPostSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountBlogPostResponse" />
   </wsdl:message>
+  <wsdl:message name="MoveAccountBlogPostSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveAccountBlogPost" />
+  </wsdl:message>
+  <wsdl:message name="MoveAccountBlogPostSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveAccountBlogPostResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAccountBlogAuthorsCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountBlogAuthorsCount" />
   </wsdl:message>
@@ -491,6 +537,12 @@
   </wsdl:message>
   <wsdl:message name="DeleteAccountBlogAuthorSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountBlogAuthorResponse" />
+  </wsdl:message>
+  <wsdl:message name="MoveDiscussionPostSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveDiscussionPost" />
+  </wsdl:message>
+  <wsdl:message name="MoveDiscussionPostSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveDiscussionPostResponse" />
   </wsdl:message>
   <wsdl:message name="SearchAccountBlogPostsSoapIn">
     <wsdl:part name="parameters" element="tns:SearchAccountBlogPosts" />
@@ -570,6 +622,11 @@
       <wsdl:input message="tns:DeleteAccountBlogPostSoapIn" />
       <wsdl:output message="tns:DeleteAccountBlogPostSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="MoveAccountBlogPost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a blog post to another blog.</wsdl:documentation>
+      <wsdl:input message="tns:MoveAccountBlogPostSoapIn" />
+      <wsdl:output message="tns:MoveAccountBlogPostSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetAccountBlogAuthorsCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account blog authors count.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountBlogAuthorsCountSoapIn" />
@@ -594,6 +651,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a blog author.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountBlogAuthorSoapIn" />
       <wsdl:output message="tns:DeleteAccountBlogAuthorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveDiscussionPost">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a discussion post to a blog.</wsdl:documentation>
+      <wsdl:input message="tns:MoveDiscussionPostSoapIn" />
+      <wsdl:output message="tns:MoveDiscussionPostSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchAccountBlogPosts">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search blog posts.</wsdl:documentation>
@@ -725,6 +787,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="MoveAccountBlogPost">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountBlogPost" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAccountBlogAuthorsCount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogAuthorsCount" style="document" />
       <wsdl:input>
@@ -763,6 +834,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountBlogAuthor">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountBlogAuthor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDiscussionPost">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MoveDiscussionPost" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -908,6 +988,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="MoveAccountBlogPost">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveAccountBlogPost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAccountBlogAuthorsCount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountBlogAuthorsCount" style="document" />
       <wsdl:input>
@@ -946,6 +1035,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountBlogAuthor">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountBlogAuthor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDiscussionPost">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MoveDiscussionPost" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

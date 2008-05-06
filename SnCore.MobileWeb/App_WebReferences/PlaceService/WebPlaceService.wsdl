@@ -275,6 +275,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="Counter" type="tns:TransitCounter" />
               <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -402,6 +403,18 @@
         </s:complexType>
       </s:element>
       <s:element name="DeletePlacePictureResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="MovePlacePicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="disp" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MovePlacePictureResponse">
         <s:complexType />
       </s:element>
       <s:element name="GetPlacePictureIfModifiedSinceById">
@@ -772,6 +785,21 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAccountPlaceRequestsByAccountIdResult" type="tns:ArrayOfTransitAccountPlaceRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPlaceRequestsByAccountIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPlaceRequestsByAccountIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountPlaceRequestsByAccountIdCountResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1900,6 +1928,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="TimeZone" type="s:int" />
               <s:element minOccurs="0" maxOccurs="1" name="Signature" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="LCID" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Culture" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
             </s:sequence>
           </s:extension>
@@ -2204,6 +2234,12 @@
   <wsdl:message name="DeletePlacePictureSoapOut">
     <wsdl:part name="parameters" element="tns:DeletePlacePictureResponse" />
   </wsdl:message>
+  <wsdl:message name="MovePlacePictureSoapIn">
+    <wsdl:part name="parameters" element="tns:MovePlacePicture" />
+  </wsdl:message>
+  <wsdl:message name="MovePlacePictureSoapOut">
+    <wsdl:part name="parameters" element="tns:MovePlacePictureResponse" />
+  </wsdl:message>
   <wsdl:message name="GetPlacePictureIfModifiedSinceByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetPlacePictureIfModifiedSinceById" />
   </wsdl:message>
@@ -2323,6 +2359,12 @@
   </wsdl:message>
   <wsdl:message name="GetAccountPlaceRequestsByAccountIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountPlaceRequestsByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPlaceRequestsByAccountIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPlaceRequestsByAccountIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPlaceRequestsByAccountIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPlaceRequestsByAccountIdCountResponse" />
   </wsdl:message>
   <wsdl:message name="DeleteAccountPlaceRequestSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountPlaceRequest" />
@@ -2823,6 +2865,11 @@
       <wsdl:input message="tns:DeletePlacePictureSoapIn" />
       <wsdl:output message="tns:DeletePlacePictureSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="MovePlacePicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Move a place picture.</wsdl:documentation>
+      <wsdl:input message="tns:MovePlacePictureSoapIn" />
+      <wsdl:output message="tns:MovePlacePictureSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetPlacePictureIfModifiedSinceById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get place picture picture data if modified since.</wsdl:documentation>
       <wsdl:input message="tns:GetPlacePictureIfModifiedSinceByIdSoapIn" />
@@ -2922,6 +2969,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get place requests by account id.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountPlaceRequestsByAccountIdSoapIn" />
       <wsdl:output message="tns:GetAccountPlaceRequestsByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPlaceRequestsByAccountIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get the number of place requests by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPlaceRequestsByAccountIdCountSoapIn" />
+      <wsdl:output message="tns:GetAccountPlaceRequestsByAccountIdCountSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountPlaceRequest">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a place request.</wsdl:documentation>
@@ -3428,6 +3480,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="MovePlacePicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MovePlacePicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetPlacePictureIfModifiedSinceById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlacePictureIfModifiedSinceById" style="document" />
       <wsdl:input>
@@ -3601,6 +3662,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountPlaceRequestsByAccountId">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPlaceRequestsByAccountIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountIdCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -4385,6 +4455,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="MovePlacePicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MovePlacePicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetPlacePictureIfModifiedSinceById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlacePictureIfModifiedSinceById" style="document" />
       <wsdl:input>
@@ -4558,6 +4637,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountPlaceRequestsByAccountId">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPlaceRequestsByAccountIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPlaceRequestsByAccountIdCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

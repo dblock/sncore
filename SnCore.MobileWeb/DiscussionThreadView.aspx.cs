@@ -89,7 +89,7 @@ public partial class DiscussionThreadView : Page
     void discussionThreadView_OnGetDataSource(object sender, EventArgs e)
     {
         discussionThreadView.DataSource = SessionManager.DiscussionService.GetDiscussionThreadPosts(
-            SessionManager.Ticket, DiscussionThreadId);
+            SessionManager.Ticket, DiscussionThreadId, null);
     }
 
     public int OuterWidth

@@ -44,6 +44,8 @@ namespace SnCore.BackEnd.Tests
             CleanupTestGenerated<ManagedTagWord, TagWord>(sec, "Word");
             CleanupTestGenerated<ManagedDiscussion, Discussion>(sec);
             CleanupTestGenerated<ManagedCounter, Counter>(sec, "Uri");
+            CleanupTestGenerated<ManagedAccountBlogPost, AccountBlogPost>(sec, "Title");
+            CleanupTestGenerated<ManagedAccountBlog, AccountBlog>(sec);
         }
 
         public void CleanupTestGenerated<ManagedType, DatabaseType>(ManagedSecurityContext sec)
