@@ -1582,11 +1582,11 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] has joined", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                        string.Format("[user:{0}] joined", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
                     break;
                 case DataOperation.Update:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance,
-                        string.Format("[user:{0}] has updated the public profile", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
+                        string.Format("[user:{0}] updated the public profile", mInstance.Id), string.Format("AccountView.aspx?id={0}", mInstance.Id)));
                     break;
                 case DataOperation.Delete:
                     result.Add(ManagedAccountAuditEntry.CreateSystemAccountAuditEntry(session, mInstance,

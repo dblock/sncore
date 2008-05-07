@@ -1068,26 +1068,26 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFriendAuditEntriesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountFriendAuditEntriesCount(string ticket, int id) {
+        public int GetAccountFriendAuditEntriesCount(string ticket, TransitAccountAuditEntryQueryOptions qopt) {
             object[] results = this.Invoke("GetAccountFriendAuditEntriesCount", new object[] {
                         ticket,
-                        id});
+                        qopt});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountFriendAuditEntriesCountAsync(string ticket, int id) {
-            this.GetAccountFriendAuditEntriesCountAsync(ticket, id, null);
+        public void GetAccountFriendAuditEntriesCountAsync(string ticket, TransitAccountAuditEntryQueryOptions qopt) {
+            this.GetAccountFriendAuditEntriesCountAsync(ticket, qopt, null);
         }
         
         /// <remarks/>
-        public void GetAccountFriendAuditEntriesCountAsync(string ticket, int id, object userState) {
+        public void GetAccountFriendAuditEntriesCountAsync(string ticket, TransitAccountAuditEntryQueryOptions qopt, object userState) {
             if ((this.GetAccountFriendAuditEntriesCountOperationCompleted == null)) {
                 this.GetAccountFriendAuditEntriesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFriendAuditEntriesCountOperationCompleted);
             }
             this.InvokeAsync("GetAccountFriendAuditEntriesCount", new object[] {
                         ticket,
-                        id}, this.GetAccountFriendAuditEntriesCountOperationCompleted, userState);
+                        qopt}, this.GetAccountFriendAuditEntriesCountOperationCompleted, userState);
         }
         
         private void OnGetAccountFriendAuditEntriesCountOperationCompleted(object arg) {
@@ -1099,27 +1099,27 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFriendAuditEntries", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountAuditEntry[] GetAccountFriendAuditEntries(string ticket, int id, ServiceQueryOptions options) {
+        public TransitAccountAuditEntry[] GetAccountFriendAuditEntries(string ticket, TransitAccountAuditEntryQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetAccountFriendAuditEntries", new object[] {
                         ticket,
-                        id,
+                        qopt,
                         options});
             return ((TransitAccountAuditEntry[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountFriendAuditEntriesAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountFriendAuditEntriesAsync(ticket, id, options, null);
+        public void GetAccountFriendAuditEntriesAsync(string ticket, TransitAccountAuditEntryQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetAccountFriendAuditEntriesAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetAccountFriendAuditEntriesAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+        public void GetAccountFriendAuditEntriesAsync(string ticket, TransitAccountAuditEntryQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetAccountFriendAuditEntriesOperationCompleted == null)) {
                 this.GetAccountFriendAuditEntriesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFriendAuditEntriesOperationCompleted);
             }
             this.InvokeAsync("GetAccountFriendAuditEntries", new object[] {
                         ticket,
-                        id,
+                        qopt,
                         options}, this.GetAccountFriendAuditEntriesOperationCompleted, userState);
         }
         
@@ -1183,6 +1183,99 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1434")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountAuditEntryQueryOptions {
+        
+        private string sortOrderField;
+        
+        private bool sortAscendingField;
+        
+        private bool systemField;
+        
+        private bool privateField;
+        
+        private bool broadcastField;
+        
+        private int accountIdField;
+        
+        private bool friendsField;
+        
+        /// <remarks/>
+        public string SortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool SortAscending {
+            get {
+                return this.sortAscendingField;
+            }
+            set {
+                this.sortAscendingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool System {
+            get {
+                return this.systemField;
+            }
+            set {
+                this.systemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Private {
+            get {
+                return this.privateField;
+            }
+            set {
+                this.privateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Broadcast {
+            get {
+                return this.broadcastField;
+            }
+            set {
+                this.broadcastField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Friends {
+            get {
+                return this.friendsField;
+            }
+            set {
+                this.friendsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitAccountAuditEntry))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1434")]
     [System.SerializableAttribute()]
@@ -1227,6 +1320,8 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         private int accountIdField;
         
         private bool isSystemField;
+        
+        private bool isBroadcastField;
         
         private bool isPrivateField;
         
@@ -1307,6 +1402,16 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             }
             set {
                 this.isSystemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsBroadcast {
+            get {
+                return this.isBroadcastField;
+            }
+            set {
+                this.isBroadcastField = value;
             }
         }
         

@@ -260,7 +260,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has added {1} to websites",
+                        string.Format("[user:{0}] added {1} to websites",
                         mInstance.Account.Id, mInstance.Url),
                         string.Format("AccountView.aspx?id={0}", mInstance.Account.Id)));
                     break;

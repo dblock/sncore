@@ -33,6 +33,7 @@
           &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Updated")) %>
          </span>
          &#187; <a href='<%# Eval("Url") %>'>click</a>
+         <%# (bool) Eval("IsBroadcast") ? "<img src='images/account/broadcast.gif' valign='absmiddle'>" : string.Empty %>
         </div>
        </div>
       </div>

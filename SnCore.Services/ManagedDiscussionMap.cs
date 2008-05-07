@@ -262,7 +262,7 @@ namespace SnCore.Services
             new ManagedDiscussionMapEntry<AccountGroup>(GetOwnerId, GetObjectName, GetACL,
                 "Group Discussion", string.Empty, "AccountGroupView.aspx?id={0}"),
             new ManagedDiscussionMapEntry<AccountAuditEntry>(GetOwnerId, GetObjectName, GetACL,
-                "Broadcast", string.Empty, "AccountAuditEntry.aspx?id={0}")
+                "Broadcast", string.Empty, string.Empty)
         };
 
         public static ManagedDiscussionMapEntry Find(ISession session, int dataobject_id)

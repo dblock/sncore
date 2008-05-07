@@ -448,7 +448,7 @@ namespace SnCore.Services
                 case DataOperation.Create:
                     string url = string.Format("AccountFeedItemView.aspx?id={0}", mInstance.Id);
                     AccountAuditEntry entry = ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountFeed.Account,
-                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [feed:{3}]",
+                        string.Format("[user:{0}] x-posted <a href=\"{1}\">{2}</a> in [feed:{3}]",
                         mInstance.AccountFeed.Account.Id, url, Renderer.Render(mInstance.Title), mInstance.AccountFeed.Id),
                         url);
                     entry.Created = entry.Updated = mInstance.Created;

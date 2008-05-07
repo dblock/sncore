@@ -44,5 +44,11 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             // delete the user
             DeleteUser(user_id); 
         }
+
+        [Test]
+        protected void GetAccountFriendBroadcastAuditEntriesTest()
+        {
+
+        }
     }
 }

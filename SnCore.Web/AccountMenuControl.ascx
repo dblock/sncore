@@ -13,6 +13,9 @@
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/broadcast.gif" /></td><td width="*"><asp:LinkButton ID="linkBroadcast" runat="server" OnClick="linkBroadcast_Click" Text="<%$ Resources:Links, Broadcast %>" /></td></tr>
+ <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountAuditEntriesManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, Sent %>" /></a></td></tr>
+</table>
+<table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/inbox.gif" /></td><td width="*"><a runat="server" id="linkInbox" href="AccountMessageFoldersManage.aspx?folder=inbox"><asp:Literal runat="server" Text="<%$ Resources:Links, Inbox %>" /></a>
   <img src="images/account/star.gif" align="absmiddle" runat="server" id="linkRequestsStar" /></td></tr>
  <tr><td width="30" align="center"><img src="images/account/sent.gif" /></td><td width="*"><a href="AccountMessageFoldersManage.aspx?folder=sent"><asp:Literal runat="server" Text="<%$ Resources:Links, Sent %>" /></a></td></tr>

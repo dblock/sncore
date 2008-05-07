@@ -798,7 +798,7 @@ namespace SnCore.Services
 
                 // group items for auditing
                 ManagedAccountAuditEntryCollection audit_coll = new ManagedAccountAuditEntryCollection();
-                audit_coll.MessageFormat = string.Format("[user:{0}] has posted {{0}} in [feed:{1}]",
+                audit_coll.MessageFormat = string.Format("[user:{0}] x-posted {{0}} in [feed:{1}]",
                     mInstance.Account.Id, mInstance.Id);
 
                 for (int i = 0; i < updated.Count; i++)
@@ -1023,7 +1023,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has syndicated [feed:{1}]",
+                        string.Format("[user:{0}] syndicated [feed:{1}]",
                         mInstance.Account.Id, mInstance.Id),
                         string.Format("AccountFeedView.aspx?id={0}", mInstance.Id)));
                     break;

@@ -387,7 +387,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has started a new blog: [blog:{1}]", 
+                        string.Format("[user:{0}] started a new blog: [blog:{1}]", 
                         mInstance.Account.Id, mInstance.Id),
                         string.Format("AccountBlogView.aspx?id={0}", mInstance.Id)));
                     break;

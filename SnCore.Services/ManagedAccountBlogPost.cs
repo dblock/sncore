@@ -426,7 +426,7 @@ namespace SnCore.Services
                 case DataOperation.Create:
                     string url = string.Format("AccountBlogPostView.aspx?id={0}", mInstance.Id);
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.AccountBlog.Account,
-                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [blog:{3}]",
+                        string.Format("[user:{0}] posted <a href=\"{1}\">{2}</a> in [blog:{3}]",
                         mInstance.AccountBlog.Account.Id, url, Renderer.Render(mInstance.Title), mInstance.AccountBlog.Id),
                         url));
                     break;

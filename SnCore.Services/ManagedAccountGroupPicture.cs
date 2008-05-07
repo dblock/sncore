@@ -331,7 +331,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has uploaded a new picture to [group:{1}]",
+                        string.Format("[user:{0}] uploaded a new picture to [group:{1}]",
                         mInstance.Account.Id, mInstance.AccountGroup.Id),
                         string.Format("AccountGroupPictureView.aspx?id={0}", mInstance.Id)));
                     break;

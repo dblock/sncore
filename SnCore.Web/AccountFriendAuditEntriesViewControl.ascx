@@ -41,6 +41,10 @@
          &#187; <%# SessionManager.ToAdjustedString((DateTime) Eval("Updated")) %>
         </span>
         &#187; <a href='<%# Eval("Url") %>'>click</a>
+        <%# (bool) Eval("IsBroadcast") ? "<img src='images/account/broadcast.gif' valign='absmiddle'>" : string.Empty %>
+        <asp:LinkButton ID="linkForward" OnCommand="linkForward_Command" CommandArgument='<%# Eval("Id") %>' 
+         CommandName="Forward" Text='<%# (bool) Eval("IsBroadcast") ? "&#187; forward" : "&#187; broadcast" %>' runat="server"
+         Visible='<%# ! (bool) Eval("IsBroadcast") || ((int) Eval("AccountId") != SessionManager.AccountId) %>' OnClientClick="this.disabled = 'disabled';" />
        </div>
       </div>
      </div>

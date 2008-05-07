@@ -275,7 +275,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has added [place:{1}] to favorites",
+                        string.Format("[user:{0}] added [place:{1}] to favorites",
                         mInstance.Account.Id, mInstance.Place.Id),
                         string.Format("PlaceView.aspx?id={0}", mInstance.Place.Id)));
                     break;

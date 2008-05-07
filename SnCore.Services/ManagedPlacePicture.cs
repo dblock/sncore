@@ -440,7 +440,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has added a picture to [place:{1}]",
+                        string.Format("[user:{0}] added a picture to [place:{1}]",
                         mInstance.Account.Id, mInstance.Place.Id),
                         string.Format("PlacePictureView.aspx?id={0}", mInstance.Id)));
                     break;

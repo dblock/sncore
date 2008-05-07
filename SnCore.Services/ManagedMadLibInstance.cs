@@ -329,7 +329,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has posted a new mad lib in [{1}:{2}]",
+                        string.Format("[user:{0}] posted a new mad lib in [{1}:{2}]",
                         mInstance.AccountId, mInstance.DataObject.Name.ToLower(), mInstance.ObjectId),
                         string.Format("{0}View.aspx?id={1}", mInstance.DataObject.Name, mInstance.ObjectId)));
                     break;

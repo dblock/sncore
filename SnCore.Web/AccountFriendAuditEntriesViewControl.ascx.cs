@@ -42,6 +42,18 @@ public partial class FriendAuditEntriesViewControl : Control
         }
     }
 
+    public bool Friends
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "Friends", true);
+        }
+        set
+        {
+            ViewState["Friends"] = value;
+        }
+    }
+
     public int OuterWidth
     {
         get
@@ -83,6 +95,7 @@ public partial class FriendAuditEntriesViewControl : Control
         TransitAccountAuditEntryQueryOptions qopt = new TransitAccountAuditEntryQueryOptions();
         qopt.AccountId = AccountId;
         qopt.Broadcast = Broadcast;
+        qopt.Friends = Friends;
         qopt.System = false;
         qopt.Private = false;
         return qopt;
@@ -105,8 +118,8 @@ public partial class FriendAuditEntriesViewControl : Control
 
         if (!IsPostBack)
         {
-            linkFriendsActivity.NavigateUrl = string.Format("AccountFriendAuditEntriesRss.aspx?Title={0}&Broadcast={1}",
-                Renderer.UrlEncode(Title), Broadcast);
+            linkFriendsActivity.NavigateUrl = string.Format("AccountFriendAuditEntriesRss.aspx?Title={0}&Broadcast={1}&Friends={2}",
+                Renderer.UrlEncode(Title), Broadcast, Friends);
 
             if (AccountId == 0)
                 return;
@@ -125,5 +138,23 @@ public partial class FriendAuditEntriesViewControl : Control
         {
             ViewState["AccountId"] = value;
         }
+    }
+
+    public void linkForward_Command(object sender, CommandEventArgs e)
+    {
+        TransitAccountAuditEntry t_instance = SessionManager.GetInstance<TransitAccountAuditEntry, int>(
+            int.Parse(e.CommandArgument.ToString()), SessionManager.SocialService.GetAccountAuditEntryById);
+        if (t_instance.IsBroadcast && t_instance.AccountId == SessionManager.AccountId)
+            throw new Exception("You cannot forward your own broadcast.");
+        TransitAccountAuditEntry t_forward = new TransitAccountAuditEntry();
+        t_forward.AccountId = SessionManager.AccountId;
+        t_forward.Description = string.Format("[user:{0}] forwarded: {1}", SessionManager.AccountId, t_instance.Description);
+        t_forward.IsBroadcast = true;
+        t_forward.IsPrivate = false;
+        t_forward.IsSystem = false;
+        t_forward.Url = t_instance.Url;
+        SessionManager.CreateOrUpdate<TransitAccountAuditEntry>(
+            t_forward, SessionManager.SocialService.CreateOrUpdateAccountAuditEntry);
+        ReportInfo("Message has been successfully broadcasted to your friends!");
     }
 }

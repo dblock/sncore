@@ -567,33 +567,46 @@ namespace SnCore.Services
                 ManagedAccountFlag.GetAccountFlagsByFlaggedAccountId(Session, sec.Account.Id));
         }
 
+        public AccountAuditEntry GetPublicAccountAuditEntry(ISession session, ManagedSecurityContext sec)
+        {
+            string url = string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id);
+            AccountAuditEntry audit_entry = ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
+                string.Format("[user:{0}] posted <a href=\"{1}\">{2}</a> in [discussion:{3}]",
+                    mInstance.AccountId, url, Renderer.Render(mInstance.Subject), mInstance.DiscussionThread.Discussion.Id), url);
+            return audit_entry;
+        }
+
+        public AccountAuditEntry GetBroadcastAccountAuditEntry(ISession session, ManagedSecurityContext sec)
+        {
+            if (mInstance.DiscussionPostParent != null)
+                return null;
+
+            if (mInstance.DiscussionThread.Discussion.DataObject.Name != typeof(AccountAuditEntry).Name)
+                return null;
+
+            AccountAuditEntry broadcast_audit_entry = session.Load<AccountAuditEntry>(mInstance.DiscussionThread.Discussion.ObjectId);
+            if (! broadcast_audit_entry.IsBroadcast)
+                return null;
+
+            broadcast_audit_entry.Url = string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id);
+            broadcast_audit_entry.Description = string.Format("[user:{0}] broadcasted <a href=\"{1}\">{2}</a><p>{3}</p>",
+                mInstance.AccountId, broadcast_audit_entry.Url, Renderer.Render(mInstance.Subject), Renderer.GetSummary(mInstance.Body));
+            broadcast_audit_entry.IsPrivate = false;
+            return broadcast_audit_entry;
+        }
+
         public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)
         {
             List<AccountAuditEntry> result = new List<AccountAuditEntry>();
             switch (op)
             {
+                case DataOperation.Update:
+                    AccountAuditEntry broadcast_audit_entry = GetBroadcastAccountAuditEntry(session, sec);
+                    if (broadcast_audit_entry != null) result.Add(broadcast_audit_entry);
+                    break;
                 case DataOperation.Create:
-                    
-                    string url = string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id);
-
-                    // update broadcast draft
-                    if (mInstance.DiscussionThread.Discussion.DataObject.Name == typeof(AccountAuditEntry).Name)
-                    {
-                        AccountAuditEntry broadcast_audit_entry = session.Load<AccountAuditEntry>(mInstance.DiscussionThread.Discussion.ObjectId);
-                        if (broadcast_audit_entry.IsBroadcast)
-                        {
-                            broadcast_audit_entry.Description = string.Format("[user:{0}] has broadcasted <a href=\"{1}\">{2}</a><p>{3}</p>",
-                                mInstance.AccountId, url, Renderer.Render(mInstance.Subject), Renderer.GetSummary(mInstance.Body));
-                            broadcast_audit_entry.Url = url;
-                            broadcast_audit_entry.IsPrivate = false;
-                            result.Add(broadcast_audit_entry);
-                            break;
-                        }
-                    }
-
-                    AccountAuditEntry audit_entry = ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account, 
-                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [discussion:{3}]", 
-                            mInstance.AccountId, url, Renderer.Render(mInstance.Subject), mInstance.DiscussionThread.Discussion.Id), url);
+                    AccountAuditEntry audit_entry = GetBroadcastAccountAuditEntry(session, sec);
+                    if (audit_entry == null) audit_entry = GetPublicAccountAuditEntry(session, sec);
                     result.Add(audit_entry);
                     break;
             }

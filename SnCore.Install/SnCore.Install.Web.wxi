@@ -36,6 +36,7 @@
      <File Id="SnCoreAccountAttributesManage_aspx" Name="AccountAttributesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountAttributesManage.aspx" />
      <File Id="SnCoreAccountAttributesViewControl_ascx" Name="AccountAttributesViewControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountAttributesViewControl.ascx" />
      <File Id="SnCoreAccountAuditEntriesView_aspx" Name="AccountAuditEntriesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountAuditEntriesView.aspx" />
+     <File Id="SnCoreAccountAuditEntriesManage_aspx" Name="AccountAuditEntriesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountAuditEntriesManage.aspx" />
      <File Id="SnCoreAccountBlogAuthorEdit_aspx" Name="AccountBlogAuthorEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountBlogAuthorEdit.aspx" />
      <File Id="SnCoreAccountBlogEdit_aspx" Name="AccountBlogEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountBlogEdit.aspx" />
      <File Id="SnCoreAccountBlogPost_aspx" Name="AccountBlogPost.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountBlogPost.aspx" />

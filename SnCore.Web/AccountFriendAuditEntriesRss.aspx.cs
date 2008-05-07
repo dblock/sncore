@@ -32,6 +32,16 @@ public partial class AccountFriendAuditEntriesRss : Page
         }
     }
 
+    public bool Friends
+    {
+        get
+        {
+            bool result = true;
+            bool.TryParse(Request["Friends"], out result);
+            return result;
+        }
+    }
+
     public string RssTitle
     {
         get
@@ -56,6 +66,7 @@ public partial class AccountFriendAuditEntriesRss : Page
         TransitAccountAuditEntryQueryOptions qopt = new TransitAccountAuditEntryQueryOptions();
         qopt.AccountId = AccountId;
         qopt.Broadcast = Broadcast;
+        qopt.Friends = Friends;
         qopt.System = false;
         qopt.Private = false;
         return qopt;

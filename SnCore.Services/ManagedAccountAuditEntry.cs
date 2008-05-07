@@ -29,6 +29,7 @@ namespace SnCore.Services
         public bool Private = false;
         public bool Broadcast = false;
         public int AccountId = 0;
+        public bool Friends = true; // show friends' activity vs. my own
 
         public TransitAccountAuditEntryQueryOptions()
         {
@@ -40,9 +41,17 @@ namespace SnCore.Services
 
             if (AccountId != 0)
             {
-                b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )", AccountId);
-                b.AppendFormat(" AND AccountAuditEntry.Account_Id <> {0}", AccountId);
+                if (Friends)
+                {
+                    b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                    b.AppendFormat("( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )", AccountId);
+                    b.AppendFormat(" AND AccountAuditEntry.Account_Id <> {0}", AccountId);
+                }
+                else
+                {
+                    b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                    b.AppendFormat(" AccountAuditEntry.Account_Id = {0}", AccountId);
+                }
             }
 
             if (!System)
@@ -68,9 +77,12 @@ namespace SnCore.Services
                 b.Append("AccountAuditEntry.IsBroadcast = 1");
             }
 
-            b.Insert(0, "INNER JOIN AccountFriend AccountFriend ON ( " +
-                "AccountAuditEntry.Account_Id = AccountFriend.Account_Id " +
-                "OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id )");
+            if (Friends)
+            {
+                b.Insert(0, "INNER JOIN AccountFriend AccountFriend ON ( " +
+                    "AccountAuditEntry.Account_Id = AccountFriend.Account_Id " +
+                    "OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id )");
+            }
 
             return b.ToString();
         }

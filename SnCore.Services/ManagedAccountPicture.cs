@@ -362,7 +362,7 @@ namespace SnCore.Services
                 case DataOperation.Create:
                     List<AccountAuditEntry> result = new List<AccountAuditEntry>();
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has uploaded a new picture",
+                        string.Format("[user:{0}] uploaded a new picture",
                             mInstance.Account.Id, mInstance.Id), string.Format("AccountPictureView.aspx?id={0}", mInstance.Id)));
                     return result;
                 default:

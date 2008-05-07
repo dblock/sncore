@@ -920,7 +920,7 @@ namespace SnCore.Services
                 case DataOperation.Create:
                     List<AccountAuditEntry> result = new List<AccountAuditEntry>();
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, mInstance.Account,
-                        string.Format("[user:{0}] has added [place:{1}]{2}",
+                        string.Format("[user:{0}] added [place:{1}]{2}",
                         mInstance.Account.Id, mInstance.Id,
                         mInstance.City == null ? string.Empty : string.Format(" in {0}", mInstance.City.Name)), 
                         string.Format("PlaceView.aspx?id={0}", mInstance.Id)));

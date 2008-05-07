@@ -382,7 +382,7 @@ namespace SnCore.Services
             {
                 case DataOperation.Create:
                     result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has created [group:{1}]",
+                        string.Format("[user:{0}] created [group:{1}]",
                         sec.Account.Id, mInstance.Id),
                         string.Format("AccountGroupView.aspx?id={0}", mInstance.Id)));
                     break;
