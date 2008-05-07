@@ -35,7 +35,7 @@
          </table>       
         ]]>       
        </description>
-       <link><% Response.Write(WebsiteUrl); %>/<%# Eval("Url") %></link>
+       <link><![CDATA[<% Response.Write(WebsiteUrl); %>/<%# Eval("Url") %>]]></link>
        <guid isPermaLink="false"><% Response.Write(WebsiteUrl); %>/AccountAuditEntry/<%# Eval("Id") %></guid>
       </item>
      </ItemTemplate>

@@ -135,6 +135,9 @@
   <data name="Bookmarks" xml:space="preserve">
     <value>Bookmarks</value>
   </data>
+  <data name="Broadcast" xml:space="preserve">
+    <value>Broadcast</value>
+  </data>
   <data name="BugProjects" xml:space="preserve">
     <value>Bug Projects</value>
   </data>

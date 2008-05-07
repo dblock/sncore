@@ -451,18 +451,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>number of account friends audit entries</returns>
         [WebMethod(Description = "Get all account audit entries count.")]
-        public int GetAccountFriendAuditEntriesCount(string ticket, int id)
+        public int GetAccountFriendAuditEntriesCount(string ticket, TransitAccountAuditEntryQueryOptions qopt)
         {
             return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetSQLCount(
-                ticket, string.Format(
-                    "INNER JOIN AccountFriend AccountFriend ON ( " +
-                        "AccountAuditEntry.Account_Id = AccountFriend.Account_Id OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id " +
-                        ") WHERE ( " +
-                        " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
-                        " AND AccountAuditEntry.Account_Id <> {0}" +
-                        " AND AccountAuditEntry.IsSystem <> 1" +
-                        " AND AccountAuditEntry.IsPrivate <> 1" +
-                        ")", id));
+                ticket, qopt.CreateCountQuery());
         }
 
         /// <summary>
@@ -470,18 +462,10 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit audit entries</returns>
         [WebMethod(Description = "Get all account audit entries.")]
-        public List<TransitAccountAuditEntry> GetAccountFriendAuditEntries(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountAuditEntry> GetAccountFriendAuditEntries(string ticket, TransitAccountAuditEntryQueryOptions qopt, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetList(
-                ticket, options, "SELECT {AccountAuditEntry.*} FROM AccountAuditEntry {AccountAuditEntry} " + string.Format(
-                    "INNER JOIN AccountFriend AccountFriend ON ( " +
-                        "AccountAuditEntry.Account_Id = AccountFriend.Account_Id OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id " +
-                        ") WHERE ( " +
-                        " ( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )" +
-                        " AND AccountAuditEntry.Account_Id <> {0}" +
-                        " AND AccountAuditEntry.IsSystem <> 1" +
-                        " AND AccountAuditEntry.IsPrivate <> 1" +
-                        ") ORDER BY AccountAuditEntry.Updated DESC", id), "AccountAuditEntry");
+                ticket, options, qopt.CreateQuery(), "AccountAuditEntry");
         }
 
         #endregion

@@ -18,6 +18,30 @@ using SnCore.WebControls;
 
 public partial class FriendAuditEntriesViewControl : Control
 {
+    public string Title
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<string>(ViewState, "Title", "Audit Entries");
+        }
+        set
+        {
+            ViewState["Title"] = value;
+        }
+    }
+
+    public bool Broadcast
+    {
+        get
+        {
+            return ViewStateUtility.GetViewStateValue<bool>(ViewState, "Broadcast", false);
+        }
+        set
+        {
+            ViewState["Broadcast"] = value;
+        }
+    }
+
     public int OuterWidth
     {
         get
@@ -50,17 +74,28 @@ public partial class FriendAuditEntriesViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageSize = gridFriends.PageSize;
         options.PageNumber = gridFriends.CurrentPageIndex;
-        gridFriends.DataSource = SessionManager.GetCollection<TransitAccountAuditEntry, int>(
-            AccountId, options, SessionManager.SocialService.GetAccountFriendAuditEntries);
+        gridFriends.DataSource = SessionManager.GetCollection<TransitAccountAuditEntry, TransitAccountAuditEntryQueryOptions>(
+            GetQueryOptions(), options, SessionManager.SocialService.GetAccountFriendAuditEntries);
+    }
+
+    TransitAccountAuditEntryQueryOptions GetQueryOptions()
+    {
+        TransitAccountAuditEntryQueryOptions qopt = new TransitAccountAuditEntryQueryOptions();
+        qopt.AccountId = AccountId;
+        qopt.Broadcast = Broadcast;
+        qopt.System = false;
+        qopt.Private = false;
+        return qopt;
     }
 
     private void GetData()
     {
         gridFriends.CurrentPageIndex = 0;
-        gridFriends.VirtualItemCount = SessionManager.GetCount<TransitAccountAuditEntry, int>(
-            AccountId, SessionManager.SocialService.GetAccountFriendAuditEntriesCount);
+        gridFriends.VirtualItemCount = SessionManager.GetCount<TransitAccountAuditEntry, TransitAccountAuditEntryQueryOptions>(
+            GetQueryOptions(), SessionManager.SocialService.GetAccountFriendAuditEntriesCount);
         gridFriends_OnGetDataSource(this, null);
         gridFriends.DataBind();
+        this.Visible = (gridFriends.VirtualItemCount > 0);
     }
 
     public void Page_Load(object sender, EventArgs e)
@@ -70,6 +105,9 @@ public partial class FriendAuditEntriesViewControl : Control
 
         if (!IsPostBack)
         {
+            linkFriendsActivity.NavigateUrl = string.Format("AccountFriendAuditEntriesRss.aspx?Title={0}&Broadcast={1}",
+                Renderer.UrlEncode(Title), Broadcast);
+
             if (AccountId == 0)
                 return;
 

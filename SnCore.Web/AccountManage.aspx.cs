@@ -105,6 +105,7 @@ public partial class AccountManage : AuthenticatedPage
 
             groupsView.AccountId = SessionManager.AccountId;
             friendsView.AccountId = SessionManager.AccountId;
+            broadcastView.AccountId = SessionManager.AccountId;
 
             TransitAccountNumbers numbers = SessionManager.GetInstance<TransitAccountNumbers, int>(
                 SessionManager.AccountId, SessionManager.AccountService.GetAccountNumbersByAccountId);

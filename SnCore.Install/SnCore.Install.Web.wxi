@@ -511,6 +511,7 @@
       <File Id="SnCoreImagesSpacer_gif" Name="spacer.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\Spacer.gif" />
       <File Id="SnCoreImagesSpinner_gif" Name="spinner.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\spinner.gif" />
       <File Id="SnCoreImagesSubscribe_gif" Name="subscribe.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\subscribe.gif" />
+      <File Id="SnCoreImagesBroadcast_gif" Name="broadcast.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\broadcast.gif" />
      </Component>
      <Directory Id="SnCoreImagesAccount" Name="account">
       <Component Id="SnCoreImagesAccount" Guid="E20DA129-0BFA-44D0-8986-3D2B3D195E2D" DiskId="1">

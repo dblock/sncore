@@ -97,6 +97,7 @@
     <property name="Updated" columns="Updated" type="System.DateTime" />
     <property name="Url" columns="Url" type="System.String" />
     <property name="Md5" columns="Md5" type="System.String" />
+    <property name="IsBroadcast" columns="IsBroadcast" type="System.Boolean" />
   </class>
   <class name="AccountBlog" table="AccountBlog">
     <property name="Id" id="true" columns="AccountBlog_Id" type="System.Int32" />
@@ -1123,6 +1124,7 @@
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Url" type="String" prec="128" length="256" scale="0" />
       <column name="Md5" type="AnsiString" prec="16" length="16" scale="0" />
+      <column name="IsBroadcast" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountBlog">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountBlog_AccountBlog" />

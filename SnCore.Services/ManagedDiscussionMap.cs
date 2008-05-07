@@ -163,6 +163,7 @@ namespace SnCore.Services
         public static int GetOwnerId(AccountStoryPicture instance, int id) { return instance.AccountStory.Account.Id; }
         public static int GetOwnerId(AccountEvent instance, int id) { return instance.Account.Id; }
         public static int GetOwnerId(AccountEventPicture instance, int id) { return instance.AccountEvent.Account.Id; }
+        public static int GetOwnerId(AccountAuditEntry instance, int id) { return instance.AccountId; }
         
         public static int GetOwnerId(AccountGroup group, int id) 
         {
@@ -191,6 +192,7 @@ namespace SnCore.Services
         public static string GetObjectName(AccountEventPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountEvent.Name, instance.Name); }
         public static string GetObjectName(AccountGroupPicture instance, int id) { return string.Format("{0} Pictures: {1}", instance.AccountGroup.Name, instance.Name); }
         public static string GetObjectName(AccountGroup instance, int id) { return instance.Name; }
+        public static string GetObjectName(AccountAuditEntry instance, int id) { return "Broadcast"; }
 
         #endregion
 
@@ -208,6 +210,7 @@ namespace SnCore.Services
         public static ACL GetACL(ISession session, AccountEventPicture instance, Type type) { return new ManagedAccountEventPicture(session, instance).GetACL(type); }
         public static ACL GetACL(ISession session, AccountGroupPicture instance, Type type) { return new ManagedAccountGroupPicture(session, instance).GetACL(type); }
         public static ACL GetACL(ISession session, AccountGroup instance, Type type) { return new ManagedAccountGroup(session, instance).GetACL(type); }
+        public static ACL GetACL(ISession session, AccountAuditEntry instance, Type type) { return new ManagedAccountAuditEntry(session, instance).GetACL(type); }
 
         #endregion
 
@@ -257,7 +260,9 @@ namespace SnCore.Services
             new ManagedDiscussionMapEntry<AccountGroupPicture>(GetOwnerId, GetObjectName, GetACL, 
                 "Group Picture Comments", "AccountGroupPictureView.aspx?id={0}&#comments"),
             new ManagedDiscussionMapEntry<AccountGroup>(GetOwnerId, GetObjectName, GetACL,
-                "Group Discussion", string.Empty, "AccountGroupView.aspx?id={0}")
+                "Group Discussion", string.Empty, "AccountGroupView.aspx?id={0}"),
+            new ManagedDiscussionMapEntry<AccountAuditEntry>(GetOwnerId, GetObjectName, GetACL,
+                "Broadcast", string.Empty, "AccountAuditEntry.aspx?id={0}")
         };
 
         public static ManagedDiscussionMapEntry Find(ISession session, int dataobject_id)

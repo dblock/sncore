@@ -323,3 +323,11 @@ GO
 UPDATE dbo.AccountAuditEntry SET [Md5]=[AccountAuditEntry_Id] WHERE [Md5] IS NULL
 ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Md5] varchar(16) NOT NULL
 GO
+-- add IsBroadcast for private audit events (broadcast)
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IsBroadcast')
+ALTER TABLE dbo.AccountAuditEntry ADD [IsBroadcast] bit NULL
+INSERT INTO AccountRssWatch SELECT Account_Id, 'Friends'' Broadcasts', 'AccountFriendAuditEntriesRss.aspx?Title=Friends''+Broadcasts&Broadcast=True', getutcdate(), getutcdate(), getutcdate(), 24, 1, NULL FROM Account
+GO
+UPDATE dbo.AccountAuditEntry SET IsBroadcast = 0 WHERE IsBroadcast IS NULL
+ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [IsBroadcast] bit NOT NULL
+GO

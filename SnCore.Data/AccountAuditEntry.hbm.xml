@@ -13,5 +13,6 @@
     <property name="Updated" column="Updated" type="DateTime" />
     <property name="Url" column="Url" type="String" />
     <property name="Md5" column="Md5" type="String" />
+    <property name="IsBroadcast" column="IsBroadcast" type="Boolean" />
   </class>
 </hibernate-mapping>

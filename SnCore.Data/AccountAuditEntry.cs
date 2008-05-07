@@ -23,6 +23,7 @@
         private System.DateTime m_Updated;
         private System.String m_Url;
         private System.String m_Md5;
+        private System.Boolean m_IsBroadcast;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -257,7 +258,7 @@
         ///The accessibility level for the field 'm_Md5' that holds the value for this property is 'PrivateAccess'.
         ///
         ///Mapping information:
-        ///The property maps to the column 'MD5' in the data source.
+        ///The property maps to the column 'Md5' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
         virtual public System.String Md5
@@ -269,6 +270,31 @@
             set
             {
                 m_Md5 = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.Boolean'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_IsBroadcast' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'IsBroadcast' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Boolean IsBroadcast
+        {
+            get
+            {
+                return m_IsBroadcast;
+            }
+            set
+            {
+                m_IsBroadcast = value;
             }
         }
 

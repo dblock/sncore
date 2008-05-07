@@ -4,6 +4,19 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<table class="sncore_half_inner_table">
+ <tr>
+  <td>
+   <div class="sncore_h2">
+    <% Response.Write(Renderer.Render(Title)); %>
+   </div>
+  </td>
+  <td align="right" valign="middle">
+   <SnCore:RssLink ID="linkFriendsActivity" runat="server" Title="Activity RSS"
+    NavigateUrl="AccountFriendAuditEntriesRss.aspx" />
+  </td>
+ </tr>
+</table>
 <asp:UpdatePanel runat="server" ID="panelAuditEntries" UpdateMode="Always" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridFriends" 

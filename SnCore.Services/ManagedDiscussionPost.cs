@@ -573,11 +573,28 @@ namespace SnCore.Services
             switch (op)
             {
                 case DataOperation.Create:
+                    
                     string url = string.Format("DiscussionThreadView.aspx?id={0}&did={1}", mInstance.DiscussionThread.Id, mInstance.DiscussionThread.Discussion.Id);
-                    result.Add(ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account,
-                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [discussion:{3}]",
-                        mInstance.AccountId, url, Renderer.Render(mInstance.Subject), mInstance.DiscussionThread.Discussion.Id),
-                        url));
+
+                    // update broadcast draft
+                    if (mInstance.DiscussionThread.Discussion.DataObject.Name == typeof(AccountAuditEntry).Name)
+                    {
+                        AccountAuditEntry broadcast_audit_entry = session.Load<AccountAuditEntry>(mInstance.DiscussionThread.Discussion.ObjectId);
+                        if (broadcast_audit_entry.IsBroadcast)
+                        {
+                            broadcast_audit_entry.Description = string.Format("[user:{0}] has broadcasted <a href=\"{1}\">{2}</a><p>{3}</p>",
+                                mInstance.AccountId, url, Renderer.Render(mInstance.Subject), Renderer.GetSummary(mInstance.Body));
+                            broadcast_audit_entry.Url = url;
+                            broadcast_audit_entry.IsPrivate = false;
+                            result.Add(broadcast_audit_entry);
+                            break;
+                        }
+                    }
+
+                    AccountAuditEntry audit_entry = ManagedAccountAuditEntry.CreatePublicAccountAuditEntry(session, sec.Account, 
+                        string.Format("[user:{0}] has posted <a href=\"{1}\">{2}</a> in [discussion:{3}]", 
+                            mInstance.AccountId, url, Renderer.Render(mInstance.Subject), mInstance.DiscussionThread.Discussion.Id), url);
+                    result.Add(audit_entry);
                     break;
             }
             return result;

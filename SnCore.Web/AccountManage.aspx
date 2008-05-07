@@ -39,7 +39,7 @@
      </div>
      <div>
       <asp:HyperLink ID="accountDiscussionThreads" NavigateUrl="AccountDiscussionThreadsView.aspx" runat="server" />
-     </div>      
+     </div>
     </div>
    </td>
   </tr>
@@ -47,18 +47,6 @@
  <SnCore:Notice ID="noticeVerifiedEmail" runat="server" />
  <SnCore:AccountReminder ID="accountReminder" runat="server" Style="width: 582px;" />
  <SnCore:GroupsView runat="server" ID="groupsView" PublicOnly="false" />
- <table class="sncore_half_inner_table">
-  <tr>
-   <td>
-    <div class="sncore_h2">
-     Friends' Activity
-    </div>
-   </td>
-   <td align="right" valign="middle">
-    <SnCore:RssLink ID="linkFriendsActivity" runat="server" Title="Friends' Activity" 
-     NavigateUrl="AccountFriendAuditEntriesRss.aspx" />
-   </td>
-  </tr>
- </table>
- <SnCore:AccountFriendAuditEntriesView id="friendsView" Max="5" runat="server" />
+ <SnCore:AccountFriendAuditEntriesView id="broadcastView" Broadcast="true" Max="5" runat="server" Title="Friends' Broadcasts" />
+ <SnCore:AccountFriendAuditEntriesView id="friendsView" Max="5" runat="server" Title="Friends' Activity" />
 </asp:Content>

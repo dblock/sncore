@@ -331,10 +331,20 @@ namespace SnCore.BackEndServices
 
         public void RunCleanAccountAuditEntries(ISession session, ManagedSecurityContext sec)
         {
-            session.Delete(string.Format(
-                "FROM AccountAuditEntry aae " +
-                " WHERE aae.Updated < '{0}'", DateTime.UtcNow.AddDays(-14)));
-            session.Flush();
+            IEnumerable<AccountAuditEntry> audit_entries = session.CreateQuery(
+                string.Format(
+                 "FROM AccountAuditEntry AccountAuditEntry" +
+                 " WHERE AccountAuditEntry.Updated < '{0}'", DateTime.UtcNow.AddDays(-14)))
+                 .Enumerable<AccountAuditEntry>();
+
+            IEnumerator<AccountAuditEntry> enumerator = audit_entries.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                AccountAuditEntry audit_entry = enumerator.Current;
+                ManagedAccountAuditEntry ma = new ManagedAccountAuditEntry(session, audit_entry);
+                ma.Delete(sec);
+                session.Flush();
+            }
         }
 
         public void RunDeleteOldAccountMessages(ISession session, ManagedSecurityContext sec)

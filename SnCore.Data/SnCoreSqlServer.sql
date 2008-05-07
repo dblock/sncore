@@ -164,6 +164,7 @@ CREATE TABLE [dbo].[AccountAuditEntry](
 	[Created] [datetime] NOT NULL,
 	[Updated] [datetime] NOT NULL,
 	[Md5] [varchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[IsBroadcast] [bit] NOT NULL,
  CONSTRAINT [PK_AccountAuditEntry] PRIMARY KEY CLUSTERED 
 (
 	[AccountAuditEntry_Id] ASC

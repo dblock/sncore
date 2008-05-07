@@ -21,6 +21,79 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
+    public class TransitAccountAuditEntryQueryOptions
+    {
+        public string SortOrder = "Updated";
+        public bool SortAscending = false;
+        public bool System = false;
+        public bool Private = false;
+        public bool Broadcast = false;
+        public int AccountId = 0;
+
+        public TransitAccountAuditEntryQueryOptions()
+        {
+        }
+
+        public string CreateSubQuery()
+        {
+            StringBuilder b = new StringBuilder();
+
+            if (AccountId != 0)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.AppendFormat("( AccountFriend.Account_Id = {0} OR AccountFriend.Keen_Id = {0} )", AccountId);
+                b.AppendFormat(" AND AccountAuditEntry.Account_Id <> {0}", AccountId);
+            }
+
+            if (!System)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountAuditEntry.IsSystem <> 1");
+            }
+
+            if (!Private)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountAuditEntry.IsPrivate <> 1");
+            }
+
+            if (!Broadcast)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountAuditEntry.IsBroadcast <> 1");
+            }
+            else
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("AccountAuditEntry.IsBroadcast = 1");
+            }
+
+            b.Insert(0, "INNER JOIN AccountFriend AccountFriend ON ( " +
+                "AccountAuditEntry.Account_Id = AccountFriend.Account_Id " +
+                "OR AccountAuditEntry.Account_Id = AccountFriend.Keen_Id )");
+
+            return b.ToString();
+        }
+
+        public string CreateCountQuery()
+        {
+            return CreateSubQuery();
+        }
+
+        public string CreateQuery()
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append("SELECT {AccountAuditEntry.*} FROM AccountAuditEntry {AccountAuditEntry} ");
+            b.Append(CreateSubQuery());
+            if (!string.IsNullOrEmpty(SortOrder))
+            {
+                b.AppendFormat(" ORDER BY AccountAuditEntry.{0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+            }
+
+            return b.ToString();
+        }
+    }
+
     public class TransitAccountAuditEntry : TransitService<AccountAuditEntry>
     {
         private int mAccountPictureId;
@@ -135,6 +208,20 @@ namespace SnCore.Services
             }
         }
 
+        private bool mIsBroadcast;
+
+        public bool IsBroadcast
+        {
+            get
+            {
+                return mIsBroadcast;
+            }
+            set
+            {
+                mIsBroadcast = value;
+            }
+        }
+
         private bool mIsPrivate;
 
         public bool IsPrivate
@@ -168,6 +255,7 @@ namespace SnCore.Services
             AccountId = instance.AccountId;
             IsPrivate = instance.IsPrivate;
             IsSystem = instance.IsSystem;
+            IsBroadcast = instance.IsBroadcast;
             Url = instance.Url;
             base.SetInstance(instance);
         }
@@ -178,7 +266,9 @@ namespace SnCore.Services
             instance.Description = this.Description;
             instance.IsPrivate = this.IsPrivate;
             instance.IsSystem = this.IsSystem;
+            instance.IsBroadcast = this.IsBroadcast;
             instance.Url = this.Url;
+            instance.AccountId = GetOwner(session, AccountId, sec).Id;
             return instance;
         }
     }
@@ -214,6 +304,29 @@ namespace SnCore.Services
             mInstance.Md5 = GetHash(mInstance.Description);
             if (mInstance.Id == 0) mInstance.Created = mInstance.Updated;
             base.Save(sec);
+        }
+
+        public override int CreateOrUpdate(TransitAccountAuditEntry t_instance, ManagedSecurityContext sec)
+        {
+            string hash = GetHash(t_instance.Description);
+            AccountAuditEntry audit_entry = Session.CreateCriteria(typeof(AccountAuditEntry))
+                .Add(Expression.Eq("AccountId", t_instance.AccountId))
+                .Add(Expression.Eq("IsSystem", t_instance.IsSystem))
+                .Add(Expression.Eq("IsPrivate", t_instance.IsPrivate))
+                .Add(Expression.Eq("Md5", hash))
+                .UniqueResult<AccountAuditEntry>();
+
+            if (audit_entry != null)
+            {
+                audit_entry.Count++;
+                audit_entry.Updated = DateTime.UtcNow;
+                mInstance = audit_entry;
+                return audit_entry.Id;
+            }
+            else
+            {
+                return base.CreateOrUpdate(t_instance, sec);
+            }
         }
 
         public override ACL GetACL(Type type)
@@ -263,34 +376,49 @@ namespace SnCore.Services
             return new MD5CryptoServiceProvider().ComputeHash(Encoding.Default.GetBytes(description));
         }
 
-        private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session, 
-            Account account, string descr, string url, bool is_system, bool is_private)
+        private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session, TransitAccountAuditEntry t_instance)
         {
+            string hash = GetHash(t_instance.Description);
             AccountAuditEntry audit_entry = session.CreateCriteria(typeof(AccountAuditEntry))
-                .Add(Expression.Eq("AccountId", account.Id))
-                .Add(Expression.Eq("IsSystem", is_system))
-                .Add(Expression.Eq("IsPrivate", is_private))
-                .Add(Expression.Eq("Md5", GetHash(descr)))
+                .Add(Expression.Eq("AccountId", t_instance.AccountId))
+                .Add(Expression.Eq("IsSystem", t_instance.IsSystem))
+                .Add(Expression.Eq("IsPrivate", t_instance.IsPrivate))
+                .Add(Expression.Eq("Md5", hash))
                 .UniqueResult<AccountAuditEntry>();
 
             if (audit_entry == null)
             {
                 audit_entry = new AccountAuditEntry();
-                audit_entry.AccountId = account.Id;
-                audit_entry.IsSystem = is_system;
-                audit_entry.IsPrivate = is_private;
-                audit_entry.Description = descr;
-                audit_entry.Url = url;
+                audit_entry.AccountId = t_instance.AccountId;
+                audit_entry.IsSystem = t_instance.IsSystem;
+                audit_entry.IsPrivate = t_instance.IsPrivate;
+                audit_entry.IsBroadcast = t_instance.IsBroadcast;
+                audit_entry.Description = t_instance.Description;
+                audit_entry.Url = t_instance.Url;
+                audit_entry.Md5 = hash;
                 audit_entry.Created = audit_entry.Updated = DateTime.UtcNow;
                 audit_entry.Count = 1;
             }
-            else 
+            else
             {
                 audit_entry.Count++;
                 audit_entry.Updated = DateTime.UtcNow;
             }
 
             return audit_entry;
+        }
+
+        private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session, 
+            Account account, string descr, string url, bool is_system, bool is_private)
+        {
+            TransitAccountAuditEntry t_instance = new TransitAccountAuditEntry();
+            t_instance.AccountId = account.Id;
+            t_instance.Description = descr;
+            t_instance.Url = url;
+            t_instance.IsSystem = is_system;
+            t_instance.IsPrivate = is_private;
+            t_instance.IsBroadcast = false;
+            return CreateOrRetreiveAccountAuditEntry(session, t_instance);
         }
 
         public static AccountAuditEntry CreateSystemAccountAuditEntry(ISession session, Account account, string descr, string url)
@@ -327,6 +455,12 @@ namespace SnCore.Services
             }
 
             return t_instance;
+        }
+
+        public override void Delete(ManagedSecurityContext sec)
+        {
+            ManagedDiscussion.FindAndDelete(Session, mInstance.AccountId, typeof(AccountAuditEntry), mInstance.Id, sec);
+            base.Delete(sec);
         }
     }
 }

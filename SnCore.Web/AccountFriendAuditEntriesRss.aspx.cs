@@ -22,12 +22,24 @@ public partial class AccountFriendAuditEntriesRss : Page
         }
     }
 
+    public bool Broadcast
+    {
+        get
+        {
+            bool result = false;
+            bool.TryParse(Request["Broadcast"], out result);
+            return result;
+        }
+    }
+
     public string RssTitle
     {
         get
         {
-            return Renderer.Render(string.Format("{0} Friends Activity",
-                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore")));
+            string title = Request["Title"];
+            if (string.IsNullOrEmpty(title)) title = "Friends' Activity";
+            return Renderer.Render(string.Format("{0} {1}",
+                SessionManager.GetCachedConfiguration("SnCore.Title", "SnCore"), title));
         }
     }
 
@@ -39,6 +51,16 @@ public partial class AccountFriendAuditEntriesRss : Page
         }
     }
 
+    TransitAccountAuditEntryQueryOptions GetQueryOptions()
+    {
+        TransitAccountAuditEntryQueryOptions qopt = new TransitAccountAuditEntryQueryOptions();
+        qopt.AccountId = AccountId;
+        qopt.Broadcast = Broadcast;
+        qopt.System = false;
+        qopt.Private = false;
+        return qopt;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -46,8 +68,8 @@ public partial class AccountFriendAuditEntriesRss : Page
             ServiceQueryOptions options = new ServiceQueryOptions();
             options.PageSize = 50;
             options.PageNumber = 0;
-            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountAuditEntry, int>(
-                AccountId, options, SessionManager.SocialService.GetAccountFriendAuditEntries);
+            rssRepeater.DataSource = SessionManager.GetCollection<TransitAccountAuditEntry, TransitAccountAuditEntryQueryOptions>(
+                GetQueryOptions(), options, SessionManager.SocialService.GetAccountFriendAuditEntries);
             rssRepeater.DataBind();
         }
     }

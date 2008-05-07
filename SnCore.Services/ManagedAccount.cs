@@ -832,6 +832,7 @@ namespace SnCore.Services
             CreateOrUpdate(ta, sec);
             InternalCreateEmail(emailaddress, emailverified, sec);
             CreateAccountSystemMessageFolders(sec);
+            CreateAccountSubscriptions(sec);
             return mInstance.Id;
         }
 
@@ -858,6 +859,7 @@ namespace SnCore.Services
             CreateOrUpdate(ta, sec);
             InternalCreateEmail(email, false, sec);
             CreateAccountSystemMessageFolders(sec);
+            CreateAccountSubscriptions(sec);
 
             // the OpenId identity has been verified, hence it's safe to assume that this is the same user
             // OpenId doesn't have a reclaim and at this point only the verified OpenId would be phishing for himself
@@ -1221,6 +1223,19 @@ namespace SnCore.Services
             {
                 return null;
             }
+        }
+
+        public void CreateAccountSubscriptions(ManagedSecurityContext sec)
+        {
+            // subscribe to friend broadcasts
+            TransitAccountRssWatch friends_broadcasts = new TransitAccountRssWatch();
+            friends_broadcasts.AccountId = mInstance.Id;
+            friends_broadcasts.Enabled = true;
+            friends_broadcasts.Name = "Friends' Broadcasts";
+            friends_broadcasts.UpdateFrequency = 24;
+            friends_broadcasts.Url = "AccountFriendAuditEntriesRss.aspx?Title=Friends'+Broadcasts&Broadcast=True";
+            ManagedAccountRssWatch m_friends_broadcasts = new ManagedAccountRssWatch(Session);
+            m_friends_broadcasts.CreateOrUpdate(friends_broadcasts, sec);
         }
 
         public void CreateAccountSystemMessageFolders(ManagedSecurityContext sec)
