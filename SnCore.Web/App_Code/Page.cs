@@ -22,7 +22,6 @@ using System.Globalization;
 
 public class Page : System.Web.UI.Page
 {
-    private HtmlMeta mMetaDescription = null;
     protected SessionManager mSessionManager = null;
     protected bool mIsMobileEnabled = false;
 
@@ -102,11 +101,6 @@ public class Page : System.Web.UI.Page
     {
         try
         {
-            if (Header != null)
-            {
-                Header.Controls.Add(MetaDescription);
-            }
-
             if (IsPostBack && Header != null)
             {
                 Title = (string)ViewState["Title"];
@@ -321,21 +315,6 @@ public class Page : System.Web.UI.Page
         if (notice == null) throw new Exception(message);
         notice.GetType().GetProperty("HtmlEncode").SetValue(notice, htmlencode, null);
         notice.GetType().GetProperty("Info").SetValue(notice, message, null);
-    }
-
-    public HtmlMeta MetaDescription
-    {
-        get
-        {
-            if (mMetaDescription == null)
-            {
-                mMetaDescription = new HtmlMeta();
-                mMetaDescription.Name = "description";
-                mMetaDescription.Content = SessionManager.GetCachedConfiguration(
-                    "SnCore.Description", string.Empty);
-            }
-            return mMetaDescription;
-        }
     }
 
     public void ReportInfo(string message)

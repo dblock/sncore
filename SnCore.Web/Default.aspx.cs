@@ -12,9 +12,21 @@ using SnCore.Tools.Web;
 
 public partial class _Default : Page
 {
+    private HtmlMeta mMetaDescription = null;
+
     public _Default()
     {
         mIsMobileEnabled = true;
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        if (Header != null)
+        {
+            Header.Controls.Add(MetaDescription);
+        }
+
+        base.OnLoad(e);
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -27,6 +39,21 @@ public partial class _Default : Page
                     "SnCore.Blog.Id", "0"));
 
             websiteBlog.Visible = (websiteBlog.BlogId > 0);
+        }
+    }
+
+    public HtmlMeta MetaDescription
+    {
+        get
+        {
+            if (mMetaDescription == null)
+            {
+                mMetaDescription = new HtmlMeta();
+                mMetaDescription.Name = "description";
+                mMetaDescription.Content = SessionManager.GetCachedConfiguration(
+                    "SnCore.Description", string.Empty);
+            }
+            return mMetaDescription;
         }
     }
 }
