@@ -16,6 +16,7 @@ using SnCore.SiteMap;
 
 public partial class PlaceView : Page
 {
+    private HtmlMeta mMetaDescription = null;
     private TransitPlace mPlace = null;
     private TransitFeature mPlaceFeature = null;
     private TransitAccount mPlaceAccount = null;
@@ -23,6 +24,16 @@ public partial class PlaceView : Page
     public PlaceView()
     {
         mIsMobileEnabled = true;
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        if (Header != null)
+        {
+            Header.Controls.Add(MetaDescription);
+        }
+
+        base.OnLoad(e);
     }
 
     public TransitAccount PlaceAccount
@@ -410,6 +421,21 @@ public partial class PlaceView : Page
                     "Place", RequestId, SessionManager.ObjectService.FindLatestFeature);
             }
             return mPlaceFeature;
+        }
+    }
+
+    public HtmlMeta MetaDescription
+    {
+        get
+        {
+            if (mMetaDescription == null)
+            {
+                mMetaDescription = new HtmlMeta();
+                mMetaDescription.Name = "description";
+                mMetaDescription.Content = SessionManager.GetCachedConfiguration(
+                    "SnCore.Description", string.Empty);
+            }
+            return mMetaDescription;
         }
     }
 }
