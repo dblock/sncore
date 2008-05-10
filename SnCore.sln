@@ -309,6 +309,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.BackEnd.Service", "S
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.SmtpMockServer", "SnCore.SmtpMockServer\SnCore.SmtpMockServer.csproj", "{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -743,6 +749,18 @@ Global
 		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{02A079EA-3FD3-4500-B632-D465380B1C4F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|.NET.ActiveCfg = Release|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

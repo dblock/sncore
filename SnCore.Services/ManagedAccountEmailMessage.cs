@@ -381,7 +381,6 @@ namespace SnCore.Services
             message.Headers.Add("x-mimeole", string.Format("Produced By {0} {1}",
                 ManagedSystem.Title, ManagedSystem.ProductVersion));
             message.Headers.Add("Content-class", "urn:content-classes:message");
-            message.Headers.Add("Content-Type", "text/html; charset=\"ISO-8859-1\"");
             message.IsBodyHtml = true;
             Encoding iso8859 = Encoding.GetEncoding(28591);
             message.BodyEncoding = iso8859;
