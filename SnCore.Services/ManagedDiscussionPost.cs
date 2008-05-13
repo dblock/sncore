@@ -581,6 +581,9 @@ namespace SnCore.Services
             if (mInstance.DiscussionPostParent != null)
                 return null;
 
+            if (mInstance.DiscussionThread.Discussion.ObjectId == 0)
+                return null;
+
             if (mInstance.DiscussionThread.Discussion.DataObject.Name != typeof(AccountAuditEntry).Name)
                 return null;
 

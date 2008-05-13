@@ -39,7 +39,9 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // $(TODO): the user now has an audit entry that he has a new friend
-            int audits_count = EndPoint.GetAccountFriendAuditEntriesCount(GetAdminTicket(), GetAdminAccount().Id);
+            WebSocialService.TransitAccountAuditEntryQueryOptions qopt = new WebSocialService.TransitAccountAuditEntryQueryOptions();
+            qopt.AccountId = GetAdminAccount().Id;
+            int audits_count = EndPoint.GetAccountFriendAuditEntriesCount(GetAdminTicket(), qopt);
             Console.WriteLine("Audit entries: {0}", audits_count);
             // delete the user
             DeleteUser(user_id); 
