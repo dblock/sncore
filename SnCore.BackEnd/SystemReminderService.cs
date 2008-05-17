@@ -73,66 +73,75 @@ namespace SnCore.BackEndServices
             while (enumerator.MoveNext())
             {
                 Account account = enumerator.Current;
-                ManagedAccount ma = new ManagedAccount(session, account);
 
-                bool bDelete = false;
-
-                // delete an account without any e-mail addresses (openid)
-                if (account.AccountEmails == null || account.AccountEmails.Count == 0)
+                try
                 {
-                    bDelete = true;
-                }
+                    ManagedAccount ma = new ManagedAccount(session, account);
 
-                if (account.AccountEmails != null && !bDelete)
-                {
-                    // see if there exists another account with the same verified e-mail address
-                    // someone either tried to hijack this account or tried to register again with the same e-mail and succeeded
-                    foreach (AccountEmail email in account.AccountEmails)
+                    bool bDelete = false;
+
+                    // delete an account without any e-mail addresses (openid)
+                    if (account.AccountEmails == null || account.AccountEmails.Count == 0)
                     {
-                        IList verifiedemails = session.CreateCriteria(typeof(AccountEmail))
-                            .Add(Expression.Eq("Verified", true))
-                            .Add(Expression.Eq("Address", email.Address))
-                            .SetMaxResults(1)
-                            .List();
+                        bDelete = true;
+                    }
 
-                        if (verifiedemails.Count > 0)
+                    if (account.AccountEmails != null && !bDelete)
+                    {
+                        // see if there exists another account with the same verified e-mail address
+                        // someone either tried to hijack this account or tried to register again with the same e-mail and succeeded
+                        foreach (AccountEmail email in account.AccountEmails)
                         {
-                            // there exists another account that has the same address, verified
-                            // user has subscribed twice and verified another account
-                            bDelete = true;
-                            break;
+                            IList verifiedemails = session.CreateCriteria(typeof(AccountEmail))
+                                .Add(Expression.Eq("Verified", true))
+                                .Add(Expression.Eq("Address", email.Address))
+                                .SetMaxResults(1)
+                                .List();
+
+                            if (verifiedemails.Count > 0)
+                            {
+                                // there exists another account that has the same address, verified
+                                // user has subscribed twice and verified another account
+                                bDelete = true;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if (account.AccountEmails != null && !bDelete)
-                {
-                    foreach (AccountEmail email in account.AccountEmails)
+                    if (account.AccountEmails != null && !bDelete)
                     {
-                        // if we have never resent the e-mail confirmation, do it now
-                        if (email.Created == email.Modified)
+                        foreach (AccountEmail email in account.AccountEmails)
                         {
-                            ManagedAccountEmail mae = new ManagedAccountEmail(session, email);
-                            email.Modified = DateTime.UtcNow;
-                            session.Save(email);
-                            mae.Confirm(sec);
-                        }
-                        else if (email.Modified < DateTime.UtcNow.AddDays(-14))
-                        {
-                            // we have sent another confirmation earlier than two weeks ago
-                            bDelete = true;
-                            break;
+                            // if we have never resent the e-mail confirmation, do it now
+                            if (email.Created == email.Modified)
+                            {
+                                ManagedAccountEmail mae = new ManagedAccountEmail(session, email);
+                                email.Modified = DateTime.UtcNow;
+                                session.Save(email);
+                                mae.Confirm(sec);
+                            }
+                            else if (email.Modified < DateTime.UtcNow.AddDays(-14))
+                            {
+                                // we have sent another confirmation earlier than two weeks ago
+                                bDelete = true;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if (bDelete)
+                    if (bDelete)
+                    {
+                        ma.Delete(ManagedAccount.GetAdminSecurityContext(session));
+                    }
+
+                    session.Flush();
+                }
+                catch (Exception ex)
                 {
-                    ma.Delete(ManagedAccount.GetAdminSecurityContext(session));
+                    EventLogManager.WriteEntry(string.Format("Error processing reminder for account {0} ({1}): {2}",
+                        account.Id, account.Name, ex.Message), EventLogEntryType.Warning);
                 }
             }
-
-            session.Flush();
         }
 
         public void RunInvitationReminders(ISession session, ManagedSecurityContext sec)
