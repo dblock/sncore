@@ -143,8 +143,8 @@ namespace SnCore.BackEndServices
             for (int i = 0; i < bodylist.Count; i++)
             {
                 MimeBody ab = (MimeBody)bodylist[i];
-                EventLogManager.WriteEntry(string.Format("Parsing body part {0}: \"{1}\".", i, ab.GetName()));
-                switch (ab.GetContentType())
+                EventLogManager.WriteEntry(string.Format("Parsing body part {0}: \"{1}\" ({2}).", i, ab.GetName(), ab.GetContentType()));
+                switch (ab.GetContentType().ToLower())
                 {
                     case "message/delivery-status":
                         /// TODO: move to Mime processor
@@ -152,6 +152,7 @@ namespace SnCore.BackEndServices
                         dsn.LoadBody(ab.GetText());
                         foreach (MimeDSNRecipient r in dsn.Recipients)
                         {
+                            EventLogManager.WriteEntry(string.Format("Checking {0} ({1}).", r.FinalRecipientEmailAddress, r.Action));
                             switch (r.Action)
                             {
                                 case "failed":
