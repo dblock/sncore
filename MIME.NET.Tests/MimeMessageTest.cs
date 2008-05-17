@@ -15,7 +15,7 @@ namespace MIME.NET.Tests
         [Test]
         public void TestMimeMessage()
         {
-            string[] tests = { MimeMessages.SimpleNDR, MimeMessages.BinaryNDR };
+            string[] tests = { MimeMessages.SimpleNDR, MimeMessages.BinaryNDR, MimeMessages.BrokenNDR };
 
             /// http://www.codeproject.com/useritems/MIME_De_Encode_in_C_.asp
             foreach (string test in tests)

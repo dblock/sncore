@@ -81,6 +81,22 @@ namespace MIME.NET.Tests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Received: from omr-d25.mx.aol.com ([205.188.249.69]) by IPDMBZ0465MIA.citrus.com with Microsoft SMTPSVC(6.0.3790.3959);
+        ///	 Sat, 17 May 2008 12:04:47 -0400
+        ///Received: from rly-dc05.mx.aol.com (rly-dc05.mx.aol.com [205.188.109.9]) by omr-d25.mx.aol.com (v117.7) with ESMTP id MAILOMRD253-7d85482f021b22c; Sat, 17 May 2008 12:04:43 -0400
+        ///Received: from localhost (localhost)
+        ///	by rly-dc05.mx.aol.com (8.14.1/8.14.1) id m4HG4ZwA013033;
+        ///	Sat, 17 May 2008 12:04:43 -0400
+        ///Date: Sat, 17 May 2008 12:04:43 -0400
+        ///From: [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BrokenNDR {
+            get {
+                return ResourceManager.GetString("BrokenNDR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From: postmaster@vestris.com
         ///To: fleming@dimaks.com
         ///Date: Fri, 23 Nov 2007 11:39:55 -0500

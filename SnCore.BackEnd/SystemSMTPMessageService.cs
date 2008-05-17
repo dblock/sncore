@@ -147,7 +147,7 @@ namespace SnCore.BackEndServices
             {
                 MimeBody ab = (MimeBody)bodylist[i];
                 EventLogManager.WriteEntry(string.Format("Parsing body part {0}: \"{1}\" ({2}).", i, ab.GetName(), ab.GetContentType()));
-                switch (ab.GetContentType().ToLower())
+                switch (ab.GetContentType())
                 {
                     case "message/delivery-status":
                         /// TODO: move to Mime processor

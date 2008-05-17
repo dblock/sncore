@@ -619,6 +619,104 @@ X-OriginalArrivalTime: 17 May 2008 15:51:44.0462 (UTC) FILETIME=[E7F7E6E0:01C8B8
 
 --9B095B5ADSN=_01C8B829A12D30BE000000DDIPDMBZ0465MIA.ci--</value>
   </data>
+  <data name="BrokenNDR" xml:space="preserve">
+    <value>Received: from omr-d25.mx.aol.com ([205.188.249.69]) by IPDMBZ0465MIA.citrus.com with Microsoft SMTPSVC(6.0.3790.3959);
+	 Sat, 17 May 2008 12:04:47 -0400
+Received: from rly-dc05.mx.aol.com (rly-dc05.mx.aol.com [205.188.109.9]) by omr-d25.mx.aol.com (v117.7) with ESMTP id MAILOMRD253-7d85482f021b22c; Sat, 17 May 2008 12:04:43 -0400
+Received: from localhost (localhost)
+	by rly-dc05.mx.aol.com (8.14.1/8.14.1) id m4HG4ZwA013033;
+	Sat, 17 May 2008 12:04:43 -0400
+Date: Sat, 17 May 2008 12:04:43 -0400
+From: Mail Delivery Subsystem &lt;MAILER-DAEMON@aol.com&gt;
+Message-Id: &lt;200805171604.m4HG4ZwA013033@rly-dc05.mx.aol.com&gt;
+To: &lt;admin@foodcandy.com&gt;
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="m4HG4ZwA013033.1211040283/rly-dc05.mx.aol.com"
+Subject: Returned mail: see transcript for details
+Auto-Submitted: auto-generated (failure)
+X-AOL-INRLY: vestris.com [66.33.32.31] rly-dc05
+X-AOL-IP: 205.188.109.9
+Return-Path: &lt;&gt;
+X-OriginalArrivalTime: 17 May 2008 16:04:47.0249 (UTC) FILETIME=[BA8BB810:01C8B837]
+
+This is a MIME-encapsulated message
+
+--m4HG4ZwA013033.1211040283/rly-dc05.mx.aol.com
+
+The original message was received at Sat, 17 May 2008 12:04:22 -0400
+from vestris.com [66.33.32.31]
+
+
+*** ATTENTION ***
+
+Your e-mail is being returned to you because there was a problem with its
+delivery.  The address which was undeliverable is listed in the section
+labeled: "----- The following addresses had permanent fatal errors -----".
+
+The reason your mail is being returned to you is listed in the section
+labeled: "----- Transcript of Session Follows -----".
+
+The line beginning with "&lt;&lt;&lt;" describes the specific reason your e-mail could
+not be delivered.  The next line contains a second error message which is a
+general translation for other e-mail servers.
+
+Please direct further questions regarding this message to your e-mail
+administrator.
+
+--AOL Postmaster
+
+
+
+   ----- The following addresses had permanent fatal errors -----
+&lt;temdem@aol.com&gt;
+    (reason: 552 temdem MAILBOX FULL)
+
+   ----- Transcript of session follows -----
+... while talking to air-dc03.mail.aol.com.:
+&gt;&gt;&gt; RCPT To:&lt;temdem@aol.com&gt;
+&lt;&lt;&lt; 552 temdem MAILBOX FULL
+554 5.0.0 Service unavailable
+
+--m4HG4ZwA013033.1211040283/rly-dc05.mx.aol.com
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; rly-dc05.mx.aol.com
+Arrival-Date: Sat, 17 May 2008 12:04:22 -0400
+
+Final-Recipient: RFC822; temdem@aol.com
+Action: failed
+Status: 5.2.2
+Remote-MTA: DNS; air-dc03.mail.aol.com
+Diagnostic-Code: SMTP; 552 temdem MAILBOX FULL
+Last-Attempt-Date: Sat, 17 May 2008 12:04:43 -0400
+
+--m4HG4ZwA013033.1211040283/rly-dc05.mx.aol.com
+Content-Type: text/rfc822-headers
+
+Received: from IPDMBZ0465MIA.citrus.com (vestris.com [66.33.32.31]) by rly-dc05.mx.aol.com (v121.5) with ESMTP id MAILRELAYINDC058-b24482f020636c; Sat, 17 May 2008 12:04:22 -0400
+Received: from IPDMEZ0197MIA ([10.2.33.2]) by IPDMBZ0465MIA.citrus.com with Microsoft SMTPSVC(6.0.3790.3959);
+	 Sat, 17 May 2008 12:04:22 -0400
+x-mimeole: Produced By SnCore 1.0
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+From: FoodCandy &lt;admin@foodcandy.com&gt;
+To: temdem@aol.com
+Reply-To: news@foodcandy.com
+Date: 17 May 2008 12:04:22 -0400
+Subject: May Food Candy Newsletter '08
+Content-Type: text/html; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Message-ID: &lt;IPDMBZ0465MIA1BcI3E000007cc@IPDMBZ0465MIA.citrus.com&gt;
+X-OriginalArrivalTime: 17 May 2008 16:04:22.0577 (UTC) FILETIME=[ABD71210:01C8B837]
+X-AOL-IP: 66.33.32.31
+X-AOL-SCOLL-SCORE:1:2:486655584:9395240
+X-AOL-SCOLL-URL_COUNT:2
+X-AOL-SCOLL-AUTHENTICATION: listenair ; SPF_helo : n
+X-AOL-SCOLL-AUTHENTICATION: listenair ; SPF_822_from : n
+
+--m4HG4ZwA013033.1211040283/rly-dc05.mx.aol.com--</value>
+  </data>
   <data name="SimpleNDR" xml:space="preserve">
     <value>From: postmaster@vestris.com
 To: fleming@dimaks.com
