@@ -1,0 +1,500 @@
+From: postmaster@vestris.com
+To: admin@foodcandy.com
+Date: Sat, 17 May 2008 11:54:27 -0400
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="9B095B5ADSN=_01C8B829A12D30BE000000E5IPDMBZ0465MIA.ci"
+X-DSNContext: 7ce717b1 - 1194 - 00000002 - 00000000
+Message-ID: <cjJxWY5pC00000099@IPDMBZ0465MIA.citrus.com>
+Subject: Delivery Status Notification (Failure)
+
+This is a MIME-formatted message.  
+Portions of this message may be unreadable without a MIME-capable mail program.
+
+--9B095B5ADSN=_01C8B829A12D30BE000000E5IPDMBZ0465MIA.ci
+Content-Type: text/plain; charset=unicode-1-1-utf-7
+
+This is an automatically generated Delivery Status Notification.
+
+Delivery to the following recipients failed.
+
+       claudio_rossi67@yahoo.com
+
+
+
+
+--9B095B5ADSN=_01C8B829A12D30BE000000E5IPDMBZ0465MIA.ci
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns;IPDMBZ0465MIA.citrus.com
+Received-From-MTA: dns;IPDMEZ0197MIA
+Arrival-Date: Sat, 17 May 2008 11:52:06 -0400
+
+Final-Recipient: rfc822;claudio_rossi67@yahoo.com
+Action: failed
+Status: 5.5.0
+Diagnostic-Code: smtp;554 delivery error: dd This user doesn't have a yahoo.com account (claudio_rossi67@yahoo.com) [-5] - mta674.mail.mud.yahoo.com
+
+--9B095B5ADSN=_01C8B829A12D30BE000000E5IPDMBZ0465MIA.ci
+Content-Type: message/rfc822
+
+Received: from IPDMEZ0197MIA ([10.2.33.2]) by IPDMBZ0465MIA.citrus.com with Microsoft SMTPSVC(6.0.3790.3959);
+	 Sat, 17 May 2008 11:52:06 -0400
+x-mimeole: Produced By SnCore 1.0
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+From: FoodCandy <admin@foodcandy.com>
+To: claudio_rossi67@yahoo.com
+Reply-To: news@foodcandy.com
+Date: 17 May 2008 11:52:05 -0400
+Subject: May Food Candy Newsletter '08
+Content-Type: text/html; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Return-Path: admin@foodcandy.com
+Message-ID: <IPDMBZ0465MIAtdqVvP00000576@IPDMBZ0465MIA.citrus.com>
+X-OriginalArrivalTime: 17 May 2008 15:52:06.0258 (UTC) FILETIME=[F4F5B520:01C8B835]
+
+<style type=3D"text/css">=0D=0A<!--=0D=0Abody { color: #000000; background-color:=
+ #AACCEE; margin-left: 0px; margin-top: 0px; margin-right: 0px; }=0D=0Aa:link=
+ { color: blue; font-weight: bold; text-decoration: none; }=0D=0Aa:visited=
+ { color: navy; font-weight: bold; text-decoration: none; }=0D=0Aa:active=
+ { color: #336699; font-weight: bold; text-decoration: none; }=0D=0Aa:hover=
+ { color: #cc3300; font-weight: bold; text-decoration: none; }=0D=0A.sncore_master_table=
+ { width: 900px; }=0D=0A.sncore_master_content_td { font-family: Verdana,=
+ Sans-Serif; font-size: 10pt; }=0D=0A.sncore_master_content_table { width:=
+ 800px; background-color: White; } =0D=0A.sncore_h1 { color: #000000; font-size:=
+ 26px; font-weight: bold; background-color: #FFDD00; margin-top: 0px; margin-bottom:=
+ 0px; padding-top: 10px; padding-left: 15px; width: 100%; }=0D=0A.sncore_h1sub=
+ { color: #000000; font-size: 12px; background-color: #FFDD00; margin-top:=
+ 0px; margin-bottom: 0px; padding-left: 20px; padding-bottom: 15px; width:=
+ 100%; }=0D=0A.sncore_h2 { background: url(http://www.foodcandy.com/images/site/head.gif)=
+ no-repeat; background-position: 0 65%; font-size: 18px; font-weight: normal;=
+ margin-top: 0px; margin-bottom: 10px; padding-top: 10px; padding-bottom:=
+ 3px; margin-left: 10px; padding-left: 20px; }=0D=0A.sncore_h2left { font-size:=
+ 18px; font-weight: normal; margin-top: 0px; margin-bottom: 10px; padding-top:=
+ 10px; padding-bottom: 3px; }=0D=0A.sncore_h2sub { font-family: Tahoma;=
+ color: #000000; font-size: 12px; margin-top: 0px; margin-bottom: 0px; padding-left:=
+ 20px; padding-bottom: 15px; width: 95%; }=0D=0A.sncore_h3 { font-size:=
+ 14px; font-weight: bold; margin-top: 0px; margin-bottom: 10px; padding-top:=
+ 10px; padding-bottom: 3px; padding-left: 15px; }=0D=0A.sncore_title { font-weight:=
+ bold; background-color: #E5EDFB; padding: 2px; }=0D=0A.sncore_link_description=
+ { font-size: 10px; padding: 2px; }=0D=0A.sncore_description { font-size:=
+ 10px; color: Gray; padding: 2px; }=0D=0A.sncore_li_description { font-size:=
+ 10px; color: Gray; margin-left: 16px; }=0D=0A.sncore_table { width: 780px;=
+ margin: 10px; border: solid 1px #bbb; }=0D=0A.sncore_table_noborder { width:=
+ 780px; margin: 10px; }=0D=0A.sncore_table_atoz { width: 780px; text-align:=
+ center; }=0D=0A.sncore_table_cities { width: 780px; text-align: center;=
+ font-family: Tahoma; font-size: 8pt; }=0D=0A.sncore_account_table { width:=
+ 582px; margin: 10px; border: solid 1px #eee; border-collapse:collapse;=
+ }=0D=0A.sncore_inner_table { margin: 10px; border: solid 1px #eee; }=0D=0A.sncore_calendar=
+ { margin: 5px; height: 0px; overflow: hidden; }=0D=0A.sncore_inner_div=
+ { margin: 5px; }=0D=0A.sncore_half_table { width: 95%; margin: 10px; border:=
+ 1px #eeeeee solid; }=0D=0A.sncore_accountmenu_table { width: 150px; margin:=
+ 10px; border: 1px #eeeeee solid; }=0D=0A.sncore_half_inner_table { width:=
+ 95%; }=0D=0A.sncore_featured_table { width: 155px; }=0D=0A.sncore_featured_tr_td=
+ { font-size: 10pt; padding: 2px; padding-top: 10px; text-align: center;=
+ }=0D=0A.sncore_table_tr_td_images { font-size: 10pt; padding: 2px; text-align:=
+ center; vertical-align: top; width: 150px; }=0D=0A.sncore_table_tr_td {=
+ font-size: 10pt; padding: 2px; }=0D=0A.sncore_table_tr_th { padding: 2px;=
+ font-weight: bold; background-color: #E5EDFB; font-size: 8pt;  }=0D=0A.sncore_table_pager=
+ { padding: 2px; font-size: 8pt; font-weight: bold; }=0D=0A.sncore_menu=
+ { margin-left: 10px; margin-right: 10px; border-top: solid 2px #9F0615;=
+ border-bottom: solid 2px #9F0615; background-color: #9F0615; padding: 2px;=
+ text-align: left; }=0D=0A.sncore_menu_item { color: white; font-weight:=
+ bold; padding: 10px; padding-bottom: 2px; border-right: solid 1px white;=
+ }=0D=0A.sncore_menu_item:hover { background-color: red; color: white; font-weight:=
+ bold; padding: 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom:=
+ 4px; }=0D=0A.sncore_menu_item:link { color: white; }=0D=0A.sncore_menu_item:visited=
+ { color: white; }=0D=0A.sncore_menu_item:active { color: white; }=0D=0A.sncore_menu_item_selected=
+ { color: white; background-color: #550000; font-weight: bold; padding:=
+ 10px; border-right: solid 1px white; padding-top: 4px; padding-bottom:=
+ 4px; }=0D=0A.sncore_menu_item_selected:hover { background-color: red; color:=
+ white; font-weight: bold; padding: 10px; border-right: solid 1px white;=
+ padding-top: 4px; padding-bottom: 4px; }=0D=0A.sncore_menu_item_selected:link=
+ { color: white; }=0D=0A.sncore_menu_item_selected:visited { color: white;=
+ }=0D=0A.sncore_menu_item_selected:active { color: white; }=0D=0A.sncore_menu_item_activated=
+ { background-color: red; color: white; font-weight: bold; padding: 10px;=
+ border-right: solid 1px white; padding-top: 4px; padding-bottom: 4px; }=
+=0D=0A.sncore_menu_item_activated:hover { color: white; }=0D=0A.sncore_menu_item_activated:link=
+ { color: white; }=0D=0A.sncore_menu_item_activated:visited { color: white;=
+ }=0D=0A.sncore_menu_item_activated:active { color: white; }=0D=0A.sncore_message_unread=
+ { border: solid 2px black; }=0D=0A.sncore_message_read { border: solid=
+ 1px silver; }=0D=0A.sncore_message_header { padding: 10px; }=0D=0A.sncore_message_subject=
+ { font-size: large; margin-bottom: 5px; }=0D=0A.sncore_message_table {=
+ padding: 10px; margin: 5px 0px 5px 0px; border: solid 1px #bbb; }=0D=0A.sncore_message_body=
+ { padding: 5px; margin: 5px 0px 5px 0px; }=0D=0A.sncore_message_left {=
+ margin: 0px 0px 10px 0px; padding: 3px; } =0D=0A.sncore_message_right {=
+ margin: 0px 0px 10px 0px; padding-top: 10px; } =0D=0A.sncore_message_left_border=
+ { border-bottom: solid 1px #bbb; border-top: solid 1px #bbb; border-left:=
+ solid 1px #bbb; margin: 0px 0px 10px 0px; padding: 10px; } =0D=0A.sncore_message_right_border=
+ { border-bottom: solid 1px #bbb; border-right: solid 1px #bbb; border-top:=
+ solid 1px #bbb; margin: 0px 0px 10px 0px; padding-top: 10px; } =0D=0A.sncore_new_message_left_border=
+ { border-bottom: solid 2px #000; border-top: solid 2px #000; border-left:=
+ solid 2px #000; margin: 0px 0px 10px 0px; padding: 10px; } =0D=0A.sncore_new_message_right_border=
+ { border-bottom: solid 2px #000; border-right: solid 2px #000; border-top:=
+ solid 2px #000; margin: 0px 0px 10px 0px; padding-top: 10px; } =0D=0A.sncore_notice=
+ { border: solid 1px; border-color: silver; margin: 10px; padding: 3px;=
+ width: 574px; } =0D=0A.sncore_notice_info { border: dotted 2px green; margin:=
+ 10px; font-weight: bold; color: green; }=0D=0A.sncore_notice_question {=
+ border: dotted 2px blue; margin: 10px; font-weight: bold; color: blue;=
+ }=0D=0A.sncore_notice_error { border: dotted 2px red; margin: 10px; font-weight:=
+ bold; color: red; }=0D=0A.sncore_notice_warning { border: dotted 2px orange;=
+ margin: 10px; font-weight: bold; color: orange; }=0D=0A.sncore_notice_tr_td=
+ { font-size: 10pt; padding: 7px; }=0D=0A.sncore_form { width: 582px; border:=
+ 1px #eeeeee solid; }=0D=0A.sncore_form_label { font-weight: bold; width:=
+ 150px; text-align: right; }=0D=0A.sncore_form_value { text-align: left;=
+ }=0D=0A.sncore_form_textbox { font-family: Verdana; width: 400px; font-size:=
+ 10pt; text-align: left; border: 1px black solid; }=0D=0A.sncore_form_openid_textbox=
+ { font-family: Verdana; width: 383px; background: url(http://www.foodcandy.com/images/openid.gif)=
+ no-repeat; background-color: #fff; background-position: 0 50%; color: #000;=
+ padding-left: 18px; font-size: 10pt; text-align: left; border: 1px black=
+ solid; }=0D=0A.sncore_form_checkbox { font-family: Verdana; width: 100px;=
+ }=0D=0A.sncore_form_radiobutton { font-family: Verdana; width: 100px; font-weight:=
+ bold; }=0D=0A.sncore_form_dropdown { font-family: Verdana; width: 390px;=
+ }=0D=0A.sncore_form_dropdown_small { font-family: Verdana; width: 192px;=
+ }=0D=0A.sncore_form_dropdown_auto { font-family: Verdana; }=0D=0A.sncore_form_button=
+ { font-family: Verdana; background-color: #dcdcdc; border-top: #cccccc=
+ 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid;=
+ border-right: #666666 1px solid; width: 100px; }=0D=0A.sncore_form_halfbutton=
+ { font-family: Verdana; background-color: #dcdcdc; border-top: #cccccc=
+ 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid;=
+ border-right: #666666 1px solid; width: 45px; }=0D=0A.sncore_form_validator=
+ { font-size: 8pt; font-weight: bold; color: red; }=0D=0A.sncore_form_upload=
+ { font-family: Verdana; width: 400px; text-align: left; border: 1px black=
+ solid; }=0D=0A.sncore_form_small { border: 1px #eeeeee solid; }=0D=0A.sncore_link=
+ { font-family: Tahoma; font-size: 8pt; }=0D=0A.sncore_note { padding-left:=
+ 20px; font-weight: bold; }=0D=0A.sncore_createnew { padding-top: 5px; padding-left:=
+ 20px; }=0D=0A.sncore_cancel { padding-left: 20px; }=0D=0A.sncore_account_name=
+ { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold;=
+ color: maroon; }=0D=0A.sncore_account_location { font-weight: bold; }=0D=0A.sncore_account_id=
+ { font-weight: bold; font-size: 8pt; }=0D=0A.sncore_feeditem_name { margin-top:=
+ 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon;=
+ }=0D=0A.sncore_feeditem_description { margin-top: 10px; font-size: smaller;=
+ }=0D=0A.sncore_story_name { margin-top: 5px; margin-bottom: 5px; font-size:=
+ large; font-weight: bold; color: maroon; }=0D=0A.sncore_place_name { margin-top:=
+ 5px; margin-bottom: 5px; font-size: large; font-weight: bold; color: maroon;=
+ }=0D=0A.sncore_place_id { font-weight: bold; font-size: 8pt; }=0D=0A.sncore_event_name=
+ { margin-top: 5px; margin-bottom: 5px; font-size: large; font-weight: bold;=
+ color: maroon; }=0D=0A.sncore_event_id { font-weight: bold; font-size:=
+ 8pt; }=0D=0A.sncore_search_textbox { width: 120px; font-size: smaller;=
+ }=0D=0A.sncore_default_search_textbox { width: 250px; font-size: 10pt;=
+ text-align: left; border: 1px black solid; }=0D=0A.sncore_link_small {=
+ font-size: smaller; }=0D=0A.sncore_search_link { font-size: smaller; }=
+=0D=0A.sncore_summary { margin-top: 10px; font-size: smaller; }=0D=0A.sncore_bookmarks_table=
+ { margin: 2px; }=0D=0A.sncore_bookmarks_table_tr_td { padding: 2px; }=0D=0A.sncore_schedule_summary=
+ { padding: 2px; font-weight: bold; background-color: #E5EDFB; }=0D=0A.sncore_blog_image=
+ { width: 150px; border: none; margin-right: 15px; }=0D=0A.sncore_cc_license=
+ { border: solid 2px black; font-size: smaller; background: #ffc; padding:=
+ 5px; }=0D=0A.sncore_account_license { margin: 5px 0px 5px 0px; }=0D=0A.sncore_title_paragraph=
+ { margin: 5px 0px 2px 0px; }=0D=0A.sncore_madlib_textbox { border: solid=
+ 0px white; font-weight: bold; 	border: solid 1px #BEBEBE; text-align: center;=
+ }=0D=0A.sncore_madlib_watermark { border: solid 0px white; font-weight:=
+ bold; 	border: solid 1px #BEBEBE; background-color:#F0F8FF; text-align:=
+ center; }=0D=0A.sncore_madlib_watermark_missing { border: solid 0px white;=
+ font-weight: bold; color: #FF0000; border: solid 2px #000000; background-color:#F0F8FF;=
+ text-align: center; }=0D=0A.sncore_watermark { border: solid 0px white;=
+ border: solid 1px #BEBEBE; background-color: #F0F8FF; font-family: Verdana;=
+ width: 400px; font-size: 10pt; text-align: left; }=0D=0A.sncore_table_tr_td_madlib=
+ { margin: 10px 10px 10px 10px; }=0D=0A.sncore_master_top { overflow: hidden;=
+ margin: auto; width: 827px; margin-top: 5px; font-family: Verdana, Sans-Serif;=
+ font-size: 10pt; background-color: White; text-align: left; }=0D=0A.sncore_master_menu=
+ { overflow: hidden; margin: auto; width: 827px; font-family: Verdana, Sans-Serif;=
+ font-size: 10pt; background-color: White; text-align: left; }=0D=0A.sncore_master_sitemappath=
+ { overflow: hidden; margin: auto; padding-left: 20px; width: 807px; font-family:=
+ Verdana, Sans-Serif; font-size: 8pt; background-color: White; text-align:=
+ left; }=0D=0A.sncore_master_content { overflow: hidden; margin: auto; width:=
+ 827px; font-family: Verdana, Sans-Serif; font-size: 10pt; background-color:=
+ White; text-align: left; }=0D=0A.sncore_master_footer { overflow: hidden;=
+ margin: auto; width: 827px; font-family: Tahoma; font-size: 8pt; color:=
+ Silver; background-color: White; text-align: center; padding-top: 10px;=
+ padding-bottom: 10px; }=0D=0A.sncore_master_form { overflow: hidden; width:=
+ 100%; text-align: center; }=0D=0A.sncore_title_panel { height: 42px; overflow:=
+ hidden; }=0D=0A.sncore_collapsed_div { height: 0px; overflow: hidden; }=
+=0D=0A.sncore_title_table { margin-top: 10px; overflow: hidden; width: 827px;=
+ }=0D=0A.sncore_datetime_highlight { color: Red; font-weight: bold; }=0D=0A.sncore_quote=
+ { border: dotted 1px gray; color: gray; padding: 5px; font-size: xx-small;=
+ }=0D=0A=0D=0Abody span.sncore_message_tr_td_span { padding-top: 10px; padding-bottom:=
+ 5px; border-bottom: dotted 1px silver; float: left; }=0D=0Abody td.sncore_message_tr_td_halftable=
+ { border-bottom: dotted 1px silver; padding-bottom: 2px; padding-top: 5px;=
+ }=0D=0Abody td.sncore_message_tr_td { border-bottom: dotted 1px silver;=
+ padding-bottom: 5px; padding-top: 10px; }=0D=0Abody tr.sncore_message_tr=
+ td { border-bottom: dotted 1px silver; padding-bottom: 5px; padding-top:=
+ 10px; }=0D=0Abody div.sncore_message { display: inline; }=0D=0Abody div.sncore_message_reply=
+ { margin-top: 5px; border-top: dotted 1px silver; padding-left: 10px; margin-left:=
+ 10px; font-size: smaller; }=0D=0Abody div.sncore_message div.sncore_message_subject=
+ { font-size: 16px; font-weight: bold; }=0D=0Abody div.sncore_message div.sncore_content_madlib=
+ { float: left; width: 472px; background: url(http://www.foodcandy.com/'images/site/quote.gif')=
+ 0px 14px no-repeat;  }=0D=0Abody div.sncore_message div.sncore_content_account=
+ { float: left; width: 480px; background: url(http://www.foodcandy.com/'images/site/quote.gif')=
+ 0px 14px no-repeat;  }=0D=0Abody div.sncore_message div.sncore_content=
+ { float: left; width: 680px; background: url(http://www.foodcandy.com/'images/site/quote.gif')=
+ 0px 14px no-repeat;  }=0D=0Abody div.sncore_message div.sncore_content_recent=
+ { float: left; width: 680px; background: url(http://www.foodcandy.com/'images/site/recentquote.gif')=
+ 0px 14px no-repeat;  }=0D=0Abody div.sncore_message div.sncore_content_halftable=
+ { float: left; width: 210px; background: url(http://www.foodcandy.com/'images/site/quote.gif')=
+ 0px 14px no-repeat;  }=0D=0Abody div.sncore_message div.sncore_message_body=
+ { border: solid 5px #e5ebff; margin-top: 5px; margin-left: 10px; background-color:=
+ #e5ebff; }=0D=0Abody div.sncore_message div.sncore_message_body_recent=
+ { border: solid 5px #ffcccc; margin-top: 5px; margin-left: 10px; background-color:=
+ #ffcccc; }=0D=0Abody div.sncore_message div.sncore_message_body_halftable=
+ { margin-top: 5px; font-size: smaller; margin-left: 10px; background-color:=
+ #e5ebff; }=0D=0Abody div.sncore_message div.sncore_person { float: left;=
+ text-align: center; margin-top: 10px; width: 95px; }=0D=0Abody div.sncore_message=
+ div.sncore_footer { color: Silver; float: right; font-size: 10px; margin-right:=
+ 20px; width: 95%; text-align: right; }=0D=0Abody div.sncore_message div.sncore_header=
+ { position: relative; left: 10px; font-size: 10px; }=0D=0A-->=0D=0A</style>=
+=0D=0A<p style=3D"margin: 10px; font-size: 8pt;">Do not hit 'reply' to this=
+ email! <a href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D195">Can't=
+ see message? click here for online version &#187;&#187;</a></p>=0A=0D=0A=
+=0D=0A<html xmlns=3D"http://www.w3.org/1999/xhtml">=0D=0A<head id=3D"ctl00_Head1"><title>=
+=0D=0A	FoodCandy - dB.'s May Food Candy '08=0D=0A</title>=0D=0A =0D=0A <meta=
+ http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF-8" /></head>=
+=0D=0A<body>=0D=0A =0D=0A  <div class=3D"sncore_master_top">=0D=0A   <a=
+ href=3D"http://www.foodcandy.com/Default.aspx">=0D=0A    <img border=3D"0"=
+ src=3D"http://www.foodcandy.com/images/site/toplogo.jpg" alt=3D"FoodCandy=
+ - friendster for foodies" />=0D=0A   </a>=0D=0A  </div>=0D=0A  =0D=0A =
+ <div class=3D"sncore_master_sitemappath">=0D=0A    =0D=0A=0D=0A   <span=
+ id=3D"ctl00_siteMapPath"><a href=3D"http://www.foodcandy.com/#ctl00_siteMapPath_SkipLink"><img=
+ alt=3D"Skip Navigation Links" height=3D"0" width=3D"0" src=3D"http://www.foodcandy.com/WebResource.axd?d=3DR1kwCbtg-pE33-iAymdvdA2&t=3D633433899199531921"=
+ border=3D"0" /></a><span><a href=3D"http://www.foodcandy.com/Default.aspx">Home</a></span><span>=
+ > </span><span><a href=3D"http://www.foodcandy.com/AccountStoriesView.aspx">Stories</a></span><span>=
+ > </span><span>May Food Candy '08</span><a id=3D"ctl00_siteMapPath_SkipLink"></a></span>=
+=0D=0A  </div>=0D=0A  <div class=3D"sncore_master_content" id=3D"content">=
+=0D=0A   <span id=3D"ctl00_panelNoticeMenu">=0D=0A     =0D=0A=0D=0A=0D=0A=
+    </span>=0D=0A   =0D=0A <table cellspacing=3D"0" cellpadding=3D"4" class=3D"sncore_table">=
+=0D=0A  <tr>=0D=0A   <td valign=3D"top" width=3D"*">=0D=0A    <div class=3D"sncore_h2">=
+=0D=0A     <span id=3D"ctl00_ContentPlaceHolder_storyName">May Food Candy=
+ '08</span>=0D=0A    </div>=0D=0A    =0D=0A    <table class=3D"sncore_inner_table"=
+ width=3D"95%">=0D=0A     <tr>=0D=0A      <td class=3D"sncore_table_tr_td">=
+=0D=0A       <span id=3D"ctl00_ContentPlaceHolder_storySummary"><stripped><H3>From=
+ the Editor's Couch</H3>=0D=0A<P><IMG src=3D"http://www.foodcandy.com/AccountStoryPictureThumbnail.aspx?id=3D523"=
+ /></P>=0D=0A<P>FoodCandy traffic is like a good omelet. Take some brisket,=
+ cut it in tiny little pieces, season well and fry for a few minutes. Add=
+ four eggs and some Italian herbs. Throw in some Cheddar cheese and wrap=
+ the whole thing up, cover and let it sweat for another five minutes. Next=
+ thing you know people are asking when you're going to open a restaurant=
+ and feed millions of New Yorkers with this magical creation.</P>=0D=0A<P>In=
+ April FoodCandy got 348'166 unique visitors. So, no, I am not going to=
+ try to make a business out of it for any short or medium term future. I'll=
+ keep taking money out of my pocket and making the site grow without any=
+ commercial content. So help me convert those visitors into subscribed accounts,=
+ <A href=3D"http://www.foodcandy.com/AccountInvitationsManage.aspx">invite=
+ a friend</A>.</P>=0D=0A<P><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D1"><IMG=
+ src=3D"http://www.foodcandy.com/AccountPicture.aspx?id=3D773" border=3D"0"=
+ /></A></P>=0D=0A<H3>Member Interviews</H3>=0D=0A<P>=0D=0A</P><TABLE>=0D=0A<stripped>=
+=0D=0A<TR>=0D=0A<TD vAlign=3D"center"><A href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D193"><IMG=
+ src=3D"http://www.foodcandy.com/AccountStoryPictureThumbnail.aspx?id=3D742"=
+ border=3D"0" /></A> </TD>=0D=0A<TD vAlign=3D"center">=0D=0A<P><A href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D193"><STRONG><FONT=
+ color=3D"#0000ff">Interview with Jason Gibb, Nudo - Adopt an Olive Tree=
+ in Italy</FONT></STRONG></A></P>=0D=0A<P>My dinner at the delicious Ribot=
+ in Midtown Manhattan started well. I was looking at plate of olives of=
+ two distinct shapes and colors. Some tasted sweet and others a little sour.=
+ I wanted to know whether the big black ones were Manzanillo or Sevillano,=
+ something the staff of a good Italian restaurant can always tell you.</P></TD></TR>=
+=0D=0A<TR>=0D=0A<TD vAlign=3D"center"><A href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D192"><IMG=
+ src=3D"http://www.foodcandy.com/AccountStoryPictureThumbnail.aspx?id=3D737"=
+ border=3D"0" /></A> </TD>=0D=0A<TD vAlign=3D"center">=0D=0A<P><A href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D192"><STRONG><FONT=
+ color=3D"#0000ff">Interview with Top Chef, Executive Chef of Crave on 42nd,=
+ Dave Martin</FONT></STRONG></A></P>=0D=0A<P>Take a pound of rigatoni, a=
+ tablespoon of extra virgin olive oil, a shallot and some garlic. Add oregano,=
+ thyme, heavy cream and Fontina. Throw in salt and fresh black pepper. Shave=
+ a soupson of truffle and Parmiggiano reggiano. With your mad skills, you=
+ might make a pretty decent mac-n-cheese. But it will taste nothing like=
+ Top Chef contestant Dave Martin's.</P></TD></TR>=0D=0A<TR>=0D=0A<TD vAlign=3D"center"><A=
+ href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D191"><IMG src=3D"http://www.foodcandy.com/AccountStoryPictureThumbnail.aspx?id=3D736"=
+ border=3D"0" /></A> </TD>=0D=0A<TD vAlign=3D"center">=0D=0A<P><A href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D191"><STRONG><FONT=
+ color=3D"#000080">Interview with Carter Dillard, Foie-Gras and Animal Protection</FONT></STRONG></A></P>=
+=0D=0A<P>There're many human species, including doctors, lawyers, diners,=
+ reporters and chefs. These animals live in a vast herd, called "society".=
+ In the recent years they all met on an arena that stirred utmost controversy=
+ - foie-gras. Parties involved had taken action, citing freedom versus human=
+ treatment of animals in lengths.</P></TD></TR></stripped></TABLE>=0D=0A<H3>Featured=
+ People</H3>=0D=0A<P>=0D=0A</P><TABLE style=3D"WIDTH: 100%; BORDER-COLLAPSE:=
+ collapse" border=3D"0">=0D=0A<stripped>=0D=0A<TR>=0D=0A<TD align=3D"middle">=
+=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D467"><IMG=
+ src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D3540&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D467"><STRONG><FONT=
+ color=3D"#000080">Laren </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">New York </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D815"><IMG=
+ src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D1238&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D815"><STRONG><FONT=
+ color=3D"#000080">melissa </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">Brooklyn </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D2834"><IMG=
+ src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D3473&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D2834"><FONT=
+ color=3D"#000080"><STRONG>Glenn Burgess </STRONG></FONT></A></DIV>=0D=0A<DIV=
+ style=3D"FONT-SIZE: smaller"><FONT color=3D"#000080"><STRONG></STRONG></FONT></DIV></TD>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D612"><STRONG><FONT=
+ color=3D"#000080"><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D2539&width=3D75&height=3D75"=
+ border=3D"0" /></FONT><FONT color=3D"#0000ff"> </FONT></STRONG></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D612"><STRONG><FONT=
+ color=3D"#0000ff">Grant </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">Dallas </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D2783"><IMG=
+ src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D3423&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D2783"><STRONG><FONT=
+ color=3D"#0000ff">Maggie </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">Greater Detroit Area </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A=
+ href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D1259"><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D1202&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountView.aspx?id=3D1259"><STRONG><FONT=
+ color=3D"#0000ff">paprikaka </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">hood river </DIV></TD></TR></stripped></TABLE>=0D=0A<H3>Featured=
+ Places</H3>=0D=0A<P>=0D=0A</P><TABLE style=3D"WIDTH: 100%; BORDER-COLLAPSE:=
+ collapse" border=3D"0">=0D=0A<stripped>=0D=0A<TR>=0D=0A<TD align=3D"middle">=
+=0D=0A<DIV><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1089"><IMG=
+ src=3D"http://www.foodcandy.com/PlacePictureThumbnail.aspx?id=3D2950&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1089"><STRONG><FONT=
+ color=3D"#000080">Stewart's Drive-In </FONT></STRONG></A></DIV>=0D=0A<DIV=
+ style=3D"FONT-SIZE: smaller">Kearny </DIV></TD>=0D=0A<TD align=3D"middle">=
+=0D=0A<DIV><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1175"><IMG=
+ src=3D"http://www.foodcandy.com/PlacePictureThumbnail.aspx?id=3D3190&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1175"><STRONG><FONT=
+ color=3D"#000080">El Sabroso </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">New York </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1380"><IMG=
+ src=3D"http://www.foodcandy.com/PlacePictureThumbnail.aspx?id=3D3870&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1380"><STRONG><FONT=
+ color=3D"#000080">La Paryse </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller">Montreal </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1200"><IMG=
+ src=3D"http://www.foodcandy.com/PlacePictureThumbnail.aspx?id=3D3286&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1200"><STRONG><FONT=
+ color=3D"#0000ff">Refugio del Parque </FONT></STRONG></A></DIV>=0D=0A<DIV=
+ style=3D"FONT-SIZE: smaller">Santiago </DIV></TD>=0D=0A<TD align=3D"middle">=
+=0D=0A<DIV><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D959"><IMG=
+ src=3D"http://www.foodcandy.com/PlacePictureThumbnail.aspx?id=3D2938&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D959"><STRONG><FONT=
+ color=3D"#0000ff">L'Atelier de Joel Robuchon </FONT></STRONG></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller">Las Vegas </DIV></TD>=0D=0A<TD align=3D"middle">=
+=0D=0A<DIV><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1329"><IMG=
+ src=3D"http://www.foodcandy.com/PlacePictureThumbnail.aspx?id=3D3693&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/PlaceView.aspx?id=3D1329"><STRONG><FONT=
+ color=3D"#0000ff">Armandola Vetrina </FONT></STRONG></A></DIV>=0D=0A<DIV=
+ style=3D"FONT-SIZE: smaller">Milan </DIV></TD></TR></stripped></TABLE>=
+=0D=0A<H3>Syndicated Blogs</H3>=0D=0A<P>=0D=0A</P><TABLE style=3D"WIDTH:=
+ 100%; BORDER-COLLAPSE: collapse" border=3D"0">=0D=0A<stripped>=0D=0A<TR>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D502"><IMG=
+ src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D2696&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D502"><FONT=
+ color=3D"#000080"><STRONG>Burghilicious - Atom </STRONG></FONT></A></DIV></TD>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D537"><FONT=
+ color=3D"#000080"><STRONG><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D3148&width=3D75&height=3D75"=
+ border=3D"0" /> </STRONG></FONT></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller"><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D537"><FONT=
+ color=3D"#000080"><STRONG>she eats. </STRONG></FONT></A></DIV></TD>=0D=0A<TD=
+ align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D365"><FONT=
+ color=3D"#000080"><STRONG><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D1544&width=3D75&height=3D75"=
+ border=3D"0" /> </STRONG></FONT></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller"><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D365"><FONT=
+ color=3D"#000080"><STRONG>Sour Grapes </STRONG></FONT></A></DIV></TD>=0D=0A<TD=
+ align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D375"><STRONG><FONT=
+ color=3D"#000080"><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D1304&width=3D75&height=3D75"=
+ border=3D"0" /></FONT><FONT color=3D"#0000ff"> </FONT></STRONG></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D375"><FONT=
+ color=3D"#0000ff"><STRONG>Get Sconed! - RSS </STRONG></FONT></A></DIV></TD>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D525"><FONT=
+ color=3D"#0000ff"><STRONG><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D507&width=3D75&height=3D75"=
+ border=3D"0" /> </STRONG></FONT></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller"><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D525"><FONT=
+ color=3D"#0000ff"><STRONG>The Hungover Gourmet </STRONG></FONT></A></DIV></TD>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D573"><FONT=
+ color=3D"#0000ff"><STRONG><IMG src=3D"http://www.foodcandy.com/AccountPictureThumbnail.aspx?id=3D3395&width=3D75&height=3D75"=
+ border=3D"0" /> </STRONG></FONT></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE:=
+ smaller"><A href=3D"http://www.foodcandy.com/AccountFeedView.aspx?id=3D573"><STRONG><FONT=
+ color=3D"#0000ff">Flexitarian Menu RSS Feed </FONT></STRONG></A></DIV></TD></TR></stripped></TABLE>=
+=0D=0A<H3>Upcoming Events</H3>=0D=0A<P>=0D=0A</P><TABLE style=3D"WIDTH:=
+ 100%; BORDER-COLLAPSE: collapse" border=3D"0">=0D=0A<stripped>=0D=0A<TR>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D414"><IMG=
+ src=3D"http://www.foodcandy.com/AccountEventPictureThumbnail.aspx?id=3D393&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D414"><STRONG><FONT=
+ color=3D"#000080">Singles Long-Weekend BBQ At Beautiful Mount Royal </FONT></STRONG></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller">Maison Smith, Montreal </DIV></TD>=
+=0D=0A<TD align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D423"><IMG=
+ src=3D"http://www.foodcandy.com/AccountEventPictureThumbnail.aspx?id=3D399&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D423"><STRONG><FONT=
+ color=3D"#0000ff">Romeo's Euro Caf=E9 Presents Saddlerock Malibu Family=
+ Wines </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE: smaller">Romeo's=
+ Euro Caf=E9, Gilbert </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A=
+ href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D387"><IMG src=3D"http://www.foodcandy.com/AccountEventPictureThumbnail.aspx?id=3D368&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D387"><STRONG><FONT=
+ color=3D"#000080">Cuisine of Queens & Beyond and The Burger Battle of the=
+ Boroughs </FONT></STRONG></A></DIV>=0D=0A<DIV style=3D"FONT-SIZE: smaller">Astoria=
+ World Manor , Astoria </DIV></TD>=0D=0A<TD align=3D"middle">=0D=0A<DIV><A=
+ href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D442"><IMG src=3D"http://www.foodcandy.com/AccountEventPictureThumbnail.aspx?id=3D0&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D442"><STRONG><FONT=
+ color=3D"#0000ff">KOSHER Worry-Free Dinner </FONT></STRONG></A></DIV>=0D=0A<DIV=
+ style=3D"FONT-SIZE: smaller">Mike's Bistro, New York </DIV></TD>=0D=0A<TD=
+ align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D449"><IMG=
+ src=3D"http://www.foodcandy.com/AccountEventPictureThumbnail.aspx?id=3D447&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#000080"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D449"><STRONG><FONT=
+ color=3D"#000080">Eat, Drink & Be Hopeful </FONT></STRONG></A></DIV>=0D=0A<DIV=
+ style=3D"FONT-SIZE: smaller">Tobacco Warehouse, Brooklyn </DIV></TD>=0D=0A<TD=
+ align=3D"middle">=0D=0A<DIV><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D400"><IMG=
+ src=3D"http://www.foodcandy.com/AccountEventPictureThumbnail.aspx?id=3D0&width=3D75&height=3D75"=
+ border=3D"0" /><FONT color=3D"#0000ff"><STRONG> </STRONG></FONT></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller"><A href=3D"http://www.foodcandy.com/AccountEventView.aspx?id=3D400"><STRONG><FONT=
+ color=3D"#0000ff">Dine Around Downtown 2008 </FONT></STRONG></A></DIV>=
+=0D=0A<DIV style=3D"FONT-SIZE: smaller">Chase Manhattan Plaza, New York=
+ </DIV></TD></TR></stripped></TABLE>=0D=0A<H3>Newsletter Info</H3>=0D=0A<P>Did=
+ you miss the previous newsletter? <A href=3D"http://www.foodcandy.com/AccountStoryView.aspx?id=3D190">It's=
+ here</A>.</P>=0D=0A<P>This not-so-regular newsletter is exclusively reserved=
+ to FoodCandy members. If you do not wish to receive it, you may uncheck=
+ the <EM>Receive the Newsletter</EM> box in your <A href=3D"http://www.foodcandy.com/AccountPropertyGroupEdit.aspx?id=3D1">Personal=
+ Profile</A> settings. You may of course delete your account from the <A=
+ href=3D"http://www.foodcandy.com/Help.aspx">Help</A> menu and as much as=
+ we would be sad to see you go, we'll never bother you again.</P></stripped></span>=
+=0D=0A      </td>=0D=0A     </tr>=0D=0A    </table>=0D=0A    =0D=0A    <table=
+ class=3D"sncore_inner_table" width=3D"95%">=0D=0A     <tr>=0D=0A      <td>=
+=0D=0A       <div id=3D"ctl00_ContentPlaceHolder_licenseView_panelLicense"=
+ class=3D"sncore_account_license">=0D=0A	=0D=0A <a href=3D"http://creativecommons.org/licenses/by-nc-nd/2.5/"=
+ id=3D"ctl00_ContentPlaceHolder_licenseView_licenseLink" target=3D"_blank">=
+=0D=0A  <img src=3D"http://creativecommons.org/images/public/somerights20.png"=
+ id=3D"ctl00_ContentPlaceHolder_licenseView_licenseImage" border=3D"0" alt=3D"Attribution-Noncommercial-No=
+ Derivative Works 2.5 " />=0D=0A </a>=0D=0A=0D=0A</div>=0D=0A       =0D=0A=
+      </td>=0D=0A      <td class=3D"sncore_table_tr_td" style=3D"font-size:=
+ smaller;" align=3D"right">=0D=0A       socially bookmark this story:=0D=0A=
+      </td>=0D=0A      <td class=3D"sncore_table_tr_td">      =0D=0A   =
+    <table id=3D"ctl00_ContentPlaceHolder_bookmarksView_bookmarksView" class=3D"sncore_bookmarks_table"=
+ cellspacing=3D"0" border=3D"0">=0D=0A	<tr>=0D=0A		<td class=3D"sncore_bookmarks_table_tr_td"=
+ align=3D"center">=0D=0A  <a target=3D"_blank" href=3D"http://del.icio.us/post?url=3Dhttp%3a%2f%2fwww.foodcandy.com%2fAccountStoryView.aspx%3fid%3d195&title=3DFoodCandy+-+dB.'s+May+Food+Candy+'08">=
+=0D=0A   <img border=3D"0" src=3D"http://www.foodcandy.com/SystemBookmark.aspx?id=3D2&ShowThumbnail=3DTrue"=
+ alt=3D"Delicious=0D=0AA collection of favorites - yours and everyone else's."=
+ />=0D=0A  </a>=0D=0A </td><td class=3D"sncore_bookmarks_table_tr_td" align=3D"center">=
+=0D=0A  <a target=3D"_blank" href=3D"http://digg.com/submit?phase=3D2&url=3Dhttp%3a%2f%2fwww.foodcandy.com%2fAccountStoryView.aspx%3fid%3d195">=
+=0D=0A   <img border=3D"0" src=3D"http://www.foodcandy.com/SystemBookmark.aspx?id=3D12&ShowThumbnail=3DTrue"=
+ alt=3D"Digg=0D=0ADigg is a technology news website that combines social=
+ bookmarking, blogging, RSS, and non-hierarchical editorial control." />=
+=0D=0A  </a>=0D=0A </td>=0D=0A	</tr>=0D=0A</table>=0D=0A=0D=0A      </td>=
+=0D=0A      =0D=0A     </tr>=0D=0A    </table>=0D=0A    =0D=0A   </td>=0D=0A=
+  </tr>=0D=0A </table>=0D=0A=0D=0A  </div>=0D=0A  <div class=3D"sncore_master_footer">=
+=0D=0A   <a href=3D"http://www.foodcandy.com/CodeOfConduct.aspx">code of=
+ conduct</a> | =0D=0A   <a href=3D"http://www.foodcandy.com/PrivacyPolicy.aspx">privacy=
+ policy</a> | =0D=0A   <a href=3D"http://www.foodcandy.com/TermsOfUse.aspx">terms=
+ of use</a> | =0D=0A   <a href=3D"http://www.foodcandy.com/Help.aspx">about=
+ & help</a> | =0D=0A   =0D=0A  <input type=3D"image" name=3D"ctl00$selectCulture$listCultures$ctl00$selectCulture"=
+ id=3D"ctl00_selectCulture_listCultures_ctl00_selectCulture" src=3D"images/culture/9.png"=
+ alt=3D"English" align=3D"absmiddle" border=3D"0" />=0D=0A =0D=0A  <input=
+ type=3D"image" name=3D"ctl00$selectCulture$listCultures$ctl01$selectCulture"=
+ id=3D"ctl00_selectCulture_listCultures_ctl01_selectCulture" src=3D"images/culture/25.png"=
+ alt=3D"???????" align=3D"absmiddle" border=3D"0" />=0D=0A =0D=0A=0D=0A=
+   <!--<a id=3D"ctl00_linkCulture" href=3D"AccountPreferencesManage.aspx"></a>-->=
+=0D=0A   <br />=0D=0A   (c) 2006-2007 Vestris Inc. - All Rights Reserved=
+=0D=0A  </div>=0D=0A  =0D=0A</body>=0D=0A</html>=0D=0A
+
+
+
+--9B095B5ADSN=_01C8B829A12D30BE000000E5IPDMBZ0465MIA.ci--

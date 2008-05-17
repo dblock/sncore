@@ -131,7 +131,10 @@ namespace SnCore.BackEndServices
         private void ProcessMessage(string filename)
         {
             MimeMessage msg = new MimeMessage();
-            msg.ReadFromFile(filename);
+
+            StreamReader content = new StreamReader(filename);
+            msg.LoadBody(content.ReadToEnd());
+            content.Close();
 
             ArrayList bodylist = new ArrayList();
             msg.GetBodyPartList(bodylist);

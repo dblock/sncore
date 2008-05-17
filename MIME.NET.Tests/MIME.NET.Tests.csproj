@@ -64,6 +64,11 @@
       <LastGenOutput>MimeMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tests\_cjJxWY5pC00000099%40IPDMBZ0465MIA.citrus.com_" />
+    <EmbeddedResource Include="Tests\_GCIFoPkG000000097%40IPDMBZ0465MIA.citrus.com_" />
+    <EmbeddedResource Include="Tests\_u2ZN9KAy40000009a%40IPDMBZ0465MIA.citrus.com_" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
