@@ -215,7 +215,7 @@ namespace SnCore.Services
         {
             ManagedDiscussion.FindAndDelete(Session, mInstance.AccountStory.Account.Id, typeof(AccountStoryPicture), mInstance.Id, sec);
             ManagedPictureServiceImpl<AccountStoryPicture>.Delete(Session, mInstance, mInstance.AccountStory.AccountStoryPictures);
-            Collection<AccountStoryPicture>.GetSafeCollection(mInstance.AccountStory.AccountStoryPictures).Remove(mInstance);
+            Collection<AccountStoryPicture>.Remove(mInstance.AccountStory.AccountStoryPictures, mInstance);
             base.Delete(sec);
         }
 
@@ -227,6 +227,8 @@ namespace SnCore.Services
                 mInstance.Created = mInstance.Modifed;
             }
             ManagedPictureServiceImpl<AccountStoryPicture>.Save(Session, mInstance, mInstance.AccountStory.AccountStoryPictures);
+            if (mInstance.AccountStory.AccountStoryPictures == null) mInstance.AccountStory.AccountStoryPictures = new List<AccountStoryPicture>();
+            mInstance.AccountStory.AccountStoryPictures.Add(mInstance);
             base.Save(sec);
         }
 

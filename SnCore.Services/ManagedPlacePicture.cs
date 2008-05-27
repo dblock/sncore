@@ -348,6 +348,8 @@ namespace SnCore.Services
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
             ManagedPictureServiceImpl<PlacePicture>.Save(Session, mInstance, mInstance.Place.PlacePictures);
+            if (mInstance.Place.PlacePictures == null) mInstance.Place.PlacePictures = new List<PlacePicture>();
+            mInstance.Place.PlacePictures.Add(mInstance);
             base.Save(sec);
         }
 

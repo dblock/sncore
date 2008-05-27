@@ -10,7 +10,7 @@ namespace SnCore.Data.Hibernate
         {
             if (count == 0) count = collection.Count;
             List<T> result = new List<T>(count);
- 
+
             for (int i = 0; i < count; i++)
             {
                 if (first + i >= collection.Count)
@@ -25,6 +25,14 @@ namespace SnCore.Data.Hibernate
         public static IList<T> GetSafeCollection(IList<T> collection)
         {
             return (collection == null) ? new List<T>() : collection;
+        }
+
+        public static void Remove(IList<T> collection, T el)
+        {
+            if (collection != null)
+            {
+                collection.Remove(el);
+            }
         }
     }
 }
