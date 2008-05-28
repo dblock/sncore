@@ -237,6 +237,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{9316
 	ProjectSection(SolutionItems) = preProject
 		SnCore.Data\FixDiscussionModified.sql = SnCore.Data\FixDiscussionModified.sql
 		SnCore.Data\FixOrphanedTestimonials.sql = SnCore.Data\FixOrphanedTestimonials.sql
+		SnCore.Data\FixPicturePositions.sql = SnCore.Data\FixPicturePositions.sql
 		SnCore.Data\MigrateAccountContentGroupsToBlogs.sql = SnCore.Data\MigrateAccountContentGroupsToBlogs.sql
 		SnCore.Data\SnCoreSqlFullText.sql = SnCore.Data\SnCoreSqlFullText.sql
 		SnCore.Data\SnCoreSqlPermissions.sql = SnCore.Data\SnCoreSqlPermissions.sql
