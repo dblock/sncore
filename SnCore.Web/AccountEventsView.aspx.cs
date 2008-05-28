@@ -228,7 +228,9 @@ public partial class AccountEventsView : Page
         if (!string.IsNullOrEmpty(s))
         {
             NameValueCollection args = Renderer.ParseQueryString(s);
-            LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
+            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(args);
+            l_args.Clear = true;
+            LocationSelector.SelectLocation(sender, l_args);
             gridManage.CurrentPageIndex = int.Parse(args["page"]);
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();

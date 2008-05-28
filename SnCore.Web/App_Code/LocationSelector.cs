@@ -35,7 +35,17 @@ public class CityLocationEventArgs : EventArgs
     }
 }
 
-public class LocationEventArgs : EventArgs
+public class ClearLocationEventArgs : EventArgs
+{
+    public bool Clear = false;
+
+    public ClearLocationEventArgs()
+    {
+
+    }
+}
+
+public class LocationEventArgs : ClearLocationEventArgs
 {
     public string Country;
     public string State;
@@ -171,25 +181,25 @@ public class LocationSelectorCountryState : LocationSelector
     {
         bool result = false;
 
-        if (mCountry != null && !string.IsNullOrEmpty(e.Country))
+        if (e.Clear || (mCountry != null && !string.IsNullOrEmpty(e.Country)))
         {
             mCountry.ClearSelection();
             ListItem country = mCountry.Items.FindByValue(e.Country);
-            if (country != null)
+            if (country != null) country.Selected = true;
+            if (country != null || e.Clear)
             {
-                country.Selected = true;
                 Country_SelectedIndexChanged(sender, e);
                 result = true;
             }
         }
 
-        if (mState != null && !string.IsNullOrEmpty(e.State))
+        if (e.Clear || (mState != null && !string.IsNullOrEmpty(e.State)))
         {
             mState.ClearSelection();
             ListItem state = mState.Items.FindByValue(e.State);
-            if (state != null)
+            if (state != null) state.Selected = true;
+            if (state != null || e.Clear) 
             {
-                state.Selected = true;
                 State_SelectedIndexChanged(sender, e);
                 result = true;
             }
@@ -280,7 +290,7 @@ public class LocationSelectorCountryStateCityText : LocationSelectorCountryState
     {
         bool result = base.SelectLocation(sender, e);
 
-        if (mCity != null && !string.IsNullOrEmpty(e.City))
+        if (e.Clear || (mCity != null && !string.IsNullOrEmpty(e.City)))
         {
             mCity.Text = e.City;
             result = true;
@@ -343,13 +353,13 @@ public class LocationSelectorCountryStateCity : LocationSelectorCountryState
     {
         bool result = base.SelectLocation(sender, e);
 
-        if (mCity != null && ! string.IsNullOrEmpty(e.City))
+        if (e.Clear || (mCity != null && ! string.IsNullOrEmpty(e.City)))
         {
             mCity.ClearSelection();
             ListItem city = mCity.Items.FindByValue(e.City);
-            if (city != null)
+            if (city != null) city.Selected = true;
+            if (city != null || e.Clear)
             {
-                city.Selected = true;
                 City_SelectedIndexChanged(sender, e);
                 result = true;
             }
@@ -418,13 +428,13 @@ public class LocationSelectorCountryStateCityNeighborhood : LocationSelectorCoun
     {
         bool result = base.SelectLocation(sender, e);
 
-        if (mNeighborhood != null && !string.IsNullOrEmpty(e.Neighborhood))
+        if (e.Clear || (mNeighborhood != null && !string.IsNullOrEmpty(e.Neighborhood)))
         {
             mNeighborhood.ClearSelection();
             ListItem neighborhood = mNeighborhood.Items.FindByValue(e.Neighborhood);
-            if (neighborhood != null)
+            if (neighborhood != null) neighborhood.Selected = true;
+            if (neighborhood != null || e.Clear)
             {
-                neighborhood.Selected = true;
                 result = true;
             }
         }
@@ -493,7 +503,7 @@ public class LocationSelectorCountryStateCityNeighborhoodText : LocationSelector
     {
         bool result = base.SelectLocation(sender, e);
 
-        if (mNeighborhood != null && !string.IsNullOrEmpty(e.Neighborhood))
+        if (e.Clear || (mNeighborhood != null && !string.IsNullOrEmpty(e.Neighborhood)))
         {
             mNeighborhood.Text = e.Neighborhood;
             result = true;

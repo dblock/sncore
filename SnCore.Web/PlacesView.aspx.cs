@@ -106,12 +106,13 @@ public partial class PlacesView : Page
         {
             bool result = base.SelectLocation(sender, e);
 
-            if (mType != null && !string.IsNullOrEmpty(e.Type))
+            if (e.Clear || (mType != null && !string.IsNullOrEmpty(e.Type)))
             {
+                mType.ClearSelection();
                 result = ListItemManager.TrySelect(mType, e.Type);
             }
 
-            if (mPicturesOnly != null && !string.IsNullOrEmpty(e.PicturesOnly))
+            if (e.Clear || (mPicturesOnly != null && !string.IsNullOrEmpty(e.PicturesOnly)))
             {
                 bool picturesonly = false;
                 if (bool.TryParse(e.PicturesOnly, out picturesonly))
@@ -220,7 +221,9 @@ public partial class PlacesView : Page
         if (!string.IsNullOrEmpty(s))
         {
             NameValueCollection args = Renderer.ParseQueryString(s);
-            LocationSelector.SelectLocation(sender, new LocationWithOptionsEventArgs(args));
+            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(args);
+            l_args.Clear = true;
+            LocationSelector.SelectLocation(sender, l_args);
             gridManage.CurrentPageIndex = int.Parse(args["page"]);
             gridManage_OnGetDataSource(sender, e);
             gridManage.DataBind();

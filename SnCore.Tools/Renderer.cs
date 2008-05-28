@@ -161,14 +161,14 @@ namespace SnCore.Tools.Web
                 //simplify our task
                 qstring = qstring + "&";
 
-
                 Regex r = new Regex(@"(?<name>[^=&]+)=(?<value>[^&]+)&", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 IEnumerator _enum = r.Matches(qstring).GetEnumerator();
                 while (_enum.MoveNext() && _enum.Current != null)
                 {
-                    outc.Add(((Match)_enum.Current).Result("${name}"),
-                            ((Match)_enum.Current).Result("${value}"));
+                    string name = Renderer.UrlDecode(((Match)_enum.Current).Result("${name}"));
+                    string value = Renderer.UrlDecode(((Match)_enum.Current).Result("${value}"));
+                    outc.Add(name, value);
                 }
             }
 
