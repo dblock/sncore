@@ -11,7 +11,11 @@ has been completely figured out for you.
 \li Microsoft .NET Framework 2.0
     <br>http://msdn.microsoft.com/netframework/downloads/updates/default.aspx
 \li Microsoft IIS 6.0 or 7.0 running ASP.NET 2.0
-\li Microsoft Visual Studio 2005 Service Pack 1
+\li Microsoft Visual Studio 2008
+\li Visual Studio 2008 Web Deployment Projects
+    http://www.microsoft.com/downloads/details.aspx?FamilyId=0AA30AE8-C73B-4BDD-BB1B-FE697256C459&displaylang=en
+\li Windows Installer Xml (Wix) 3.0.4220.0
+    http://wix.sourceforge.net/releases/3.0.4220.0/
 \li Microsoft Web Services Extension 3.0
     <br>http://msdn.microsoft.com/webservices/downloads/default.aspx
 \li Subversion Client

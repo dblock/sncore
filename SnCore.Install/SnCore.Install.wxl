@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
- <!-- Choose a WebSite Name -->
-	<String Id="WebSiteNameDlg_Title">[ProductName] Setup</String>
- <String Id="WebSiteNameDlgTitle">{\WixUI_Font_Title}WebSite Name</String>
- <String Id="WebSiteNameDlgDescription">Please choose a name and a domain for your website.</String>
- <String Id="WebSiteNameDlgBannerBitmap">WixUI_Bmp_Banner</String>
- <String Id="WebSiteNameLabel">&amp;WebSite Name:</String>
- <String Id="WebSiteDomainNameLabel">&amp;Domain Name:</String>
- <String Id="WebSiteTypeDomainText">&amp;Create a New WebSite</String>
- <String Id="WebSiteTypeVirtualDirectoryText">&amp;Create Virtual Directories in Default Website</String>
- <String Id="WebSiteLaunch">&amp;Launch WebSite</String>
- <String Id="SqlDlg_Title">[ProductName] Setup</String>
- <String Id="SqlDlgTitle">{\WixUI_Font_Title}SQL Server Information</String>
- <String Id="SqlDlgDescription">Please enter database information.</String>
- <String Id="SqlDlgBannerBitmap">WixUI_Bmp_Banner</String>
- <String Id="SqlDatabaseLabel">&amp;Database Name:</String>
- <String Id="SqlServerLabel">&amp;SQL Server:</String>
- <String Id="UpgradeWelcomeDlg_Title">[ProductName] Upgrade</String>
- <String Id="UpgradeWelcomeDlgBitmap">WixUI_Bmp_Dialog</String>
- <String Id="UpgradeWelcomeDlgTitle">{\WixUI_Font_Title}Upgrade Information</String>
- <String Id="UpgradeWelcomeDlgDescription">Setup will upgrade [ProductName] from version [INSTALLEDPRODUCTVERSION] to [ProductVersion].</String>
+    <!-- Choose a WebSite Name -->
+    <String Id="WebSiteNameDlg_Title">[ProductName] Setup</String>
+    <String Id="WebSiteNameDlgTitle">{\WixUI_Font_Title}WebSite Name</String>
+    <String Id="WebSiteNameDlgDescription">Please choose a name and a domain for your website.</String>
+    <String Id="WebSiteNameDlgBannerBitmap">WixUI_Bmp_Banner</String>
+    <String Id="WebSiteNameLabel">&amp;WebSite Name:</String>
+    <String Id="WebSiteDomainNameLabel">&amp;Domain Name:</String>
+    <String Id="WebSiteTypeDomainText">&amp;Create a New WebSite</String>
+    <String Id="WebSiteTypeVirtualDirectoryText">&amp;Create Virtual Directories in Default Website</String>
+    <String Id="WebSiteLaunch">&amp;Launch WebSite</String>
+    <String Id="SqlDlg_Title">[ProductName] Setup</String>
+    <String Id="SqlDlgTitle">{\WixUI_Font_Title}SQL Server Information</String>
+    <String Id="SqlDlgDescription">Please enter database information.</String>
+    <String Id="SqlDlgBannerBitmap">WixUI_Bmp_Banner</String>
+    <String Id="SqlDatabaseLabel">&amp;Database Name:</String>
+    <String Id="SqlServerLabel">&amp;SQL Server:</String>
+    <String Id="UpgradeWelcomeDlg_Title">[ProductName] Upgrade</String>
+    <String Id="UpgradeWelcomeDlgBitmap">WixUI_Bmp_Dialog</String>
+    <String Id="UpgradeWelcomeDlgTitle">{\WixUI_Font_Title}Upgrade Information</String>
+    <String Id="UpgradeWelcomeDlgDescription">Setup will upgrade [ProductName] from version [INSTALLEDPRODUCTVERSION] to [ProductVersion].</String>
 </WixLocalization>

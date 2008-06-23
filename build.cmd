@@ -1,15 +1,60 @@
 @echo off
-setlocal
+
+if "%~1"=="" ( 
+ call :Usage
+ goto :EOF
+)
+
+pushd "%~dp0"
+setlocal ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
+
 set SnCoreProjectName=SnCore
-set BUILD_TARGET=%~1
-set BUILD_CONFIGURATION=%~2
-set BUILD_SVNDIR=%ProgramFiles%\svn
-if "%BUILD_TARGET%"=="" set BUILD_TARGET=all
-if "%BUILD_CONFIGURATION%"=="" set BUILD_CONFIGURATION=Debug
-if "%FrameworkVersion%"=="" set FrameworkVersion=v2.0.50727
-if "%FrameworkDir%"=="" set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework
-echo Framework: %FrameworkDir%
-PATH=%PATH%;%FrameworkDir%\%FrameworkVersion%;%ProgramFiles%\Microsoft Visual Studio 8\VC\BIN;%ProgramFiles%\Microsoft Visual Studio 8\Common7\Tools;%ProgramFiles%\NUnit 2.4.1\bin
-echo %PATH%
-msbuild.exe SnCore.proj /t:%BUILD_TARGET% /p:"Configuration=%BUILD_CONFIGURATION%"
+
+set VisualStudioCmd=%ProgramFiles%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat
+
+if EXIST "%VisualStudioCmd%" ( 
+ call "%VisualStudioCmd%"
+)
+
+set SvnDir=%ProgramFiles%\svn
+if NOT EXIST "%SvnDir%" set SvnDir=%ProgramFiles%\Subversion
+if NOT EXIST "%SvnDir%" (
+ echo Missing SubVersion, expected in %SvnDir%
+ exit /b -1
+)
+
+set NUnitDir=%ProgramFiles%\NUnit 2.4.7\bin
+if NOT EXIST "%NUnitDir%" (
+ echo Missing NUnit, expected in %NUnitDir%
+ exit /b -1
+)
+
+set DoxygenDir=%ProgramFiles%\doxygen\bin
+if NOT EXIST "%DoxygenDir%" (
+ echo Missing Doxygen, expected in %DoxygenDir%
+ exit /b -1
+)
+
+set FrameworkVersion=v3.5
+set FrameworkDir=%SystemRoot%\Microsoft.NET\Framework
+
+PATH=%FrameworkDir%\%FrameworkVersion%;%NUnitDir%;%SvnDir%;%DoxygenDir%;%PATH%
+msbuild.exe sncore.proj /t:%*
+popd
 endlocal
+goto :EOF
+
+:Usage
+echo  Syntax:
+echo.
+echo   build [target] /p:Configuration=[Debug (default),Release] /t:ReleaseDir=[drop]
+echo.
+echo  Target:
+echo.
+echo   all : build everything
+echo.
+echo  Examples:
+echo.
+echo   build all
+echo   build all /p:Configuration=Release /p:ReleaseDir=\\nycapt35k.com\public\devbuild\Epo
+goto :EOF

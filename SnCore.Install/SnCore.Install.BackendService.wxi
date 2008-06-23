@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="Windows-1252"?>
-<Include>
- <Fragment Id="SnCore.Install.BackendService.Fragment" xmlns:Util="http://schemas.microsoft.com/wix/UtilExtension">
-  <?include SnCore.Project.wxi ?>
-  <DirectoryRef Id="INSTALLDIR">
-   <Directory Id="SnCoreServices" Name="services">
-    <Component Id="SnCoreServicesBin" Guid="98108DA7-187B-483f-9FF6-A2E0FD35FB76" DiskId="1">
-     <File Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe" Name="SnCore.BackEnd.Service.exe" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.Service.exe" KeyPath="yes" />
-     <File Id="SnCoreServicesBin_Atom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Atom.NET.dll" />
-     <File Id="SnCoreServicesBin_Castle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Castle.DynamicProxy.dll" />
-     <File Id="SnCoreServicesBin_ICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\ICalParser.dll" />
-     <File Id="SnCoreServicesBin_Iesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Iesi.Collections.dll" />
-     <File Id="SnCoreServicesBin_Janrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Janrain.OpenId.dll" />
-     <File Id="SnCoreServicesBin_log4net_dll" Name="log4net.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\log4net.dll" />
-     <File Id="SnCoreServicesBin_MIME_NET_dll" Name="MIME.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\MIME.NET.dll" />
-     <File Id="SnCoreServicesBin_NGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\NGif.NET.dll" />
-     <File Id="SnCoreServicesBin_NHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\NHibernate.dll" />
-     <File Id="SnCoreServicesBin_RSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\RSS.NET.dll" />
-     <File Id="SnCoreServicesBin_SgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SgmlReaderDll.dll" />
-     <File Id="SnCoreServicesBin_SnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.dll" />
-     <File Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe_config" Name="SnCore.BackEnd.Service.exe.config" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.Service.exe.config" />
-     <Util:XmlFile Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe_config_hccs" Action="setValue" ElementPath="/configuration/nhibernate/add[\[]@key='hibernate.connection.connection_string'[\]]/@value" File="[SnCoreServices]SnCore.BackEnd.Service.exe.config" Value="Server=[SNCORE_SQL_SERVER];initial catalog=[SNCORE_SQL_DATABASE];Integrated Security=SSPI" />
-     <Util:XmlFile Id="SnCoreWebSiteDisableServices_web_config" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SystemServices.Enabled'[\]]/@value" File="[SnCore]web.config" Value="false" />
-     <File Id="SnCoreServicesBin_SnCore_Data_dll" Name="SnCore.Data.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.dll" />
-     <File Id="SnCoreServicesBin_SnCore_Data_Hibernate_dll" Name="SnCore.Data.Hibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.Hibernate.dll" />
-     <File Id="SnCoreServicesBin_SnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Services.dll" />
-     <File Id="SnCoreServicesBin_SnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Tools.dll" />
-     <ServiceInstall Id="SnCoreServicePostMaster" Name="SnCore System PostMaster Service" DisplayName="SnCore System PostMaster Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Routes e-mails between the SnCore users and an SMTP server." />
-     <ServiceControl Id="SnCoreServicePostMaster_Start" Name="SnCore System PostMaster Service" Start="install" Wait="no" />
-     <ServiceControl Id="SnCoreServicePostMaster_Stop" Name="SnCore System PostMaster Service" Stop="both" Wait="yes" Remove="uninstall" />
-     <ServiceInstall Id="SnCoreServiceReminder" Name="SnCore System Reminder Service" DisplayName="SnCore System Reminder Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Runs subscriptions, reminders and other cleanup tasks." />
-     <ServiceControl Id="SnCoreServiceReminder_Start" Name="SnCore System Reminder Service" Start="install" Wait="no" />
-     <ServiceControl Id="SnCoreServiceReminder_Stop" Name="SnCore System Reminder Service" Stop="both" Wait="yes" Remove="uninstall" />
-     <ServiceInstall Id="SnCoreServiceSMTPQueue" Name="SnCore System SMTP Queue Service" DisplayName="SnCore System SMTP Queue Service" Type="shareProcess" Start="demand" ErrorControl="normal" Description="Routes NDRs processed and queued by the SMTP sink." />
-     <ServiceControl Id="SnCoreServiceSMTPQueue_Start" Name="SnCore System SMTP Queue Service" Wait="no" />
-     <ServiceControl Id="SnCoreServiceSMTPQueue_Stop" Name="SnCore System SMTP Queue Service" Stop="both" Wait="yes" Remove="uninstall" />
-     <ServiceInstall Id="SnCoreServiceSyndication" Name="SnCore System Syndication Service" DisplayName="SnCore System Syndication Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Runs RSS feed syndication updates." />
-     <ServiceControl Id="SnCoreServiceSyndication_Start" Name="SnCore System Syndication Service" Start="install" Wait="no" />
-     <ServiceControl Id="SnCoreServiceSyndication_Stop" Name="SnCore System Syndication Service" Stop="both" Wait="yes" Remove="uninstall" />
-     <ServiceInstall Id="SnCoreServiceTag" Name="SnCore System Tag Service" DisplayName="SnCore System Tag Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Indexes content into meta tags." />
-     <ServiceControl Id="SnCoreServiceTag_Start" Name="SnCore System Tag Service" Start="install" Wait="no" />
-     <ServiceControl Id="SnCoreServiceTag_Stop" Name="SnCore System Tag Service" Stop="both" Wait="yes" Remove="uninstall" />
-     <ServiceInstall Id="SnCoreServiceThumbnail" Name="SnCore System Thumbnail Generation Service" DisplayName="SnCore System Thumbnail Generation Service" Type="shareProcess" Start="demand" ErrorControl="normal" Description="Updates website and feed thumbnails." />
-     <ServiceControl Id="SnCoreServiceThumbnail_Start" Name="SnCore System Thumbnail Generation Service" Wait="no" />
-     <ServiceControl Id="SnCoreServiceThumbnail_Stop" Name="SnCore System Thumbnail Generation Service" Stop="both" Wait="yes" Remove="uninstall" />
-    </Component>
-   </Directory>
-  </DirectoryRef>
+<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment Id="SnCore.Install.BackendService.Fragment" xmlns:Util="http://schemas.microsoft.com/wix/UtilExtension">
+        <?include SnCore.Project.wxi ?>
+        <DirectoryRef Id="INSTALLDIR">
+            <Directory Id="SnCoreServices" Name="services">
+                <Component Id="SnCoreServicesBin" Guid="98108DA7-187B-483f-9FF6-A2E0FD35FB76" DiskId="1">
+                    <File Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe" Name="SnCore.BackEnd.Service.exe" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.Service.exe" KeyPath="yes" />
+                    <File Id="SnCoreServicesBin_Atom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Atom.NET.dll" />
+                    <File Id="SnCoreServicesBin_Castle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Castle.DynamicProxy.dll" />
+                    <File Id="SnCoreServicesBin_ICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\ICalParser.dll" />
+                    <File Id="SnCoreServicesBin_Iesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Iesi.Collections.dll" />
+                    <File Id="SnCoreServicesBin_Janrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Janrain.OpenId.dll" />
+                    <File Id="SnCoreServicesBin_log4net_dll" Name="log4net.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\log4net.dll" />
+                    <File Id="SnCoreServicesBin_MIME_NET_dll" Name="MIME.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\MIME.NET.dll" />
+                    <File Id="SnCoreServicesBin_NGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\NGif.NET.dll" />
+                    <File Id="SnCoreServicesBin_NHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\NHibernate.dll" />
+                    <File Id="SnCoreServicesBin_RSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\RSS.NET.dll" />
+                    <File Id="SnCoreServicesBin_SgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SgmlReaderDll.dll" />
+                    <File Id="SnCoreServicesBin_SnCore_BackEnd_dll" Name="SnCore.BackEnd.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.dll" />
+                    <File Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe_config" Name="SnCore.BackEnd.Service.exe.config" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.BackEnd.Service.exe.config" />
+                    <Util:XmlFile Id="SnCoreServicesBin_SnCore_BackEnd_Service_exe_config_hccs" Action="setValue" ElementPath="/configuration/nhibernate/add[\[]@key='hibernate.connection.connection_string'[\]]/@value" File="[SnCoreServices]SnCore.BackEnd.Service.exe.config" Value="Server=[SNCORE_SQL_SERVER];initial catalog=[SNCORE_SQL_DATABASE];Integrated Security=SSPI" />
+                    <Util:XmlFile Id="SnCoreWebSiteDisableServices_web_config" Action="setValue" ElementPath="/configuration/appSettings/add[\[]@key='SystemServices.Enabled'[\]]/@value" File="[SnCore]web.config" Value="false" />
+                    <File Id="SnCoreServicesBin_SnCore_Data_dll" Name="SnCore.Data.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.dll" />
+                    <File Id="SnCoreServicesBin_SnCore_Data_Hibernate_dll" Name="SnCore.Data.Hibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.Hibernate.dll" />
+                    <File Id="SnCoreServicesBin_SnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Services.dll" />
+                    <File Id="SnCoreServicesBin_SnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Tools.dll" />
+                    <ServiceInstall Id="SnCoreServicePostMaster" Name="SnCore System PostMaster Service" DisplayName="SnCore System PostMaster Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Routes e-mails between the SnCore users and an SMTP server." />
+                    <ServiceControl Id="SnCoreServicePostMaster_Start" Name="SnCore System PostMaster Service" Start="install" Wait="no" />
+                    <ServiceControl Id="SnCoreServicePostMaster_Stop" Name="SnCore System PostMaster Service" Stop="both" Wait="yes" Remove="uninstall" />
+                    <ServiceInstall Id="SnCoreServiceReminder" Name="SnCore System Reminder Service" DisplayName="SnCore System Reminder Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Runs subscriptions, reminders and other cleanup tasks." />
+                    <ServiceControl Id="SnCoreServiceReminder_Start" Name="SnCore System Reminder Service" Start="install" Wait="no" />
+                    <ServiceControl Id="SnCoreServiceReminder_Stop" Name="SnCore System Reminder Service" Stop="both" Wait="yes" Remove="uninstall" />
+                    <ServiceInstall Id="SnCoreServiceSMTPQueue" Name="SnCore System SMTP Queue Service" DisplayName="SnCore System SMTP Queue Service" Type="shareProcess" Start="demand" ErrorControl="normal" Description="Routes NDRs processed and queued by the SMTP sink." />
+                    <ServiceControl Id="SnCoreServiceSMTPQueue_Start" Name="SnCore System SMTP Queue Service" Wait="no" />
+                    <ServiceControl Id="SnCoreServiceSMTPQueue_Stop" Name="SnCore System SMTP Queue Service" Stop="both" Wait="yes" Remove="uninstall" />
+                    <ServiceInstall Id="SnCoreServiceSyndication" Name="SnCore System Syndication Service" DisplayName="SnCore System Syndication Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Runs RSS feed syndication updates." />
+                    <ServiceControl Id="SnCoreServiceSyndication_Start" Name="SnCore System Syndication Service" Start="install" Wait="no" />
+                    <ServiceControl Id="SnCoreServiceSyndication_Stop" Name="SnCore System Syndication Service" Stop="both" Wait="yes" Remove="uninstall" />
+                    <ServiceInstall Id="SnCoreServiceTag" Name="SnCore System Tag Service" DisplayName="SnCore System Tag Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Indexes content into meta tags." />
+                    <ServiceControl Id="SnCoreServiceTag_Start" Name="SnCore System Tag Service" Start="install" Wait="no" />
+                    <ServiceControl Id="SnCoreServiceTag_Stop" Name="SnCore System Tag Service" Stop="both" Wait="yes" Remove="uninstall" />
+                    <ServiceInstall Id="SnCoreServiceThumbnail" Name="SnCore System Thumbnail Generation Service" DisplayName="SnCore System Thumbnail Generation Service" Type="shareProcess" Start="demand" ErrorControl="normal" Description="Updates website and feed thumbnails." />
+                    <ServiceControl Id="SnCoreServiceThumbnail_Start" Name="SnCore System Thumbnail Generation Service" Wait="no" />
+                    <ServiceControl Id="SnCoreServiceThumbnail_Stop" Name="SnCore System Thumbnail Generation Service" Stop="both" Wait="yes" Remove="uninstall" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
   <!--
   <CustomAction Id="SnCoreBackendServiceInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false SnCore.BackEnd.Service.exe' Return="check" />
   <CustomAction Id="SnCoreBackendServiceUnInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false /u SnCore.BackEnd.Service.exe' Return="check" />
@@ -54,5 +54,5 @@
    <Custom Action="SnCoreBackendServiceUnInstall" After="InstallFinalize">Installed</Custom>
   </InstallExecuteSequence>
   -->
- </Fragment>
+    </Fragment>
 </Include>
