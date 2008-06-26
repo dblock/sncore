@@ -1179,7 +1179,7 @@
       <column name="Verified" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
       <column name="Principal" type="Boolean" prec="1" length="1" scale="0" default="((0))" />
       <column name="Failed" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="LastError" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
+      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="AccountEmailConfirmation">
       <column name="AccountEmail_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountEmail" primary-column="AccountEmail_Id" foreign-key="FK_AccountEmailConfirmation_AccountEmail" />
@@ -1369,7 +1369,7 @@
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
       <column name="Failed" type="Boolean" prec="1" length="1" scale="0" />
-      <column name="LastError" type="String" prec="128" allow-null="true" length="256" scale="0" />
+      <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="AccountLicense">
       <column name="AccountLicense_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

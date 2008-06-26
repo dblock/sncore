@@ -406,7 +406,7 @@ CREATE TABLE [dbo].[AccountEmail](
 	[Verified] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Verified]  DEFAULT ((0)),
 	[Principal] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Primary]  DEFAULT ((0)),
 	[Failed] [bit] NOT NULL,
-	[LastError] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LastError] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_AccountEmail] PRIMARY KEY CLUSTERED 
 (
 	[AccountEmail_Id] ASC
@@ -416,7 +416,7 @@ CREATE TABLE [dbo].[AccountEmail](
 	[Account_Id] ASC,
 	[Address] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmail]') AND name = N'PK_AccountEmail')
@@ -1237,7 +1237,7 @@ CREATE TABLE [dbo].[AccountInvitation](
 	[Account_Id] [int] NOT NULL,
 	[Message] [text] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Failed] [bit] NOT NULL,
-	[LastError] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LastError] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_AccountInvitation] PRIMARY KEY CLUSTERED 
 (
 	[AccountInvitation_Id] ASC

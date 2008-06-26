@@ -330,3 +330,7 @@ GO
 UPDATE dbo.AccountAuditEntry SET IsBroadcast = 0 WHERE IsBroadcast IS NULL
 ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [IsBroadcast] bit NOT NULL
 GO
+ALTER TABLE dbo.AccountEmail ALTER COLUMN [LastError] ntext NULL
+GO
+ALTER TABLE dbo.AccountInvitation ALTER COLUMN [LastError] ntext NULL
+GO
