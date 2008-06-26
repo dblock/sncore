@@ -28,7 +28,7 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <ItemTemplate>
-       <div class="sncore_h2left">
+       <div class="sncore_h3">
         <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Name"))) %>
         <div class="sncore_link">
          <%# Renderer.GetLink(Renderer.Render(Eval("Url")), Renderer.Render(Eval("Url")), 32) %>
@@ -38,6 +38,8 @@
         <%# base.Render(Eval("Description")) %>
        </div>
        <div class="sncore_link" style="text-align: right;">
+        <asp:HyperLink id="linkEdit" runat="server" Visible='<%# CanWrite((int) Eval("AccountId")) %>' 
+         NavigateUrl='<%# GetEditLink((int) Eval("Id")) %>' Text="&#187; edit" />
         <asp:LinkButton id="linkDelete" OnCommand="linkDelete_Command" runat="server" CommandName="Delete" 
          CommandArgument='<%# Eval("Id") %>' Text="&#187; delete" Visible='<%# CanWrite((int) Eval("AccountId")) %>' 
          OnClientClick='return confirm("Are you sure you want to delete this website?");' />

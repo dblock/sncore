@@ -221,7 +221,7 @@ namespace MIME
 		// Content-Type: image/...; name=...
 		public void SetName(string pszName)
 		{
-			MimeField aMimeField = GetField(pszName);
+            MimeField aMimeField = GetField(MimeConst.ContentType);
 			if(aMimeField == null)
 			{
 				aMimeField = new MimeField();

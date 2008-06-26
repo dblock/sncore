@@ -47,7 +47,7 @@ namespace MIME
 			}
 			if(hasAttr)
 			{
-				m_strValue.Replace(strparams[i],newValue);
+                m_strValue = m_strValue.Replace(strparams[i], newValue);
 			}
 			else
 			{

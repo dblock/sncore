@@ -59,8 +59,20 @@ namespace MIME.NET.Tests
             /// http://www.codeproject.com/useritems/MIME_De_Encode_in_C_.asp
             foreach (string resource in resources)
             {
-                if (!resource.StartsWith("MIME.NET.Tests.Tests._"))
+                bool expected_found = false;
+
+                if (resource.StartsWith("MIME.NET.Tests.Tests._"))
+                {
+                    expected_found = true;
+                }
+                else if (resource.StartsWith("MIME.NET.Tests.Failures._"))
+                {
+                    expected_found = false;
+                }
+                else
+                {
                     continue;
+                }
 
                 Console.WriteLine(resource);
 
@@ -105,37 +117,9 @@ namespace MIME.NET.Tests
                 }
 
                 File.Delete(filename);
-                Assert.IsTrue(found);
-            }
-        }
-
-        [Test]
-        public void TestEmbeddedFailures()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string[] resources = assembly.GetManifestResourceNames();
-
-            /// http://www.codeproject.com/useritems/MIME_De_Encode_in_C_.asp
-            foreach (string resource in resources)
-            {
-                if (!resource.StartsWith("MIME.NET.Tests.Failures._"))
-                    continue;
-
-                Console.WriteLine(resource);
-
-                StreamReader sr = new StreamReader(assembly.GetManifestResourceStream(resource));
-
-                string filename = Path.GetTempFileName();
-                StreamWriter sw = new StreamWriter(filename);
-                sw.Write(sr.ReadToEnd());
-                sw.Close();
-
-                MimeMessage msg = new MimeMessage();
-                StreamReader content = new StreamReader(filename);
-                msg.LoadBody(content.ReadToEnd());
-                content.Close();
-
-                File.Delete(filename);
+                Console.WriteLine("{0}: {1}", resource, found);
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Assert.AreEqual(expected_found, found);
             }
         }
     }

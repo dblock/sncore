@@ -55,7 +55,9 @@ public partial class PlaceWebsitesViewControl : Control
 
     public bool CanWrite(int account_id)
     {
-        return account_id == SessionManager.AccountId || Place.CanWrite || SessionManager.IsAdministrator;
+        return (SessionManager.IsLoggedIn && account_id == SessionManager.AccountId)
+            || Place.CanWrite
+            || SessionManager.IsAdministrator;
     }
 
     public void linkDelete_Command(object sender, CommandEventArgs e)
@@ -85,5 +87,11 @@ public partial class PlaceWebsitesViewControl : Control
         PlaceWebsites.DataSource = SessionManager.GetCollection<TransitPlaceWebsite, int>(
             PlaceId, options, SessionManager.PlaceService.GetPlaceWebsites);
         panelGrid.Update();
+    }
+
+    public string GetEditLink(int id)
+    {
+        return string.Format("PlaceWebsiteEdit.aspx?id={0}&pid={1}", 
+            id, PlaceId);
     }
 }

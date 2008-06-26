@@ -153,8 +153,8 @@ GO
 -- Discussions that belong to specific objects are no longer identified by name, but by DataObject_Id
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Discussion]') AND name = N'DataObject_Id') 
 BEGIN
-ALTER TABLE dbo.Discussion ADD [DataObject_Id] int NULL
-ALTER TABLE dbo.Discussion DROP CONSTRAINT [UK_Discussion]
+ ALTER TABLE dbo.Discussion ADD [DataObject_Id] int NULL
+ ALTER TABLE dbo.Discussion DROP CONSTRAINT [UK_Discussion]
 END
 GO
 CREATE PROCEDURE dbo.[sp_migrate_discussion_post]
@@ -228,9 +228,6 @@ ALTER TABLE dbo.RefererHost ADD [Hidden] bit NULL
 GO
 UPDATE dbo.RefererHost SET [Hidden] = 0 WHERE Hidden IS NULL
 ALTER TABLE dbo.RefererHost ALTER COLUMN [Hidden] bit NOT NULL
-GO
--- resize Description column of AccountAuditEntry
-ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Description] nvarchar(384) NOT NULL
 GO
 -- create an Hidden option for AccountFeed
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND name = N'Hidden') 
@@ -325,8 +322,10 @@ ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [Md5] varchar(16) NOT NULL
 GO
 -- add IsBroadcast for private audit events (broadcast)
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountAuditEntry]') AND name = N'IsBroadcast')
-ALTER TABLE dbo.AccountAuditEntry ADD [IsBroadcast] bit NULL
-INSERT INTO AccountRssWatch SELECT Account_Id, 'Friends'' Broadcasts', 'AccountFriendAuditEntriesRss.aspx?Title=Friends''+Broadcasts&Broadcast=True', getutcdate(), getutcdate(), getutcdate(), 24, 1, NULL FROM Account
+BEGIN
+ ALTER TABLE dbo.AccountAuditEntry ADD [IsBroadcast] bit NULL
+ INSERT INTO AccountRssWatch SELECT Account_Id, 'Friends'' Broadcasts', 'AccountFriendAuditEntriesRss.aspx?Title=Friends''+Broadcasts&Broadcast=True', getutcdate(), getutcdate(), getutcdate(), 24, 1, NULL FROM Account
+END
 GO
 UPDATE dbo.AccountAuditEntry SET IsBroadcast = 0 WHERE IsBroadcast IS NULL
 ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [IsBroadcast] bit NOT NULL

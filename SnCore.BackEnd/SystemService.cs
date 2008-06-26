@@ -25,6 +25,7 @@ namespace SnCore.BackEndServices
         private bool mIsStopping = false;
         private List<SessionJobDelegate> mJobs = new List<SessionJobDelegate>();
         private EventLog mEventLogManager = null;
+        public const int MaxAbortRetryCount = 3;
 
         public SystemService()
         {
@@ -170,7 +171,21 @@ namespace SnCore.BackEndServices
                     Thread.Sleep(500);
                     mThread.Abort();
                 }
-                mThread.Join();
+
+                int retry = 0;
+                while (!mThread.Join(1000))
+                {
+                    if (retry++ >= MaxAbortRetryCount)
+                        break;
+
+                    if (IsDebug)
+                    {
+                        EventLogManager.WriteEntry(string.Format("Service {0} failed to abort thread, retrying {1}.", this.GetType().Name, retry),
+                            EventLogEntryType.Warning);
+                    }
+
+                    mThread.Abort();
+                }
 
                 if (IsDebug)
                 {
