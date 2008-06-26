@@ -203,5 +203,9 @@
       <one-to-many class="AccountQuota, SnCore.Data" />
     </bag>
     <property name="Lcid" column="LCID" type="Int32" />
+    <bag lazy="true" name="PlaceWebsites" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="PlaceWebsite, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

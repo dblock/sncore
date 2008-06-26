@@ -63,5 +63,9 @@
       <key column="Place_Id" />
       <one-to-many class="PlaceChangeRequest, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="PlaceWebsites" inverse="true">
+      <key column="Place_Id" />
+      <one-to-many class="PlaceWebsite, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>

@@ -73,6 +73,7 @@
     <Compile Include="HtmlLinkExtractor.cs" />
     <Compile Include="HtmlObjectExtractor.cs" />
     <Compile Include="HtmlImageExtractor.cs" />
+    <Compile Include="HtmlPageInfoExtractor.cs" />
     <Compile Include="HtmlReaderWriter.cs" />
     <Compile Include="HtmlUriExtractor.cs" />
     <Compile Include="HtmlUrlBasedExtractor.cs" />

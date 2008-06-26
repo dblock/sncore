@@ -63,6 +63,7 @@
     <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Account_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="AccountQuotas" table="AccountQuota" id-columns="Account_Id" list="true" item-type="AccountQuota" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
     <property name="Lcid" columns="LCID" type="System.Int32" />
+    <property name="PlaceWebsites" table="PlaceWebsite" id-columns="Account_Id" list="true" item-type="PlaceWebsite" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" />
   </class>
   <class name="AccountAddress" table="AccountAddress">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" />
@@ -838,6 +839,7 @@
     <property name="Neighborhood" columns="Neighborhood_Id" ref="OneToMany" inverse="Places" type="Neighborhood" />
     <property name="AccountGroupPlaces" table="AccountGroupPlace" id-columns="Place_Id" list="true" item-type="AccountGroupPlace" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Place_Id" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
+    <property name="PlaceWebsites" table="PlaceWebsite" id-columns="Place_Id" list="true" item-type="PlaceWebsite" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
   </class>
   <class name="PlaceAttribute" table="PlaceAttribute">
     <property name="Id" id="true" columns="PlaceAttribute_Id" type="System.Int32" />
@@ -932,6 +934,17 @@
     <property name="Places" table="Place" id-columns="Type" list="true" item-type="Place" read-only="true" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
     <property name="PlaceChangeRequests" table="PlaceChangeRequest" id-columns="Type" list="true" item-type="PlaceChangeRequest" slave="true" ref="ManyToOne" inverse="Type" inherits-inverse="true" />
     <property name="DefaultType" columns="DefaultType" type="System.Boolean" />
+  </class>
+  <class name="PlaceWebsite" table="PlaceWebsite">
+    <property name="Id" id="true" columns="PlaceWebsite_Id" type="System.Int32" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="PlaceWebsites" type="Account" />
+    <property name="Bitmap" columns="Bitmap" type="System.Byte()" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Description" columns="Description" type="System.String" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
+    <property name="Name" columns="Name" type="System.String" />
+    <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceWebsites" type="Place" />
+    <property name="Url" columns="Url" type="System.String" />
   </class>
   <class name="Redirect" table="Redirect">
     <property name="Id" id="true" columns="Redirect_Id" type="System.Int32" />
@@ -2014,6 +2027,17 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
+    <table name="PlaceWebsite">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceWebsite_Account" />
+      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceWebsite_Place" />
+      <column name="PlaceWebsite_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Url" type="AnsiString" prec="256" length="256" scale="0" />
     </table>
   </source>
 </domain>

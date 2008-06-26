@@ -15,6 +15,7 @@
 <%@ Register TagPrefix="SnCore" TagName="TellAFriend" Src="TellAFriendControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="PlacePicturesViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="WebsitesView" Src="PlaceWebsitesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:UpdatePanel runat="server" ID="panelPlace" UpdateMode="Conditional">
   <ContentTemplate>
@@ -202,6 +203,7 @@
         </table>
         <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=2.0&appid=SnCore"></script>
        </div>
+       <SnCore:WebsitesView runat="server" ID="websitesView" />
        <SnCore:MadLibInstancesView ID="madlibs" runat="server" /> 
        <a name="Comments" />
        <SnCore:DiscussionFullView runat="server" ID="discussionPlaces" Text="Reviews" PostNewText="&#187; Post a Review" 

@@ -285,6 +285,8 @@ public partial class PlaceView : Page
                     typeof(Place).Name, RequestId, SessionManager.DiscussionService.GetOrCreateDiscussionId);
                 discussionPlaces.DataBind();
 
+                websitesView.PlaceId = RequestId;
+
                 madlibs.ObjectId = RequestId;
                 madlibs.Table = "Place";
                 madlibs.MadLibId = int.Parse(SessionManager.GetCachedConfiguration("SnCore.MadLibs.Place.Id", "0"));

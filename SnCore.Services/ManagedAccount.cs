@@ -749,6 +749,14 @@ namespace SnCore.Services
                     m_grouppicture.MigrateToGroupOwner(sec);
                 }
 
+                // orphan place websites
+                foreach (PlaceWebsite placewebsite in Collection<PlaceWebsite>.GetSafeCollection(mInstance.PlaceWebsites))
+                {
+                    ManagedPlaceWebsite mpw = new ManagedPlaceWebsite(Session, placewebsite);
+                    mpw.MigrateToAccount(newowner, sec);
+                }
+
+
                 // delete all group invitations to me, group requests are cascade-deleted
                 Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
 

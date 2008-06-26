@@ -1804,5 +1804,88 @@ namespace SnCore.WebServices
         }
 
         #endregion
+
+        #region PlaceWebsite
+
+        /// <summary>
+        /// Create or update a place website.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="property">transit place website</param>
+        [WebMethod(Description = "Create or update a place website.")]
+        public int CreateOrUpdatePlaceWebsite(string ticket, TransitPlaceWebsite t_instance)
+        {
+            return WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.CreateOrUpdate(
+                ticket, t_instance);
+        }
+
+        /// <summary>
+        /// Get a place website.
+        /// </summary>
+        /// <returns>transit place website</returns>
+        [WebMethod(Description = "Get a place website.")]
+        public TransitPlaceWebsite GetPlaceWebsiteById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.GetById(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get all place websites count.
+        /// </summary>
+        /// <param name="id">place id</param>
+        /// <returns>number of place websites</returns>
+        [WebMethod(Description = "Get all place websites count.")]
+        public int GetPlaceWebsitesCount(string ticket, int id)
+        {
+            return WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.GetCount(
+                ticket, string.Format("WHERE PlaceWebsite.Place.Id = {0}", id));
+        }
+
+        /// <summary>
+        /// Get all place websites.
+        /// </summary>
+        /// <param name="id">place id</param>
+        /// <returns>list of transit websites</returns>
+        [WebMethod(Description = "Get all place websites.")]
+        public List<TransitPlaceWebsite> GetPlaceWebsites(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
+            return WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Delete a place website.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">website id</param>
+        [WebMethod(Description = "Delete a place website.")]
+        public void DeletePlaceWebsite(string ticket, int id)
+        {
+            WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Get a place website if modified since.
+        /// </summary>
+        /// <param name="id">website id</param>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="ifModifiedSince">last update date/time</param>
+        /// <returns>transit picture</returns>
+        [WebMethod(Description = "Get place website if modified since.", BufferResponse = true)]
+        public TransitPlaceWebsite GetPlaceWebsiteIfModifiedSinceById(string ticket, int id, DateTime ifModifiedSince)
+        {
+            TransitPlaceWebsite t_instance = WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.GetById(
+                ticket, id);
+
+            if (t_instance.Modified <= ifModifiedSince)
+                return null;
+
+            return t_instance;
+        }
+
+        #endregion
     }
 }

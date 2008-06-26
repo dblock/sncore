@@ -37,6 +37,88 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunThumbnail));
         }
 
+        private void RunThumbnail(ISession session, AccountWebsite website, ManagedSecurityContext sec)
+        {
+            try
+            {
+                ManagedAccountWebsite m_website = new ManagedAccountWebsite(session, website);
+
+                if (IsDebug)
+                {
+                    EventLogManager.WriteEntry(string.Format("Thumbnail service updating {0}: {1}, {2}",
+                        website.Id, website.Name, website.Url), EventLogEntryType.Information);
+                }
+
+                m_website.UpdateThumbnail();
+            }
+            catch (Exception)
+            {
+                website.Modified = DateTime.UtcNow;
+                session.Save(website);
+            }
+        }
+
+        private void RunThumbnail(ISession session, PlaceWebsite website, ManagedSecurityContext sec)
+        {
+            try
+            {
+                ManagedPlaceWebsite m_website = new ManagedPlaceWebsite(session, website);
+
+                if (IsDebug)
+                {
+                    EventLogManager.WriteEntry(string.Format("Thumbnail service updating {0}: {1}, {2}",
+                        website.Id, website.Name, website.Url), EventLogEntryType.Information);
+                }
+
+                m_website.UpdateThumbnail();
+            }
+            catch (Exception)
+            {
+                website.Modified = DateTime.UtcNow;
+                session.Save(website);
+            }
+        }
+
+        private void RunThumbnail_Websites(ISession session, ManagedSecurityContext sec)
+        {
+            // websites
+            IQuery query = session.CreateSQLQuery(
+                "SELECT {AccountWebsite.*} FROM AccountWebsite" +
+                " WHERE ( AccountWebsite.Bitmap IS NULL )" +
+                " OR ( DATEDIFF(hour, AccountWebsite.Modified, getutcdate()) > 24 )" +
+                " ORDER BY AccountWebsite.Modified ASC")
+            .AddEntity("AccountWebsite", typeof(AccountWebsite));
+
+            IList<AccountWebsite> list = query.List<AccountWebsite>();
+
+            foreach (AccountWebsite website in list)
+            {
+                RunThumbnail(session, website, sec);
+                session.Flush();
+                Thread.Sleep(1000 * InterruptInterval);
+            }
+        }
+
+        private void RunThumbnail_PlaceWebsites(ISession session, ManagedSecurityContext sec)
+        {
+            // websites
+            IQuery query = session.CreateSQLQuery(
+                "SELECT {PlaceWebsite.*} FROM PlaceWebsite" +
+                " WHERE ( PlaceWebsite.Bitmap IS NULL )" +
+                " OR ( DATEDIFF(hour, PlaceWebsite.Modified, getutcdate()) > 24 )" +
+                " ORDER BY PlaceWebsite.Modified ASC")
+            .AddEntity("PlaceWebsite", typeof(PlaceWebsite));
+
+            IList<PlaceWebsite> list = query.List<PlaceWebsite>();
+
+            foreach (PlaceWebsite website in list)
+            {
+                RunThumbnail(session, website, sec);
+                session.Flush();
+                Thread.Sleep(1000 * InterruptInterval);
+            }
+        }
+
         public void RunThumbnail(ISession session, ManagedSecurityContext sec)
         {
             // check that script debugging is disabled
@@ -55,38 +137,9 @@ namespace SnCore.BackEndServices
             }
  
             // update every 24 hours at the most
-            IQuery query = session.CreateSQLQuery(
-                "SELECT {AccountWebsite.*} FROM AccountWebsite" +
-                " WHERE ( AccountWebsite.Bitmap IS NULL )" +
-                " OR ( DATEDIFF(hour, AccountWebsite.Modified, getutcdate()) > 24 )" +
-                " ORDER BY AccountWebsite.Modified ASC")
-            .AddEntity("AccountWebsite", typeof(AccountWebsite));
 
-            IList<AccountWebsite> list = query.List<AccountWebsite>();
-
-            foreach (AccountWebsite website in list)
-            {
-                try
-                {
-                    ManagedAccountWebsite m_website = new ManagedAccountWebsite(session, website);
-                    
-                    if (IsDebug)
-                    {
-                        EventLogManager.WriteEntry(string.Format("Thumbnail service updating {0} ({1}).",
-                            website.Name, website.Id), EventLogEntryType.Information);
-                    }
-
-                    m_website.UpdateThumbnail();
-                }
-                catch (Exception)
-                {
-                    website.Modified = DateTime.UtcNow;
-                    session.Save(website);
-                }
-
-                session.Flush();
-                Thread.Sleep(1000 * InterruptInterval);
-            }
+            RunThumbnail_Websites(session, sec);
+            RunThumbnail_PlaceWebsites(session, sec);
         }
     }
 }

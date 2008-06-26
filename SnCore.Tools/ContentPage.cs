@@ -24,6 +24,16 @@ namespace SnCore.Tools.Web
         public string Note;
         public bool HasOnline = true;
         public string UserAgent;
+
+        public ContentPageParameters()
+        {
+
+        }
+
+        public ContentPageParameters(string useragent)
+        {
+            UserAgent = useragent;
+        }
     }
 
     public class ContentPage

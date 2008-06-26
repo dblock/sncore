@@ -27,6 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebPlaceServiceSoap", Namespace="http://www.vestris.com/sncore/ns/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceWebsite))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceChangeRequest))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccount))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfPlaceQueueItem))]
@@ -262,6 +263,18 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         private System.Threading.SendOrPostCallback GetPlaceChangeRequestsByPlaceIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeletePlaceChangeRequestOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CreateOrUpdatePlaceWebsiteOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceWebsiteByIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceWebsitesCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceWebsitesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeletePlaceWebsiteOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetPlaceWebsiteIfModifiedSinceByIdOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -624,6 +637,24 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         /// <remarks/>
         public event DeletePlaceChangeRequestCompletedEventHandler DeletePlaceChangeRequestCompleted;
+        
+        /// <remarks/>
+        public event CreateOrUpdatePlaceWebsiteCompletedEventHandler CreateOrUpdatePlaceWebsiteCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceWebsiteByIdCompletedEventHandler GetPlaceWebsiteByIdCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceWebsitesCountCompletedEventHandler GetPlaceWebsitesCountCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceWebsitesCompletedEventHandler GetPlaceWebsitesCompleted;
+        
+        /// <remarks/>
+        public event DeletePlaceWebsiteCompletedEventHandler DeletePlaceWebsiteCompleted;
+        
+        /// <remarks/>
+        public event GetPlaceWebsiteIfModifiedSinceByIdCompletedEventHandler GetPlaceWebsiteIfModifiedSinceByIdCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceType", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -4029,6 +4060,195 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/CreateOrUpdatePlaceWebsite", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int CreateOrUpdatePlaceWebsite(string ticket, TransitPlaceWebsite t_instance) {
+            object[] results = this.Invoke("CreateOrUpdatePlaceWebsite", new object[] {
+                        ticket,
+                        t_instance});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceWebsiteAsync(string ticket, TransitPlaceWebsite t_instance) {
+            this.CreateOrUpdatePlaceWebsiteAsync(ticket, t_instance, null);
+        }
+        
+        /// <remarks/>
+        public void CreateOrUpdatePlaceWebsiteAsync(string ticket, TransitPlaceWebsite t_instance, object userState) {
+            if ((this.CreateOrUpdatePlaceWebsiteOperationCompleted == null)) {
+                this.CreateOrUpdatePlaceWebsiteOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateOrUpdatePlaceWebsiteOperationCompleted);
+            }
+            this.InvokeAsync("CreateOrUpdatePlaceWebsite", new object[] {
+                        ticket,
+                        t_instance}, this.CreateOrUpdatePlaceWebsiteOperationCompleted, userState);
+        }
+        
+        private void OnCreateOrUpdatePlaceWebsiteOperationCompleted(object arg) {
+            if ((this.CreateOrUpdatePlaceWebsiteCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreateOrUpdatePlaceWebsiteCompleted(this, new CreateOrUpdatePlaceWebsiteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceWebsiteById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceWebsite GetPlaceWebsiteById(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceWebsiteById", new object[] {
+                        ticket,
+                        id});
+            return ((TransitPlaceWebsite)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsiteByIdAsync(string ticket, int id) {
+            this.GetPlaceWebsiteByIdAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsiteByIdAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceWebsiteByIdOperationCompleted == null)) {
+                this.GetPlaceWebsiteByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceWebsiteByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceWebsiteById", new object[] {
+                        ticket,
+                        id}, this.GetPlaceWebsiteByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceWebsiteByIdOperationCompleted(object arg) {
+            if ((this.GetPlaceWebsiteByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceWebsiteByIdCompleted(this, new GetPlaceWebsiteByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceWebsitesCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetPlaceWebsitesCount(string ticket, int id) {
+            object[] results = this.Invoke("GetPlaceWebsitesCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsitesCountAsync(string ticket, int id) {
+            this.GetPlaceWebsitesCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsitesCountAsync(string ticket, int id, object userState) {
+            if ((this.GetPlaceWebsitesCountOperationCompleted == null)) {
+                this.GetPlaceWebsitesCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceWebsitesCountOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceWebsitesCount", new object[] {
+                        ticket,
+                        id}, this.GetPlaceWebsitesCountOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceWebsitesCountOperationCompleted(object arg) {
+            if ((this.GetPlaceWebsitesCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceWebsitesCountCompleted(this, new GetPlaceWebsitesCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceWebsites", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceWebsite[] GetPlaceWebsites(string ticket, int id, ServiceQueryOptions options) {
+            object[] results = this.Invoke("GetPlaceWebsites", new object[] {
+                        ticket,
+                        id,
+                        options});
+            return ((TransitPlaceWebsite[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsitesAsync(string ticket, int id, ServiceQueryOptions options) {
+            this.GetPlaceWebsitesAsync(ticket, id, options, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsitesAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+            if ((this.GetPlaceWebsitesOperationCompleted == null)) {
+                this.GetPlaceWebsitesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceWebsitesOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceWebsites", new object[] {
+                        ticket,
+                        id,
+                        options}, this.GetPlaceWebsitesOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceWebsitesOperationCompleted(object arg) {
+            if ((this.GetPlaceWebsitesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceWebsitesCompleted(this, new GetPlaceWebsitesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeletePlaceWebsite", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeletePlaceWebsite(string ticket, int id) {
+            this.Invoke("DeletePlaceWebsite", new object[] {
+                        ticket,
+                        id});
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceWebsiteAsync(string ticket, int id) {
+            this.DeletePlaceWebsiteAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void DeletePlaceWebsiteAsync(string ticket, int id, object userState) {
+            if ((this.DeletePlaceWebsiteOperationCompleted == null)) {
+                this.DeletePlaceWebsiteOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeletePlaceWebsiteOperationCompleted);
+            }
+            this.InvokeAsync("DeletePlaceWebsite", new object[] {
+                        ticket,
+                        id}, this.DeletePlaceWebsiteOperationCompleted, userState);
+        }
+        
+        private void OnDeletePlaceWebsiteOperationCompleted(object arg) {
+            if ((this.DeletePlaceWebsiteCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeletePlaceWebsiteCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetPlaceWebsiteIfModifiedSinceById", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitPlaceWebsite GetPlaceWebsiteIfModifiedSinceById(string ticket, int id, System.DateTime ifModifiedSince) {
+            object[] results = this.Invoke("GetPlaceWebsiteIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince});
+            return ((TransitPlaceWebsite)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsiteIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince) {
+            this.GetPlaceWebsiteIfModifiedSinceByIdAsync(ticket, id, ifModifiedSince, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaceWebsiteIfModifiedSinceByIdAsync(string ticket, int id, System.DateTime ifModifiedSince, object userState) {
+            if ((this.GetPlaceWebsiteIfModifiedSinceByIdOperationCompleted == null)) {
+                this.GetPlaceWebsiteIfModifiedSinceByIdOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaceWebsiteIfModifiedSinceByIdOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaceWebsiteIfModifiedSinceById", new object[] {
+                        ticket,
+                        id,
+                        ifModifiedSince}, this.GetPlaceWebsiteIfModifiedSinceByIdOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaceWebsiteIfModifiedSinceByIdOperationCompleted(object arg) {
+            if ((this.GetPlaceWebsiteIfModifiedSinceByIdCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaceWebsiteIfModifiedSinceByIdCompleted(this, new GetPlaceWebsiteIfModifiedSinceByIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -4098,6 +4318,147 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitPlaceWebsite))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1434")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public abstract partial class TransitServiceOfPlaceWebsite {
+        
+        private int idField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.1434")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitPlaceWebsite : TransitServiceOfPlaceWebsite {
+        
+        private string urlField;
+        
+        private string nameField;
+        
+        private string descriptionField;
+        
+        private int accountIdField;
+        
+        private int placeIdField;
+        
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
+        private byte[] bitmapField;
+        
+        private byte[] thumbnailField;
+        
+        /// <remarks/>
+        public string Url {
+            get {
+                return this.urlField;
+            }
+            set {
+                this.urlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PlaceId {
+            get {
+                return this.placeIdField;
+            }
+            set {
+                this.placeIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Bitmap {
+            get {
+                return this.bitmapField;
+            }
+            set {
+                this.bitmapField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Thumbnail {
+            get {
+                return this.thumbnailField;
+            }
+            set {
+                this.thumbnailField = value;
             }
         }
     }
@@ -9201,6 +9562,140 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
     public delegate void DeletePlaceChangeRequestCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    public delegate void CreateOrUpdatePlaceWebsiteCompletedEventHandler(object sender, CreateOrUpdatePlaceWebsiteCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreateOrUpdatePlaceWebsiteCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreateOrUpdatePlaceWebsiteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    public delegate void GetPlaceWebsiteByIdCompletedEventHandler(object sender, GetPlaceWebsiteByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceWebsiteByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceWebsiteByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceWebsite Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceWebsite)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    public delegate void GetPlaceWebsitesCountCompletedEventHandler(object sender, GetPlaceWebsitesCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceWebsitesCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceWebsitesCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    public delegate void GetPlaceWebsitesCompletedEventHandler(object sender, GetPlaceWebsitesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceWebsitesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceWebsitesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceWebsite[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceWebsite[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    public delegate void DeletePlaceWebsiteCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    public delegate void GetPlaceWebsiteIfModifiedSinceByIdCompletedEventHandler(object sender, GetPlaceWebsiteIfModifiedSinceByIdCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.1434")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaceWebsiteIfModifiedSinceByIdCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaceWebsiteIfModifiedSinceByIdCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitPlaceWebsite Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitPlaceWebsite)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

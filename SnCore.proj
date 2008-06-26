@@ -33,7 +33,7 @@
   <AssemblyInfo CodeLanguage="CS" OutputFile="SnCore.Common\GlobalAssemblyInfo.cs"
    AssemblyDescription="Social Networking Core SDK" AssemblyConfiguration=""
    AssemblyCompany="Vestris Inc." AssemblyProduct="SnCore" AssemblyCopyright="Copyright (c) Vestris Inc. 2008"
-   AssemblyTrademark="" ComVisible="false" CLSCompliant="true"
+   AssemblyTrademark="" ComVisible="false" CLSCompliant="false"
    AssemblyKeyFile="..\key.snk" AssemblyDelaySign="false" AssemblyKeyName="" AssemblyCulture=""
    AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
   <FileUpdate Files="SnCore.Install\SnCore.Project.wxi" Regex="(ProductVersion=\')([0-9.]*)(')" 

@@ -1,11 +1,12 @@
 ﻿<!-- 
   Microsoft Visual Studio 2005 Web Deployment Project 
   http://go.microsoft.com/fwlink/?LinkId=55111
---><Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.60403</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5ABE72BA-942A-4A48-B7B8-5C8DCA154321}</ProjectGuid>
     <SourceWebPhysicalPath>..\SnCore.Web</SourceWebPhysicalPath>
@@ -46,6 +47,30 @@
     </WebConfigReplacementFiles>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Atom.Net\Atom.NET.csproj">
+      <Project>{8DE2053A-247B-430A-86C3-E52B4725AA60}</Project>
+      <Name>Atom.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICalParser.Net\ICalParser.csproj">
+      <Project>{03BAF2A6-5C24-4450-94EF-F5F792F783E4}</Project>
+      <Name>ICalParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MIME.NET\MIME.NET.csproj">
+      <Project>{634B0667-4C7D-4E0A-BA15-FEAD9DA0F44A}</Project>
+      <Name>MIME.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NGif.NET\NGif.NET.csproj">
+      <Project>{157389D0-4DF2-429C-A13C-26D4F10569BD}</Project>
+      <Name>NGif.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rss.Net\RSS.NET.csproj">
+      <Project>{C42FC014-7E12-4FAF-9BC9-79BF1529440D}</Project>
+      <Name>RSS.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SgmlReader\sgmlreaderdll\SgmlReaderDll8.csproj">
+      <Project>{499527FF-AE52-450F-B3E3-4AD53E1712AD}</Project>
+      <Name>SgmlReaderDll8</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.BackEnd\SnCore.BackEnd.csproj">
       <Project>{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}</Project>
       <Name>SnCore.BackEnd</Name>
@@ -83,7 +108,7 @@
       <Name>Wilco.Web</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v9.0\Microsoft.WebDeployment.targets"/>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v9.0\Microsoft.WebDeployment.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.WebDeployment.targets.
   <Target Name="BeforeBuild">

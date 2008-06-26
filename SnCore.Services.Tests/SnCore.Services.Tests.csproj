@@ -248,6 +248,7 @@
     <Compile Include="ManagedPlaceQueueTest.cs" />
     <Compile Include="ManagedPlaceTest.cs" />
     <Compile Include="ManagedPlaceTypeTest.cs" />
+    <Compile Include="ManagedPlaceWebsiteTest.cs" />
     <Compile Include="ManagedQuotaTest.cs" />
     <Compile Include="ManagedRefererAccountTest.cs" />
     <Compile Include="ManagedRefererHostDupTest.cs" />

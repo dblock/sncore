@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
@@ -25,9 +25,9 @@
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
+    <OldToolsVersion>0.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -102,9 +102,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SnCore.Common\GlobalAssemblyInfo.cs">
-      <Link>GlobalAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Account.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -401,6 +398,9 @@
     <Compile Include="PlaceType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PlaceWebsite.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Redirect.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -543,6 +543,7 @@
     <EmbeddedResource Include="PlaceQueue.hbm.xml" />
     <EmbeddedResource Include="PlaceQueueItem.hbm.xml" />
     <EmbeddedResource Include="PlaceType.hbm.xml" />
+    <EmbeddedResource Include="PlaceWebsite.hbm.xml" />
     <EmbeddedResource Include="Redirect.hbm.xml" />
     <EmbeddedResource Include="RefererAccount.hbm.xml" />
     <EmbeddedResource Include="RefererHost.hbm.xml" />

@@ -12,17 +12,17 @@ using SnCore.BackEndServices;
 using SnCore.Services;
 using SnCore.Tools.Drawing;
 
-public abstract class AccountWebsitePicturePage : PicturePage
+public abstract class PlaceWebsitePicturePage : PicturePage
 {
-    public AccountWebsitePicturePage()
+    public PlaceWebsitePicturePage()
     {
 
     }
 
     public override TransitPicture GetPictureWithBitmap(int id, DateTime ifModifiedSince)
     {
-        TransitAccountWebsite p = SessionManager.GetInstance<TransitAccountWebsite, int, DateTime>(
-            id, ifModifiedSince, SessionManager.AccountService.GetAccountWebsiteIfModifiedSinceById);
+        TransitPlaceWebsite p = SessionManager.GetInstance<TransitPlaceWebsite, int, DateTime>(
+            id, ifModifiedSince, SessionManager.PlaceService.GetPlaceWebsiteIfModifiedSinceById);
 
         if (p == null || p.Bitmap == null)
         {
@@ -40,8 +40,8 @@ public abstract class AccountWebsitePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id, DateTime ifModifiedSince)
     {
-        TransitAccountWebsite p = SessionManager.GetInstance<TransitAccountWebsite, int, DateTime>(
-            id, ifModifiedSince, SessionManager.AccountService.GetAccountWebsiteIfModifiedSinceById);
+        TransitPlaceWebsite p = SessionManager.GetInstance<TransitPlaceWebsite, int, DateTime>(
+            id, ifModifiedSince, SessionManager.PlaceService.GetPlaceWebsiteIfModifiedSinceById);
 
         if (p == null || p.Bitmap == null)
         {
@@ -59,8 +59,8 @@ public abstract class AccountWebsitePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithBitmap(int id)
     {
-        TransitAccountWebsite p = SessionManager.GetInstance<TransitAccountWebsite, int>(
-            id, SessionManager.AccountService.GetAccountWebsiteById);
+        TransitPlaceWebsite p = SessionManager.GetInstance<TransitPlaceWebsite, int>(
+            id, SessionManager.PlaceService.GetPlaceWebsiteById);
 
         if (p == null || p.Bitmap == null)
         {
@@ -78,8 +78,8 @@ public abstract class AccountWebsitePicturePage : PicturePage
 
     public override TransitPicture GetPictureWithThumbnail(int id)
     {
-        TransitAccountWebsite p = SessionManager.GetInstance<TransitAccountWebsite, int>(
-            id, SessionManager.AccountService.GetAccountWebsiteById);
+        TransitPlaceWebsite p = SessionManager.GetInstance<TransitPlaceWebsite, int>(
+            id, SessionManager.PlaceService.GetPlaceWebsiteById);
 
         if (p == null || p.Bitmap == null)
         {
@@ -98,7 +98,7 @@ public abstract class AccountWebsitePicturePage : PicturePage
     public override PicturePage.TransitPicture GetRandomPictureWithThumbnail()
     {
         SnCore.Services.TransitPicture p = SessionManager.GetInstance<SnCore.Services.TransitPicture, string>(
-            "AccountWebsite", SessionManager.ObjectService.GetRandomPictureByType);
+            "PlaceWebsite", SessionManager.ObjectService.GetRandomPictureByType);
 
         if (p == null || p.Bitmap == null)
         {

@@ -75,6 +75,7 @@
         private System.Collections.Generic.IList<PlaceChangeRequest> m_PlaceChangeRequests;
         private System.Collections.Generic.IList<AccountQuota> m_AccountQuotas;
         private System.Int32 m_Lcid;
+        private System.Collections.Generic.IList<PlaceWebsite> m_PlaceWebsites;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1927,6 +1928,37 @@
             set
             {
                 m_Lcid = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'PlaceWebsite'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'PlaceWebsite.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_PlaceWebsites' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'PlaceWebsite' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.Collections.Generic.IList<PlaceWebsite> PlaceWebsites
+        {
+            get
+            {
+                return m_PlaceWebsites;
+            }
+            set
+            {
+                m_PlaceWebsites = value;
             }
         }
 

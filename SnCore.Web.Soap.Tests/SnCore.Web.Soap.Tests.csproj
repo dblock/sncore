@@ -247,6 +247,7 @@
     <Compile Include="WebPlaceService_PlaceQueueTest.cs" />
     <Compile Include="WebPlaceService_PlaceTest.cs" />
     <Compile Include="WebPlaceService_PlaceTypeTest.cs" />
+    <Compile Include="WebPlaceService_PlaceWebsiteTest.cs" />
     <Compile Include="WebSocialService_AccountAuditEntryTest.cs" />
     <Compile Include="WebStatsServiceTest.cs" />
     <Compile Include="WebBugServiceTest.cs" />
@@ -1030,6 +1031,9 @@
     </None>
     <None Include="Web References\WebLocationService\WebLocationService.disco" />
     <None Include="Web References\WebLocationService\WebLocationService.wsdl" />
+    <None Include="Web References\WebPlaceService\TransitPlaceWebsite.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebSystemService\TransitCultureInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
