@@ -45,10 +45,10 @@ namespace MIME
 			{
 				line = sr.ReadLine();
 				field = line + "\r\n";
-				while(line != null)
+				while(! string.IsNullOrEmpty(line))
 				{
 					line = sr.ReadLine();
-					if(line != null && (line[0] == ' ' || line[0] == '\t'))
+					if(! string.IsNullOrEmpty(line) && (line[0] == ' ' || line[0] == '\t'))
 					{
 						field += line + "\r\n";
 					}

@@ -17,7 +17,7 @@ namespace MIME
 			//
 		}
 
-		private ArrayList ChildList = null;
+		private ArrayList ChildList = new ArrayList();
 		private string mContent;
 
 		//store all mime part to a string buffer
@@ -92,8 +92,6 @@ namespace MIME
 		//create a child mime part
 		public MimeBody CreatePart(MimeBody parent)
 		{
-			if(ChildList == null) ChildList = new ArrayList();
-
 			MimeBody aMimeBody = new MimeBody();
 			if(parent != null)
 			{

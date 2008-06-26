@@ -77,6 +77,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Failures\__01c8cd41%2498315f80%244aa118be%40strafesy543_" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Failures\_IPDMBZ0465MIAT2NqFJ000000dd%40IPDMBZ0465MIA.citrus.com_" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
