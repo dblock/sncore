@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E3317FD5-0139-488A-844C-EB0C52E16AB4}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -73,6 +73,9 @@
     <EmbeddedResource Include="Tests\_cjJxWY5pC00000099%40IPDMBZ0465MIA.citrus.com_" />
     <EmbeddedResource Include="Tests\_GCIFoPkG000000097%40IPDMBZ0465MIA.citrus.com_" />
     <EmbeddedResource Include="Tests\_u2ZN9KAy40000009a%40IPDMBZ0465MIA.citrus.com_" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Failures\__01c8cd41%2498315f80%244aa118be%40strafesy543_" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

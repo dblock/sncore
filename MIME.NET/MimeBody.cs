@@ -76,11 +76,9 @@ namespace MIME
 					{
 						nBstart = nBstart + strBstart.Length + 2;
 						int nBstart2 = strData.IndexOf(strBstart, nBstart);
-						if(nBstart2 != -1)
-						{
-							MimeBody ChildBody = CreatePart();
-							ChildBody.LoadBody(strData.Substring(nBstart, nBstart2 - nBstart));
-						}
+                        if (nBstart2 == -1) nBstart2 = nBend;
+                        MimeBody ChildBody = CreatePart();
+						ChildBody.LoadBody(strData.Substring(nBstart, nBstart2 - nBstart));
 						nBstart = nBstart2;
 					}
 				}
