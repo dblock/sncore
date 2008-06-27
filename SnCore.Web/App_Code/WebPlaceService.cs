@@ -747,7 +747,7 @@ namespace SnCore.WebServices
 
                         "INSERT #Results\n" +
                         "SELECT place.Place_Id, ft.[RANK] FROM Place place\n" +
-                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email], [Website]), '" +
+                        "INNER JOIN FREETEXTTABLE (Place, ([Name], [Street], [Zip], [CrossStreet], [Description], [Phone], [Fax], [Email]), '" +
                             Renderer.SqlEncode(s) + "', " +
                             maxsearchresults.ToString() + ") AS ft ON place.Place_Id = ft.[KEY]\n" +
 

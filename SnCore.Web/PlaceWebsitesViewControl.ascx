@@ -4,10 +4,10 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
-<SnCore:Title ID="titleNewWebsite" Text="Websites" runat="server">  
+<SnCore:Title ID="titleNewWebsite" Text="Websites" runat="server" ExpandedSize="75">  
  <Template>
   <div class="sncore_title_paragraph">
-   Add related links and reviews.
+   Add related websites and links to reviews.
   </div>
  </Template>
 </SnCore:Title>
