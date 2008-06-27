@@ -111,7 +111,6 @@ public partial class SelectPlaceControl : Control
                 inputName.Text = Place.Name;
                 inputStreet.Text = Place.Street;
                 inputZip.Text = Place.Zip;
-                inputWebsite.Text = Place.Website;
                 inputCrossStreet.Text = Place.CrossStreet;
                 inputPhone.Text = Place.Phone;
                 inputFax.Text = Place.Fax;
@@ -154,7 +153,6 @@ public partial class SelectPlaceControl : Control
         Place.Phone = inputPhone.Text;
         Place.Fax = inputFax.Text;
         Place.Email = inputEmail.Text;
-        Place.Website = inputWebsite.Text;
         Place.Description = string.Empty;
         ArrayList a = new ArrayList();
         a.Add(Place);

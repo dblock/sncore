@@ -61,7 +61,6 @@
              <asp:Label ID="placeFax" runat="server" />
             </div>
             <div>
-             <asp:HyperLink ID="placeWebsite" runat="server" Text="&#187; website" Target="_blank" />
              <asp:HyperLink ID="placeEmail" runat="server" Text="&#187; e-mail" Target="_blank" />
             </div>
            </asp:Panel>

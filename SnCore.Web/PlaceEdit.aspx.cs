@@ -52,7 +52,6 @@ public partial class PlaceEdit : AuthenticatedPage
             inputPhone.MaxLength = cs["Phone"].MaxLengthInChars;
             inputFax.MaxLength = cs["Fax"].MaxLengthInChars;
             inputEmail.MaxLength = cs["Email"].MaxLengthInChars;
-            inputWebsite.MaxLength = cs["Website"].MaxLengthInChars;
 
             DomainClass acs = SessionManager.GetDomainClass("PlaceName");
             inputAltName.MaxLength = acs["Name"].MaxLengthInChars;
@@ -76,7 +75,6 @@ public partial class PlaceEdit : AuthenticatedPage
                 inputFax.Text = place.Fax;
                 inputPhone.Text = place.Phone;
                 inputStreet.Text = place.Street;
-                inputWebsite.Text = place.Website;
                 inputZip.Text = place.Zip;
                 ListItemManager.TrySelect(selectType, place.Type);
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
@@ -147,11 +145,6 @@ public partial class PlaceEdit : AuthenticatedPage
         t.Fax = inputFax.Text;
         t.Phone = inputPhone.Text;
         t.Street = inputStreet.Text;
-
-        if (!string.IsNullOrEmpty(inputWebsite.Text) && !Uri.IsWellFormedUriString(inputWebsite.Text, UriKind.Absolute))
-            inputWebsite.Text = "http://" + inputWebsite.Text;
-
-        t.Website = inputWebsite.Text;
         t.Zip = inputZip.Text;
         t.City = inputCity.Text;
         t.Neighborhood = inputNeighborhood.Text;

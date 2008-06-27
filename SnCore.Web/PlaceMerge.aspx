@@ -182,14 +182,6 @@
    </tr>
    <tr>
     <td class="sncore_form_label">
-     website:
-    </td>
-    <td class="sncore_form_value">
-     <asp:RadioButtonList ID="selectWebsite" runat="server" />
-    </td>
-   </tr>
-   <tr>
-    <td class="sncore_form_label">
     </td>
     <td class="sncore_form_value">
      <SnCoreWebControls:Button ID="merge" runat="server" Text="Merge" CausesValidation="true"

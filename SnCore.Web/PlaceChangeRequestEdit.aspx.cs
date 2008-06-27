@@ -60,7 +60,6 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
             inputPhone.MaxLength = cs["Phone"].MaxLengthInChars;
             inputFax.MaxLength = cs["Fax"].MaxLengthInChars;
             inputEmail.MaxLength = cs["Email"].MaxLengthInChars;
-            inputWebsite.MaxLength = cs["Website"].MaxLengthInChars;
 
             ArrayList types = new ArrayList();
             types.Add(new TransitAccountPlaceType());
@@ -82,7 +81,6 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 inputFax.Text = request.Fax;
                 inputPhone.Text = request.Phone;
                 inputStreet.Text = request.Street;
-                inputWebsite.Text = request.Website;
                 inputZip.Text = request.Zip;
                 ListItemManager.TrySelect(selectType, request.Type);
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(request));
@@ -102,7 +100,6 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
                 inputFax.Text = place.Fax;
                 inputPhone.Text = place.Phone;
                 inputStreet.Text = place.Street;
-                inputWebsite.Text = place.Website;
                 inputZip.Text = place.Zip;
                 ListItemManager.TrySelect(selectType, place.Type);
                 LocationSelector.SelectLocation(sender, new LocationEventArgs(place));
@@ -157,7 +154,6 @@ public partial class PlaceChangeRequestEdit : AuthenticatedPage
         t.Fax = inputFax.Text;
         t.Phone = inputPhone.Text;
         t.Street = inputStreet.Text;
-        t.Website = inputWebsite.Text;
         t.Zip = inputZip.Text;
         t.City = inputCity.Text;
         t.Neighborhood = inputNeighborhood.Text;

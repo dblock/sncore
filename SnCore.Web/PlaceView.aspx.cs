@@ -260,17 +260,6 @@ public partial class PlaceView : Page
                 linkAdminManageChanges.NavigateUrl = string.Format("PlaceChangeRequestsManage.aspx?id={0}", place.Id);
                 linkAdminAttributes.NavigateUrl = string.Format("PlaceAttributesManage.aspx?id={0}", place.Id);
                 linkMerge.NavigateUrl = string.Format("PlaceMerge.aspx?id={0}", place.Id);
-
-                if (!string.IsNullOrEmpty(place.Website))
-                {
-                    placeWebsite.NavigateUrl = place.Website;
-                    if (place.Website.Length < 64)
-                    {
-                        placeWebsite.Text = Renderer.Render(place.Website);
-                    }
-                }
-
-                placeWebsite.Visible = !string.IsNullOrEmpty(place.Website);
                 placeAddress.Text = Renderer.Render(place.Street);
                 placeZip.Text = Renderer.Render(place.Zip);
                 if (!string.IsNullOrEmpty(place.Fax)) placeFax.Text = string.Format("{0} (fax)", Renderer.Render(place.Fax));

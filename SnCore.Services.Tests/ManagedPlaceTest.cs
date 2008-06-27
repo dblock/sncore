@@ -47,7 +47,6 @@ namespace SnCore.Services.Tests
             t_instance.Name = GetNewString();
             t_instance.State = _city.Instance.Instance.State.Name;
             t_instance.Type = _type.Instance.Instance.Name;
-            t_instance.Website = GetNewUri();
             return t_instance;
         }
 
@@ -93,7 +92,6 @@ namespace SnCore.Services.Tests
                 t_place.Country = tc.Name;
                 t_place.State = tt.Name;
                 t_place.AccountId = a.Id;
-                t_place.Website = GetNewUri();
 
                 ManagedPlace m_place = new ManagedPlace(Session);
                 m_place.CreateOrUpdate(t_place, a.GetSecurityContext());

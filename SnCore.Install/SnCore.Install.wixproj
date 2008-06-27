@@ -34,6 +34,8 @@
     <Content Include="SnCore.Install.BackEndService.wxi" />
     <Content Include="SnCore.Install.UI.InstallWelcomeDlg.wxi" />
     <Content Include="SnCore.Project.wxi" />
+    <Content Include="SnCore.Version.wxi" />
+    <Content Include="SnCore.Version.wxi.template" />
     <Content Include="SnCore.Install.UI.UpgradeWelcomeDlg.wxi" />
   </ItemGroup>
   <ItemGroup>

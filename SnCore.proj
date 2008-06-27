@@ -36,7 +36,8 @@
    AssemblyTrademark="" ComVisible="false" CLSCompliant="false"
    AssemblyKeyFile="..\key.snk" AssemblyDelaySign="false" AssemblyKeyName="" AssemblyCulture=""
    AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)" AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
-  <FileUpdate Files="SnCore.Install\SnCore.Project.wxi" Regex="(ProductVersion=\')([0-9.]*)(')" 
+  <Copy SourceFiles="SnCore.Install\SnCore.Version.wxi.template" DestinationFiles="SnCore.Install\SnCore.Version.wxi" />
+  <FileUpdate Files="SnCore.Install\SnCore.Version.wxi" Regex="(ProductVersion=\')([0-9.]*)(')" 
    ReplacementText="ProductVersion='$(Major).$(Minor).$(Build).$(Revision)'" />
  </Target>
  <Target Name="announceprojectname">

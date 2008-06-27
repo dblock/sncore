@@ -79,7 +79,6 @@ public partial class PlaceMerge : AuthenticatedPage
             AddListItem(mergeto.Neighborhood, mergefrom.Neighborhood, selectNeighborhood);
             AddListItem(mergeto.Phone, mergefrom.Phone, selectPhone);
             AddListItem(mergeto.Fax, mergefrom.Fax, selectFax);
-            AddListItem(mergeto.Website, mergefrom.Website, selectWebsite);
             AddListItem(mergeto.Street, mergefrom.Street, selectStreet);
             AddListItem(mergeto.Zip, mergefrom.Zip, selectZip);
             AddListItem(mergeto.CrossStreet, mergefrom.CrossStreet, selectCrossStreet);
@@ -116,7 +115,6 @@ public partial class PlaceMerge : AuthenticatedPage
         t_instance.State = selectState.SelectedValue;
         t_instance.Street = selectStreet.SelectedValue;
         t_instance.Type = selectType.SelectedValue;
-        t_instance.Website = selectWebsite.SelectedValue;
         t_instance.Zip = selectZip.SelectedValue;
 
         SessionManager.PlaceService.MergePlaces(

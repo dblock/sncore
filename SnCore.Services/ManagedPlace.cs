@@ -322,21 +322,6 @@ namespace SnCore.Services
             }
         }
 
-        private string mWebsite;
-
-        public string Website
-        {
-            get
-            {
-
-                return mWebsite;
-            }
-            set
-            {
-                mWebsite = value;
-            }
-        }
-
         private string mNeighborhood;
 
         public string Neighborhood
@@ -464,7 +449,6 @@ namespace SnCore.Services
             Phone = instance.Phone;
             Fax = instance.Fax;
             Email = instance.Email;
-            Website = instance.Website;
             if (instance.City != null) City = instance.City.Name;
             if (instance.City != null && instance.City.State != null) State = instance.City.State.Name;
             if (instance.City != null && instance.City.Country != null) Country = instance.City.Country.Name;
@@ -486,7 +470,6 @@ namespace SnCore.Services
             instance.Phone = this.Phone;
             instance.Fax = this.Fax;
             instance.Email = this.Email;
-            instance.Website = this.Website;
             if (Id == 0) instance.Account = GetOwner(session, AccountId, sec);
             instance.City = (!string.IsNullOrEmpty(City)) 
                 ? ManagedCity.FindOrCreate(session, City, State, Country)

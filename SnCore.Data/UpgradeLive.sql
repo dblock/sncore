@@ -330,7 +330,33 @@ GO
 UPDATE dbo.AccountAuditEntry SET IsBroadcast = 0 WHERE IsBroadcast IS NULL
 ALTER TABLE dbo.AccountAuditEntry ALTER COLUMN [IsBroadcast] bit NOT NULL
 GO
+-- alter LastError columns to ntext
 ALTER TABLE dbo.AccountEmail ALTER COLUMN [LastError] ntext NULL
 GO
 ALTER TABLE dbo.AccountInvitation ALTER COLUMN [LastError] ntext NULL
+GO
+-- migrate Place.Website to PlaceWebsite
+IF EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[Place]') AND name = N'Website')
+BEGIN
+
+ EXEC('INSERT INTO dbo.PlaceWebsite ( [Account_Id], [Place_Id], [Name], [Url], [Created], [Modified] )
+  SELECT [Account_Id], [Place_Id], [Name], [Website], [Created], [Modified] FROM [Place]
+  WHERE [Website] <> ''''')
+
+ DROP FULLTEXT INDEX ON [dbo].[Place]
+ 
+ CREATE FULLTEXT INDEX ON [dbo].[Place] (
+  [CrossStreet] LANGUAGE [English], 
+  [Description] LANGUAGE [English], 
+  [Email] LANGUAGE [English], 
+  [Fax] LANGUAGE [English], 
+  [Name] LANGUAGE [English], 
+  [Phone] LANGUAGE [English], 
+  [Street] LANGUAGE [English], 
+  [Zip] LANGUAGE [English])
+ KEY INDEX [PK_Place] ON [SnCore]
+ WITH CHANGE_TRACKING AUTO
+
+ ALTER TABLE dbo.Place DROP COLUMN [Website]
+END
 GO

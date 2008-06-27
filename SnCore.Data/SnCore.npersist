@@ -831,7 +831,6 @@
     <property name="PlacePictures" table="PlacePicture" id-columns="Place_Id" list="true" item-type="PlacePicture" read-only="true" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="Street" columns="Street" type="System.String" />
     <property name="Type" columns="Type" ref="OneToMany" inverse="Places" type="PlaceType" />
-    <property name="Website" columns="Website" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
     <property name="PlacePropertyValues" table="PlacePropertyValue" id-columns="Place_Id" list="true" item-type="PlacePropertyValue" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
     <property name="PlaceAttributes" table="PlaceAttribute" id-columns="Place_Id" list="true" item-type="PlaceAttribute" slave="true" ref="ManyToOne" inverse="Place" inherits-inverse="true" />
@@ -1796,22 +1795,21 @@
       <column name="Name" type="String" prec="64" length="128" scale="0" />
     </table>
     <table name="Place">
-      <column name="Place_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_Place_Account" />
       <column name="City_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="City" primary-column="City_Id" foreign-key="FK_Place_City" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="CrossStreet" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="Email" type="AnsiString" prec="128" allow-null="true" length="128" scale="0" />
       <column name="Fax" type="AnsiString" prec="24" allow-null="true" length="24" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Neighborhood_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Neighborhood" primary-column="Neighborhood_Id" foreign-key="FK_Place_Neighborhood" />
       <column name="Phone" type="AnsiString" prec="24" allow-null="true" length="24" scale="0" />
+      <column name="Place_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Street" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="Type" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceType" primary-column="PlaceType_Id" foreign-key="FK_Place_PlaceType" />
-      <column name="Website" type="AnsiString" prec="128" length="128" scale="0" />
       <column name="Zip" type="String" prec="24" allow-null="true" length="48" scale="0" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_Place_Account" />
-      <column name="Neighborhood_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Neighborhood" primary-column="Neighborhood_Id" foreign-key="FK_Place_Neighborhood" />
     </table>
     <table name="PlaceAttribute">
       <column name="PlaceAttribute_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1901,6 +1899,17 @@
       <column name="PlaceType_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="DefaultType" type="Boolean" prec="1" length="1" scale="0" />
+    </table>
+    <table name="PlaceWebsite">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceWebsite_Account" />
+      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Name" type="String" prec="128" length="256" scale="0" />
+      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceWebsite_Place" />
+      <column name="PlaceWebsite_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Url" type="AnsiString" prec="256" length="256" scale="0" />
     </table>
     <table name="Redirect">
       <column name="Redirect_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -2027,17 +2036,6 @@
       <column name="TagWord_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="TagWord" primary-column="TagWord_Id" foreign-key="FK_TagWordAccount_TagWord" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-    </table>
-    <table name="PlaceWebsite">
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceWebsite_Account" />
-      <column name="Bitmap" type="Object" prec="0" allow-null="true" length="16" scale="0" />
-      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Name" type="String" prec="128" length="256" scale="0" />
-      <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceWebsite_Place" />
-      <column name="PlaceWebsite_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Url" type="AnsiString" prec="256" length="256" scale="0" />
     </table>
   </source>
 </domain>

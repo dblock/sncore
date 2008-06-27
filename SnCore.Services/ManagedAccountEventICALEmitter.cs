@@ -202,9 +202,6 @@ namespace SnCore.Services
                         case "postalcode":
                             mPlace.Zip = t.TokenText;
                             break;
-                        case "url":
-                            mPlace.Website = t.TokenText;
-                            break;
                     }
 
                     break;

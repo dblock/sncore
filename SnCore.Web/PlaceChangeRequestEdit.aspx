@@ -161,14 +161,6 @@
     <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmail" runat="server" />
    </td>
   </tr>
-  <tr>
-   <td class="sncore_form_label">
-    website:
-   </td>
-   <td class="sncore_form_value">
-    <asp:TextBox CssClass="sncore_form_textbox" ID="inputWebsite" runat="server" />
-   </td>
-  </tr>
  </table>
  <table class="sncore_account_table">
   <tr>

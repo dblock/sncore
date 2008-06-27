@@ -50,7 +50,6 @@ public partial class PlaceChangeRequestMerge : AuthenticatedPage
             AddListItem(place.Neighborhood, request.Neighborhood, selectNeighborhood);
             AddListItem(place.Phone, request.Phone, selectPhone);
             AddListItem(place.Fax, request.Fax, selectFax);
-            AddListItem(place.Website, request.Website, selectWebsite);
             AddListItem(place.Street, request.Street, selectStreet);
             AddListItem(place.Zip, request.Zip, selectZip);
             AddListItem(place.CrossStreet, request.CrossStreet, selectCrossStreet);
@@ -92,7 +91,6 @@ public partial class PlaceChangeRequestMerge : AuthenticatedPage
         place.State = selectState.SelectedValue;
         place.Street = selectStreet.SelectedValue;
         place.Type = selectType.SelectedValue;
-        place.Website = selectWebsite.SelectedValue;
         place.Zip = selectZip.SelectedValue;
 
         SessionManager.CreateOrUpdate<TransitPlace>(place, SessionManager.PlaceService.CreateOrUpdatePlace);
