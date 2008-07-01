@@ -28,7 +28,6 @@
         private Place m_Place;
         private System.String m_Street;
         private PlaceType m_Type;
-        private System.String m_Website;
         private System.String m_Zip;
 
         ///--------------------------------------------------------------------------------
@@ -411,31 +410,6 @@
             set
             {
                 m_Type = value;
-            }
-        }
-
-        ///--------------------------------------------------------------------------------
-        ///<summary>
-        ///Persistent primitive property.
-        ///</summary>
-        ///<remarks>
-        ///This property accepts values of the type 'System.String'.
-        ///The accessibility level for this property is 'PublicAccess'.
-        ///The accessibility level for the field 'm_Website' that holds the value for this property is 'PrivateAccess'.
-        ///
-        ///Mapping information:
-        ///The property maps to the column 'Website' in the data source.
-        ///</remarks>
-        ///--------------------------------------------------------------------------------
-        virtual public System.String Website
-        {
-            get
-            {
-                return m_Website;
-            }
-            set
-            {
-                m_Website = value;
             }
         }
 

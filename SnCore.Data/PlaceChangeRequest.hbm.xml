@@ -18,7 +18,6 @@
     <many-to-one name="Place" column="Place_Id" class="Place, SnCore.Data" />
     <property name="Street" column="Street" type="String" />
     <many-to-one name="Type" column="Type" class="PlaceType, SnCore.Data" />
-    <property name="Website" column="Website" type="String" />
     <property name="Zip" column="Zip" type="String" />
   </class>
 </hibernate-mapping>

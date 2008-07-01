@@ -38,36 +38,49 @@ namespace SnCore.Tools.Drawing
 
         public void BitmapThreadWorker(object url)
         {
-            DateTime started = DateTime.Now;
-            WebBrowser browser = new WebBrowser();
-            browser.ScrollBarsEnabled = false;
-            browser.ClientSize = new Size(800, 600);
-            browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
-            browser.Navigate((string) url);
-
-            while (bmp == null)
+            try
             {
-                Thread.Sleep(1000);
-                Application.DoEvents();
-                TimeSpan elapsed = DateTime.Now.Subtract(started);
-                if (elapsed.TotalMilliseconds > s_RequestTimeout / 2)
+                DateTime started = DateTime.Now;
+                WebBrowser browser = new WebBrowser();
+                browser.ScrollBarsEnabled = false;
+                browser.ClientSize = new Size(800, 600);
+                browser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(browser_DocumentCompleted);
+                browser.Navigate((string)url);
+
+                while (bmp == null)
                 {
-                    browser.Dispose();
-                    mre.Set();
-                    break;
+                    Thread.Sleep(1000);
+                    Application.DoEvents();
+                    TimeSpan elapsed = DateTime.Now.Subtract(started);
+                    if (elapsed.TotalMilliseconds > s_RequestTimeout / 2)
+                    {
+                        browser.Dispose();
+                        mre.Set();
+                        break;
+                    }
                 }
+            }
+            catch
+            {
+                mre.Set();
             }
         }
 
         private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            WebBrowser browser = (WebBrowser)sender;
-            browser.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+            try
+            {
+                WebBrowser browser = (WebBrowser)sender;
+                browser.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
 
-            bmp = new Bitmap(browser.Width, browser.Height);
-            browser.DrawToBitmap(bmp, browser.Bounds);
-            browser.Dispose();
-            mre.Set();
+                bmp = new Bitmap(browser.Width, browser.Height);
+                browser.DrawToBitmap(bmp, browser.Bounds);
+                browser.Dispose();
+            }
+            finally
+            {
+                mre.Set();
+            }
         }
 
         void Window_Error(object sender, HtmlElementErrorEventArgs e)

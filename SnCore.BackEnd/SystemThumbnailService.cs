@@ -95,7 +95,6 @@ namespace SnCore.BackEndServices
             {
                 RunThumbnail(session, website, sec);
                 session.Flush();
-                Thread.Sleep(1000 * InterruptInterval);
             }
         }
 
@@ -115,7 +114,6 @@ namespace SnCore.BackEndServices
             {
                 RunThumbnail(session, website, sec);
                 session.Flush();
-                Thread.Sleep(1000 * InterruptInterval);
             }
         }
 

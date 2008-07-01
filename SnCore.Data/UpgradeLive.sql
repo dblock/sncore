@@ -360,3 +360,6 @@ BEGIN
  ALTER TABLE dbo.Place DROP COLUMN [Website]
 END
 GO
+IF EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]') AND name = N'Website')
+ALTER TABLE dbo.PlaceChangeRequest DROP COLUMN [Website]
+GO

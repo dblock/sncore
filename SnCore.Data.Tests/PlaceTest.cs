@@ -34,7 +34,6 @@ namespace SnCore.Data.Tests
             place.Created = place.Modified = DateTime.UtcNow;
             place.City = city;
             place.Type = placetype;
-            place.Website = string.Empty;
 
             Session.Save(placetype);
             Session.Save(country);

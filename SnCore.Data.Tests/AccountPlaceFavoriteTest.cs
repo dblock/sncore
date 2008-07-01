@@ -36,7 +36,6 @@ namespace SnCore.Data.Tests
             place.Created = place.Modified = DateTime.UtcNow;
             place.City = city;
             place.Type = placetype;
-            place.Website = string.Empty;
 
             AccountPlaceFavorite fav = new AccountPlaceFavorite();
             fav.Account = acct;
@@ -87,7 +86,6 @@ namespace SnCore.Data.Tests
             place.Created = place.Modified = DateTime.UtcNow;
             place.City = city;
             place.Type = placetype;
-            place.Website = string.Empty;
 
             Place place2 = new Place();
             place2.Account = acct;
@@ -95,7 +93,6 @@ namespace SnCore.Data.Tests
             place2.Created = place2.Modified = DateTime.UtcNow;
             place2.City = city;
             place2.Type = placetype;
-            place2.Website = string.Empty;
 
             AccountPlaceFavorite fav = new AccountPlaceFavorite();
             fav.Account = acct;

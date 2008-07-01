@@ -864,7 +864,6 @@
     <property name="Place" columns="Place_Id" ref="OneToMany" inverse="PlaceChangeRequests" type="Place" />
     <property name="Street" columns="Street" type="System.String" />
     <property name="Type" columns="Type" ref="OneToMany" inverse="PlaceChangeRequests" type="PlaceType" />
-    <property name="Website" columns="Website" type="System.String" />
     <property name="Zip" columns="Zip" type="System.String" />
   </class>
   <class name="PlaceName" table="PlaceName">
