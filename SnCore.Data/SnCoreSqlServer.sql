@@ -3756,7 +3756,6 @@ CREATE TABLE [dbo].[PlaceChangeRequest](
 	[Phone] [varchar](24) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Fax] [varchar](24) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Email] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Website] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Created] [datetime] NOT NULL,
 	[Modified] [datetime] NOT NULL,
 	[Neighborhood_Id] [int] NULL,
