@@ -57,6 +57,8 @@ public partial class AccountFeedItemPicture : PicturePage
 
         // fetch the image to get its size
         WebClient client = new WebClient();
+        client.Headers["Accept"] = "*/*";
+        client.Headers["User-Agent"] = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
         result = new TransitPicture();
         result.Name = url;
 

@@ -52,6 +52,7 @@ public partial class AccountEventWizard : AuthenticatedPage
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         System.Net.ServicePointManager.Expect100Continue = false;
         request.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
+        request.Accept = "*/*";
         request.Timeout = 60 * 1000;
         request.KeepAlive = false;
         request.MaximumAutomaticRedirections = 5;
@@ -85,6 +86,7 @@ public partial class AccountEventWizard : AuthenticatedPage
         List<TransitAccountEvent> result = new List<TransitAccountEvent>();
         HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
         request.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
+        request.Accept = "*/*";
         WebResponse response = request.GetResponse();
         string content;
         using (StreamReader sr = new StreamReader(response.GetResponseStream()))

@@ -509,7 +509,8 @@ namespace SnCore.Services
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(mInstance.FeedUrl);
             System.Net.ServicePointManager.Expect100Continue = false;
-            request.UserAgent = ManagedConfiguration.GetValue(Session, "SnCore.Web.UserAgent", "SnCore/1.0").ToString();
+            request.UserAgent = ManagedConfiguration.GetValue(Session, "SnCore.Web.UserAgent", "SnCore/1.0");
+            request.Accept = "*/*";
             request.Timeout = 60 * 1000;
             request.KeepAlive = false;
             request.MaximumAutomaticRedirections = 5;
@@ -894,6 +895,8 @@ namespace SnCore.Services
                     try
                     {
                         WebClient client = new WebClient();
+                        client.Headers["Accept"] = "*/*";
+                        client.Headers["User-Agent"] = ManagedConfiguration.GetValue(Session, "SnCore.Web.UserAgent", "SnCore/1.0");
                         byte[] data = client.DownloadData(x_img.Url);
                         if (data == null) throw new Exception("Missing file data.");
                         ThumbnailBitmap bitmap = new ThumbnailBitmap(data);

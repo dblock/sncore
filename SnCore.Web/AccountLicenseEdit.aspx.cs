@@ -65,6 +65,8 @@ public partial class AccountLicenseEdit : AuthenticatedPage
                 if (string.IsNullOrEmpty(license))
                 {
                     WebClient client = new WebClient();
+                    client.Headers["Accept"] = "*/*";
+                    client.Headers["User-Agent"] = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
                     license = client.DownloadString(tal.LicenseUrl);
                     license = license.Substring(license.IndexOf("<div id=\"deed\""));
                     license = license.Substring(0, license.LastIndexOf("</div>") + 4);

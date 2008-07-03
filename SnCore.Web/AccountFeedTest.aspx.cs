@@ -187,6 +187,7 @@ public class TransitAccountFeedWithItems : TransitAccountFeed
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         System.Net.ServicePointManager.Expect100Continue = false;
         request.UserAgent = useragent;
+        request.Accept = "*/*";
         request.Timeout = 60 * 1000;
         request.KeepAlive = false;
         request.MaximumAutomaticRedirections = 5;

@@ -15,6 +15,25 @@ namespace SnCore.Tools.Tests
     public class ThumbnailBitmapTest
     {
         [Test]
+        public void TestLoadAll()
+        {
+            string[] images = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            foreach (string image in images)
+            {
+                if (!image.StartsWith("SnCore.Tools.Tests.Images."))
+                    continue;
+
+                Console.WriteLine(image);
+
+                Stream sm = Assembly.GetExecutingAssembly().GetManifestResourceStream(image);
+                Assert.IsNotNull(sm);
+                ThumbnailBitmap b = new ThumbnailBitmap(sm, new Size(1, 1), ThumbnailBitmap.s_FullSize, ThumbnailBitmap.s_ThumbnailSize);
+                Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
+                Assert.IsNotNull(b.Bitmap);
+            }
+        }
+
+        [Test]
         public void TestLoadJPG()
         {
             Stream sm = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Tools.Tests.Images.test.jpg");
