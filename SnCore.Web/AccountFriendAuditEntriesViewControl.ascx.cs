@@ -157,4 +157,12 @@ public partial class FriendAuditEntriesViewControl : Control
             t_forward, SessionManager.SocialService.CreateOrUpdateAccountAuditEntry);
         ReportInfo("Message has been successfully broadcasted to your friends!");
     }
+
+    public void linkDelete_Command(object sender, CommandEventArgs e)
+    {
+        SessionManager.Delete<TransitAccountAuditEntry>(
+            int.Parse(e.CommandArgument.ToString()), SessionManager.SocialService.DeleteAccountAuditEntry);
+        gridFriends_OnGetDataSource(this, null);
+        gridFriends.DataBind();
+    }
 }

@@ -756,7 +756,6 @@ namespace SnCore.Services
                     mpw.MigrateToAccount(newowner, sec);
                 }
 
-
                 // delete all group invitations to me, group requests are cascade-deleted
                 Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
 

@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
- <?ifdef Debug ?>
- <?define ConfigurationName=Debug ?>
- <?else ?>
- <?define ConfigurationName=Release ?>
+ <?ifndef ConfigurationName ?>
+  <?ifdef Debug ?>
+   <?define ConfigurationName=Debug ?>
+  <?else ?>
+   <?define ConfigurationName=Release ?>
+  <?endif ?>
  <?endif ?>
  <?include SnCore.Version.wxi ?>
  <?define SnCoreSolutionDir=$(sys.SOURCEFILEDIR)..\?>

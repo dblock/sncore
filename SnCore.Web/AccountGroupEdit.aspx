@@ -92,7 +92,7 @@
      </asp:TemplateColumn>
      <asp:TemplateColumn>
       <itemtemplate>
-       <a href="SystemDiscussionEdit.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(Request.Url.PathAndQuery) %>">Edit</a>
+       <a href='SystemDiscussionEdit.aspx?id=<%# Eval("Id") %>&ReturnUrl=<%# Renderer.UrlEncode(string.Format("AccountGroupEdit.aspx?id={0}", RequestId)) %>'>Edit</a>
       </itemtemplate>
      </asp:TemplateColumn>
      <asp:ButtonColumn ButtonType="LinkButton" CommandName="Delete" Text="Delete" />

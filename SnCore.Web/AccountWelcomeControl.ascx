@@ -9,7 +9,7 @@
      <img src="images/site/right.gif" border="0" />
     </div>
     <div class="sncore_welcome">
-     Welcome back
+     Welcome back,
      <b><asp:Label runat="server" ID="loggedInAccountName" /></b>
      <a href="AccountManage.aspx">&#187; me me</a>
     </div>

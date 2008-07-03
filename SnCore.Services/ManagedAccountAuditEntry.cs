@@ -346,6 +346,17 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLAuthenticatedAllowCreate());
 
+            // user can view his own activity and delete broadcasts
+            try
+            {
+                Account acct = Session.Load<Account>(mInstance.AccountId);
+                acl.Add(new ACLAccount(acct, mInstance.IsBroadcast ? DataOperation.AllExceptUpdate : DataOperation.Retreive));
+            }
+            catch (ObjectNotFoundException)
+            {
+
+            }
+
             if (!mInstance.IsPrivate && !mInstance.IsSystem)
             {
                 // friends can retrieve public audit entries
@@ -420,7 +431,7 @@ namespace SnCore.Services
             return audit_entry;
         }
 
-        private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session, 
+        private static AccountAuditEntry CreateOrRetreiveAccountAuditEntry(ISession session,
             Account account, string descr, string url, bool is_system, bool is_private)
         {
             TransitAccountAuditEntry t_instance = new TransitAccountAuditEntry();
@@ -454,7 +465,7 @@ namespace SnCore.Services
         public override TransitAccountAuditEntry GetTransitInstance(ManagedSecurityContext sec)
         {
             TransitAccountAuditEntry t_instance = base.GetTransitInstance(sec);
-            
+
             try
             {
                 Account acct = Session.Load<Account>(mInstance.AccountId);

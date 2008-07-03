@@ -45,6 +45,10 @@
         <asp:LinkButton ID="linkForward" OnCommand="linkForward_Command" CommandArgument='<%# Eval("Id") %>' 
          CommandName="Forward" Text='<%# (bool) Eval("IsBroadcast") ? "&#187; forward" : "&#187; broadcast" %>' runat="server"
          Visible='<%# ! (bool) Eval("IsBroadcast") || ((int) Eval("AccountId") != SessionManager.AccountId) %>' OnClientClick="this.disabled = 'disabled';" />
+        <asp:LinkButton ID="linkDelete" OnCommand="linkDelete_Command" CommandArgument='<%# Eval("Id") %>' 
+         CommandName="Delete" Text='&#187; delete' runat="server"
+         Visible='<%# (bool) Eval("IsBroadcast") && (((int) Eval("AccountId") == SessionManager.AccountId) || SessionManager.IsAdministrator) %>'
+         OnClientClick="return confirm('Are you sure you want to delete this broadcast?')" />
        </div>
       </div>
      </div>

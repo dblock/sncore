@@ -61,7 +61,7 @@ namespace SnCore.BackEnd.Tests
         {
             // fetch all places with names like GUID
             IEnumerable<DatabaseType> instances = Session.CreateQuery(string.Format(
-                "FROM {0} instance WHERE {1} LIKE '%-%-%'", typeof(DatabaseType).Name, col))
+                "FROM {0} instance WHERE {1} LIKE '%-%-%' OR {1} LIKE 'Test%'", typeof(DatabaseType).Name, col))
                 .Enumerable<DatabaseType>();
             IEnumerator<DatabaseType> enumerator = instances.GetEnumerator();
             while (enumerator.MoveNext())

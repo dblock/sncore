@@ -106,7 +106,7 @@ public partial class AccountGroupView : Page
             linkRelRss.Visible = fGroupMemberOrAdmin;
 
             linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}&ReturnUrl={1}", AccountGroupId,
-                Renderer.UrlEncode(Request.Url.PathAndQuery));
+                Renderer.UrlEncode(string.Format("AccountGroupView.aspx?id={0}", RequestId)));
 
             panelGroupAdmin.Visible = fGroupAdmin;
 
