@@ -4,13 +4,20 @@
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="SelectDate" Src="SelectDateControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
+ <SnCore:Title ID="titleResetPassword" Text="Reset Password" runat="server" ExpandedSize="100">  
+  <Template>
+   <div class="sncore_title_paragraph">
+    This page allows you to reset your password. The system will e-mail you a new password. You must enter your
+    e-mail address and birthday for security reasons. Note that because we can't send you an e-mail to an unverified e-mail
+    address for the same security reasons, you cannot reset passwords for accounts without one.
+   </div>
+  </Template>
+ </SnCore:Title>
  <asp:UpdatePanel ID="panelResetUpdate" runat="server" UpdateMode="Conditional">
   <ContentTemplate>
    <SnCoreWebControls:PersistentPanel ID="panelReset" runat="server">
-    <div class="sncore_h2">
-     Reset Password
-    </div>
     <div class="sncore_h2sub">
      <asp:LinkButton ID="linkAdministrator" runat="server" Text="&#187; Having Trouble?" CausesValidation="false" />
     </div>

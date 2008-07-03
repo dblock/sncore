@@ -21,6 +21,15 @@
        TextMode="Password" />
      </td>
     </tr>
+    <tr>
+     <td class="sncore_form_label">
+     </td>
+     <td class="sncore_form_value">
+      <div>
+       <a class="sncore_link" href="AccountResetPassword.aspx">&#187; forgot password?</a>
+      </div>
+     </td>
+    </tr>
    </table>
   </asp:Panel>
   <table class="sncore_account_table">

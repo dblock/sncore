@@ -9,6 +9,8 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.SiteMap;
+using System.Collections.Generic;
+using SnCore.Services;
 
 public partial class AccountResetPassword : Page
 {
@@ -26,6 +28,23 @@ public partial class AccountResetPassword : Page
                 string.Format("location.href='mailto:{0}';",
                    SessionManager.GetCachedConfiguration(
                         "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+
+            if (SessionManager.IsLoggedIn)
+            {
+                if (!SessionManager.HasVerifiedEmailAddress())
+                {
+                    ReportWarning("You don't have any verified e-mail addresses.\n" +
+                        "For security reasons you must add/confirm a valid e-mail address before you can reset your password.");
+
+                    panelReset.Enabled = false;
+                }
+
+                string email = SessionManager.AccountService.GetActiveEmailAddress(
+                    SessionManager.Ticket, SessionManager.AccountId);
+
+                resetpasswordEmailAddress.Text = email;
+                resetpasswordBirthday.SelectedDate = SessionManager.Account.Birthday;
+            }
         }
 
         SetDefaultButton(resetPassword);
