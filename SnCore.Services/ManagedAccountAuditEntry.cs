@@ -346,23 +346,25 @@ namespace SnCore.Services
             ACL acl = base.GetACL(type);
             acl.Add(new ACLAuthenticatedAllowCreate());
 
-            // user can view his own activity and delete broadcasts
+            Account acct = null;
             try
             {
-                Account acct = Session.Load<Account>(mInstance.AccountId);
-                acl.Add(new ACLAccount(acct, mInstance.IsBroadcast ? DataOperation.AllExceptUpdate : DataOperation.Retreive));
+                acct = Session.Load<Account>(mInstance.AccountId);
+                if (acct.Id == 0) throw new ObjectNotFoundException(mInstance.AccountId, typeof(Account));
             }
             catch (ObjectNotFoundException)
             {
-
+                acct = null;
             }
 
-            if (!mInstance.IsPrivate && !mInstance.IsSystem)
+            if (acct != null)
             {
-                // friends can retrieve public audit entries
-                try
+                // user can view his own activity and delete broadcasts
+                acl.Add(new ACLAccount(acct, mInstance.IsBroadcast ? DataOperation.AllExceptUpdate : DataOperation.Retreive));
+
+                if (!mInstance.IsPrivate && !mInstance.IsSystem)
                 {
-                    Account acct = Session.Load<Account>(mInstance.AccountId);
+                    // friends can retrieve public audit entries
                     if (acct.AccountFriends != null)
                     {
                         foreach (AccountFriend friend in acct.AccountFriends)
@@ -378,10 +380,6 @@ namespace SnCore.Services
                             acl.Add(new ACLAccount(friend.Account, DataOperation.Retreive));
                         }
                     }
-                }
-                catch (ObjectNotFoundException)
-                {
-
                 }
             }
 
