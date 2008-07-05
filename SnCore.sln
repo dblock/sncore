@@ -154,6 +154,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SnCoreFaceBookWeb", "http://localhost/SnCoreFaceBookWeb", "{3457FB18-BF57-43A7-819C-A4BE7AB9604D}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFramework = "2.0"
+		ProjectReferences = "{53F80219-6028-406B-819A-E79AE4D56995}|SnCore.Tools.dll;{157389D0-4DF2-429C-A13C-26D4F10569BD}|NGif.NET.dll;{499527FF-AE52-450F-B3E3-4AD53E1712AD}|SgmlReaderDll.dll;{A18A417F-A1C5-43F2-BAC2-00B1A924E60F}|SnCore.WebServices.dll;{4A323F3C-0EAF-40C9-AB0A-7A03BD7438B8}|SnCore.Data.dll;{437F9693-8C20-49BD-A4FD-68A88E9A92C0}|SnCore.Data.Hibernate.dll;{5AEB26B1-4C6C-42ED-86A0-2E5FD6CE53E2}|SnCore.Services.dll;{8DE2053A-247B-430A-86C3-E52B4725AA60}|Atom.NET.dll;{03BAF2A6-5C24-4450-94EF-F5F792F783E4}|ICalParser.dll;{C42FC014-7E12-4FAF-9BC9-79BF1529440D}|RSS.NET.dll;{615D15C5-42A4-4710-A713-D0678F7F7ED1}|SnCore.SiteMap.dll;{3E4122EA-09F7-4D3A-BD40-3AE4D54A3DA0}|Wilco.Web.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/SnCoreFaceBookWeb"
 		Debug.AspNetCompiler.PhysicalPath = "SnCore.FaceBook.Web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\SnCoreFaceBookWeb\"

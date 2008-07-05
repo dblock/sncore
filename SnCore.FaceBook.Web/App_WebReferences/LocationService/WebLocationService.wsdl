@@ -1,0 +1,1935 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="CreateOrUpdateCountry">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="tns:TransitCountry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitCountry">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCountry">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCountry" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateCountryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateCountryResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountryById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountryByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCountryByIdResult" type="tns:TransitCountry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountries">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCountriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCountriesResult" type="tns:ArrayOfTransitCountry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitCountry">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitCountry" nillable="true" type="tns:TransitCountry" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCountriesWithDefault">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="defaultname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountriesWithDefaultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCountriesWithDefaultResult" type="tns:ArrayOfTransitCountry" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountriesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCountriesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCountriesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCountry">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCountryResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="tns:TransitState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitState">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfState">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfState" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateStateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStateById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStateByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStateByIdResult" type="tns:TransitState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatesResult" type="tns:ArrayOfTransitState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitState">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitState" nillable="true" type="tns:TransitState" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetStatesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetStatesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatesByCountryIdResult" type="tns:ArrayOfTransitState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetStatesByCountryIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatesByCountryNameResult" type="tns:ArrayOfTransitState" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryNameCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatesByCountryNameCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetStatesByCountryNameCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteStateResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateCity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="tns:TransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitCity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfCity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Tag" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfCity" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateCityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateCityResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCityById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCityByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCityByIdResult" type="tns:TransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCities">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCitiesResult" type="tns:ArrayOfTransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitCity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitCity" nillable="true" type="tns:TransitCity" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountCities">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountCitiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountCitiesResult" type="tns:ArrayOfTransitAccountCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountCity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountCity" nillable="true" type="tns:TransitAccountCity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountCity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountCity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountCity" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountCitiesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountCitiesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountCitiesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCitiesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByCountryId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByCountryIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCitiesByCountryIdResult" type="tns:ArrayOfTransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByStateId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByStateIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCitiesByStateIdResult" type="tns:ArrayOfTransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByLocation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByLocationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCitiesByLocationResult" type="tns:ArrayOfTransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsByLocation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsByLocationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNeighborhoodsByLocationResult" type="tns:ArrayOfTransitNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitNeighborhood">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitNeighborhood" nillable="true" type="tns:TransitNeighborhood" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitNeighborhood">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfNeighborhood">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfNeighborhood" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCitiesByCountryIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByCountryIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCitiesByCountryIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByStateIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCitiesByStateIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCitiesByStateIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteCityResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="SearchCitiesByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchCitiesByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchCitiesByNameResult" type="tns:ArrayOfTransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCityByTag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCityByTagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCityByTagResult" type="tns:TransitCity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeCities">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="target_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="merge_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeCitiesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MergeCitiesResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeCitiesByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="target_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeCitiesByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MergeCitiesByNameResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateNeighborhood">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="neighborhood" type="tns:TransitNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrUpdateNeighborhoodResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateNeighborhoodResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNeighborhoodByIdResult" type="tns:TransitNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoods">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNeighborhoodsResult" type="tns:ArrayOfTransitNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNeighborhoodsCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsByCityId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsByCityIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNeighborhoodsByCityIdResult" type="tns:ArrayOfTransitNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsByCityIdCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNeighborhoodsByCityIdCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetNeighborhoodsByCityIdCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteNeighborhood">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteNeighborhoodResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="SearchNeighborhoodsByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SearchNeighborhoodsByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SearchNeighborhoodsByNameResult" type="tns:ArrayOfTransitNeighborhood" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeNeighborhoods">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="target_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="merge_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MergeNeighborhoodsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MergeNeighborhoodsResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateOrUpdateCountrySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCountry" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCountrySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountryByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCountryById" />
+  </wsdl:message>
+  <wsdl:message name="GetCountryByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountryByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCountries" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesWithDefaultSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCountriesWithDefault" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesWithDefaultSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountriesWithDefaultResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCountriesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCountriesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCountriesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCountrySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteCountry" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCountrySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteCountryResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateStateSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateState" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateStateSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStateByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStateById" />
+  </wsdl:message>
+  <wsdl:message name="GetStateByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStateByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStates" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryId" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryName" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryNameCount" />
+  </wsdl:message>
+  <wsdl:message name="GetStatesByCountryNameCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatesByCountryNameCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStateSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteState" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStateSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCitySoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCity" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateCitySoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCityByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCityById" />
+  </wsdl:message>
+  <wsdl:message name="GetCityByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCityByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCities" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountCitiesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountCities" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountCitiesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountCitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountCitiesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountCitiesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountCitiesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountCitiesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByCountryIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesByCountryId" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByCountryIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesByCountryIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByStateIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesByStateId" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByStateIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesByStateIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByLocationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesByLocation" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByLocationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesByLocationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsByLocationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsByLocation" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsByLocationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsByLocationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByCountryIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesByCountryIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByCountryIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesByCountryIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByStateIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCitiesByStateIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetCitiesByStateIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCitiesByStateIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCitySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteCity" />
+  </wsdl:message>
+  <wsdl:message name="DeleteCitySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteCityResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchCitiesByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchCitiesByName" />
+  </wsdl:message>
+  <wsdl:message name="SearchCitiesByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchCitiesByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCityByTagSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCityByTag" />
+  </wsdl:message>
+  <wsdl:message name="GetCityByTagSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCityByTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="MergeCitiesSoapIn">
+    <wsdl:part name="parameters" element="tns:MergeCities" />
+  </wsdl:message>
+  <wsdl:message name="MergeCitiesSoapOut">
+    <wsdl:part name="parameters" element="tns:MergeCitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="MergeCitiesByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:MergeCitiesByName" />
+  </wsdl:message>
+  <wsdl:message name="MergeCitiesByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:MergeCitiesByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateNeighborhoodSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateNeighborhood" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateNeighborhoodSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateNeighborhoodResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodById" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoods" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsCount" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsByCityIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsByCityId" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsByCityIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsByCityIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsByCityIdCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsByCityIdCount" />
+  </wsdl:message>
+  <wsdl:message name="GetNeighborhoodsByCityIdCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNeighborhoodsByCityIdCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteNeighborhoodSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteNeighborhood" />
+  </wsdl:message>
+  <wsdl:message name="DeleteNeighborhoodSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteNeighborhoodResponse" />
+  </wsdl:message>
+  <wsdl:message name="SearchNeighborhoodsByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:SearchNeighborhoodsByName" />
+  </wsdl:message>
+  <wsdl:message name="SearchNeighborhoodsByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:SearchNeighborhoodsByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="MergeNeighborhoodsSoapIn">
+    <wsdl:part name="parameters" element="tns:MergeNeighborhoods" />
+  </wsdl:message>
+  <wsdl:message name="MergeNeighborhoodsSoapOut">
+    <wsdl:part name="parameters" element="tns:MergeNeighborhoodsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebLocationServiceSoap">
+    <wsdl:operation name="CreateOrUpdateCountry">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a country.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateCountrySoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateCountrySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountryById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a country.</wsdl:documentation>
+      <wsdl:input message="tns:GetCountryByIdSoapIn" />
+      <wsdl:output message="tns:GetCountryByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountries">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all countries.</wsdl:documentation>
+      <wsdl:input message="tns:GetCountriesSoapIn" />
+      <wsdl:output message="tns:GetCountriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountriesWithDefault">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all countries.</wsdl:documentation>
+      <wsdl:input message="tns:GetCountriesWithDefaultSoapIn" />
+      <wsdl:output message="tns:GetCountriesWithDefaultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCountriesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all countries count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCountriesCountSoapIn" />
+      <wsdl:output message="tns:GetCountriesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCountry">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a country.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteCountrySoapIn" />
+      <wsdl:output message="tns:DeleteCountrySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateState">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a state.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateStateSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStateById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a state.</wsdl:documentation>
+      <wsdl:input message="tns:GetStateByIdSoapIn" />
+      <wsdl:output message="tns:GetStateByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStates">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesSoapIn" />
+      <wsdl:output message="tns:GetStatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states count.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesCountSoapIn" />
+      <wsdl:output message="tns:GetStatesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesByCountryIdSoapIn" />
+      <wsdl:output message="tns:GetStatesByCountryIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states within a country count.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesByCountryIdCountSoapIn" />
+      <wsdl:output message="tns:GetStatesByCountryIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesByCountryNameSoapIn" />
+      <wsdl:output message="tns:GetStatesByCountryNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryNameCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all states within a country count.</wsdl:documentation>
+      <wsdl:input message="tns:GetStatesByCountryNameCountSoapIn" />
+      <wsdl:output message="tns:GetStatesByCountryNameCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteState">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a state.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteStateSoapIn" />
+      <wsdl:output message="tns:DeleteStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCity">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a city.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateCitySoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateCitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCityById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a city.</wsdl:documentation>
+      <wsdl:input message="tns:GetCityByIdSoapIn" />
+      <wsdl:output message="tns:GetCityByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCities">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesSoapIn" />
+      <wsdl:output message="tns:GetCitiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountCities">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities by atheir accounts.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountCitiesSoapIn" />
+      <wsdl:output message="tns:GetAccountCitiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountCitiesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities by atheir accounts count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountCitiesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountCitiesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesCountSoapIn" />
+      <wsdl:output message="tns:GetCitiesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByCountryId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities within a country.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesByCountryIdSoapIn" />
+      <wsdl:output message="tns:GetCitiesByCountryIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByStateId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities within a state.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesByStateIdSoapIn" />
+      <wsdl:output message="tns:GetCitiesByStateIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByLocation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get cities within a country and state.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesByLocationSoapIn" />
+      <wsdl:output message="tns:GetCitiesByLocationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByLocation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get neighborhoods within a country, state and city.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodsByLocationSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodsByLocationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByCountryIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities within a country count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesByCountryIdCountSoapIn" />
+      <wsdl:output message="tns:GetCitiesByCountryIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByStateIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities within a state count.</wsdl:documentation>
+      <wsdl:input message="tns:GetCitiesByStateIdCountSoapIn" />
+      <wsdl:output message="tns:GetCitiesByStateIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCity">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a city.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteCitySoapIn" />
+      <wsdl:output message="tns:DeleteCitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchCitiesByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all cities with a matching name.</wsdl:documentation>
+      <wsdl:input message="tns:SearchCitiesByNameSoapIn" />
+      <wsdl:output message="tns:SearchCitiesByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCityByTag">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get city by tag.</wsdl:documentation>
+      <wsdl:input message="tns:GetCityByTagSoapIn" />
+      <wsdl:output message="tns:GetCityByTagSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeCities">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Merge cities.</wsdl:documentation>
+      <wsdl:input message="tns:MergeCitiesSoapIn" />
+      <wsdl:output message="tns:MergeCitiesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeCitiesByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Merge cities.</wsdl:documentation>
+      <wsdl:input message="tns:MergeCitiesByNameSoapIn" />
+      <wsdl:output message="tns:MergeCitiesByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateNeighborhood">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update a neighborhood.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateNeighborhoodSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateNeighborhoodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a neighborhood.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodByIdSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoods">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all neighborhoods.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodsSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all neighborhoods count.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodsCountSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodsCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByCityId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all neighborhoods within a city.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodsByCityIdSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodsByCityIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByCityIdCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all neighborhoods within a city count.</wsdl:documentation>
+      <wsdl:input message="tns:GetNeighborhoodsByCityIdCountSoapIn" />
+      <wsdl:output message="tns:GetNeighborhoodsByCityIdCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNeighborhood">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a neighborhood.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteNeighborhoodSoapIn" />
+      <wsdl:output message="tns:DeleteNeighborhoodSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchNeighborhoodsByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all neighborhoods with a matching name.</wsdl:documentation>
+      <wsdl:input message="tns:SearchNeighborhoodsByNameSoapIn" />
+      <wsdl:output message="tns:SearchNeighborhoodsByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeNeighborhoods">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Merge neighborhoods.</wsdl:documentation>
+      <wsdl:input message="tns:MergeNeighborhoodsSoapIn" />
+      <wsdl:output message="tns:MergeNeighborhoodsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebLocationServiceSoap" type="tns:WebLocationServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateCountry">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountryById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCountryById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountries">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCountries" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountriesWithDefault">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCountriesWithDefault" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountriesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCountriesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCountry">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCountry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateState">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStateById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStateById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStates">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryNameCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryNameCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteState">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCity">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCityById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCities">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountCities">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountCities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountCitiesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountCitiesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByCountryId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByCountryId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByStateId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByStateId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByLocation">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByLocation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByLocation">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsByLocation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByCountryIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByCountryIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByStateIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByStateIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCity">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchCitiesByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchCitiesByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityByTag">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetCityByTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeCities">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MergeCities" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeCitiesByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MergeCitiesByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateNeighborhood">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateNeighborhood" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoods">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoods" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByCityId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsByCityId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByCityIdCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsByCityIdCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNeighborhood">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteNeighborhood" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchNeighborhoodsByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/SearchNeighborhoodsByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeNeighborhoods">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/MergeNeighborhoods" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebLocationServiceSoap12" type="tns:WebLocationServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrUpdateCountry">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCountry" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountryById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCountryById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountries">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCountries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountriesWithDefault">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCountriesWithDefault" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountriesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCountriesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCountry">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCountry" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateState">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStateById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStateById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStates">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatesByCountryNameCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetStatesByCountryNameCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteState">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateCity">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateCity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCityById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCities">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountCities">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountCities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountCitiesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountCitiesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByCountryId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByCountryId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByStateId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByStateId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByLocation">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByLocation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByLocation">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsByLocation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByCountryIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByCountryIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCitiesByStateIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCitiesByStateIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCity">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteCity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchCitiesByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchCitiesByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCityByTag">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetCityByTag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeCities">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MergeCities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeCitiesByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MergeCitiesByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateNeighborhood">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateNeighborhood" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoods">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoods" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByCityId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsByCityId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighborhoodsByCityIdCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetNeighborhoodsByCityIdCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNeighborhood">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteNeighborhood" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchNeighborhoodsByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/SearchNeighborhoodsByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeNeighborhoods">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/MergeNeighborhoods" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebLocationService">
+    <wsdl:port name="WebLocationServiceSoap" binding="tns:WebLocationServiceSoap">
+      <soap:address location="http://localhost/SnCoreWeb/WebLocationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebLocationServiceSoap12" binding="tns:WebLocationServiceSoap12">
+      <soap12:address location="http://localhost/SnCoreWeb/WebLocationService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

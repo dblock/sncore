@@ -9,15 +9,12 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
-using SnCore.Services;
-using SnCore.WebServices;
-using Wilco.Web.UI;
-using SnCore.SiteMap;
-using nStuff.UpdateControls;
 using System.Collections.Specialized;
 using System.Text;
+using Wilco.Web.UI;
+using SnCore.SiteMap;
 
-public partial class AccountFeedItemImgsView : AccountPersonPage
+public partial class AccountFeedItemImgsView : Page
 {
     public bool IsEditing
     {
@@ -36,10 +33,8 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
         if (!IsPostBack)
         {
-            linkEdit.Visible = SessionManager.IsAdministrator;
             GetData();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -49,32 +44,15 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
         }
     }
 
-    void History_Navigate(object sender, HistoryEventArgs e)
-    {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
-        {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
-        }
-        else
-        {
-            gridManage.CurrentPageIndex = 0;
-        }
+    private SyndicationService.TransitAccountFeedItemImgQueryOptions mQueryOptions = null;
 
-        gridManage_OnGetDataSource(sender, e);
-        gridManage.DataBind();
-    }
-
-    private TransitAccountFeedItemImgQueryOptions mQueryOptions = null;
-
-    TransitAccountFeedItemImgQueryOptions QueryOptions
+    SyndicationService.TransitAccountFeedItemImgQueryOptions QueryOptions
     {
         get
         {
             if (mQueryOptions == null)
             {
-                mQueryOptions = new TransitAccountFeedItemImgQueryOptions();
+                mQueryOptions = new SyndicationService.TransitAccountFeedItemImgQueryOptions();
                 mQueryOptions.InterestingOnly = false;
                 mQueryOptions.VisibleOnly = (IsEditing ? false : true);
             }
@@ -86,22 +64,27 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
     public void linkEdit_Click(object sender, EventArgs e)
     {
         IsEditing = !IsEditing;
-        linkEdit.Text = IsEditing ? "&#187; Preview" : "&#187; Edit";
         GetData();
     }
 
     private void GetData()
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFeedItemImg, TransitAccountFeedItemImgQueryOptions>(
+        gridManage.VirtualItemCount = SessionManager.GetCount<
+            SyndicationService.TransitAccountFeedItemImg,
+            SyndicationService.ServiceQueryOptions,
+            SyndicationService.TransitAccountFeedItemImgQueryOptions>(
             QueryOptions, SessionManager.SyndicationService.GetAccountFeedItemImgsCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
 
-        TransitAccountFeedQueryOptions options = new TransitAccountFeedQueryOptions();
+        SyndicationService.TransitAccountFeedQueryOptions options = new SyndicationService.TransitAccountFeedQueryOptions();
         options.PublishedOnly = false;
         options.PicturesOnly = false;
-        int feedsCount = SessionManager.GetCount<TransitAccountFeed, TransitAccountFeedQueryOptions>(
+        int feedsCount = SessionManager.GetCount<
+            SyndicationService.TransitAccountFeed,
+            SyndicationService.ServiceQueryOptions,
+            SyndicationService.TransitAccountFeedQueryOptions>(
             options, SessionManager.SyndicationService.GetAccountFeedsCount);
 
         labelCount.Text = string.Format("{0} picture{1} from <a href='AccountFeedsView.aspx'>{2} blog{3}</a>",
@@ -111,33 +94,14 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
+        SyndicationService.ServiceQueryOptions serviceoptions = new SyndicationService.ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItemImg, TransitAccountFeedItemImgQueryOptions>(
+        gridManage.DataSource = SessionManager.GetCollection<
+            SyndicationService.TransitAccountFeedItemImg,
+            SyndicationService.ServiceQueryOptions,
+            SyndicationService.TransitAccountFeedItemImgQueryOptions>(
             QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemImgs);
-
-        string args = string.Format("page={0}", gridManage.CurrentPageIndex);
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
-    }
-
-    public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)
-    {
-        switch (e.CommandName)
-        {
-            case "Toggle":
-                TransitAccountFeedItemImg img = SessionManager.SyndicationService.GetAccountFeedItemImgById(
-                    SessionManager.Ticket, int.Parse(e.CommandArgument.ToString()));
-                img.Visible = !img.Visible;
-                if (!img.Visible) img.Interesting = false;
-                SessionManager.CreateOrUpdate<TransitAccountFeedItemImg>(
-                    img, SessionManager.SyndicationService.CreateOrUpdateAccountFeedItemImg);
-                LinkButton lb = (LinkButton)e.Item.FindControl("linkToggleVisible");
-                lb.Text = img.Visible ? "&#187; Hide" : "&#187; Show";
-                UpdatePanel up = (UpdatePanel)e.Item.FindControl("panelShowHide");
-                up.Update();
-                break;
-        }
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
