@@ -25,7 +25,8 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
 
-            TransitPlace place = SessionManager.PlaceService.GetPlaceById(SessionManager.Ticket, PlaceId);
+            TransitPlace place = SessionManager.GetInstance<TransitPlace, int>(
+                PlaceId, SessionManager.PlaceService.GetPlaceById);
             sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
 
             linkBack.NavigateUrl = string.Format("PlaceView.aspx?id={0}", place.Id);
@@ -36,7 +37,8 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
 
             if (RequestId > 0)
             {
-                TransitPlaceWebsite tw = SessionManager.PlaceService.GetPlaceWebsiteById(SessionManager.Ticket, RequestId);
+                TransitPlaceWebsite tw = SessionManager.GetInstance<TransitPlaceWebsite, int>(
+                    RequestId, SessionManager.PlaceService.GetPlaceWebsiteById);
                 inputName.Text = tw.Name;
                 inputUrl.Text = tw.Url;
                 inputDescription.Text = tw.Description;
@@ -87,8 +89,8 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
         tw.Id = RequestId;
         tw.PlaceId = PlaceId;
 
-        TransitPlaceWebsite t_existing = SessionManager.PlaceService.GetPlaceWebsiteByUri(
-            SessionManager.Ticket, PlaceId, tw.Url);
+        TransitPlaceWebsite t_existing = SessionManager.GetInstance<TransitPlaceWebsite, int, string>(
+            PlaceId, tw.Url, SessionManager.PlaceService.GetPlaceWebsiteByUri);
 
         if (t_existing != null && t_existing.Id != RequestId)
         {
@@ -97,6 +99,7 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
 
         SessionManager.CreateOrUpdate<TransitPlaceWebsite>(
             tw, SessionManager.PlaceService.CreateOrUpdatePlaceWebsite);
+
         Redirect(string.Format("PlaceView.aspx?id={0}", tw.PlaceId));
     }
 
@@ -109,6 +112,12 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
             Uri pageuri = new Uri(inputUrl.Text);
             string content = ContentPage.GetHttpContent(pageuri, p);
             HtmlPageInfo info = HtmlPageInfoExtractor.Extract(content);
+            if (string.IsNullOrEmpty(info.Title))
+            {
+                TransitPlace place = SessionManager.GetInstance<TransitPlace, int>(
+                    PlaceId, SessionManager.PlaceService.GetPlaceById);
+                info.Title = place.Name;
+            }
             inputName.Text = info.Title.Trim();
         }
         catch (Exception ex)
