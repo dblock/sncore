@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacePropertyGroupEdit" Src="PlacePropertyGroupEditControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountRedirectEdit" Src="AccountRedirectEditControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="WebsitesView" Src="PlaceWebsitesViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   <asp:Label ID="labelName" runat="server" Text="New Place" />
@@ -172,7 +173,20 @@
    <td class="sncore_form_value">
     <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmail" runat="server" />
    </td>
+  </tr>
  </table>
+ <asp:Panel ID="panelWebsite" runat="server">
+  <table cellpadding="4" class="sncore_account_table" border="1">
+   <tr>
+    <td class="sncore_form_label">
+     website:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox CssClass="sncore_form_textbox" ID="inputWebsite" runat="server" />
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
  <SnCore:PlacePropertyGroupEdit id="ppg" runat="server" />
  <table class="sncore_account_table">
   <tr>
@@ -184,6 +198,7 @@
    </td>
   </tr>
  </table>
+ <SnCore:WebsitesView runat="server" ID="websitesView" />
  <SnCore:AccountRedirectEdit id="placeredirect" runat="server" />
  <asp:Panel ID="panelPlaceAltName" runat="server">
   <div class="sncore_h2">

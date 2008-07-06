@@ -78,12 +78,23 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
         tw.Url = inputUrl.Text;
 
         // verify that the url exists
-        ContentPage.GetHttpContent(new Uri(tw.Url), new ContentPageParameters(
-                SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0")));
+        ContentPageParameters p = new ContentPageParameters();
+        p.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
+        Uri pageuri = new Uri(tw.Url);
+        ContentPage.GetHttpContent(pageuri, p);
 
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
         tw.PlaceId = PlaceId;
+
+        TransitPlaceWebsite t_existing = SessionManager.PlaceService.GetPlaceWebsiteByUri(
+            SessionManager.Ticket, PlaceId, tw.Url);
+
+        if (t_existing != null && t_existing.Id != RequestId)
+        {
+            throw new Exception(string.Format("The website \"{0}\" has already been added.", tw.Url));
+        }
+
         SessionManager.CreateOrUpdate<TransitPlaceWebsite>(
             tw, SessionManager.PlaceService.CreateOrUpdatePlaceWebsite);
         Redirect(string.Format("PlaceView.aspx?id={0}", tw.PlaceId));

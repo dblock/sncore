@@ -15,6 +15,7 @@ using SnCore.WebServices;
 using SnCore.SiteMap;
 using SnCore.Data.Hibernate;
 using SnCore.WebControls;
+using System.Net;
 
 public partial class PlaceEdit : AuthenticatedPage
 {
@@ -82,6 +83,8 @@ public partial class PlaceEdit : AuthenticatedPage
                 linkEditPictures.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", place.Id);
                 sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request.Url));
                 placeredirect.TargetUri = string.Format("PlaceView.aspx?id={0}", place.Id);
+                panelWebsite.Visible = false;
+                websitesView.PlaceId = RequestId;
             }
             else
             {
@@ -106,6 +109,7 @@ public partial class PlaceEdit : AuthenticatedPage
                 sitemapdata.Add(new SiteMapDataAttributeNode("New Place", Request.Url));
 
                 placeredirect.Visible = false;
+                websitesView.Visible = false;
             }
 
             LocationSelector_LocationChanged(sender, e);
@@ -160,6 +164,28 @@ public partial class PlaceEdit : AuthenticatedPage
 
         ppg.PlaceId = place_id;
         ppg.save_Click(sender, e);
+
+        try
+        {
+            string website = inputWebsite.Text;
+            if (RequestId == 0 && !string.IsNullOrEmpty(website) && website != "http://")
+            {
+                if (!website.StartsWith("http://"))
+                    website = website.Insert(0, "http://");
+
+                TransitPlaceWebsite t_website = new TransitPlaceWebsite();
+                t_website.AccountId = SessionManager.AccountId;
+                t_website.Name = t.Name;
+                t_website.PlaceId = place_id;
+                t_website.Url = website;
+                t_website.Id = SessionManager.CreateOrUpdate<TransitPlaceWebsite>(
+                    t_website, SessionManager.PlaceService.CreateOrUpdatePlaceWebsite);
+            }
+        }
+        catch (UriFormatException)
+        {
+
+        }
 
         Redirect(string.Format("PlaceView.aspx?id={0}", place_id));
     }

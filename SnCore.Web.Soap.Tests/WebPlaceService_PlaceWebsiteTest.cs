@@ -57,5 +57,17 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             object[] args = { ticket, _place_id };
             return args;
         }
+
+        [Test]
+        public void GetPlaceWebsiteByUriTest()
+        {
+            WebPlaceService.TransitPlaceWebsite t_instance = GetTransitInstance();
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            WebPlaceService.TransitPlaceWebsite t_instance2 = EndPoint.GetPlaceWebsiteByUri(
+                GetAdminTicket(), t_instance.PlaceId, t_instance.Url);
+            Assert.AreEqual(t_instance.Id, t_instance2.Id);
+            Assert.AreEqual(t_instance.Url, t_instance2.Url);
+            Delete(GetAdminTicket(), t_instance.Id);
+        }
     }
 }

@@ -1831,6 +1831,23 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Get a place website by uri.
+        /// </summary>
+        /// <returns>transit place website</returns>
+        [WebMethod(Description = "Get a place website by uri.")]
+        public TransitPlaceWebsite GetPlaceWebsiteByUri(string ticket, int place_id, string url)
+        {
+            ICriterion[] expressions = 
+            { 
+                Expression.Eq("Url", url),
+                Expression.Eq("Place.Id", place_id)
+            };
+
+            return WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.GetByCriterion(
+                ticket, expressions);
+        }
+
+        /// <summary>
         /// Get all place websites count.
         /// </summary>
         /// <param name="id">place id</param>

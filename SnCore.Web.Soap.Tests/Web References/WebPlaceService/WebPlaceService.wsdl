@@ -2175,6 +2175,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetPlaceWebsiteByUri">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="place_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaceWebsiteByUriResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaceWebsiteByUriResult" type="tns:TransitPlaceWebsite" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetPlaceWebsitesCount">
         <s:complexType>
           <s:sequence>
@@ -2900,6 +2916,12 @@
   <wsdl:message name="GetPlaceWebsiteByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetPlaceWebsiteByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetPlaceWebsiteByUriSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaceWebsiteByUri" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaceWebsiteByUriSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaceWebsiteByUriResponse" />
+  </wsdl:message>
   <wsdl:message name="GetPlaceWebsitesCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetPlaceWebsitesCount" />
   </wsdl:message>
@@ -3474,6 +3496,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place website.</wsdl:documentation>
       <wsdl:input message="tns:GetPlaceWebsiteByIdSoapIn" />
       <wsdl:output message="tns:GetPlaceWebsiteByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceWebsiteByUri">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a place website by uri.</wsdl:documentation>
+      <wsdl:input message="tns:GetPlaceWebsiteByUriSoapIn" />
+      <wsdl:output message="tns:GetPlaceWebsiteByUriSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetPlaceWebsitesCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all place websites count.</wsdl:documentation>
@@ -4481,6 +4508,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetPlaceWebsiteById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceWebsiteById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceWebsiteByUri">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceWebsiteByUri" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5510,6 +5546,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetPlaceWebsiteById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceWebsiteById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaceWebsiteByUri">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetPlaceWebsiteByUri" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
