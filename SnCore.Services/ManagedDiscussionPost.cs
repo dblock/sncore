@@ -12,6 +12,7 @@ using System.IO;
 using System.Collections.Generic;
 using SnCore.Data.Hibernate;
 using SnCore.Tools.Web;
+using System.Globalization;
 
 namespace SnCore.Services
 {
@@ -540,7 +541,7 @@ namespace SnCore.Services
         {
             return session.CreateQuery("FROM DiscussionPost p" +
                 string.Format(" WHERE p.AccountId = {0}", account_id) +
-                string.Format(" AND p.Created >= '{0}'", limit)
+                string.Format(" AND p.Created >= '{0}'", limit.ToString(DateTimeFormatInfo.InvariantInfo))
                 ).List<DiscussionPost>();
         }
 

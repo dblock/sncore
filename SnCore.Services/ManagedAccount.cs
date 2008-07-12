@@ -1003,7 +1003,7 @@ namespace SnCore.Services
                     "SELECT e FROM AccountEmail e, Account a" +
                     " WHERE e.Account.Id = a.Id" +
                     " AND e.Address = '" + emailaddress.Trim().ToLower() + "'" +
-                    " AND a.Birthday = '" + dateofbirth.ToString() + "'")
+                    " AND a.Birthday = '" + dateofbirth.ToString(DateTimeFormatInfo.InvariantInfo) + "'")
                     .UniqueResult();
             }
 

@@ -5,6 +5,7 @@ using SnCore.Tools.Web;
 using SnCore.Data.Hibernate;
 using SnCore.Tools;
 using NHibernate;
+using System.Globalization;
 
 namespace SnCore.Services
 {
@@ -80,10 +81,11 @@ namespace SnCore.Services
 
             // delay accounts, prevent bots from pushing accounts on top
             // and avoid privacy violation of showing someone online
-            if (b.Length == 0 && SortOrder == "LastLogin")
+            if (SortOrder == "LastLogin")
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Account.LastLogin < '{0}'", DateTime.UtcNow.AddMinutes(-15));
+                b.AppendFormat("Account.LastLogin < '{0}'", 
+                    DateTime.UtcNow.AddMinutes(-15).ToString(DateTimeFormatInfo.InvariantInfo));
             }
 
             return b.ToString();
@@ -222,22 +224,22 @@ namespace SnCore.Services
 
             t_instance.NewPictures = Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPicture p " +
                 "WHERE p.Account.Id = {0} AND p.Modified > '{1}' AND p.Hidden = 0",
-                mInstance.Id, limit))
+                mInstance.Id, limit.ToString(DateTimeFormatInfo.InvariantInfo)))
                 .UniqueResult<int>();
 
             t_instance.NewDiscussionPosts = Session.CreateQuery(string.Format("SELECT COUNT(*) FROM DiscussionPost p, Discussion d, DiscussionThread t " +
                 "WHERE p.AccountId = {0} AND p.Modified > '{1}' AND p.DiscussionThread.Id = t.Id and t.Discussion.Id = d.Id AND d.Personal = 0",
-                mInstance.Id, limit))
+                mInstance.Id, limit.ToString(DateTimeFormatInfo.InvariantInfo)))
                 .UniqueResult<int>();
 
             t_instance.NewSyndicatedContent = Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFeed f " +
                 "WHERE f.Account.Id = {0} AND f.Created > '{1}'",
-                mInstance.Id, limit))
+                mInstance.Id, limit.ToString(DateTimeFormatInfo.InvariantInfo)))
                 .UniqueResult<int>();
 
             t_instance.NewFriends = Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFriend f " +
                 "WHERE (f.Account.Id = {0} OR f.Keen.Id = {0}) AND (f.Created > '{1}')",
-                mInstance.Id, limit))
+                mInstance.Id, limit.ToString(DateTimeFormatInfo.InvariantInfo)))
                 .UniqueResult<int>();
 
             return t_instance;

@@ -4,6 +4,7 @@ using NHibernate.Expression;
 using System.Collections;
 using System.Collections.Generic;
 using SnCore.Data.Hibernate;
+using System.Globalization;
 
 namespace SnCore.Services
 {
@@ -364,7 +365,7 @@ namespace SnCore.Services
             return session.CreateQuery("FROM AccountMessage m" +
                 string.Format(" WHERE m.SenderAccountId = {0}", sender_id) +
                 " AND m.Account.Id <> m.SenderAccountId" +
-                string.Format(" AND m.Sent >= '{0}'", limit) +
+                string.Format(" AND m.Sent >= '{0}'", limit.ToString(DateTimeFormatInfo.InvariantInfo)) +
                 " AND NOT EXISTS ( " +
                 "  SELECT f FROM AccountFriend f WHERE" +
                 "  ( f.Account.Id = m.SenderAccountId AND f.Keen.Id = m.RecepientAccountId ) OR" +

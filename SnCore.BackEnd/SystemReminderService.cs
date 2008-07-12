@@ -17,6 +17,7 @@ using System.Net.Mail;
 using System.Diagnostics;
 using System.Reflection;
 using SnCore.Tools.Web;
+using System.Globalization;
 
 namespace SnCore.BackEndServices
 {
@@ -66,7 +67,7 @@ namespace SnCore.BackEndServices
                   " FROM AccountEmail AS email" +
                   " WHERE email.Account = account" +
                   " AND email.Verified = 1" +
-                 ") AND account.LastLogin < '{0}'", DateTime.UtcNow.AddMonths(-2)))
+                 ") AND account.LastLogin < '{0}'", DateTime.UtcNow.AddMonths(-2).ToString(DateTimeFormatInfo.InvariantInfo)))
                  .Enumerable<Account>();
 
             IEnumerator<Account> enumerator = accounts.GetEnumerator();
@@ -148,7 +149,7 @@ namespace SnCore.BackEndServices
         {
             // fetch invitations that are older than a month
             IEnumerator<AccountInvitation> invitations = session.CreateQuery(
-                string.Format("FROM AccountInvitation WHERE Modified < '{0}'", DateTime.UtcNow.AddMonths(-1)))
+                string.Format("FROM AccountInvitation WHERE Modified < '{0}'", DateTime.UtcNow.AddMonths(-1).ToString(DateTimeFormatInfo.InvariantInfo)))
                 .Enumerable<AccountInvitation>().GetEnumerator();
 
             while (invitations.MoveNext())
@@ -334,7 +335,7 @@ namespace SnCore.BackEndServices
                 "FROM RefererHost rh " +
                 " WHERE rh.Total < 3 " +
                 " AND NOT EXISTS ( FROM RefererAccount ra WHERE ra.RefererHost = rh ) " +
-                " AND rh.Updated < '{0}'", DateTime.UtcNow.AddMonths(-1)));
+                " AND rh.Updated < '{0}'", DateTime.UtcNow.AddMonths(-1).ToString(DateTimeFormatInfo.InvariantInfo)));
             session.Flush();
         }
 
@@ -343,7 +344,7 @@ namespace SnCore.BackEndServices
             IEnumerable<AccountAuditEntry> audit_entries = session.CreateQuery(
                 string.Format(
                  "FROM AccountAuditEntry AccountAuditEntry" +
-                 " WHERE AccountAuditEntry.Updated < '{0}'", DateTime.UtcNow.AddDays(-14)))
+                 " WHERE AccountAuditEntry.Updated < '{0}'", DateTime.UtcNow.AddDays(-14).ToString(DateTimeFormatInfo.InvariantInfo)))
                  .Enumerable<AccountAuditEntry>();
 
             IEnumerator<AccountAuditEntry> enumerator = audit_entries.GetEnumerator();
@@ -363,7 +364,7 @@ namespace SnCore.BackEndServices
                 " WHERE AccountMessage.AccountMessageFolder.System = 1" +
                 " AND AccountMessage.AccountMessageFolder.AccountMessageFolderParent IS NULL" +
                 " AND (AccountMessage.AccountMessageFolder.Name = 'Trash' OR AccountMessage.AccountMessageFolder.Name = 'Sent')" +
-                " AND (AccountMessage.Sent < '{0}')", DateTime.UtcNow.AddDays(-14)));
+                " AND (AccountMessage.Sent < '{0}')", DateTime.UtcNow.AddDays(-14).ToString(DateTimeFormatInfo.InvariantInfo)));
             session.Flush();
         }
     }

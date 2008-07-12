@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.IO;
 using SnCore.Tools.Web;
 using SnCore.Tools;
+using System.Globalization;
 
 namespace SnCore.Services
 {
@@ -71,7 +72,7 @@ namespace SnCore.Services
             if (NewOnly)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("Created > '{0}'", DateTime.UtcNow.AddDays(-7));
+                b.AppendFormat("Created > '{0}'", DateTime.UtcNow.AddDays(-7).ToString(DateTimeFormatInfo.InvariantInfo));
             }
 
             return b.ToString();

@@ -5,6 +5,7 @@ using NHibernate;
 using NHibernate.Expression;
 using SnCore.Tools.Web;
 using SnCore.Tools;
+using System.Globalization;
 
 namespace SnCore.Services
 {
@@ -70,13 +71,13 @@ namespace SnCore.Services
             if (EndDateTime != DateTime.MinValue)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("ScheduleInstance.StartDateTime < '{0}'", EndDateTime);
+                b.AppendFormat("ScheduleInstance.StartDateTime < '{0}'", EndDateTime.ToString(DateTimeFormatInfo.InvariantInfo));
             }
 
             if (StartDateTime != DateTime.MaxValue)
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
-                b.AppendFormat("ScheduleInstance.EndDateTime > '{0}'", StartDateTime);
+                b.AppendFormat("ScheduleInstance.EndDateTime > '{0}'", StartDateTime.ToString(DateTimeFormatInfo.InvariantInfo));
             }
 
             if (PlaceId != 0)

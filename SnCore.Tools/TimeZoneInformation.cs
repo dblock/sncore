@@ -119,10 +119,8 @@ namespace SnCore.Tools
                                     tzi.m_displayName = (string) subKey.GetValue( "Display" );
                                     tzi.m_standardName = (string) subKey.GetValue( "Std" );
                                     tzi.m_daylightName = (string) subKey.GetValue( "Dlt" );
-                                    tzi.m_index = (int)( subKey.GetValue( "Index", 0 ) );
-
                                     tzi.InitTzi( (byte[]) subKey.GetValue( "Tzi" ) );
-                            
+                                    tzi.m_index = (int)(subKey.GetValue("Index", zones.Count + 1));                            
                                     zones.Add( tzi );
                                 }
                             }
