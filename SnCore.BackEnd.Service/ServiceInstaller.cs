@@ -23,11 +23,6 @@ namespace SnCore.BackEnd.Service
 
         public ServiceInstaller()
         {
-            ServiceProcessInstaller serviceProcessInstaller = new ServiceProcessInstaller();
-            serviceProcessInstaller.Account = ServiceAccount.LocalSystem;
-            serviceProcessInstaller.Username = null;
-            serviceProcessInstaller.Password = null;
-
             ServiceNameDescription[] services = {
                 new ServiceNameDescription( SystemMailMessageService.Name, SystemMailMessageService.Description ),
                 new ServiceNameDescription( SystemReminderService.Name, SystemReminderService.Description ),
@@ -44,10 +39,15 @@ namespace SnCore.BackEnd.Service
                 serviceInstaller.DisplayName = service.name;
                 serviceInstaller.Description = service.description;
                 serviceInstaller.StartType = ServiceStartMode.Automatic;
-                Installers.Add(serviceInstaller);
-            }
 
-            this.Installers.Add(serviceProcessInstaller);
+                ServiceProcessInstaller serviceProcessInstaller = new ServiceProcessInstaller();
+                serviceProcessInstaller.Account = ServiceAccount.LocalSystem;
+                serviceProcessInstaller.Username = null;
+                serviceProcessInstaller.Password = null;
+                serviceProcessInstaller.Installers.Add(serviceInstaller);
+
+                Installers.Add(serviceProcessInstaller);
+            }
         }
     }
 }

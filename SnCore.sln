@@ -173,8 +173,13 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SnCoreFaceBookWeb", "http:/
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.BackEnd.Service", "SnCore.BackEnd.Service\SnCore.BackEnd.Service.csproj", "{02A079EA-3FD3-4500-B632-D465380B1C4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229} = {E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.SmtpMockServer", "SnCore.SmtpMockServer\SnCore.SmtpMockServer.csproj", "{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "CommandLine.Net\CommandLine.csproj", "{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -620,6 +625,18 @@ Global
 		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B71DAAB6-87AF-4454-B68F-A1C6AD63B521}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|.NET.ActiveCfg = Release|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

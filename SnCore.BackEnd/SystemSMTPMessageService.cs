@@ -40,6 +40,9 @@ namespace SnCore.BackEndServices
 
             foreach (AccountEmail email in emails)
             {
+                if (IsStopping)
+                    break;
+
                 if (email.Failed)
                     continue;
 
@@ -111,12 +114,19 @@ namespace SnCore.BackEndServices
 
             foreach (string file in files)
             {
+                if (IsStopping)
+                    break;
+
                 EventLogManager.WriteEntry(string.Format("Processing {0}.", file));
                 
                 try
                 {
                     ProcessMessage(file);
                     File.Delete(file);
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
@@ -155,6 +165,9 @@ namespace SnCore.BackEndServices
                         dsn.LoadBody(ab.GetText());
                         foreach (MimeDSNRecipient r in dsn.Recipients)
                         {
+                            if (IsStopping)
+                                break;
+
                             EventLogManager.WriteEntry(string.Format("Checking {0} ({1}).", r.FinalRecipientEmailAddress, r.Action));
                             switch (r.Action)
                             {
@@ -171,6 +184,9 @@ namespace SnCore.BackEndServices
             {
                 foreach (MimeDSNRecipient r in failures)
                 {
+                    if (IsStopping)
+                        break;
+
                     EventLogManager.WriteEntry(string.Format("Processing {0} ({1}).",
                         r.FinalRecipientEmailAddress, r.Action));
                     UpdateFailure(r);

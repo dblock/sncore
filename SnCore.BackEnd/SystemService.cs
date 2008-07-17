@@ -13,6 +13,7 @@ using SnCore.Tools.Web;
 using SnCore.Services;
 using NHibernate.Dialect.Function;
 using System.ServiceProcess;
+using System.Windows.Forms;
 
 namespace SnCore.BackEndServices
 {
@@ -61,6 +62,10 @@ namespace SnCore.BackEndServices
             get
             {
                 return mIsStopping;
+            }
+            set
+            {
+                mIsStopping = value;
             }
         }
 
@@ -140,7 +145,13 @@ namespace SnCore.BackEndServices
             }
 
             mThread = new Thread(ThreadProc);
+            mThread.Name = this.GetType().Name;
             mThread.Start(this);
+        }
+
+        public void Wait()
+        {
+            mThread.Join();
         }
 
         protected void AddJob(SessionJobDelegate job)
@@ -152,6 +163,7 @@ namespace SnCore.BackEndServices
         {
             if (IsDebug)
             {
+                Console.WriteLine(string.Format("Service {0} is stopping.", this.GetType().Name));
                 EventLogManager.WriteEntry(string.Format("Service {0} is stopping.", this.GetType().Name),
                     EventLogEntryType.Information);
             }
@@ -168,6 +180,7 @@ namespace SnCore.BackEndServices
                             EventLogEntryType.Warning);
                     }
 
+                    Application.DoEvents();
                     Thread.Sleep(500);
                     mThread.Abort();
                 }
@@ -180,10 +193,12 @@ namespace SnCore.BackEndServices
 
                     if (IsDebug)
                     {
+                        Console.WriteLine(string.Format("Service {0} failed to abort thread, retrying {1}.", this.GetType().Name, retry));
                         EventLogManager.WriteEntry(string.Format("Service {0} failed to abort thread, retrying {1}.", this.GetType().Name, retry),
                             EventLogEntryType.Warning);
                     }
 
+                    Application.DoEvents();
                     mThread.Abort();
                 }
 

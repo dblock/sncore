@@ -49,10 +49,17 @@ namespace SnCore.BackEndServices
 
             foreach (Account account in accounts)
             {
+                if (IsStopping)
+                    break;
+
                 try
                 {
                     ManagedAccount ma = new ManagedAccount(session, account);
                     ma.UpdateTagWords();
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
                 }
                 catch
                 {

@@ -25,6 +25,7 @@
                     <File Id="SnCoreServicesBin_SnCore_Data_Hibernate_dll" Name="SnCore.Data.Hibernate.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Data.Hibernate.dll" />
                     <File Id="SnCoreServicesBin_SnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Services.dll" />
                     <File Id="SnCoreServicesBin_SnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Tools.dll" />
+                    <File Id="SnCoreServicesBin_Microsoft_CommandLine_dll" Name="Microsoft.CommandLine.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Microsoft.CommandLine.dll" />
                     <ServiceInstall Id="SnCoreServicePostMaster" Name="SnCore System PostMaster Service" DisplayName="SnCore System PostMaster Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Routes e-mails between the SnCore users and an SMTP server." />
                     <ServiceControl Id="SnCoreServicePostMaster_Start" Name="SnCore System PostMaster Service" Start="install" Wait="no" />
                     <ServiceControl Id="SnCoreServicePostMaster_Stop" Name="SnCore System PostMaster Service" Stop="both" Wait="yes" Remove="uninstall" />

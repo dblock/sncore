@@ -50,6 +50,9 @@ namespace SnCore.BackEndServices
 
             foreach(AccountFeed feed in list)
             {
+                if (IsStopping)
+                    break;
+
                 try
                 {
                     ManagedAccountFeed m_feed = new ManagedAccountFeed(session, feed);
@@ -61,6 +64,10 @@ namespace SnCore.BackEndServices
                     m_feed.Update(sec);
                     m_feed.UpdateImages(sec);
                     m_feed.UpdateMedias(sec);
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {

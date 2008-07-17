@@ -63,6 +63,9 @@ namespace SnCore.BackEndServices
 
             foreach (AccountEmailMessage m in emailmessages)
             {
+                if (IsStopping)
+                    break;
+
                 try
                 {
                     MailMessage message = ManagedAccountEmailMessage.GetMessageInstance(session, m);
@@ -76,6 +79,10 @@ namespace SnCore.BackEndServices
                     {
                         session.Save(m);
                     }
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
@@ -103,6 +110,9 @@ namespace SnCore.BackEndServices
 
             foreach (Campaign campaign in campaigns)
             {
+                if (IsStopping)
+                    break;
+
                 IList recepients = session.CreateCriteria(typeof(CampaignAccountRecepient))
                     .Add(Expression.Eq("Sent", false))
                     .Add(Expression.Eq("Campaign.Id", campaign.Id))
@@ -124,6 +134,9 @@ namespace SnCore.BackEndServices
 
                 foreach (CampaignAccountRecepient recepient in recepients)
                 {
+                    if (IsStopping)
+                        break;
+
                     try
                     {
                         ManagedAccount m_recepient = new ManagedAccount(session, recepient.Account);
@@ -137,6 +150,10 @@ namespace SnCore.BackEndServices
                             campaign.Name, content, true);
 
                         recepient.LastError = string.Empty;
+                    }
+                    catch (ThreadAbortException)
+                    {
+                        throw;
                     }
                     catch (Exception ex)
                     {

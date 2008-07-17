@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceEngine.cs" />
     <Compile Include="ServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -73,6 +74,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommandLine.Net\CommandLine.csproj">
+      <Project>{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}</Project>
+      <Name>CommandLine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SnCore.BackEnd\SnCore.BackEnd.csproj">
       <Project>{9354A6E8-72CD-4E69-92E7-C2740F5B5F16}</Project>
       <Name>SnCore.BackEnd</Name>

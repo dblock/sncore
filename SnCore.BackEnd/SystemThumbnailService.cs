@@ -51,6 +51,10 @@ namespace SnCore.BackEndServices
 
                 m_website.UpdateThumbnail();
             }
+            catch (ThreadAbortException)
+            {
+                throw;
+            }
             catch (Exception)
             {
                 website.Modified = DateTime.UtcNow;
@@ -71,6 +75,10 @@ namespace SnCore.BackEndServices
                 }
 
                 m_website.UpdateThumbnail();
+            }
+            catch (ThreadAbortException)
+            {
+                throw;
             }
             catch (Exception)
             {
@@ -93,6 +101,9 @@ namespace SnCore.BackEndServices
 
             foreach (AccountWebsite website in list)
             {
+                if (IsStopping)
+                    break;
+
                 RunThumbnail(session, website, sec);
                 session.Flush();
             }
@@ -112,6 +123,9 @@ namespace SnCore.BackEndServices
 
             foreach (PlaceWebsite website in list)
             {
+                if (IsStopping)
+                    break;
+
                 RunThumbnail(session, website, sec);
                 session.Flush();
             }

@@ -49,7 +49,7 @@ namespace SnCore.BackEndServices
             IQuery q = session.CreateQuery("FROM Account");
             IEnumerable<Account> accounts = q.Enumerable<Account>();
             IEnumerator<Account> enumerator = accounts.GetEnumerator();
-            while (enumerator.MoveNext())
+            while (enumerator.MoveNext() && ! IsStopping)
             {
                 Account account = enumerator.Current;
                 counters.Add(account.Created);
@@ -71,7 +71,7 @@ namespace SnCore.BackEndServices
                  .Enumerable<Account>();
 
             IEnumerator<Account> enumerator = accounts.GetEnumerator();
-            while (enumerator.MoveNext())
+            while (enumerator.MoveNext() && ! IsStopping)
             {
                 Account account = enumerator.Current;
 
@@ -93,6 +93,9 @@ namespace SnCore.BackEndServices
                         // someone either tried to hijack this account or tried to register again with the same e-mail and succeeded
                         foreach (AccountEmail email in account.AccountEmails)
                         {
+                            if (IsStopping)
+                                break;
+
                             IList verifiedemails = session.CreateCriteria(typeof(AccountEmail))
                                 .Add(Expression.Eq("Verified", true))
                                 .Add(Expression.Eq("Address", email.Address))
@@ -113,6 +116,9 @@ namespace SnCore.BackEndServices
                     {
                         foreach (AccountEmail email in account.AccountEmails)
                         {
+                            if (IsStopping)
+                                break;
+
                             // if we have never resent the e-mail confirmation, do it now
                             if (email.Created == email.Modified)
                             {
@@ -137,6 +143,10 @@ namespace SnCore.BackEndServices
 
                     session.Flush();
                 }
+                catch (ThreadAbortException)
+                {
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     EventLogManager.WriteEntry(string.Format("Error processing reminder for account {0} ({1}): {2}",
@@ -152,7 +162,7 @@ namespace SnCore.BackEndServices
                 string.Format("FROM AccountInvitation WHERE Modified < '{0}'", DateTime.UtcNow.AddMonths(-1).ToString(DateTimeFormatInfo.InvariantInfo)))
                 .Enumerable<AccountInvitation>().GetEnumerator();
 
-            while (invitations.MoveNext())
+            while (invitations.MoveNext() && ! IsStopping)
             {
                 AccountInvitation invitation = invitations.Current;
 
@@ -163,6 +173,10 @@ namespace SnCore.BackEndServices
                         // this invitation was never resent
                         ManagedAccountInvitation mi = new ManagedAccountInvitation(session, invitation);
                         mi.Send();
+                    }
+                    catch (ThreadAbortException)
+                    {
+                        throw;
                     }
                     catch (Exception ex)
                     {
@@ -192,6 +206,9 @@ namespace SnCore.BackEndServices
 
             foreach (Reminder reminder in reminders)
             {
+                if (IsStopping)
+                    break;
+
                 reminder.LastRun = DateTime.UtcNow;
                 reminder.LastRunError = string.Empty;
                 session.Save(reminder);
@@ -228,6 +245,9 @@ namespace SnCore.BackEndServices
 
                     foreach (object o in objects)
                     {
+                        if (IsStopping)
+                            break;
+
                         int accountid = (int)accountidpropertyinfo.GetValue(o, null);
 
                         ReminderEvent reminderevent = (ReminderEvent)session.CreateCriteria(typeof(ReminderEvent))
@@ -272,12 +292,20 @@ namespace SnCore.BackEndServices
 
                             session.Save(reminderevent);
                         }
+                        catch (ThreadAbortException)
+                        {
+                            throw;
+                        }
                         catch (Exception ex)
                         {
                             EventLogManager.WriteEntry(string.Format("Error sending a reminder at {0} to account id {1}: {2}",
                                 reminder.Url, accountid, ex.Message), EventLogEntryType.Warning);
                         }
                     }
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
@@ -299,7 +327,7 @@ namespace SnCore.BackEndServices
                 .Enumerable<AccountRssWatch>();
 
             IEnumerator<AccountRssWatch> enumerator = rsswatchs.GetEnumerator();
-            while (enumerator.MoveNext())
+            while (enumerator.MoveNext() && ! IsStopping)
             {
                 AccountRssWatch rsswatch = enumerator.Current;
                 rsswatch.LastError = string.Empty;
@@ -313,6 +341,10 @@ namespace SnCore.BackEndServices
                         ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
                             session, ma, string.Format("AccountRssWatchView.aspx?id={0}", m_rsswatch.Id));
                     }
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
@@ -348,7 +380,7 @@ namespace SnCore.BackEndServices
                  .Enumerable<AccountAuditEntry>();
 
             IEnumerator<AccountAuditEntry> enumerator = audit_entries.GetEnumerator();
-            while (enumerator.MoveNext())
+            while (enumerator.MoveNext() && ! IsStopping)
             {
                 AccountAuditEntry audit_entry = enumerator.Current;
                 ManagedAccountAuditEntry ma = new ManagedAccountAuditEntry(session, audit_entry);
