@@ -84,6 +84,7 @@ namespace SnCore.Tools.Web
 
                 request.UserAgent = parameters.UserAgent;
                 request.Accept = "*/*";
+                request.KeepAlive = false;
             }
 
             WebResponse response = request.GetResponse();
