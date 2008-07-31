@@ -37,6 +37,19 @@ namespace SnCore.BackEnd.Service
             }
         }
 
+        private SystemService[] GetServices(string[] services)
+        {
+            List<SystemService> result = new List<SystemService>();
+            foreach(SystemService service in Services)
+            {
+                if (services == null 
+                    || Array.IndexOf<string>(services, service.ServiceName) >= 0
+                    || Array.IndexOf<string>(services, service.GetType().Name) >= 0)
+                    result.Add(service);
+            }
+            return result.ToArray();
+        }
+
         public ServiceEngine()
         {
 
@@ -58,26 +71,37 @@ namespace SnCore.BackEnd.Service
             }
         }
 
-        public void RunOnConsole()
+        public void RunOnConsole(string[] services)
         {
             SnCore.Data.Hibernate.Session.Initialize(false);
-            foreach (SystemService service in Services)
+
+            foreach (string service in services)
+            {
+                Console.WriteLine("Initializing {0} ...", service);
+            }
+
+            SystemService[] runservices = GetServices(services);
+
+            if (runservices == null || runservices.Length == 0)
+                throw new Exception("No Services to Run");
+
+            foreach (SystemService service in runservices)
             {
                 Console.WriteLine("Starting {0} ...", service.ServiceName);
                 service.Start();
             }
 
-            foreach (SystemService service in Services)
+            foreach (SystemService service in runservices)
             {
                 service.Wait();
                 Console.WriteLine("Service {0} stopped.", service.ServiceName);
             }
         }
 
-        public void RunAsService()
+        public void RunAsService(string[] services)
         {
-            SnCore.Data.Hibernate.Session.Initialize(false);            
-            ServiceBase.Run(Services);
+            SnCore.Data.Hibernate.Session.Initialize(false);
+            ServiceBase.Run(GetServices(services));
         }
     }
 }

@@ -8,13 +8,17 @@ using Microsoft.CommandLine;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Diagnostics;
 
 namespace SnCore.BackEnd.Service
 {
     class ProgramCommandLineArguments
     {
-        [Argument(ArgumentType.AtMostOnce, DefaultValue = true, HelpText = "Run in debug mode on command line.")]
+        [Argument(ArgumentType.AtMostOnce, DefaultValue = false, HelpText = "Run in debug mode on command line.")]
         public bool debug = false;
+
+        [Argument(ArgumentType.MultipleUnique, HelpText = "Specify services to run.")]
+        public string[] services = null;
     }
 
     static class Program
@@ -32,7 +36,18 @@ namespace SnCore.BackEnd.Service
 
         static void Main(string[] args)
         {
-            if (args.Length > 0)
+            ProgramCommandLineArguments pargs = new ProgramCommandLineArguments();
+            if (!Parser.ParseArguments(args, pargs))
+            {
+                AllocConsole();
+                Parser.ParseArgumentsWithUsage(args, pargs);
+                Console.WriteLine("Press any key to continue ...");
+                Console.ReadKey();
+                FreeConsole();
+                return;
+            }
+
+            if (pargs.debug)
             {
                 try
                 {
@@ -40,27 +55,15 @@ namespace SnCore.BackEnd.Service
 
                     AssemblyName name = Assembly.GetExecutingAssembly().GetName();
                     Console.WriteLine("{0}: {1}", name.Name, name.Version);
-                    ProgramCommandLineArguments pargs = new ProgramCommandLineArguments();
-                    if (Parser.ParseArgumentsWithUsage(args, pargs))
-                    {
-                        if (pargs.debug)
-                        {
-                            ServiceEngine serviceEngine = new ServiceEngine();
+                    ServiceEngine serviceEngine = new ServiceEngine();
 
-                            Console.CancelKeyPress += delegate
-                            {
-                                Console.WriteLine("Stopping service, please wait ...");
-                                serviceEngine.StopOnConsole();
-                            };
-
-                            serviceEngine.RunOnConsole();
-                        }
-                    }
-                    else
+                    Console.CancelKeyPress += delegate
                     {
-                        Console.WriteLine("Press any key to continue ...");
-                        Console.ReadKey();
-                    }
+                        Console.WriteLine("Stopping service, please wait ...");
+                        serviceEngine.StopOnConsole();
+                    };
+
+                    serviceEngine.RunOnConsole(pargs.services);
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +79,7 @@ namespace SnCore.BackEnd.Service
             else
             {
                 ServiceEngine serviceEngine = new ServiceEngine();
-                serviceEngine.RunAsService();
+                serviceEngine.RunAsService(pargs.services);
             }
         }
     }

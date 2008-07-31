@@ -4,9 +4,44 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
 using SnCore.BackEndServices;
+using Microsoft.Win32;
 
 namespace SnCore.BackEnd.Service
 {
+    public class SnCoreServiceProcessInstaller : ServiceProcessInstaller
+    {
+        private string mServiceName;
+
+        public string ServiceName
+        {
+            get
+            {
+                return mServiceName;
+            }
+        }
+
+        public SnCoreServiceProcessInstaller(string name)
+        {
+            mServiceName = name;
+        }
+
+        public override void Install(System.Collections.IDictionary stateSaver)
+        {
+            base.Install(stateSaver);
+
+            RegistryKey system = Registry.LocalMachine.OpenSubKey("System");
+            RegistryKey currentControlSet = system.OpenSubKey("CurrentControlSet");
+            RegistryKey services = currentControlSet.OpenSubKey("Services");
+            RegistryKey service = services.OpenSubKey(ServiceName, true);
+            RegistryKey config = service.CreateSubKey("Parameters");
+            string args = string.Format("/s:\"{0}\"", ServiceName);
+            config.SetValue("Arguments", args);
+            string path = string.Format("{0} {1}", service.GetValue("ImagePath"), args);
+            service.SetValue("ImagePath", path);
+        }
+    }
+
+
     [RunInstaller(true)]
     public partial class ServiceInstaller : Installer
     {
@@ -40,7 +75,7 @@ namespace SnCore.BackEnd.Service
                 serviceInstaller.Description = service.description;
                 serviceInstaller.StartType = ServiceStartMode.Automatic;
 
-                ServiceProcessInstaller serviceProcessInstaller = new ServiceProcessInstaller();
+                SnCoreServiceProcessInstaller serviceProcessInstaller = new SnCoreServiceProcessInstaller(service.name);
                 serviceProcessInstaller.Account = ServiceAccount.LocalSystem;
                 serviceProcessInstaller.Username = null;
                 serviceProcessInstaller.Password = null;

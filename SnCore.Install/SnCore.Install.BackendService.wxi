@@ -26,34 +26,14 @@
                     <File Id="SnCoreServicesBin_SnCore_Services_dll" Name="SnCore.Services.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Services.dll" />
                     <File Id="SnCoreServicesBin_SnCore_Tools_dll" Name="SnCore.Tools.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\SnCore.Tools.dll" />
                     <File Id="SnCoreServicesBin_Microsoft_CommandLine_dll" Name="Microsoft.CommandLine.dll" Source="$(var.SnCore.BackEnd.Service.Target.Path)\Microsoft.CommandLine.dll" />
-                    <ServiceInstall Id="SnCoreServicePostMaster" Name="SnCore System PostMaster Service" DisplayName="SnCore System PostMaster Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Routes e-mails between the SnCore users and an SMTP server." />
-                    <ServiceControl Id="SnCoreServicePostMaster_Start" Name="SnCore System PostMaster Service" Start="install" Wait="no" />
-                    <ServiceControl Id="SnCoreServicePostMaster_Stop" Name="SnCore System PostMaster Service" Stop="both" Wait="yes" Remove="uninstall" />
-                    <ServiceInstall Id="SnCoreServiceReminder" Name="SnCore System Reminder Service" DisplayName="SnCore System Reminder Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Runs subscriptions, reminders and other cleanup tasks." />
-                    <ServiceControl Id="SnCoreServiceReminder_Start" Name="SnCore System Reminder Service" Start="install" Wait="no" />
-                    <ServiceControl Id="SnCoreServiceReminder_Stop" Name="SnCore System Reminder Service" Stop="both" Wait="yes" Remove="uninstall" />
-                    <ServiceInstall Id="SnCoreServiceSMTPQueue" Name="SnCore System SMTP Queue Service" DisplayName="SnCore System SMTP Queue Service" Type="shareProcess" Start="demand" ErrorControl="normal" Description="Routes NDRs processed and queued by the SMTP sink." />
-                    <ServiceControl Id="SnCoreServiceSMTPQueue_Start" Name="SnCore System SMTP Queue Service" Wait="no" />
-                    <ServiceControl Id="SnCoreServiceSMTPQueue_Stop" Name="SnCore System SMTP Queue Service" Stop="both" Wait="yes" Remove="uninstall" />
-                    <ServiceInstall Id="SnCoreServiceSyndication" Name="SnCore System Syndication Service" DisplayName="SnCore System Syndication Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Runs RSS feed syndication updates." />
-                    <ServiceControl Id="SnCoreServiceSyndication_Start" Name="SnCore System Syndication Service" Start="install" Wait="no" />
-                    <ServiceControl Id="SnCoreServiceSyndication_Stop" Name="SnCore System Syndication Service" Stop="both" Wait="yes" Remove="uninstall" />
-                    <ServiceInstall Id="SnCoreServiceTag" Name="SnCore System Tag Service" DisplayName="SnCore System Tag Service" Type="shareProcess" Start="auto" ErrorControl="normal" Description="Indexes content into meta tags." />
-                    <ServiceControl Id="SnCoreServiceTag_Start" Name="SnCore System Tag Service" Start="install" Wait="no" />
-                    <ServiceControl Id="SnCoreServiceTag_Stop" Name="SnCore System Tag Service" Stop="both" Wait="yes" Remove="uninstall" />
-                    <ServiceInstall Id="SnCoreServiceThumbnail" Name="SnCore System Thumbnail Generation Service" DisplayName="SnCore System Thumbnail Generation Service" Type="shareProcess" Start="demand" ErrorControl="normal" Description="Updates website and feed thumbnails." />
-                    <ServiceControl Id="SnCoreServiceThumbnail_Start" Name="SnCore System Thumbnail Generation Service" Wait="no" />
-                    <ServiceControl Id="SnCoreServiceThumbnail_Stop" Name="SnCore System Thumbnail Generation Service" Stop="both" Wait="yes" Remove="uninstall" />
                 </Component>
             </Directory>
         </DirectoryRef>
-  <!--
-  <CustomAction Id="SnCoreBackendServiceInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false SnCore.BackEnd.Service.exe' Return="check" />
-  <CustomAction Id="SnCoreBackendServiceUnInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false /u SnCore.BackEnd.Service.exe' Return="check" />
-  <InstallExecuteSequence>
-   <Custom Action="SnCoreBackendServiceInstall" After="InstallFinalize">NOT Installed</Custom>
-   <Custom Action="SnCoreBackendServiceUnInstall" After="InstallFinalize">Installed</Custom>
-  </InstallExecuteSequence>
-  -->
+        <CustomAction Id="SnCoreBackendServiceInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false SnCore.BackEnd.Service.exe' Return="check" />
+        <CustomAction Id="SnCoreBackendServiceUnInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false /u SnCore.BackEnd.Service.exe' Return="check" />
+        <InstallExecuteSequence>
+         <Custom Action="SnCoreBackendServiceInstall" After="InstallFinalize">NOT Installed</Custom>
+         <Custom Action="SnCoreBackendServiceUnInstall" After="InstallFinalize">Installed</Custom>
+        </InstallExecuteSequence>
     </Fragment>
 </Include>
