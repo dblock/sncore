@@ -149,7 +149,7 @@
    <SnCore:SelectCulture runat="server" ID="selectCulture" />
    <!--<asp:HyperLink NavigateUrl="~/AccountPreferencesManage.aspx" ID="linkCulture" runat="server" />-->
    <br />
-   (c) 2006-2007 Vestris Inc. - All Rights Reserved
+   (c) Vestris Inc. - All Rights Reserved
   </div>
   <!-- NOEMAIL-START -->
   <asp:Panel ID="panelCounter" runat="server">
