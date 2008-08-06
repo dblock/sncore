@@ -16,6 +16,8 @@
         private System.Int32 m_Id;
         private AccountEmail m_AccountEmail;
         private System.String m_Code;
+        private System.DateTime m_Created;
+        private System.DateTime m_Modified;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -89,6 +91,56 @@
             set
             {
                 m_Code = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Created' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Created' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.DateTime Created
+        {
+            get
+            {
+                return m_Created;
+            }
+            set
+            {
+                m_Created = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent primitive property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts values of the type 'System.DateTime'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_Modified' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'Modified' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        virtual public System.DateTime Modified
+        {
+            get
+            {
+                return m_Modified;
+            }
+            set
+            {
+                m_Modified = value;
             }
         }
 

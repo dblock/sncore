@@ -442,6 +442,8 @@ CREATE TABLE [dbo].[AccountEmailConfirmation](
 	[AccountEmailConfirmation_Id] [int] IDENTITY(1,1) NOT NULL,
 	[AccountEmail_Id] [int] NOT NULL,
 	[Code] [varchar](38) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
  CONSTRAINT [PK_AccountEmailConfirmation] PRIMARY KEY CLUSTERED 
 (
 	[AccountEmailConfirmation_Id] ASC

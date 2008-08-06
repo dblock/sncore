@@ -78,13 +78,6 @@ public partial class PlaceWebsiteEdit : AuthenticatedPage
             throw new Exception("Missing title");
 
         tw.Url = inputUrl.Text;
-
-        // verify that the url exists
-        ContentPageParameters p = new ContentPageParameters();
-        p.UserAgent = SessionManager.GetCachedConfiguration("SnCore.Web.UserAgent", "SnCore/1.0");
-        Uri pageuri = new Uri(tw.Url);
-        ContentPage.GetHttpContent(pageuri, p);
-
         tw.Description = inputDescription.Text;
         tw.Id = RequestId;
         tw.PlaceId = PlaceId;

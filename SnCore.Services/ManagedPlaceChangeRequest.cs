@@ -212,21 +212,6 @@ namespace SnCore.Services
             }
         }
 
-        private string mWebsite;
-
-        public string Website
-        {
-            get
-            {
-
-                return mWebsite;
-            }
-            set
-            {
-                mWebsite = value;
-            }
-        }
-
         private string mNeighborhood;
 
         public string Neighborhood

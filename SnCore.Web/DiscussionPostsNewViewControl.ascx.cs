@@ -17,6 +17,8 @@ using SnCore.Tools.Web;
 
 public partial class DiscussionPostsNewViewControl : Control
 {
+    private int mHideIfOlder = 0;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -26,8 +28,24 @@ public partial class DiscussionPostsNewViewControl : Control
             options.PageSize = discussionView.PageSize;
             IList<TransitDiscussionPost> items = SessionManager.GetCollection<TransitDiscussionPost>(
                 options, SessionManager.DiscussionService.GetDiscussionTopOfThreads);
+
+            if (items.Count > 0 && HideIfOlder > 0 && items[0].DiscussionThreadModified.AddDays(HideIfOlder) < DateTime.UtcNow)
+                this.Visible = false;
+
             discussionView.DataSource = items;
             discussionView.DataBind();
+        }
+    }
+
+    public int HideIfOlder
+    {
+        get
+        {
+            return mHideIfOlder;
+        }
+        set
+        {
+            mHideIfOlder = value;
         }
     }
 

@@ -30,7 +30,6 @@ namespace SnCore.Services
         {
             get
             {
-
                 return mCreated;
             }
             set
@@ -300,6 +299,7 @@ namespace SnCore.Services
             AccountEmailConfirmation ac = new AccountEmailConfirmation();
             ac.AccountEmail = mInstance;
             ac.Code = Guid.NewGuid().ToString();
+            ac.Modified = ac.Created = DateTime.UtcNow;
             Session.Save(ac);
 
             if (mInstance.AccountEmailConfirmations == null)

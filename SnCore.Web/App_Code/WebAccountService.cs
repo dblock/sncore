@@ -1034,11 +1034,12 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <returns>number of account e-mail confirmations</returns>
-        [WebMethod(Description = "Get account e-mail confirmations count.")]
+        [WebMethod(Description = "Get pending account e-mail confirmations count.")]
         public int GetAccountEmailConfirmationsCount(string ticket, int id)
         {
             return WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.GetCount(
-                ticket, string.Format("WHERE AccountEmailConfirmation.AccountEmail.Account.Id = {0}", id));
+                ticket, string.Format("WHERE AccountEmailConfirmation.AccountEmail.Account.Id = {0}" +
+                    " AND AccountEmailConfirmation.AccountEmail.Verified = 0", id));
         }
 
         /// <summary>
@@ -1046,11 +1047,13 @@ namespace SnCore.WebServices
         /// </summary>
         /// <param name="ticket">authentication ticket</param>
         /// <returns>transit e-mail confirmation</returns>
-        [WebMethod(Description = "Get account e-mail confirmations.")]
+        [WebMethod(Description = "Get pending account e-mail confirmations.")]
         public List<TransitAccountEmailConfirmation> GetAccountEmailConfirmations(string ticket, int id, ServiceQueryOptions options)
         {
             return WebServiceImpl<TransitAccountEmailConfirmation, ManagedAccountEmailConfirmation, AccountEmailConfirmation>.GetList(
-                ticket, options, string.Format("SELECT AccountEmailConfirmation FROM AccountEmailConfirmation AccountEmailConfirmation WHERE AccountEmailConfirmation.AccountEmail.Account.Id = {0}", id));
+                ticket, options, string.Format("SELECT AccountEmailConfirmation FROM AccountEmailConfirmation AccountEmailConfirmation" +
+                    " WHERE AccountEmailConfirmation.AccountEmail.Account.Id = {0}" +
+                    " AND AccountEmailConfirmation.AccountEmail.Verified = 0", id));
         }
 
         /// <summary>

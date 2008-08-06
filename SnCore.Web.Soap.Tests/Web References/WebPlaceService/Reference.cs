@@ -4559,8 +4559,6 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
         
         private string emailField;
         
-        private string websiteField;
-        
         private string neighborhoodField;
         
         private string cityField;
@@ -4712,16 +4710,6 @@ namespace SnCore.Web.Soap.Tests.WebPlaceService {
             }
             set {
                 this.emailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Website {
-            get {
-                return this.websiteField;
-            }
-            set {
-                this.websiteField = value;
             }
         }
         

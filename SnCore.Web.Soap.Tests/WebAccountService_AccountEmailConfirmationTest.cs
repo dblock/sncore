@@ -239,9 +239,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             Assert.AreEqual(t_email_after.LastError, t_email_before.LastError);
             // resend e-mail confirmation
             EndPoint.ConfirmAccountEmail(ticket, t_email_after.Id);
-            // verify e-mail again
-            WebAccountService.TransitAccountEmailConfirmation[] confirmations_after = EndPoint.GetAccountEmailConfirmations(GetAdminTicket(), user_id, null);
-            string verifiedemail_after = EndPoint.VerifyAccountEmail(confirmations_after[0].Id, confirmations_after[0].Code);
+            // verify e-mail again, the same confirmation is going to be resent on a failed e-mail
+            string verifiedemail_after = EndPoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified e-mail: {0}", verifiedemail_after);
             Assert.AreEqual(verifiedemail_after, email);
             // verify that failure was cleared

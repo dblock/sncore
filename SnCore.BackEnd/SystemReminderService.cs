@@ -41,6 +41,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunCleanupRefererHosts));
             AddJob(new SessionJobDelegate(RunCleanAccountAuditEntries));
             AddJob(new SessionJobDelegate(RunDeleteOldAccountMessages));
+            AddJob(new SessionJobDelegate(RunDeleteOldEmailConfirmations));
         }
 
         public void RunUpdateAccountCounters(ISession session, ManagedSecurityContext sec)
@@ -397,6 +398,15 @@ namespace SnCore.BackEndServices
                 " AND AccountMessage.AccountMessageFolder.AccountMessageFolderParent IS NULL" +
                 " AND (AccountMessage.AccountMessageFolder.Name = 'Trash' OR AccountMessage.AccountMessageFolder.Name = 'Sent')" +
                 " AND (AccountMessage.Sent < '{0}')", DateTime.UtcNow.AddDays(-14).ToString(DateTimeFormatInfo.InvariantInfo)));
+            session.Flush();
+        }
+
+        public void RunDeleteOldEmailConfirmations(ISession session, ManagedSecurityContext sec)
+        {
+            session.Delete(string.Format(
+                "FROM AccountEmailConfirmation AccountEmailConfirmation" +
+                " WHERE AccountEmailConfirmation.AccountEmail.Verified = 1" +
+                " AND (AccountEmailConfirmation.Modified < '{0}')", DateTime.UtcNow.AddDays(-7).ToString(DateTimeFormatInfo.InvariantInfo)));
             session.Flush();
         }
     }

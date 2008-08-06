@@ -40,7 +40,6 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             WebPlaceService.TransitPlaceChangeRequest t_instance = new WebPlaceService.TransitPlaceChangeRequest();
             t_instance.Name = GetNewString();
             t_instance.Phone = (string) _place.GetInstancePropertyById(GetAdminTicket(), _place_id, "Phone");
-            t_instance.Website = GetNewString();
             t_instance.Zip = (string) _place.GetInstancePropertyById(GetAdminTicket(), _place_id, "Zip");
             t_instance.Description = GetNewString();
             t_instance.PlaceId = _place_id;

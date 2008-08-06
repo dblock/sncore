@@ -36,6 +36,34 @@ namespace SnCore.Services
             }
         }
 
+        private DateTime mCreated;
+
+        public DateTime Created
+        {
+            get
+            {
+                return mCreated;
+            }
+            set
+            {
+                mCreated = value;
+            }
+        }
+
+        private DateTime mModified;
+
+        public DateTime Modified
+        {
+            get
+            {
+                return mModified;
+            }
+            set
+            {
+                mModified = value;
+            }
+        }
+
         public TransitAccountEmailConfirmation()
         {
 
@@ -50,6 +78,8 @@ namespace SnCore.Services
         {
             mAccountEmail = new TransitAccountEmail(value.AccountEmail);
             mCode = value.Code;
+            mCreated = value.Created;
+            mModified = value.Modified;
             base.SetInstance(value);
         }
 
@@ -120,9 +150,9 @@ namespace SnCore.Services
             mInstance.AccountEmail.Modified = DateTime.UtcNow;
             mInstance.AccountEmail.Failed = false;
             mInstance.AccountEmail.LastError = string.Empty;
+            mInstance.Modified = DateTime.UtcNow;
             Session.Save(mInstance.AccountEmail);
-            mInstance.AccountEmail.AccountEmailConfirmations = null;
-            Session.Delete(mInstance);
+            Session.Save(mInstance);
 
             // reset any other AccountEmail with the same value to unverified (reclaim)
             IList reclaimlist = Session.CreateCriteria(typeof(AccountEmail))
@@ -136,10 +166,7 @@ namespace SnCore.Services
                 Session.Save(ae);
             }
 
-            string email = mInstance.AccountEmail.Address;
-
-            mInstance = null;
-            return email;
+            return mInstance.AccountEmail.Address;
         }
 
         public ManagedAccountEmail ManagedAccountEmail
@@ -174,13 +201,20 @@ namespace SnCore.Services
 
             if (confirmation == null)
             {
-                throw new Exception("Error locating confirmation number. Have you already successfully confirmed your e-mail address?");
+                throw new Exception(string.Format("Error locating confirmation number \"{0}\".", id));
             }
 
             ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);
             string emailaddress = c.Verify(code);
             SnCore.Data.Hibernate.Session.Flush();
             return emailaddress;
+        }
+
+        protected override void Save(ManagedSecurityContext sec)
+        {
+            mInstance.Modified = DateTime.UtcNow;
+            if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
+            base.Save(sec);
         }
     }
 }

@@ -363,3 +363,16 @@ GO
 IF EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[PlaceChangeRequest]') AND name = N'Website')
 ALTER TABLE dbo.PlaceChangeRequest DROP COLUMN [Website]
 GO
+-- add a timestamp to AccountEmailConfirmation
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmailConfirmation]') AND name = N'Created') 
+ALTER TABLE dbo.AccountEmailConfirmation ADD [Created] datetime NULL
+GO
+UPDATE dbo.AccountEmailConfirmation SET Created = getutcdate() WHERE Created IS NULL
+ALTER TABLE dbo.AccountEmailConfirmation ALTER COLUMN [Created] datetime NOT NULL
+GO
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountEmailConfirmation]') AND name = N'Modified') 
+ALTER TABLE dbo.AccountEmailConfirmation ADD [Modified] datetime NULL
+GO
+UPDATE dbo.AccountEmailConfirmation SET Modified = getutcdate() WHERE Modified IS NULL
+ALTER TABLE dbo.AccountEmailConfirmation ALTER COLUMN [Modified] datetime NOT NULL
+GO

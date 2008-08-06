@@ -37,7 +37,7 @@
      <!-- NOEMAIL-END -->
      <SnCore:PlacesNewView ID="placesNewMain" runat="server" Count="2" />
      <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
-     <SnCore:DiscussionPostsNewView ID="discussionsNewMain" runat="server" />
+     <SnCore:DiscussionPostsNewView ID="discussionsNewMain" runat="server" HideIfOlder="5" />
     </div>
    </td>
   </tr>

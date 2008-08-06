@@ -150,6 +150,8 @@
     <property name="Id" id="true" columns="AccountEmailConfirmation_Id" type="System.Int32" />
     <property name="AccountEmail" columns="AccountEmail_Id" ref="OneToMany" inverse="AccountEmailConfirmations" type="AccountEmail" />
     <property name="Code" columns="Code" type="System.String" />
+    <property name="Created" columns="Created" type="System.DateTime" />
+    <property name="Modified" columns="Modified" type="System.DateTime" />
   </class>
   <class name="AccountEmailMessage" table="AccountEmailMessage">
     <property name="Id" id="true" columns="AccountEmailMessage_Id" type="System.Int32" />
@@ -1183,6 +1185,8 @@
       <column name="AccountEmail_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountEmail" primary-column="AccountEmail_Id" foreign-key="FK_AccountEmailConfirmation_AccountEmail" />
       <column name="AccountEmailConfirmation_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Code" type="AnsiString" prec="38" length="38" scale="0" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
     </table>
     <table name="AccountEmailMessage">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountEmailMessage_Account" />
@@ -1819,7 +1823,6 @@
       <column name="Value" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
     </table>
     <table name="PlaceChangeRequest">
-      <column name="PlaceChangeRequest_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_PlaceChangeRequest_Account" />
       <column name="City_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="City" primary-column="City_Id" foreign-key="FK_PlaceChangeRequest_City" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
@@ -1832,9 +1835,9 @@
       <column name="Neighborhood_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="Neighborhood" primary-column="Neighborhood_Id" foreign-key="FK_PlaceChangeRequest_Neighborhood" />
       <column name="Phone" type="AnsiString" prec="24" allow-null="true" length="24" scale="0" />
       <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_PlaceChangeRequest_Place" />
+      <column name="PlaceChangeRequest_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
       <column name="Street" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="Type" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="PlaceType" primary-column="PlaceType_Id" foreign-key="FK_PlaceChangeRequest_PlaceType" />
-      <column name="Website" type="AnsiString" prec="128" length="128" scale="0" />
       <column name="Zip" type="String" prec="24" allow-null="true" length="48" scale="0" />
     </table>
     <table name="PlaceName">

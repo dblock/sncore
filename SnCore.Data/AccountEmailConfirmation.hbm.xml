@@ -6,5 +6,7 @@
     </id>
     <many-to-one name="AccountEmail" column="AccountEmail_Id" class="AccountEmail, SnCore.Data" />
     <property name="Code" column="Code" type="String" />
+    <property name="Created" column="Created" type="DateTime" />
+    <property name="Modified" column="Modified" type="DateTime" />
   </class>
 </hibernate-mapping>

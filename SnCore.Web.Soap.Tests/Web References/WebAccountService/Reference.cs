@@ -8328,6 +8328,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private string codeField;
         
+        private System.DateTime createdField;
+        
+        private System.DateTime modifiedField;
+        
         /// <remarks/>
         public TransitAccountEmail AccountEmail {
             get {
@@ -8345,6 +8349,26 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.codeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime Modified {
+            get {
+                return this.modifiedField;
+            }
+            set {
+                this.modifiedField = value;
             }
         }
     }

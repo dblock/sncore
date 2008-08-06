@@ -178,5 +178,11 @@ namespace SnCore.BackEnd.Tests
         {
             service.RunDeleteOldAccountMessages(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
+
+        [Test]
+        public void TestRunDeleteOldEmailConfirmations()
+        {
+            service.RunDeleteOldEmailConfirmations(Session, ManagedAccount.GetAdminSecurityContext(Session));
+        }
     }
 }
