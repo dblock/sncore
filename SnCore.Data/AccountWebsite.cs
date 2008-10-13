@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountWebsite' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountWebsite : IDbObject
+    public class AccountWebsite: IDbObject
     {
 #region " Generated Code Region "
 
@@ -37,7 +37,7 @@
         ///The property maps to the column 'AccountWebsite_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Url
+        public virtual System.String Url
         {
             get
             {
@@ -160,7 +160,7 @@
         ///The property maps to the column 'Bitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Byte[] Bitmap
+        public virtual System.Byte[] Bitmap
         {
             get
             {
@@ -185,7 +185,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -210,7 +210,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {

@@ -9,7 +9,7 @@
     ///This class maps to the 'City' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class City : IDbObject
+    public class City: IDbObject
     {
 #region " Generated Code Region "
 
@@ -37,7 +37,7 @@
         ///The property maps to the column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Country Country
+        public virtual Country Country
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -117,7 +117,7 @@
         ///The property maps to the identity column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Place> Places
+        public virtual System.Collections.Generic.IList<Place> Places
         {
             get
             {
@@ -144,7 +144,7 @@
         ///The property maps to the column 'State_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public State State
+        public virtual State State
         {
             get
             {
@@ -169,7 +169,7 @@
         ///The property maps to the column 'Tag' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Tag
+        public virtual System.String Tag
         {
             get
             {
@@ -200,7 +200,7 @@
         ///The property maps to the identity column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Neighborhood> Neighborhoods
+        public virtual System.Collections.Generic.IList<Neighborhood> Neighborhoods
         {
             get
             {
@@ -231,7 +231,7 @@
         ///The property maps to the identity column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
+        public virtual System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
         {
             get
             {

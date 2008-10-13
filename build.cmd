@@ -47,7 +47,7 @@ goto :EOF
 :Usage
 echo  Syntax:
 echo.
-echo   build [target] /p:Configuration=[Debug (default),Release] /t:ReleaseDir=[drop]
+echo   build [target] /p:Configuration=[Debug (default),Release]
 echo.
 echo  Target:
 echo.
@@ -56,5 +56,5 @@ echo.
 echo  Examples:
 echo.
 echo   build all
-echo   build all /p:Configuration=Release /p:ReleaseDir=\\nycapt35k.com\public\devbuild\Epo
+echo   build all /p:Configuration=Release
 goto :EOF

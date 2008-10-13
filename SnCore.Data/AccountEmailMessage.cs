@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountEmailMessage' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEmailMessage : IDbObject
+    public class AccountEmailMessage: IDbObject
     {
 #region " Generated Code Region "
 
@@ -40,7 +40,7 @@
         ///The property maps to the column 'AccountEmailMessage_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -63,7 +63,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -88,7 +88,7 @@
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Body
+        public virtual System.String Body
         {
             get
             {
@@ -113,7 +113,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -138,7 +138,7 @@
         ///The property maps to the column 'DeleteSent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean DeleteSent
+        public virtual System.Boolean DeleteSent
         {
             get
             {
@@ -163,7 +163,7 @@
         ///The property maps to the column 'MailFrom' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String MailFrom
+        public virtual System.String MailFrom
         {
             get
             {
@@ -188,7 +188,7 @@
         ///The property maps to the column 'MailTo' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String MailTo
+        public virtual System.String MailTo
         {
             get
             {
@@ -213,7 +213,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -238,7 +238,7 @@
         ///The property maps to the column 'SendError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String SendError
+        public virtual System.String SendError
         {
             get
             {
@@ -263,7 +263,7 @@
         ///The property maps to the column 'Sent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Sent
+        public virtual System.Boolean Sent
         {
             get
             {
@@ -288,7 +288,7 @@
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Subject
+        public virtual System.String Subject
         {
             get
             {

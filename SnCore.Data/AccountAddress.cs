@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountAddress' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountAddress : IDbObject
+    public class AccountAddress: IDbObject
     {
 #region " Generated Code Region "
 
@@ -41,7 +41,7 @@
         ///The property maps to the column 'AccountAddress_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -64,7 +64,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -89,7 +89,7 @@
         ///The property maps to the column 'Address_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AddressId
+        public virtual System.Int32 AddressId
         {
             get
             {
@@ -114,7 +114,7 @@
         ///The property maps to the column 'Apt' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Apt
+        public virtual System.String Apt
         {
             get
             {
@@ -139,7 +139,7 @@
         ///The property maps to the column 'City' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String City
+        public virtual System.String City
         {
             get
             {
@@ -166,7 +166,7 @@
         ///The property maps to the column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Country Country
+        public virtual Country Country
         {
             get
             {
@@ -191,7 +191,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -216,7 +216,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -241,7 +241,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -268,7 +268,7 @@
         ///The property maps to the column 'State_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public State State
+        public virtual State State
         {
             get
             {
@@ -293,7 +293,7 @@
         ///The property maps to the column 'Street' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Street
+        public virtual System.String Street
         {
             get
             {
@@ -318,7 +318,7 @@
         ///The property maps to the column 'Zip' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Zip
+        public virtual System.String Zip
         {
             get
             {

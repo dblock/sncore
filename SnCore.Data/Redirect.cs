@@ -9,7 +9,7 @@
     ///This class maps to the 'Redirect' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Redirect : IDbObject
+    public class Redirect: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'Redirect_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -56,7 +56,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -81,7 +81,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -106,7 +106,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -131,7 +131,7 @@
         ///The property maps to the column 'SourceUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String SourceUri
+        public virtual System.String SourceUri
         {
             get
             {
@@ -156,7 +156,7 @@
         ///The property maps to the column 'TargetUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String TargetUri
+        public virtual System.String TargetUri
         {
             get
             {

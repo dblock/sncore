@@ -314,7 +314,8 @@ namespace SnCore.Services
             {
                 sec.CheckVerifiedEmail();
                 GetQuota(sec).Check<AccountPlaceRequest, ManagedAccount.QuotaExceededException>(
-                    mInstance.Account.AccountPlaceRequests);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPlaceRequest instance WHERE instance.Account.Id = {0}",
+                        mInstance.Account.Id)).UniqueResult<int>());
             }
         }
     }

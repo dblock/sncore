@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountGroupAccount' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountGroupAccount : IDbObject
+    public class AccountGroupAccount: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'AccountGroupAccount_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountGroup AccountGroup
+        public virtual AccountGroup AccountGroup
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'IsAdministrator' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean IsAdministrator
+        public virtual System.Boolean IsAdministrator
         {
             get
             {
@@ -160,7 +160,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {

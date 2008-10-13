@@ -258,7 +258,8 @@ namespace SnCore.Services
             {
                 sec.CheckVerifiedEmail();
                 GetQuota(sec).Check<AccountStoryPicture, ManagedAccount.QuotaExceededException>(
-                    mInstance.AccountStory.AccountStoryPictures);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountStoryPicture instance WHERE instance.AccountStory.Id = {0}",
+                        mInstance.AccountStory.Id)).UniqueResult<int>());
             }
         }
     }

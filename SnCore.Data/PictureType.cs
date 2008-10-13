@@ -9,7 +9,7 @@
     ///This class maps to the 'PictureType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PictureType : IDbObject
+    public class PictureType: IDbObject
     {
 #region " Generated Code Region "
 
@@ -32,7 +32,7 @@
         ///The property maps to the column 'PictureType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -53,7 +53,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the identity column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Picture> Pictures
+        public virtual System.Collections.Generic.IList<Picture> Pictures
         {
             get
             {

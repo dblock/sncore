@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountGroupAccountInvitation' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountGroupAccountInvitation : IDbObject
+    public class AccountGroupAccountInvitation: IDbObject
     {
 #region " Generated Code Region "
 
@@ -36,7 +36,7 @@
         ///The property maps to the column 'AccountGroupAccountInvitation_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -59,7 +59,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -86,7 +86,7 @@
         ///The property maps to the column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountGroup AccountGroup
+        public virtual AccountGroup AccountGroup
         {
             get
             {
@@ -111,7 +111,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -136,7 +136,7 @@
         ///The property maps to the column 'Message' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Message
+        public virtual System.String Message
         {
             get
             {
@@ -161,7 +161,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -188,7 +188,7 @@
         ///The property maps to the column 'Requester_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Requester
+        public virtual Account Requester
         {
             get
             {

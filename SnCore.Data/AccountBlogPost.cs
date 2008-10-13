@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountBlogPost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountBlogPost : IDbObject
+    public class AccountBlogPost: IDbObject
     {
 #region " Generated Code Region "
 
@@ -40,7 +40,7 @@
         ///The property maps to the column 'AccountBlogPost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -63,7 +63,7 @@
         ///The property maps to the column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountBlog AccountBlog
+        public virtual AccountBlog AccountBlog
         {
             get
             {
@@ -88,7 +88,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -113,7 +113,7 @@
         ///The property maps to the column 'AccountName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String AccountName
+        public virtual System.String AccountName
         {
             get
             {
@@ -138,7 +138,7 @@
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Body
+        public virtual System.String Body
         {
             get
             {
@@ -163,7 +163,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -188,7 +188,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -213,7 +213,7 @@
         ///The property maps to the column 'Title' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Title
+        public virtual System.String Title
         {
             get
             {
@@ -238,7 +238,7 @@
         ///The property maps to the column 'EnableComments' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean EnableComments
+        public virtual System.Boolean EnableComments
         {
             get
             {
@@ -263,7 +263,7 @@
         ///The property maps to the column 'Sticky' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Sticky
+        public virtual System.Boolean Sticky
         {
             get
             {
@@ -288,7 +288,7 @@
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Publish
+        public virtual System.Boolean Publish
         {
             get
             {

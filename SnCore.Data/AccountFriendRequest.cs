@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountFriendRequest' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFriendRequest : IDbObject
+    public class AccountFriendRequest: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'AccountFriendRequest_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -83,7 +83,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Keen_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Keen
+        public virtual Account Keen
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'Message' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Message
+        public virtual System.String Message
         {
             get
             {
@@ -160,7 +160,7 @@
         ///The property maps to the column 'Rejected' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Rejected
+        public virtual System.Boolean Rejected
         {
             get
             {

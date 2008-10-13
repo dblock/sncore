@@ -9,7 +9,7 @@
     ///This class maps to the 'PlaceChangeRequest' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlaceChangeRequest : IDbObject
+    public class PlaceChangeRequest: IDbObject
     {
 #region " Generated Code Region "
 
@@ -45,7 +45,7 @@
         ///The property maps to the column 'PlaceChangeRequest_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -68,7 +68,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -95,7 +95,7 @@
         ///The property maps to the column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public City City
+        public virtual City City
         {
             get
             {
@@ -120,7 +120,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -145,7 +145,7 @@
         ///The property maps to the column 'CrossStreet' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String CrossStreet
+        public virtual System.String CrossStreet
         {
             get
             {
@@ -170,7 +170,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -195,7 +195,7 @@
         ///The property maps to the column 'Email' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Email
+        public virtual System.String Email
         {
             get
             {
@@ -220,7 +220,7 @@
         ///The property maps to the column 'Fax' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Fax
+        public virtual System.String Fax
         {
             get
             {
@@ -245,7 +245,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -270,7 +270,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -297,7 +297,7 @@
         ///The property maps to the column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Neighborhood Neighborhood
+        public virtual Neighborhood Neighborhood
         {
             get
             {
@@ -322,7 +322,7 @@
         ///The property maps to the column 'Phone' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Phone
+        public virtual System.String Phone
         {
             get
             {
@@ -349,7 +349,7 @@
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Place Place
+        public virtual Place Place
         {
             get
             {
@@ -374,7 +374,7 @@
         ///The property maps to the column 'Street' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Street
+        public virtual System.String Street
         {
             get
             {
@@ -401,7 +401,7 @@
         ///The property maps to the column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public PlaceType Type
+        public virtual PlaceType Type
         {
             get
             {
@@ -426,7 +426,7 @@
         ///The property maps to the column 'Zip' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Zip
+        public virtual System.String Zip
         {
             get
             {

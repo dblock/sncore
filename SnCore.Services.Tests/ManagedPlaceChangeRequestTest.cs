@@ -51,7 +51,6 @@ namespace SnCore.Services.Tests
             t_instance.Name = GetNewString();
             t_instance.State = _city.Instance.Instance.State.Name;
             t_instance.Type = _type.Instance.Instance.Name;
-            t_instance.Website = GetNewUri();
             return t_instance;
         }
     }

@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountMessage' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountMessage : IDbObject
+    public class AccountMessage: IDbObject
     {
 #region " Generated Code Region "
 
@@ -38,7 +38,7 @@
         ///The property maps to the column 'AccountMessage_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -88,7 +88,7 @@
         ///The property maps to the column 'AccountMessageFolder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountMessageFolder AccountMessageFolder
+        public virtual AccountMessageFolder AccountMessageFolder
         {
             get
             {
@@ -113,7 +113,7 @@
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Body
+        public virtual System.String Body
         {
             get
             {
@@ -138,7 +138,7 @@
         ///The property maps to the column 'RecepientAccount_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 RecepientAccountId
+        public virtual System.Int32 RecepientAccountId
         {
             get
             {
@@ -163,7 +163,7 @@
         ///The property maps to the column 'SenderAccount_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 SenderAccountId
+        public virtual System.Int32 SenderAccountId
         {
             get
             {
@@ -188,7 +188,7 @@
         ///The property maps to the column 'Sent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Sent
+        public virtual System.DateTime Sent
         {
             get
             {
@@ -213,7 +213,7 @@
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Subject
+        public virtual System.String Subject
         {
             get
             {
@@ -238,7 +238,7 @@
         ///The property maps to the column 'Unread' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Unread
+        public virtual System.Boolean Unread
         {
             get
             {

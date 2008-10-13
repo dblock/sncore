@@ -9,7 +9,7 @@
     ///This class maps to the 'DiscussionPost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class DiscussionPost : IDbObject
+    public class DiscussionPost: IDbObject
     {
 #region " Generated Code Region "
 
@@ -39,7 +39,7 @@
         ///The property maps to the column 'DiscussionPost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Body' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Body
+        public virtual System.String Body
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -137,7 +137,7 @@
         ///The property maps to the column 'DiscussionPostParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public DiscussionPost DiscussionPostParent
+        public virtual DiscussionPost DiscussionPostParent
         {
             get
             {
@@ -169,7 +169,7 @@
         ///The property maps to the identity column 'DiscussionPostParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<DiscussionPost> DiscussionPosts
+        public virtual System.Collections.Generic.IList<DiscussionPost> DiscussionPosts
         {
             get
             {
@@ -196,7 +196,7 @@
         ///The property maps to the column 'DiscussionThread_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public DiscussionThread DiscussionThread
+        public virtual DiscussionThread DiscussionThread
         {
             get
             {
@@ -221,7 +221,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -246,7 +246,7 @@
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Subject
+        public virtual System.String Subject
         {
             get
             {
@@ -271,7 +271,7 @@
         ///The property maps to the column 'Sticky' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Sticky
+        public virtual System.Boolean Sticky
         {
             get
             {

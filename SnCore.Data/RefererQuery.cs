@@ -9,7 +9,7 @@
     ///This class maps to the 'RefererQuery' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class RefererQuery : IDbObject
+    public class RefererQuery: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'RefererQuery_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -80,7 +80,7 @@
         ///The property maps to the column 'Keywords' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Keywords
+        public virtual System.String Keywords
         {
             get
             {
@@ -105,7 +105,7 @@
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Total
+        public virtual System.Int32 Total
         {
             get
             {
@@ -130,7 +130,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {

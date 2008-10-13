@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountFeed' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeed : IDbObject
+    public class AccountFeed: IDbObject
     {
 #region " Generated Code Region "
 
@@ -47,7 +47,7 @@
         ///The property maps to the column 'AccountFeed_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -70,7 +70,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -102,7 +102,7 @@
         ///The property maps to the identity column 'AccountFeed_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountFeedItem> AccountFeedItems
+        public virtual System.Collections.Generic.IList<AccountFeedItem> AccountFeedItems
         {
             get
             {
@@ -127,7 +127,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -152,7 +152,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -179,7 +179,7 @@
         ///The property maps to the column 'FeedType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public FeedType FeedType
+        public virtual FeedType FeedType
         {
             get
             {
@@ -204,7 +204,7 @@
         ///The property maps to the column 'FeedUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String FeedUrl
+        public virtual System.String FeedUrl
         {
             get
             {
@@ -229,7 +229,7 @@
         ///The property maps to the column 'LastError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LastError
+        public virtual System.String LastError
         {
             get
             {
@@ -254,7 +254,7 @@
         ///The property maps to the column 'LinkUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LinkUrl
+        public virtual System.String LinkUrl
         {
             get
             {
@@ -279,7 +279,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -304,7 +304,7 @@
         ///The property maps to the column 'Password' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Password
+        public virtual System.String Password
         {
             get
             {
@@ -329,7 +329,7 @@
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Publish
+        public virtual System.Boolean Publish
         {
             get
             {
@@ -354,7 +354,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {
@@ -379,7 +379,7 @@
         ///The property maps to the column 'UpdateFrequency' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 UpdateFrequency
+        public virtual System.Int32 UpdateFrequency
         {
             get
             {
@@ -404,7 +404,7 @@
         ///The property maps to the column 'Username' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Username
+        public virtual System.String Username
         {
             get
             {
@@ -429,7 +429,7 @@
         ///The property maps to the column 'PublishImgs' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean PublishImgs
+        public virtual System.Boolean PublishImgs
         {
             get
             {
@@ -454,7 +454,7 @@
         ///The property maps to the column 'PublishMedia' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean PublishMedia
+        public virtual System.Boolean PublishMedia
         {
             get
             {
@@ -479,7 +479,7 @@
         ///The property maps to the column 'Hidden' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Hidden
+        public virtual System.Boolean Hidden
         {
             get
             {

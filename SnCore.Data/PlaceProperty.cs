@@ -9,7 +9,7 @@
     ///This class maps to the 'PlaceProperty' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlaceProperty : IDbObject
+    public class PlaceProperty: IDbObject
     {
 #region " Generated Code Region "
 
@@ -37,7 +37,7 @@
         ///The property maps to the column 'PlaceProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'DefaultValue' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String DefaultValue
+        public virtual System.String DefaultValue
         {
             get
             {
@@ -83,7 +83,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -108,7 +108,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'PlacePropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public PlacePropertyGroup PlacePropertyGroup
+        public virtual PlacePropertyGroup PlacePropertyGroup
         {
             get
             {
@@ -166,7 +166,7 @@
         ///The property maps to the identity column 'PlaceProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<PlacePropertyValue> PlacePropertyValues
+        public virtual System.Collections.Generic.IList<PlacePropertyValue> PlacePropertyValues
         {
             get
             {
@@ -191,7 +191,7 @@
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Publish
+        public virtual System.Boolean Publish
         {
             get
             {
@@ -216,7 +216,7 @@
         ///The property maps to the column 'TypeName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String TypeName
+        public virtual System.String TypeName
         {
             get
             {

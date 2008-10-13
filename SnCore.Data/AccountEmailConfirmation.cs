@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountEmailConfirmation' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountEmailConfirmation : IDbObject
+    public class AccountEmailConfirmation: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'AccountEmailConfirmation_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'AccountEmail_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountEmail AccountEmail
+        public virtual AccountEmail AccountEmail
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'Code' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Code
+        public virtual System.String Code
         {
             get
             {
@@ -107,7 +107,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -132,7 +132,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {

@@ -322,7 +322,8 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) GetQuota(sec).Check<AccountAddress, ManagedAccount.QuotaExceededException>(
-                mInstance.Account.AccountAddresses);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountAddress instance WHERE instance.Account.Id = {0}",
+                        mInstance.Account.Id)).UniqueResult<int>());
         }
     }
 }

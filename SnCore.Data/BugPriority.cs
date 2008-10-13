@@ -9,7 +9,7 @@
     ///This class maps to the 'BugPriority' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class BugPriority : IDbObject
+    public class BugPriority: IDbObject
     {
 #region " Generated Code Region "
 
@@ -32,7 +32,7 @@
         ///The property maps to the column 'BugPriority_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the identity column 'Priority_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Bug> Bugs
+        public virtual System.Collections.Generic.IList<Bug> Bugs
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {

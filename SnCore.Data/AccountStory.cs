@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountStory' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountStory : IDbObject
+    public class AccountStory: IDbObject
     {
 #region " Generated Code Region "
 
@@ -37,7 +37,7 @@
         ///The property maps to the column 'AccountStory_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -92,7 +92,7 @@
         ///The property maps to the identity column 'AccountStory_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountStoryPicture> AccountStoryPictures
+        public virtual System.Collections.Generic.IList<AccountStoryPicture> AccountStoryPictures
         {
             get
             {
@@ -117,7 +117,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -142,7 +142,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -167,7 +167,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -192,7 +192,7 @@
         ///The property maps to the column 'Summary' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Summary
+        public virtual System.String Summary
         {
             get
             {
@@ -217,7 +217,7 @@
         ///The property maps to the column 'Publish' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Publish
+        public virtual System.Boolean Publish
         {
             get
             {

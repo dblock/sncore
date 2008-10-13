@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountBlog' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountBlog : IDbObject
+    public class AccountBlog: IDbObject
     {
 #region " Generated Code Region "
 
@@ -40,7 +40,7 @@
         ///The property maps to the column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -63,7 +63,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -95,7 +95,7 @@
         ///The property maps to the identity column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountBlogAuthor> AccountBlogAuthors
+        public virtual System.Collections.Generic.IList<AccountBlogAuthor> AccountBlogAuthors
         {
             get
             {
@@ -127,7 +127,7 @@
         ///The property maps to the identity column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountBlogPost> AccountBlogPosts
+        public virtual System.Collections.Generic.IList<AccountBlogPost> AccountBlogPosts
         {
             get
             {
@@ -152,7 +152,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -177,7 +177,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -202,7 +202,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -227,7 +227,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {
@@ -258,7 +258,7 @@
         ///The property maps to the identity column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountGroup> AccountGroups
+        public virtual System.Collections.Generic.IList<AccountGroup> AccountGroups
         {
             get
             {
@@ -283,7 +283,7 @@
         ///The property maps to the column 'EnableComments' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean EnableComments
+        public virtual System.Boolean EnableComments
         {
             get
             {
@@ -308,7 +308,7 @@
         ///The property maps to the column 'DefaultViewRows' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 DefaultViewRows
+        public virtual System.Int32 DefaultViewRows
         {
             get
             {

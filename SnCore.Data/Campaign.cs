@@ -9,7 +9,7 @@
     ///This class maps to the 'Campaign' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Campaign : IDbObject
+    public class Campaign: IDbObject
     {
 #region " Generated Code Region "
 
@@ -40,7 +40,7 @@
         ///The property maps to the column 'Campaign_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the column 'Active' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Active
+        public virtual System.Boolean Active
         {
             get
             {
@@ -86,7 +86,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -111,7 +111,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -136,7 +136,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -161,7 +161,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -186,7 +186,7 @@
         ///The property maps to the column 'Processed' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Processed
+        public virtual System.DateTime Processed
         {
             get
             {
@@ -211,7 +211,7 @@
         ///The property maps to the column 'SenderEmailAddress' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String SenderEmailAddress
+        public virtual System.String SenderEmailAddress
         {
             get
             {
@@ -236,7 +236,7 @@
         ///The property maps to the column 'SenderName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String SenderName
+        public virtual System.String SenderName
         {
             get
             {
@@ -261,7 +261,7 @@
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Url
+        public virtual System.String Url
         {
             get
             {
@@ -292,7 +292,7 @@
         ///The property maps to the identity column 'Campaign_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<CampaignAccountRecepient> CampaignAccountRecepients
+        public virtual System.Collections.Generic.IList<CampaignAccountRecepient> CampaignAccountRecepients
         {
             get
             {

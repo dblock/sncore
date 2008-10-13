@@ -9,7 +9,7 @@
     ///This class maps to the 'BugSeverity' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class BugSeverity : IDbObject
+    public class BugSeverity: IDbObject
     {
 #region " Generated Code Region "
 
@@ -32,7 +32,7 @@
         ///The property maps to the column 'BugSeverity_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the identity column 'Severity_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Bug> Bugs
+        public virtual System.Collections.Generic.IList<Bug> Bugs
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {

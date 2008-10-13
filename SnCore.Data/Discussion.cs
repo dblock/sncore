@@ -9,7 +9,7 @@
     ///This class maps to the 'Discussion' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Discussion : IDbObject
+    public class Discussion: IDbObject
     {
 #region " Generated Code Region "
 
@@ -41,7 +41,7 @@
         ///The property maps to the column 'Discussion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -64,7 +64,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -89,7 +89,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -114,7 +114,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -146,7 +146,7 @@
         ///The property maps to the identity column 'Discussion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<DiscussionThread> DiscussionThreads
+        public virtual System.Collections.Generic.IList<DiscussionThread> DiscussionThreads
         {
             get
             {
@@ -171,7 +171,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -196,7 +196,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -221,7 +221,7 @@
         ///The property maps to the column 'Object_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 ObjectId
+        public virtual System.Int32 ObjectId
         {
             get
             {
@@ -246,7 +246,7 @@
         ///The property maps to the column 'Personal' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Personal
+        public virtual System.Boolean Personal
         {
             get
             {
@@ -271,7 +271,7 @@
         ///The property maps to the column 'DefaultView' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String DefaultView
+        public virtual System.String DefaultView
         {
             get
             {
@@ -298,7 +298,7 @@
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public DataObject DataObject
+        public virtual DataObject DataObject
         {
             get
             {
@@ -323,7 +323,7 @@
         ///The property maps to the column 'DefaultViewRows' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 DefaultViewRows
+        public virtual System.Int32 DefaultViewRows
         {
             get
             {

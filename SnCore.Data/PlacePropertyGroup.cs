@@ -9,7 +9,7 @@
     ///This class maps to the 'PlacePropertyGroup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlacePropertyGroup : IDbObject
+    public class PlacePropertyGroup: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'PlacePropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -54,7 +54,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -79,7 +79,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the identity column 'PlacePropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<PlaceProperty> PlaceProperties
+        public virtual System.Collections.Generic.IList<PlaceProperty> PlaceProperties
         {
             get
             {

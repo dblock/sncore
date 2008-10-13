@@ -354,7 +354,8 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) GetQuota(sec).Check<AccountPicture, ManagedAccount.QuotaExceededException>(
-                mInstance.Account.AccountPictures);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPicture instance WHERE instance.Account.Id = {0}",
+                        mInstance.Account.Id)).UniqueResult<int>());
         }
 
         public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)

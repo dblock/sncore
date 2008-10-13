@@ -9,7 +9,7 @@
     ///This class maps to the 'CounterHourly' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class CounterHourly : IDbObject
+    public class CounterHourly: IDbObject
     {
 #region " Generated Code Region "
 
@@ -32,7 +32,7 @@
         ///The property maps to the column 'CounterHourly_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -53,7 +53,7 @@
         ///The property maps to the column 'Timestamp' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Timestamp
+        public virtual System.DateTime Timestamp
         {
             get
             {
@@ -78,7 +78,7 @@
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Total
+        public virtual System.Int32 Total
         {
             get
             {

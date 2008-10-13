@@ -9,7 +9,7 @@
     ///This class maps to the 'SurveyQuestion' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class SurveyQuestion : IDbObject
+    public class SurveyQuestion: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'SurveyQuestion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the identity column 'SurveyQuestion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountSurveyAnswer> AccountSurveyAnswers
+        public virtual System.Collections.Generic.IList<AccountSurveyAnswer> AccountSurveyAnswers
         {
             get
             {
@@ -86,7 +86,7 @@
         ///The property maps to the column 'Question' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Question
+        public virtual System.String Question
         {
             get
             {
@@ -113,7 +113,7 @@
         ///The property maps to the column 'Survey_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Survey Survey
+        public virtual Survey Survey
         {
             get
             {

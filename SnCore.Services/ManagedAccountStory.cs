@@ -319,7 +319,8 @@ namespace SnCore.Services
 
                 // check number of account friend requests
                 GetQuota(sec).Check<AccountStory, ManagedAccount.QuotaExceededException>(
-                    mInstance.Account.AccountStories);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountStory instance WHERE instance.Account.Id = {0}",
+                        mInstance.Account.Id)).UniqueResult<int>());
 
                 // check whether the sender was flagged
                 new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(

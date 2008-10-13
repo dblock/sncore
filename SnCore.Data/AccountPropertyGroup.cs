@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountPropertyGroup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPropertyGroup : IDbObject
+    public class AccountPropertyGroup: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'AccountPropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the identity column 'AccountPropertyGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountProperty> AccountProperties
+        public virtual System.Collections.Generic.IList<AccountProperty> AccountProperties
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {

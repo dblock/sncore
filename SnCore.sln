@@ -181,6 +181,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.SmtpMockServer", "Sn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "CommandLine.Net\CommandLine.csproj", "{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnCore.Data.Mapping", "SnCore.Data.Mapping\SnCore.Data.Mapping.csproj", "{BA10C71B-5013-401C-849A-DB4BB6ED71D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -637,6 +639,18 @@ Global
 		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E6F26C1D-ED57-4C0C-85E3-4F1DDB876229}.Release|Win32.ActiveCfg = Release|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Release|.NET.ActiveCfg = Release|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA10C71B-5013-401C-849A-DB4BB6ED71D7}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

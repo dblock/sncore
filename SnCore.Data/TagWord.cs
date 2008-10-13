@@ -9,7 +9,7 @@
     ///This class maps to the 'TagWord' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class TagWord : IDbObject
+    public class TagWord: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'TagWord_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Excluded' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Excluded
+        public virtual System.Boolean Excluded
         {
             get
             {
@@ -80,7 +80,7 @@
         ///The property maps to the column 'Promoted' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Promoted
+        public virtual System.Boolean Promoted
         {
             get
             {
@@ -112,7 +112,7 @@
         ///The property maps to the identity column 'TagWord_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<TagWordAccount> TagWordAccounts
+        public virtual System.Collections.Generic.IList<TagWordAccount> TagWordAccounts
         {
             get
             {
@@ -137,7 +137,7 @@
         ///The property maps to the column 'Word' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Word
+        public virtual System.String Word
         {
             get
             {

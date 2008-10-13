@@ -9,7 +9,7 @@
     ///This class maps to the 'Reminder' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Reminder : IDbObject
+    public class Reminder: IDbObject
     {
 #region " Generated Code Region "
 
@@ -40,7 +40,7 @@
         ///The property maps to the column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -63,7 +63,7 @@
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public DataObject DataObject
+        public virtual DataObject DataObject
         {
             get
             {
@@ -88,7 +88,7 @@
         ///The property maps to the column 'DataObjectField' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String DataObjectField
+        public virtual System.String DataObjectField
         {
             get
             {
@@ -113,7 +113,7 @@
         ///The property maps to the column 'DeltaHours' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 DeltaHours
+        public virtual System.Int32 DeltaHours
         {
             get
             {
@@ -138,7 +138,7 @@
         ///The property maps to the column 'Enabled' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Enabled
+        public virtual System.Boolean Enabled
         {
             get
             {
@@ -163,7 +163,7 @@
         ///The property maps to the column 'LastRun' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime LastRun
+        public virtual System.DateTime LastRun
         {
             get
             {
@@ -188,7 +188,7 @@
         ///The property maps to the column 'LastRunError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LastRunError
+        public virtual System.String LastRunError
         {
             get
             {
@@ -213,7 +213,7 @@
         ///The property maps to the column 'Recurrent' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Recurrent
+        public virtual System.Boolean Recurrent
         {
             get
             {
@@ -245,7 +245,7 @@
         ///The property maps to the identity column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<ReminderEvent> ReminderEvents
+        public virtual System.Collections.Generic.IList<ReminderEvent> ReminderEvents
         {
             get
             {
@@ -270,7 +270,7 @@
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Url
+        public virtual System.String Url
         {
             get
             {
@@ -301,7 +301,7 @@
         ///The property maps to the identity column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<ReminderAccountProperty> ReminderAccountProperties
+        public virtual System.Collections.Generic.IList<ReminderAccountProperty> ReminderAccountProperties
         {
             get
             {

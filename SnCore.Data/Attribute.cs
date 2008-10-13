@@ -9,7 +9,7 @@
     ///This class maps to the 'Attribute' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Attribute : IDbObject
+    public class Attribute: IDbObject
     {
 #region " Generated Code Region "
 
@@ -39,7 +39,7 @@
         ///The property maps to the column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -66,7 +66,7 @@
         ///The property maps to the identity column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountAttribute> AccountAttributes
+        public virtual System.Collections.Generic.IList<AccountAttribute> AccountAttributes
         {
             get
             {
@@ -91,7 +91,7 @@
         ///The property maps to the column 'Bitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Byte[] Bitmap
+        public virtual System.Byte[] Bitmap
         {
             get
             {
@@ -116,7 +116,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -141,7 +141,7 @@
         ///The property maps to the column 'DefaultUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String DefaultUrl
+        public virtual System.String DefaultUrl
         {
             get
             {
@@ -166,7 +166,7 @@
         ///The property maps to the column 'DefaultValue' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String DefaultValue
+        public virtual System.String DefaultValue
         {
             get
             {
@@ -191,7 +191,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -216,7 +216,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -241,7 +241,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -272,7 +272,7 @@
         ///The property maps to the identity column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<PlaceAttribute> PlaceAttributes
+        public virtual System.Collections.Generic.IList<PlaceAttribute> PlaceAttributes
         {
             get
             {

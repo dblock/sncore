@@ -43,5 +43,18 @@ namespace SnCore.Services
             if (collection.Count >= mUpperLimit.Value)
                 throw new ExceptionType();
         }
+
+        public void Check<TransitType, ExceptionType>(int count) 
+            where ExceptionType : System.Exception, new()
+        {
+            if (count == 0)
+                return;
+
+            if (!mUpperLimit.HasValue)
+                return;
+
+            if (count >= mUpperLimit.Value)
+                throw new ExceptionType();
+        }
     }
 }

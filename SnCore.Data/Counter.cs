@@ -9,7 +9,7 @@
     ///This class maps to the 'Counter' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Counter : IDbObject
+    public class Counter: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'Counter_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -80,7 +80,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -105,7 +105,7 @@
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int64 Total
+        public virtual System.Int64 Total
         {
             get
             {
@@ -130,7 +130,7 @@
         ///The property maps to the column 'Uri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Uri
+        public virtual System.String Uri
         {
             get
             {

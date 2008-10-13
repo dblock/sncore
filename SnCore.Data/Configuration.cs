@@ -9,7 +9,7 @@
     ///This class maps to the 'Configuration' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Configuration : IDbObject
+    public class Configuration: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'Configuration_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -54,7 +54,7 @@
         ///The property maps to the column 'OptionName' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String OptionName
+        public virtual System.String OptionName
         {
             get
             {
@@ -79,7 +79,7 @@
         ///The property maps to the column 'OptionValue' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String OptionValue
+        public virtual System.String OptionValue
         {
             get
             {
@@ -104,7 +104,7 @@
         ///The property maps to the column 'Password' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Password
+        public virtual System.Boolean Password
         {
             get
             {

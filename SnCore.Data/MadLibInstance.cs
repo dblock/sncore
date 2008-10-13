@@ -9,7 +9,7 @@
     ///This class maps to the 'MadLibInstance' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class MadLibInstance : IDbObject
+    public class MadLibInstance: IDbObject
     {
 #region " Generated Code Region "
 
@@ -37,7 +37,7 @@
         ///The property maps to the column 'MadLibInstance_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -83,7 +83,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public DataObject DataObject
+        public virtual DataObject DataObject
         {
             get
             {
@@ -137,7 +137,7 @@
         ///The property maps to the column 'MadLib_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public MadLib MadLib
+        public virtual MadLib MadLib
         {
             get
             {
@@ -162,7 +162,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -187,7 +187,7 @@
         ///The property maps to the column 'Object_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 ObjectId
+        public virtual System.Int32 ObjectId
         {
             get
             {
@@ -212,7 +212,7 @@
         ///The property maps to the column 'Text' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Text
+        public virtual System.String Text
         {
             get
             {

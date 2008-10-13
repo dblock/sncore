@@ -9,7 +9,7 @@
     ///This class maps to the 'Bookmark' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Bookmark : IDbObject
+    public class Bookmark: IDbObject
     {
 #region " Generated Code Region "
 
@@ -37,7 +37,7 @@
         ///The property maps to the column 'Bookmark_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -83,7 +83,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -108,7 +108,7 @@
         ///The property maps to the column 'FullBitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Byte[] FullBitmap
+        public virtual System.Byte[] FullBitmap
         {
             get
             {
@@ -133,7 +133,7 @@
         ///The property maps to the column 'LinkBitmap' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Byte[] LinkBitmap
+        public virtual System.Byte[] LinkBitmap
         {
             get
             {
@@ -158,7 +158,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -183,7 +183,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -208,7 +208,7 @@
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Url
+        public virtual System.String Url
         {
             get
             {

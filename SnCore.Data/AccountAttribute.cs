@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountAttribute' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountAttribute : IDbObject
+    public class AccountAttribute: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'AccountAttribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Attribute_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Attribute Attribute
+        public virtual Attribute Attribute
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Url
+        public virtual System.String Url
         {
             get
             {
@@ -160,7 +160,7 @@
         ///The property maps to the column 'Value' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Value
+        public virtual System.String Value
         {
             get
             {

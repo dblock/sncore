@@ -9,7 +9,7 @@
     ///This class maps to the 'ReminderEvent' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ReminderEvent : IDbObject
+    public class ReminderEvent: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'ReminderEvent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -107,7 +107,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -134,7 +134,7 @@
         ///The property maps to the column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Reminder Reminder
+        public virtual Reminder Reminder
         {
             get
             {

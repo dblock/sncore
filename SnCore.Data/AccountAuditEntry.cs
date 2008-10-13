@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountAuditEntry' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountAuditEntry : IDbObject
+    public class AccountAuditEntry: IDbObject
     {
 #region " Generated Code Region "
 
@@ -40,7 +40,7 @@
         ///The property maps to the column 'AccountAuditEntry_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -86,7 +86,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -111,7 +111,7 @@
         ///The property maps to the column 'IsPrivate' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean IsPrivate
+        public virtual System.Boolean IsPrivate
         {
             get
             {
@@ -136,7 +136,7 @@
         ///The property maps to the column 'IsSystem' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean IsSystem
+        public virtual System.Boolean IsSystem
         {
             get
             {
@@ -161,7 +161,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -186,7 +186,7 @@
         ///The property maps to the column 'Count' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Count
+        public virtual System.Int32 Count
         {
             get
             {
@@ -211,7 +211,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {
@@ -236,7 +236,7 @@
         ///The property maps to the column 'Url' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Url
+        public virtual System.String Url
         {
             get
             {
@@ -261,7 +261,7 @@
         ///The property maps to the column 'Md5' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Md5
+        public virtual System.String Md5
         {
             get
             {
@@ -286,7 +286,7 @@
         ///The property maps to the column 'IsBroadcast' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean IsBroadcast
+        public virtual System.Boolean IsBroadcast
         {
             get
             {

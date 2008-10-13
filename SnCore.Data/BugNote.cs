@@ -9,7 +9,7 @@
     ///This class maps to the 'BugNote' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class BugNote : IDbObject
+    public class BugNote: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'BugNote_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -56,7 +56,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -83,7 +83,7 @@
         ///The property maps to the column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Bug Bug
+        public virtual Bug Bug
         {
             get
             {
@@ -108,7 +108,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -133,7 +133,7 @@
         ///The property maps to the column 'Details' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Details
+        public virtual System.String Details
         {
             get
             {
@@ -158,7 +158,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {

@@ -9,7 +9,7 @@
     ///This class maps to the 'BugLink' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class BugLink : IDbObject
+    public class BugLink: IDbObject
     {
 #region " Generated Code Region "
 
@@ -32,7 +32,7 @@
         ///The property maps to the column 'BugLink_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Bug Bug
+        public virtual Bug Bug
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'RelatedBug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Bug RelatedBug
+        public virtual Bug RelatedBug
         {
             get
             {

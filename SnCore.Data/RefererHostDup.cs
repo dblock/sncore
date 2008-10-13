@@ -9,7 +9,7 @@
     ///This class maps to the 'RefererHostDup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class RefererHostDup : IDbObject
+    public class RefererHostDup: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'RefererHostDup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -80,7 +80,7 @@
         ///The property maps to the column 'Host' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Host
+        public virtual System.String Host
         {
             get
             {
@@ -105,7 +105,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -132,7 +132,7 @@
         ///The property maps to the column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public RefererHost RefererHost
+        public virtual RefererHost RefererHost
         {
             get
             {

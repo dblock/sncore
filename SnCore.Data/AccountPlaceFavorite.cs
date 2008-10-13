@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountPlaceFavorite' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPlaceFavorite : IDbObject
+    public class AccountPlaceFavorite: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'AccountPlaceFavorite_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -56,7 +56,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -81,7 +81,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -108,7 +108,7 @@
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Place Place
+        public virtual Place Place
         {
             get
             {

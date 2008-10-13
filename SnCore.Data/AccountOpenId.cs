@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountOpenId' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountOpenId : IDbObject
+    public class AccountOpenId: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'AccountOpenId_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -107,7 +107,7 @@
         ///The property maps to the column 'IdentityUrl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String IdentityUrl
+        public virtual System.String IdentityUrl
         {
             get
             {
@@ -132,7 +132,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {

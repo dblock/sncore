@@ -9,7 +9,7 @@
     ///This class maps to the 'PlaceQueueItem' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlaceQueueItem : IDbObject
+    public class PlaceQueueItem: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'PlaceQueueItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Place Place
+        public virtual Place Place
         {
             get
             {
@@ -109,7 +109,7 @@
         ///The property maps to the column 'PlaceQueue_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public PlaceQueue PlaceQueue
+        public virtual PlaceQueue PlaceQueue
         {
             get
             {
@@ -134,7 +134,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {

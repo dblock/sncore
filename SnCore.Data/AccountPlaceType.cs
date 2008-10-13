@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountPlaceType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPlaceType : IDbObject
+    public class AccountPlaceType: IDbObject
     {
 #region " Generated Code Region "
 
@@ -36,7 +36,7 @@
         ///The property maps to the column 'AccountPlaceType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -64,7 +64,7 @@
         ///The property maps to the identity column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountPlaceRequest> AccountPlaceRequests
+        public virtual System.Collections.Generic.IList<AccountPlaceRequest> AccountPlaceRequests
         {
             get
             {
@@ -96,7 +96,7 @@
         ///The property maps to the identity column 'Type_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountPlace> AccountPlaces
+        public virtual System.Collections.Generic.IList<AccountPlace> AccountPlaces
         {
             get
             {
@@ -121,7 +121,7 @@
         ///The property maps to the column 'CanWrite' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean CanWrite
+        public virtual System.Boolean CanWrite
         {
             get
             {
@@ -146,7 +146,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -171,7 +171,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -196,7 +196,7 @@
         ///The property maps to the column 'DefaultType' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean DefaultType
+        public virtual System.Boolean DefaultType
         {
             get
             {

@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountGroupAccountRequest' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountGroupAccountRequest : IDbObject
+    public class AccountGroupAccountRequest: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'AccountGroupAccountRequest_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -84,7 +84,7 @@
         ///The property maps to the column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountGroup AccountGroup
+        public virtual AccountGroup AccountGroup
         {
             get
             {
@@ -109,7 +109,7 @@
         ///The property maps to the column 'Message' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Message
+        public virtual System.String Message
         {
             get
             {
@@ -134,7 +134,7 @@
         ///The property maps to the column 'Submitted' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Submitted
+        public virtual System.DateTime Submitted
         {
             get
             {

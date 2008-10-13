@@ -9,7 +9,7 @@
     ///This class maps to the 'Feature' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Feature : IDbObject
+    public class Feature: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'Feature_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -54,7 +54,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -81,7 +81,7 @@
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public DataObject DataObject
+        public virtual DataObject DataObject
         {
             get
             {
@@ -106,7 +106,7 @@
         ///The property maps to the column 'DataRow_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 DataRowId
+        public virtual System.Int32 DataRowId
         {
             get
             {

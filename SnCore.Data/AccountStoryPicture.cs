@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountStoryPicture' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountStoryPicture : IDbPictureObject, IDbObject
+    public class AccountStoryPicture: IDbPictureObject, IDbObject
     {
 #region " Generated Code Region "
 
@@ -36,7 +36,7 @@
         ///The property maps to the column 'AccountStoryPicture_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -59,7 +59,7 @@
         ///The property maps to the column 'AccountStory_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountStory AccountStory
+        public virtual AccountStory AccountStory
         {
             get
             {
@@ -84,7 +84,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -109,7 +109,7 @@
         ///The property maps to the column 'Modifed' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modifed
+        public virtual System.DateTime Modifed
         {
             get
             {
@@ -134,7 +134,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -159,7 +159,7 @@
         ///The property maps to the column 'Picture' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Byte[] Picture
+        public virtual System.Byte[] Picture
         {
             get
             {
@@ -184,7 +184,7 @@
         ///The property maps to the column 'Position' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Position
+        public virtual System.Int32 Position
         {
             get
             {

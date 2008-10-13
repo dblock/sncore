@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountInvitation' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountInvitation : IDbObject
+    public class AccountInvitation: IDbObject
     {
 #region " Generated Code Region "
 
@@ -38,7 +38,7 @@
         ///The property maps to the column 'AccountInvitation_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -86,7 +86,7 @@
         ///The property maps to the column 'Code' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Code
+        public virtual System.String Code
         {
             get
             {
@@ -111,7 +111,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -136,7 +136,7 @@
         ///The property maps to the column 'Email' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Email
+        public virtual System.String Email
         {
             get
             {
@@ -161,7 +161,7 @@
         ///The property maps to the column 'Message' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Message
+        public virtual System.String Message
         {
             get
             {
@@ -186,7 +186,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -211,7 +211,7 @@
         ///The property maps to the column 'Failed' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Failed
+        public virtual System.Boolean Failed
         {
             get
             {
@@ -236,7 +236,7 @@
         ///The property maps to the column 'LastError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LastError
+        public virtual System.String LastError
         {
             get
             {

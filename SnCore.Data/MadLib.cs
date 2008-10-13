@@ -9,7 +9,7 @@
     ///This class maps to the 'MadLib' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class MadLib : IDbObject
+    public class MadLib: IDbObject
     {
 #region " Generated Code Region "
 
@@ -36,7 +36,7 @@
         ///The property maps to the column 'MadLib_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -59,7 +59,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -84,7 +84,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -115,7 +115,7 @@
         ///The property maps to the identity column 'MadLib_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<MadLibInstance> MadLibInstances
+        public virtual System.Collections.Generic.IList<MadLibInstance> MadLibInstances
         {
             get
             {
@@ -140,7 +140,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -165,7 +165,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -190,7 +190,7 @@
         ///The property maps to the column 'Template' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Template
+        public virtual System.String Template
         {
             get
             {

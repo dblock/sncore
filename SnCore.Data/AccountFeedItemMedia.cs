@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountFeedItemMedia' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeedItemMedia : IDbObject
+    public class AccountFeedItemMedia: IDbObject
     {
 #region " Generated Code Region "
 
@@ -38,7 +38,7 @@
         ///The property maps to the column 'AccountFeedItemMedia_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountFeedItem AccountFeedItem
+        public virtual AccountFeedItem AccountFeedItem
         {
             get
             {
@@ -86,7 +86,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -111,7 +111,7 @@
         ///The property maps to the column 'EmbeddedHtml' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String EmbeddedHtml
+        public virtual System.String EmbeddedHtml
         {
             get
             {
@@ -136,7 +136,7 @@
         ///The property maps to the column 'Interesting' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Interesting
+        public virtual System.Boolean Interesting
         {
             get
             {
@@ -161,7 +161,7 @@
         ///The property maps to the column 'LastError' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LastError
+        public virtual System.String LastError
         {
             get
             {
@@ -186,7 +186,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -211,7 +211,7 @@
         ///The property maps to the column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Type
+        public virtual System.String Type
         {
             get
             {
@@ -236,7 +236,7 @@
         ///The property maps to the column 'Visible' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Visible
+        public virtual System.Boolean Visible
         {
             get
             {

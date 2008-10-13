@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountPlaceRequest' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountPlaceRequest : IDbObject
+    public class AccountPlaceRequest: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'AccountPlaceRequest_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -83,7 +83,7 @@
         ///The property maps to the column 'Message' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Message
+        public virtual System.String Message
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'Place_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Place Place
+        public virtual Place Place
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'Submitted' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Submitted
+        public virtual System.DateTime Submitted
         {
             get
             {
@@ -162,7 +162,7 @@
         ///The property maps to the column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountPlaceType Type
+        public virtual AccountPlaceType Type
         {
             get
             {

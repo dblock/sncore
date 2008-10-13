@@ -9,7 +9,7 @@
     ///This class maps to the 'Bug' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Bug : IDbObject
+    public class Bug: IDbObject
     {
 #region " Generated Code Region "
 
@@ -44,7 +44,7 @@
         ///The property maps to the column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -65,7 +65,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 AccountId
+        public virtual System.Int32 AccountId
         {
             get
             {
@@ -97,7 +97,7 @@
         ///The property maps to the identity column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<BugLink> BugLinks
+        public virtual System.Collections.Generic.IList<BugLink> BugLinks
         {
             get
             {
@@ -129,7 +129,7 @@
         ///The property maps to the identity column 'Bug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<BugNote> BugNotes
+        public virtual System.Collections.Generic.IList<BugNote> BugNotes
         {
             get
             {
@@ -154,7 +154,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -179,7 +179,7 @@
         ///The property maps to the column 'Details' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Details
+        public virtual System.String Details
         {
             get
             {
@@ -206,7 +206,7 @@
         ///The property maps to the column 'Priority_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public BugPriority Priority
+        public virtual BugPriority Priority
         {
             get
             {
@@ -233,7 +233,7 @@
         ///The property maps to the column 'Project_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public BugProject Project
+        public virtual BugProject Project
         {
             get
             {
@@ -265,7 +265,7 @@
         ///The property maps to the identity column 'RelatedBug_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<BugLink> RelatedBugBugLinks
+        public virtual System.Collections.Generic.IList<BugLink> RelatedBugBugLinks
         {
             get
             {
@@ -292,7 +292,7 @@
         ///The property maps to the column 'Resolution_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public BugResolution Resolution
+        public virtual BugResolution Resolution
         {
             get
             {
@@ -319,7 +319,7 @@
         ///The property maps to the column 'Severity_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public BugSeverity Severity
+        public virtual BugSeverity Severity
         {
             get
             {
@@ -346,7 +346,7 @@
         ///The property maps to the column 'Status_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public BugStatu Status
+        public virtual BugStatu Status
         {
             get
             {
@@ -371,7 +371,7 @@
         ///The property maps to the column 'Subject' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Subject
+        public virtual System.String Subject
         {
             get
             {
@@ -398,7 +398,7 @@
         ///The property maps to the column 'Type_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public BugType Type
+        public virtual BugType Type
         {
             get
             {
@@ -423,7 +423,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {

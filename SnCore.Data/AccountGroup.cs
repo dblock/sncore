@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountGroup' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountGroup : IDbObject
+    public class AccountGroup: IDbObject
     {
 #region " Generated Code Region "
 
@@ -41,7 +41,7 @@
         ///The property maps to the column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -68,7 +68,7 @@
         ///The property maps to the identity column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountGroupAccount> AccountGroupAccounts
+        public virtual System.Collections.Generic.IList<AccountGroupAccount> AccountGroupAccounts
         {
             get
             {
@@ -99,7 +99,7 @@
         ///The property maps to the identity column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountGroupPicture> AccountGroupPictures
+        public virtual System.Collections.Generic.IList<AccountGroupPicture> AccountGroupPictures
         {
             get
             {
@@ -130,7 +130,7 @@
         ///The property maps to the identity column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountGroupPlace> AccountGroupPlaces
+        public virtual System.Collections.Generic.IList<AccountGroupPlace> AccountGroupPlaces
         {
             get
             {
@@ -155,7 +155,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -180,7 +180,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -205,7 +205,7 @@
         ///The property maps to the column 'IsPrivate' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean IsPrivate
+        public virtual System.Boolean IsPrivate
         {
             get
             {
@@ -230,7 +230,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -255,7 +255,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -286,7 +286,7 @@
         ///The property maps to the identity column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountGroupAccountInvitation> AccountGroupAccountInvitations
+        public virtual System.Collections.Generic.IList<AccountGroupAccountInvitation> AccountGroupAccountInvitations
         {
             get
             {
@@ -317,7 +317,7 @@
         ///The property maps to the identity column 'AccountGroup_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountGroupAccountRequest> AccountGroupAccountRequests
+        public virtual System.Collections.Generic.IList<AccountGroupAccountRequest> AccountGroupAccountRequests
         {
             get
             {
@@ -344,7 +344,7 @@
         ///The property maps to the column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountBlog AccountBlog
+        public virtual AccountBlog AccountBlog
         {
             get
             {

@@ -17,7 +17,7 @@
 <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Conditional" RenderMode="Inline">
  <ContentTemplate>
   <SnCoreWebControls:PagedGrid CellPadding="4" runat="server" ID="PlaceWebsites" ShowHeader="false"
-   AllowCustomPaging="true" AutoGenerateColumns="false" CssClass="sncore_account_table" PageSize="5">
+   AllowPaging="true" AllowCustomPaging="true" AutoGenerateColumns="false" CssClass="sncore_account_table" PageSize="5">
    <PagerStyle CssClass="sncore_table_pager" Position="Bottom" NextPageText="Next"
     PrevPageText="Prev" HorizontalAlign="Center" />
     <Columns>

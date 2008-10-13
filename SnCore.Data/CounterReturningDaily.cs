@@ -9,7 +9,7 @@
     ///This class maps to the 'CounterReturningDaily' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class CounterReturningDaily : IDbObject
+    public class CounterReturningDaily: IDbObject
     {
 #region " Generated Code Region "
 
@@ -33,7 +33,7 @@
         ///The property maps to the column 'CounterReturningDaily_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -54,7 +54,7 @@
         ///The property maps to the column 'NewTotal' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 NewTotal
+        public virtual System.Int32 NewTotal
         {
             get
             {
@@ -79,7 +79,7 @@
         ///The property maps to the column 'ReturningTotal' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 ReturningTotal
+        public virtual System.Int32 ReturningTotal
         {
             get
             {
@@ -104,7 +104,7 @@
         ///The property maps to the column 'Timestamp' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Timestamp
+        public virtual System.DateTime Timestamp
         {
             get
             {

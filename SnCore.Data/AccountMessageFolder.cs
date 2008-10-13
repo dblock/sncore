@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountMessageFolder' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountMessageFolder : IDbObject
+    public class AccountMessageFolder: IDbObject
     {
 #region " Generated Code Region "
 
@@ -38,7 +38,7 @@
         ///The property maps to the column 'AccountMessageFolder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -61,7 +61,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -88,7 +88,7 @@
         ///The property maps to the column 'AccountMessageFolderParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountMessageFolder AccountMessageFolderParent
+        public virtual AccountMessageFolder AccountMessageFolderParent
         {
             get
             {
@@ -120,7 +120,7 @@
         ///The property maps to the identity column 'AccountMessageFolderParent_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountMessageFolder> AccountMessageFolders
+        public virtual System.Collections.Generic.IList<AccountMessageFolder> AccountMessageFolders
         {
             get
             {
@@ -152,7 +152,7 @@
         ///The property maps to the identity column 'AccountMessageFolder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountMessage> AccountMessages
+        public virtual System.Collections.Generic.IList<AccountMessage> AccountMessages
         {
             get
             {
@@ -177,7 +177,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -202,7 +202,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -227,7 +227,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -252,7 +252,7 @@
         ///The property maps to the column 'System' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean System
+        public virtual System.Boolean System
         {
             get
             {

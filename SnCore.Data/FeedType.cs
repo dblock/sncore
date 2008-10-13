@@ -9,7 +9,7 @@
     ///This class maps to the 'FeedType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class FeedType : IDbObject
+    public class FeedType: IDbObject
     {
 #region " Generated Code Region "
 
@@ -38,7 +38,7 @@
         ///The property maps to the column 'FeedType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -66,7 +66,7 @@
         ///The property maps to the identity column 'FeedType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountFeed> AccountFeeds
+        public virtual System.Collections.Generic.IList<AccountFeed> AccountFeeds
         {
             get
             {
@@ -91,7 +91,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -116,7 +116,7 @@
         ///The property maps to the column 'SpanColumns' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 SpanColumns
+        public virtual System.Int32 SpanColumns
         {
             get
             {
@@ -141,7 +141,7 @@
         ///The property maps to the column 'SpanColumnsPreview' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 SpanColumnsPreview
+        public virtual System.Int32 SpanColumnsPreview
         {
             get
             {
@@ -166,7 +166,7 @@
         ///The property maps to the column 'SpanRows' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 SpanRows
+        public virtual System.Int32 SpanRows
         {
             get
             {
@@ -191,7 +191,7 @@
         ///The property maps to the column 'SpanRowsPreview' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 SpanRowsPreview
+        public virtual System.Int32 SpanRowsPreview
         {
             get
             {
@@ -216,7 +216,7 @@
         ///The property maps to the column 'Xsl' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Xsl
+        public virtual System.String Xsl
         {
             get
             {
@@ -241,7 +241,7 @@
         ///The property maps to the column 'DefaultType' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean DefaultType
+        public virtual System.Boolean DefaultType
         {
             get
             {

@@ -9,7 +9,7 @@
     ///This class maps to the 'ReminderAccountProperty' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ReminderAccountProperty : IDbObject
+    public class ReminderAccountProperty: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'ReminderAccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'AccountProperty_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountProperty AccountProperty
+        public virtual AccountProperty AccountProperty
         {
             get
             {
@@ -84,7 +84,7 @@
         ///The property maps to the column 'Reminder_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Reminder Reminder
+        public virtual Reminder Reminder
         {
             get
             {
@@ -109,7 +109,7 @@
         ///The property maps to the column 'Unset' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Unset
+        public virtual System.Boolean Unset
         {
             get
             {
@@ -134,7 +134,7 @@
         ///The property maps to the column 'Value' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Value
+        public virtual System.String Value
         {
             get
             {

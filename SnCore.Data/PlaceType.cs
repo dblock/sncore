@@ -9,7 +9,7 @@
     ///This class maps to the 'PlaceType' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class PlaceType : IDbObject
+    public class PlaceType: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'PlaceType_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -87,7 +87,7 @@
         ///The property maps to the identity column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Place> Places
+        public virtual System.Collections.Generic.IList<Place> Places
         {
             get
             {
@@ -118,7 +118,7 @@
         ///The property maps to the identity column 'Type' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
+        public virtual System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
         {
             get
             {
@@ -143,7 +143,7 @@
         ///The property maps to the column 'DefaultType' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean DefaultType
+        public virtual System.Boolean DefaultType
         {
             get
             {

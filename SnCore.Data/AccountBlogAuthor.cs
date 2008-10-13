@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountBlogAuthor' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountBlogAuthor : IDbObject
+    public class AccountBlogAuthor: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'AccountBlogAuthor_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -58,7 +58,7 @@
         ///The property maps to the column 'Account_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Account Account
+        public virtual Account Account
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'AccountBlog_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountBlog AccountBlog
+        public virtual AccountBlog AccountBlog
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'AllowDelete' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean AllowDelete
+        public virtual System.Boolean AllowDelete
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'AllowEdit' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean AllowEdit
+        public virtual System.Boolean AllowEdit
         {
             get
             {
@@ -160,7 +160,7 @@
         ///The property maps to the column 'AllowPost' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean AllowPost
+        public virtual System.Boolean AllowPost
         {
             get
             {

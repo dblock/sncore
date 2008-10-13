@@ -9,7 +9,7 @@
     ///This class maps to the 'Neighborhood' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Neighborhood : IDbObject
+    public class Neighborhood: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'City_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public City City
+        public virtual City City
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -113,7 +113,7 @@
         ///The property maps to the identity column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Place> Places
+        public virtual System.Collections.Generic.IList<Place> Places
         {
             get
             {
@@ -144,7 +144,7 @@
         ///The property maps to the identity column 'Neighborhood_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
+        public virtual System.Collections.Generic.IList<PlaceChangeRequest> PlaceChangeRequests
         {
             get
             {

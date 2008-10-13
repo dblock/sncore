@@ -9,7 +9,7 @@
     ///This class maps to the 'ScheduleInstance' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class ScheduleInstance : IDbObject
+    public class ScheduleInstance: IDbObject
     {
 #region " Generated Code Region "
 
@@ -36,7 +36,7 @@
         ///The property maps to the column 'ScheduleInstance_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -57,7 +57,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'EndDateTime' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime EndDateTime
+        public virtual System.DateTime EndDateTime
         {
             get
             {
@@ -107,7 +107,7 @@
         ///The property maps to the column 'Instance' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Instance
+        public virtual System.Int32 Instance
         {
             get
             {
@@ -132,7 +132,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {
@@ -159,7 +159,7 @@
         ///The property maps to the column 'Schedule_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Schedule Schedule
+        public virtual Schedule Schedule
         {
             get
             {
@@ -184,7 +184,7 @@
         ///The property maps to the column 'StartDateTime' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime StartDateTime
+        public virtual System.DateTime StartDateTime
         {
             get
             {

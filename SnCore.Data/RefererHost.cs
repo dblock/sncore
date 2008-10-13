@@ -9,7 +9,7 @@
     ///This class maps to the 'RefererHost' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class RefererHost : IDbObject
+    public class RefererHost: IDbObject
     {
 #region " Generated Code Region "
 
@@ -39,7 +39,7 @@
         ///The property maps to the column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -60,7 +60,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -85,7 +85,7 @@
         ///The property maps to the column 'Host' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Host
+        public virtual System.String Host
         {
             get
             {
@@ -110,7 +110,7 @@
         ///The property maps to the column 'LastRefererUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LastRefererUri
+        public virtual System.String LastRefererUri
         {
             get
             {
@@ -135,7 +135,7 @@
         ///The property maps to the column 'LastRequestUri' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String LastRequestUri
+        public virtual System.String LastRequestUri
         {
             get
             {
@@ -160,7 +160,7 @@
         ///The property maps to the column 'Total' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int64 Total
+        public virtual System.Int64 Total
         {
             get
             {
@@ -185,7 +185,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {
@@ -216,7 +216,7 @@
         ///The property maps to the identity column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<RefererHostDup> RefererHostDups
+        public virtual System.Collections.Generic.IList<RefererHostDup> RefererHostDups
         {
             get
             {
@@ -247,7 +247,7 @@
         ///The property maps to the identity column 'RefererHost_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<RefererAccount> RefererAccounts
+        public virtual System.Collections.Generic.IList<RefererAccount> RefererAccounts
         {
             get
             {
@@ -272,7 +272,7 @@
         ///The property maps to the column 'Hidden' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Boolean Hidden
+        public virtual System.Boolean Hidden
         {
             get
             {

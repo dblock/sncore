@@ -1015,7 +1015,8 @@ namespace SnCore.Services
             {
                 sec.CheckVerifiedEmail();
                 GetQuota(sec).Check<AccountFeed, ManagedAccount.QuotaExceededException>(
-                    mInstance.Account.AccountFeeds);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFeed instance WHERE instance.Account.Id = {0}",
+                        mInstance.Account.Id)).UniqueResult<int>());
             }
         }
 

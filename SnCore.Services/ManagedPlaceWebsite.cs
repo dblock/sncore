@@ -268,8 +268,12 @@ namespace SnCore.Services
         protected override void Check(TransitPlaceWebsite t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota(sec).Check<PlaceWebsite, ManagedAccount.QuotaExceededException>(
-                mInstance.Account.PlaceWebsites);
+            if (t_instance.Id == 0)
+            {
+                GetQuota(sec).Check<PlaceWebsite, ManagedAccount.QuotaExceededException>(
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM PlaceWebsite instance WHERE instance.Account.Id = {0}", 
+                        mInstance.Account.Id)).UniqueResult<int>());
+            }
         }
 
         public override IList<AccountAuditEntry> CreateAccountAuditEntries(ISession session, ManagedSecurityContext sec, DataOperation op)

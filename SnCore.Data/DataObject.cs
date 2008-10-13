@@ -9,7 +9,7 @@
     ///This class maps to the 'DataObject' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class DataObject : IDbObject
+    public class DataObject: IDbObject
     {
 #region " Generated Code Region "
 
@@ -36,7 +36,7 @@
         ///The property maps to the column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -64,7 +64,7 @@
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Feature> Features
+        public virtual System.Collections.Generic.IList<Feature> Features
         {
             get
             {
@@ -89,7 +89,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -121,7 +121,7 @@
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Reminder> Reminders
+        public virtual System.Collections.Generic.IList<Reminder> Reminders
         {
             get
             {
@@ -152,7 +152,7 @@
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<MadLibInstance> MadLibInstances
+        public virtual System.Collections.Generic.IList<MadLibInstance> MadLibInstances
         {
             get
             {
@@ -183,7 +183,7 @@
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountQuota> AccountQuotas
+        public virtual System.Collections.Generic.IList<AccountQuota> AccountQuotas
         {
             get
             {
@@ -214,7 +214,7 @@
         ///The property maps to the identity column 'DataObject_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Discussion> Discussions
+        public virtual System.Collections.Generic.IList<Discussion> Discussions
         {
             get
             {

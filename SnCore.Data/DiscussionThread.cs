@@ -9,7 +9,7 @@
     ///This class maps to the 'DiscussionThread' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class DiscussionThread : IDbObject
+    public class DiscussionThread: IDbObject
     {
 #region " Generated Code Region "
 
@@ -34,7 +34,7 @@
         ///The property maps to the column 'DiscussionThread_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -55,7 +55,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -82,7 +82,7 @@
         ///The property maps to the column 'Discussion_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public Discussion Discussion
+        public virtual Discussion Discussion
         {
             get
             {
@@ -114,7 +114,7 @@
         ///The property maps to the identity column 'DiscussionThread_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<DiscussionPost> DiscussionPosts
+        public virtual System.Collections.Generic.IList<DiscussionPost> DiscussionPosts
         {
             get
             {
@@ -139,7 +139,7 @@
         ///The property maps to the column 'Modified' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Modified
+        public virtual System.DateTime Modified
         {
             get
             {

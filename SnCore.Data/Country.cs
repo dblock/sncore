@@ -9,7 +9,7 @@
     ///This class maps to the 'Country' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class Country : IDbObject
+    public class Country: IDbObject
     {
 #region " Generated Code Region "
 
@@ -35,7 +35,7 @@
         ///The property maps to the column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -63,7 +63,7 @@
         ///The property maps to the identity column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountAddress> AccountAddresses
+        public virtual System.Collections.Generic.IList<AccountAddress> AccountAddresses
         {
             get
             {
@@ -95,7 +95,7 @@
         ///The property maps to the identity column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<Account> Accounts
+        public virtual System.Collections.Generic.IList<Account> Accounts
         {
             get
             {
@@ -127,7 +127,7 @@
         ///The property maps to the identity column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<City> Cities
+        public virtual System.Collections.Generic.IList<City> Cities
         {
             get
             {
@@ -152,7 +152,7 @@
         ///The property maps to the column 'Name' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Name
+        public virtual System.String Name
         {
             get
             {
@@ -184,7 +184,7 @@
         ///The property maps to the identity column 'Country_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<State> States
+        public virtual System.Collections.Generic.IList<State> States
         {
             get
             {

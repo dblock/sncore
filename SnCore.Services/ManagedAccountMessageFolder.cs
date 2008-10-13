@@ -368,7 +368,8 @@ namespace SnCore.Services
         {
             base.Check(t_instance, sec);
             if (t_instance.Id == 0) GetQuota(sec).Check<AccountMessageFolder, ManagedAccount.QuotaExceededException>(
-                mInstance.Account.AccountMessageFolders);
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountMessageFolder instance WHERE instance.Account.Id = {0}",
+                        mInstance.Account.Id)).UniqueResult<int>());
         }
 
         public static AccountMessageFolder FindRootFolder(ISession session, int account_id, string name)

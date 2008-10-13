@@ -9,7 +9,7 @@
     ///This class maps to the 'AccountFeedItem' table in the data source.
     ///</remarks>
     ///--------------------------------------------------------------------------------
-    public class AccountFeedItem : IDbObject
+    public class AccountFeedItem: IDbObject
     {
 #region " Generated Code Region "
 
@@ -39,7 +39,7 @@
         ///The property maps to the column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Int32 Id
+        public virtual System.Int32 Id
         {
             get
             {
@@ -62,7 +62,7 @@
         ///The property maps to the column 'AccountFeed_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public AccountFeed AccountFeed
+        public virtual AccountFeed AccountFeed
         {
             get
             {
@@ -87,7 +87,7 @@
         ///The property maps to the column 'Created' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Created
+        public virtual System.DateTime Created
         {
             get
             {
@@ -112,7 +112,7 @@
         ///The property maps to the column 'Description' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Description
+        public virtual System.String Description
         {
             get
             {
@@ -137,7 +137,7 @@
         ///The property maps to the column 'Guid' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Guid
+        public virtual System.String Guid
         {
             get
             {
@@ -162,7 +162,7 @@
         ///The property maps to the column 'Link' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Link
+        public virtual System.String Link
         {
             get
             {
@@ -187,7 +187,7 @@
         ///The property maps to the column 'Title' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.String Title
+        public virtual System.String Title
         {
             get
             {
@@ -212,7 +212,7 @@
         ///The property maps to the column 'Updated' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.DateTime Updated
+        public virtual System.DateTime Updated
         {
             get
             {
@@ -243,7 +243,7 @@
         ///The property maps to the identity column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountFeedItemImg> AccountFeedItemImgs
+        public virtual System.Collections.Generic.IList<AccountFeedItemImg> AccountFeedItemImgs
         {
             get
             {
@@ -274,7 +274,7 @@
         ///The property maps to the identity column 'AccountFeedItem_Id' in the data source.
         ///</remarks>
         ///--------------------------------------------------------------------------------
-        virtual public System.Collections.Generic.IList<AccountFeedItemMedia> AccountFeedItemMedias
+        public virtual System.Collections.Generic.IList<AccountFeedItemMedia> AccountFeedItemMedias
         {
             get
             {
