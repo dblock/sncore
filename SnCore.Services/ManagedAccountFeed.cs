@@ -575,13 +575,13 @@ namespace SnCore.Services
                 return false;
 
             if (string.IsNullOrEmpty(mInstance.Name) && feed.Title != null)
-                mInstance.Name = feed.Title.Content;
+                mInstance.Name = HttpUtility.HtmlDecode(feed.Title.Content);
 
             if (string.IsNullOrEmpty(mInstance.Description) && feed.SubTitle != null)
-                mInstance.Description = feed.SubTitle.Content;
+                mInstance.Description = HttpUtility.HtmlDecode(feed.SubTitle.Content);
 
             if (string.IsNullOrEmpty(mInstance.Description) && (feed.Tagline != null))
-                mInstance.Description = feed.Tagline.Content;
+                mInstance.Description = HttpUtility.HtmlDecode(feed.Tagline.Content);
 
             if (string.IsNullOrEmpty(mInstance.LinkUrl) && feed.Links.Count > 0)
             {
@@ -667,10 +667,10 @@ namespace SnCore.Services
 
                 if (string.IsNullOrEmpty(item.Description))
                 {
-                    item.Description = atomitem.Summary.Content;
+                    item.Description = HttpUtility.HtmlDecode(atomitem.Summary.Content);
                 }
 
-                item.Title = atomitem.Title.Content;
+                item.Title = HttpUtility.HtmlDecode(atomitem.Title.Content);
 
                 if (atomitem.Links.Count > 0)
                 {

@@ -16,6 +16,7 @@ using System.Xml;
 using System.Text;
 using SnCore.Tools.Web;
 using System.Reflection;
+using System.Web;
 
 namespace SnCore.Services.Tests
 {
@@ -166,6 +167,37 @@ namespace SnCore.Services.Tests
             XmlDocument transformed = new XmlDocument();
             transformed.Load(ts);
             Console.WriteLine("transformed: {0}", transformed.OuterXml);
+        }
+
+        [Test]
+        public void TestATOMKnownFeedWindosrEatsDotCom()
+        {
+            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.atom.WindsorEats.com.xml");
+            Assert.IsNotNull(s, "Missing xml resource.");
+
+            FeedType feedtype = new FeedType();
+            feedtype.Name = GetNewString();
+
+            AccountFeed feed = new AccountFeed();
+            feed.FeedType = feedtype;
+            feed.FeedUrl = "http://www.windsoreats.com/blog/?feed=atom";
+
+            IList<AccountFeedItem> deleted = new List<AccountFeedItem>();
+            List<AccountFeedItem> updated = new List<AccountFeedItem>();
+            ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
+            AtomFeed atomfeed = AtomFeed.Load(s, new Uri("http://purl.org/atom/ns#"));
+            m_feed.Update(atomfeed, deleted, updated);
+
+            Assert.AreEqual(0, deleted.Count);
+            Assert.AreEqual(10, updated.Count);
+
+            foreach (AccountFeedItem feeditem in updated)
+            {
+                // atom feed content may be encoded, save the un-encoded (unsafe) version, rendering re-encodes it
+                Console.WriteLine(feeditem.Title);
+                Assert.AreEqual(feeditem.Title, HttpUtility.HtmlDecode(feeditem.Title));
+                Assert.AreEqual(feeditem.Description, HttpUtility.HtmlDecode(feeditem.Description));
+            }
         }
 
         [Test]
