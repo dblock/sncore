@@ -566,8 +566,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account invitations count.", CacheDuration = 60)]
         public int GetAccountInvitationsCountByAccountId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountInvitation, ManagedAccountInvitation, AccountInvitation>.GetCount(
-                ticket, string.Format("WHERE AccountInvitation.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -914,8 +915,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account e-mails count.")]
         public int GetAccountEmailsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountEmail, ManagedAccountEmail, AccountEmail>.GetCount(
-                ticket, string.Format("WHERE AccountEmail.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1106,8 +1108,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get openids count.")]
         public int GetAccountOpenIdsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.GetCount(
-                ticket, string.Format("WHERE AccountOpenId.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1342,8 +1345,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account properties count.")]
         public int GetAccountPropertiesCount(string ticket, int gid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountPropertyGroup.Id", gid) };
             return WebServiceImpl<TransitAccountProperty, ManagedAccountProperty, AccountProperty>.GetCount(
-                ticket, string.Format("WHERE AccountProperty.AccountPropertyGroup.Id = {0}", gid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1605,8 +1609,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account attributes count.", CacheDuration = 60)]
         public int GetAccountAttributesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountAttribute, ManagedAccountAttribute, AccountAttribute>.GetCount(
-                ticket, string.Format("WHERE AccountAttribute.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1643,8 +1648,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account redirects count by account id.")]
         public int GetAccountRedirectsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountRedirect, ManagedAccountRedirect, AccountRedirect>.GetCount(
-                ticket, string.Format("WHERE AccountRedirect.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1802,8 +1808,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account addresses count.")]
         public int GetAccountAddressesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountAddress, ManagedAccountAddress, AccountAddress>.GetCount(
-                ticket, string.Format("WHERE AccountAddress.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1864,8 +1871,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account websites count.")]
         public int GetAccountWebsitesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountWebsite, ManagedAccountWebsite, AccountWebsite>.GetCount(
-                ticket, string.Format("WHERE AccountWebsite.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -2086,8 +2094,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get survey answers count for a single question.", CacheDuration = 60)]
         public int GetAccountSurveyAnswersCountByQuestionId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("SurveyQuestion.Id", id) };
             return WebServiceImpl<TransitAccountSurveyAnswer, ManagedAccountSurveyAnswer, AccountSurveyAnswer>.GetCount(
-                ticket, string.Format("WHERE AccountSurveyAnswer.SurveyQuestion.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -2217,8 +2226,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account message folders count.")]
         public int GetAccountMessageFoldersCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountMessageFolder, ManagedAccountMessageFolder, AccountMessageFolder>.GetCount(
-                ticket, string.Format("WHERE AccountMessageFolder.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -2290,8 +2300,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account messages count.")]
         public int GetAccountMessagesCount(string ticket, int folderid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountMessageFolder.Id", folderid) };
             return WebServiceImpl<TransitAccountMessage, ManagedAccountMessage, AccountMessage>.GetCount(
-                ticket, string.Format("WHERE AccountMessage.AccountMessageFolder.Id = {0}", folderid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -2601,8 +2612,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account flags count by account id.")]
         public int GetAccountFlagsByAccountIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetCount(
-                ticket, string.Format("WHERE AccountFlag.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -2624,8 +2636,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account flags count by flagged account id.")]
         public int GetAccountFlagsByFlaggedAccountIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("FlaggedAccount.Id", id) };
             return WebServiceImpl<TransitAccountFlag, ManagedAccountFlag, AccountFlag>.GetCount(
-                ticket, string.Format("WHERE AccountFlag.FlaggedAccount.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -2686,8 +2699,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account quotas count by account id.")]
         public int GetAccountQuotasCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountQuota, ManagedAccountQuota, AccountQuota>.GetCount(
-                ticket, string.Format("WHERE AccountQuota.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

@@ -68,8 +68,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get authored account blogs count.", CacheDuration = 60)]
         public int GetAuthoredAccountBlogsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountBlogAuthor, ManagedAccountBlogAuthor, AccountBlogAuthor>.GetCount(
-                ticket, string.Format("WHERE AccountBlogAuthor.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -80,8 +81,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account blogs count.", CacheDuration = 60)]
         public int GetAccountBlogsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountBlog, ManagedAccountBlog, AccountBlog>.GetCount(
-                ticket, string.Format("WHERE AccountBlog.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -232,8 +234,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account blog authors count.", CacheDuration = 60)]
         public int GetAccountBlogAuthorsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountBlog.Id", id) };
             return WebServiceImpl<TransitAccountBlogAuthor, ManagedAccountBlogAuthor, AccountBlogAuthor>.GetCount(
-                ticket, string.Format("WHERE AccountBlogAuthor.AccountBlog.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

@@ -150,8 +150,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussions count.")]
         public int GetDiscussionsCount(string ticket)
         {
+            ICriterion[] expressions = { Expression.Eq("Personal", false) };
             return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetCount(
-                ticket, "WHERE Discussion.Personal = 0");
+                ticket, expressions);
         }
 
         /// <summary>
@@ -179,8 +180,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account discussions count.")]
         public int GetAccountDiscussionsCount(string ticket, int id)
         {
+            ICriterion[] expressions = 
+            {
+                Expression.Eq("Personal", false),
+                Expression.Eq("Account.Id", id)
+            };
+
             return WebServiceImpl<TransitDiscussion, ManagedDiscussion, Discussion>.GetCount(
-                ticket, string.Format("WHERE Discussion.Account.Id = {0} AND Discussion.Personal = 0", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -219,8 +226,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion thread posts count.")]
         public int GetDiscussionThreadPostsCount(string ticket, int id)
         {
+            ICriterion[] expressions =  { Expression.Eq("DiscussionThread.Id", id) };
             return WebServiceImpl<TransitDiscussionPost, ManagedDiscussionPost, DiscussionPost>.GetCount(
-                ticket, string.Format("WHERE DiscussionPost.DiscussionThread.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -443,8 +451,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get discussion threads count.")]
         public int GetDiscussionThreadsCountByDiscussionId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Discussion.Id", id) };
             return WebServiceImpl<TransitDiscussionThread, ManagedDiscussionThread, DiscussionThread>.GetCount(
-                ticket, string.Format("WHERE DiscussionThread.Discussion.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

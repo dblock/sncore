@@ -97,8 +97,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get public account groups count.")]
         public int GetPublicAccountGroupsCount(string ticket)
         {
+            ICriterion[] expressions = { Expression.Eq("IsPrivate", 0) };
             return WebServiceImpl<TransitAccountGroup, ManagedAccountGroup, AccountGroup>.GetCount(
-                ticket, "WHERE AccountGroup.IsPrivate = 0");
+                ticket, expressions);
         }
 
         /// <summary>
@@ -160,8 +161,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group accounts count.")]
         public int GetAccountGroupAccountsCount(string ticket, int groupid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
             return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetCount(
-                ticket, string.Format("WHERE AccountGroupAccount.AccountGroup.Id = {0}", groupid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -184,8 +186,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group accounts count for a given account.")]
         public int GetAccountGroupAccountsByAccountIdCount(string ticket, int accountid)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", accountid) };
             return WebServiceImpl<TransitAccountGroupAccount, ManagedAccountGroupAccount, AccountGroupAccount>.GetCount(
-                ticket, string.Format("WHERE AccountGroupAccount.Account.Id = {0}", accountid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -307,8 +310,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group pictures count.", BufferResponse = true)]
         public int GetAccountGroupPicturesCount(string ticket, int groupid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
             return WebServiceImpl<TransitAccountGroupPicture, ManagedAccountGroupPicture, AccountGroupPicture>.GetCount(
-                ticket, string.Format("WHERE AccountGroupPicture.AccountGroup.Id = {0}", groupid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -389,8 +393,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group places count.")]
         public int GetAccountGroupPlacesCount(string ticket, int groupid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
             return WebServiceImpl<TransitAccountGroupPlace, ManagedAccountGroupPlace, AccountGroupPlace>.GetCount(
-                ticket, string.Format("WHERE AccountGroupPlace.AccountGroup.Id = {0}", groupid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -451,8 +456,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group account invitations count.")]
         public int GetAccountGroupAccountInvitationsCount(string ticket, int groupid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
             return WebServiceImpl<TransitAccountGroupAccountInvitation, ManagedAccountGroupAccountInvitation, AccountGroupAccountInvitation>.GetCount(
-                ticket, string.Format("WHERE AccountGroupAccountInvitation.AccountGroup.Id = {0}", groupid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -474,8 +480,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group account invitations count by account id.")]
         public int GetAccountGroupAccountInvitationsByAccountIdCount(string ticket, int accountid)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", accountid) };
             return WebServiceImpl<TransitAccountGroupAccountInvitation, ManagedAccountGroupAccountInvitation, AccountGroupAccountInvitation>.GetCount(
-                ticket, string.Format("WHERE AccountGroupAccountInvitation.Account.Id = {0}", accountid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -591,8 +598,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group account requests count.")]
         public int GetAccountGroupAccountRequestsCount(string ticket, int groupid)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountGroup.Id", groupid) };
             return WebServiceImpl<TransitAccountGroupAccountRequest, ManagedAccountGroupAccountRequest, AccountGroupAccountRequest>.GetCount(
-                ticket, string.Format("WHERE AccountGroupAccountRequest.AccountGroup.Id = {0}", groupid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -614,8 +622,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all account group account requests count by account id.")]
         public int GetAccountGroupAccountRequestsByAccountIdCount(string ticket, int accountid)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", accountid) };
             return WebServiceImpl<TransitAccountGroupAccountRequest, ManagedAccountGroupAccountRequest, AccountGroupAccountRequest>.GetCount(
-                ticket, string.Format("WHERE AccountGroupAccountRequest.Account.Id = {0}", accountid));
+                ticket, expressions);
         }
 
         /// <summary>

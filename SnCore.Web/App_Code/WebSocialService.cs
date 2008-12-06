@@ -244,8 +244,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get friend request sent count by account id.", CacheDuration = 60)]
         public int GetSentAccountFriendRequestsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetCount(
-                ticket, string.Format("WHERE AccountFriendRequest.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -255,8 +256,14 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get friend request count by account id.", CacheDuration = 60)]
         public int GetAccountFriendRequestsCount(string ticket, int id)
         {
+            ICriterion[] expressions = 
+            { 
+                Expression.Eq("Keen.Id", id),
+                Expression.Eq("Rejected", false)
+            };
+
             return WebServiceImpl<TransitAccountFriendRequest, ManagedAccountFriendRequest, AccountFriendRequest>.GetCount(
-                ticket, string.Format("WHERE AccountFriendRequest.Keen.Id = {0} AND AccountFriendRequest.Rejected = 0", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -393,8 +400,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account audit entries count.")]
         public int GetAccountAuditEntriesByAccountIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountAuditEntry, ManagedAccountAuditEntry, AccountAuditEntry>.GetCount(
-                ticket, string.Format("WHERE AccountAuditEntry.AccountId = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

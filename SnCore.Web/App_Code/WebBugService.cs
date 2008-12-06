@@ -452,9 +452,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all bugs statuses count.")]
         public int GetBugsCount(string ticket, int project_id)
         {
-            string query = string.Format("WHERE Bug.Project.Id = {0}", project_id);
+            ICriterion[] expressions = { Expression.Eq("Project.Id", project_id) };
             return WebServiceImpl<TransitBug, ManagedBug, Bug>.GetCount(
-                ticket, query);
+                ticket, expressions);
         }
 
         /// <summary>
@@ -590,9 +590,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all bug notes count.")]
         public int GetBugNotesCount(string ticket, int bug_id)
         {
-            string query = string.Format("WHERE Bug_Id = {0}", bug_id);
+            ICriterion[] expressions = { Expression.Eq("Bug.Id", bug_id) };
             return WebServiceImpl<TransitBugNote, ManagedBugNote, BugNote>.GetCount(
-                ticket, query);
+                ticket, expressions);
         }
 
         /// <summary>
@@ -655,9 +655,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all bug links count.")]
         public int GetBugLinksCount(string ticket, int bug_id)
         {
-            string query = string.Format("WHERE Bug_Id = {0}", bug_id);
+            ICriterion[] expressions = { Expression.Eq("Bug.Id", bug_id) };
             return WebServiceImpl<TransitBugLink, ManagedBugLink, BugLink>.GetCount(
-                ticket, query);
+                ticket, expressions);
         }
 
         /// <summary>

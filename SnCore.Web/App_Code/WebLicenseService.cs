@@ -54,8 +54,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account licenses count.", CacheDuration = 60)]
         public int GetAccountLicensesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountLicense, ManagedAccountLicense, AccountLicense>.GetCount(
-                ticket, string.Format("WHERE AccountLicense.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

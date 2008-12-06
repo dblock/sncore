@@ -93,8 +93,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get marketing campaign account recepients count.", CacheDuration = 60)]
         public int GetCampaignAccountRecepientsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Campaign.Id", id) };
             return WebServiceImpl<TransitCampaignAccountRecepient, ManagedCampaignAccountRecepient, CampaignAccountRecepient>.GetCount(
-                ticket, string.Format("WHERE CampaignAccountRecepient.Campaign.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

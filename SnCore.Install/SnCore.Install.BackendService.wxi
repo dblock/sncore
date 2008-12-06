@@ -29,8 +29,8 @@
                 </Component>
             </Directory>
         </DirectoryRef>
-        <CustomAction Id="SnCoreBackendServiceInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false SnCore.BackEnd.Service.exe' Return="check" />
-        <CustomAction Id="SnCoreBackendServiceUnInstall" Directory="SnCoreServicesBin" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false /u SnCore.BackEnd.Service.exe' Return="check" />
+        <CustomAction Id="SnCoreBackendServiceInstall" Directory="SnCoreServices" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false SnCore.BackEnd.Service.exe' Return="check" />
+        <CustomAction Id="SnCoreBackendServiceUnInstall" Directory="SnCoreServices" ExeCommand='"[WindowsFolder]\Microsoft.NET\Framework\v2.0.50727\installUtil.exe" /LogToConsole=false /u SnCore.BackEnd.Service.exe' Return="check" />
         <InstallExecuteSequence>
          <Custom Action="SnCoreBackendServiceInstall" After="InstallFinalize">NOT Installed</Custom>
          <Custom Action="SnCoreBackendServiceUnInstall" After="InstallFinalize">Installed</Custom>

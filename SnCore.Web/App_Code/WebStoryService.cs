@@ -75,8 +75,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all published account stories count.", CacheDuration = 60)]
         public int GetAllAccountStoriesCount(string ticket)
         {
+            ICriterion[] expressions = { Expression.Eq("Publish", true) };
             return WebServiceImpl<TransitAccountStory, ManagedAccountStory, AccountStory>.GetCount(
-                ticket, "WHERE AccountStory.Publish = 1");
+                ticket, expressions);
         }
 
         /// <summary>
@@ -216,8 +217,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get story pictures count.")]
         public int GetAccountStoryPicturesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountStory.Id", id) };
             return WebServiceImpl<TransitAccountStoryPicture, ManagedAccountStoryPicture, AccountStoryPicture>.GetCount(
-                ticket, string.Format("WHERE AccountStoryPicture.AccountStory.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

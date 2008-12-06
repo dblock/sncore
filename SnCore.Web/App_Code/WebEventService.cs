@@ -38,8 +38,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account events count by account id.")]
         public int GetAccountEventsCountByAccountId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetCount(
-                ticket, string.Format("WHERE AccountEvent.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -276,8 +277,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get event pictures count.")]
         public int GetAccountEventPicturesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountEvent.Id", id) };
             return WebServiceImpl<TransitAccountEventPicture, ManagedAccountEventPicture, AccountEventPicture>.GetCount(
-                ticket, string.Format("WHERE AccountEventPicture.AccountEvent.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

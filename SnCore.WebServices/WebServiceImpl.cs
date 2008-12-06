@@ -287,9 +287,11 @@ namespace SnCore.WebServices
 
         public static int GetCount(string ticket)
         {
-            return GetCount(ticket, string.Empty);
+            ICriterion[] expressions = null;
+            return GetCount(ticket, expressions);
         }
 
+        [Obsolete("Use GetCount(ticket, ICriterion[] expressions")]
         public static int GetCount(string ticket, string expression)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
@@ -299,6 +301,23 @@ namespace SnCore.WebServices
                 string query = string.Format("SELECT COUNT(*) FROM {0} {0} {1}",
                     typeof(DataType).Name, expression);
                 return session.CreateQuery(query).UniqueResult<int>();
+            }
+        }
+
+        public static int GetCount(string ticket, ICriterion[] expressions)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ICriteria criteria = session.CreateCriteria(typeof(DataType));
+                // optional criterion expressions
+                if (expressions != null)
+                    foreach (ICriterion criterion in expressions)
+                        criteria.Add(criterion);
+                // projection count
+                return criteria.SetProjection(Projections.Count("Id"))
+                    .UniqueResult<int>();
             }
         }
 

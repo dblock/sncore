@@ -54,11 +54,11 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
             t_instance.Phone = "(123) 123-4567";
             t_instance.Street = GetNewString();
             t_instance.Zip = "12345";
-            t_instance.Neighborhood = (string) _neighborhood.GetInstancePropertyById(GetAdminTicket(), _neighborhood_id, "Name");
-            t_instance.City = (string) _neighborhood._city.GetInstancePropertyById(GetAdminTicket(), _neighborhood._city_id, "Name");
+            t_instance.Neighborhood = (string)_neighborhood.GetInstancePropertyById(GetAdminTicket(), _neighborhood_id, "Name");
+            t_instance.City = (string)_neighborhood._city.GetInstancePropertyById(GetAdminTicket(), _neighborhood._city_id, "Name");
             t_instance.State = (string)_neighborhood._city._state.GetInstancePropertyById(GetAdminTicket(), _neighborhood._city._state_id, "Name");
             t_instance.Country = (string)_neighborhood._city._state._country.GetInstancePropertyById(GetAdminTicket(), _neighborhood._city._state._country_id, "Name");
-            t_instance.Type = (string) _type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
+            t_instance.Type = (string)_type.GetInstancePropertyById(GetAdminTicket(), _type_id, "Name");
             return t_instance;
         }
 
@@ -101,7 +101,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             WebPlaceService.TransitPlace t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
-            string tag = (string) _neighborhood._city.GetInstancePropertyById(_user.ticket, _neighborhood._city_id, "Tag");
+            string tag = (string)_neighborhood._city.GetInstancePropertyById(_user.ticket, _neighborhood._city_id, "Tag");
             Console.WriteLine("City tag: {0}", tag);
             WebPlaceService.TransitPlace t_found = EndPoint.FindPlace(_user.ticket, tag, t_instance.Name);
             Assert.IsNotNull(t_found);
@@ -114,9 +114,9 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         {
             WebPlaceService.TransitPlace t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
-            // give time to reindex
-            Thread.Sleep(2000);
+            DatabaseTestInstance.UpdateSearchIndex("Place");
             WebPlaceService.TransitPlace[] t_found = EndPoint.SearchPlaces(_user.ticket, t_instance.Name, null);
+            System.Threading.Thread.Sleep(1000);
             Assert.IsNotNull(t_found);
             Console.WriteLine("Found: {0}", t_found.Length);
             Assert.IsTrue(t_found.Length > 0);

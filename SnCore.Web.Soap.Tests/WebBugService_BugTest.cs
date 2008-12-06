@@ -153,7 +153,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         {
             WebBugService.TransitBug t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);
-            Thread.Sleep(2000); // give time to reindex
+            DatabaseTestInstance.UpdateSearchIndex("Bug");
             WebBugService.TransitBugQueryOptions options = new WebBugService.TransitBugQueryOptions();
             options.Closed = options.Open = options.Resolved = true;
             options.ProjectId = _project_id;

@@ -36,8 +36,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get mad libs count.", CacheDuration = 60)]
         public int GetMadLibsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitMadLib, ManagedMadLib, MadLib>.GetCount(
-                 ticket, string.Format("WHERE MadLib.Account.Id = {0}", id));
+                 ticket, expressions);
         }
 
         /// <summary>
@@ -102,9 +103,14 @@ namespace SnCore.WebServices
                 object_id = ManagedDataObject.Find(session, table);
             }
 
+            ICriterion[] expressions = 
+            { 
+                Expression.Eq("DataObject.Id", object_id),
+                Expression.Eq("ObjectId", id)
+            };
+
             return WebServiceImpl<TransitMadLibInstance, ManagedMadLibInstance, MadLibInstance>.GetCount(
-                ticket, string.Format("WHERE MadLibInstance.DataObject.Id = '{0}' AND MadLibInstance.ObjectId = {1}",
-                    object_id, id)); 
+                ticket, expressions); 
         }
 
         /// <summary>

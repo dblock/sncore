@@ -33,13 +33,23 @@ namespace SnCore.WebServices.Tests
         }
 
         [Test]
+        public void TestGetCount()
+        {
+            int count = WebServiceImpl<TransitType, ManagedType, DataType>.GetCount(
+                GetTicket());
+            Console.WriteLine("{0}: retreived {1} item count of type {2}.",
+                typeof(DataType).Name, count, typeof(TransitType).Name);
+            Assert.IsTrue(count >= 0);
+        }
+
+        [Test]
         public void TestGetListWithQueryOptions()
         {
             int pagesize = 10;
             ServiceQueryOptions options = new ServiceQueryOptions(10, 1);
             List<TransitType> result = WebServiceImpl<TransitType, ManagedType, DataType>.GetList(
                 GetTicket(), options);
-            Console.WriteLine("{0}: retreived {1} paged items of type {2}.",
+            Console.WriteLine("{0}: retreived {1} items of type {2}.",
                 typeof(DataType).Name, result.Count, typeof(TransitType).Name);
             Assert.IsTrue(result.Count >= 0 && result.Count <= pagesize);
         }

@@ -289,8 +289,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account feed items count.", CacheDuration = 60)]
         public int GetAccountFeedItemsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("AccountFeed.Id", id) };
             return WebServiceImpl<TransitAccountFeedItem, ManagedAccountFeedItem, AccountFeedItem>.GetCount(
-                ticket, string.Format("WHERE AccountFeedItem.AccountFeed.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -522,8 +523,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get rss watchs count.", CacheDuration = 60)]
         public int GetAccountRssWatchsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountRssWatch, ManagedAccountRssWatch, AccountRssWatch>.GetCount(
-                ticket, string.Format("WHERE AccountRssWatch.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

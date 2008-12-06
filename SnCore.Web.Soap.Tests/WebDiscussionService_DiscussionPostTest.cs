@@ -104,7 +104,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         {
             WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
             t_post.Id = Create(GetAdminTicket(), t_post);
-            Thread.Sleep(2000); // wait for reindex
+            DatabaseTestInstance.UpdateSearchIndex("DiscussionPost");
             WebDiscussionService.ServiceQueryOptions options = new WebDiscussionService.ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;
@@ -121,7 +121,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         {
             WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
             t_post.Id = Create(GetAdminTicket(), t_post);
-            Thread.Sleep(2000); // wait for reindex
+            DatabaseTestInstance.UpdateSearchIndex("DiscussionPost");
             WebDiscussionService.ServiceQueryOptions options = new WebDiscussionService.ServiceQueryOptions();
             options.PageNumber = 0;
             options.PageSize = 25;

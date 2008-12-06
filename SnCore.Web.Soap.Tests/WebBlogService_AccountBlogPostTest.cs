@@ -81,7 +81,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         {
             WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
             t_post.Id = Create(GetAdminTicket(), t_post);
-            Thread.Sleep(2000);
+            DatabaseTestInstance.UpdateSearchIndex("AccountBlogPost");
             int count = EndPoint.SearchAccountBlogPostsCount(GetAdminTicket(), t_post.Title);
             Console.WriteLine("Found {0} posts.", count);
             Assert.IsTrue(count > 0);

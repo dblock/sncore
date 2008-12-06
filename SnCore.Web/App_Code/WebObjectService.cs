@@ -216,8 +216,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get survey questions count.")]
         public int GetSurveyQuestionsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Survey.Id", id) };
             return WebServiceImpl<TransitSurveyQuestion, ManagedSurveyQuestion, SurveyQuestion>.GetCount(
-                ticket, string.Format("WHERE SurveyQuestion.Survey.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -602,8 +603,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all reminder account properties count.")]
         public int GetReminderAccountPropertiesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Reminder.Id", id) };
             return WebServiceImpl<TransitReminderAccountProperty, ManagedReminderAccountProperty, ReminderAccountProperty>.GetCount(
-                ticket, string.Format("WHERE ReminderAccountProperty.Reminder.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

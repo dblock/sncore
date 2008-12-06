@@ -254,8 +254,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place pictures count.")]
         public int GetPlacePicturesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitPlacePicture, ManagedPlacePicture, PlacePicture>.GetCount(
-                ticket, string.Format("WHERE PlacePicture.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -417,8 +418,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account places count by place id.")]
         public int GetAccountPlacesCountByPlaceId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitAccountPlace, ManagedAccountPlace, AccountPlace>.GetCount(
-                ticket, string.Format("WHERE AccountPlace.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -440,8 +442,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account places count by account id.")]
         public int GetAccountPlacesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountPlace, ManagedAccountPlace, AccountPlace>.GetCount(
-                ticket, string.Format("WHERE AccountPlace.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -525,8 +528,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place requests count by place id.", CacheDuration = 60)]
         public int GetAccountPlaceRequestsCountByPlaceId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitAccountPlaceRequest, ManagedAccountPlaceRequest, AccountPlaceRequest>.GetCount(
-                ticket, string.Format("WHERE AccountPlaceRequest.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -672,8 +676,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account place favorites count by place id.")]
         public int GetAccountPlaceFavoritesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitAccountPlaceFavorite, ManagedAccountPlaceFavorite, AccountPlaceFavorite>.GetCount(
-                ticket, string.Format("WHERE AccountPlaceFavorite.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -696,8 +701,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get account place favorites count.", CacheDuration = 60)]
         public int GetAccountPlaceFavoritesCountByAccountId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitAccountPlaceFavorite, ManagedAccountPlaceFavorite, AccountPlaceFavorite>.GetCount(
-                ticket, string.Format("WHERE AccountPlaceFavorite.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -864,8 +870,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all place names count.")]
         public int GetPlaceNamesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitPlaceName, ManagedPlaceName, PlaceName>.GetCount(
-                ticket, string.Format("WHERE PlaceName.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -988,8 +995,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all properties count.")]
         public int GetPlacePropertiesCount(string ticket, int gid)
         {
+            ICriterion[] expressions = { Expression.Eq("PlacePropertyGroup.Id", gid) };
             return WebServiceImpl<TransitPlaceProperty, ManagedPlaceProperty, PlaceProperty>.GetCount(
-                ticket, string.Format("WHERE PlaceProperty.PlacePropertyGroup.Id = {0}", gid));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1331,8 +1339,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place attributes count.", CacheDuration = 60)]
         public int GetPlaceAttributesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitPlaceAttribute, ManagedPlaceAttribute, PlaceAttribute>.GetCount(
-                ticket, string.Format("WHERE PlaceAttribute.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1509,8 +1518,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all place queues count.", CacheDuration = 60)]
         public int GetPlaceQueuesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitPlaceQueue, ManagedPlaceQueue, PlaceQueue>.GetCount(
-                ticket, string.Format("WHERE PlaceQueue.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1570,8 +1580,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all place queue items.", CacheDuration = 60)]
         public int GetPlaceQueueItemsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("PlaceQueue.Id", id) };
             return WebServiceImpl<TransitPlaceQueueItem, ManagedPlaceQueueItem, PlaceQueueItem>.GetCount(
-                ticket, string.Format("WHERE PlaceQueueItem.PlaceQueue.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1752,8 +1763,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place change requests count by account id.", CacheDuration = 60)]
         public int GetPlaceChangeRequestsCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetCount(
-                ticket, string.Format("WHERE PlaceChangeRequest.Account.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1775,8 +1787,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get place change requests count by place id.", CacheDuration = 60)]
         public int GetPlaceChangeRequestsCountByPlaceId(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitPlaceChangeRequest, ManagedPlaceChangeRequest, PlaceChangeRequest>.GetCount(
-                ticket, string.Format("WHERE PlaceChangeRequest.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -1855,8 +1868,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all place websites count.")]
         public int GetPlaceWebsitesCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Place.Id", id) };
             return WebServiceImpl<TransitPlaceWebsite, ManagedPlaceWebsite, PlaceWebsite>.GetCount(
-                ticket, string.Format("WHERE PlaceWebsite.Place.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

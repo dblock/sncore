@@ -184,8 +184,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all states within a country count.")]
         public int GetStatesByCountryIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Country.Id", id) };
             return WebServiceImpl<TransitState, ManagedState, State>.GetCount(
-                ticket, string.Format("WHERE State.Country.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -414,8 +415,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all cities within a country count.")]
         public int GetCitiesByCountryIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("Country.Id", id) };
             return WebServiceImpl<TransitCity, ManagedCity, City>.GetCount(
-                ticket, string.Format("WHERE City.Country.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -425,8 +427,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all cities within a state count.")]
         public int GetCitiesByStateIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("State.Id", id) };
             return WebServiceImpl<TransitCity, ManagedCity, City>.GetCount(
-                ticket, string.Format("WHERE City.State.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>
@@ -571,8 +574,9 @@ namespace SnCore.WebServices
         [WebMethod(Description = "Get all neighborhoods within a city count.")]
         public int GetNeighborhoodsByCityIdCount(string ticket, int id)
         {
+            ICriterion[] expressions = { Expression.Eq("City.Id", id) };
             return WebServiceImpl<TransitNeighborhood, ManagedNeighborhood, Neighborhood>.GetCount(
-                ticket, string.Format("WHERE Neighborhood.City.Id = {0}", id));
+                ticket, expressions);
         }
 
         /// <summary>

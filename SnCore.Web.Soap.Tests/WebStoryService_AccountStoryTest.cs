@@ -67,7 +67,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         {
             WebStoryService.TransitAccountStory t_instance = GetTransitInstance();
             int id = Create(GetAdminTicket(), t_instance);
-            Thread.Sleep(3 * 1000); // wait for the search index to flush
+            DatabaseTestInstance.UpdateSearchIndex("AccountStory");
             int count = EndPoint.SearchAccountStoriesCount(GetAdminTicket(), t_instance.Name);
             Console.WriteLine("Search {0}: {1}", t_instance.Name, count);
             Assert.IsTrue(count > 0);
