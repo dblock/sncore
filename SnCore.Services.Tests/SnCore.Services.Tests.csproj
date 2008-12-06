@@ -297,6 +297,14 @@
   <ItemGroup>
     <EmbeddedResource Include="atom\WindsorEats.com.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="rss\cheesaholics.blogs.com.xml" />
+    <EmbeddedResource Include="rss\dishanddirt.blogspot.com.xml" />
+    <EmbeddedResource Include="rss\www.saltshaker.net.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="atom\ScrumptiousStreet.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

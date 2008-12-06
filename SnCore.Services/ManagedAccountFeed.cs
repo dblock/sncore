@@ -700,10 +700,10 @@ namespace SnCore.Services
             foreach (RssChannel rsschannel in feed.Channels)
             {
                 if (string.IsNullOrEmpty(mInstance.Name))
-                    mInstance.Name = rsschannel.Title;
+                    mInstance.Name = HttpUtility.HtmlDecode(rsschannel.Title);
 
                 if (string.IsNullOrEmpty(mInstance.Description))
-                    mInstance.Description = rsschannel.Description;
+                    mInstance.Description = HttpUtility.HtmlDecode(rsschannel.Description);
 
                 if (string.IsNullOrEmpty(mInstance.LinkUrl))
                     mInstance.LinkUrl = rsschannel.Link.ToString();
@@ -752,8 +752,10 @@ namespace SnCore.Services
                     }
 
                     item.AccountFeed = mInstance;
-                    item.Description = string.IsNullOrEmpty(rssitem.Content) ? rssitem.Description : rssitem.Content;
-                    item.Title = rssitem.Title;
+                    item.Description = string.IsNullOrEmpty(rssitem.Content) 
+                        ? HttpUtility.HtmlDecode(rssitem.Description) 
+                        : HttpUtility.HtmlDecode(rssitem.Content);
+                    item.Title = HttpUtility.HtmlDecode(rssitem.Title);
                     if (rssitem.Link != null) item.Link = rssitem.Link.ToString();
                     if (rssitem.Guid != null) item.Guid = rssitem.Guid.Name;
                     if (rssitem.PubDate.Ticks > 0) item.Created = rssitem.PubDate.ToUniversalTime();

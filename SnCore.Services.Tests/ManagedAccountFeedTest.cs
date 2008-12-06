@@ -60,77 +60,44 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        public void TestRSSContentNosher()
+        public void TestKnownFeeds()
         {
-            TestUpdate("http://dishanddirt.blogspot.com/rss.xml");
-        }
-
-        [Test]
-        public void TestRSSContentSaltShaker()
-        {
-            TestUpdate("http://www.saltshaker.net/feed");
-        }
-
-        [Test]
-        public void TestRSSContentChesaholics()
-        {
-            TestUpdate("http://cheesaholics.blogs.com/cheesaholics_anonymous/rss.xml");
-        }
-
-        [Test]
-        public void TestRSSScrumptious()
-        {
-            TestUpdate("http://feeds.feedburner.com/ScrumptiousStreet");
-        }
-
-        private void TestUpdate(string url)
-        {
-            AccountFeed feed = new AccountFeed();
-            feed.FeedUrl = url;
-
-            IList<AccountFeedItem> deleted = feed.AccountFeedItems;
-            List<AccountFeedItem> updated = new List<AccountFeedItem>();
-
-            ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
-
-            if (!m_feed.Update(RssFeed.Read(m_feed.GetFeedHttpRequest()), deleted, updated))
-                if (!m_feed.Update(AtomFeed.Load(m_feed.GetFeedStream(), new Uri("http://purl.org/atom/ns#")), deleted, updated))
-                    if (!m_feed.Update(AtomFeed.Load(m_feed.GetFeedStream(), new Uri("http://www.w3.org/2005/Atom")), deleted, updated))
-                        throw new Exception("Invalid or empty RSS or ATOM feed.");
-
-            foreach (AccountFeedItem item in updated)
+            string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            foreach (string name in names)
             {
-                Console.WriteLine("Created: {0}", item.Created);
-                Console.WriteLine("Modified: {0}", item.Updated);
-                Console.WriteLine(item.Title);
-                Console.WriteLine(item.Description);
-                Console.WriteLine();
+                if (name.Contains(".rss.") || name.Contains(".atom."))
+                {
+                    Console.WriteLine(name);
+
+                    Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
+                    Assert.IsNotNull(s, "Missing xml resource.");
+
+                    AccountFeed feed = new AccountFeed();
+                    feed.FeedUrl = string.Format("http://{0}", name);
+
+                    IList<AccountFeedItem> deleted = feed.AccountFeedItems;
+                    List<AccountFeedItem> updated = new List<AccountFeedItem>();
+
+                    ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
+
+                    if (!m_feed.Update(RssFeed.Read(Assembly.GetExecutingAssembly().GetManifestResourceStream(name)), deleted, updated))
+                        if (!m_feed.Update(AtomFeed.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(name), new Uri("http://purl.org/atom/ns#")), deleted, updated))
+                            if (!m_feed.Update(AtomFeed.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream(name), new Uri("http://www.w3.org/2005/Atom")), deleted, updated))
+                                throw new Exception("Invalid or empty RSS or ATOM feed.");
+
+                    // feed must have all properties
+                    Assert.IsFalse(string.IsNullOrEmpty(feed.Name), "Feed name was not updated.");
+                    Assert.IsFalse(string.IsNullOrEmpty(feed.Description), "Feed description was not updated.");
+                    Assert.IsFalse(string.IsNullOrEmpty(feed.LinkUrl), "Feed link url was not updated.");
+
+                    foreach (AccountFeedItem item in updated)
+                    {
+                        Console.WriteLine(" {0} [{1}][{2}]", item.Title, item.Created, item.Updated);
+                        // titles must be fully decoded
+                        Assert.AreEqual(item.Title, HttpUtility.HtmlDecode(item.Title));
+                    }
+                }
             }
-        }
-
-        [Test]
-        public void TestRSSBlankProperties()
-        {
-            AccountFeed feed = new AccountFeed();
-            feed.FeedUrl = "http://www.saltshaker.net/feed";
-
-            IList<AccountFeedItem> deleted = feed.AccountFeedItems;
-            List<AccountFeedItem> updated = new List<AccountFeedItem>();
-
-            ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
-
-            HttpWebRequest request = m_feed.GetFeedHttpRequest();
-            RssFeed rssfeed = RssFeed.Read(request);
-
-            Assert.IsTrue(m_feed.Update(rssfeed, deleted, updated), "RSS feed was not updated.");
-
-            Console.WriteLine("Name: " + feed.Name);
-            Console.WriteLine("Description: " + feed.Description);
-            Console.WriteLine("LinkUrl: " + feed.LinkUrl);
-
-            Assert.IsFalse(string.IsNullOrEmpty(feed.Name), "Feed name was not updated.");
-            Assert.IsFalse(string.IsNullOrEmpty(feed.Description), "Feed description was not updated.");
-            Assert.IsFalse(string.IsNullOrEmpty(feed.LinkUrl), "Feed link url was not updated.");
         }
 
         [Test]
@@ -167,37 +134,6 @@ namespace SnCore.Services.Tests
             XmlDocument transformed = new XmlDocument();
             transformed.Load(ts);
             Console.WriteLine("transformed: {0}", transformed.OuterXml);
-        }
-
-        [Test]
-        public void TestATOMKnownFeedWindosrEatsDotCom()
-        {
-            Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.atom.WindsorEats.com.xml");
-            Assert.IsNotNull(s, "Missing xml resource.");
-
-            FeedType feedtype = new FeedType();
-            feedtype.Name = GetNewString();
-
-            AccountFeed feed = new AccountFeed();
-            feed.FeedType = feedtype;
-            feed.FeedUrl = "http://www.windsoreats.com/blog/?feed=atom";
-
-            IList<AccountFeedItem> deleted = new List<AccountFeedItem>();
-            List<AccountFeedItem> updated = new List<AccountFeedItem>();
-            ManagedAccountFeed m_feed = new ManagedAccountFeed(Session, feed);
-            AtomFeed atomfeed = AtomFeed.Load(s, new Uri("http://purl.org/atom/ns#"));
-            m_feed.Update(atomfeed, deleted, updated);
-
-            Assert.AreEqual(0, deleted.Count);
-            Assert.AreEqual(10, updated.Count);
-
-            foreach (AccountFeedItem feeditem in updated)
-            {
-                // atom feed content may be encoded, save the un-encoded (unsafe) version, rendering re-encodes it
-                Console.WriteLine(feeditem.Title);
-                Assert.AreEqual(feeditem.Title, HttpUtility.HtmlDecode(feeditem.Title));
-                Assert.AreEqual(feeditem.Description, HttpUtility.HtmlDecode(feeditem.Description));
-            }
         }
 
         [Test]
