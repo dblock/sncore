@@ -305,6 +305,9 @@
   <ItemGroup>
     <EmbeddedResource Include="atom\ScrumptiousStreet.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="atom\TheFoodMonkey.com.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

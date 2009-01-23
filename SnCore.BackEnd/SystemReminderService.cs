@@ -39,6 +39,7 @@ namespace SnCore.BackEndServices
             AddJob(new SessionJobDelegate(RunSystemReminders));
             AddJob(new SessionJobDelegate(RunUpdateAccountCounters));
             AddJob(new SessionJobDelegate(RunCleanupRefererHosts));
+            AddJob(new SessionJobDelegate(RunDeleteSmallCounters));
             AddJob(new SessionJobDelegate(RunCleanAccountAuditEntries));
             AddJob(new SessionJobDelegate(RunDeleteOldAccountMessages));
             AddJob(new SessionJobDelegate(RunDeleteOldEmailConfirmations));
@@ -369,6 +370,12 @@ namespace SnCore.BackEndServices
                 " WHERE rh.Total < 3 " +
                 " AND NOT EXISTS ( FROM RefererAccount ra WHERE ra.RefererHost = rh ) " +
                 " AND rh.Updated < '{0}'", DateTime.UtcNow.AddMonths(-1).ToString(DateTimeFormatInfo.InvariantInfo)));
+            session.Flush();
+        }
+
+        public void RunDeleteSmallCounters(ISession session, ManagedSecurityContext sec)
+        {
+            session.Delete("FROM Counter counter WHERE counter.Total < 5");
             session.Flush();
         }
 

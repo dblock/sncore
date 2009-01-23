@@ -271,8 +271,19 @@ namespace Atom.Core
                 switch (iter.Current.Name.ToLower())
                 {
                     case "type":
-                        contentElement.Type = Utils.Utils.ParseMediaType(
-                            iter.Current.Value);
+
+                        switch (iter.Current.Value)
+                        {
+                                // shortcut used, doesn't look like compliant to spec, should be text/html, mode="escaped"
+                            case "html":
+                                contentElement.Mode = Mode.Escaped;
+                                contentElement.Type = MediaType.TextHtml;
+                                break;
+                            default:
+                                contentElement.Type = Utils.Utils.ParseMediaType(
+                                    iter.Current.Value);
+                                break;
+                        }
                         break;
 
                     case "mode":
