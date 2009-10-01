@@ -201,7 +201,7 @@ namespace SnCore.Services
 
             if (confirmation == null)
             {
-                throw new Exception(string.Format("Error locating confirmation number \"{0}\".", id));
+                throw new Exception(string.Format("Error locating confirmation id \"{0}\".", id));
             }
 
             ManagedAccountEmailConfirmation c = new ManagedAccountEmailConfirmation(session, id);

@@ -316,6 +316,7 @@ public partial class PlaceView : Page
                 madlibs.Visible = false;
                 panelInfo.Visible = false;
                 panelCounter.Visible = false;
+                websitesView.Visible = false;
                 linkEdit.NavigateUrl = string.Format("PlaceEdit.aspx?{0}", Request.QueryString.ToString());
             }
         }

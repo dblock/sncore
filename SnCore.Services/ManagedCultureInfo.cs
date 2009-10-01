@@ -85,6 +85,12 @@ namespace SnCore.Services
                 return base.Equals(obj);
             }
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public TransitCultureInfo()
             : this(CultureInfo.CurrentCulture)
         {

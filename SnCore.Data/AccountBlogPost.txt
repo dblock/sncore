@@ -1,1 +1,2 @@
-1	1	Welcome!	<p>Welcome to the SnCore Demo. You can <a href="AccountLogin.aspx">login</a> with e-mail address "admin@localhost.com", password "password".</p>	2008/1/1	2008/1/1	1	Administrator	1	0
+1	1	Welcome!	<p>Welcome to the SnCore Demo. You can <a href="AccountLogin.aspx">login</a> with e-mail address "admin@localhost.com", password "password".</p>	2008/1/1	2008/1/1	1	Administrator	1	0	1
+

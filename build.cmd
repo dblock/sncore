@@ -16,23 +16,8 @@ if EXIST "%VisualStudioCmd%" (
  call "%VisualStudioCmd%"
 )
 
-set SvnDir=%ProgramFiles%\svn
-if NOT EXIST "%SvnDir%" set SvnDir=%ProgramFiles%\Subversion
-if NOT EXIST "%SvnDir%" (
- echo Missing SubVersion, expected in %SvnDir%
- exit /b -1
-)
-
-set NUnitDir=%ProgramFiles%\NUnit 2.4.7\bin
-if NOT EXIST "%NUnitDir%" (
- echo Missing NUnit, expected in %NUnitDir%
- exit /b -1
-)
-
-set DoxygenDir=%ProgramFiles%\doxygen\bin
-if NOT EXIST "%DoxygenDir%" (
- echo Missing Doxygen, expected in %DoxygenDir%
- exit /b -1
+for /D %%n in ( "%ProgramFiles%\NUnit*" ) do (
+ set NUnitDir=%%~n
 )
 
 set FrameworkVersion=v3.5

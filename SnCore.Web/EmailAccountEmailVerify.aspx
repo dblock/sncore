@@ -15,7 +15,7 @@
     <p>
      The e-mail address 
      <b><% Response.Write(Renderer.Render(this.AccountEmailConfirmation.AccountEmail.Address)); %></b> 
-     has been added to <a href='AccountView.aspx?id=<% Response.Write(this.Account.Id); %>'>your account</a>. You must activate it.
+     has been added to <a href='AccountView.aspx?id=<% Response.Write(this.Account.Id); %>'>your account</a>.     
      <br />
      Please 
      <a href="AccountEmailVerify.aspx?id=<% Response.Write(RequestId); %>&code=<% Response.Write(this.AccountEmailConfirmation.Code); %>">
@@ -24,7 +24,11 @@
      to confirm that this address is correct.
     </p>
     <p style="font-size: smaller;">
-     If the above link doesn't work you may be prompted to enter the confirmation code 
+     If the above link doesn't work you may browse directly to 
+     <b><% Response.Write(Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.WebSite.Url", "http://localhost"))); %>AccountEmailVerify.aspx</b>
+     where you will be prompted to enter the confirmation id 
+     <b><% Response.Write(this.AccountEmailConfirmation.Id); %></b>
+     and confirmation code 
      <b><% Response.Write(this.AccountEmailConfirmation.Code); %></b>
      manually.
     </p>

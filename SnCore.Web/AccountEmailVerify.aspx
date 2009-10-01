@@ -12,6 +12,17 @@
   <table class="sncore_table">
    <tr>
     <td class="sncore_form_label">
+     confirmation id:
+    </td>
+    <td class="sncore_form_value">
+     <asp:TextBox CssClass="sncore_form_textbox" ID="inputId" runat="server" />
+     <asp:RequiredFieldValidator ID="inputIdRequired" runat="server" ControlToValidate="inputId"
+      CssClass="sncore_form_validator" ErrorMessage="id is required"
+      Display="Dynamic" />
+    </td>
+   </tr>
+   <tr>
+    <td class="sncore_form_label">
      code:
     </td>
     <td class="sncore_form_value">

@@ -18,6 +18,10 @@ public partial class AccountEmailVerify : Page
     {
         if (!IsPostBack)
         {
+            inputId.Text = (RequestId == 0) 
+                ? string.Empty 
+                : RequestId.ToString();
+                    
             inputCode.Text = Request.QueryString["code"];
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
@@ -37,14 +41,27 @@ public partial class AccountEmailVerify : Page
 
     public void EmailVerify_Click(object sender, EventArgs e)
     {
+        int id = RequestId;
+        if (!int.TryParse(inputId.Text, out id))
+        {
+            throw new Exception(string.Format("Confirmation id '{0}' is not a valid number.", 
+                inputId.Text));
+        }
+
         string emailaddress = SessionManager.AccountService.VerifyAccountEmail(
-            RequestId,
-            inputCode.Text);
+            id,  inputCode.Text);
 
         panelVerify.Visible = false;
         ReportInfo(string.Format("Thank you. Your e-mail address '{0}' has been verified." +
             "<br>Click <a href='AccountManage.aspx'>here</a> to continue.", Renderer.Render(emailaddress)), false);
 
         SessionManager.InvalidateCache<TransitAccount>();
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        inputId.Enabled = (RequestId <= 0);
+        inputCode.Enabled = (string.IsNullOrEmpty(Request.QueryString["code"]));
+        base.OnPreRender(e);
     }
 }
