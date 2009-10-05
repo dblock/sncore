@@ -215,7 +215,7 @@ public partial class PlacesView : Page
         panelLinks.Update();
     }
 
-    void History_Navigate(object sender, HistoryEventArgs e)
+    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
     {
         string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
         if (!string.IsNullOrEmpty(s))
@@ -335,7 +335,7 @@ public partial class PlacesView : Page
         linkRelRss.NavigateUrl = string.Format("PlacesRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("PlacesView.aspx?{0}", args);
 
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        if (!(e is nStuff.UpdateControls.HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitPlace, TransitPlaceQueryOptions>(

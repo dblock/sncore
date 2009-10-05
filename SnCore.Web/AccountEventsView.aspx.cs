@@ -222,7 +222,7 @@ public partial class AccountEventsView : Page
         panelSearch.Update();
     }
 
-    void History_Navigate(object sender, HistoryEventArgs e)
+    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
     {
         string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
         if (!string.IsNullOrEmpty(s))

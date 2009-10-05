@@ -40,7 +40,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
                     SessionManager.Ticket, RequestId);
 
                 inputName.Text = ts.Name;
-                inputSummary.Text = ts.Summary;
+                inputSummary.Content = ts.Summary;
                 inputPublish.Checked = ts.Publish;
 
                 linkAddPictures.NavigateUrl = string.Format("AccountStoryPicturesManage.aspx?id={0}", ts.Id);
@@ -99,7 +99,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
                 GetImagesData(source, e);
                 break;
             case "Insert":
-                inputSummary.Text = inputSummary.Text +
+                inputSummary.Content = inputSummary.Content +
                         string.Format("<P><IMG SRC=\"AccountStoryPicture.aspx?id={0}\" WIDTH=\"250\" /></P>", id);
                 break;
         }
@@ -109,7 +109,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
     {
         TransitAccountStory s = new TransitAccountStory();
         s.Name = inputName.Text;
-        s.Summary = inputSummary.Text;
+        s.Summary = inputSummary.Content;
         s.Publish = inputPublish.Checked;
         s.Id = RequestId;
         s.Id = SessionManager.CreateOrUpdate<TransitAccountStory>(
@@ -132,14 +132,14 @@ public partial class AccountStoryEdit : AuthenticatedPage
 
     public void clean(object sender, EventArgs e)
     {
-        inputSummary.Text = Renderer.CleanHtml(inputSummary.Text);
-        inputSummary.Text = Renderer.RemoveHtml(inputSummary.Text);
-        inputSummary.Text = Regex.Replace(inputSummary.Text, @"([\s*][\r\n]+[\s]*)(?<text>[^\r\n]*)", "<p>${text}</p>");
+        inputSummary.Content = Renderer.CleanHtml(inputSummary.Content);
+        inputSummary.Content = Renderer.RemoveHtml(inputSummary.Content);
+        inputSummary.Content = Regex.Replace(inputSummary.Content, @"([\s*][\r\n]+[\s]*)(?<text>[^\r\n]*)", "<p>${text}</p>");
     }
 
     public void linkSummarize_Click(object sender, EventArgs e)
     {
-        List<HtmlImage> list = HtmlImageExtractor.Extract(inputSummary.Text);
+        List<HtmlImage> list = HtmlImageExtractor.Extract(inputSummary.Content);
         string imageuri = string.Empty;
         if (list.Count > 0)
         {
@@ -166,7 +166,7 @@ public partial class AccountStoryEdit : AuthenticatedPage
              "</tr>\n" +
             "</table>",
             imageuri,
-            Renderer.GetSummary(inputSummary.Text),
+            Renderer.GetSummary(inputSummary.Content),
             string.Format("AccountStoryView.aspx?id={0}", RequestId),
             Renderer.Render(inputName.Text));
     }

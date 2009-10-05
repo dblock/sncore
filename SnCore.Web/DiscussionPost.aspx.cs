@@ -150,7 +150,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
                 body.Append("</P>");
             }
 
-            inputBody.Text = body.ToString();
+            inputBody.Content = body.ToString();
 
             StackSiteMap(sitemapdata);
         }
@@ -172,7 +172,7 @@ public partial class DiscussionPostNew : AuthenticatedPage
         TransitDiscussionPost tw = new TransitDiscussionPost();
         tw.Subject = inputSubject.Text;
         if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
-        tw.Body = inputBody.Text;
+        tw.Body = inputBody.Content;
         tw.Id = PostId;
         tw.DiscussionPostParentId = ParentId;
         tw.DiscussionId = DiscussionId;
@@ -209,8 +209,8 @@ public partial class DiscussionPostNew : AuthenticatedPage
 
                     Size size = t.GetNewSize(new Size(200, 200));
 
-                    inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
-                        size.Width, size.Height, id, inputBody.Text);
+                    inputBody.Content = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
+                        size.Width, size.Height, id, inputBody.Content);
                 }
                 catch (Exception ex)
                 {

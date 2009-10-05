@@ -465,7 +465,6 @@
                         <File Id="SnCoreBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Atom.NET.dll" />
                         <File Id="SnCoreBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Castle.DynamicProxy.dll" />
                         <File Id="SnCoreBinDirtyPanel_dll" Name="DirtyPanel.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\DirtyPanel.dll" />
-                        <File Id="SnCoreBinFreeTextBox_dll" Name="FreeTextBox.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\FreeTextBox.dll" />
                         <File Id="SnCoreBinICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\ICalParser.dll" />
                         <File Id="SnCoreBinIesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Iesi.Collections.dll" />
                         <File Id="SnCoreBinJanrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Janrain.OpenId.dll" />
@@ -692,7 +691,6 @@
                         <File Id="SnCore_mobileBinApp_WebReferences_dll" Name="App_WebReferences.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\App_WebReferences.dll" />
                         <File Id="SnCore_mobileBinAtom_NET_dll" Name="Atom.NET.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Atom.NET.dll" />
                         <File Id="SnCore_mobileBinCastle_DynamicProxy_dll" Name="Castle.DynamicProxy.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Castle.DynamicProxy.dll" />
-                        <File Id="SnCore_mobileBinFreeTextBox_dll" Name="FreeTextBox.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\FreeTextBox.dll" />
                         <File Id="SnCore_mobileBinICalParser_dll" Name="ICalParser.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\ICalParser.dll" />
                         <File Id="SnCore_mobileBinIesi_Collections_dll" Name="Iesi.Collections.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Iesi.Collections.dll" />
                         <File Id="SnCore_mobileBinJanrain_OpenId_dll" Name="Janrain.OpenId.dll" Source="$(var.SnCore.MobileDeploy.Target.Path)\bin\Janrain.OpenId.dll" />

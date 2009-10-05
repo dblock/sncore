@@ -3,7 +3,7 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <table width="100%">
  <tr>
@@ -27,10 +27,10 @@
   <asp:Label ID="labelThreadsPosts" runat="server" />
  </span>
 </div>
-<ajaxtoolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
+<ajaxToolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
  TargetControlID="panelSearch" Collapsed="true" ExpandedSize="75"
  ExpandControlID="linkSearch" CollapseControlID="linkSearch" SuppressPostBack="true">
-</ajaxtoolkit:CollapsiblePanelExtender>
+</ajaxToolkit:CollapsiblePanelExtender>
 <asp:Panel ID="panelSearch" runat="server" CssClass="sncore_collapsed_div">
  <table runat="server" id="tableSearch" class="sncore_table">
   <tr>

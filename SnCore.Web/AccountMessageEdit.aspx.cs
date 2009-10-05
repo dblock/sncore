@@ -89,7 +89,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
                 body.Append("</P>");
             }
 
-            inputBody.Text = body.ToString();
+            inputBody.Content = body.ToString();
 
             if (!SessionManager.HasVerifiedEmailAddress())
             {
@@ -115,7 +115,7 @@ public partial class AccountMessageEdit : AuthenticatedPage
 
         tw.Subject = inputSubject.Text;
         if (string.IsNullOrEmpty(tw.Subject)) tw.Subject = "Untitled";
-        tw.Body = inputBody.Text;
+        tw.Body = inputBody.Content;
         tw.RecepientAccountId = tw.AccountId = RequestId;
         tw.AccountMessageFolderId = 0;
         SessionManager.AccountService.CreateOrUpdateAccountMessage(SessionManager.Ticket, tw);

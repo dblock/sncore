@@ -1,7 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountStoryEdit.aspx.cs"
  Inherits="AccountStoryEdit" Title="Account Story" %>
 
-<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
@@ -34,7 +33,7 @@
      story:
     </td>
     <td class="sncore_form_value">
-     <ftb:freetextbox id="inputSummary" runat="Server" />
+     <ajaxToolkitHTMLEditor:Editor id="inputSummary" runat="server" Height="400px" InitialCleanUp="true" />
     </td>
    </tr>
    <tr>

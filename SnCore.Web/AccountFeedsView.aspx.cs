@@ -111,7 +111,7 @@ public partial class AccountFeedsView : Page
         return options;
     }
 
-    void History_Navigate(object sender, HistoryEventArgs e)
+    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
     {
         string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
         if (!string.IsNullOrEmpty(s))
@@ -194,7 +194,10 @@ public partial class AccountFeedsView : Page
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeed, TransitAccountFeedQueryOptions>(
             options, serviceoptions, SessionManager.SyndicationService.GetAccountFeeds);
 
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
+        {
+            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+        }
 
         panelLinks.Update();
     }

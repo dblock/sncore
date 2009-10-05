@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="SelectDateControl.ascx.cs"
  Inherits="SelectDateControl" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+
 <asp:UpdatePanel ID="updatePanelCalendar" RenderMode="Inline" UpdateMode="Conditional" runat="Server">
  <ContentTemplate>
   <asp:DropDownList ID="selectdateYear" runat="server" CssClass="sncore_form_dropdown_auto"
@@ -12,7 +12,7 @@
    OnSelectedIndexChanged="selectionChanged" AutoPostBack="true" />
   <asp:ImageButton ID="linkCalendar" CausesValidation="false" runat="server"
    ImageUrl="images/calendar.gif" ImageAlign="AbsMiddle" />
-  <ajaxtoolkit:CollapsiblePanelExtender ID="panelCalendarExtender" runat="server" 
+  <ajaxToolkit:CollapsiblePanelExtender ID="panelCalendarExtender" runat="server" 
    TargetControlID="panelCalendar" Collapsed="true" CollapsedSize="0" ExpandedSize="220"
    ExpandControlID="linkCalendar" CollapseControlID="linkCalendar" SuppressPostBack="true"/>
   <asp:Panel ID="panelCalendar" runat="server" CssClass="sncore_calendar">

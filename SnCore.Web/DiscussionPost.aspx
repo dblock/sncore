@@ -1,7 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="DiscussionPost.aspx.cs"
  Inherits="DiscussionPostNew" Title="Discussion Post" %>
 
-<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="WilcoWebControls" Namespace="Wilco.Web.UI.WebControls" Assembly="Wilco.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
@@ -88,7 +87,7 @@
      body:
     </td>
     <td class="sncore_form_value">
-     <FTB:FreeTextBox id="inputBody" runat="Server" />
+     <ajaxToolkitHTMLEditor:Editor id="inputBody" runat="server" Height="400px" InitialCleanUp="true" />
     </td>
    </tr>
    <tr>

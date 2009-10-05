@@ -65,7 +65,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
             if (RequestId != 0)
             {
                 TransitAccountBlogPost post = SessionManager.BlogService.GetAccountBlogPostById(SessionManager.Ticket, RequestId);
-                inputBody.Text = post.Body;
+                inputBody.Content = post.Body;
                 inputTitle.Text = post.Title;
                 inputSticky.Checked = post.Sticky;
                 inputPublish.Checked = post.Publish;
@@ -89,7 +89,7 @@ public partial class AccountBlogPostNew : AuthenticatedPage
     {
         TransitAccountBlogPost tp = new TransitAccountBlogPost();
         tp.Title = inputTitle.Text;
-        tp.Body = inputBody.Text;
+        tp.Body = inputBody.Content;
         tp.AccountBlogId = BlogId;
         tp.Id = RequestId;
         tp.EnableComments = enableComments.Checked;
@@ -142,8 +142,8 @@ public partial class AccountBlogPostNew : AuthenticatedPage
 
                     Size size = t.GetNewSize(new Size(200, 200));
 
-                    inputBody.Text = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
-                        size.Width, size.Height, id, inputBody.Text);
+                    inputBody.Content = string.Format("<a href=AccountPictureView.aspx?id={2}><img border=0 width={0} height={1} src=AccountPicture.aspx?id={2}></a>\n{3}",
+                        size.Width, size.Height, id, inputBody.Content);
                 }
                 catch (Exception ex)
                 {

@@ -6,11 +6,13 @@ using System.ComponentModel.Design;
 using System.Collections.Generic;
 using System.Text;
 using AjaxControlToolkit;
+using System.Reflection;
 
 [assembly: System.Web.UI.WebResource("SnCore.WebControls.DirtyPanelExtenderBehavior.js", "text/javascript")]
 
 namespace SnCore.WebControls
 {
+    [Designer(typeof(DirtyPanelExtenderDesigner))]
     [ClientScriptResource("SnCore.WebControls.DirtyPanelExtenderBehavior", "SnCore.WebControls.DirtyPanelExtenderBehavior.js")]
     [TargetControlType(typeof(Panel))]
     [TargetControlType(typeof(UpdatePanel))]
@@ -48,9 +50,35 @@ namespace SnCore.WebControls
             List<string> values = new List<string>();
             foreach (Control control in coll)
             {
-                if (control is DropDownList || control is RadioButtonList)
+                if (control is RadioButtonList)
                 {
-                    values.Add(string.Format("{0}:{1}", control.ClientID, ((ListControl)control).SelectedIndex));
+                    for (int i = 0; i < ((RadioButtonList)control).Items.Count; i++)
+                    {
+                        values.Add(string.Format("{0}_{1}:{2}", control.ClientID, i, ((RadioButtonList)control).Items[i].Selected.ToString().ToLower()));
+                    }
+                }
+                else if (control is CheckBox && control.Parent is CheckBoxList)
+                {
+                    // checked checkboxes within a list appear as real controls
+                }
+                else if (control is CheckBoxList)
+                {
+                    for (int i = 0; i < ((CheckBoxList)control).Items.Count; i++)
+                    {
+                        values.Add(string.Format("{0}_{1}:{2}", control.ClientID, i, ((CheckBoxList)control).Items[i].Selected.ToString().ToLower()));
+                    }
+                }
+                else if (control is ListControl)
+                {
+                    StringBuilder data = new StringBuilder();
+                    StringBuilder selection = new StringBuilder();
+                    foreach (ListItem item in ((ListControl)control).Items)
+                    {
+                        data.AppendLine(item.Text);
+                        selection.AppendLine(item.Selected.ToString().ToLower());
+                    }
+                    values.Add(string.Format("{0}:data:{1}", control.ClientID, Uri.EscapeDataString(data.ToString())));
+                    values.Add(string.Format("{0}:selection:{1}", control.ClientID, Uri.EscapeDataString(selection.ToString())));
                 }
                 else if (control is IEditableTextControl)
                 {
@@ -60,9 +88,10 @@ namespace SnCore.WebControls
                 {
                     values.Add(string.Format("{0}:{1}", control.ClientID, ((ICheckBoxControl)control).Checked.ToString().ToLower()));
                 }
-                else if (control is FreeTextBoxControls.FreeTextBox)
+                else if (control is AjaxControlToolkit.HTMLEditor.Editor)
                 {
-                    values.Add(string.Format("{0}:{1}", control.ClientID, ((FreeTextBoxControls.FreeTextBox)control).Text));
+                    AjaxControlToolkit.HTMLEditor.Editor editorControl = control as AjaxControlToolkit.HTMLEditor.Editor;
+                    values.Add(string.Format("{0}:{1}", editorControl.ClientID, editorControl.Content));
                 }
 
                 values.AddRange(GetValuesArray(control.Controls));
@@ -73,8 +102,12 @@ namespace SnCore.WebControls
         public void ResetDirtyFlag()
         {
             ScriptManager.RegisterClientScriptBlock(TargetControl, TargetControl.GetType(),
-                string.Format("{0}_Values_Update", TargetControl.ClientID), string.Format("document.getElementById('{0}').value = '{1}';",
+                string.Format("{0}_Values_Update", TargetControl.ClientID), string.Format("document.getElementById(\"{0}\").value = \"{1}\";",
                     string.Format("{0}_Values", TargetControl.ClientID), String.Join(",", GetValuesArray())), true);
         }
     }
 }
+
+
+
+

@@ -3,7 +3,7 @@
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <SnCore:Title ID="titleDiscussions" Text="Discussions" runat="server">  
@@ -24,10 +24,10 @@
   <a href="DiscussionThreadsView.aspx">&#187; New Posts</a>
   <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" CausesValidation="false" />
  </div>
- <ajaxtoolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
+ <ajaxToolkit:CollapsiblePanelExtender ID="panelSearchExtender" runat="server"
   TargetControlID="panelSearch" Collapsed="true" ExpandedSize="75"
   ExpandControlID="linkSearch" CollapseControlID="linkSearch" SuppressPostBack="true">
- </ajaxtoolkit:CollapsiblePanelExtender>
+ </ajaxToolkit:CollapsiblePanelExtender>
  <asp:Panel ID="panelSearch" runat="server" CssClass="sncore_collapsed_div">
   <table class="sncore_table">
    <tr>

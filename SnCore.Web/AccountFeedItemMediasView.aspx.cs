@@ -49,7 +49,7 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
         }
     }
 
-    void History_Navigate(object sender, HistoryEventArgs e)
+    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
     {
         string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
         if (!string.IsNullOrEmpty(s))
@@ -118,7 +118,10 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
             QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemMedias);
 
         string args = string.Format("page={0}", gridManage.CurrentPageIndex);
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
+        {
+            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        }
     }
 
     public void gridManage_ItemCommand(object sender, DataListCommandEventArgs e)

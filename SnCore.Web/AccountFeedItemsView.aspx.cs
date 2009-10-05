@@ -100,7 +100,7 @@ public partial class AccountFeedItemsView : Page
         return options;
     }
 
-    void History_Navigate(object sender, HistoryEventArgs e)
+    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
     {
         string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
         if (!string.IsNullOrEmpty(s))
@@ -179,7 +179,10 @@ public partial class AccountFeedItemsView : Page
                 Renderer.UrlEncode(options.Search),
                 gridManage.CurrentPageIndex);
 
-        if (!(e is HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
+        {
+            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+        }
 
         linkRelRss.NavigateUrl = string.Format("AccountFeedItemsRss.aspx?{0}", queryargs);
         linkPermalink.NavigateUrl = string.Format("AccountFeedItemsView.aspx?{0}", queryargs);

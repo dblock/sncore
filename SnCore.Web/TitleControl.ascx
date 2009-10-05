@@ -1,11 +1,11 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="TitleControl.ascx.cs"
  Inherits="TitleControl" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+
 <!-- NOEMAIL-START -->
-<ajaxtoolkit:CollapsiblePanelExtender ID="panelTitleExtender" runat="server"
+<ajaxToolkit:CollapsiblePanelExtender ID="panelTitleExtender" runat="server"
  TargetControlID="panelTitle" Collapsed="true" CollapsedSize="42" ExpandedSize="150"
  ExpandControlID="imageHelp" CollapseControlID="imageHelp" SuppressPostBack="true">
-</ajaxtoolkit:CollapsiblePanelExtender>
+</ajaxToolkit:CollapsiblePanelExtender>
 <asp:Panel ID="panelTitle" runat="server" CssClass="sncore_title_panel">
  <div class="sncore_h2">
   <asp:Label ID="labelText" runat="server" Text="Untitled" />

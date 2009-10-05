@@ -5,17 +5,17 @@
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxtoolkit" %>
+
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <asp:UpdatePanel id="panelFolders" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <div class="sncore_link" style="position: relative; left: 500px;">
     <asp:LinkButton Text="&#187; show folders" runat="server" id="linkFolders" />
    </div>
-   <ajaxtoolkit:CollapsiblePanelExtender ID="panelFoldersListExtender" runat="server"
+   <ajaxToolkit:CollapsiblePanelExtender ID="panelFoldersListExtender" runat="server"
     TargetControlID="panelFoldersList" Collapsed="true" CollapsedSize="0" ExpandedSize="250"
     ExpandControlID="linkFolders" CollapseControlID="linkFolders" SuppressPostBack="true">
-   </ajaxtoolkit:CollapsiblePanelExtender>
+   </ajaxToolkit:CollapsiblePanelExtender>
    <asp:Panel id="panelFoldersList" runat="server" style="height: 0px; overflow: hidden">
     <div class="sncore_h2" id="divFolders">
      Folders

@@ -3,7 +3,6 @@
 
 <%@ Register TagPrefix="SnCore" TagName="AccountMenu" Src="AccountMenuControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-<%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel ID="panelReplyTo" runat="server" Visible="false">
   <div class="sncore_h2">
@@ -68,7 +67,7 @@
       </tr>
       <tr>
        <td class="sncore_form_value">
-        <FTB:FreeTextBox id="inputBody" runat="Server" />
+        <ajaxToolkitHTMLEditor:Editor id="inputBody" runat="server" Height="400px" InitialCleanUp="true" />
        </td>
       </tr>
       <tr>
