@@ -15,7 +15,6 @@ using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using nStuff.UpdateControls;
 using SnCore.WebControls;
 
 [SiteMapDataAttribute("Events")]
@@ -188,6 +187,20 @@ public partial class AccountEventsView : Page
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountEvent, int, TransitAccountEventQueryOptions>(
             SessionManager.UtcOffset, options, serviceoptions, SessionManager.EventService.GetAccountEvents);
 
+        if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack &&
+            !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)
+        {
+            NameValueCollection history = new NameValueCollection();
+            history.Add("city", options.City);
+            history.Add("country", options.Country);
+            history.Add("state", options.State);
+            history.Add("name", options.Name);
+            history.Add("neighborhood", options.Neighborhood);
+            history.Add("type", options.Type);
+            history.Add("page", gridManage.CurrentPageIndex.ToString());
+            ((SnCoreMasterPage)Master).ScriptManager.AddHistoryPoint(history, Page.Title);
+        }
+
         panelLinks.Update();
     }
 
@@ -222,19 +235,18 @@ public partial class AccountEventsView : Page
         panelSearch.Update();
     }
 
-    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
+    void History_Navigate(object sender, HistoryEventArgs e)
     {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
+        if (e.State.HasKeys())
         {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(args);
+            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(e.State);
             l_args.Clear = true;
             LocationSelector.SelectLocation(sender, l_args);
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
-            gridManage_OnGetDataSource(sender, e);
-            gridManage.DataBind();
+            gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
         }
+
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     void LocationSelector_CityChanged(object sender, EventArgs e)

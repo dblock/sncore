@@ -13,7 +13,6 @@ using System.Text;
 using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
-using nStuff.UpdateControls;
 using System.Collections.Specialized;
 using SnCore.WebControls;
 
@@ -48,7 +47,8 @@ public partial class AccountFeedsView : Page
         LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
         LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
 
-        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
+        ((SnCoreMasterPage)Master).ScriptManager.Navigate += new EventHandler<HistoryEventArgs>(History_Navigate);
+
         if (!IsPostBack)
         {
             linkLocal.Visible = SessionManager.IsLoggedIn && !string.IsNullOrEmpty(SessionManager.Account.City);
@@ -111,19 +111,12 @@ public partial class AccountFeedsView : Page
         return options;
     }
 
-    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
+    void History_Navigate(object sender, HistoryEventArgs e)
     {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
+        if (e.State.HasKeys())
         {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+            gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
         }
-        else
-        {
-            gridManage.CurrentPageIndex = 0;
-        }
-
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -194,9 +187,18 @@ public partial class AccountFeedsView : Page
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeed, TransitAccountFeedQueryOptions>(
             options, serviceoptions, SessionManager.SyndicationService.GetAccountFeeds);
 
-        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
+        if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack &&
+            !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)
         {
-            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+            NameValueCollection history = new NameValueCollection();
+            history.Add("city", options.City);
+            history.Add("country", options.Country);
+            history.Add("state", options.State);
+            history.Add("name", options.Name);
+            history.Add("sortorder", options.SortOrder);
+            history.Add("sortascending", options.SortAscending.ToString());
+            history.Add("page", gridManage.CurrentPageIndex.ToString());
+            ((SnCoreMasterPage)Master).ScriptManager.AddHistoryPoint(history, Page.Title);
         }
 
         panelLinks.Update();

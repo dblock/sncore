@@ -9,7 +9,6 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using SnCore.Tools.Web;
-using nStuff.UpdateControls;
 using System.Threading;
 
 public partial class SnCoreMasterPage : MasterPage
@@ -112,11 +111,11 @@ public partial class SnCoreMasterPage : MasterPage
         Redirect("Default.aspx");
     }
 
-    public UpdateHistory History
+    public ScriptManager ScriptManager
     {
         get
         {
-            return updateHistory;
+            return scriptmanager1;
         }
     }
 }

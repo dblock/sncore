@@ -13,7 +13,6 @@ using SnCore.Services;
 using SnCore.WebServices;
 using Wilco.Web.UI;
 using SnCore.SiteMap;
-using nStuff.UpdateControls;
 using System.Collections.Specialized;
 using System.Text;
 
@@ -36,7 +35,7 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
+        ((SnCoreMasterPage)Master).ScriptManager.Navigate += new EventHandler<HistoryEventArgs>(History_Navigate);
         if (!IsPostBack)
         {
             linkEdit.Visible = SessionManager.IsAdministrator;
@@ -49,19 +48,12 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
         }
     }
 
-    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
+    void History_Navigate(object sender, HistoryEventArgs e)
     {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
+        if (e.State.HasKeys())
         {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+            gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
         }
-        else
-        {
-            gridManage.CurrentPageIndex = 0;
-        }
-
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -117,10 +109,12 @@ public partial class AccountFeedItemMediasView : AccountPersonPage
         gridManage.DataSource = SessionManager.GetCollection<TransitAccountFeedItemMedia, TransitAccountFeedItemMediaQueryOptions>(
             QueryOptions, serviceoptions, SessionManager.SyndicationService.GetAccountFeedItemMedias);
 
-        string args = string.Format("page={0}", gridManage.CurrentPageIndex);
-        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
+        if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack &&
+            !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)
         {
-            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+            NameValueCollection history = new NameValueCollection();
+            history.Add("page", gridManage.CurrentPageIndex.ToString());
+            ((SnCoreMasterPage)Master).ScriptManager.AddHistoryPoint(history, Page.Title);
         }
     }
 

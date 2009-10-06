@@ -13,7 +13,6 @@ using System.Text;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
-using nStuff.UpdateControls;
 using SnCore.Tools.Web.Html;
 using System.Collections.Specialized;
 using SnCore.WebControls;
@@ -50,7 +49,8 @@ public partial class AccountFeedItemsView : Page
         LocationSelector.StateChanged += new EventHandler(LocationSelector_StateChanged);
         LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
 
-        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
+        ((SnCoreMasterPage)Master).ScriptManager.Navigate += new EventHandler<HistoryEventArgs>(History_Navigate);
+
         SetDefaultButton(search);
         if (!IsPostBack)
         {
@@ -100,21 +100,12 @@ public partial class AccountFeedItemsView : Page
         return options;
     }
 
-    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
+    void History_Navigate(object sender, HistoryEventArgs e)
     {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
+        if (e.State.HasKeys())
         {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            inputSearch.Text = args["q"];
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
+            gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
         }
-        else
-        {
-            inputSearch.Text = Request["q"];
-            gridManage.CurrentPageIndex = 0;
-        }
-
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }
@@ -179,9 +170,16 @@ public partial class AccountFeedItemsView : Page
                 Renderer.UrlEncode(options.Search),
                 gridManage.CurrentPageIndex);
 
-        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
+        if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack &&
+            !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)
         {
-            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(queryargs)));
+            NameValueCollection history = new NameValueCollection();
+            history.Add("city", options.City);
+            history.Add("country", options.Country);
+            history.Add("state", options.State);
+            history.Add("search", options.Search);
+            history.Add("page", gridManage.CurrentPageIndex.ToString());
+            ((SnCoreMasterPage)Master).ScriptManager.AddHistoryPoint(history, Page.Title);
         }
 
         linkRelRss.NavigateUrl = string.Format("AccountFeedItemsRss.aspx?{0}", queryargs);

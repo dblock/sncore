@@ -14,7 +14,6 @@ using SnCore.Services;
 using SnCore.WebServices;
 using System.Collections.Generic;
 using SnCore.SiteMap;
-using nStuff.UpdateControls;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using SnCore.WebControls;
@@ -157,7 +156,7 @@ public partial class PlacesView : Page
         LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
         LocationSelector.LocationChanged += new EventHandler(LocationSelector_LocationChanged);
 
-        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
+        ((SnCoreMasterPage)Master).ScriptManager.Navigate += new EventHandler<HistoryEventArgs>(History_Navigate);
 
         neighborhoods.OnChange += new EventHandler(neighborhoods_OnChange);
 
@@ -215,19 +214,23 @@ public partial class PlacesView : Page
         panelLinks.Update();
     }
 
-    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
+    void History_Navigate(object sender, HistoryEventArgs e)
     {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
+        if (e.State.HasKeys())
         {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(args);
+            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(e.State);
             l_args.Clear = true;
             LocationSelector.SelectLocation(sender, l_args);
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
-            gridManage_OnGetDataSource(sender, e);
-            gridManage.DataBind();
+            gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
+            inputName.Text = e.State["name"];
+            if (inputName.Text.Length == 1)
+            {
+                atoz.SelectedValue = inputName.Text[0];
+            }
         }
+
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     void GetNeighborhoodsData(object sender, EventArgs e)
@@ -335,7 +338,20 @@ public partial class PlacesView : Page
         linkRelRss.NavigateUrl = string.Format("PlacesRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("PlacesView.aspx?{0}", args);
 
-        if (!(e is nStuff.UpdateControls.HistoryEventArgs)) ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
+        if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack && 
+            !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)
+        {
+            NameValueCollection history = new NameValueCollection();
+            history.Add("city", options.City);
+            history.Add("country", options.Country);
+            history.Add("state", options.State);
+            history.Add("name", options.Name);
+            history.Add("type", options.Type);
+            history.Add("picturesonly", options.PicturesOnly.ToString());
+            history.Add("neighborhood", options.Neighborhood);
+            history.Add("page", gridManage.CurrentPageIndex.ToString());
+            ((SnCoreMasterPage)Master).ScriptManager.AddHistoryPoint(history, Page.Title);
+        }
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions(gridManage.PageSize, gridManage.CurrentPageIndex);
         gridManage.DataSource = SessionManager.GetCollection<TransitPlace, TransitPlaceQueryOptions>(

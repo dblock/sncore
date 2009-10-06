@@ -107,9 +107,8 @@
       </asp:Panel>
      </td>
      <td width="16">
-      <ajaxToolkit:ToolkitScriptManager CombineScripts="true" ID="scriptmanager1" EnablePartialRendering="true"
-       runat="Server" />
-      <nStuff:UpdateHistory runat="server" ID="updateHistory" />
+      <ajaxToolkit:ToolkitScriptManager CombineScripts="true" ID="scriptmanager1" 
+       runat="Server" EnableHistory="true" EnableSecureHistoryState="false" />
       <div style="width: 16px;">
        <asp:UpdateProgress DisplayAfter="1000" ID="menuProgress" runat="server">
         <ProgressTemplate>

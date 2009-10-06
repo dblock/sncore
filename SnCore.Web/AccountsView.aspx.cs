@@ -13,7 +13,6 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.SiteMap;
 using System.Collections.Generic;
-using nStuff.UpdateControls;
 using System.Text;
 using System.Collections.Specialized;
 using SnCore.WebControls;
@@ -131,7 +130,7 @@ public partial class AccountsView : AccountPersonPage
         LocationSelector.CityChanged += new EventHandler(LocationSelector_CityChanged);
 
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
-        ((SnCoreMasterPage)Master).History.Navigate += new HistoryEventHandler(History_Navigate);
+        ((SnCoreMasterPage)Master).ScriptManager.Navigate += new EventHandler<HistoryEventArgs>(History_Navigate);
 
         if (!IsPostBack)
         {
@@ -151,19 +150,22 @@ public partial class AccountsView : AccountPersonPage
         }
     }
 
-    void History_Navigate(object sender, nStuff.UpdateControls.HistoryEventArgs e)
+    void History_Navigate(object sender, HistoryEventArgs e)
     {
-        string s = Encoding.Default.GetString(Convert.FromBase64String(e.EntryName));
-        if (!string.IsNullOrEmpty(s))
+        if (e.State.HasKeys())
         {
-            NameValueCollection args = Renderer.ParseQueryString(s);
-            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(args);
+            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(e.State);
             l_args.Clear = true;
             LocationSelector.SelectLocation(sender, l_args);
-            gridManage.CurrentPageIndex = int.Parse(args["page"]);
-            gridManage_OnGetDataSource(sender, e);
-            gridManage.DataBind();
+            gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
+            inputName.Text = e.State["name"];
+            if (inputName.Text.Length == 1)
+            {
+                atoz.SelectedValue = inputName.Text[0];
+            }
         }
+        gridManage_OnGetDataSource(sender, e);
+        gridManage.DataBind();
     }
 
     public void gridManage_DataBinding(object sender, EventArgs e)
@@ -240,6 +242,23 @@ public partial class AccountsView : AccountPersonPage
             options.BloggersOnly,
             gridManage.CurrentPageIndex);
 
+        if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack &&
+            !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)
+        {
+            NameValueCollection history = new NameValueCollection();
+            history.Add("city", options.City);
+            history.Add("country", options.Country);
+            history.Add("state", options.State);
+            history.Add("name", options.Name);
+            history.Add("email", options.Email);
+            history.Add("bloggersonly", options.BloggersOnly.ToString());
+            history.Add("picturesonly", options.PicturesOnly.ToString());
+            history.Add("sortorder", options.SortOrder);
+            history.Add("sortascending", options.SortAscending.ToString());
+            history.Add("page", gridManage.CurrentPageIndex.ToString());
+            ((SnCoreMasterPage)Master).ScriptManager.AddHistoryPoint(history, Page.Title);
+        }
+
         Title = titlePeople.Text = (string.IsNullOrEmpty(options.City)
             ? titlePeople.DefaultText
             : string.Format("{0}: {1}", titlePeople.DefaultText, options.City));
@@ -252,11 +271,6 @@ public partial class AccountsView : AccountPersonPage
 
         linkRelRss.NavigateUrl = string.Format("AccountsRss.aspx?{0}", args);
         linkPermalink.NavigateUrl = string.Format("AccountsView.aspx?{0}", args);
-
-        if (!(e is nStuff.UpdateControls.HistoryEventArgs))
-        {
-            ((SnCoreMasterPage)Master).History.AddEntry(Convert.ToBase64String(Encoding.Default.GetBytes(args)));
-        }
 
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;

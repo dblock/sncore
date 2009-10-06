@@ -472,7 +472,6 @@
                         <File Id="SnCoreBinMicrosoft_Web_Preview_dll" Name="Microsoft.Web.Preview.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Microsoft.Web.Preview.dll" />
                         <File Id="SnCoreBinNGif_NET_dll" Name="NGif.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\NGif.NET.dll" />
                         <File Id="SnCoreBinNHibernate_dll" Name="NHibernate.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\NHibernate.dll" />
-                        <File Id="SnCoreBinNStuff_UpdateControls_dll" Name="nStuff.UpdateControls.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\nStuff.UpdateControls.dll" />
                         <File Id="SnCoreBinNunit_framework_dll" Name="nunit.framework.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\nunit.framework.dll" />
                         <File Id="SnCoreBinRSS_NET_dll" Name="RSS.NET.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\RSS.NET.dll" />
                         <File Id="SnCoreBinSgmlReaderDll_dll" Name="SgmlReaderDll.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\SgmlReaderDll.dll" />
