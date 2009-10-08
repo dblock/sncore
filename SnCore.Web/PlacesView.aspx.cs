@@ -203,7 +203,7 @@ public partial class PlacesView : Page
 
     void LocationSelector_LocationChanged(object sender, EventArgs e)
     {
-        linkSuggest.NavigateUrl =
+        linkAdd.NavigateUrl =
             string.Format("PlaceEdit.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
                 Renderer.UrlEncode(inputCity.SelectedValue),
                 Renderer.UrlEncode(inputState.SelectedValue),
@@ -223,10 +223,13 @@ public partial class PlacesView : Page
             LocationSelector.SelectLocation(sender, l_args);
             gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
             inputName.Text = e.State["name"];
-            if (inputName.Text.Length == 1)
-            {
-                atoz.SelectedValue = inputName.Text[0];
-            }
+            atoz.SelectIfChar(inputName.Text);
+        }
+        else
+        {
+            LocationSelector.ClearSelection();
+            inputName.Text = string.Empty;
+            atoz.ClearSelection();
         }
 
         gridManage_OnGetDataSource(sender, e);

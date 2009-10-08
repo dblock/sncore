@@ -235,27 +235,44 @@ public partial class PlaceEdit : AuthenticatedPage
         Redirect("AccountPlacesManage.aspx");
     }
 
+    public void linkLookupClose_Click(object sender, EventArgs e)
+    {
+        labelLookupError.Visible = false;
+        panelLookupContents.Visible = false;
+        gridLookupPlaces.DataSource = null;
+        gridLookupPlaces.DataBind();
+        panelLookup.Update();
+    }
+
     public void linkLookup_Click(object sender, EventArgs e)
     {
         panelLookup.Update();
 
         if (string.IsNullOrEmpty(inputName.Text))
         {
-            labelLookup.Text = "Please enter a name.";
+            labelLookupError.Visible = true;
+            labelLookupError.Text = "&#187; please enter a name.";
             return;
         }
 
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = 0;
-        options.PageSize = 10;
+        options.PageSize = 6;
         gridLookupPlaces.DataSource = SessionManager.GetCollection<TransitPlace, string>(
             inputName.Text, options, SessionManager.PlaceService.SearchPlaces);
         gridLookupPlaces.DataBind();
 
         if (gridLookupPlaces.Items.Count == 0)
         {
-            labelLookup.Text = string.Format("No places matching '{0}'.",
+            panelLookupContents.Visible = false;
+            labelLookupError.Visible = true;
+            labelLookupError.Text = string.Format("&#187; no places matching '{0}'",
                 base.Render(inputName.Text));
+        }
+        else
+        {
+            panelLookupContents.Visible = true;
+            labelLookupError.Visible = false;            
         }
     }
 

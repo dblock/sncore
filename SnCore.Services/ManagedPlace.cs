@@ -541,7 +541,7 @@ namespace SnCore.Services
 
         public bool CanWrite(int accountid)
         {
-            // person suggesting a place can write
+            // person adding a place can write
             if (mInstance.Account.Id == accountid)
                 return true;
 

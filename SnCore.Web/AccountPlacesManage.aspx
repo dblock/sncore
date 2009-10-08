@@ -8,12 +8,12 @@
  <SnCore:Title ID="titlePlaces" Text="My Places" runat="server">  
   <Template>
    <div class="sncore_title_paragraph">
-    <a href="PlaceEdit.aspx">Suggest a new place</a> for everybody to see. Upload pictures and post reviews.
+    <a href="PlaceEdit.aspx">Add</a> a new place for everybody to see. Upload pictures and post reviews.
    </div>
   </Template>
  </SnCore:Title>
  <div class="sncore_createnew">
-  <a href="PlaceEdit.aspx">&#187; Suggest a New Place</a>
+  <a href="PlaceEdit.aspx">&#187; Add New Place</a>
   <a href="AccountPlaceChangeRequestsManage.aspx">&#187; Change Requests</a>
  </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">

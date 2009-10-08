@@ -18,10 +18,9 @@ public partial class AToZControl : Control
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
     }
 
-    public Char SelectedValue
+    public Char SelectedValue    
     {
         get
         {
@@ -59,6 +58,37 @@ public partial class AToZControl : Control
         link.Text = string.Format("{0}&nbsp;", c);
         link.Command += new CommandEventHandler(link_Command);
         divatoz.Controls.Add(link);
+    }
+    public bool SelectIfChar(string s)
+    {
+        return SelectIfChar(s, true);
+    }
+
+    public void ClearSelection()
+    {
+        EnableDisableSelectedValue(true);
+        SelectedValue = default(char);
+    }
+
+    /// <summary>
+    /// Clear the selection and select if the target is a single character.
+    /// </summary>
+    /// <param name="s"></param>
+    /// <returns></returns>
+    public bool SelectIfChar(string s, bool alwaysSelect)
+    {
+        if (s.Length == 1)
+        {
+            ClearSelection();
+            SelectedValue = s[0];
+            return true;
+        }
+        else if (alwaysSelect)
+        {
+            ClearSelection();
+        }
+
+        return false;
     }
 
     protected override void OnPreRender(EventArgs e)

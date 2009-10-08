@@ -16,8 +16,8 @@
       </div>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAccount" runat="server" Text="&#187; Back" />
+       <a href="PlaceEdit.aspx">&#187; Add New</a>
        <a href="PlacesView.aspx">&#187; All Places</a>
-       <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
       </div>
      </td>
      <td>

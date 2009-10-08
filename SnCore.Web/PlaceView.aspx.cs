@@ -216,7 +216,7 @@ public partial class PlaceView : Page
                         Renderer.UrlEncode(place.Country));
 
                 linkDirections.HRef = DrivingDirectionsUrl;
-                linkSuggest.NavigateUrl =
+                linkAdd.NavigateUrl =
                     string.Format("PlaceEdit.aspx?city={0}&state={1}&country={2}&neighborhood={3}&type={4}",
                         Renderer.UrlEncode(place.City),
                         Renderer.UrlEncode(place.State),
@@ -245,15 +245,15 @@ public partial class PlaceView : Page
 
                 if (account != null)
                 {
-                    linkSuggestedBy.Text = Renderer.Render(account.Name);
-                    linkSuggestedBy.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id);
+                    linkAddedBy.Text = Renderer.Render(account.Name);
+                    linkAddedBy.NavigateUrl = string.Format("AccountView.aspx?id={0}", account.Id);
                 }
                 else
                 {
-                    linkSuggestedBy.Text = "a deleted user";
+                    linkAddedBy.Text = "a deleted user";
                 }
 
-                labelSuggestedOn.Text = Adjust(place.Created).ToString("d");
+                labelAddedOn.Text = Adjust(place.Created).ToString("d");
 
                 linkAdminManageChanges.Visible = linkAdminEdit.Visible = place.CanWrite || SessionManager.IsAdministrator;
                 linkAdminEdit.NavigateUrl = string.Format("PlaceEdit.aspx?id={0}", place.Id);

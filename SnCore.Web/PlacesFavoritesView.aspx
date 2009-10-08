@@ -18,7 +18,7 @@
     </SnCore:Title>
       <div class="sncore_h2sub">
        <a href="PlacesView.aspx">&#187; All Places</a>
-       <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
+       <a href="PlaceEdit.aspx">&#187; Add a New Place</a>
        <a href="AccountPlaceQueueManage.aspx">&#187; My Queue</a>
        <a href="PlaceFriendsQueueView.aspx">&#187; My Friends Queue</a>
       </div>

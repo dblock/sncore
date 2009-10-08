@@ -17,14 +17,14 @@
        <Template>
         <div class="sncore_title_paragraph">
          These are places in your city, contributed by other users. Participate! Click on a place, upload 
-         a picture, leave a Mad Lib or write a review. Then, <a href="PlaceEdit.aspx">Suggest a New Place</a>.
+         a picture, leave a Mad Lib or write a review. Then, <a href="PlaceEdit.aspx">Add a New Place</a>.
         </div>
        </Template>
       </SnCore:Title>
       <div class="sncore_h2sub">
+       <asp:HyperLink ID="linkAdd" runat="server" Text="&#187; Add" NavigateUrl="~/PlaceEdit.aspx" />
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Places" />
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Places" />
-       <asp:HyperLink ID="linkSuggest" runat="server" Text="&#187; Suggest a Place" NavigateUrl="~/PlaceEdit.aspx" />
        <a href="AccountPlaceQueueManage.aspx">&#187; My Queue</a>
        <a href="PlaceFriendsQueueView.aspx">&#187; My Friends Queue</a>
        <a href="PlacesFavoritesView.aspx">&#187; Favorites</a>

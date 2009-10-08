@@ -15,7 +15,7 @@
       </div>
       <div class="sncore_h2sub">
        <asp:HyperLink ID="linkAll" runat="server" NavigateUrl="PlacesView.aspx" Text="&#187; All Places" />
-       <a href="PlaceEdit.aspx">&#187; Suggest a Place</a>
+       <a href="PlaceEdit.aspx">&#187; Add a New Place</a>
       </div>
      </td>
      <td align="right" valign="middle">

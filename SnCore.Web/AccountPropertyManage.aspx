@@ -13,7 +13,7 @@
    </div>
   </Template>
  </SnCore:Title>
- <asp:HyperLink ID="linkSuggest" Text="&#187; Suggest a New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
+ <asp:HyperLink ID="linkAdd" Text="&#187; Add New Place" CssClass="sncore_createnew" NavigateUrl="PlaceEdit.aspx"
   runat="server" />
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>

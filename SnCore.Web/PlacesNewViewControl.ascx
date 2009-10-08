@@ -19,8 +19,8 @@
   <td>
    <div class="sncore_createnew">
     <div class="sncore_link">
+     <a href="PlaceEdit.aspx">&#187; add a new place</a>
      <a href="PlacesView.aspx">&#187; all</a>
-     <a href="PlaceEdit.aspx">&#187; suggest a place</a>
      <a href="FeaturedPlacesView.aspx">&#187; featured</a>
      <a href="PlacesRss.aspx">&#187; rss</a>
     </div>

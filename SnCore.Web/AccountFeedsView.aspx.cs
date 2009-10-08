@@ -18,25 +18,89 @@ using SnCore.WebControls;
 
 public partial class AccountFeedsView : Page
 {
-    public AccountFeedsView()
+    public class LocationWithOptionsEventArgs : LocationEventArgs
     {
-        mIsMobileEnabled = true;
+        private string mPicturesOnly;
+
+        public string PicturesOnly
+        {
+            get
+            {
+                return mPicturesOnly;
+            }
+            set
+            {
+                mPicturesOnly = value;
+            }
+        }
+
+        public LocationWithOptionsEventArgs(HttpRequest request)
+            : base(request)
+        {
+            mPicturesOnly = request["pictures"];
+        }
+
+        public LocationWithOptionsEventArgs(NameValueCollection coll)
+            : base(coll)
+        {
+            mPicturesOnly = coll["pictures"];
+        }
     }
 
-    private LocationSelectorCountryStateCity mLocationSelector = null;
+    public class LocationSelectorWithOptions : LocationSelectorCountryStateCity
+    {
+        private CheckBox mPicturesOnly;
 
-    public LocationSelectorCountryStateCity LocationSelector
+        public LocationSelectorWithOptions(
+            Page page,
+            bool empty,
+            DropDownList country,
+            DropDownList state,
+            DropDownList city,
+            CheckBox picturesonly)
+            :
+            base(page, empty, country, state, city)
+        {
+            mPicturesOnly = picturesonly;
+        }
+
+        public bool SelectLocation(object sender, LocationWithOptionsEventArgs e)
+        {
+            bool result = base.SelectLocation(sender, e);
+
+            if (e.Clear || (mPicturesOnly != null && !string.IsNullOrEmpty(e.PicturesOnly)))
+            {
+                bool picturesonly = false;
+                if (bool.TryParse(e.PicturesOnly, out picturesonly))
+                {
+                    mPicturesOnly.Checked = picturesonly;
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+    }
+
+    private LocationSelectorWithOptions mLocationSelector = null;
+
+    public LocationSelectorWithOptions LocationSelector
     {
         get
         {
             if (mLocationSelector == null)
             {
-                mLocationSelector = new LocationSelectorCountryStateCity(
-                    this, true, inputCountry, inputState, inputCity);
+                mLocationSelector = new LocationSelectorWithOptions(
+                    this, true, inputCountry, inputState, inputCity, checkboxPicturesOnly);
             }
 
             return mLocationSelector;
         }
+    }
+
+    public AccountFeedsView()
+    {
+        mIsMobileEnabled = true;
     }
 
     public void Page_Load(object sender, EventArgs e)
@@ -115,7 +179,18 @@ public partial class AccountFeedsView : Page
     {
         if (e.State.HasKeys())
         {
+            LocationWithOptionsEventArgs l_args = new LocationWithOptionsEventArgs(e.State);
+            l_args.Clear = true;
+            LocationSelector.SelectLocation(sender, l_args);
             gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
+            inputName.Text = e.State["name"];
+            atoz.SelectIfChar(inputName.Text);
+        }
+        else
+        {
+            LocationSelector.ClearSelection();
+            inputName.Text = string.Empty;
+            atoz.ClearSelection();
         }
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();

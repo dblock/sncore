@@ -53,7 +53,7 @@ public partial class AccountEventView : Page
         }
     }
 
-    public string SuggestedBy
+    public string AddedBy
     {
         get
         {

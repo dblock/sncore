@@ -278,7 +278,7 @@ To post an event follow these simple steps.
  <li>Before posting events make sure to double-check your timezone in account preferences. All specified times are set in your local 
      timezone and users in other timezones will see time adjusted to their location. Note that since events are attached to places they are
      geographically restricted and a user in Seattle typically doesn't see events in New York unless he explicitly chooses to do so.   
- <li>Follow the <em>suggest an event</em> link.
+ <li>Follow the <em>add an event</em> link.
  <li>Enter the event <em>name</em>, choose an event <em>type</em> and enter a short description. The description may contain links or 
      limited HTML content.
  <li>By default you will schedule a <em>one-time</em> event. That is, an event that occurs once. You must choose the <em>start and end 

@@ -100,7 +100,7 @@
       <table class="sncore_inner_table" width="95%">
        <tr>
         <td style="font-size: smaller; text-align: right;">
-         <% Response.Write(SuggestedBy); %>
+         <% Response.Write(AddedBy); %>
         </td>
         <td style="font-size: smaller; text-align: right;">
          <a href="AccountEventEdit.aspx">&#187; post an event</a>

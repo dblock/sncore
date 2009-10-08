@@ -153,11 +153,11 @@
            <!-- NOEMAIL-END -->
           </td>
           <td align="right" style="font-size: smaller;">
-           suggested by <asp:HyperLink id="linkSuggestedBy" runat="server" />
-           on <asp:Label id="labelSuggestedOn" runat="server" />
+           added by <asp:HyperLink id="linkAddedBy" runat="server" />
+           on <asp:Label id="labelAddedOn" runat="server" />
           </td>
           <td style="font-size: smaller; text-align: right;">
-           <asp:HyperLink ID="linkSuggest" runat="server" NavigateUrl="~/PlaceEdit.aspx" Text="&#187; suggest a place" />
+           <asp:HyperLink ID="linkAdd" runat="server" NavigateUrl="~/PlaceEdit.aspx" Text="&#187; add a new place" />
           </td>
          </tr>
         </table>

@@ -159,11 +159,15 @@ public partial class AccountsView : AccountPersonPage
             LocationSelector.SelectLocation(sender, l_args);
             gridManage.CurrentPageIndex = int.Parse(e.State["page"]);
             inputName.Text = e.State["name"];
-            if (inputName.Text.Length == 1)
-            {
-                atoz.SelectedValue = inputName.Text[0];
-            }
+            atoz.SelectIfChar(inputName.Text);
         }
+        else
+        {
+            LocationSelector.ClearSelection();
+            inputName.Text = string.Empty;
+            atoz.ClearSelection();
+        }
+
         gridManage_OnGetDataSource(sender, e);
         gridManage.DataBind();
     }

@@ -71,7 +71,7 @@
    <td>
     <div class="sncore_link">
      <a href="PlacesView.aspx">&#187; all places</a> 
-     <a href="PlaceEdit.aspx">&#187; suggest a place</a> 
+     <a href="PlaceEdit.aspx">&#187; add a new place</a> 
     </div>
     <div class="sncore_link">
      <a href="FeaturedPlacesView.aspx">&#187; previously featured</a>
