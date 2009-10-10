@@ -40,7 +40,7 @@ namespace SnCore.Tools.Tests
             Assert.IsNotNull(sm);
             ThumbnailBitmap b = new ThumbnailBitmap(sm);
             Console.WriteLine("Size: {0}x{1}", b.FullSize.Width, b.FullSize.Height);
-            Assert.AreEqual(new Size(768, 576), b.FullSize);
+            Assert.AreEqual(ThumbnailBitmap.s_FullSize, b.FullSize);
             Assert.IsNotNull(b.Thumbnail);
             Assert.IsNotNull(b.Bitmap);
             ThumbnailBitmap th = new ThumbnailBitmap(b.Thumbnail);

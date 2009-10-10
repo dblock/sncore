@@ -12,9 +12,6 @@
         <Property Id="NETFRAMEWORK_INSTALLROOT">
             <RegistrySearch Id="NetFrameworkInstallRootSearch" Root="HKLM" Key="SOFTWARE\Microsoft\.NETFramework" Type="raw" Name="InstallRoot" />
         </Property>
-        <Property Id="WSE3">
-            <RegistrySearch Id="WSE3InstalledComponents" Root="HKLM" Key="SOFTWARE\Microsoft\WSE\{EDEA8AB7-7683-4ED2-AA19-E6C078064C0D}" Type="raw" />
-        </Property>
         <Property Id="ASPNET2">
             <RegistrySearch Id="ASPNET2InstalledComponents" Root="HKLM" Key="SOFTWARE\Microsoft\ASP.NET\2.0.50727.0" Type="raw" Name="Path" />
         </Property>

@@ -11,8 +11,6 @@ using NHibernate;
 using NHibernate.Expression;
 using System.Data.SqlClient;
 using System.Web.Security;
-using Microsoft.Web.Services3;
-using Microsoft.Web.Services3.Design;
 
 namespace SnCore.WebServices
 {

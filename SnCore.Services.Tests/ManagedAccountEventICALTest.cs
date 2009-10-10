@@ -13,7 +13,7 @@ namespace SnCore.Services.Tests
     public class ManagedAccountEventICALTest
     {
         [Test]
-        public void TestEventful()
+        protected void TestEventful()
         {
             // string url = "http://eventful.com/ical/events/E0-001-003054648-3/E0-001-003054648-3.ics";
             string url = "http://eventful.com/ical/events/E0-001-002992261-4/E0-001-002992261-4.ics";
@@ -30,7 +30,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        public void TestMeetup()
+        protected void TestMeetup()
         {
             string url = "http://dessert.meetup.com/3/calendar/7801237/ical/Cupcake+Social+2.0/";
             Console.WriteLine(SnCore.Tools.Web.Renderer.UrlEncode(url));

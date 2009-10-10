@@ -12,12 +12,10 @@ namespace SnCore.Services.Tests
     public class ManagedDiscussionTest : ManagedCRUDTest<Discussion, TransitDiscussion, ManagedDiscussion>
     {
         private ManagedAccountTest _account = new ManagedAccountTest();
-        private ManagedDataObjectTest _object = new ManagedDataObjectTest();
 
         [SetUp]
         public override void SetUp()
         {
-            _object.SetUp();
             _account.SetUp();
             base.SetUp();
         }
@@ -27,7 +25,6 @@ namespace SnCore.Services.Tests
         {
             base.TearDown();
             _account.TearDown();
-            _object.TearDown();
         }
 
         public ManagedDiscussionTest()
@@ -41,7 +38,6 @@ namespace SnCore.Services.Tests
             t_instance.AccountId = _account.Instance.Id;
             t_instance.Description = GetNewString();
             t_instance.Name = GetNewString();
-            t_instance.ObjectId = _object.Instance.Id;
             return t_instance;
         }
 

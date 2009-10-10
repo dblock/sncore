@@ -61,25 +61,30 @@ namespace SnCore.Tools.Tests
             Console.WriteLine("Resizing: {0}", resizedfilename);
             try
             {
-                FileStream ms = File.OpenWrite(filename);
-                AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-                encoder.SetFrameRate(5);
-                encoder.Start(ms);
-                for (char i = 'a'; i <= 'e'; i++)
+                using (FileStream ms = File.OpenWrite(filename))
                 {
-                    Console.Write(i.ToString());
-                    encoder.AddFrame(ThumbnailBitmap.GetBitmapFromText(
-                        i.ToString(), 48, 300, 200));
+                    AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+                    encoder.SetFrameRate(5);
+                    encoder.Start(ms);
+                    for (char i = 'a'; i <= 'e'; i++)
+                    {
+                        Console.Write(i.ToString());
+                        encoder.AddFrame(ThumbnailBitmap.GetBitmapFromText(
+                            i.ToString(), 48, 300, 200));
+                    }
+                    Console.WriteLine();
+                    encoder.Finish();
+                    ms.Flush();
                 }
-                Console.WriteLine();
-                encoder.Finish();
-                ms.Flush();
-                ms.Seek(0, SeekOrigin.Begin);
 
-                FileStream resizedms = File.OpenWrite(resizedfilename);
-                AnimatedGifEncoder.Resize(ms, resizedms, 200, 150, 100);
-                resizedms.Flush();
-                resizedms.Close();
+                using (FileStream ms = File.OpenRead(filename))
+                {
+                    using (FileStream resizedms = File.OpenWrite(resizedfilename))
+                    {
+                        AnimatedGifEncoder.Resize(ms, resizedms, 200, 150, 100);
+                        resizedms.Flush();
+                    }
+                }
             }
             finally
             {

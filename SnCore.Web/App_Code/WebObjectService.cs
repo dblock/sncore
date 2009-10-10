@@ -12,8 +12,6 @@ using NHibernate;
 using NHibernate.Expression;
 using System.Data.SqlClient;
 using System.Web.Security;
-using Microsoft.Web.Services3;
-using Microsoft.Web.Services3.Design;
 using System.Web.Services.Protocols;
 using SnCore.Tools.Web;
 using SnCore.Tools;

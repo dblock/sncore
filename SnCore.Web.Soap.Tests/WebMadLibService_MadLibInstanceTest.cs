@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using System.Web.Services.Protocols;
 
 namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
 {
@@ -18,11 +17,13 @@ namespace SnCore.Web.Soap.Tests.WebMadLibServiceTests
         {
             _madlib_id = _madlib.Create(GetAdminTicket());
             _user = CreateUserWithVerifiedEmailAddress();
+            base.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
+            base.TearDown();
             DeleteUser(_user.id);
             _madlib.Delete(GetAdminTicket(), _madlib_id);
         }

@@ -1,127 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:IIS="http://schemas.microsoft.com/wix/IIsExtension">
-    <?include SnCore.Project.wxi ?>
-    <Product Id="*" Name="SnCore Social Network" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
-        <Package InstallerVersion="200" Compressed="yes" Description="SnCore Social Network" Id="*" />
-        <Upgrade Id="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
-            <UpgradeVersion Minimum="$(var.ProductVersion)" OnlyDetect="no" Property="NEWERVERSIONDETECTED" />
-            <UpgradeVersion Minimum="1.0.0.0" IncludeMinimum="yes" Maximum="$(var.ProductVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
-        </Upgrade>
-        <Condition Message="You must be an administrator to install this product.">
-   Privileged
-  </Condition>
-        <Condition Message="This setup requires the Microsoft ASP.NET 2.0."><![CDATA[ASPNET2]]></Condition>
-        <Condition Message="This setup requires the Microsoft .NET Framework 2.0 or higher."><![CDATA[MsiNetAssemblySupport >= "2.0.50727"]]></Condition>
-        <Condition Message="This setup requires Microsoft Web Service Enhancements (WSE3)."><![CDATA[WSE3]]></Condition>
-        <Condition Message="A later version of [ProductName] is already installed.">
-   NOT NEWERVERSIONDETECTED
-  </Condition>
-        <Icon Id="HelpIcon" SourceFile="icons/help.ico" />
-        <Icon Id="SnCoreIcon" SourceFile="icons/sncore.ico" />
-        <Media Id="1" Cabinet="SnCore.Install.cab" EmbedCab="yes" />
-        <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFilesFolder">
-                <Directory Id="INSTALLDIR" Name="SnCore">
-                    <Component Guid="A50D18DE-C6F2-4037-9B2E-B7E73EDFF6DA" Id="SnCoreInstallDir">
-                        <CreateFolder>
-                            <Permission User="Everyone" GenericWrite="no" GenericExecute="yes" GenericRead="yes" />
-                            <Permission User="SYSTEM" GenericAll="yes" />
-                            <Permission User="Administrators" GenericAll="yes" />
-                        </CreateFolder>
-                        <RegistryKey Id="SnCoreRegistryKeyProgramFilesFolder" Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
-                            <RegistryValue Id="SnCoreRegistryProgramFilesFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
-                            <RegistryValue Id="SnCoreRegistryProgramFilesFolder_Version" Name="Version" Value="$(var.ProductVersion)" Type="string" />
-                        </RegistryKey>
-                    </Component>
-                </Directory>
-            </Directory>
-            <Directory Id="ProgramMenuFolder" Name="ProgMenu">
-                <Directory Id="SnCoreMenuFolder" Name="SnCore">
-                    <Component Guid="58410D64-B64F-4516-AAA5-D42C3B90118C" Id="SnCoreMenuDir">
-                        <CreateFolder />
-                        <RegistryKey Id="SnCoreRegistryKeyMenuFolder" Root="HKCU" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
-                            <RegistryValue Id="SnCoreRegistryMenuFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
-                        </RegistryKey>
-                        <RemoveFolder Id="SnCoreMenuFolderRemove" Directory="SnCoreMenuFolder" On="uninstall" />
-                    </Component>
-                </Directory>
-            </Directory>
+  <?include SnCore.Project.wxi ?>
+  <Product Id="*" Name="SnCore Social Network" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Vestris Inc." UpgradeCode="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
+    <Package InstallerVersion="200" Compressed="yes" Description="SnCore Social Network" Id="*" />
+    <Upgrade Id="203d5fdd-e6a9-4f1d-b99c-615f7c72afbd">
+      <UpgradeVersion Minimum="$(var.ProductVersion)" OnlyDetect="no" Property="NEWERVERSIONDETECTED" />
+      <UpgradeVersion Minimum="1.0.0.0" IncludeMinimum="yes" Maximum="$(var.ProductVersion)" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED" />
+    </Upgrade>
+    <Condition Message="You must be an administrator to install this product.">
+      Privileged
+    </Condition>
+    <Condition Message="This setup requires the Microsoft ASP.NET 2.0."><![CDATA[ASPNET2]]></Condition>
+    <PropertyRef Id="NETFRAMEWORK35" />
+    <Condition Message="This setup requires the Microsoft .NET Framework 3.5 or higher."><![CDATA[Installed OR NETFRAMEWORK35]]></Condition>
+    <Condition Message="A later version of [ProductName] is already installed.">
+      NOT NEWERVERSIONDETECTED
+    </Condition>
+    <Icon Id="HelpIcon" SourceFile="icons/help.ico" />
+    <Icon Id="SnCoreIcon" SourceFile="icons/sncore.ico" />
+    <Media Id="1" Cabinet="SnCore.Install.cab" EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="SnCore">
+          <Component Guid="A50D18DE-C6F2-4037-9B2E-B7E73EDFF6DA" Id="SnCoreInstallDir">
+            <CreateFolder>
+              <Permission User="Everyone" GenericWrite="no" GenericExecute="yes" GenericRead="yes" />
+              <Permission User="SYSTEM" GenericAll="yes" />
+              <Permission User="Administrators" GenericAll="yes" />
+            </CreateFolder>
+            <RegistryKey Id="SnCoreRegistryKeyProgramFilesFolder" Root="HKLM" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
+              <RegistryValue Id="SnCoreRegistryProgramFilesFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+              <RegistryValue Id="SnCoreRegistryProgramFilesFolder_Version" Name="Version" Value="$(var.ProductVersion)" Type="string" />
+            </RegistryKey>
+          </Component>
         </Directory>
-        <Feature Id="SnCore.WebSites.Feature" Title="Web Sites" Level="1" Display="expand" ConfigurableDirectory="INSTALLDIR">
-            <Feature Id="SnCore.Web.Feature" Title="Default WebSite" Level="1" Display="expand">
-                <ComponentRef Id="SnCoreMenuDir" />
-                <ComponentRef Id="SnCoreInstallDir" />
-                <ComponentRef Id="SnCore" />
-                <ComponentRef Id="SnCoreBin" />
-                <ComponentRef Id="SnCoreBin_RU" />
-                <ComponentRef Id="SnCoreImages" />
-                <ComponentRef Id="SnCoreImagesAccount" />
-                <ComponentRef Id="SnCoreImagesBookmarksFull" />
-                <ComponentRef Id="SnCoreImagesBookmarksLinks" />
-                <ComponentRef Id="SnCoreImagesBugs" />
-                <ComponentRef Id="SnCoreImagesButtons" />
-                <ComponentRef Id="SnCoreImagesSite" />
-                <ComponentRef Id="SnCoreImagesCulture" />
-                <ComponentRef Id="SnCoreEventSource" />
-                <ComponentRef Id="SnCoreDefaultWebSite" />
-                <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />
-                <ComponentRef Id="SnCoreWebSiteRegistry" />
-                <ComponentRef Id="SnCoreIsapiRewrite" />
-                <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
-                    <ComponentRef Id="SnCoreWebServices" />
-                    <ComponentRef Id="SnCoreBin" />
-                </Feature>
-            </Feature>
-            <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
-                <ComponentRef Id="SnCoreMenuDir" />
-                <ComponentRef Id="SnCoreInstallDir" />
-                <ComponentRef Id="SnCore_mobile" />
-                <ComponentRef Id="SnCore_mobileBin" />
-                <ComponentRef Id="SnCore_mobileImagesSite" />
-                <ComponentRef Id="SnCoreMobileEventSource" />
-                <ComponentRef Id="SnCoreMobileWebSite" />
-                <ComponentRef Id="SnCoreMobileWebSiteVirtualDirectory" />
-                <ComponentRef Id="SnCoreWebSiteRegistry" />
-                <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
-                    <ComponentRef Id="SnCore_mobileBrowsers" />
-                </Feature>
-            </Feature>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="ProgMenu">
+        <Directory Id="SnCoreMenuFolder" Name="SnCore">
+          <Component Guid="58410D64-B64F-4516-AAA5-D42C3B90118C" Id="SnCoreMenuDir">
+            <CreateFolder />
+            <RegistryKey Id="SnCoreRegistryKeyMenuFolder" Root="HKCU" Key="Software\Vestris Inc.\SnCore" Action="createAndRemoveOnUninstall">
+              <RegistryValue Id="SnCoreRegistryMenuFolder_InstallDir" Name="InstallDir" Value="[INSTALLDIR]" Type="string" />
+            </RegistryKey>
+            <RemoveFolder Id="SnCoreMenuFolderRemove" Directory="SnCoreMenuFolder" On="uninstall" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+    <Feature Id="SnCore.WebSites.Feature" Title="Web Sites" Level="1" Display="expand" ConfigurableDirectory="INSTALLDIR">
+      <Feature Id="SnCore.Web.Feature" Title="Default WebSite" Level="1" Display="expand">
+        <ComponentRef Id="SnCoreMenuDir" />
+        <ComponentRef Id="SnCoreInstallDir" />
+        <ComponentRef Id="SnCore" />
+        <ComponentRef Id="SnCoreBin" />
+        <ComponentRef Id="SnCoreBin_RU" />
+        <ComponentRef Id="SnCoreImages" />
+        <ComponentRef Id="SnCoreImagesAccount" />
+        <ComponentRef Id="SnCoreImagesBookmarksFull" />
+        <ComponentRef Id="SnCoreImagesBookmarksLinks" />
+        <ComponentRef Id="SnCoreImagesBugs" />
+        <ComponentRef Id="SnCoreImagesButtons" />
+        <ComponentRef Id="SnCoreImagesSite" />
+        <ComponentRef Id="SnCoreImagesCulture" />
+        <ComponentRef Id="SnCoreEventSource" />
+        <ComponentRef Id="SnCoreDefaultWebSite" />
+        <ComponentRef Id="SnCoreDefaultWebSiteVirtualDirectory" />
+        <ComponentRef Id="SnCoreWebSiteRegistry" />
+        <ComponentRef Id="SnCoreIsapiRewrite" />
+        <Feature Id="SnCore.Web.Services.Feature" Title="Web Services" Level="1">
+          <ComponentRef Id="SnCoreWebServices" />
+          <ComponentRef Id="SnCoreBin" />
         </Feature>
-        <Feature Id="SnCore.Database.Feature" Title="System Database" Level="1">
-            <ComponentRef Id="SnCoreMenuDir" />
-            <ComponentRef Id="SnCoreInstallDir" />
-            <ComponentRef Id="SnCoreDatabase" />
+      </Feature>
+      <Feature Id="SnCore.MobileWeb.Feature" Title="Mobile WebSite" Level="1" Display="expand">
+        <ComponentRef Id="SnCoreMenuDir" />
+        <ComponentRef Id="SnCoreInstallDir" />
+        <ComponentRef Id="SnCore_mobile" />
+        <ComponentRef Id="SnCore_mobileBin" />
+        <ComponentRef Id="SnCore_mobileImagesSite" />
+        <ComponentRef Id="SnCoreMobileEventSource" />
+        <ComponentRef Id="SnCoreMobileWebSite" />
+        <ComponentRef Id="SnCoreMobileWebSiteVirtualDirectory" />
+        <ComponentRef Id="SnCoreWebSiteRegistry" />
+        <Feature Id="SnCore.MobileWeb.Browsers.Feature" Title="Additional Browser Definitions" Level="1">
+          <ComponentRef Id="SnCore_mobileBrowsers" />
         </Feature>
-        <Feature Id="SnCore.BackEndService.Feature" Title="Back-End Services" Level="1" Display="expand">
-            <ComponentRef Id="SnCoreMenuDir" />
-            <ComponentRef Id="SnCoreInstallDir" />
-            <ComponentRef Id="SnCoreServicesBin" />
-        </Feature>
-        <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
-            <ComponentRef Id="SnCoreMenuDir" />
-            <ComponentRef Id="SnCoreInstallDir" />
-            <ComponentRef Id="SnCoreDocs" />
-            <ComponentRef Id="SnCoreDocsRegistry" />
-        </Feature>
-        <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
-        <WixVariable Id="WixUIBannerBmp" Value="bitmaps\Banner.bmp" />
-        <WixVariable Id="WixUIDialogBmp" Value="bitmaps\Dialog.bmp" />
-        <UIRef Id="SnCoreUI_FeatureTree" />
-        <!-- Install Sequences -->
-        <InstallExecuteSequence>
-            <FindRelatedProducts Before="LaunchConditions" />
-            <RemoveExistingProducts After="InstallValidate" />
-        </InstallExecuteSequence>
-    </Product>
-    <?include SnCore.Install.Properties.wxi ?>
-    <?include SnCore.Install.Sql.wxi ?>
-    <?include SnCore.Install.Web.wxi ?>
-    <?include SnCore.Install.WebSite.wxi ?>
-    <?include SnCore.Install.Docs.wxi ?>
-    <?include SnCore.Install.UI.InstallWelcomeDlg.wxi ?>
-    <?include SnCore.Install.UI.UpgradeWelcomeDlg.wxi ?>
-    <?include SnCore.Install.UI.wxi ?>
-    <?include SnCore.Install.UI.ChooseWebSiteName.wxi ?>
-    <?include SnCore.Install.UI.ChooseSql.wxi ?>
-    <?include SnCore.Install.BackEndService.wxi ?>
+      </Feature>
+    </Feature>
+    <Feature Id="SnCore.Database.Feature" Title="System Database" Level="1">
+      <ComponentRef Id="SnCoreMenuDir" />
+      <ComponentRef Id="SnCoreInstallDir" />
+      <ComponentRef Id="SnCoreDatabase" />
+    </Feature>
+    <Feature Id="SnCore.BackEndService.Feature" Title="Back-End Services" Level="1" Display="expand">
+      <ComponentRef Id="SnCoreMenuDir" />
+      <ComponentRef Id="SnCoreInstallDir" />
+      <ComponentRef Id="SnCoreServicesBin" />
+    </Feature>
+    <Feature Id="SnCore.Docs.Feature" Title="Documentation" Level="1">
+      <ComponentRef Id="SnCoreMenuDir" />
+      <ComponentRef Id="SnCoreInstallDir" />
+      <ComponentRef Id="SnCoreDocs" />
+      <ComponentRef Id="SnCoreDocsRegistry" />
+    </Feature>
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="bitmaps\Banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="bitmaps\Dialog.bmp" />
+    <UIRef Id="SnCoreUI_FeatureTree" />
+    <!-- Install Sequences -->
+    <InstallExecuteSequence>
+      <FindRelatedProducts Before="LaunchConditions" />
+      <RemoveExistingProducts After="InstallValidate" />
+    </InstallExecuteSequence>
+  </Product>
+  <?include SnCore.Install.Properties.wxi ?>
+  <?include SnCore.Install.Sql.wxi ?>
+  <?include SnCore.Install.Web.wxi ?>
+  <?include SnCore.Install.WebSite.wxi ?>
+  <?include SnCore.Install.Docs.wxi ?>
+  <?include SnCore.Install.UI.InstallWelcomeDlg.wxi ?>
+  <?include SnCore.Install.UI.UpgradeWelcomeDlg.wxi ?>
+  <?include SnCore.Install.UI.wxi ?>
+  <?include SnCore.Install.UI.ChooseWebSiteName.wxi ?>
+  <?include SnCore.Install.UI.ChooseSql.wxi ?>
+  <?include SnCore.Install.BackEndService.wxi ?>
 </Wix>

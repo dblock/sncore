@@ -8,8 +8,6 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Expression;
-using Microsoft.Web.Services3;
-using Microsoft.Web.Services3.Design;
 using SnCore.Tools.Web;
 using SnCore.Data.Hibernate;
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using System.Web.Services.Protocols;
 using SnCore.Web.Soap.Tests.WebLocationServiceTests;
 
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests

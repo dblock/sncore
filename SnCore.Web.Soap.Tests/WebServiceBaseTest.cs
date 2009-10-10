@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web.Services.Protocols;
 using System.Reflection;
 using NUnit.Framework;
 using SnCore.Tools.Drawing;
@@ -43,6 +42,7 @@ namespace SnCore.Web.Soap.Tests
 
         protected UserInfo CreateUserWithVerifiedEmailAddress()
         {
+            Console.WriteLine("CreateUserWithVerifiedEmailAddress");
             string email = GetNewEmailAddress();
             string password = GetNewString();
             return CreateUserWithVerifiedEmailAddress(email, password);

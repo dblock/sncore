@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web.Services.Protocols;
 using NUnit.Framework;
 
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
@@ -147,7 +146,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public void FindAllByEmailTest()
         {
             WebAccountService.TransitAccount[] t_instances = EndPoint.FindAllByEmail(
-                GetAdminTicket(), "user@localhost.com", null);
+                GetAdminTicket(), "admin@localhost.com", null);
             Console.WriteLine("Results: {0}", t_instances.Length);
             Assert.AreNotEqual(0, t_instances.Length);
         }

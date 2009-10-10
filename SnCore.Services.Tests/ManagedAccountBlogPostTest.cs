@@ -53,8 +53,8 @@ namespace SnCore.Services.Tests
             ManagedAccountBlogPost m_instance1 = new ManagedAccountBlogPost(Session, m_instance.Id);
             TransitAccountBlogPost t_instance1 = m_instance1.GetTransitInstance(GetSecurityContext());
             Assert.AreNotEqual(0, t_instance.AccountId);
-            Assert.IsNotEmpty(t_instance.AccountName);
-            Assert.IsNotEmpty(t_instance.AccountBlogName);
+            Assert.IsNotEmpty(t_instance1.AccountName);
+            Assert.IsNotEmpty(t_instance1.AccountBlogName);
             m_instance.Delete(GetSecurityContext());
         }
     }

@@ -137,7 +137,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        public void TestRSSXslTransform()
+        protected void TestRSSXslTransform()
         {
             Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.xsl.Identity.xsl");
             Assert.IsNotNull(s, "Missing identity xsl resource.");
@@ -166,7 +166,7 @@ namespace SnCore.Services.Tests
         }
 
         [Test]
-        public void TestRSSXslTransformBrightcoveVideoFeed()
+        protected void TestRSSXslTransformBrightcoveVideoFeed()
         {
             Console.WriteLine("Loading xsl ...");
             Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("SnCore.Services.Tests.xsl.BrightcoveVideoFeed.xsl");

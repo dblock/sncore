@@ -3,9 +3,6 @@ using System.Data;
 using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
-using Microsoft.Web.Services3;
-using Microsoft.Web.Services3.Messaging;
-using Microsoft.Web.Services3.Design;
 using System.Web.Services.Protocols;
 using System.Diagnostics;
 using System.Web.Hosting;
@@ -13,7 +10,7 @@ using SnCore.Tools.Web;
 
 namespace SnCore.WebServices
 {
-    public class WebService : SoapService
+    public class WebService : System.Web.Services.WebService
     {
         private EventLog mEventLogManager = null;
 
