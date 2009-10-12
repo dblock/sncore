@@ -14,7 +14,7 @@ using System.IO;
 namespace SnCore.Web.Tests
 {
     [TestFixture]
-    public class WebMiscTests
+    public class WebMiscTests : WebServiceTest
     {
         public void TestPage(Uri root, Uri uri)
         {
@@ -86,25 +86,31 @@ namespace SnCore.Web.Tests
         [Test]
         public void TestDeepGuest()
         {
-            TestDeep(null);
+            TestDeep((Cookie) null);
         }
 
         [Test]
         public void TestDeepAdmin()
-        {
-            TestDeep("admin@localhost.com", "password");
+        {            
+            TestDeep(GetAdminTicket());
         }
 
         [Test]
         public void TestDeepUser()
         {
-            TestDeep("user@localhost.com", "password");
+            UserInfo userInfo = CreateUserWithVerifiedEmailAddress();
+            try
+            {
+                TestDeep(userInfo.ticket);
+            }
+            finally
+            {
+                DeleteUser(userInfo.id);
+            }
         }
 
-        public void TestDeep(string username, string password)
+        public void TestDeep(string ticket)
         {
-            WebAccountService service = new WebAccountService();
-            string ticket = service.Login(username, password);
             Cookie cookie = new Cookie(WebAccountTests.sSnCoreAuthCookieName, ticket, "/", "localhost");
             TestDeep(cookie);
         }

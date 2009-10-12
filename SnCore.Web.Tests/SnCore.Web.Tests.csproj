@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="WebAccountServiceTest.cs" />
     <Compile Include="WebMiscTests.cs" />
+    <Compile Include="WebServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

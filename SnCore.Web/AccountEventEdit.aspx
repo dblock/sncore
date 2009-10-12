@@ -10,7 +10,7 @@
  <SnCore:Title ID="titleEvent" Text="New Event" runat="server" ExpandedSize="200">
   <Template>
    <div class="sncore_title_paragraph">
-    Post an Event! It's <b>FREE</b>!
+    Add an Event!
    </div>
    <div class="sncore_title_paragraph">
     First, enter event details, such as the event name and the event description and choose an event type

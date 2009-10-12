@@ -149,7 +149,7 @@ namespace SnCore.Web.Soap.Tests.WebBugServiceTests
         }
 
         [Test]
-        public void GetBugsWithOptionsTest()
+        protected void GetBugsWithOptionsTest()
         {
             WebBugService.TransitBug t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);

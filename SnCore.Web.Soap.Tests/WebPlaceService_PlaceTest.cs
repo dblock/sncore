@@ -110,7 +110,7 @@ namespace SnCore.Web.Soap.Tests.WebPlaceServiceTests
         }
 
         [Test]
-        public void SearchPlacesTest()
+        protected void SearchPlacesTest()
         {
             WebPlaceService.TransitPlace t_instance = GetTransitInstance();
             t_instance.Id = Create(GetAdminTicket(), t_instance);

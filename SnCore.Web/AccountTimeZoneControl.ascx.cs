@@ -40,7 +40,7 @@ public partial class AccountTimeZoneControl : Control
     {
         if (!IsPostBack)
         {
-            if (SessionManager.IsLoggedIn && SessionManager.Account.TimeZone >= 0)
+            if (SessionManager.IsLoggedIn && SessionManager.Account.TimeZone > 0)
             {
                 TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionManager.Account.TimeZone);
                 labelTimeZone.Text = tz.DisplayName;

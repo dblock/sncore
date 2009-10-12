@@ -91,7 +91,7 @@
      <a href="FeaturedAccountEventsView.aspx">&#187; previously featured</a>
     </div>
     <div class="sncore_link">
-     <a href="AccountEventWizard.aspx">&#187; post an event</a>
+     <a href="AccountEventWizard.aspx">&#187; add an event</a>
      <a href="AccountEventsRss.aspx">&#187; rss</a> 
     </div>
    </td>

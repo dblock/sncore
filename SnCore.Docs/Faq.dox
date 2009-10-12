@@ -272,9 +272,9 @@ Then choose <em>View</em>. You should see the actual content or an error.
 An event occurs at a given place at a given time. It may occur once or recur over a period of up to six months. Event instances appear in 
 the events calendar. Every time you save an event, it will generate all its instances, six months ahead.
 
-To post an event follow these simple steps.
+To add an event follow these simple steps.
 <ol>
- <li>You must be a member to post events. If you delete your account all your events will be deleted.
+ <li>You must be a member to add events. If you delete your account all your events will be deleted.
  <li>Before posting events make sure to double-check your timezone in account preferences. All specified times are set in your local 
      timezone and users in other timezones will see time adjusted to their location. Note that since events are attached to places they are
      geographically restricted and a user in Seattle typically doesn't see events in New York unless he explicitly chooses to do so.   

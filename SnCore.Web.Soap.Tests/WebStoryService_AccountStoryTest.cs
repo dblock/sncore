@@ -63,7 +63,7 @@ namespace SnCore.Web.Soap.Tests.WebStoryServiceTests
         }
 
         [Test]
-        public void SearchStoriesTest()
+        protected void SearchStoriesTest()
         {
             WebStoryService.TransitAccountStory t_instance = GetTransitInstance();
             int id = Create(GetAdminTicket(), t_instance);

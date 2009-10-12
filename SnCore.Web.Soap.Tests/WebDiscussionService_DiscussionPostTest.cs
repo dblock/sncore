@@ -100,7 +100,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        public void SearchDiscussionPostsTest()
+        protected void SearchDiscussionPostsTest()
         {
             WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
             t_post.Id = Create(GetAdminTicket(), t_post);
@@ -117,7 +117,7 @@ namespace SnCore.Web.Soap.Tests.WebDiscussionServiceTests
         }
 
         [Test]
-        public void SearchDiscussionPostsByIdTest()
+        protected void SearchDiscussionPostsByIdTest()
         {
             WebDiscussionService.TransitDiscussionPost t_post = GetTransitInstance();
             t_post.Id = Create(GetAdminTicket(), t_post);

@@ -27,7 +27,7 @@
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events This Week" OnClick="linkShowAll_Click" />
        <a href="AccountEventsView.aspx">&#187; All Events</a>
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; Local Events" />
-       <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
+       <a href="AccountEventWizard.aspx">&#187; Add an Event</a>
       </div>
      </td>
      <td align="right" valign="middle">

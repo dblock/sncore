@@ -312,6 +312,7 @@ public partial class PlaceView : Page
                 panelSubmit.Visible = true;
                 panelDescription.Visible = false;
                 panelPropertyGroups.Visible = false;
+                panelEvents.Visible = false;
                 discussionPlaces.Visible = false;
                 madlibs.Visible = false;
                 panelInfo.Visible = false;

@@ -77,7 +77,7 @@ namespace SnCore.Web.Soap.Tests.WebBlogServiceTests
         }
 
         [Test]
-        public void SearchAccountBlogPostsTest()
+        protected void SearchAccountBlogPostsTest()
         {
             WebBlogService.TransitAccountBlogPost t_post = GetTransitInstance();
             t_post.Id = Create(GetAdminTicket(), t_post);

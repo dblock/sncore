@@ -987,8 +987,22 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
                     tagname, tagvalue, PlaceService.FindPlace);
                 if (p == null)
                 {
-                    return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
-                        Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+                    // resole tag to a city name
+                    
+                    TransitCity t_city = GetInstance<TransitCity, string>(
+                        tagname, LocationService.GetCityByTag);
+
+                    if (t_city != null)
+                    {
+                        return string.Format("<a href=\"{5}/PlaceView.aspx?city={0}&state={1}&country={2}&name={3}\">{4}</a>",
+                            Renderer.UrlEncode(t_city.Name), Renderer.UrlEncode(t_city.State), Renderer.UrlEncode(t_city.Country),
+                            Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+                    }
+                    else
+                    {
+                        return string.Format("<a href=\"{3}/PlaceView.aspx?city={0}&name={1}\">{2}</a>",
+                            Renderer.UrlEncode(tagname), Renderer.UrlEncode(tagvalue), Renderer.Render(tagvalue), WebsiteUrl);
+                    }
                 }
                 else
                 {

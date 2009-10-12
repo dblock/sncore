@@ -16,15 +16,15 @@
        <Template>
         <div class="sncore_title_paragraph">
          These are events in your city, submitted by other users. Participate! Attend an event, upload 
-         a picture or write a review. Then, <a href="AccountEventWizard.aspx">Post an Event</a> FREE!
+         a picture or write a review. Then, <a href="AccountEventWizard.aspx">Add an Event</a>.
         </div>
        </Template>
       </SnCore:Title>
       <div class="sncore_h2sub">
+       <a href="AccountEventWizard.aspx">&#187; Add an Event</a>
        <a href="AccountEventsToday.aspx">&#187; Events This Week</a>
        <asp:LinkButton ID="linkShowAll" runat="server" Text="&#187; All Events" OnClick="linkShowAll_Click" />
        <asp:LinkButton ID="linkSearch" runat="server" Text="&#187; Search" OnClick="linkSearch_Click" />
-       <a href="AccountEventWizard.aspx">&#187; Post an Event</a>
        <asp:Hyperlink id="linkPermalink" NavigateUrl="PlacesView.aspx" runat="server" Text="&#187; Permalink" />
       </div>
      </td>

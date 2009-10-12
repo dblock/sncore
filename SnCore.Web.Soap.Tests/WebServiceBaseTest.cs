@@ -42,7 +42,6 @@ namespace SnCore.Web.Soap.Tests
 
         protected UserInfo CreateUserWithVerifiedEmailAddress()
         {
-            Console.WriteLine("CreateUserWithVerifiedEmailAddress");
             string email = GetNewEmailAddress();
             string password = GetNewString();
             return CreateUserWithVerifiedEmailAddress(email, password);

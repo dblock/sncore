@@ -86,7 +86,7 @@ namespace SnCore.Tools.Web
         {
             get
             {
-                if ((IsLoggedIn) && (SessionTimeZone >= 0))
+                if ((IsLoggedIn) && (SessionTimeZone > 0))
                 {
                     TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionTimeZone);
                     return tz.CurrentUtcBiasHours;
@@ -118,7 +118,7 @@ namespace SnCore.Tools.Web
 
         public DateTime Adjust(DateTime dt)
         {
-            if ((IsLoggedIn) && (SessionTimeZone >= 0))
+            if ((IsLoggedIn) && (SessionTimeZone > 0))
             {
                 TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionTimeZone);
                 return tz.FromUniversalTime(dt);
@@ -129,7 +129,7 @@ namespace SnCore.Tools.Web
 
         public DateTime ToUTC(DateTime dt)
         {
-            if ((IsLoggedIn) && (SessionTimeZone >= 0))
+            if ((IsLoggedIn) && (SessionTimeZone > 0))
             {
                 TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionTimeZone);
                 return tz.ToUniversalTime(dt);
@@ -161,7 +161,7 @@ namespace SnCore.Tools.Web
 
         public string AdjustToRFC822(DateTime dt)
         {
-            if ((IsLoggedIn) && (SessionTimeZone >= 0))
+            if ((IsLoggedIn) && (SessionTimeZone > 0))
             {
                 TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionTimeZone);
                 return tz.FromUniversalTime(dt).ToString("ddd, dd MMM yyyy HH:mm:ss") +

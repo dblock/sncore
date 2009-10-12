@@ -8,7 +8,7 @@
  <SnCore:Title ID="titleEvents" Text="My Events" runat="server">  
   <Template>
    <div class="sncore_title_paragraph">
-    <a href="AccountEventWizard.aspx">Post an event</a> to the website calendar. You can create one-time and
+    <a href="AccountEventWizard.aspx">Add an event</a> to the website calendar. You can create one-time and
     recurrent events and import events from other event sites.
    </div>
   </Template>

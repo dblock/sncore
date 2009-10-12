@@ -103,7 +103,7 @@
          <% Response.Write(AddedBy); %>
         </td>
         <td style="font-size: smaller; text-align: right;">
-         <a href="AccountEventEdit.aspx">&#187; post an event</a>
+         <a href="AccountEventEdit.aspx">&#187; add an event</a>
         </td>
        </tr>
       </table>
