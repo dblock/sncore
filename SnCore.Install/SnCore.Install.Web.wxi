@@ -484,7 +484,6 @@
                         <File Id="SnCoreBinSnCore_Web_Deploy_dll" Name="SnCore.Web.Deploy.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\SnCore.Web.Deploy.dll" />
                         <File Id="SnCoreBinSnCore_WebControls_dll" Name="SnCore.WebControls.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\SnCore.WebControls.dll" />
                         <File Id="SnCoreBinSnCore_WebServices_dll" Name="SnCore.WebServices.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\SnCore.WebServices.dll" />
-                        <File Id="SnCoreBinSystem_Web_Extensions_dll" Name="System.Web.Extensions.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\System.Web.Extensions.dll" />
                         <File Id="SnCoreBinUnhandledExceptionModule_dll" Name="UnhandledExceptionModule.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\UnhandledExceptionModule.dll" />
                         <File Id="SnCoreBinWebChart_dll" Name="WebChart.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\WebChart.dll" />
                         <File Id="SnCoreBinWilco_Web_dll" Name="Wilco.Web.dll" Source="$(var.SnCore.Deploy.Target.Path)\bin\Wilco.Web.dll" />
