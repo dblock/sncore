@@ -48,6 +48,9 @@ public partial class DiscussionThreadViewControl : Control
                 linkMove.NavigateUrl = string.Format("DiscussionThreadMove.aspx?id={0}", DiscussionThreadId);
             }
 
+            quickpost.DiscussionId = DiscussionId;
+            quickpost.DiscussionThreadId = DiscussionThreadId;
+
             GetData(sender, e);
         }
     }

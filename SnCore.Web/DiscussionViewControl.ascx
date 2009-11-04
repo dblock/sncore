@@ -2,8 +2,8 @@
  Inherits="DiscussionViewControl" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionQuickPost" Src="DiscussionQuickPostControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
-
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
 <table width="100%">
  <tr>
@@ -103,5 +103,4 @@
   </SnCoreWebControls:PagedList>
  </ContentTemplate>
 </asp:UpdatePanel>
-
-
+<SnCore:DiscussionQuickPost id="quickpost" runat="server" />

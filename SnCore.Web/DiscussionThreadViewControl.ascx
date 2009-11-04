@@ -2,6 +2,7 @@
  Inherits="DiscussionThreadViewControl" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionQuickPost" Src="DiscussionQuickPostControl.ascx" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 
 <table class="sncore_title_table">
@@ -35,7 +36,7 @@
    <itemtemplate>
     <span class="sncore_message_tr_td_span" style='margin-left: <%# (int) Eval("Level") * 10 %>px'>
      <div class="sncore_message">
-      <div class="sncore_message_subject" style='<%# (int) Eval("Level") != 0 ? "display: none;" : ""%>'>
+      <div class="sncore_message_subject" style='<%# ((int) Eval("Level") != 0) || ((string) Eval("Subject") == "Untitled") ? "display: none;" : "" %>'>       
        <%# base.Render(Eval("Subject")) %>
        <span>
         <%# ((bool) Eval("Sticky")) ? "<img src='images/buttons/sticky.gif' valign='absmiddle'>" : "" %>
@@ -78,3 +79,4 @@
   </asp:TemplateColumn>
  </Columns>
 </SnCoreWebControls:PagedGrid>
+<SnCore:DiscussionQuickPost id="quickpost" runat="server" />

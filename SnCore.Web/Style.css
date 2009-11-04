@@ -126,6 +126,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_datetime_highlight { color: Red; font-weight: bold; }
 .sncore_quote { border: dotted 1px gray; color: gray; padding: 5px; font-size: xx-small; }
 .sncore_welcome { font-size: 10px; padding-left: 20px; padding-right: 20px; margin-bottom: 5px; }
+.sncore_quickpost { font-size: 10px; margin-left: 20px; padding-left: 20px; padding-right: 20px; }
 
 body span.sncore_message_tr_td_span { padding-top: 10px; padding-bottom: 5px; border-bottom: dotted 1px silver; float: left; }
 body td.sncore_message_tr_td_halftable { border-bottom: dotted 1px silver; padding-bottom: 2px; padding-top: 5px; }

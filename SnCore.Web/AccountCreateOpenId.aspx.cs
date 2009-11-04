@@ -84,6 +84,13 @@ public partial class AccountCreateOpenId : Page
                 SessionManager.Login(ticket, false);
                 Redirect("AccountCreateWelcome.aspx");
             }
+
+            if (SessionManager.IsLoggedIn)
+            {
+                ReportInfo("You're already logged-in. Click <a href='AccountManage.aspx'>here</a> to continue.");
+                panelCreateOpenId.Enabled = false;
+                return;
+            }
         }
     }
 

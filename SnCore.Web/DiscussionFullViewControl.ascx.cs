@@ -46,6 +46,7 @@ public partial class DiscussionFullViewControl : Control
         {
             if (DiscussionId > 0)
             {
+                quickpost.DiscussionId = DiscussionId;
                 GetData(sender, e);
             }
         }

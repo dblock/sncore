@@ -1,6 +1,8 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="DiscussionFullViewControl.ascx.cs"
  Inherits="DiscussionFullViewControl" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
+<%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
+<%@ Register TagPrefix="SnCore" TagName="DiscussionQuickPost" Src="DiscussionQuickPostControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <div class="sncore_h2">
  <asp:Label ID="discussionLabel" runat="server" />
@@ -9,7 +11,7 @@
  <asp:Label ID="discussionDescription" runat="server" />
 </div>
 <div class="sncore_cancel">
- <asp:HyperLink ID="postNew" Text="Post New" runat="server" />
+ <asp:HyperLink ID="postNew" Text="Post New" runat="server" Visible="false" />
 </div>
 <asp:DataGrid ShowHeader="false" CellPadding="4" runat="server" ID="discussionView" AutoGenerateColumns="false" BorderWidth="0" BorderColor="White"
  CssClass="sncore_inner_table" Width="95%" OnItemDataBound="discussionView_ItemDataBound" OnItemCommand="discussionView_ItemCommand">
@@ -62,3 +64,4 @@
   </asp:TemplateColumn>
  </Columns>
 </asp:DataGrid>
+<SnCore:DiscussionQuickPost id="quickpost" runat="server" />

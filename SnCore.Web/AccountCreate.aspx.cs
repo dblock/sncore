@@ -29,6 +29,13 @@ public partial class AccountCreate : Page
                 string.Format("location.href='mailto:{0}';",
                    SessionManager.GetCachedConfiguration(
                         "SnCore.Admin.EmailAddress", "admin@localhost.com"));
+
+            if (SessionManager.IsLoggedIn)
+            {
+                ReportInfo("You're already logged-in. Click <a href='AccountManage.aspx'>here</a> to continue.");
+                panelCreate.Enabled = false;
+                return;
+            }
         }
         else
         {

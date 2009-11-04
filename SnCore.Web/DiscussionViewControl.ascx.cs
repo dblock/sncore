@@ -207,6 +207,8 @@ public partial class DiscussionViewControl : Control
             gridManage.CssClass = mCssClass;
             tableSearch.Attributes["class"] = mCssClass;
 
+            quickpost.DiscussionId = DiscussionId;
+
             GetDiscussionData(sender, e);
             GetData(sender, e);
         }
@@ -286,5 +288,4 @@ public partial class DiscussionViewControl : Control
             return false;
         }
     }
-
 }

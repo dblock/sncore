@@ -47,6 +47,12 @@ public partial class AccountLoginControl : Control
                             Renderer.UrlEncode(ReturnUrl), Renderer.UrlEncode(t_login.ConsumerUrl)));
                     }
                 }
+
+                if (SessionManager.IsLoggedIn)
+                {
+                    ReportInfo("You're already logged-in. Click <a href='AccountManage.aspx'>here</a> to continue.", false);
+                    loginLogin.Enabled = false;
+                }
             }
         }
         catch
