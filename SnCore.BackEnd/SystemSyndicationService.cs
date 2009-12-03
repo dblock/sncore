@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Reflection;
 using SnCore.Tools.Web;
 using System.ServiceProcess;
+using System.Globalization;
 
 namespace SnCore.BackEndServices
 {
@@ -33,7 +34,27 @@ namespace SnCore.BackEndServices
 
         public override void SetUp()
         {
+            AddJob(new SessionJobDelegate(RunCleanupImg));
+            AddJob(new SessionJobDelegate(RunCleanupMedia));
             AddJob(new SessionJobDelegate(RunSyndication));
+        }
+
+        public void RunCleanupImg(ISession session, ManagedSecurityContext sec)
+        {
+            session.Delete(string.Format(
+                "FROM AccountFeedItemImg img " +
+                " WHERE img.Modified < '{0}'", DateTime.UtcNow.AddMonths(-1).ToString(
+                    DateTimeFormatInfo.InvariantInfo)));
+            session.Flush();
+        }
+
+        public void RunCleanupMedia(ISession session, ManagedSecurityContext sec)
+        {
+            session.Delete(string.Format(
+                "FROM AccountFeedItemMedia media " +
+                " WHERE media.Modified < '{0}'", DateTime.UtcNow.AddMonths(-1).ToString(
+                    DateTimeFormatInfo.InvariantInfo)));
+            session.Flush();
         }
 
         public void RunSyndication(ISession session, ManagedSecurityContext sec)

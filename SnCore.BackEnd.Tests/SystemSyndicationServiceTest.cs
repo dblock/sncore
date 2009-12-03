@@ -26,5 +26,17 @@ namespace SnCore.BackEnd.Tests
         {
             service.RunSyndication(Session, ManagedAccount.GetAdminSecurityContext(Session));
         }
+
+        [Test]
+        public void TestCleanupImg()
+        {
+            service.RunCleanupImg(Session, ManagedAccount.GetAdminSecurityContext(Session));
+        }
+
+        [Test]
+        public void TestCleanupMedia()
+        {
+            service.RunCleanupMedia(Session, ManagedAccount.GetAdminSecurityContext(Session));
+        }
     }
 }

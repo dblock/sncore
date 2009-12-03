@@ -880,7 +880,7 @@ namespace SnCore.Services
 
                     if (x_img != null)
                     {
-                        // image alRetreivey exists
+                        // image already exists
                         continue;
                     }
 
