@@ -97,14 +97,14 @@ namespace SnCore.WebServices
         /// Get a humanly readable representation of a schedule.
         /// </summary>
         [WebMethod(Description = "Get a humanly readable representation of a schedule.")]
-        public string GetScheduleString(string ticket, TransitSchedule schedule, int offset)
+        public string GetScheduleString(string ticket, TransitSchedule schedule, long offsetTicks)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 ManagedSchedule m_schedule = new ManagedSchedule(session, schedule.GetInstance(session, sec));
-                return m_schedule.ToString(offset);
+                return m_schedule.ToString(new TimeSpan(offsetTicks));
             }
         }
 

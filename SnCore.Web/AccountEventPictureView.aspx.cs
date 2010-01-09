@@ -74,8 +74,9 @@ public partial class AccountEventPictureView : Page
         {
             if (mAccountEvent == null)
             {
-                mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, int>(
-                    AccountEventPicture.AccountEventId, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
+                mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, long>(
+                    AccountEventPicture.AccountEventId, SessionManager.UtcOffset.Ticks, 
+                    SessionManager.EventService.GetAccountEventById);
             }
             return mAccountEvent;
         }

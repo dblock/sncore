@@ -184,8 +184,8 @@ public partial class AccountEventsView : Page
         ServiceQueryOptions serviceoptions = new ServiceQueryOptions();
         serviceoptions.PageSize = gridManage.PageSize;
         serviceoptions.PageNumber = gridManage.CurrentPageIndex;
-        gridManage.DataSource = SessionManager.GetCollection<TransitAccountEvent, int, TransitAccountEventQueryOptions>(
-            SessionManager.UtcOffset, options, serviceoptions, SessionManager.EventService.GetAccountEvents);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountEvent, long, TransitAccountEventQueryOptions>(
+            SessionManager.UtcOffset.Ticks, options, serviceoptions, SessionManager.EventService.GetAccountEvents);
 
         if (((SnCoreMasterPage)Master).ScriptManager.IsInAsyncPostBack &&
             !((SnCoreMasterPage)Master).ScriptManager.IsNavigating)

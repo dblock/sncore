@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="ThumbnailBitmapTest.cs" />
+    <Compile Include="TimeZoneInformationTest.cs" />
     <Compile Include="WebsiteBitmapTest.cs" />
   </ItemGroup>
   <ItemGroup>

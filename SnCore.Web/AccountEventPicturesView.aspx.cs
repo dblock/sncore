@@ -25,7 +25,7 @@ public partial class AccountEventPicturesView : Page
             if (RequestId > 0)
             {
                 TransitAccountEvent evt = SessionManager.EventService.GetAccountEventById(
-                    SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+                    SessionManager.Ticket, RequestId, SessionManager.UtcOffset.Ticks);
 
                 this.Title = string.Format("{0} Pictures", Renderer.Render(evt.Name));
                 listView.DataSource = SessionManager.EventService.GetAccountEventPictures(

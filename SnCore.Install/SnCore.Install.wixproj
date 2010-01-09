@@ -39,17 +39,20 @@
     <Content Include="SnCore.Install.UI.UpgradeWelcomeDlg.wxi" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+    </WixExtension>
     <WixExtension Include="WixIIsExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3\bin\WixIIsExtension.dll</HintPath>
+      <HintPath>$(WixExtDir)\WixIIsExtension.dll</HintPath>
     </WixExtension>
     <WixExtension Include="WixSqlExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3\bin\WixSqlExtension.dll</HintPath>
+      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
     </WixExtension>
     <WixExtension Include="WixUIExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3\bin\WixUIExtension.dll</HintPath>
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
     </WixExtension>
     <WixExtension Include="WixUtilExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3\bin\WixUtilExtension.dll</HintPath>
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>

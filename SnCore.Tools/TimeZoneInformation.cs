@@ -317,14 +317,15 @@ namespace SnCore.Tools
         /// <summary>
         /// The offset from UTC. Local = UTC + Bias.
         /// </summary>
-        public int CurrentUtcBiasHours
+        public TimeSpan CurrentUtcBias
         {
             get 
             {
-                DateTime utczero = DateTime.UtcNow;
+                DateTime utcnow = DateTime.UtcNow;
+                DateTime utczero = new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, utcnow.Minute, 0);
                 DateTime utclocal = FromUniversalTime(utczero);
                 TimeSpan ts = utclocal - utczero;
-                return (int) ts.TotalHours;
+                return new TimeSpan((int) ts.TotalHours, ts.Minutes, 0);
             }
         }
 
@@ -344,6 +345,46 @@ namespace SnCore.Tools
             get { return -(m_tzi.bias + m_tzi.daylightBias); }
         }
 
+        /// <summary>
+        /// Current UTC bias as a string.
+        /// </summary>
+        public string CurrentUtcBiasString
+        {
+            get
+            {
+                return string.Format("{0}.{1}", CurrentUtcBias.Hours,
+                    Math.Abs(10 * CurrentUtcBias.Minutes / 6))
+                    .TrimEnd("0".ToCharArray())
+                    .TrimEnd(".".ToCharArray());
+            }
+        }
+
+        /// <summary>
+        /// Parse a UTC bias into a string.
+        /// </summary>
+        /// <param name="offset">UTC bias (offset)</param>
+        /// <param name="tz">UTC bias</param>
+        /// <returns>True if successfully parsed.</returns>
+        public static bool TryParseTimezoneOffsetToTimeSpan(string offset, out TimeSpan tz)
+        {
+            tz = TimeSpan.Zero;
+
+            if (string.IsNullOrEmpty(offset))
+                return false;
+
+            float parsed = 0;
+            if (!float.TryParse(offset, out parsed))
+                return false;
+
+            if (parsed > 13 || parsed < -12)
+                return false;
+
+            int hours = (int)parsed;
+            int minutes = (int)(60 * (parsed - (int) parsed));
+
+            tz = new TimeSpan(hours, minutes, 0);
+            return true;
+        }
 
         private TIME_ZONE_INFORMATION TziNative()
         {

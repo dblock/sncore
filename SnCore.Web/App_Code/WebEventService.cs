@@ -47,7 +47,7 @@ namespace SnCore.WebServices
         /// <param name="id">account id</param>
         /// <returns>transit account events</returns>
         [WebMethod(Description = "Get account events.", CacheDuration = 60)]
-        public List<TransitAccountEvent> GetAccountEventsByAccountId(string ticket, int id, int utcoffset, ServiceQueryOptions options)
+        public List<TransitAccountEvent> GetAccountEventsByAccountId(string ticket, int id, long utcoffsetTicks, ServiceQueryOptions options)
         {
             ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
             List<TransitAccountEvent> result = WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetList(
@@ -59,7 +59,7 @@ namespace SnCore.WebServices
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 foreach (TransitAccountEvent t_instance in result)
                 {
-                    t_instance.CreateSchedule(session, utcoffset, sec);
+                    t_instance.CreateSchedule(session, new TimeSpan(utcoffsetTicks), sec);
                 }
             }
 
@@ -73,7 +73,7 @@ namespace SnCore.WebServices
         /// <param name="id">event id</param>
         /// <returns>transit account event</returns>
         [WebMethod(Description = "Get account event by id.")]
-        public TransitAccountEvent GetAccountEventById(string ticket, int id, int utcoffset)
+        public TransitAccountEvent GetAccountEventById(string ticket, int id, long utcoffsetTicks)
         {
             TransitAccountEvent t_instance = WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetById(
                 ticket, id);
@@ -84,7 +84,7 @@ namespace SnCore.WebServices
                 {
                     ISession session = SnCore.Data.Hibernate.Session.Current;
                     ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
-                    t_instance.CreateSchedule(session, utcoffset, sec);
+                    t_instance.CreateSchedule(session, new TimeSpan(utcoffsetTicks), sec);
                 }
             }
 
@@ -149,7 +149,7 @@ namespace SnCore.WebServices
         /// </summary>
         /// <returns>list of transit account events</returns>
         [WebMethod(Description = "Get all account events.", CacheDuration = 60)]
-        public List<TransitAccountEvent> GetAccountEvents(string ticket, int utcoffset, TransitAccountEventQueryOptions qopt, ServiceQueryOptions options)
+        public List<TransitAccountEvent> GetAccountEvents(string ticket, long utcoffsetTicks, TransitAccountEventQueryOptions qopt, ServiceQueryOptions options)
         {
             List<TransitAccountEvent> result = WebServiceImpl<TransitAccountEvent, ManagedAccountEvent, AccountEvent>.GetList(
                 ticket, options, qopt.CreateQuery());
@@ -160,7 +160,7 @@ namespace SnCore.WebServices
                 ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
                 foreach (TransitAccountEvent t_instance in result)
                 {
-                    t_instance.CreateSchedule(session, utcoffset, sec);
+                    t_instance.CreateSchedule(session, new TimeSpan(utcoffsetTicks), sec);
                 }
             }
 

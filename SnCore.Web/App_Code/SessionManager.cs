@@ -958,7 +958,7 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
                             WebsiteUrl, t_blog.Id, Renderer.Render(t_blog.Name));
                     });
             case "event":
-                return Handle<TransitAccountEvent, int>(tagname, tagvalue, 0, EventService.GetAccountEventById,
+                return Handle<TransitAccountEvent, long>(tagname, tagvalue, 0, EventService.GetAccountEventById,
                     delegate(TransitAccountEvent t_event)
                     {
                         return string.Format("<a href=\"{0}/AccountEventView.aspx?id={1}\">{2}</a>",

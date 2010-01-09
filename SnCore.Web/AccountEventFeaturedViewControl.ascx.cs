@@ -53,8 +53,8 @@ public partial class AccountEventFeaturedViewControl : Control
         {
             if (mAccountEvent == null)
             {
-                mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, int>(
-                    Feature.DataRowId, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
+                mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, long>(
+                    Feature.DataRowId, SessionManager.UtcOffset.Ticks, SessionManager.EventService.GetAccountEventById);
             }
 
             return mAccountEvent;

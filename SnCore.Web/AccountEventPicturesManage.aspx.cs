@@ -27,7 +27,8 @@ public partial class AccountEventPicturesManage : AuthenticatedPage
 
         if (!IsPostBack)
         {
-            TransitAccountEvent p = SessionManager.EventService.GetAccountEventById(SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+            TransitAccountEvent p = SessionManager.EventService.GetAccountEventById(
+                SessionManager.Ticket, RequestId, SessionManager.UtcOffset.Ticks);
 
             GetData(sender, e);
 

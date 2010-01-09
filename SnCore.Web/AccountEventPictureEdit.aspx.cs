@@ -27,7 +27,9 @@ public partial class AccountEventPictureEdit : AuthenticatedPage
     {
         if (!IsPostBack)
         {
-            TransitAccountEvent p = SessionManager.EventService.GetAccountEventById(SessionManager.Ticket, AccountEventId, SessionManager.UtcOffset);
+            TransitAccountEvent p = SessionManager.EventService.GetAccountEventById(
+                SessionManager.Ticket, AccountEventId, SessionManager.UtcOffset.Ticks);
+
             linkBack.NavigateUrl = string.Format("AccountEventPicturesManage.aspx?id={0}", p.Id);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();

@@ -105,7 +105,7 @@ public partial class AccountEventsRss : Page
             queryoptions.PageSize = 10;
 
             rssRepeater.DataSource = SessionManager.EventService.GetAccountEvents(
-                SessionManager.Ticket, SessionManager.UtcOffset, options, queryoptions);
+                SessionManager.Ticket, SessionManager.UtcOffset.Ticks, options, queryoptions);
             rssRepeater.DataBind();
         }
     }

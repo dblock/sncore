@@ -85,7 +85,7 @@ public partial class EmailFeature : AuthenticatedPage
                 }
             case "AccountEvent":
                 {
-                    TransitAccountEvent t_instance = SessionManager.GetInstance<TransitAccountEvent, int, int>(
+                    TransitAccountEvent t_instance = SessionManager.GetInstance<TransitAccountEvent, int, long>(
                         Feature.DataRowId, 0, SessionManager.EventService.GetAccountEventById);
                     return t_instance.Name;
                 }

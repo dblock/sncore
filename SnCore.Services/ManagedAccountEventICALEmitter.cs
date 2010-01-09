@@ -16,9 +16,9 @@ namespace SnCore.Services
         private TransitAccountEvent mAccountEvent;
         private TransitSchedule mSchedule;
         private TransitPlace mPlace;
-        private int mUtcOffset = 0;
+        private TimeSpan mUtcOffset = TimeSpan.Zero;
 
-        public int UtcOffset
+        public TimeSpan UtcOffset
         {
             get
             {
@@ -131,12 +131,12 @@ namespace SnCore.Services
                     {
                         case "dtstart":
                             mSchedule.StartDateTime = mAccountEvent.StartDateTime = DateTime.Parse(
-                                Token.ParseDateTime(t.TokenText)).AddHours(-UtcOffset);
+                                Token.ParseDateTime(t.TokenText)).Add(-UtcOffset);
                             mSchedule.EndDateTime = mAccountEvent.EndDateTime = mAccountEvent.StartDateTime.AddHours(1);
                             break;
                         case "dtend":
                             mSchedule.EndDateTime = mAccountEvent.EndDateTime = DateTime.Parse(
-                                Token.ParseDateTime(t.TokenText)).AddHours(-UtcOffset);
+                                Token.ParseDateTime(t.TokenText)).Add(-UtcOffset);
                             break;
                     }
 
@@ -215,10 +215,10 @@ namespace SnCore.Services
 
         public static TransitAccountEventICALEmitter Parse(string url, string useragent)
         {
-            return Parse(url, 0, useragent);
+            return Parse(url, TimeSpan.Zero, useragent);
         }
 
-        public static TransitAccountEventICALEmitter Parse(string url, int utcoffset, string useragent)
+        public static TransitAccountEventICALEmitter Parse(string url, TimeSpan utcoffset, string useragent)
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url.Replace("webcal:", "http:"));
             request.UserAgent = useragent;

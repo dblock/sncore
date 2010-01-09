@@ -62,7 +62,7 @@ public partial class FeaturedAccountEventsRss : Page
 
     public TransitAccountEvent GetAccountEvent(int id)
     {
-        return SessionManager.GetInstance<TransitAccountEvent, int, int>(
-            id, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
+        return SessionManager.GetInstance<TransitAccountEvent, int, long>(
+            id, SessionManager.UtcOffset.Ticks, SessionManager.EventService.GetAccountEventById);
     }
 }

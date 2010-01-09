@@ -45,7 +45,7 @@ public partial class AccountEventEdit : AuthenticatedPage
             if (RequestId > 0)
             {
                 TransitAccountEvent tav = SessionManager.EventService.GetAccountEventById(
-                    SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+                    SessionManager.Ticket, RequestId, SessionManager.UtcOffset.Ticks);
                 inputName.Text = tav.Name;
                 inputWebsite.Text = tav.Website;
                 inputDescription.Text = tav.Description;
@@ -202,7 +202,7 @@ public partial class AccountEventEdit : AuthenticatedPage
     public void linkSummarize_Click(object sender, EventArgs e)
     {
         TransitAccountEvent tav = SessionManager.EventService.GetAccountEventById(
-            SessionManager.Ticket, RequestId, SessionManager.UtcOffset);
+            SessionManager.Ticket, RequestId, SessionManager.UtcOffset.Ticks);
 
         string imageuri = string.Format("AccountEventPictureThumbnail.aspx?id={0}", tav.PictureId);
 

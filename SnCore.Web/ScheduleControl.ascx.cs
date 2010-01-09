@@ -380,7 +380,7 @@ public partial class ScheduleControl : Control
     public override string ToString()
     {
         return SessionManager.ObjectService.GetScheduleString(
-            SessionManager.Ticket, Schedule, SessionManager.UtcOffset);
+            SessionManager.Ticket, Schedule, SessionManager.UtcOffset.Ticks);
     }
 
     public void stdAllDay_CheckedChanged(object sender, EventArgs e)

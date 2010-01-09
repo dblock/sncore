@@ -27,7 +27,7 @@ namespace SnCore.Web.Soap.Tests.WebObjectServiceTests
         public void GetScheduleStringTest()
         {
             WebObjectService.TransitSchedule t_instance = GetTransitInstance();
-            string schedule = EndPoint.GetScheduleString(GetAdminTicket(), t_instance, 1);
+            string schedule = EndPoint.GetScheduleString(GetAdminTicket(), t_instance, new TimeSpan(1, 0, 0).Ticks);
             Assert.IsNotEmpty(schedule);
             Console.WriteLine(schedule);
         }

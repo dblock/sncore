@@ -82,31 +82,35 @@ namespace SnCore.Tools.Web
 
         #region Browser
 
-        public int UtcOffset
+        public TimeSpan UtcOffset
         {
             get
             {
                 if ((IsLoggedIn) && (SessionTimeZone > 0))
                 {
                     TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionTimeZone);
-                    return tz.CurrentUtcBiasHours;
+                    return tz.CurrentUtcBias;
                 }
 
                 return BrowserUtcOffset;
             }
         }
 
-        public int BrowserUtcOffset
+        public TimeSpan BrowserUtcOffset
         {
             get
             {
-                int tz = System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
-
                 HttpCookie xtz = Request.Cookies["x-VisitorTimeZoneOffset"];
+                TimeSpan browserTimeZone = TimeSpan.Zero;
                 if (xtz != null && !string.IsNullOrEmpty(xtz.Value))
-                    int.TryParse(xtz.Value, out tz);
+                {
+                    if (TimeZoneInformation.TryParseTimezoneOffsetToTimeSpan(xtz.Value, out browserTimeZone))
+                    {
+                        return browserTimeZone;
+                    }
+                }
 
-                return tz;
+                return System.TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now);
             }
         }
 
@@ -124,7 +128,7 @@ namespace SnCore.Tools.Web
                 return tz.FromUniversalTime(dt);
             }
 
-            return dt.AddHours(BrowserUtcOffset);
+            return dt.Add(BrowserUtcOffset);
         }
 
         public DateTime ToUTC(DateTime dt)
@@ -135,7 +139,7 @@ namespace SnCore.Tools.Web
                 return tz.ToUniversalTime(dt);
             }
 
-            return dt.AddHours(-BrowserUtcOffset);
+            return dt.Add(-BrowserUtcOffset);
         }
 
         public string ToAdjustedString(DateTime dt)
@@ -165,11 +169,11 @@ namespace SnCore.Tools.Web
             {
                 TimeZoneInformation tz = TimeZoneInformation.FromIndex(SessionTimeZone);
                 return tz.FromUniversalTime(dt).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-                    " " + tz.CurrentUtcBiasHours.ToString("00") + "00";
+                    " " + tz.CurrentUtcBias.TotalHours.ToString("00") + tz.CurrentUtcBias.Minutes.ToString("00");
             }
 
-            return dt.AddHours(BrowserUtcOffset).ToString("ddd, dd MMM yyyy HH:mm:ss") +
-                " " + BrowserUtcOffset.ToString("00") + "00";
+            return dt.Add(BrowserUtcOffset).ToString("ddd, dd MMM yyyy HH:mm:ss") +
+                " " + BrowserUtcOffset.TotalHours.ToString("00") + BrowserUtcOffset.Minutes.ToString("00");
         }
 
         #endregion

@@ -77,8 +77,8 @@ public partial class AccountEventView : Page
             {
                 if (mAccountEvent == null && RequestId > 0)
                 {
-                    mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, int>(
-                        RequestId, SessionManager.UtcOffset, SessionManager.EventService.GetAccountEventById);
+                    mAccountEvent = SessionManager.GetInstance<TransitAccountEvent, int, long>(
+                        RequestId, SessionManager.UtcOffset.Ticks, SessionManager.EventService.GetAccountEventById);
                 }
             }
             catch

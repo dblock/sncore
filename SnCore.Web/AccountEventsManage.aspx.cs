@@ -50,7 +50,7 @@ public partial class AccountEventsManage : AuthenticatedPage
         options.PageSize = gridManage.PageSize;
         options.PageNumber = gridManage.CurrentPageIndex;
         gridManage.DataSource = SessionManager.EventService.GetAccountEventsByAccountId(
-            SessionManager.Ticket, SessionManager.AccountId, SessionManager.UtcOffset, options);
+            SessionManager.Ticket, SessionManager.AccountId, SessionManager.UtcOffset.Ticks, options);
     }
 
     public void gridManage_ItemCommand(object sender, DataGridCommandEventArgs e)

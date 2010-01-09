@@ -2,45 +2,6 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
-      <s:element name="GetAccountMessageSystemFolder">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="folder" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountMessageSystemFolderResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountMessageSystemFolderResult" type="tns:TransitAccountMessageFolder" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="TransitAccountMessageFolder">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccountMessageFolder">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="FullPath" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="System" type="s:boolean" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountMessageFolderParentId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="MessageCount" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="UnReadMessageCount" type="s:int" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccountMessageFolder" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="DeleteAccountAttribute">
         <s:complexType>
           <s:sequence>
@@ -794,6 +755,29 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountMessageFolder" nillable="true" type="tns:TransitAccountMessageFolder" />
         </s:sequence>
       </s:complexType>
+      <s:complexType name="TransitAccountMessageFolder">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountMessageFolder">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="FullPath" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="System" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountMessageFolderParentId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Level" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MessageCount" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UnReadMessageCount" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountMessageFolder" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetAccountMessageFoldersCount">
         <s:complexType>
           <s:sequence>
@@ -849,6 +833,22 @@
       </s:element>
       <s:element name="DeleteAccountMessageFolderResponse">
         <s:complexType />
+      </s:element>
+      <s:element name="GetAccountMessageSystemFolder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="folder" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountMessageSystemFolderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountMessageSystemFolderResult" type="tns:TransitAccountMessageFolder" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetAccountMessagesCount">
         <s:complexType>
@@ -2956,12 +2956,6 @@
       </s:complexType>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="GetAccountMessageSystemFolderSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountMessageSystemFolder" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountMessageSystemFolderSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountMessageSystemFolderResponse" />
-  </wsdl:message>
   <wsdl:message name="DeleteAccountAttributeSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountAttribute" />
   </wsdl:message>
@@ -3213,6 +3207,12 @@
   </wsdl:message>
   <wsdl:message name="DeleteAccountMessageFolderSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountMessageFolderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountMessageSystemFolderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountMessageSystemFolder" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountMessageSystemFolderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountMessageSystemFolderResponse" />
   </wsdl:message>
   <wsdl:message name="GetAccountMessagesCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountMessagesCount" />
@@ -3917,11 +3917,6 @@
     <wsdl:part name="parameters" element="tns:GetAccountAttributesResponse" />
   </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
-    <wsdl:operation name="GetAccountMessageSystemFolder">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account message folder by id.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountMessageSystemFolderSoapIn" />
-      <wsdl:output message="tns:GetAccountMessageSystemFolderSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="DeleteAccountAttribute">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account attribute.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountAttributeSoapIn" />
@@ -4131,6 +4126,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a message folder.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountMessageFolderSoapIn" />
       <wsdl:output message="tns:DeleteAccountMessageFolderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountMessageSystemFolder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account message folder by id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountMessageSystemFolderSoapIn" />
+      <wsdl:output message="tns:GetAccountMessageSystemFolderSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountMessagesCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account messages count.</wsdl:documentation>
@@ -4720,15 +4720,6 @@
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetAccountMessageSystemFolder">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountMessageSystemFolder" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="DeleteAccountAttribute">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountAttribute" style="document" />
       <wsdl:input>
@@ -5100,6 +5091,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountMessageFolder">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountMessageFolder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountMessageSystemFolder">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountMessageSystemFolder" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -6163,15 +6163,6 @@
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetAccountMessageSystemFolder">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountMessageSystemFolder" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="DeleteAccountAttribute">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountAttribute" style="document" />
       <wsdl:input>
@@ -6543,6 +6534,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccountMessageFolder">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountMessageFolder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountMessageSystemFolder">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountMessageSystemFolder" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

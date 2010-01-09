@@ -522,11 +522,11 @@ namespace SnCore.Services
             }
         }
 
-        public string ToString(int offset)
+        public string ToString(TimeSpan utcoffset)
         {
             StringBuilder result = new StringBuilder();
-            DateTime start = mInstance.StartDateTime.AddHours(offset);
-            DateTime end = mInstance.EndDateTime.AddHours(offset);
+            DateTime start = mInstance.StartDateTime.Add(utcoffset);
+            DateTime end = mInstance.EndDateTime.Add(utcoffset);
 
             if (mInstance.RecurrencePattern == (short)RecurrencePattern.None)
             {

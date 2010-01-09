@@ -767,7 +767,7 @@ namespace SnCore.Services
             return instance;
         }
 
-        public void CreateSchedule(ISession session, int offset, ManagedSecurityContext sec)
+        public void CreateSchedule(ISession session, TimeSpan offset, ManagedSecurityContext sec)
         {
             ManagedSchedule m_s = new ManagedSchedule(session, ScheduleId);
             Schedule = m_s.ToString(offset);
@@ -808,11 +808,11 @@ namespace SnCore.Services
                     break;
             }
 
-            this.EndDateTime = s.EndDateTime.AddHours(offset);
+            this.EndDateTime = s.EndDateTime.Add(offset);
             this.Endless = s.Endless;
             this.NoEndDateTime = s.NoEndDateTime;
             this.EndOccurrences = s.EndOccurrences;
-            this.StartDateTime = s.StartDateTime.AddHours(offset);
+            this.StartDateTime = s.StartDateTime.Add(offset);
         }
     }
 
