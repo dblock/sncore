@@ -15,6 +15,13 @@ using SnCore.SiteMap;
 
 public partial class AccountFriendsView : AccountPersonPage
 {
+    private TransitAccountFriendQueryOptions GetOptions()
+    {
+        TransitAccountFriendQueryOptions options = new TransitAccountFriendQueryOptions();
+        options.AccountId = RequestAccountId;
+        return options;
+    }
+
     public int RequestAccountId
     {
         get
@@ -49,8 +56,8 @@ public partial class AccountFriendsView : AccountPersonPage
     void GetData(object sender, EventArgs e)
     {
         gridManage.CurrentPageIndex = 0;
-        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, int>(
-            RequestAccountId, SessionManager.SocialService.GetAccountFriendsCount);
+        gridManage.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, TransitAccountFriendQueryOptions>(
+            GetOptions(), SessionManager.SocialService.GetAccountFriendsCount);
         gridManage_OnGetDataSource(this, null);
         gridManage.DataBind();
     }
@@ -60,7 +67,7 @@ public partial class AccountFriendsView : AccountPersonPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = gridManage.CurrentPageIndex;
         options.PageSize = gridManage.PageSize;
-        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFriend, int>(
-            RequestAccountId, options, SessionManager.SocialService.GetAccountFriends);
+        gridManage.DataSource = SessionManager.GetCollection<TransitAccountFriend, TransitAccountFriendQueryOptions>(
+            GetOptions(), options, SessionManager.SocialService.GetAccountFriends);
     }
 }

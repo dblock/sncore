@@ -47,7 +47,9 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             string verifiedemail = account_endpoint.VerifyAccountEmail(confirmations[0].Id, confirmations[0].Code);
             Console.WriteLine("Verified: {0}", verifiedemail);
             // admin is not a friend with the new user
-            WebSocialService.TransitAccountFriend[] friends_before = EndPoint.GetAccountFriends(GetAdminTicket(), GetAdminAccount().Id, null);
+            WebSocialService.TransitAccountFriendQueryOptions qopt = new WebSocialService.TransitAccountFriendQueryOptions();
+            qopt.AccountId = GetAdminAccount().Id;
+            WebSocialService.TransitAccountFriend[] friends_before = EndPoint.GetAccountFriends(GetAdminTicket(), qopt, null);
             Assert.IsFalse(new TransitServiceCollection<WebSocialService.TransitAccountFriend>(friends_before).ContainsId(user_id, "FriendId"));
             // admin requests to be friends with the new user
             int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
@@ -63,7 +65,7 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             string ticket = Login(email, password);
             EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // check that these two are friends
-            WebSocialService.TransitAccountFriend[] friends_after = EndPoint.GetAccountFriends(GetAdminTicket(), GetAdminAccount().Id, null);
+            WebSocialService.TransitAccountFriend[] friends_after = EndPoint.GetAccountFriends(GetAdminTicket(), qopt, null);
             Assert.IsTrue(new TransitServiceCollection<WebSocialService.TransitAccountFriend>(friends_after).ContainsId(user_id, "FriendId"));
             Assert.AreEqual(friends_before.Length + 1, friends_after.Length);
             // there's an e-mail to the administrator confirming that the user accepted the friends request
@@ -122,27 +124,75 @@ namespace SnCore.Web.Soap.Tests.WebSocialServiceTests
             int user_id = CreateUser(email, password);
             string ticket = Login(email, password);
             // the user has no friends
-            int count = EndPoint.GetAccountFriendsCount(ticket, user_id);
+            WebSocialService.TransitAccountFriendQueryOptions qopt = new WebSocialService.TransitAccountFriendQueryOptions();
+            qopt.AccountId = user_id;
+            int count = EndPoint.GetAccountFriendsCount(ticket, qopt);
             Assert.AreEqual(0, count, "New user has friends he shouldn't have.");
-            WebSocialService.TransitAccountFriend[] friends = EndPoint.GetAccountFriends(ticket, user_id, null);
+            WebSocialService.TransitAccountFriend[] friends = EndPoint.GetAccountFriends(ticket, qopt, null);
             Assert.AreEqual(0, friends.Length, "New user has friends he shouldn't have.");
             // admin makes a friends request
             int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
             // the admin user is now part of friends
-            count = EndPoint.GetAccountFriendsCount(ticket, user_id);
+            count = EndPoint.GetAccountFriendsCount(ticket, qopt);
             Assert.AreEqual(1, count, "New user has no friends after accepting a request.");
-            friends = EndPoint.GetAccountFriends(ticket, user_id, null);
+            friends = EndPoint.GetAccountFriends(ticket, qopt, null);
             Assert.AreEqual(1, friends.Length, "New user has no friends after accepting a request.");
             bool bFound = new TransitServiceCollection<WebSocialService.TransitAccountFriend>(friends).ContainsId(GetAdminAccount().Id, "FriendId");
             Assert.IsTrue(bFound, "New user doesn't have admin among his friends.");
             // user removes admin from friends
             EndPoint.DeleteAccountFriend(ticket, friends[0].Id);
-            count = EndPoint.GetAccountFriendsCount(ticket, user_id);
+            count = EndPoint.GetAccountFriendsCount(ticket, qopt);
             Assert.AreEqual(0, count, "New user has friends after removing his last friend.");
-            friends = EndPoint.GetAccountFriends(ticket, user_id, null);
+            friends = EndPoint.GetAccountFriends(ticket, qopt, null);
             Assert.AreEqual(0, friends.Length, "New user has friends after removing his last friend.");
+            // delete the user
+            DeleteUser(user_id);
+        }
+
+        [Test]
+        public void SearchAccountFriendsTest()
+        {
+            string email = GetNewEmailAddress();
+            string password = "password";
+            int user_id = CreateUser(email, password);
+            string ticket = Login(email, password);
+            // the user has no friends
+            WebSocialService.TransitAccountFriendQueryOptions qopt = new WebSocialService.TransitAccountFriendQueryOptions();
+            qopt.AccountId = user_id;
+            Assert.AreEqual(0, EndPoint.GetAccountFriendsCount(ticket, qopt), "New user has friends he shouldn't have.");
+            Assert.IsEmpty(EndPoint.GetAccountFriends(ticket, qopt, null), "New user search returned friends he shouldn't have.");
+            qopt.Name = Guid.NewGuid().ToString();
+            Assert.AreEqual(0, EndPoint.GetAccountFriendsCount(ticket, qopt), "New user search returned friends he shouldn't have.");
+            Assert.IsEmpty(EndPoint.GetAccountFriends(ticket, qopt, null), "New user search returned friends he shouldn't have.");
+            // admin makes a friends request
+            int friend_request_id = EndPoint.CreateOrUpdateAccountFriendRequest(GetAdminTicket(), user_id, GetNewString());
+            Console.WriteLine("Created friend request: {0}", friend_request_id);
+            EndPoint.AcceptAccountFriendRequest(ticket, friend_request_id, GetNewString());
+            // the admin user is now part of friends
+            qopt.Name = string.Empty;
+            Assert.AreEqual(1, EndPoint.GetAccountFriendsCount(ticket, qopt), "New user has no friends after accepting a request.");
+            Assert.AreEqual(1, EndPoint.GetAccountFriends(ticket, qopt, null).Length, "New user has no friends after accepting a request.");
+            qopt.Name = Guid.NewGuid().ToString();
+            Assert.AreEqual(0, EndPoint.GetAccountFriendsCount(ticket, qopt), "Searched returned unexpected results count.");
+            Assert.AreEqual(0, EndPoint.GetAccountFriends(ticket, qopt, null).Length, "Searched returned unexpected results.");
+            // fetch user's friends
+            qopt.Name = GetAdminAccount().Name;
+            Assert.AreEqual(1, EndPoint.GetAccountFriendsCount(ticket, qopt), "Searched returned unexpected results count.");
+            WebSocialService.TransitAccountFriend[] userfriends = EndPoint.GetAccountFriends(ticket, qopt, null);
+            Assert.AreEqual(1, userfriends.Length, "Searched returned unexpected results.");
+            Assert.AreEqual(user_id, userfriends[0].AccountId, "Searched returned unexpected user account.");
+            Assert.AreEqual(GetAdminAccount().Id, userfriends[0].FriendId, "Searched returned unexpected friend account.");
+            // fetch admin's friends
+            WebAccountService.WebAccountService aservice = new WebAccountService.WebAccountService();
+            qopt.Name = aservice.GetAccountById(ticket, user_id).Name;
+            qopt.AccountId = GetAdminAccount().Id;
+            Assert.AreEqual(1, EndPoint.GetAccountFriendsCount(GetAdminTicket(), qopt), "Searched returned unexpected results count.");
+            WebSocialService.TransitAccountFriend[] adminfriends = EndPoint.GetAccountFriends(GetAdminTicket(), qopt, null);
+            Assert.AreEqual(1, adminfriends.Length, "Searched returned unexpected results.");
+            Assert.AreEqual(GetAdminAccount().Id, adminfriends[0].AccountId, "Searched returned unexpected admin account.");
+            Assert.AreEqual(user_id, adminfriends[0].FriendId, "Searched returned unexpected user account.");
             // delete the user
             DeleteUser(user_id);
         }

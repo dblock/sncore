@@ -52,6 +52,11 @@ public partial class AccountGroupAccountInvitationEdit : AuthenticatedPage
         }
     }
 
+    public void searchFriends_Click(object sender, EventArgs e)
+    {
+        GetData(sender, e);
+    }
+
     public string ReturnUrl
     {
         get
@@ -70,17 +75,28 @@ public partial class AccountGroupAccountInvitationEdit : AuthenticatedPage
         }
     }
 
+    private TransitAccountFriendQueryOptions GetOptions()
+    {
+        TransitAccountFriendQueryOptions options = new TransitAccountFriendQueryOptions();
+        options.AccountId = SessionManager.AccountId;
+        options.Name = searchFriends.Text;
+        return options;
+    }
+
     void GetData(object sender, EventArgs e)
     {
         friendsList.CurrentPageIndex = 0;
-        friendsList.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, int>(
-            SessionManager.AccountId, SessionManager.SocialService.GetAccountFriendsCount);
+
+        friendsList.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, TransitAccountFriendQueryOptions>(
+            GetOptions(), SessionManager.SocialService.GetAccountFriendsCount);
         friendsList_OnGetDataSource(sender, e);
         friendsList.DataBind();
 
         if (friendsList.VirtualItemCount == 0)
         {
-            ReportWarning("You have no friends.");
+            ReportWarning(string.IsNullOrEmpty(searchFriends.Text) 
+                ? "You have no friends."
+                : string.Format("You don't have any friends matching '{0}'.", Renderer.Render(searchFriends.Text)));
         }
     }
 
@@ -89,8 +105,8 @@ public partial class AccountGroupAccountInvitationEdit : AuthenticatedPage
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = friendsList.CurrentPageIndex;
         options.PageSize = friendsList.PageSize;
-        friendsList.DataSource = SessionManager.GetCollection<TransitAccountFriend, int>(
-            SessionManager.AccountId, options, SessionManager.SocialService.GetAccountFriends);
+        friendsList.DataSource = SessionManager.GetCollection<TransitAccountFriend, TransitAccountFriendQueryOptions>(
+            GetOptions(), options, SessionManager.SocialService.GetAccountFriends);
         panelGrid.Update();
     }
 

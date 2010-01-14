@@ -18,6 +18,24 @@
  </div>
  <asp:UpdatePanel ID="panelGrid" runat="server" UpdateMode="Always">
   <ContentTemplate>
+   <table>
+    <tr>
+     <td class="sncore_form_label">
+      search:
+     </td>
+     <td class="sncore_form_value">
+      <asp:TextBox CssClass="sncore_form_textbox" ID="searchFriends" runat="server" />     
+     </td>
+    </tr>
+    <tr>
+     <td class="sncore_form_label">
+     </td>
+     <td class="sncore_form_value">
+      <SnCoreWebControls:Button ID="search" runat="server" Text="Search" CssClass="sncore_form_button"
+       OnClick="searchFriends_Click" />
+     </td>
+    </tr>
+   </table>  
    <SnCoreWebControls:PagedList CssClass="sncore_account_table" runat="server" RepeatDirection="Horizontal"
     ID="friendsList" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Top"
     OnItemCommand="friendsList_Command" ItemStyle-CssClass="sncore_table_tr_td" RepeatColumns="3"

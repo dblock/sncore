@@ -14,6 +14,13 @@ using SnCore.Services;
 
 public partial class AccountFriendsViewControl : Control
 {
+    private TransitAccountFriendQueryOptions GetOptions()
+    {
+        TransitAccountFriendQueryOptions options = new TransitAccountFriendQueryOptions();
+        options.AccountId = AccountId;
+        return options;
+    }
+
     public int AccountId
     {
         get
@@ -43,8 +50,8 @@ public partial class AccountFriendsViewControl : Control
     void GetData(object sender, EventArgs e)
     {
         friendsList.CurrentPageIndex = 0;
-        friendsList.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, int>(
-            AccountId, SessionManager.SocialService.GetAccountFriendsCount);
+        friendsList.VirtualItemCount = SessionManager.GetCount<TransitAccountFriend, TransitAccountFriendQueryOptions>(
+            GetOptions(), SessionManager.SocialService.GetAccountFriendsCount);
         friendsList_OnGetDataSource(sender, e);
         friendsList.DataBind();
         this.Visible = (friendsList.VirtualItemCount > 0);
@@ -55,8 +62,8 @@ public partial class AccountFriendsViewControl : Control
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = friendsList.CurrentPageIndex;
         options.PageSize = friendsList.PageSize;
-        friendsList.DataSource = SessionManager.GetCollection<TransitAccountFriend, int>(
-            AccountId, options, SessionManager.SocialService.GetAccountFriends);
+        friendsList.DataSource = SessionManager.GetCollection<TransitAccountFriend, TransitAccountFriendQueryOptions>(
+            GetOptions(), options, SessionManager.SocialService.GetAccountFriends);
         panelGrid.Update();
     }
 }

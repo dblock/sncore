@@ -363,10 +363,18 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:TransitAccountFriendQueryOptions" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="TransitAccountFriendQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SortOrder" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SortAscending" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetAccountFriendsCountResponse">
         <s:complexType>
           <s:sequence>
@@ -378,7 +386,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qopt" type="tns:TransitAccountFriendQueryOptions" />
             <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
           </s:sequence>
         </s:complexType>

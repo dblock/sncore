@@ -788,26 +788,26 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFriendsCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountFriendsCount(string ticket, int id) {
+        public int GetAccountFriendsCount(string ticket, TransitAccountFriendQueryOptions options) {
             object[] results = this.Invoke("GetAccountFriendsCount", new object[] {
                         ticket,
-                        id});
+                        options});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountFriendsCountAsync(string ticket, int id) {
-            this.GetAccountFriendsCountAsync(ticket, id, null);
+        public void GetAccountFriendsCountAsync(string ticket, TransitAccountFriendQueryOptions options) {
+            this.GetAccountFriendsCountAsync(ticket, options, null);
         }
         
         /// <remarks/>
-        public void GetAccountFriendsCountAsync(string ticket, int id, object userState) {
+        public void GetAccountFriendsCountAsync(string ticket, TransitAccountFriendQueryOptions options, object userState) {
             if ((this.GetAccountFriendsCountOperationCompleted == null)) {
                 this.GetAccountFriendsCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFriendsCountOperationCompleted);
             }
             this.InvokeAsync("GetAccountFriendsCount", new object[] {
                         ticket,
-                        id}, this.GetAccountFriendsCountOperationCompleted, userState);
+                        options}, this.GetAccountFriendsCountOperationCompleted, userState);
         }
         
         private void OnGetAccountFriendsCountOperationCompleted(object arg) {
@@ -819,27 +819,27 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountFriends", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountFriend[] GetAccountFriends(string ticket, int id, ServiceQueryOptions options) {
+        public TransitAccountFriend[] GetAccountFriends(string ticket, TransitAccountFriendQueryOptions qopt, ServiceQueryOptions options) {
             object[] results = this.Invoke("GetAccountFriends", new object[] {
                         ticket,
-                        id,
+                        qopt,
                         options});
             return ((TransitAccountFriend[])(results[0]));
         }
         
         /// <remarks/>
-        public void GetAccountFriendsAsync(string ticket, int id, ServiceQueryOptions options) {
-            this.GetAccountFriendsAsync(ticket, id, options, null);
+        public void GetAccountFriendsAsync(string ticket, TransitAccountFriendQueryOptions qopt, ServiceQueryOptions options) {
+            this.GetAccountFriendsAsync(ticket, qopt, options, null);
         }
         
         /// <remarks/>
-        public void GetAccountFriendsAsync(string ticket, int id, ServiceQueryOptions options, object userState) {
+        public void GetAccountFriendsAsync(string ticket, TransitAccountFriendQueryOptions qopt, ServiceQueryOptions options, object userState) {
             if ((this.GetAccountFriendsOperationCompleted == null)) {
                 this.GetAccountFriendsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountFriendsOperationCompleted);
             }
             this.InvokeAsync("GetAccountFriends", new object[] {
                         ticket,
-                        id,
+                        qopt,
                         options}, this.GetAccountFriendsOperationCompleted, userState);
         }
         
@@ -1513,6 +1513,63 @@ namespace SnCore.Web.Soap.Tests.WebSocialService {
             }
             set {
                 this.createdField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.4927")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.vestris.com/sncore/ns/")]
+    public partial class TransitAccountFriendQueryOptions {
+        
+        private string sortOrderField;
+        
+        private bool sortAscendingField;
+        
+        private string nameField;
+        
+        private int accountIdField;
+        
+        /// <remarks/>
+        public string SortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool SortAscending {
+            get {
+                return this.sortAscendingField;
+            }
+            set {
+                this.sortAscendingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountId {
+            get {
+                return this.accountIdField;
+            }
+            set {
+                this.accountIdField = value;
             }
         }
     }

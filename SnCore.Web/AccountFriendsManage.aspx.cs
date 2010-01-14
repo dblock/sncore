@@ -15,16 +15,21 @@ using SnCore.SiteMap;
 
 public partial class AccountFriendsManage : AuthenticatedPage
 {
+    private TransitAccountFriendQueryOptions GetOptions()
+    {
+        TransitAccountFriendQueryOptions options = new TransitAccountFriendQueryOptions();
+        options.AccountId = SessionManager.AccountId;
+        options.Name = searchFriends.Text;
+        return options;
+    }
+
     public void Page_Load(object sender, EventArgs e)
     {
         friendsList.OnGetDataSource += new EventHandler(friendsList_OnGetDataSource);
 
         if (!IsPostBack)
         {
-            friendsList.VirtualItemCount = SessionManager.SocialService.GetAccountFriendsCount(
-                SessionManager.Ticket, SessionManager.AccountId);
-            friendsList_OnGetDataSource(this, null);
-            friendsList.DataBind();
+            GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
@@ -33,13 +38,22 @@ public partial class AccountFriendsManage : AuthenticatedPage
         }
     }
 
+    void GetData(object sender, EventArgs e)
+    {
+        friendsList.CurrentPageIndex = 0;
+        friendsList.VirtualItemCount = SessionManager.SocialService.GetAccountFriendsCount(
+            SessionManager.Ticket, GetOptions());
+        friendsList_OnGetDataSource(this, null);
+        friendsList.DataBind();
+    }
+
     void friendsList_OnGetDataSource(object sender, EventArgs e)
     {
         ServiceQueryOptions options = new ServiceQueryOptions();
         options.PageNumber = friendsList.CurrentPageIndex;
         options.PageSize = friendsList.PageSize;
         friendsList.DataSource = SessionManager.SocialService.GetAccountFriends(
-            SessionManager.Ticket, SessionManager.AccountId, options);
+            SessionManager.Ticket, GetOptions(), options);
     }
 
     public void friendsList_Command(object sender, DataListCommandEventArgs e)
@@ -49,11 +63,14 @@ public partial class AccountFriendsManage : AuthenticatedPage
             case "Delete":
                 int id = int.Parse(e.CommandArgument.ToString());
                 SessionManager.Delete<TransitAccountFriend>(id, SessionManager.SocialService.DeleteAccountFriend);
-                friendsList.CurrentPageIndex = 0;
-                friendsList_OnGetDataSource(sender, e);
-                friendsList.DataBind();
+                GetData(sender, e);
                 ReportInfo("Friend deleted.");
                 break;
         }
+    }
+
+    public void searchFriends_Click(object sender, EventArgs e)
+    {
+        GetData(sender, e);
     }
 }

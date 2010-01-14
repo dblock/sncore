@@ -337,10 +337,10 @@ namespace SnCore.WebServices
         /// Get friends count.
         /// </summary>
         [WebMethod(Description = "Get friends count.")]
-        public int GetAccountFriendsCount(string ticket, int id)
+        public int GetAccountFriendsCount(string ticket, TransitAccountFriendQueryOptions options)
         {
             return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetCount(
-                ticket, string.Format("WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0})", id));
+                ticket, options.CreateCountQuery());
         }
 
         /// <summary>
@@ -349,18 +349,17 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="account id">account id</param>
         [WebMethod(Description = "Get friends.", CacheDuration = 60)]
-        public List<TransitAccountFriend> GetAccountFriends(string ticket, int id, ServiceQueryOptions options)
+        public List<TransitAccountFriend> GetAccountFriends(string ticket, TransitAccountFriendQueryOptions qopt, ServiceQueryOptions options)
         {
-            ManagedAccount m_account = null;
+            ManagedAccount account = null;
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
-                m_account = new ManagedAccount(session, id);
+                account = new ManagedAccount(session, qopt.AccountId);
             }
 
-            return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetList(
-                ticket, options, string.Format("SELECT AccountFriend FROM AccountFriend AccountFriend WHERE (AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0}) ORDER BY AccountFriend.Created DESC", id),
-                m_account.GetTransformedInstanceFromAccountFriend);
+            return WebServiceImpl<TransitAccountFriend, ManagedAccountFriend, AccountFriend>.GetList(                
+                ticket, options, qopt.CreateQuery(), account.GetTransformedInstanceFromAccountFriend);
         }
 
         #endregion

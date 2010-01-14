@@ -4,9 +4,69 @@ using System.Collections;
 using System.Collections.Generic;
 using NHibernate.Expression;
 using SnCore.Data.Hibernate;
+using SnCore.Tools;
+using SnCore.Tools.Web;
+using System.Text;
 
 namespace SnCore.Services
 {
+    public class TransitAccountFriendQueryOptions
+    {
+        public string SortOrder = "Created";
+        public bool SortAscending = false;
+        public string Name;
+        public int AccountId = 0;
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
+
+        public TransitAccountFriendQueryOptions()
+        {
+        }
+
+        public string CreateSubQuery()
+        {
+            StringBuilder b = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                
+                string like = (Name.Length == 1) 
+                    ? string.Format("{0}%", Renderer.SqlEncode(Name)) 
+                    : string.Format("%{0}%", Renderer.SqlEncode(Name));
+
+                b.AppendFormat("((AccountFriend.Account.Id != {0} AND AccountFriend.Account.Name LIKE '{1}%') OR (AccountFriend.Keen.Id != {0} AND AccountFriend.Keen.Name LIKE '{1}%'))", 
+                    AccountId,
+                    like);
+            }
+
+            b.Append(b.Length > 0 ? " AND " : " WHERE ");
+            b.AppendFormat("(AccountFriend.Account.Id = {0} OR AccountFriend.Keen.Id = {0})", AccountId);
+
+            return b.ToString();
+        }
+
+        public string CreateCountQuery()
+        {
+            return CreateSubQuery();
+        }
+
+        public string CreateQuery()
+        {
+            StringBuilder b = new StringBuilder();
+            b.Append("SELECT AccountFriend FROM AccountFriend AccountFriend");
+            b.Append(CreateSubQuery());
+            if (!string.IsNullOrEmpty(SortOrder))
+            {
+                b.AppendFormat(" ORDER BY AccountFriend.{0} {1}", SortOrder, SortAscending ? "ASC" : "DESC");
+            }
+            return b.ToString();
+        }
+    };
+
     public class TransitAccountFriend : TransitService<AccountFriend>
     {
         private int mAccountId;
