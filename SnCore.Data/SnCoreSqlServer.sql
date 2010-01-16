@@ -1240,6 +1240,7 @@ CREATE TABLE [dbo].[AccountInvitation](
 	[Message] [text] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Failed] [bit] NOT NULL,
 	[LastError] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[AccountGroup_Id] [int] NULL,
  CONSTRAINT [PK_AccountInvitation] PRIMARY KEY CLUSTERED 
 (
 	[AccountInvitation_Id] ASC
@@ -4902,7 +4903,7 @@ GO
 ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Attribute]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlog_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlog]'))
-ALTER TABLE [dbo].[AccountBlog]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
+ALTER TABLE [dbo].[AccountBlog]  WITH NOCHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
@@ -4922,14 +4923,14 @@ GO
 ALTER TABLE [dbo].[AccountBlogAuthor] CHECK CONSTRAINT [FK_AccountBlogAuthor_AccountBlog]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogPost_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
-ALTER TABLE [dbo].[AccountBlogPost]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogPost_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+ALTER TABLE [dbo].[AccountBlogPost]  WITH NOCHECK ADD  CONSTRAINT [FK_AccountBlogPost_AccountBlog] FOREIGN KEY([AccountBlog_Id])
 REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountBlogPost] CHECK CONSTRAINT [FK_AccountBlogPost_AccountBlog]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
-ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
+ALTER TABLE [dbo].[AccountEmail]  WITH NOCHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
@@ -5141,12 +5142,11 @@ REFERENCES [dbo].[Place] ([Place_Id])
 GO
 ALTER TABLE [dbo].[AccountGroupPlace] CHECK CONSTRAINT [FK_AccountGroupPlace_Place]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
-ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_AccountGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
+ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_AccountGroup] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
 GO
-ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_Account]
+ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_AccountGroup]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_License_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountLicense]'))
 ALTER TABLE [dbo].[AccountLicense]  WITH CHECK ADD  CONSTRAINT [FK_License_Account] FOREIGN KEY([Account_Id])
@@ -5413,20 +5413,20 @@ GO
 ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_State]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
+ALTER TABLE [dbo].[Discussion]  WITH NOCHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_DataObject] FOREIGN KEY([DataObject_Id])
+ALTER TABLE [dbo].[Discussion]  WITH NOCHECK ADD  CONSTRAINT [FK_Discussion_DataObject] FOREIGN KEY([DataObject_Id])
 REFERENCES [dbo].[DataObject] ([DataObject_Id])
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_DataObject]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Discussion]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Discussion] FOREIGN KEY([Discussion_Id])
+ALTER TABLE [dbo].[Discussion]  WITH NOCHECK ADD  CONSTRAINT [FK_Discussion_Discussion] FOREIGN KEY([Discussion_Id])
 REFERENCES [dbo].[Discussion] ([Discussion_Id])
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Discussion]
@@ -5770,7 +5770,7 @@ GO
 ALTER TABLE [dbo].[AccountAttribute] CHECK CONSTRAINT [FK_AccountAttribute_Attribute]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlog_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlog]'))
-ALTER TABLE [dbo].[AccountBlog]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
+ALTER TABLE [dbo].[AccountBlog]  WITH NOCHECK ADD  CONSTRAINT [FK_AccountBlog_AccountBlog] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
@@ -5790,14 +5790,14 @@ GO
 ALTER TABLE [dbo].[AccountBlogAuthor] CHECK CONSTRAINT [FK_AccountBlogAuthor_AccountBlog]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountBlogPost_AccountBlog]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountBlogPost]'))
-ALTER TABLE [dbo].[AccountBlogPost]  WITH CHECK ADD  CONSTRAINT [FK_AccountBlogPost_AccountBlog] FOREIGN KEY([AccountBlog_Id])
+ALTER TABLE [dbo].[AccountBlogPost]  WITH NOCHECK ADD  CONSTRAINT [FK_AccountBlogPost_AccountBlog] FOREIGN KEY([AccountBlog_Id])
 REFERENCES [dbo].[AccountBlog] ([AccountBlog_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountBlogPost] CHECK CONSTRAINT [FK_AccountBlogPost_AccountBlog]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountEmail_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountEmail]'))
-ALTER TABLE [dbo].[AccountEmail]  WITH CHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
+ALTER TABLE [dbo].[AccountEmail]  WITH NOCHECK ADD  CONSTRAINT [FK_AccountEmail_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
@@ -6009,12 +6009,11 @@ REFERENCES [dbo].[Place] ([Place_Id])
 GO
 ALTER TABLE [dbo].[AccountGroupPlace] CHECK CONSTRAINT [FK_AccountGroupPlace_Place]
 GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
-ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_Account] FOREIGN KEY([Account_Id])
-REFERENCES [dbo].[Account] ([Account_Id])
-ON DELETE CASCADE
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountInvitation_AccountGroup]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountInvitation]'))
+ALTER TABLE [dbo].[AccountInvitation]  WITH CHECK ADD  CONSTRAINT [FK_AccountInvitation_AccountGroup] FOREIGN KEY([AccountGroup_Id])
+REFERENCES [dbo].[AccountGroup] ([AccountGroup_Id])
 GO
-ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_Account]
+ALTER TABLE [dbo].[AccountInvitation] CHECK CONSTRAINT [FK_AccountInvitation_AccountGroup]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_License_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountLicense]'))
 ALTER TABLE [dbo].[AccountLicense]  WITH CHECK ADD  CONSTRAINT [FK_License_Account] FOREIGN KEY([Account_Id])
@@ -6281,20 +6280,20 @@ GO
 ALTER TABLE [dbo].[City] CHECK CONSTRAINT [FK_City_State]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
+ALTER TABLE [dbo].[Discussion]  WITH NOCHECK ADD  CONSTRAINT [FK_Discussion_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_DataObject]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_DataObject] FOREIGN KEY([DataObject_Id])
+ALTER TABLE [dbo].[Discussion]  WITH NOCHECK ADD  CONSTRAINT [FK_Discussion_DataObject] FOREIGN KEY([DataObject_Id])
 REFERENCES [dbo].[DataObject] ([DataObject_Id])
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_DataObject]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Discussion_Discussion]') AND parent_object_id = OBJECT_ID(N'[dbo].[Discussion]'))
-ALTER TABLE [dbo].[Discussion]  WITH CHECK ADD  CONSTRAINT [FK_Discussion_Discussion] FOREIGN KEY([Discussion_Id])
+ALTER TABLE [dbo].[Discussion]  WITH NOCHECK ADD  CONSTRAINT [FK_Discussion_Discussion] FOREIGN KEY([Discussion_Id])
 REFERENCES [dbo].[Discussion] ([Discussion_Id])
 GO
 ALTER TABLE [dbo].[Discussion] CHECK CONSTRAINT [FK_Discussion_Discussion]

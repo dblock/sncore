@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -12,6 +13,9 @@ using SnCore.Tools.Web;
 using SnCore.WebServices;
 using SnCore.Services;
 using SnCore.SiteMap;
+using System.Net.Mail;
+using SnCore.Tools;
+using System.Text.RegularExpressions;
 
 public partial class AccountGroupAccountInvitationEdit : AuthenticatedPage
 {
@@ -145,4 +149,67 @@ public partial class AccountGroupAccountInvitationEdit : AuthenticatedPage
         }
     }
 
+    public static Regex emailregex = new Regex(@".*@.*\..*", RegexOptions.Compiled);
+
+    public void invite_Click(object sender, EventArgs e)
+    {
+        List<string> invitations = new List<string>();
+        List<string> failures = new List<string>();
+        ExceptionCollection exceptions = new ExceptionCollection();
+
+        foreach (string email in inputEmailAddress.Text.Split(";,\n\r".ToCharArray()))
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(email.Trim()))
+                continue;
+
+            try
+            {
+                // account is a member
+
+                TransitAccount existing = SessionManager.AccountService.FindByEmail(
+                    SessionManager.Ticket, email);
+
+                TransitAccountGroupAccountInvitation t_instance = new TransitAccountGroupAccountInvitation();
+                t_instance.AccountId = existing.Id;
+                t_instance.AccountGroupId = GroupId;
+                t_instance.Message = inputMessage.Text;
+                t_instance.RequesterId = SessionManager.Account.Id;
+                SessionManager.GroupService.CreateOrUpdateAccountGroupAccountInvitation(
+                    SessionManager.Ticket, t_instance);
+                continue;
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                MailAddress address = new MailAddress(email);
+                TransitAccountInvitation invitation = new TransitAccountInvitation();
+                invitation.Code = Guid.NewGuid().ToString();
+                invitation.Email = email;
+                invitation.Message = inputMessage.Text;
+                invitation.AccountId = SessionManager.AccountId;
+                invitation.AccountGroupId = GroupId;
+                SessionManager.CreateOrUpdate<TransitAccountInvitation>(
+                    invitation, SessionManager.AccountService.CreateOrUpdateAccountInvitation);
+                invitations.Add(email);
+            }
+            catch (Exception ex)
+            {
+                failures.Add(email);
+                exceptions.Add(new Exception(string.Format("Error inviting {0}: {1}", email, ex.Message), ex));
+            }
+        }
+
+        if (invitations.Count > 0)
+        {
+            ReportInfo(string.Format("{0} invitation{1} sent",
+                invitations.Count, invitations.Count == 1 ? string.Empty : "s"));
+        }
+
+        inputEmailAddress.Text = string.Join("\n", failures.ToArray());
+        exceptions.Throw();
+    }
 }

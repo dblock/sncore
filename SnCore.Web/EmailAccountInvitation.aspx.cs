@@ -34,5 +34,26 @@ public partial class EmailAccountInvitation : AuthenticatedPage
             Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore")));
         panelMessage.Visible = !string.IsNullOrEmpty(AccountInvitation.Message);
     }
+
+    public string InviteToUrl
+    {
+        get
+        {
+            return AccountInvitation.AccountGroupId != 0
+                ? string.Format("AccountGroupView.aspx?id={0}", AccountInvitation.AccountGroupId)
+                : SessionManager.WebsiteUrl;
+        }
+    }
+
+    public string InviteTo
+    {
+        get
+        {
+            string websiteName = SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore");
+            return AccountInvitation.AccountGroupId != 0
+                ? string.Format("{0}: {1}", websiteName, AccountInvitation.AccountGroupName)
+                : websiteName;
+        }
+    }
 }
 

@@ -25,6 +25,7 @@
         private System.Collections.Generic.IList<AccountGroupAccountInvitation> m_AccountGroupAccountInvitations;
         private System.Collections.Generic.IList<AccountGroupAccountRequest> m_AccountGroupAccountRequests;
         private AccountBlog m_AccountBlog;
+        private System.Collections.Generic.IList<AccountInvitation> m_AccountInvitations;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -353,6 +354,37 @@
             set
             {
                 m_AccountBlog = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountInvitation'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountInvitation.AccountGroup'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountInvitations' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountInvitation' table in the data source.
+        ///The property maps to the identity column 'AccountGroup_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public virtual System.Collections.Generic.IList<AccountInvitation> AccountInvitations
+        {
+            get
+            {
+                return m_AccountInvitations;
+            }
+            set
+            {
+                m_AccountInvitations = value;
             }
         }
 

@@ -3,6 +3,7 @@
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="GroupsView" Src="AccountGroupsViewControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">
  <div class="sncore_h2">
   Welcome!
@@ -31,4 +32,5 @@
    </td>
   </tr>
  </table>
+ <SnCore:GroupsView runat="server" ID="groupsView" PublicOnly="false" />
 </asp:Content>

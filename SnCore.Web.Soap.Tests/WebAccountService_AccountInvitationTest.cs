@@ -100,6 +100,40 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         }
 
         [Test]
+        public void CreateAccountGroupInvitationTest()
+        {
+            WebGroupService.TransitAccountGroup t_group = new WebGroupService.TransitAccountGroup();
+            t_group.Description = GetNewString();
+            t_group.Name = GetNewString();
+            t_group.IsPrivate = false;
+            WebGroupService.WebGroupService groupService = new WebGroupService.WebGroupService();
+            t_group.Id = groupService.CreateOrUpdateAccountGroup(GetAdminTicket(), t_group);
+            // create an invitation from admin to a new user with a group
+            WebAccountService.TransitAccountInvitation t_instance = GetTransitInstance();
+            t_instance.AccountGroupId = t_group.Id;
+            t_instance.Id = Create(GetAdminTicket(), t_instance);
+            // sign-up with this invitation
+            WebAccountService.TransitAccount t_account = new WebAccountService.TransitAccount();
+            t_account.Name = GetNewString();
+            t_account.Password = GetNewString();
+            t_account.Birthday = DateTime.UtcNow.AddYears(-10);
+            string ticket = EndPoint.CreateAccountWithInvitationAndLogin(t_instance.Id, t_instance.Code, t_account);
+            Assert.IsFalse(string.IsNullOrEmpty(ticket));
+            int id = EndPoint.GetAccountId(ticket);
+            Assert.IsTrue(id > 0);
+            Console.WriteLine("New account: {0}", id);
+            // account must also be a member of the group
+            WebGroupService.TransitAccountGroupAccount[] groupAccounts = groupService.GetAccountGroupAccountsByAccountId(
+                ticket, id, null);
+            Assert.IsNotEmpty(groupAccounts);
+            Assert.AreEqual(1, groupAccounts.Length);
+            Assert.AreEqual(t_group.Id, groupAccounts[0].AccountGroupId);
+            Assert.AreEqual(id, groupAccounts[0].AccountId);
+            EndPoint.DeleteAccount(ticket, id);
+            groupService.DeleteAccountGroup(GetAdminTicket(), t_group.Id);
+        }
+
+        [Test]
         public void DeclineInvitationTest()
         {
             // create an invitation from admin to a new user

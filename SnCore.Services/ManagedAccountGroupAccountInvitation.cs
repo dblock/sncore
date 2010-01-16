@@ -374,8 +374,8 @@ namespace SnCore.Services
         {
             GetACL().Check(sec, DataOperation.AllExceptUpdate);
 
-            ManagedAccountGroup m_group = new ManagedAccountGroup(Session, mInstance.AccountGroup);
-            if (!m_group.HasAccount(mInstance.Requester.Id))
+            ManagedAccountGroup group = new ManagedAccountGroup(Session, mInstance.AccountGroup);
+            if (!group.HasAccount(mInstance.Requester.Id))
             {
                 Session.Delete(mInstance);
 
@@ -384,30 +384,9 @@ namespace SnCore.Services
             }
 
             // account may already a member (invited twice by different admins, etc.)
-            if (! m_group.HasAccount(mInstance.Account.Id))
+            if (! group.HasAccount(mInstance.Account.Id))
             {
-                if (m_group.Instance.IsPrivate && !m_group.HasAdministratorAccount(mInstance.Requester.Id))
-                {
-                    TransitAccountGroupAccountRequest t_request = new TransitAccountGroupAccountRequest();
-                    t_request.AccountGroupId = mInstance.AccountGroup.Id;
-                    t_request.AccountId = mInstance.Account.Id;
-                    t_request.Message = string.Format("{0} invited {1} to \"{2}\". " +
-                        "The invitation was accepted and needs to be approved by the group administrator.\n{3}",
-                        mInstance.Requester.Name, mInstance.Account.Name, mInstance.AccountGroup.Name, message);
-                    t_request.Submitted = DateTime.UtcNow;
-
-                    ManagedAccountGroupAccountRequest m_request = new ManagedAccountGroupAccountRequest(Session);
-                    m_request.CreateOrUpdate(t_request, sec);
-                }
-                else
-                {
-                    TransitAccountGroupAccount t_account = new TransitAccountGroupAccount();
-                    t_account.AccountId = mInstance.Account.Id;
-                    t_account.AccountGroupId = mInstance.AccountGroup.Id;
-                    t_account.Created = t_account.Modified = DateTime.UtcNow;
-                    ManagedAccountGroupAccount m_accountgroupaccount = new ManagedAccountGroupAccount(Session);
-                    m_accountgroupaccount.CreateOrUpdate(t_account, sec);
-                }
+                JoinGroup(sec, message);
 
                 ManagedAccount recepient = new ManagedAccount(Session, mInstance.Requester);
                 ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(
@@ -420,5 +399,33 @@ namespace SnCore.Services
             Session.Delete(mInstance);
         }
 
+        public void JoinGroup(
+            ManagedSecurityContext sec, 
+            string message)
+        {
+            ManagedAccountGroup group = new ManagedAccountGroup(Session, mInstance.AccountGroup);
+            if (group.Instance.IsPrivate && !group.HasAdministratorAccount(mInstance.Requester.Id))
+            {
+                TransitAccountGroupAccountRequest t_request = new TransitAccountGroupAccountRequest();
+                t_request.AccountGroupId = mInstance.AccountGroup.Id;
+                t_request.AccountId = mInstance.Account.Id;
+                t_request.Message = string.Format("{0} invited {1} to \"{2}\". " +
+                    "The invitation was accepted and needs to be approved by the group administrator.\n{3}",
+                    mInstance.Requester.Name, mInstance.Account.Name, mInstance.AccountGroup.Name, message);
+                t_request.Submitted = DateTime.UtcNow;
+
+                ManagedAccountGroupAccountRequest m_request = new ManagedAccountGroupAccountRequest(Session);
+                m_request.CreateOrUpdate(t_request, sec);
+            }
+            else
+            {
+                TransitAccountGroupAccount t_account = new TransitAccountGroupAccount();
+                t_account.AccountId = mInstance.Account.Id;
+                t_account.AccountGroupId = mInstance.AccountGroup.Id;
+                t_account.Created = t_account.Modified = DateTime.UtcNow;
+                ManagedAccountGroupAccount m_accountgroupaccount = new ManagedAccountGroupAccount(Session);
+                m_accountgroupaccount.CreateOrUpdate(t_account, sec);
+            }
+        }
     }
 }

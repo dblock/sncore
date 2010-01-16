@@ -455,6 +455,7 @@ namespace SnCore.WebServices
                 ManagedAccount acct = new ManagedAccount(session);
                 int id = acct.Create(invitation.Instance.Email, ta, true, ManagedAccount.GetAdminSecurityContext(session));
 
+                // become friends with the person who invited you
                 TransitAccountFriend t_friend = new TransitAccountFriend();
                 AccountFriend friend = new AccountFriend();
                 friend.Account = session.Load<Account>(invitation.AccountId);
@@ -463,9 +464,24 @@ namespace SnCore.WebServices
                 session.Save(friend);
                 SnCore.Data.Hibernate.Session.Flush();
 
+                // notify that a friend has joined
                 ManagedAccount recepient = new ManagedAccount(session, invitation.AccountId);
                 ManagedSiteConnector.TrySendAccountEmailMessageUriAsAdmin(session, recepient,
                     string.Format("EmailAccountInvitationAccept.aspx?id={0}&aid={1}", invitation.Id, id));
+
+                // if this is a group invitation, join the group
+                if (invitation.Instance.AccountGroup != null)
+                {
+                    AccountGroupAccountInvitation groupInvitation = new AccountGroupAccountInvitation();
+                    groupInvitation.Account = session.Load<Account>(id);
+                    groupInvitation.AccountGroup = invitation.Instance.AccountGroup;
+                    groupInvitation.Created = invitation.Instance.Created;
+                    groupInvitation.Modified = invitation.Instance.Modified;
+                    groupInvitation.Requester = session.Load<Account>(invitation.AccountId);
+                    ManagedAccountGroupAccountInvitation mGroupInvitation = new ManagedAccountGroupAccountInvitation(
+                        session, groupInvitation);
+                    mGroupInvitation.JoinGroup(ManagedAccount.GetAdminSecurityContext(session), string.Empty);
+                }
 
                 invitation.Delete(ManagedAccount.GetAdminSecurityContext(session));
 

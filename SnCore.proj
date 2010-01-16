@@ -117,6 +117,9 @@
      SnCore.WebServices.Tests\bin\$(Configuration)\SnCore.WebServices.Tests.dll"
      OutputXmlFile="Target\$(Configuration)\SnCore.Tests.xml" />
   </Target>
+  <Target Name="sql">
+    <Exec WorkingDirectory="SnCore.Data" Command="..\SnCore.Data.Script\bin\$(Configuration)\SnCore.Data.Script.exe" />
+  </Target>
   <Target Name="data">
     <Exec Command="SnCore.Data.Mapping\bin\$(Configuration)\SnCore.Data.Mapping.exe SnCore.Data\SnCore.Data.csproj" />
     <Exec Command="svn revert SnCore.Data\AssemblyInfo.cs" />

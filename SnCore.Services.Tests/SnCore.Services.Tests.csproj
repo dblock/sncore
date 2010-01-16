@@ -176,6 +176,7 @@
     <Compile Include="ManagedAccountFriendRequestTest.cs" />
     <Compile Include="ManagedAccountGroupAccountInvitationTest.cs" />
     <Compile Include="ManagedAccountGroupAccountRequestTest.cs" />
+    <Compile Include="ManagedAccountInvitationGroupTest.cs" />
     <Compile Include="ManagedAccountInvitationTest.cs" />
     <Compile Include="ManagedAccountLicenseTest.cs" />
     <Compile Include="ManagedAccountEmailConfirmationTest.cs">

@@ -376,3 +376,7 @@ GO
 UPDATE dbo.AccountEmailConfirmation SET Modified = getutcdate() WHERE Modified IS NULL
 ALTER TABLE dbo.AccountEmailConfirmation ALTER COLUMN [Modified] datetime NOT NULL
 GO
+-- add a nullable AccountGroup to AccountInvitation
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountInvitation]') AND name = N'AccountGroup_Id')
+ALTER TABLE dbo.AccountInvitation ADD [AccountGroup_Id] int NULL
+GO

@@ -29,7 +29,40 @@
      </table>
     </td>
    </tr>
-  </table>     
+  </table>
+  <div class="sncore_h2">
+   By E-Mail
+  </div>
+  <asp:UpdatePanel runat="server" ID="panelGridManage" UpdateMode="Always" RenderMode="Inline">
+   <ContentTemplate>
+    <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
+     ShowSummary="true" />
+    <table class="sncore_account_table">
+     <tr>
+      <td class="sncore_form_label">
+       e-mail address(es):
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox CssClass="sncore_form_textbox" ID="inputEmailAddress" TextMode="MultiLine"
+        Rows="3" runat="server" />
+       <asp:RequiredFieldValidator ID="inputEmailAddressRequired" runat="server" ControlToValidate="inputEmailAddress"
+        CssClass="sncore_form_validator" Display="None" ErrorMessage="at least one e-mail address is required" />
+       <div class="sncore_description">
+        one per line or separated with semicolons
+       </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+      </td>
+      <td class="sncore_form_value">
+       <SnCoreWebControls:Button ID="invite" runat="server" Text="Invite" CausesValidation="true"
+        CssClass="sncore_form_button" OnClick="invite_Click" />
+      </td>
+     </tr>
+    </table>
+   </ContentTemplate>
+  </asp:UpdatePanel>    
   <div class="sncore_h2">
    Your Friends
   </div>  

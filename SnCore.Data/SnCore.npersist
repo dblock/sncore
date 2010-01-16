@@ -296,6 +296,7 @@
     <property name="AccountGroupAccountInvitations" table="AccountGroupAccountInvitation" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountInvitation" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" modifier="Virtual" />
     <property name="AccountGroupAccountRequests" table="AccountGroupAccountRequest" id-columns="AccountGroup_Id" list="true" item-type="AccountGroupAccountRequest" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" modifier="Virtual" />
     <property name="AccountBlog" columns="AccountBlog_Id" ref="OneToMany" inverse="AccountGroups" type="AccountBlog" modifier="Virtual" />
+    <property name="AccountInvitations" table="AccountInvitation" id-columns="AccountGroup_Id" list="true" item-type="AccountInvitation" slave="true" ref="ManyToOne" inverse="AccountGroup" inherits-inverse="true" modifier="Virtual" />
   </class>
   <class name="AccountGroupAccount" table="AccountGroupAccount" implements=": IDbObject">
     <property name="Id" id="true" columns="AccountGroupAccount_Id" type="System.Int32" modifier="Virtual" />
@@ -348,6 +349,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" modifier="Virtual" />
     <property name="Failed" columns="Failed" type="System.Boolean" modifier="Virtual" />
     <property name="LastError" columns="LastError" type="System.String" modifier="Virtual" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountInvitations" type="AccountGroup" />
   </class>
   <class name="AccountLicense" table="AccountLicense" implements=": IDbObject">
     <property name="Id" id="true" columns="AccountLicense_Id" type="System.Int32" modifier="Virtual" />
@@ -1363,15 +1365,16 @@
       <column name="Place_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Place" primary-column="Place_Id" foreign-key="FK_AccountGroupPlace_Place" />
     </table>
     <table name="AccountInvitation">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" />
+      <column name="AccountGroup_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="AccountGroup" primary-column="AccountGroup_Id" foreign-key="FK_AccountInvitation_AccountGroup" />
       <column name="AccountInvitation_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
-      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountInvitation_Account" />
       <column name="Code" type="AnsiString" prec="38" length="38" scale="0" />
       <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
       <column name="Email" type="AnsiString" prec="128" length="128" scale="0" />
-      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
-      <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
       <column name="Failed" type="Boolean" prec="1" length="1" scale="0" />
       <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
+      <column name="Message" type="AnsiString" prec="0" allow-null="true" length="16" scale="0" specific-type="TEXT" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
     </table>
     <table name="AccountLicense">
       <column name="AccountLicense_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />

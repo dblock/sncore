@@ -20,6 +20,7 @@ public partial class AccountCreateInvitationWelcome : AuthenticatedPage
         if (!IsPostBack)
         {
             labelAccountName.Text = Render(SessionManager.Account.Name);
+            groupsView.AccountId = SessionManager.AccountId;
         }
     }
 }

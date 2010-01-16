@@ -1881,6 +1881,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Failed" type="s:boolean" />
               <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountGroupName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountGroupId" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>

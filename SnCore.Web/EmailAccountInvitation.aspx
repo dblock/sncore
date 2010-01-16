@@ -18,7 +18,11 @@
       <% Response.Write(Renderer.Render(this.AccountInvitation.AccountName)); %>
      </a>
      has invited you to join
-     <b><% Response.Write(Renderer.Render(SessionManager.GetCachedConfiguration("SnCore.Name", "SnCore"))); %></b>.
+     <b>
+      <a href="<% Response.Write(InviteToUrl); %>">
+       <% Response.Write(Renderer.Render(InviteTo)); %>
+      </a>
+     </b>.
     </p>
     <asp:Panel ID="panelMessage" runat="server">
      <div style="margin: 10px; padding: 10px; border: solid 1px silver; font-style: italic;">

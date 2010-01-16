@@ -22,6 +22,7 @@
         private System.DateTime m_Modified;
         private System.Boolean m_Failed;
         private System.String m_LastError;
+        private AccountGroup m_AccountGroup;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -245,6 +246,33 @@
             set
             {
                 m_LastError = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent one-many reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts references to objects of the type 'AccountGroup'.
+        ///This property is part of a 'OneToMany' relationship.
+        ///The inverse property for this property is 'AccountGroup.AccountInvitations'.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountGroup' that holds the value for this property is 'PrivateAccess'.
+        ///
+        ///Mapping information:
+        ///The property maps to the column 'AccountGroup_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public virtual AccountGroup AccountGroup
+        {
+            get
+            {
+                return m_AccountGroup;
+            }
+            set
+            {
+                m_AccountGroup = value;
             }
         }
 

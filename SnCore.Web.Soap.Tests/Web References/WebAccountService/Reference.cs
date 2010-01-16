@@ -6828,6 +6828,10 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private string lastErrorField;
         
+        private string accountGroupNameField;
+        
+        private int accountGroupIdField;
+        
         /// <remarks/>
         public string Email {
             get {
@@ -6915,6 +6919,26 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             }
             set {
                 this.lastErrorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountGroupName {
+            get {
+                return this.accountGroupNameField;
+            }
+            set {
+                this.accountGroupNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AccountGroupId {
+            get {
+                return this.accountGroupIdField;
+            }
+            set {
+                this.accountGroupIdField = value;
             }
         }
     }

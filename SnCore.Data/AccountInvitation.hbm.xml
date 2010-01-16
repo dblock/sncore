@@ -12,5 +12,6 @@
     <property name="Modified" column="Modified" type="DateTime" />
     <property name="Failed" column="Failed" type="Boolean" />
     <property name="LastError" column="LastError" type="String" />
+    <many-to-one name="AccountGroup" column="AccountGroup_Id" class="AccountGroup, SnCore.Data" />
   </class>
 </hibernate-mapping>

@@ -137,6 +137,34 @@ namespace SnCore.Services
             }
         }
 
+        private string mAccountGroupName;
+
+        public string AccountGroupName
+        {
+            get
+            {
+                return mAccountGroupName;
+            }
+            set
+            {
+                mAccountGroupName = value;
+            }
+        }
+
+        private int mAccountGroupId;
+
+        public int AccountGroupId
+        {
+            get
+            {
+                return mAccountGroupId;
+            }
+            set
+            {
+                mAccountGroupId = value;
+            }
+        }
+
         public TransitAccountInvitation()
         {
 
@@ -154,6 +182,8 @@ namespace SnCore.Services
             // Code = instance.Code;
             AccountId = instance.Account.Id;
             AccountName = instance.Account.Name;
+            AccountGroupId = (instance.AccountGroup != null ? instance.AccountGroup.Id : 0);
+            AccountGroupName = (instance.AccountGroup != null ? instance.AccountGroup.Name : string.Empty);
             Message = instance.Message;
             Created = instance.Created;
             Modified = instance.Modified;
@@ -176,6 +206,9 @@ namespace SnCore.Services
                 instance.Account = GetOwner(session, AccountId, sec);
                 instance.Failed = this.Failed;
                 instance.LastError = this.LastError;
+                instance.AccountGroup = (this.AccountGroupId != 0) 
+                    ? session.Get<AccountGroup>(this.AccountGroupId) 
+                    : null;
             }
 
             return instance;
