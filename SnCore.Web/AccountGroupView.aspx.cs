@@ -95,15 +95,15 @@ public partial class AccountGroupView : Page
             linkRequests.NavigateUrl = string.Format("AccountGroupAccountRequestsManage.aspx?id={0}", AccountGroupId);
             linkRequests.Visible = AccountGroup.IsPrivate && fGroupAdmin;
             linkPictures.NavigateUrl = string.Format("AccountGroupPicturesManage.aspx?id={0}", AccountGroupId);
-            linkPictures.Visible = fGroupMemberOrAdmin;
+            linkPictures.Visible = ! AccountGroup.IsPrivate || fGroupMemberOrAdmin;
             linkMembers.NavigateUrl = string.Format("AccountGroupAccountsView.aspx?id={0}", AccountGroupId);
-            linkMembers.Visible = fGroupMemberOrAdmin;
+            linkMembers.Visible = !AccountGroup.IsPrivate || fGroupMemberOrAdmin;
             linkRequest.Visible = ! fGroupMember;
             linkLeave.Visible = fGroupMember;
-            discussionsView.Visible = fGroupMemberOrAdmin;
+            discussionsView.Visible = ! AccountGroup.IsPrivate || fGroupMemberOrAdmin;
             linkInviteFriend.NavigateUrl = string.Format("AccountGroupAccountInvitationEdit.aspx?gid={0}", AccountGroupId);
             linkInviteFriend.Visible = fGroupMemberOrAdmin;
-            linkRelRss.Visible = fGroupMemberOrAdmin;
+            linkRelRss.Visible = ! AccountGroup.IsPrivate || fGroupMemberOrAdmin;            
 
             linkEditGroup.NavigateUrl = string.Format("AccountGroupEdit.aspx?id={0}&ReturnUrl={1}", AccountGroupId,
                 Renderer.UrlEncode(string.Format("AccountGroupView.aspx?id={0}", RequestId)));
@@ -136,9 +136,13 @@ public partial class AccountGroupView : Page
                     : "Feature &#187; Never Featured";
             }
 
-            if (!fGroupMember)
+            if (!SessionManager.IsLoggedIn)
             {
-                noticeInfo.Info = "Join this group to participate and access its discussion posts.";
+                noticeInfo.Info = "Log-in to participate in this group and post.";
+            }
+            else if (!fGroupMember)
+            {
+                noticeInfo.Info = "Join this group to participate and posts.";
             }
 
             // private / public
@@ -150,6 +154,7 @@ public partial class AccountGroupView : Page
                 }
                 else
                 {
+                    blogView.Visible = false;
                     ReportWarning("This is a private group. You must be a member to see it.");
                 }
 
@@ -159,12 +164,9 @@ public partial class AccountGroupView : Page
             picturesView.AccountGroupId = AccountGroupId;
             accountsView.AccountGroupId = AccountGroupId;
 
-            if (fGroupMemberOrAdmin)
-            {
-                placesView.AccountGroupId = AccountGroupId;
-                discussionsView.ObjectId = RequestId;
-                discussionsView.Type = "AccountGroup";
-            }
+            placesView.AccountGroupId = AccountGroupId;
+            discussionsView.ObjectId = RequestId;
+            discussionsView.Type = "AccountGroup";
 
             linkRelRss.NavigateUrl = string.Format("AccountGroupRss.aspx?id={0}", AccountGroupId);
 
