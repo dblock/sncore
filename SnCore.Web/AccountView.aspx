@@ -64,19 +64,21 @@
         <SnCore:AttributesView runat="server" ID="attributesView" />        
        </td>
        <td class="sncore_table_tr_td" style="text-align: right;">
-        <div>
-         <asp:HyperLink runat="server" ID="linkNewMessage" Text="&#187; Send Message" />
-        </div>
-        <div>
-         <asp:HyperLink runat="server" ID="linkAddToFriends" Text="&#187; Add to Friends" />
-        </div>
-        <div>
-         <a href="#Testimonials">Testimonials</a>
-         <asp:HyperLink runat="server" ID="linkLeaveTestimonial" Text="&#187; Leave a Testimonial" />
-        </div>
-        <div>        
-         <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
-        </div>
+        <asp:Panel ID="panelLinks" runat="server">
+         <div>
+          <asp:HyperLink runat="server" ID="linkNewMessage" Text="&#187; Send Message" />
+         </div>
+         <div>
+          <asp:HyperLink runat="server" ID="linkAddToFriends" Text="&#187; Add to Friends" />
+         </div>
+         <div>
+          <a href="#Testimonials">Testimonials</a>
+          <asp:HyperLink runat="server" ID="linkLeaveTestimonial" Text="&#187; Leave a Testimonial" />
+         </div>
+         <div>        
+          <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
+         </div>
+        </asp:Panel>
         <asp:Panel ID="panelAdmin" runat="server">
          <div>
           <asp:LinkButton OnClick="impersonate_Click" runat="server" ID="linkImpersonate" Text="&#187; Impersonate" />
@@ -110,32 +112,34 @@
       </tr>
      </table>
      <SnCore:AccountReminder Style="width: 95%;" ID="accountReminder" runat="server" />
-     <table class="sncore_inner_table" width="95%">
-      <tr>
-       <td>
-        <SnCore:LicenseView runat="server" ID="licenseView" />       
-       </td>
-       <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
-        socially bookmark this person:
-       </td>
-       <td class="sncore_table_tr_td">
-        <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
-       </td>
-      </tr>
-     </table>
-     <SnCore:PropertyGroupsView runat="server" ID="propertygroupsView" />
-     <SnCore:FriendsView runat="server" ID="friendsView" />
-     <SnCore:StoriesView runat="server" ID="storiesView" />
-     <SnCore:PlaceFavoritesView runat="server" ID="placeFavoritesView" />
-     <SnCore:BlogsView runat="server" ID="blogsView" />
-     <SnCore:FeedsView runat="server" ID="feedsView" />
-     <SnCore:WebsitesView runat="server" ID="websitesView" />
-     <SnCore:PlacesView runat="server" ID="placesView" />
-     <SnCore:GroupsView runat="server" ID="groupsView" />
-     <SnCore:AccountEventsView runat="server" ID="eventsView" />
-     <SnCore:SurveysView runat="server" ID="surveysView" />
-     <a name="Testimonials" />
-     <SnCore:DiscussionFullView runat="server" ID="discussionTags" PostNewText="&#187; Leave a Testimonial" />
+     <asp:Panel ID="panelDetails" runat="server">
+      <table class="sncore_inner_table" width="95%">
+       <tr>
+        <td>
+         <SnCore:LicenseView runat="server" ID="licenseView" />       
+        </td>
+        <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+         socially bookmark this person:
+        </td>
+        <td class="sncore_table_tr_td">
+         <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+        </td>
+       </tr>
+      </table>
+      <SnCore:PropertyGroupsView runat="server" ID="propertygroupsView" />
+      <SnCore:FriendsView runat="server" ID="friendsView" />
+      <SnCore:StoriesView runat="server" ID="storiesView" />
+      <SnCore:PlaceFavoritesView runat="server" ID="placeFavoritesView" />
+      <SnCore:BlogsView runat="server" ID="blogsView" />
+      <SnCore:FeedsView runat="server" ID="feedsView" />
+      <SnCore:WebsitesView runat="server" ID="websitesView" />
+      <SnCore:PlacesView runat="server" ID="placesView" />
+      <SnCore:GroupsView runat="server" ID="groupsView" />
+      <SnCore:AccountEventsView runat="server" ID="eventsView" />
+      <SnCore:SurveysView runat="server" ID="surveysView" />
+      <a name="Testimonials" />
+      <SnCore:DiscussionFullView runat="server" ID="discussionTags" PostNewText="&#187; Leave a Testimonial" />
+     </asp:Panel>
     </td>
    </tr>
   </table>

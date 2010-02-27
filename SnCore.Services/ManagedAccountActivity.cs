@@ -15,6 +15,7 @@ namespace SnCore.Services
         public bool SortAscending = false;
         public bool PicturesOnly = false;
         public bool BloggersOnly = false;
+        public bool VerifiedOnly = true;
         public string Country;
         public string State;
         public string City;
@@ -58,6 +59,12 @@ namespace SnCore.Services
             {
                 b.Append(b.Length > 0 ? " AND " : " WHERE ");
                 b.Append("(EXISTS ( FROM AccountFeed af WHERE af.Account = Account ) OR EXISTS ( FROM AccountBlog ab WHERE ab.Account = Account ))");
+            }
+
+            if (VerifiedOnly)
+            {
+                b.Append(b.Length > 0 ? " AND " : " WHERE ");
+                b.Append("(EXISTS ( FROM AccountEmail ae WHERE ae.Account = Account AND ae.Verified = 1 ))");
             }
 
             if (!string.IsNullOrEmpty(Name))

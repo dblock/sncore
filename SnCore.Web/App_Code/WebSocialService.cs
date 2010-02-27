@@ -38,9 +38,13 @@ namespace SnCore.WebServices
         {
             return WebServiceImpl<TransitAccount, ManagedAccount, Account>.GetList(
                 ticket, options,
-                    "SELECT Account FROM Account Account WHERE EXISTS (" +
+                "SELECT Account FROM Account Account WHERE EXISTS (" +
                         " SELECT FROM AccountPicture AccountPicture " +
                         " WHERE AccountPicture.Account = Account AND AccountPicture.Hidden = 0" +
+                        ") AND EXISTS (" +
+                        " FROM AccountEmail AccountEmail " + 
+                        " WHERE AccountEmail.Account = Account AND " +
+                        " AccountEmail.Verified = 1" +
                         ") ORDER BY Account.Created DESC");
         }
 
@@ -56,6 +60,10 @@ namespace SnCore.WebServices
                     "SELECT Account FROM Account Account WHERE EXISTS (" +
                         " FROM AccountPicture AccountPicture " +
                         " WHERE AccountPicture.Account = Account AND AccountPicture.Hidden = 0" +
+                        ") AND EXISTS (" +
+                        " FROM AccountEmail AccountEmail " +
+                        " WHERE AccountEmail.Account = Account AND " +
+                        " AccountEmail.Verified = 1" +
                         ") ORDER BY Account.LastLogin DESC");
         }
 

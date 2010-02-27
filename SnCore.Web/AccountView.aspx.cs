@@ -132,6 +132,15 @@ public partial class AccountView : Page
             linkAddToFriends.NavigateUrl = string.Format("AccountFriendRequestEdit.aspx?pid={0}&ReturnUrl={1}",
                 Account.Id.ToString(), returnurl);
 
+            if (! Account.IsVerified)
+            {
+                panelLinks.Visible = false;
+                panelDetails.Visible = false;
+                ReportWarning(string.Format("{0}'s e-mail address has not been verified yet. Profile hidden.",
+                    Account.Name));
+                return;
+            }
+
             discussionTags.DiscussionId = SessionManager.GetCount<TransitDiscussion, string, int>(
                 typeof(Account).Name, Account.Id, SessionManager.DiscussionService.GetOrCreateDiscussionId);
 

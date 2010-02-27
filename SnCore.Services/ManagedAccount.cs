@@ -231,6 +231,17 @@ namespace SnCore.Services
             Signature = instance.Signature;
             IsAdministrator = instance.IsAdministrator;
             IsPasswordExpired = instance.IsPasswordExpired;
+
+            IsVerified = false;
+            foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(instance.AccountEmails))
+            {
+                if (e.Verified)
+                {
+                    IsVerified = true;
+                    break;
+                }
+            }
+
             LCID = instance.Lcid;
             // random picture from the account
             PictureId = ManagedAccount.GetRandomAccountPictureId(instance);
@@ -289,6 +300,20 @@ namespace SnCore.Services
             set
             {
                 mIsPasswordExpired = value;
+            }
+        }
+
+        private bool mIsVerified = false;
+
+        public bool IsVerified
+        {
+            get
+            {
+                return mIsVerified;
+            }
+            set
+            {
+                mIsVerified = value;
             }
         }
 
