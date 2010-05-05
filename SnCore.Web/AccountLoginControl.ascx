@@ -38,6 +38,29 @@
  </tr>
  <tr>
   <td class="sncore_form_label">
+  </td>
+  <td class="sncore_form_value">
+    <asp:Panel ID="panelFacebookLogin" runat="server">
+       <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+       <script type="text/javascript">
+        var facebookAPIKey = "<% Response.Write(SessionManager.GetCachedConfiguration("Facebook.APIKey", "")); %>";
+        FB.init(facebookAPIKey, "AccountLogin.aspx");
+       </script>
+       <fb:login-button onlogin='window.location="AccountLogin.aspx?facebook.login=1";' />
+    </asp:Panel>
+    <asp:Label ID="facebookLoginDisabled" runat="server" CssClass="sncore_notice_warning" Visible="false"
+        Text="Facebook.APIKey has not been set, Facebook login disabled." />
+  </td>
+ </tr>
+ <tr>
+  <td class="sncore_form_label">
+   -- or --
+  </td>
+  <td class="sncore_form_value">
+  </td>
+ </tr>
+ <tr>
+  <td class="sncore_form_label">
    <a href="http://www.videntity.org" target="_blank">open-id</a>
   </td>
   <td class="sncore_form_value">

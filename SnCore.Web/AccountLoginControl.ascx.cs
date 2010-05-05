@@ -30,6 +30,14 @@ public partial class AccountLoginControl : Control
                        SessionManager.GetCachedConfiguration(
                             "SnCore.Admin.EmailAddress", "admin@localhost.com"));
 
+                FacebookPageManager facebook = new FacebookPageManager(SessionManager);
+
+                if (string.IsNullOrEmpty(facebook.FacebookAPIKey))
+                {
+                    panelFacebookLogin.Visible = false;
+                    facebookLoginDisabled.Visible = true;
+                }
+
                 string openidmode = Request["openid.mode"];
                 string openidtoken = SessionManager.OpenIdToken;
                 if (!string.IsNullOrEmpty(openidmode) && !string.IsNullOrEmpty(openidtoken))
@@ -43,8 +51,23 @@ public partial class AccountLoginControl : Control
                     }
                     else
                     {
-                        Redirect(string.Format("AccountCreateOpenId.aspx?ReturnUrl={0}&ConsumerUrl={1}", 
+                        Redirect(string.Format("AccountCreateOpenId.aspx?ReturnUrl={0}&ConsumerUrl={1}",
                             Renderer.UrlEncode(ReturnUrl), Renderer.UrlEncode(t_login.ConsumerUrl)));
+                    }
+                }
+
+                string facebookmode = Request["facebook.login"];
+                if (! string.IsNullOrEmpty(facebookmode))
+                {
+                    SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
+                    if (facebookCookies.Count > 0)
+                    {
+                        List<String> keys = new List<String>(facebookCookies.Keys);
+                        List<String> values = new List<String>(facebookCookies.Values);
+                        TransitFacebookLogin t_login = SessionManager.AccountService.TryLoginFacebook(
+                            HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
+                        SessionManager.Login(t_login.Ticket, SessionManager.RememberLogin);
+                        Redirect(ReturnUrl);
                     }
                 }
 

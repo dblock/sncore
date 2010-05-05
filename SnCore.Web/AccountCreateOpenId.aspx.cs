@@ -68,15 +68,16 @@ public partial class AccountCreateOpenId : Page
             if (!string.IsNullOrEmpty(openidmode))
             {
                 NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
-                string consumerurl = SessionManager.AccountService.VerifyOpenId(SessionManager.OpenIdToken, serializer.Names, serializer.Values);
-
+                
                 TransitAccount ta = new TransitAccount();
                 ta.Name = inputName.Text;
                 ta.Birthday = inputBirthday.SelectedDate;
  
                 int id = SessionManager.AccountService.CreateAccountWithOpenId(
                     inputBetaPassword.Text.Trim(),
-                    consumerurl,
+                    SessionManager.OpenIdToken,
+                    serializer.Names,
+                    serializer.Values,
                     inputEmailAddress.Text.Trim(),
                     ta);
 

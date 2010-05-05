@@ -54,6 +54,8 @@
                     <File Id="SnCoreAccountCitiesView_aspx" Name="AccountCitiesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCitiesView.aspx" />
                     <File Id="SnCoreAccountCityControl_ascx" Name="AccountCityControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCityControl.ascx" />
                     <File Id="SnCoreAccountCreate_aspx" Name="AccountCreate.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreate.aspx" />
+                    <File Id="SnCoreAccountCreateFacebook_aspx" Name="AccountCreateFacebook.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateFacebook.aspx" />
+                    <File Id="SnCoreAccountCreateEmail_aspx" Name="AccountCreateEmail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateEmail.aspx" />
                     <File Id="SnCoreAccountCreateInvitation_aspx" Name="AccountCreateInvitation.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateInvitation.aspx" />
                     <File Id="SnCoreAccountCreateInvitationWelcome_aspx" Name="AccountCreateInvitationWelcome.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateInvitationWelcome.aspx" />
                     <File Id="SnCoreAccountCreateOpenId_aspx" Name="AccountCreateOpenId.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateOpenId.aspx" />
@@ -161,6 +163,7 @@
                     <File Id="SnCoreAccountMessageMove_aspx" Name="AccountMessageMove.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountMessageMove.aspx" />
                     <File Id="SnCoreAccountMessageView_aspx" Name="AccountMessageView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountMessageView.aspx" />
                     <File Id="SnCoreAccountOpenIdsManage_aspx" Name="AccountOpenIdsManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountOpenIdsManage.aspx" />
+                    <File Id="SnCoreAccountFacebooksManage_aspx" Name="AccountFacebooksManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountFacebooksManage.aspx" />
                     <File Id="SnCoreAccountPicture_aspx" Name="AccountPicture.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountPicture.aspx" />
                     <File Id="SnCoreAccountPictureEdit_aspx" Name="AccountPictureEdit.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountPictureEdit.aspx" />
                     <File Id="SnCoreAccountPicturesManage_aspx" Name="AccountPicturesManage.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountPicturesManage.aspx" />
@@ -609,6 +612,13 @@
                             <File Id="SnCoreImagesButtonsAccountEmailVerifiedTrue_gif" Name="AccountEmailVerifiedTrue.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\AccountEmailVerifiedTrue.gif" />
                             <File Id="SnCoreImagesButtonsLink_gif" Name="link.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\link.gif" />
                             <File Id="SnCoreImagesButtonsSticky_gif" Name="sticky.gif" Source="$(var.SnCore.Deploy.Target.Path)\images\buttons\sticky.gif" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="SnCoreImagesSignup" Name="signup">
+                        <Component Id="SnCoreImagesSignup" Guid="6954B195-159C-47d8-8AA9-381767C0DE3F" DiskId="1">
+                          <File Id="SnCoreImagesSignupEmail_jpg" Name="email.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\signup\email.jpg" />
+                          <File Id="SnCoreImagesSignupFacebook_jpg" Name="facebook.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\signup\facebook.jpg" />
+                          <File Id="SnCoreImagesSignupOpenId_jpg" Name="openid.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\signup\openid.jpg" />
                         </Component>
                     </Directory>
                     <Directory Id="SnCoreImagesSite" Name="site">

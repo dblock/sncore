@@ -94,6 +94,8 @@ namespace SnCore.Services
         }
     }
 
+    #region OpenID
+
     public class TransitOpenIdLogin
     {
         private string mConsumerUrl;
@@ -206,6 +208,82 @@ namespace SnCore.Services
             Token = token;
         }
     }
+
+    #endregion
+
+    #region Facebook
+
+    public class TransitFacebookLogin
+    {
+        private long mFacebookAccountId;
+        private string mTicket;
+
+        public long FacebookAccountId
+        {
+            get
+            {
+                return mFacebookAccountId;
+            }
+            set
+            {
+                mFacebookAccountId = value;
+            }
+        }
+
+        public string Ticket
+        {
+            get
+            {
+                return mTicket;
+            }
+            set
+            {
+                mTicket = value;
+            }
+        }
+
+        public TransitFacebookLogin()
+        {
+
+        }
+    }
+
+    public class ManagedFacebookLogin
+    {
+        private long mFacebookAccountId;
+        private Account mAccount = null;
+
+        public long FacebookAccountId
+        {
+            get
+            {
+                return mFacebookAccountId;
+            }
+            set
+            {
+                mFacebookAccountId = value;
+            }
+        }
+
+        public Account Account
+        {
+            get
+            {
+                return mAccount;
+            }
+            set
+            {
+                mAccount = value;
+            }
+        }
+
+        public ManagedFacebookLogin()
+        {
+
+        }
+    }
+
+    #endregion
 
     public class TransitAccount : TransitService<Account>
     {
@@ -848,6 +926,19 @@ namespace SnCore.Services
             }
         }
 
+        public int CreateWithFacebook(long facebookAccountId, string email, TransitAccount ta, ManagedSecurityContext sec)
+        {
+            try
+            {
+                return InternalCreateWithFacebook(facebookAccountId, email, ta, sec);
+            }
+            catch
+            {
+                mInstance = null;
+                throw;
+            }
+        }
+
         public static string GetPasswordHash(string password)
         {
             return Encoding.Default.GetString(GetPasswordHashBytes(password));
@@ -902,7 +993,7 @@ namespace SnCore.Services
 
             if (existing_openid != null)
             {
-                throw new Exception(string.Format("An account with the OpenId \"{0}\" already exists. Please log-in.",
+                throw new Exception(string.Format("An account with the OpenId \"{0}\" already exists. Please log-in instead.",
                     existing_openid.IdentityUrl));
             }
 
@@ -911,6 +1002,36 @@ namespace SnCore.Services
             t_openid.AccountId = Id;
             ManagedAccountOpenId m_openid = new ManagedAccountOpenId(Session);
             m_openid.CreateOrUpdate(t_openid, sec);
+
+            return mInstance.Id;
+        }
+
+        protected int InternalCreateWithFacebook(long facebookAccountId, string email, TransitAccount ta, ManagedSecurityContext sec)
+        {
+            // the Facebook identity has been verified, hence it's safe to assume that this is the same user
+            // Facebook doesn't have a reclaim and at this point only the verified OpenId would be phishing for himself
+
+            AccountFacebook existing_facebook_account = Session.CreateCriteria(typeof(AccountFacebook))
+                .Add(Expression.Eq("FacebookAccountId", facebookAccountId))
+                .UniqueResult<AccountFacebook>();
+
+            if (existing_facebook_account != null)
+            {
+                throw new Exception(string.Format("An account for the Facebook user \"{0}\" already exists. Please log-in instead.",
+                    existing_facebook_account.FacebookAccountId));
+            }
+
+            ta.Password = Guid.NewGuid().ToString(); // random password for recovery
+            CreateOrUpdate(ta, sec);
+            InternalCreateEmail(email, false, sec);
+            CreateAccountSystemMessageFolders(sec);
+            CreateAccountSubscriptions(sec);
+
+            TransitAccountFacebook t_facebook_account = new TransitAccountFacebook();
+            t_facebook_account.FacebookAccountId = facebookAccountId;
+            t_facebook_account.AccountId = Id;
+            ManagedAccountFacebook m_facebook_account = new ManagedAccountFacebook(Session);
+            m_facebook_account.CreateOrUpdate(t_facebook_account, sec);
 
             return mInstance.Id;
         }
@@ -1165,6 +1286,91 @@ namespace SnCore.Services
             t_result.ConsumerUri = VerifyOpenId(token, query);
             AccountOpenId account = (AccountOpenId)session.CreateCriteria(typeof(AccountOpenId))
                     .Add(Expression.Eq("IdentityUrl", t_result.ConsumerUri.ToString()))
+                    .UniqueResult();
+
+            if (account != null)
+            {
+                t_result.Account = account.Account;
+                t_result.Account.LastLogin = DateTime.UtcNow;
+                session.Save(t_result.Account);
+            }
+
+            return t_result;
+        }
+
+        #endregion
+
+        #region Facebook
+
+        public static bool VerifyFacebookLogin(ISession session, string signature, NameValueCollection cookies)
+        {
+            string facebookAPIKey = ManagedConfiguration.GetValue(session, "Facebook.APIKey", string.Empty);
+            if (string.IsNullOrEmpty(facebookAPIKey))
+                throw new Exception("Missing Facebook.APIKey");
+
+            string facebookSecret = ManagedConfiguration.GetValue(session, "Facebook.Secret", string.Empty);
+            if (string.IsNullOrEmpty(facebookSecret))
+                throw new Exception("Missing Facebook.Secret");
+
+            var sb = new StringBuilder();
+            foreach (String s in cookies.AllKeys)
+            {
+                sb.AppendFormat("{0}={1}", s, cookies[s]);
+            }
+
+            sb.Append(facebookSecret);
+            string stringToHash = sb.ToString();
+
+            StringBuilder computedHash = new StringBuilder();
+            byte[] hash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(stringToHash));
+            foreach (byte b in hash)
+            {
+                computedHash.AppendFormat("{0:x2}", b);
+            }
+
+            return computedHash.ToString().ToLowerInvariant() == signature.ToLowerInvariant();
+        }
+
+        public static long GetFacebookFacebookAccountId(ISession session, NameValueCollection cookies)
+        {
+            return long.Parse(cookies["user"]);
+        }
+
+        public static ManagedAccount LoginFacebook(ISession session, string signature, NameValueCollection cookies)
+        {
+            if (! VerifyFacebookLogin(session, signature, cookies))
+                throw new AccessDeniedException("Invalid FaceBook Connect signature");
+
+            long facebookAccountId = GetFacebookFacebookAccountId(session, cookies);
+            
+            // find a facebook account record that matches
+            AccountFacebook o = (AccountFacebook) session.CreateCriteria(typeof(AccountFacebook))
+                    .Add(Expression.Eq("FacebookAccountId", facebookAccountId))
+                    .UniqueResult();
+
+            if (o == null)
+            {
+                throw new Exception(
+                    "Access Denied - " +
+                    "your Facebook connect login is valid, but you have to register on this site using an e-mail address first." +
+                    "You can add an Facebook account after you've joined.");
+            }
+
+            o.Account.LastLogin = DateTime.UtcNow;
+            session.Save(o.Account);
+            return new ManagedAccount(session, o.Account);
+        }
+
+        public static ManagedFacebookLogin TryLoginFacebook(ISession session, string signature, NameValueCollection cookies)
+        {
+            if (!VerifyFacebookLogin(session, signature, cookies))
+                throw new AccessDeniedException("Invalid FaceBook Connect signature");
+            
+            ManagedFacebookLogin t_result = new ManagedFacebookLogin();
+            t_result.FacebookAccountId = GetFacebookFacebookAccountId(session, cookies);
+
+            AccountFacebook account = (AccountFacebook)session.CreateCriteria(typeof(AccountFacebook))
+                    .Add(Expression.Eq("FacebookAccountId", t_result.FacebookAccountId))
                     .UniqueResult();
 
             if (account != null)

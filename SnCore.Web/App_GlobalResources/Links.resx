@@ -342,4 +342,7 @@
   <data name="Websites" xml:space="preserve">
     <value>Websites</value>
   </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
 </root>

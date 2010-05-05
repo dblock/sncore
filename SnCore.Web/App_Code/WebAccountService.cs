@@ -99,6 +99,53 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Login to an account with a Facebook identity.
+        /// </summary>
+        /// <param name="names">cookie names</param>
+        /// <param name="values">cookie values</param>
+        /// <returns>authentication ticket for the current session</returns>
+        [WebMethod(Description = "Login to an account with a Facebook Connect identity.")]
+        public string LoginFacebook(string signature, string[] names, string[] values)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedAccount acct = ManagedAccount.LoginFacebook(session, signature, 
+                    new NameValueCollectionSerializer(names, values).Collection);
+                string ticket = ManagedAccount.GetTicketFromAccountId(acct.Id);
+                SnCore.Data.Hibernate.Session.Flush();
+                return ticket;
+            }
+        }
+
+        /// <summary>
+        /// Try a login to an account with a Facebook Connect identity. 
+        /// Returns a package that may contain a ticket or a verified facebook user id.
+        /// </summary>
+        /// <param name="facebookurl">facebook url</param>
+        /// <param name="returnurl">return url</param>
+        /// <returns>authentication package that might contain a ticket for the current session</returns>
+        [WebMethod(Description = "Login to an account using a Facebook Connect identity.")]
+        public TransitFacebookLogin TryLoginFacebook(string signature, string[] names, string[] values)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                TransitFacebookLogin t_result = new TransitFacebookLogin();
+                ManagedFacebookLogin t_login = ManagedAccount.TryLoginFacebook(session, signature,
+                    new NameValueCollectionSerializer(names, values).Collection);
+                t_result.FacebookAccountId = t_login.FacebookAccountId;
+                if (t_login.Account != null)
+                {
+                    string ticket = ManagedAccount.GetTicketFromAccount(t_login.Account);
+                    SnCore.Data.Hibernate.Session.Flush();
+                    t_result.Ticket = ticket;
+                }
+                return t_result;
+            }
+        }
+
+        /// <summary>
         /// Login to an account using a verified e-mail address and a password hash.
         /// Using the password hash avoids transferring the actual password accross an unsecure network.
         /// </summary>
@@ -192,8 +239,11 @@ namespace SnCore.WebServices
         /// <param name="ta">transit account informatio</param>
         /// <returns>account id</returns>
         [WebMethod(Description = "Create an account with openid.")]
-        public int CreateAccountWithOpenId(string betapassword, string consumerurl, string email, TransitAccount ta)
+        public int CreateAccountWithOpenId(string betapassword, 
+            string token, string[] names, string[] values,
+            string email, TransitAccount ta)
         {
+            string consumerurl = VerifyOpenId(token, names, values);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
                 ISession session = SnCore.Data.Hibernate.Session.Current;
@@ -206,6 +256,32 @@ namespace SnCore.WebServices
 
                 ManagedAccount acct = new ManagedAccount(session);
                 acct.CreateWithOpenId(consumerurl, email, ta, ManagedAccount.GetAdminSecurityContext(session));
+                SnCore.Data.Hibernate.Session.Flush();
+                return acct.Id;
+            }
+        }
+
+        /// <summary>
+        /// Create an account with a facebook ID.
+        /// </summary>
+        /// <param name="ta">transit account informatio</param>
+        /// <returns>account id</returns>
+        [WebMethod(Description = "Create an account with openid.")]
+        public int CreateAccountWithFacebook(string betapassword, string signature, string[] names, string[] values, string email, TransitAccount ta)
+        {
+            TransitFacebookLogin t_facebook = TryLoginFacebook(signature, names, values);
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                if (s != betapassword)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount acct = new ManagedAccount(session);
+                acct.CreateWithFacebook(t_facebook.FacebookAccountId, email, ta, ManagedAccount.GetAdminSecurityContext(session));
                 SnCore.Data.Hibernate.Session.Flush();
                 return acct.Id;
             }
@@ -1145,10 +1221,13 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="openid">transit openid</param>
         [WebMethod(Description = "Add an openid.")]
-        public int CreateOrUpdateAccountOpenId(string ticket, TransitAccountOpenId openid)
+        public int CreateAccountOpenId(string ticket, string token, string[] names, string[] values)
         {
+            string consumerid = VerifyOpenId(token, names, values);
+            TransitAccountOpenId to = new TransitAccountOpenId();
+            to.IdentityUrl = consumerid;
             return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.CreateOrUpdate(
-                ticket, openid);
+                ticket, to);
         }
 
         /// <summary>
@@ -1161,6 +1240,77 @@ namespace SnCore.WebServices
         public TransitAccountOpenId GetAccountOpenIdById(string ticket, int id)
         {
             return WebServiceImpl<TransitAccountOpenId, ManagedAccountOpenId, AccountOpenId>.GetById(
+                ticket, id);
+        }
+
+        #endregion
+
+        #region Facebook
+
+        /// <summary>
+        /// Get account facebook IDs.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <returns>transit account facebook ids</returns>
+        [WebMethod(Description = "Get facebook IDs.")]
+        public List<TransitAccountFacebook> GetAccountFacebooks(string ticket, int id, ServiceQueryOptions options)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountFacebook, ManagedAccountFacebook, AccountFacebook>.GetList(
+                ticket, options, expressions, null);
+        }
+
+        /// <summary>
+        /// Get the number of open ids associated with an account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account id</param>
+        [WebMethod(Description = "Get facebook id count.")]
+        public int GetAccountFacebooksCount(string ticket, int id)
+        {
+            ICriterion[] expressions = { Expression.Eq("Account.Id", id) };
+            return WebServiceImpl<TransitAccountFacebook, ManagedAccountFacebook, AccountFacebook>.GetCount(
+                ticket, expressions);
+        }
+
+        /// <summary>
+        /// Delete a facebook ID.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">facebook id</param>
+        [WebMethod(Description = "Delete a facebook id.")]
+        public void DeleteAccountFacebook(string ticket, int id)
+        {
+            WebServiceImpl<TransitAccountFacebook, ManagedAccountFacebook, AccountFacebook>.Delete(
+                ticket, id);
+        }
+
+        /// <summary>
+        /// Add a facebook id.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="facebook">transit facebook</param>
+        [WebMethod(Description = "Add a facebook id.")]
+        public int CreateAccountFacebook(string ticket, string signature, string[] names, string[] values)
+        {
+            TransitFacebookLogin t_login = TryLoginFacebook(signature, names, values);
+            TransitAccountFacebook t_facebook = new TransitAccountFacebook();
+            t_facebook.AccountId = GetAccountId(ticket);
+            t_facebook.FacebookAccountId = t_login.FacebookAccountId;
+            return WebServiceImpl<TransitAccountFacebook, ManagedAccountFacebook, AccountFacebook>.CreateOrUpdate(
+                ticket, t_facebook);
+        }
+
+        /// <summary>
+        /// Get an account facebook id.
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Get an account facebook id.")]
+        public TransitAccountFacebook GetAccountFacebookById(string ticket, int id)
+        {
+            return WebServiceImpl<TransitAccountFacebook, ManagedAccountFacebook, AccountFacebook>.GetById(
                 ticket, id);
         }
 

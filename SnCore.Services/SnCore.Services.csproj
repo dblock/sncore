@@ -137,6 +137,7 @@
     <Compile Include="ManagedAccountEventPicture.cs" />
     <Compile Include="ManagedAccountEventInstance.cs" />
     <Compile Include="ManagedAccountEventType.cs" />
+    <Compile Include="ManagedAccountFacebook.cs" />
     <Compile Include="ManagedAccountFeed.cs" />
     <Compile Include="ManagedAccountFeedItem.cs" />
     <Compile Include="ManagedAccountFeedItemImg.cs" />

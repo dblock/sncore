@@ -601,6 +601,41 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountFacebook]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[AccountFacebook](
+	[AccountFacebook_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Account_Id] [int] NOT NULL,
+	[FacebookAccount_Id] [bigint] NOT NULL,
+	[Created] [datetime] NOT NULL,
+	[Modified] [datetime] NOT NULL,
+ CONSTRAINT [PK_AccountFacebook] PRIMARY KEY CLUSTERED 
+(
+	[AccountFacebook_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
+ CONSTRAINT [UK_AccountFacebook] UNIQUE NONCLUSTERED 
+(
+	[FacebookAccount_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFacebook]') AND name = N'PK_AccountFacebook')
+ALTER TABLE [dbo].[AccountFacebook] ADD  CONSTRAINT [PK_AccountFacebook] PRIMARY KEY CLUSTERED 
+(
+	[AccountFacebook_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountFacebook]') AND name = N'UK_AccountFacebook')
+ALTER TABLE [dbo].[AccountFacebook] ADD  CONSTRAINT [UK_AccountFacebook] UNIQUE NONCLUSTERED 
+(
+	[FacebookAccount_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountFeed]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountFeed](
@@ -4988,6 +5023,13 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountEventPicture] CHECK CONSTRAINT [FK_AccountEventPicture_AccountEvent]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFacebook_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFacebook]'))
+ALTER TABLE [dbo].[AccountFacebook]  WITH CHECK ADD  CONSTRAINT [FK_AccountFacebook_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFacebook] CHECK CONSTRAINT [FK_AccountFacebook_Account]
+GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeed_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeed]'))
 ALTER TABLE [dbo].[AccountFeed]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeed_Account] FOREIGN KEY([Account_Id])
 REFERENCES [dbo].[Account] ([Account_Id])
@@ -5854,6 +5896,13 @@ REFERENCES [dbo].[AccountEvent] ([AccountEvent_Id])
 ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[AccountEventPicture] CHECK CONSTRAINT [FK_AccountEventPicture_AccountEvent]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFacebook_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFacebook]'))
+ALTER TABLE [dbo].[AccountFacebook]  WITH CHECK ADD  CONSTRAINT [FK_AccountFacebook_Account] FOREIGN KEY([Account_Id])
+REFERENCES [dbo].[Account] ([Account_Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[AccountFacebook] CHECK CONSTRAINT [FK_AccountFacebook_Account]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountFeed_Account]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountFeed]'))
 ALTER TABLE [dbo].[AccountFeed]  WITH CHECK ADD  CONSTRAINT [FK_AccountFeed_Account] FOREIGN KEY([Account_Id])

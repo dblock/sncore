@@ -64,6 +64,7 @@
     <property name="AccountQuotas" table="AccountQuota" id-columns="Account_Id" list="true" item-type="AccountQuota" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" modifier="Virtual" />
     <property name="Lcid" columns="LCID" type="System.Int32" modifier="Virtual" />
     <property name="PlaceWebsites" table="PlaceWebsite" id-columns="Account_Id" list="true" item-type="PlaceWebsite" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" modifier="Virtual" />
+    <property name="AccountFacebooks" table="AccountFacebook" id-columns="Account_Id" list="true" item-type="AccountFacebook" slave="true" ref="ManyToOne" inverse="Account" inherits-inverse="true" modifier="Virtual" />
   </class>
   <class name="AccountAddress" table="AccountAddress" implements=": IDbObject">
     <property name="Id" id="true" columns="AccountAddress_Id" type="System.Int32" modifier="Virtual" />
@@ -199,6 +200,13 @@
     <property name="AccountEvents" table="AccountEvent" id-columns="AccountEventType_Id" list="true" item-type="AccountEvent" read-only="true" slave="true" ref="ManyToOne" inverse="AccountEventType" inherits-inverse="true" modifier="Virtual" />
     <property name="Name" columns="Name" type="System.String" modifier="Virtual" />
     <property name="DefaultType" columns="DefaultType" type="System.Boolean" modifier="Virtual" />
+  </class>
+  <class name="AccountFacebook" table="AccountFacebook" implements=": IDbObject">
+    <property name="Id" id="true" columns="AccountFacebook_Id" type="System.Int32" modifier="Virtual" />
+    <property name="Account" columns="Account_Id" ref="OneToMany" inverse="AccountFacebooks" type="Account" modifier="Virtual" />
+    <property name="Created" columns="Created" type="System.DateTime" modifier="Virtual" />
+    <property name="FacebookAccountId" columns="FacebookAccount_Id" type="System.Int64" modifier="Virtual" />
+    <property name="Modified" columns="Modified" type="System.DateTime" modifier="Virtual" />
   </class>
   <class name="AccountFeed" table="AccountFeed" implements=": IDbObject">
     <property name="Id" id="true" columns="AccountFeed_Id" type="System.Int32" modifier="Virtual" />
@@ -349,7 +357,7 @@
     <property name="Modified" columns="Modified" type="System.DateTime" modifier="Virtual" />
     <property name="Failed" columns="Failed" type="System.Boolean" modifier="Virtual" />
     <property name="LastError" columns="LastError" type="System.String" modifier="Virtual" />
-    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountInvitations" type="AccountGroup" />
+    <property name="AccountGroup" columns="AccountGroup_Id" ref="OneToMany" inverse="AccountInvitations" type="AccountGroup" modifier="Virtual" />
   </class>
   <class name="AccountLicense" table="AccountLicense" implements=": IDbObject">
     <property name="Id" id="true" columns="AccountLicense_Id" type="System.Int32" modifier="Virtual" />
@@ -1098,13 +1106,13 @@
       <column name="IsAdministrator" type="Boolean" prec="1" allow-null="true" length="1" scale="0" default="((0))" />
       <column name="IsPasswordExpired" type="Boolean" prec="1" allow-null="true" length="1" scale="0" />
       <column name="LastLogin" type="DateTime" prec="23" allow-null="true" length="8" scale="3" />
+      <column name="LCID" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
       <column name="Modified" type="DateTime" prec="23" length="8" scale="3" default="(getdate())" />
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="Password" type="AnsiString" prec="16" length="16" scale="0" />
       <column name="Signature" type="String" prec="128" allow-null="true" length="256" scale="0" />
       <column name="State_Id" type="Int32" prec="10" allow-null="true" length="4" scale="0" foreign="true" primary-table="State" primary-column="State_Id" foreign-key="FK_Account_State" />
       <column name="TimeZone" type="Int32" prec="10" length="4" scale="0" default="((-1))" />
-      <column name="LCID" type="Int32" prec="10" allow-null="true" length="4" scale="0" />
     </table>
     <table name="AccountAddress">
       <column name="AccountAddress_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1235,6 +1243,13 @@
       <column name="Name" type="String" prec="128" length="256" scale="0" />
       <column name="DefaultType" type="Boolean" prec="1" length="1" scale="0" />
     </table>
+    <table name="AccountFacebook">
+      <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFacebook_Account" />
+      <column name="AccountFacebook_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
+      <column name="Created" type="DateTime" prec="23" length="8" scale="3" />
+      <column name="FacebookAccount_Id" type="Int64" prec="19" length="8" scale="0" />
+      <column name="Modified" type="DateTime" prec="23" length="8" scale="3" />
+    </table>
     <table name="AccountFeed">
       <column name="Account_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="Account" primary-column="Account_Id" foreign-key="FK_AccountFeed_Account" />
       <column name="AccountFeed_Id" primary="true" type="Int32" prec="10" length="4" scale="0" auto-inc="true" seed="1" inc="1" />
@@ -1242,6 +1257,7 @@
       <column name="Description" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="FeedType_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="FeedType" primary-column="FeedType_Id" foreign-key="FK_AccountFeed_FeedType" />
       <column name="FeedUrl" type="AnsiString" prec="256" length="256" scale="0" />
+      <column name="Hidden" type="Boolean" prec="1" length="1" scale="0" />
       <column name="LastError" type="String" prec="0" allow-null="true" length="16" scale="0" specific-type="NTEXT" />
       <column name="LinkUrl" type="AnsiString" prec="256" allow-null="true" length="256" scale="0" />
       <column name="Name" type="String" prec="256" length="512" scale="0" />
@@ -1252,7 +1268,6 @@
       <column name="Updated" type="DateTime" prec="23" length="8" scale="3" />
       <column name="UpdateFrequency" type="Int32" prec="10" length="4" scale="0" />
       <column name="Username" type="AnsiString" prec="64" allow-null="true" length="64" scale="0" />
-      <column name="Hidden" type="Boolean" prec="1" length="1" scale="0" />
     </table>
     <table name="AccountFeedItem">
       <column name="AccountFeed_Id" type="Int32" prec="10" length="4" scale="0" foreign="true" primary-table="AccountFeed" primary-column="AccountFeed_Id" foreign-key="FK_AccountFeedItem_AccountFeed" />

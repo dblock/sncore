@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountCreateOpenId.aspx.cs"
- Inherits="AccountCreateOpenId" Title="Join" %>
+<%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountCreateEmail.aspx.cs"
+ Inherits="AccountCreateEmail" Title="Join" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="SelectDate" Src="SelectDateControl.ascx" %>
@@ -9,13 +9,12 @@
  </div>
  <div class="sncore_h2sub">
   Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
-  <a href="http://www.videntity.org">&#187; Get an Open-Id</a>
   <a href="AccountCreateFacebook.aspx">&#187; Join with Facebook</a>
-  <a href="AccountCreate.aspx">&#187; Join w/o Open-Id</a>
+  <a href="AccountCreateOpenId.aspx">&#187; Join with Open-Id</a>
  </div>
  <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
   <ContentTemplate>
-   <asp:Panel ID="panelCreateOpenId" runat="server">
+   <asp:Panel ID="panelCreate" runat="server">
     <asp:Panel ID="panelBeta" runat="server">
      <table class="sncore_table">
       <tr>
@@ -76,14 +75,8 @@
        </div>
       </td>
      </tr>
-     <tr>
-      <td class="sncore_form_label">
-       <a href="http://www.videntity.org" target="_blank">your open-id</a>
-      </td>
-      <td class="sncore_form_value">
-       <asp:TextBox CssClass="sncore_form_openid_textbox" ID="inputOpenId" runat="server" />
-      </td>
-     </tr>
+    </table>
+    <table class="sncore_table">
      <tr>
       <td class="sncore_form_label">
        e-mail address:
@@ -97,9 +90,36 @@
       </td>
       <td>
        <div class="sncore_description">
-        a valid e-mail address is required to activate your account 
+        use your e-mail address to login, it will not be published to other users
         <br />
         <font color='red'>please double-check your e-mail address</font>
+       </div>
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       password:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox TextMode="Password" CssClass="sncore_form_textbox" ID="inputPassword"
+        runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td class="sncore_form_label">
+       re-type password:
+      </td>
+      <td class="sncore_form_value">
+       <asp:TextBox TextMode="Password" CssClass="sncore_form_textbox" ID="inputPassword2"
+        runat="server" />
+      </td>
+     </tr>
+     <tr>
+      <td>
+      </td>
+      <td>
+       <div class="sncore_description">
+        the system stores a password hash, not your clear-text password
        </div>
       </td>
      </tr>
@@ -109,8 +129,8 @@
       <td class="sncore_form_label">
       </td>
       <td class="sncore_form_value">
-       <SnCoreWebControls:Button ID="inputCreateOpenId" runat="server" Text="Join!" CausesValidation="true"
-        CssClass="sncore_form_button" OnClick="CreateOpenId_Click" />
+       <SnCoreWebControls:Button ID="inputCreate" runat="server" Text="Join!" CausesValidation="true"
+        CssClass="sncore_form_button" OnClick="create_Click" />
       </td>
       <td class="sncore_link">
        By joining, you automatically accept the <a href="TermsOfUse.aspx">Terms of Use</a>.
@@ -120,4 +140,13 @@
    </asp:Panel>
   </ContentTemplate>
  </asp:UpdatePanel>
+ <table class="sncore_notice_warning">
+  <tr>
+   <td>
+    Before you can post anything you will have to confirm your e-mail address. We will
+    send you an e-mail to do so. Sometimes Junk Mail filters treat the confirmation
+    e-mail as unwanted spam. Please make sure to double-check your Junk Mail folder.
+   </td>
+  </tr>
+ </table>
 </asp:Content>

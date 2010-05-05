@@ -336,4 +336,7 @@
   <data name="Websites" xml:space="preserve">
     <value>Вебсайты</value>
   </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>Фэйсбук</value>
+  </data>
 </root>

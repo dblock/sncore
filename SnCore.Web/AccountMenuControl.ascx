@@ -37,6 +37,7 @@
  <tr><td width="30" align="center"><img src="images/account/property.gif" /></td><td width="*"><a href="AccountPropertyManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, Property %>" /></a></td></tr>
  <tr><td width="30" align="right"><img src="images/account/sent.gif" /></td><td width="*"><a id="linkAccountPlaceRequests" runat="server" href="SystemAccountPlaceRequestsManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, Requests %>" /></a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/events.gif" /></td><td width="*"><a href="AccountEventsManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, Events %>" /></a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/facebook.gif" /></td><td width="*"><a href="AccountFacebooksManage.aspx"><asp:Literal ID="Literal1" runat="server" Text="<%$ Resources:Links, Facebook %>" /></a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/openid.gif" /></td><td width="*"><a href="AccountOpenIdsManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, OpenId %>" /></a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/license.gif" /></td><td width="*"><a href="AccountLicenseEdit.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, License %>" /></a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/redirect.gif" /></td><td width="*"><a href="AccountRedirectsManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, Redirects %>" /></a></td></tr>

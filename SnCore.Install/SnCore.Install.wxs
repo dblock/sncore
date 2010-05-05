@@ -60,6 +60,7 @@
         <ComponentRef Id="SnCoreImagesBookmarksLinks" />
         <ComponentRef Id="SnCoreImagesBugs" />
         <ComponentRef Id="SnCoreImagesButtons" />
+        <ComponentRef Id="SnCoreImagesSignup" />
         <ComponentRef Id="SnCoreImagesSite" />
         <ComponentRef Id="SnCoreImagesCulture" />
         <ComponentRef Id="SnCoreEventSource" />

@@ -76,6 +76,7 @@
         private System.Collections.Generic.IList<AccountQuota> m_AccountQuotas;
         private System.Int32 m_Lcid;
         private System.Collections.Generic.IList<PlaceWebsite> m_PlaceWebsites;
+        private System.Collections.Generic.IList<AccountFacebook> m_AccountFacebooks;
 
         ///--------------------------------------------------------------------------------
         ///<summary>
@@ -1959,6 +1960,37 @@
             set
             {
                 m_PlaceWebsites = value;
+            }
+        }
+
+        ///--------------------------------------------------------------------------------
+        ///<summary>
+        ///Persistent many-one reference property.
+        ///</summary>
+        ///<remarks>
+        ///This property accepts multiple references to objects of the type 'AccountFacebook'.
+        ///This property is part of a 'ManyToOne' relationship.
+        ///The data type for this property is 'System.Collections.IList'.
+        ///The inverse property for this property is 'AccountFacebook.Account'.
+        ///This property inherits its mapping information from its inverse property.
+        ///The accessibility level for this property is 'PublicAccess'.
+        ///The accessibility level for the field 'm_AccountFacebooks' that holds the value for this property is 'PrivateAccess'.
+        ///This property is marked as slave.
+        ///
+        ///Mapping information:
+        ///This class maps to the 'AccountFacebook' table in the data source.
+        ///The property maps to the identity column 'Account_Id' in the data source.
+        ///</remarks>
+        ///--------------------------------------------------------------------------------
+        public virtual System.Collections.Generic.IList<AccountFacebook> AccountFacebooks
+        {
+            get
+            {
+                return m_AccountFacebooks;
+            }
+            set
+            {
+                m_AccountFacebooks = value;
             }
         }
 

@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -25,10 +25,9 @@
     </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>0.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OldToolsVersion>0.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -80,9 +79,6 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -128,6 +124,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountEventType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AccountFacebook.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AccountFeed.cs">
@@ -446,6 +445,7 @@
     <EmbeddedResource Include="AccountEvent.hbm.xml" />
     <EmbeddedResource Include="AccountEventPicture.hbm.xml" />
     <EmbeddedResource Include="AccountEventType.hbm.xml" />
+    <EmbeddedResource Include="AccountFacebook.hbm.xml" />
     <EmbeddedResource Include="AccountFeed.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItem.hbm.xml" />
     <EmbeddedResource Include="AccountFeedItemImg.hbm.xml" />

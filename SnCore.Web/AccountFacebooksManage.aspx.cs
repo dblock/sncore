@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -13,21 +14,26 @@ using SnCore.Services;
 using SnCore.Tools.Web;
 using SnCore.SiteMap;
 
-public partial class AccountOpenIdsManage : AuthenticatedPage
+public partial class AccountFacebooksManage : AuthenticatedPage
 {
     public void Page_Load(object sender, EventArgs e)
     {
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            string openidmode = Request["openid.mode"];
-            if (!string.IsNullOrEmpty(openidmode))
+            string facebookmode = Request["facebook.login"];
+            if (!string.IsNullOrEmpty(facebookmode))
             {
-                NameValueCollectionSerializer serializer = new NameValueCollectionSerializer(Request.Params);
-                SessionManager.AccountService.CreateAccountOpenId(
-                    SessionManager.Ticket, SessionManager.OpenIdToken, serializer.Names, serializer.Values);
-                Redirect(Request.Path);
-                return;
+                FacebookPageManager facebook = new FacebookPageManager(SessionManager);
+                SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
+                if (facebookCookies.Count > 0)
+                {
+                    List<String> keys = new List<String>(facebookCookies.Keys);
+                    List<String> values = new List<String>(facebookCookies.Values);
+                    SessionManager.AccountService.CreateAccountFacebook(SessionManager.Ticket, 
+                        HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
+                    Redirect(Request.Path);
+                }
             }
 
             gridManage_OnGetDataSource(sender, e);
@@ -35,16 +41,14 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Open-ID", Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Facebook", Request.Url));
             StackSiteMap(sitemapdata);
         }
-
-        SetDefaultButton(manageAdd);
     }
 
     void gridManage_OnGetDataSource(object sender, EventArgs e)
     {
-        gridManage.DataSource = SessionManager.AccountService.GetAccountOpenIds(
+        gridManage.DataSource = SessionManager.AccountService.GetAccountFacebooks(
             SessionManager.Ticket, SessionManager.AccountId, null);
     }
 
@@ -61,19 +65,9 @@ public partial class AccountOpenIdsManage : AuthenticatedPage
         switch (e.CommandName)
         {
             case "Delete":
-                SessionManager.Delete<TransitAccountOpenId>(id, SessionManager.AccountService.DeleteAccountOpenId);
-                ReportInfo("OpenId deleted.");
-                gridManage.CurrentPageIndex = 0;
-                gridManage_OnGetDataSource(sender, e);
-                gridManage.DataBind();
+                SessionManager.Delete<TransitAccountFacebook>(id, SessionManager.AccountService.DeleteAccountFacebook);
+                Redirect("AccountFacebooksManage.aspx");
                 break;
         }
-    }
-
-    public void save_Click(object sender, EventArgs e)
-    {
-        TransitOpenIdRedirect r = SessionManager.AccountService.GetOpenIdRedirect(inputOpenIdIdentityUrl.Text, Request.Url.ToString());
-        SessionManager.OpenIdToken = r.Token;
-        Redirect(r.Url);
     }
 }

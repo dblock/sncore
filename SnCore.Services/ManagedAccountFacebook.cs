@@ -7,20 +7,19 @@ using SnCore.Data.Hibernate;
 
 namespace SnCore.Services
 {
-    public class TransitAccountOpenId : TransitService<AccountOpenId>
+    public class TransitAccountFacebook : TransitService<AccountFacebook>
     {
-        private string mIdentityUrl;
+        private long mFacebookAccountId;
 
-        public string IdentityUrl
+        public long FacebookAccountId
         {
             get
             {
-
-                return mIdentityUrl;
+                return mFacebookAccountId;
             }
             set
             {
-                mIdentityUrl = value;
+                mFacebookAccountId = value;
             }
         }
 
@@ -69,33 +68,33 @@ namespace SnCore.Services
             }
         }
 
-        public TransitAccountOpenId()
+        public TransitAccountFacebook()
         {
 
         }
 
-        public TransitAccountOpenId(AccountOpenId value)
+        public TransitAccountFacebook(AccountFacebook value)
             : base(value)
         {
 
         }
 
-        public override void SetInstance(AccountOpenId value)
+        public override void SetInstance(AccountFacebook value)
         {
             AccountId = value.Account.Id;
-            IdentityUrl = value.IdentityUrl;
+            FacebookAccountId = value.FacebookAccountId;
             Created = value.Created;
             Modified = value.Modified;
             base.SetInstance(value);
         }
 
-        public override AccountOpenId GetInstance(ISession session, ManagedSecurityContext sec)
+        public override AccountFacebook GetInstance(ISession session, ManagedSecurityContext sec)
         {
-            AccountOpenId instance = base.GetInstance(session, sec);
+            AccountFacebook instance = base.GetInstance(session, sec);
 
             if (Id == 0)
             {
-                instance.IdentityUrl = IdentityUrl.Trim();
+                instance.FacebookAccountId = FacebookAccountId;
                 instance.Account = GetOwner(session, AccountId, sec);
             }
 
@@ -103,36 +102,36 @@ namespace SnCore.Services
         }
     }
 
-    public class ManagedAccountOpenId : ManagedService<AccountOpenId, TransitAccountOpenId>
+    public class ManagedAccountFacebook : ManagedService<AccountFacebook, TransitAccountFacebook>
     {
-        public ManagedAccountOpenId()
+        public ManagedAccountFacebook()
         {
 
         }
 
-        public ManagedAccountOpenId(ISession session)
+        public ManagedAccountFacebook(ISession session)
             : base(session)
         {
 
         }
 
-        public ManagedAccountOpenId(ISession session, int id)
+        public ManagedAccountFacebook(ISession session, int id)
             : base(session, id)
         {
 
         }
 
-        public ManagedAccountOpenId(ISession session, AccountOpenId value)
+        public ManagedAccountFacebook(ISession session, AccountFacebook value)
             : base(session, value)
         {
 
         }
 
-        public string IdentityUrl
+        public long FacebookAccountId
         {
             get
             {
-                return mInstance.IdentityUrl;
+                return mInstance.FacebookAccountId;
             }
         }
 
@@ -156,24 +155,24 @@ namespace SnCore.Services
         {
             bool canDelete = false;
 
-            // can delete if more than one openid exists
-            if (mInstance.Account.AccountOpenIds != null && mInstance.Account.AccountOpenIds.Count > 1)
+            // can delete if more than one facebook id exists
+            if (mInstance.Account.AccountFacebooks != null && mInstance.Account.AccountFacebooks.Count > 1)
+                canDelete = true;
+
+            // can delete if an open id login exists
+            if (mInstance.Account.AccountOpenIds != null && mInstance.Account.AccountOpenIds.Count > 0)
                 canDelete = true;
 
             // can delete if there're e-mails that allow login
             if (mInstance.Account.AccountEmails != null && mInstance.Account.AccountEmails.Count > 0)
                 canDelete = true;
 
-            // can delete if there's a facebook account that allows login
-            if (mInstance.Account.AccountFacebooks != null && mInstance.Account.AccountFacebooks.Count > 0)
-                canDelete = true;
-
             if (!canDelete)
             {
-                throw new Exception("You cannot delete the last open id.");
+                throw new Exception("You cannot delete the last Facebook id.");
             }
 
-            Collection<AccountOpenId>.GetSafeCollection(mInstance.Account.AccountOpenIds).Remove(mInstance);
+            Collection<AccountFacebook>.GetSafeCollection(mInstance.Account.AccountFacebooks).Remove(mInstance);
             base.Delete(sec);
         }
 
@@ -187,6 +186,23 @@ namespace SnCore.Services
 
         protected override void Save(ManagedSecurityContext sec)
         {
+            AccountFacebook existing_facebook_account = Session.CreateCriteria(typeof(AccountFacebook))
+                .Add(Expression.Eq("FacebookAccountId", mInstance.FacebookAccountId))
+                .UniqueResult<AccountFacebook>();
+
+            if (existing_facebook_account != null)
+            {
+                if (existing_facebook_account.Account.Id == mInstance.Account.Id)
+                {
+                    mInstance = existing_facebook_account;
+                }
+                else
+                {
+                    // hijack, since there can only be one
+                    Session.Delete(existing_facebook_account);
+                }
+            }
+
             mInstance.Modified = DateTime.UtcNow;
             if (mInstance.Id == 0) mInstance.Created = mInstance.Modified;
             base.Save(sec);
@@ -200,11 +216,11 @@ namespace SnCore.Services
             return acl;
         }
 
-        protected override void Check(TransitAccountOpenId t_instance, ManagedSecurityContext sec)
+        protected override void Check(TransitAccountFacebook t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) GetQuota(sec).Check<AccountOpenId, ManagedAccount.QuotaExceededException>(
-                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountOpenId instance WHERE instance.Account.Id = {0}",
+            if (t_instance.Id == 0) GetQuota(sec).Check<AccountFacebook, ManagedAccount.QuotaExceededException>(
+                    Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountFacebook instance WHERE instance.Account.Id = {0}",
                         mInstance.Account.Id)).UniqueResult<int>());
         }
     }

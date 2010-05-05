@@ -207,5 +207,9 @@
       <key column="Account_Id" />
       <one-to-many class="PlaceWebsite, SnCore.Data" />
     </bag>
+    <bag lazy="true" name="AccountFacebooks" inverse="true">
+      <key column="Account_Id" />
+      <one-to-many class="AccountFacebook, SnCore.Data" />
+    </bag>
   </class>
 </hibernate-mapping>
