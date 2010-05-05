@@ -53,6 +53,7 @@
                     <File Id="SnCoreAccountCitiesControl_ascx" Name="AccountCitiesControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCitiesControl.ascx" />
                     <File Id="SnCoreAccountCitiesView_aspx" Name="AccountCitiesView.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCitiesView.aspx" />
                     <File Id="SnCoreAccountCityControl_ascx" Name="AccountCityControl.ascx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCityControl.ascx" />
+                    <File Id="SnCoreFacebookConnect_aspx" Name="FacebookConnect.aspx" Source="$(var.SnCore.Deploy.Target.Path)\FacebookConnect.aspx" />
                     <File Id="SnCoreAccountCreate_aspx" Name="AccountCreate.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreate.aspx" />
                     <File Id="SnCoreAccountCreateFacebook_aspx" Name="AccountCreateFacebook.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateFacebook.aspx" />
                     <File Id="SnCoreAccountCreateEmail_aspx" Name="AccountCreateEmail.aspx" Source="$(var.SnCore.Deploy.Target.Path)\AccountCreateEmail.aspx" />
@@ -619,6 +620,11 @@
                           <File Id="SnCoreImagesSignupEmail_jpg" Name="email.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\signup\email.jpg" />
                           <File Id="SnCoreImagesSignupFacebook_jpg" Name="facebook.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\signup\facebook.jpg" />
                           <File Id="SnCoreImagesSignupOpenId_jpg" Name="openid.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\signup\openid.jpg" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="SnCoreImagesLogin" Name="login">
+                        <Component Id="SnCoreImagesSignup" Guid="7F1889C2-F68C-4b07-957E-012BE5F3CCE3" DiskId="1">
+                          <File Id="SnCoreImagesLoginFacebook_jpg" Name="facebook.jpg" Source="$(var.SnCore.Deploy.Target.Path)\images\login\facebook.jpg" />
                         </Component>
                     </Directory>
                     <Directory Id="SnCoreImagesSite" Name="site">

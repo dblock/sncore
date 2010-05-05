@@ -21,7 +21,7 @@ public partial class AccountFacebooksManage : AuthenticatedPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            string facebookmode = Request["facebook.login"];
+            string facebookmode = Request["connect"];
             if (!string.IsNullOrEmpty(facebookmode))
             {
                 FacebookPageManager facebook = new FacebookPageManager(SessionManager);
@@ -68,6 +68,15 @@ public partial class AccountFacebooksManage : AuthenticatedPage
                 SessionManager.Delete<TransitAccountFacebook>(id, SessionManager.AccountService.DeleteAccountFacebook);
                 Redirect("AccountFacebooksManage.aspx");
                 break;
+        }
+    }
+
+    public string FacebookLoginUri
+    {
+        get
+        {
+            FacebookPageManager facebook = new FacebookPageManager(SessionManager);
+            return facebook.GetLoginUrl(Request.Url.ToString());
         }
     }
 }

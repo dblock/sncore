@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SnCore.Tools.Web;
 
 public class FacebookPageManager
 {
@@ -33,5 +34,11 @@ public class FacebookPageManager
         {
             return mSessionManager.GetCachedConfiguration("Facebook.APIKey", "");
         }
+    }
+
+    public string GetLoginUrl(string returnUrl)
+    {
+        return string.Format("http://www.facebook.com/login.php?api_key={0}&extern=1&fbconnect=1&req_perms=publish_stream&return_session=1&v=1.0&next={1}&fb_connect=1&cancel_url={1}",
+            FacebookAPIKey, Renderer.UrlEncode(string.Format("{0}/FacebookConnect.aspx?connect=1&ReturnUrl={1}", mSessionManager.WebsiteUrl, Renderer.UrlEncode(returnUrl))));
     }
 }

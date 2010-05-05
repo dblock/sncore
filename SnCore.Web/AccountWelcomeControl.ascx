@@ -63,7 +63,7 @@
          &#187; join</a>
        </div>
        <div class="sncore_welcome">
-        Already a member? <a href="AccountLogin.aspx">&#187; log-in</a>
+        Already a member? <a href="AccountLogin.aspx?ReturnUrl=AccountManage.aspx">&#187; log-in</a>
        </div>
       </td>
       <td>

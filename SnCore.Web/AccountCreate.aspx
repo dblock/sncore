@@ -20,9 +20,9 @@
       <a href="AccountCreateEmail.aspx">e-mail</a>
      </td>
      <td align="center">
-      <a href="AccountCreateFacebook.aspx"><img border="0" src="images/signup/facebook.jpg" alt="Facebook" /></a>
+      <a href="<% Response.Write(FacebookLoginUri); %>"><img border="0" src="images/signup/facebook.jpg" alt="Facebook" /></a>
       <br />
-      <a href="AccountCreateFacebook.aspx">facebook</a>
+      <a href="<% Response.Write(FacebookLoginUri); %>">facebook</a>
      </td>
      <td align="center">
       <a href="AccountCreateOpenId.aspx"><img border="0" src="images/signup/openid.jpg" alt="Open-Id" /></a>

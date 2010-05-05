@@ -56,7 +56,7 @@ public partial class AccountLoginControl : Control
                     }
                 }
 
-                string facebookmode = Request["facebook.login"];
+                string facebookmode = Request["connect"];
                 if (! string.IsNullOrEmpty(facebookmode))
                 {
                     SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
@@ -66,6 +66,13 @@ public partial class AccountLoginControl : Control
                         List<String> values = new List<String>(facebookCookies.Values);
                         TransitFacebookLogin t_login = SessionManager.AccountService.TryLoginFacebook(
                             HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
+                        
+                        if (string.IsNullOrEmpty(t_login.Ticket))
+                        {
+                            Redirect("AccountCreateFacebook.aspx?connect=1");
+                            return;
+                        }
+
                         SessionManager.Login(t_login.Ticket, SessionManager.RememberLogin);
                         Redirect(ReturnUrl);
                     }
@@ -132,6 +139,15 @@ public partial class AccountLoginControl : Control
         {
             object o = Request.QueryString["ReturnUrl"];
             return (o == null ? "Default.aspx" : o.ToString());
+        }
+    }
+
+    public string FacebookLoginUri
+    {
+        get
+        {
+            FacebookPageManager facebook = new FacebookPageManager(SessionManager);
+            return facebook.GetLoginUrl(Request.Url.ToString());
         }
     }
 }

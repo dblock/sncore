@@ -39,10 +39,7 @@ public partial class AccountCreateFacebook : Page
                    SessionManager.GetCachedConfiguration(
                         "SnCore.Admin.EmailAddress", "admin@localhost.com"));
 
-            panelFacebook.Enabled = true;
-            panelIdentity.Enabled = false;
-
-            string facebooklogin = Request["facebook.login"];
+            string facebooklogin = Request["connect"];
             if (!string.IsNullOrEmpty(facebooklogin))
             {
                 SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
@@ -52,14 +49,24 @@ public partial class AccountCreateFacebook : Page
                     HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value,
                     keys.ToArray(), values.ToArray());
 
-                if (t_login != null)
+                if (!string.IsNullOrEmpty(t_login.Ticket))
                 {
-                    throw new Exception(string.Format("An account for the Facebook user id \"{0}\" already exists. Please log-in instead.",
-                        facebookCookies["user"]));
+                    ReportInfo(string.Format("An account for the Facebook user id \"{0}\" already exists." +
+                        "<br />Please <a href='AccountLogin.aspx'>click here to log-in</a> instead.",
+                        facebookCookies["user"]), false);
+
+                    panelIdentity.Visible = false;
+                    panelFacebook.Visible = false;
+                    return;
                 }
 
-                panelIdentity.Enabled = true;
-                panelFacebook.Enabled = false;
+                panelIdentity.Visible = true;
+                panelFacebook.Visible = false;
+            }
+            else
+            {
+                panelIdentity.Visible = false;
+                panelFacebook.Visible = true;
             }
 
             if (SessionManager.IsLoggedIn)
@@ -110,5 +117,14 @@ public partial class AccountCreateFacebook : Page
         string ticket = ManagedAccount.GetTicketFromAccountId(id);
         SessionManager.Login(ticket, false);
         Redirect("AccountCreateWelcome.aspx");
+    }
+
+    public string FacebookLoginUri
+    {
+        get
+        {
+            FacebookPageManager facebook = new FacebookPageManager(SessionManager);
+            return facebook.GetLoginUrl(Request.Url.ToString());
+        }
     }
 }

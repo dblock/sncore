@@ -11,11 +11,6 @@
   Already have an account? <a href="AccountLogin.aspx">&#187; Login</a>
   <a href="AccountCreate.aspx">&#187; Join w/o Facebook</a>
  </div>
- <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
- <script type="text/javascript">
-  var facebookAPIKey = "<% Response.Write(SessionManager.GetCachedConfiguration("Facebook.APIKey", "")); %>";
-  FB.init(facebookAPIKey, "AccountCreateFacebook.aspx");
- </script>
  <asp:UpdatePanel ID="panelJoin" runat="server" UpdateMode="Always">
   <ContentTemplate>
    <asp:Panel ID="panelCreateFacebook" runat="server">
@@ -53,16 +48,18 @@
        <td>
        </td>
        <td>
-        <fb:login-button onlogin='window.location="AccountCreateFacebook.aspx?facebook.login=1";' />
-       </td>       
-     </table>
+        <a href="<% Response.Write(FacebookLoginUri); %>">
+         <img border="0" src="images/login/facebook.jpg" alt="Login with Facebook" />
+        </a>
+       </td>
+      </table>
     </asp:Panel>
     <asp:Panel ID="panelIdentity" runat="server">
      <div class="sncore_h2">
-      Personal Information
+      Almost Done
      </div>
      <div class="sncore_h2sub">
-      Thank you, to protect your identity, we're asking you to supply the following additional information.
+      To establish your identity, we're asking you to supply the following additional information.
      </div>
      <table class="sncore_table">    
       <tr>

@@ -17,4 +17,13 @@ public partial class AccountCreate : Page
     public void Page_Load(object sender, EventArgs e)
     {
     }
+
+    public string FacebookLoginUri
+    {
+        get
+        {
+            FacebookPageManager facebook = new FacebookPageManager(SessionManager);
+            return facebook.GetLoginUrl(string.Format("{0}/AccountCreateFacebook.aspx", SessionManager.WebsiteUrl));
+        }
+    }
 }
