@@ -25,6 +25,12 @@ public class FacebookPageManager
                 sortedCookies.Add(cookie.Name.Substring(cookiePrefix.Length), cookie.Value);
             }
         }
+
+        if (sortedCookies.Count == 0)
+        {
+            throw new Exception("Facebook Cookies not set.");
+        }
+
         return sortedCookies;
     }
 

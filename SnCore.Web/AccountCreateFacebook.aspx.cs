@@ -39,8 +39,8 @@ public partial class AccountCreateFacebook : Page
                    SessionManager.GetCachedConfiguration(
                         "SnCore.Admin.EmailAddress", "admin@localhost.com"));
 
-            string facebooklogin = Request["connect"];
-            if (!string.IsNullOrEmpty(facebooklogin))
+            string facebookConnect = Request["connect"];
+            if (!string.IsNullOrEmpty(facebookConnect))
             {
                 SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
                 List<String> keys = new List<String>(facebookCookies.Keys);
@@ -97,8 +97,6 @@ public partial class AccountCreateFacebook : Page
 
         FacebookPageManager facebook = new FacebookPageManager(SessionManager);
         SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
-        if (facebookCookies.Count == 0)
-            throw new Exception("Missing Facebook cookies");
 
         TransitAccount ta = new TransitAccount();
         ta.Name = inputName.Text;

@@ -15,13 +15,25 @@ public partial class FacebookConnect : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+
+    }
+
+    public string ReturnUrl
+    {
+        get
         {
             string returnUrl = Request["ReturnUrl"];
             if (string.IsNullOrEmpty(returnUrl))
+            {
                 throw new Exception("Missing ReturnUrl");
-            returnUrl += (returnUrl.IndexOf('?') > 0) ? "&connect=1" : "?connect=1";
-            Response.Redirect(returnUrl);
+            }
+
+            if (returnUrl.IndexOf("connect=1") < 0)
+            {
+                returnUrl += (returnUrl.IndexOf('?') > 0) ? "&connect=1" : "?connect=1";
+            }
+
+            return returnUrl;
         }
     }
 }

@@ -21,19 +21,16 @@ public partial class AccountFacebooksManage : AuthenticatedPage
         gridManage.OnGetDataSource += new EventHandler(gridManage_OnGetDataSource);
         if (!IsPostBack)
         {
-            string facebookmode = Request["connect"];
-            if (!string.IsNullOrEmpty(facebookmode))
+            string facebookConnect = Request["connect"];
+            if (!string.IsNullOrEmpty(facebookConnect))
             {
                 FacebookPageManager facebook = new FacebookPageManager(SessionManager);
                 SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
-                if (facebookCookies.Count > 0)
-                {
-                    List<String> keys = new List<String>(facebookCookies.Keys);
-                    List<String> values = new List<String>(facebookCookies.Values);
-                    SessionManager.AccountService.CreateAccountFacebook(SessionManager.Ticket, 
-                        HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
-                    Redirect(Request.Path);
-                }
+                List<String> keys = new List<String>(facebookCookies.Keys);
+                List<String> values = new List<String>(facebookCookies.Values);
+                SessionManager.AccountService.CreateAccountFacebook(SessionManager.Ticket,
+                    HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
+                Redirect(Request.Path);
             }
 
             gridManage_OnGetDataSource(sender, e);

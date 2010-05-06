@@ -56,26 +56,23 @@ public partial class AccountLoginControl : Control
                     }
                 }
 
-                string facebookmode = Request["connect"];
-                if (! string.IsNullOrEmpty(facebookmode))
+                string facebookConnect = Request["connect"];
+                if (!string.IsNullOrEmpty(facebookConnect))
                 {
                     SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
-                    if (facebookCookies.Count > 0)
-                    {
-                        List<String> keys = new List<String>(facebookCookies.Keys);
-                        List<String> values = new List<String>(facebookCookies.Values);
-                        TransitFacebookLogin t_login = SessionManager.AccountService.TryLoginFacebook(
-                            HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
-                        
-                        if (string.IsNullOrEmpty(t_login.Ticket))
-                        {
-                            Redirect("AccountCreateFacebook.aspx?connect=1");
-                            return;
-                        }
+                    List<String> keys = new List<String>(facebookCookies.Keys);
+                    List<String> values = new List<String>(facebookCookies.Values);
+                    TransitFacebookLogin t_login = SessionManager.AccountService.TryLoginFacebook(
+                        HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, keys.ToArray(), values.ToArray());
 
-                        SessionManager.Login(t_login.Ticket, SessionManager.RememberLogin);
-                        Redirect(ReturnUrl);
+                    if (string.IsNullOrEmpty(t_login.Ticket))
+                    {
+                        Redirect("AccountCreateFacebook.aspx?connect=1");
+                        return;
                     }
+
+                    SessionManager.Login(t_login.Ticket, SessionManager.RememberLogin);
+                    Redirect(ReturnUrl);
                 }
 
                 if (SessionManager.IsLoggedIn)
