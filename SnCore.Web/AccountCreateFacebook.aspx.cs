@@ -19,8 +19,6 @@ public partial class AccountCreateFacebook : Page
 {
     public void Page_Load(object sender, EventArgs e)
     {
-        SetDefaultButton(inputCreateFacebook);
-
         if (!IsPostBack)
         {
             FacebookPageManager facebook = new FacebookPageManager(SessionManager);
@@ -55,17 +53,23 @@ public partial class AccountCreateFacebook : Page
                         "<br />Please <a href='AccountLogin.aspx'>click here to log-in</a> instead.",
                         facebookCookies["user"]), false);
 
-                    panelIdentity.Visible = false;
                     panelFacebook.Visible = false;
                     return;
                 }
 
-                panelIdentity.Visible = true;
-                panelFacebook.Visible = false;
+                int id = SessionManager.AccountService.CreateAccountWithFacebook(
+                    inputBetaPassword.Text,
+                    HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value,
+                    keys.ToArray(),
+                    values.ToArray());
+
+                string ticket = ManagedAccount.GetTicketFromAccountId(id);
+                SessionManager.Login(ticket, false);
+                Redirect("AccountCreateWelcome.aspx");
+                return;
             }
             else
             {
-                panelIdentity.Visible = false;
                 panelFacebook.Visible = true;
             }
 
@@ -76,45 +80,6 @@ public partial class AccountCreateFacebook : Page
                 return;
             }
         }
-    }
-
-    protected void CreateFacebook_Click(object sender, EventArgs e)
-    {
-        if (string.IsNullOrEmpty(inputName.Text))
-        {
-            throw new ArgumentException("Please enter your name.");
-        }
-
-        if (string.IsNullOrEmpty(inputEmailAddress.Text))
-        {
-            throw new ArgumentException("Please enter an e-mail address.");
-        }
-
-        if (!inputBirthday.HasDate)
-        {
-            throw new ArgumentException("Please enter a valid date of birth.");
-        }
-
-        FacebookPageManager facebook = new FacebookPageManager(SessionManager);
-        SortedList<string, string> facebookCookies = facebook.GetFacebookCookies(HttpContext.Current.Request.Cookies);
-
-        TransitAccount ta = new TransitAccount();
-        ta.Name = inputName.Text;
-        ta.Birthday = inputBirthday.SelectedDate;
-
-        List<String> keys = new List<String>(facebookCookies.Keys);
-        List<String> values = new List<String>(facebookCookies.Values);
-        int id = SessionManager.AccountService.CreateAccountWithFacebook(
-            inputBetaPassword.Text,
-            HttpContext.Current.Request.Cookies[facebook.FacebookAPIKey].Value, 
-            keys.ToArray(), 
-            values.ToArray(),
-            inputEmailAddress.Text,
-            ta);
-
-        string ticket = ManagedAccount.GetTicketFromAccountId(id);
-        SessionManager.Login(ticket, false);
-        Redirect("AccountCreateWelcome.aspx");
     }
 
     public string FacebookLoginUri

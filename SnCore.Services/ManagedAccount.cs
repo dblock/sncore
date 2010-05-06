@@ -1023,7 +1023,7 @@ namespace SnCore.Services
 
             ta.Password = Guid.NewGuid().ToString(); // random password for recovery
             CreateOrUpdate(ta, sec);
-            InternalCreateEmail(email, false, sec);
+            InternalCreateEmail(email, true, sec);
             CreateAccountSystemMessageFolders(sec);
             CreateAccountSubscriptions(sec);
 

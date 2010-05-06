@@ -17,6 +17,8 @@ using SnCore.Tools.Web;
 using SnCore.Tools;
 using System.Net.Mail;
 using System.Text;
+using System.Drawing;
+using SnCore.Tools.Drawing;
 
 namespace SnCore.WebServices
 {
@@ -262,11 +264,81 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Create an account with a facebook id.
+        /// </summary>
+        /// <param name="betapassword"></param>
+        /// <param name="signature"></param>
+        /// <param name="names"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        [WebMethod(Description = "Create an account with facebook id.")]
+        public int CreateAccountWithFacebook(string betapassword, string signature, string[] names, string[] values)
+        {
+            TransitFacebookLogin t_facebook = TryLoginFacebook(signature, names, values);
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+
+                string s = ManagedConfiguration.GetValue(session, "SnCore.Beta.Password", string.Empty);
+                if (s != betapassword)
+                {
+                    throw new ManagedAccount.AccessDeniedException();
+                }
+
+                ManagedAccount acct = new ManagedAccount(session);
+
+                // fetch account information
+                Facebook.Session.ConnectSession facebookSession = new Facebook.Session.ConnectSession(
+                    ManagedConfiguration.GetValue(session, "Facebook.APIKey", ""),
+                    ManagedConfiguration.GetValue(session, "Facebook.Secret", ""));
+
+                TransitAccount ta = new TransitAccount();
+                NameValueCollectionSerializer facebookCookies = new NameValueCollectionSerializer(names, values);
+                facebookSession.SessionKey = facebookCookies.Collection["session_key"];
+                facebookSession.UserId = t_facebook.FacebookAccountId;
+                Facebook.Rest.Api facebookAPI = new Facebook.Rest.Api(facebookSession);
+                Facebook.Schema.user user = facebookAPI.Users.GetInfo();
+                ta.Name = user.name;
+                ta.Birthday = DateTime.Parse(user.birthday_date);
+                acct.CreateWithFacebook(t_facebook.FacebookAccountId, user.proxied_email, 
+                    ta, ManagedAccount.GetAdminSecurityContext(session));
+
+                if (user.current_location != null)
+                {
+                    ta.City = user.current_location.city;
+
+                    int country_id;
+                    if (ManagedCountry.TryGetCountryId(session, user.current_location.country, out country_id))
+                        ta.Country = user.current_location.country;
+                    
+                    int state_id;
+                    if (ManagedState.TryGetStateId(session, user.current_location.state, user.current_location.country, out state_id))
+                        ta.State = user.current_location.state;
+                }
+
+                if (user.picture_big != null)
+                {
+                    TransitAccountPicture t_picture = new TransitAccountPicture();
+                    t_picture.AccountId = acct.Id;
+                    ThumbnailBitmap bitmap = new ThumbnailBitmap(new Bitmap(user.picture_big));
+                    t_picture.Bitmap = bitmap.Bitmap;
+                    t_picture.Thumbnail = bitmap.Thumbnail;
+                    t_picture.Name = user.pic;
+                    ManagedAccountPicture m_picture = new ManagedAccountPicture(session);
+                    m_picture.CreateOrUpdate(t_picture, ManagedAccount.GetAdminSecurityContext(session));
+                }
+
+                SnCore.Data.Hibernate.Session.Flush();
+                return acct.Id;
+            }
+        }
+
+        /// <summary>
         /// Create an account with a facebook ID.
         /// </summary>
-        /// <param name="ta">transit account informatio</param>
+        /// <param name="ta">transit account information</param>
         /// <returns>account id</returns>
-        [WebMethod(Description = "Create an account with openid.")]
+        [WebMethod(Description = "Create an account with facebook id.")]
         public int CreateAccountWithFacebook(string betapassword, string signature, string[] names, string[] values, string email, TransitAccount ta)
         {
             TransitFacebookLogin t_facebook = TryLoginFacebook(signature, names, values);

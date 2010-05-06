@@ -380,3 +380,5 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'[dbo].[AccountInvitation]') AND name = N'AccountGroup_Id')
 ALTER TABLE dbo.AccountInvitation ADD [AccountGroup_Id] int NULL
 GO
+-- expand AccountEmail Address to allow facebook proxy e-mails
+ALTER TABLE dbo.AccountEmail ALTER COLUMN [Address] varchar(256) NOT NULL

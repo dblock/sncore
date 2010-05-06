@@ -21,19 +21,33 @@
    </td>
   </tr>
  </table>
- <table class="sncore_account_table">
-  <tr>
-   <td>
-    <p>
-     But before you can post anything you will have to confirm your e-mail address. We have sent you an e-mail with instructions 
-     to do so. It may take a few minutes to arrive. Also Junk Mail filters may treat the confirmation e-mail as unwanted spam. 
-     Please make sure to double-check your Junk Mail folder.
-    </p>
-    <p>
-     While you wait for that confirmation e-mail <a href="AccountPicturesManage.aspx">upload a picture</a> and 
-     <a href="AccountPreferencesManage.aspx">adjust your preferences</a>.  
-    </p>   
-   </td>
-  </tr>
- </table>
+ <asp:Panel id="panelEmailNotConfirmed" runat="server">
+  <table class="sncore_account_table">
+   <tr>
+    <td>
+     <p>
+      But before you can post anything you will have to confirm your e-mail address. We have sent you an e-mail with instructions 
+      to do so. It may take a few minutes to arrive. Also Junk Mail filters may treat the confirmation e-mail as unwanted spam. 
+      Please make sure to double-check your Junk Mail folder.
+     </p>
+     <p>
+      While you wait for that confirmation e-mail <a href="AccountPicturesManage.aspx">upload a profile picture</a> and 
+      <a href="AccountPreferencesManage.aspx">adjust your preferences</a>.  
+     </p>   
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
+ <asp:Panel id="panelEmailConfirmed" runat="server">
+  <table class="sncore_account_table">
+   <tr>
+    <td>
+     <p>
+      You can now <a href="AccountPicturesManage.aspx">upload a profile picture</a> and 
+      <a href="AccountPreferencesManage.aspx">adjust your preferences</a>.
+     </p>   
+    </td>
+   </tr>
+  </table>
+ </asp:Panel>
 </asp:Content>

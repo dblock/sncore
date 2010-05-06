@@ -400,7 +400,7 @@ BEGIN
 CREATE TABLE [dbo].[AccountEmail](
 	[AccountEmail_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Account_Id] [int] NOT NULL,
-	[Address] [varchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Address] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Created] [datetime] NOT NULL CONSTRAINT [DF_AccountEmail_Created]  DEFAULT (getdate()),
 	[Modified] [datetime] NULL,
 	[Verified] [bit] NOT NULL CONSTRAINT [DF_AccountEmail_Verified]  DEFAULT ((0)),
