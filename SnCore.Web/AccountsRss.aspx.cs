@@ -38,7 +38,7 @@ public partial class AccountsRss : AccountPersonPage
         get
         {
             object o = Request.QueryString["asc"];
-            return (o == null ? true : bool.Parse(o.ToString()));
+            return (o == null ? false : bool.Parse(o.ToString()));
         }
     }
 
@@ -47,7 +47,7 @@ public partial class AccountsRss : AccountPersonPage
         get
         {
             object o = Request.QueryString["pictures"];
-            return (o == null ? false : bool.Parse(o.ToString()));
+            return (o == null ? true : bool.Parse(o.ToString()));
         }
     }
 

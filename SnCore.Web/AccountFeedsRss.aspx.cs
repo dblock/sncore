@@ -82,7 +82,7 @@ public partial class AccountFeedsRss : Page
         get
         {
             object o = Request.QueryString["asc"];
-            return (o == null ? true : bool.Parse(o.ToString()));
+            return (o == null ? false : bool.Parse(o.ToString()));
         }
     }
 

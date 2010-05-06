@@ -38,7 +38,7 @@ public partial class PlacesRss : Page
         get
         {
             object o = Request.QueryString["asc"];
-            return (o == null ? true : bool.Parse(o.ToString()));
+            return (o == null ? false : bool.Parse(o.ToString()));
         }
     }
 
@@ -96,6 +96,15 @@ public partial class PlacesRss : Page
         }
     }
 
+    public bool Pictures
+    {
+        get
+        {
+            object o = Request.QueryString["pictures"];
+            return (o == null ? true : bool.Parse(o.ToString()));
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -109,6 +118,7 @@ public partial class PlacesRss : Page
             options.State = State;
             options.Name = Name;
             options.Type = Type;
+            options.PicturesOnly = Pictures;
 
             ServiceQueryOptions queryoptions = new ServiceQueryOptions();
             queryoptions.PageNumber = 0;
