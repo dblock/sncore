@@ -16,6 +16,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PicturesView" Src="AccountGroupPicturesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="FacebookLike" Src="FacebookLikeControl.ascx" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <asp:Panel CssClass="panel" ID="pnlAccountGroup" runat="server">
   <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -97,10 +98,13 @@
         views: <SnCore:CounterView ID="counterAccountGroupViews" runat="server" />
        </td>
        <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
-        socially bookmark this group:
+        bookmark:
        </td>
        <td class="sncore_table_tr_td">
         <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+       </td>
+       <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+        <SnCore:FacebookLike ID="facebookLike" runat="server" />
        </td>
       </tr>
      </table>

@@ -8,6 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="AutoScroll" Src="AutoScrollControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RedirectView" Src="AccountRedirectViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="RssLink" Src="RssLinkControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="FacebookLike" Src="FacebookLikeControl.ascx" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <asp:Content ID="Content" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <table cellspacing="0" cellpadding="4" class="sncore_table">
@@ -63,10 +64,13 @@
     <SnCore:LicenseView runat="server" ID="licenseView" />       
    </td>
    <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
-    socially bookmark this feed:
+    bookmark:
    </td>
    <td class="sncore_table_tr_td">
     <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+   </td>
+   <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+    <SnCore:FacebookLike ID="facebookLike" runat="server" />
    </td>
   </tr>
  </table>

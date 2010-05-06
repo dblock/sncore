@@ -8,6 +8,7 @@
 <%@ Register TagPrefix="SnCore" TagName="PlaceAccountEventsView" Src="PlaceAccountEventsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PlaceFavoriteAccountsView" Src="PlaceFavoriteAccountsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="BookmarksView" Src="BookmarksViewControl.ascx" %>
+<%@ Register TagPrefix="SnCore" TagName="FacebookLike" Src="FacebookLikeControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="PropertyGroupsView" Src="PlacePropertyGroupsViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="AttributesView" Src="PlaceAttributesViewControl.ascx" %>
 <%@ Register TagPrefix="SnCore" TagName="CounterView" Src="CounterViewControl.ascx" %>
@@ -134,10 +135,13 @@
         <table class="sncore_inner_table" width="95%">
          <tr>
           <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
-           socially bookmark this place:
+           bookmark:
           </td>
           <td class="sncore_table_tr_td">
            <SnCore:BookmarksView ID="bookmarksView" ShowThumbnail="true" runat="server" RepeatColumns="-1" />
+          </td>
+          <td class="sncore_table_tr_td" style="font-size: smaller;" align="right">
+           <SnCore:FacebookLike ID="facebookLike" runat="server" />
           </td>
          </tr>
         </table>
