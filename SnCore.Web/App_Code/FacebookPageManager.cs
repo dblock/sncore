@@ -13,6 +13,18 @@ public class FacebookPageManager
         mSessionManager = manager;
     }
 
+    public bool HasFacebookCookies(HttpCookieCollection cookies)
+    {
+        string cookiePrefix = FacebookAPIKey + "_";
+        foreach (string cookieName in cookies)
+        {
+            if (cookieName.StartsWith(cookiePrefix))
+                return true;
+        }
+
+        return false;
+    }
+
     public SortedList<string, string> GetFacebookCookies(HttpCookieCollection cookies)
     {
         SortedList<string, string> sortedCookies = new SortedList<string, string>();
@@ -44,7 +56,7 @@ public class FacebookPageManager
 
     public string GetLoginUrl(string returnUrl)
     {
-        return string.Format("http://www.facebook.com/login.php?api_key={0}&extern=1&fbconnect=1&req_perms=publish_stream,email&return_session=1&v=1.0&next={1}&fb_connect=1&cancel_url={1}",
+        return string.Format("http://www.facebook.com/login.php?api_key={0}&extern=1&fbconnect=1&req_perms=publish_stream,email,user_birthday&return_session=1&v=1.0&next={1}&fb_connect=1&cancel_url={1}",
             FacebookAPIKey, Renderer.UrlEncode(string.Format("{0}/FacebookConnect.aspx?connect=1&ReturnUrl={1}", mSessionManager.WebsiteUrl, Renderer.UrlEncode(returnUrl))));
     }
 }

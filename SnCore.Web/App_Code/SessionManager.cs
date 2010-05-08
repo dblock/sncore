@@ -456,6 +456,14 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         }
     }
 
+    public FacebookGraphService FacebookGraphService
+    {
+        get
+        {
+            return CachedWebService<FacebookGraphService>.GetEndPoint(Cache);
+        }
+    }
+
     #endregion
 
     #region Kitchen Sink (TODO: move)

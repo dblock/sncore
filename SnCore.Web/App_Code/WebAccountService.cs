@@ -299,7 +299,9 @@ namespace SnCore.WebServices
                 Facebook.Rest.Api facebookAPI = new Facebook.Rest.Api(facebookSession);
                 Facebook.Schema.user user = facebookAPI.Users.GetInfo();
                 ta.Name = user.name;
-                ta.Birthday = DateTime.Parse(user.birthday_date);
+                DateTime birthday = DateTime.Today;
+                DateTime.TryParse(user.birthday_date, out birthday);
+                ta.Birthday = birthday;
                 acct.CreateWithFacebook(t_facebook.FacebookAccountId, user.proxied_email, 
                     ta, ManagedAccount.GetAdminSecurityContext(session));
 
