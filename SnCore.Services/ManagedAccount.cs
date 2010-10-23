@@ -25,6 +25,21 @@ using System.Globalization;
 
 namespace SnCore.Services
 {
+    public class AccountDeleteOptions
+    {
+        public bool DeleteContent = false;
+
+        public AccountDeleteOptions()
+        {
+
+        }
+
+        public override int GetHashCode()
+        {
+            return PersistentlyHashable.GetHashCode(this);
+        }
+    };
+
     public class TransitAccountNumbers
     {
         private int mFirstDegreeCount = 0;
@@ -886,6 +901,73 @@ namespace SnCore.Services
             }
         }
 
+        public void DeleteContent(ManagedSecurityContext sec)
+        {
+            ManagedDiscussion.FindAndDelete(
+                Session, mInstance.Id, typeof(Account), 0, sec);
+
+            // delete places
+            foreach (Place place in Collection<Place>.GetSafeCollection(mInstance.Places))
+            {
+                ManagedPlace mp = new ManagedPlace(Session, place);
+                mp.Delete(sec);
+            }
+
+            // deleteaccount events
+            foreach (AccountEvent accountevent in Collection<AccountEvent>.GetSafeCollection(mInstance.AccountEvents))
+            {
+                ManagedAccountEvent mp = new ManagedAccountEvent(Session, accountevent);
+                mp.Delete(sec);
+            }
+
+            // delete public discussions
+            foreach (Discussion d in Collection<Discussion>.GetSafeCollection(mInstance.Discussions))
+            {
+                if (!d.Personal)
+                {
+                    ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                    md.Delete(sec);
+                }
+            }
+
+            // leave groups
+            foreach (AccountGroupAccount groupaccount in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+            {
+                ManagedAccountGroupAccount m_groupaccount = new ManagedAccountGroupAccount(Session, groupaccount);
+                m_groupaccount.Delete(sec);
+            }
+
+            // delete group pictures
+            foreach (AccountGroupPicture grouppicture in Collection<AccountGroupPicture>.GetSafeCollection(mInstance.AccountGroupPictures))
+            {
+                ManagedAccountGroupPicture m_grouppicture = new ManagedAccountGroupPicture(Session, grouppicture);
+                m_grouppicture.Delete(sec);
+            }
+
+            // delete  place websites
+            foreach (PlaceWebsite placewebsite in Collection<PlaceWebsite>.GetSafeCollection(mInstance.PlaceWebsites))
+            {
+                ManagedPlaceWebsite mpw = new ManagedPlaceWebsite(Session, placewebsite);
+                mpw.Delete(sec);
+            }
+
+            // delete all group invitations to me, group requests are cascade-deleted
+            Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
+
+            // delete friends and friend requests
+            Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
+            Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
+
+            // delete features
+            ManagedFeature.Delete(Session, "Account", Id);
+
+            // delete blog authoring access
+            Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
+
+            // delete flags
+            Session.Delete(string.Format("from AccountFlag af where af.FlaggedAccount.Id = {0}", Id));
+        }
+
         public int Create(string name, string password, string emailaddress, DateTime birthday, ManagedSecurityContext sec)
         {
             TransitAccount ta = new TransitAccount();
@@ -1338,13 +1420,13 @@ namespace SnCore.Services
 
         public static ManagedAccount LoginFacebook(ISession session, string signature, NameValueCollection cookies)
         {
-            if (! VerifyFacebookLogin(session, signature, cookies))
+            if (!VerifyFacebookLogin(session, signature, cookies))
                 throw new AccessDeniedException("Invalid FaceBook Connect signature");
 
             long facebookAccountId = GetFacebookFacebookAccountId(session, cookies);
-            
+
             // find a facebook account record that matches
-            AccountFacebook o = (AccountFacebook) session.CreateCriteria(typeof(AccountFacebook))
+            AccountFacebook o = (AccountFacebook)session.CreateCriteria(typeof(AccountFacebook))
                     .Add(Expression.Eq("FacebookAccountId", facebookAccountId))
                     .UniqueResult();
 
@@ -1365,7 +1447,7 @@ namespace SnCore.Services
         {
             if (!VerifyFacebookLogin(session, signature, cookies))
                 throw new AccessDeniedException("Invalid FaceBook Connect signature");
-            
+
             ManagedFacebookLogin t_result = new ManagedFacebookLogin();
             t_result.FacebookAccountId = GetFacebookFacebookAccountId(session, cookies);
 

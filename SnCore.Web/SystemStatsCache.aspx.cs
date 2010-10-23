@@ -218,11 +218,7 @@ public partial class SystemStatsCache : AuthenticatedPage
     public void linkFlush_Click(object sender, EventArgs e)
     {
         // clear session cache
-        IDictionaryEnumerator enumerator = SessionManager.Cache.GetEnumerator();
-        while (enumerator.MoveNext())
-        {
-            SessionManager.Cache.Remove(enumerator.Key.ToString());
-        }
+        SessionManager.FlushCache();
 
         // clear navigation crumbs
         if (SiteMap.Provider is SiteMapDataProvider)

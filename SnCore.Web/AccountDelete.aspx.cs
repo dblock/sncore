@@ -44,6 +44,10 @@ public partial class AccountDelete : AuthenticatedPage
             accountImage.Src = string.Format("AccountPictureThumbnail.aspx?id={0}", Account.PictureId);
             accountName.Text = string.Format("Dear {0},", Renderer.Render(Account.Name));
 
+            inputConfirm.Checked = SessionManager.IsAdministrator;
+            inputDeleteContent.Enabled = SessionManager.IsAdministrator;
+            inputDeleteContent.Checked = SessionManager.IsAdministrator;
+
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Delete Account", Request.Url));
@@ -60,8 +64,10 @@ public partial class AccountDelete : AuthenticatedPage
             throw new Exception("Please check the \"I understand that this cannot be undone.\" box.");
         }
 
-        SessionManager.AccountService.DeleteAccount(SessionManager.Ticket, Account.Id);
-        SessionManager.InvalidateCache<TransitAccount>();
+        AccountDeleteOptions options = new AccountDeleteOptions();
+        options.DeleteContent = inputDeleteContent.Checked && SessionManager.IsAdministrator;
+        SessionManager.AccountService.DeleteAccount(SessionManager.Ticket, Account.Id, options);
+        SessionManager.FlushCache();
         pnlAccount.Visible = false;
 
         if (!SessionManager.IsAdministrator)

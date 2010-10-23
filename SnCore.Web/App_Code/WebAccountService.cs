@@ -499,7 +499,7 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">account to delete</param>
         [WebMethod(Description = "Delete an account.")]
-        public void DeleteAccount(string ticket, int id)
+        public void DeleteAccount(string ticket, int id, AccountDeleteOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
@@ -515,11 +515,22 @@ namespace SnCore.WebServices
 
                 if (sec.Account.Id != user.Id)
                 {
-                    if (!sec.IsAdministrator())
+                    if (! sec.IsAdministrator())
                     {
                         // only admin can delete other people's account
                         throw new ManagedAccount.AccessDeniedException();
                     }
+                }
+
+                if (options != null && options.DeleteContent)
+                {
+                    if (! sec.IsAdministrator())
+                    {
+                        // only admin can delete other people's content
+                        throw new ManagedAccount.AccessDeniedException();
+                    }
+
+                    user.DeleteContent(sec);
                 }
             }
 

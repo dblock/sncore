@@ -34,6 +34,14 @@
        </td>
       </tr>
       <tr>
+       <td class="sncore_form_label">
+       </td>
+       <td class="sncore_form_value">
+        <asp:CheckBox ID="inputDeleteContent" runat="server" Text="Delete all my content."
+         Checked="false" Font-Bold="True" ForeColor="Red" Enabled="false" />
+       </td>
+      </tr>
+      <tr>
        <td>
        </td>
        <td class="sncore_form_value">

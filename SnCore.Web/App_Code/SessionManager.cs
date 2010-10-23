@@ -14,6 +14,7 @@ using SnCore.Services;
 using SnCore.WebServices;
 using SnCore.BackEndServices;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using System.Reflection;
 using SnCore.Tools;
@@ -461,6 +462,19 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
         get
         {
             return CachedWebService<FacebookGraphService>.GetEndPoint(Cache);
+        }
+    }
+
+    #endregion
+
+    #region Cache
+
+    public void FlushCache()
+    {
+        IDictionaryEnumerator enumerator = Cache.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            Cache.Remove(enumerator.Key.ToString());
         }
     }
 
