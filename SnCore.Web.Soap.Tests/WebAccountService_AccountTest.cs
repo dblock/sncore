@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using SnCore.Web.Soap.Tests.WebDiscussionServiceTests;
 
 namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
@@ -171,6 +172,45 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             WebAccountService.TransitAccount t_instance3 = EndPoint.GetAccount(ticket, true);
             Assert.AreEqual(t_instance3.State, t_instance.State);
             Assert.AreEqual(t_instance3.Country, t_instance.Country);
+        }
+
+        [Test]
+        public void DeleteAccountWithoutContentTests()
+        {
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            WebDiscussionService.TransitDiscussionPost t_post = post.GetTransitInstance();
+            t_post.AccountId = user.id;
+            t_post.Id = post.EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
+            Console.WriteLine("Post: {0}", t_post.Id);
+            int count1 = post.EndPoint.GetDiscussionPostsCount(GetAdminTicket(), t_post.DiscussionId);
+            EndPoint.DeleteAccount(GetAdminTicket(), user.id);
+            // deleting a user with default options doesn't delete all his posts
+            int count2 = post.EndPoint.GetDiscussionPostsCount(GetAdminTicket(), t_post.DiscussionId);
+            Assert.AreEqual(count1, count2);
+            post.TearDown();
+        }
+
+        [Test]
+        public void DeleteAccountWithContentTests()
+        {
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
+            // create a post
+            DiscussionPostTest post = new DiscussionPostTest();
+            post.SetUp();
+            WebDiscussionService.TransitDiscussionPost t_post = post.GetTransitInstance();
+            t_post.AccountId = user.id;
+            t_post.Id = post.EndPoint.CreateOrUpdateDiscussionPost(user.ticket, t_post);
+            Console.WriteLine("Post: {0}", t_post.Id);
+            int count1 = post.EndPoint.GetDiscussionPostsCount(GetAdminTicket(), t_post.DiscussionId);
+            WebAccountService.TransitAccountDeleteOptions options = new WebAccountService.TransitAccountDeleteOptions();
+            options.DeleteContent = true;
+            EndPoint.DeleteAccountWithOptions(GetAdminTicket(), user.id, options);
+            // deleting a user with content
+            int count2 = post.EndPoint.GetDiscussionPostsCount(GetAdminTicket(), t_post.DiscussionId);
+            Assert.AreEqual(count1 - 1, count2);
+            post.TearDown();
         }
     }
 }

@@ -336,12 +336,17 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
-        /// Create an account with a facebook ID.
+        /// Create an account with a facebook ID, e-mail address and a transit account.
         /// </summary>
+        /// <param name="betapassword"></param>
+        /// <param name="email"></param>
+        /// <param name="names"></param>
+        /// <param name="signature"></param>
+        /// <param name="values"></param>
         /// <param name="ta">transit account information</param>
         /// <returns>account id</returns>
         [WebMethod(Description = "Create an account with facebook id.")]
-        public int CreateAccountWithFacebook(string betapassword, string signature, string[] names, string[] values, string email, TransitAccount ta)
+        public int CreateAccountWithFacebookAndEmail(string betapassword, string signature, string[] names, string[] values, string email, TransitAccount ta)
         {
             TransitFacebookLogin t_facebook = TryLoginFacebook(signature, names, values);
             using (SnCore.Data.Hibernate.Session.OpenConnection())
@@ -499,7 +504,18 @@ namespace SnCore.WebServices
         /// <param name="ticket">authentication ticket</param>
         /// <param name="id">account to delete</param>
         [WebMethod(Description = "Delete an account.")]
-        public void DeleteAccount(string ticket, int id, AccountDeleteOptions options)
+        public void DeleteAccount(string ticket, int id)
+        {
+            DeleteAccountWithOptions(ticket, id, null);
+        }
+
+        /// <summary>
+        /// Delete an account.
+        /// </summary>
+        /// <param name="ticket">authentication ticket</param>
+        /// <param name="id">account to delete</param>
+        [WebMethod(Description = "Delete an account.")]
+        public void DeleteAccountWithOptions(string ticket, int id, TransitAccountDeleteOptions options)
         {
             using (SnCore.Data.Hibernate.Session.OpenConnection())
             {
@@ -515,7 +531,7 @@ namespace SnCore.WebServices
 
                 if (sec.Account.Id != user.Id)
                 {
-                    if (! sec.IsAdministrator())
+                    if (!sec.IsAdministrator())
                     {
                         // only admin can delete other people's account
                         throw new ManagedAccount.AccessDeniedException();
@@ -524,7 +540,7 @@ namespace SnCore.WebServices
 
                 if (options != null && options.DeleteContent)
                 {
-                    if (! sec.IsAdministrator())
+                    if (!sec.IsAdministrator())
                     {
                         // only admin can delete other people's content
                         throw new ManagedAccount.AccessDeniedException();

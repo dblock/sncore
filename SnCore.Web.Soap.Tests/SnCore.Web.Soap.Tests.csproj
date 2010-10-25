@@ -186,7 +186,6 @@
     <Compile Include="WebAccountService_AccountMessageFolderTest.cs" />
     <Compile Include="WebAccountService_AccountMessageTest.cs" />
     <Compile Include="WebAccountService_AccountNumbersTest.cs" />
-    <Compile Include="WebAccountService_AccountOpenIdTest.cs" />
     <Compile Include="WebAccountService_AccountPictureTest.cs" />
     <Compile Include="WebAccountService_AccountQuotaTest.cs" />
     <Compile Include="WebAccountService_AccountSurveyAnswerTest.cs" />
@@ -1018,6 +1017,12 @@
     <None Include="Web References\ScriptServices\ScriptServices.disco" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Web References\WebAccountService\TransitAccountFacebook.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WebAccountService\TransitFacebookLogin.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WebLocationService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

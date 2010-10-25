@@ -2,6 +2,303 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="DeleteAccountQuota">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountQuotaResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAccountQuotaByObjectName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountQuotaByObjectNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountQuotaByObjectNameResult" type="tns:TransitAccountQuota" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountQuota">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountQuota">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="DataObjectName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Limit" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountQuota" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountNumbersByAccountId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountNumbersByAccountIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountNumbersByAccountIdResult" type="tns:TransitAccountNumbers" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountNumbers">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PostsCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="FirstDegreeCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SecondDegreeCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AllCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountPropertyValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="propertyvalue" type="tns:TransitAccountPropertyValue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountPropertyValue">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountPropertyValue">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPropertyId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyTypeName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountPropertyGroupId" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyGroupName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountPropertyValue" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountPropertyValueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountPropertyValueResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPropertyValueById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPropertyValueByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPropertyValueByIdResult" type="tns:TransitAccountPropertyValue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPropertyValues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceQueryOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountPropertyValuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPropertyValuesResult" type="tns:ArrayOfTransitAccountPropertyValue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountPropertyValue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountPropertyValue" nillable="true" type="tns:TransitAccountPropertyValue" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountPropertyValuesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPropertyValuesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountPropertyValuesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountPropertyValues">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccountPropertyValuesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountPropertyValuesResult" type="tns:ArrayOfTransitAccountPropertyValue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountPropertyValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountPropertyValueResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateOrUpdateAccountAttribute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attribute" type="tns:TransitAccountAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountAttribute">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountAttribute">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Attribute" type="tns:TransitAttribute" />
+              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AttributeId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountAttribute" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAttribute">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAttribute">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefaultUrl" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DefaultValue" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAttribute" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrUpdateAccountAttributeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountAttributeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAttributeById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAttributeByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountAttributeByIdResult" type="tns:TransitAccountAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAttributesCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAttributesCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountAttributesCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAttributes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountAttributesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountAttributesResult" type="tns:ArrayOfTransitAccountAttribute" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountAttribute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountAttribute" nillable="true" type="tns:TransitAccountAttribute" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="DeleteAccountAttribute">
         <s:complexType>
           <s:sequence>
@@ -51,12 +348,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ServiceQueryOptions">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="PageSize" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="PageNumber" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="GetAccountRedirectsResponse">
         <s:complexType>
           <s:sequence>
@@ -1343,24 +1634,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransitAccountQuota">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccountQuota">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="DataObjectName" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Limit" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccountQuota" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="CreateOrUpdateAccountQuotaResponse">
         <s:complexType>
           <s:sequence>
@@ -1419,56 +1692,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="DeleteAccountQuota">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteAccountQuotaResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAccountQuotaByObjectName">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountQuotaByObjectNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountQuotaByObjectNameResult" type="tns:TransitAccountQuota" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountNumbersByAccountId">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountNumbersByAccountIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountNumbersByAccountIdResult" type="tns:TransitAccountNumbers" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="TransitAccountNumbers">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="PostsCount" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="FirstDegreeCount" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="SecondDegreeCount" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="AllCount" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="Login">
         <s:complexType>
           <s:sequence>
@@ -1527,6 +1750,44 @@
           <s:element minOccurs="0" maxOccurs="1" name="Ticket" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="LoginFacebook">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="signature" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginFacebookResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginFacebookResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TryLoginFacebook">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="signature" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TryLoginFacebookResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TryLoginFacebookResult" type="tns:TransitFacebookLogin" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitFacebookLogin">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FacebookAccountId" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ticket" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="LoginMd5">
         <s:complexType>
           <s:sequence>
@@ -1576,6 +1837,7 @@
           <s:extension base="tns:TransitServiceOfAccount">
             <s:sequence>
               <s:element minOccurs="1" maxOccurs="1" name="IsPasswordExpired" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="IsVerified" type="s:boolean" />
               <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
               <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
               <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
@@ -1610,7 +1872,9 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="betapassword" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="consumerurl" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
             <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="ta" type="tns:TransitAccount" />
           </s:sequence>
@@ -1620,6 +1884,42 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="CreateAccountWithOpenIdResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccountWithFacebook">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="betapassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="signature" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccountWithFacebookResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateAccountWithFacebookResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccountWithFacebookAndEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="betapassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="signature" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ta" type="tns:TransitAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccountWithFacebookAndEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateAccountWithFacebookAndEmailResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -1778,6 +2078,23 @@
       <s:element name="DeleteAccountResponse">
         <s:complexType />
       </s:element>
+      <s:element name="DeleteAccountWithOptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:TransitAccountDeleteOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransitAccountDeleteOptions">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DeleteContent" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteAccountWithOptionsResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="FindByEmail">
         <s:complexType>
           <s:sequence>
@@ -1881,6 +2198,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="AccountName" type="s:string" />
               <s:element minOccurs="1" maxOccurs="1" name="Failed" type="s:boolean" />
               <s:element minOccurs="0" maxOccurs="1" name="LastError" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountGroupName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountGroupId" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -2415,18 +2734,20 @@
       <s:element name="DeleteAccountOpenIdResponse">
         <s:complexType />
       </s:element>
-      <s:element name="CreateOrUpdateAccountOpenId">
+      <s:element name="CreateAccountOpenId">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="openid" type="tns:TransitAccountOpenId" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="CreateOrUpdateAccountOpenIdResponse">
+      <s:element name="CreateAccountOpenIdResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountOpenIdResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CreateAccountOpenIdResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -2442,6 +2763,102 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAccountOpenIdByIdResult" type="tns:TransitAccountOpenId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFacebooks">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFacebooksResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFacebooksResult" type="tns:ArrayOfTransitAccountFacebook" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTransitAccountFacebook">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountFacebook" nillable="true" type="tns:TransitAccountFacebook" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TransitAccountFacebook">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:TransitServiceOfAccountFacebook">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="FacebookAccountId" type="s:long" />
+              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TransitServiceOfAccountFacebook" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountFacebooksCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFacebooksCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountFacebooksCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFacebook">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAccountFacebookResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CreateAccountFacebook">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="signature" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="names" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="values" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccountFacebookResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateAccountFacebookResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFacebookById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountFacebookByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountFacebookByIdResult" type="tns:TransitAccountFacebook" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -2731,231 +3148,86 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransitAccountPropertyValue">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccountPropertyValue">
-            <s:sequence>
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountPropertyId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyDescription" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyTypeName" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountPropertyGroupId" type="s:int" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountPropertyGroupName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccountPropertyValue" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="CreateOrUpdateAccountPropertyValue">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="propertyvalue" type="tns:TransitAccountPropertyValue" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="CreateOrUpdateAccountPropertyValueResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountPropertyValueResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPropertyValueById">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPropertyValueByIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPropertyValueByIdResult" type="tns:TransitAccountPropertyValue" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPropertyValues">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPropertyValuesResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPropertyValuesResult" type="tns:ArrayOfTransitAccountPropertyValue" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfTransitAccountPropertyValue">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountPropertyValue" nillable="true" type="tns:TransitAccountPropertyValue" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="GetAccountPropertyValuesCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPropertyValuesCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetAccountPropertyValuesCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllAccountPropertyValues">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="groupid" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllAccountPropertyValuesResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccountPropertyValuesResult" type="tns:ArrayOfTransitAccountPropertyValue" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteAccountPropertyValue">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteAccountPropertyValueResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="CreateOrUpdateAccountAttribute">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="attribute" type="tns:TransitAccountAttribute" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="TransitAccountAttribute">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAccountAttribute">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="Attribute" type="tns:TransitAttribute" />
-              <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Url" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="AccountId" type="s:int" />
-              <s:element minOccurs="1" maxOccurs="1" name="AttributeId" type="s:int" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAccountAttribute" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="TransitAttribute">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:TransitServiceOfAttribute">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="Bitmap" type="s:base64Binary" />
-              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="DefaultUrl" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="DefaultValue" type="s:string" />
-              <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:dateTime" />
-              <s:element minOccurs="1" maxOccurs="1" name="Modified" type="s:dateTime" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
-      <s:complexType name="TransitServiceOfAttribute" abstract="true">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:element name="CreateOrUpdateAccountAttributeResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="CreateOrUpdateAccountAttributeResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountAttributeById">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountAttributeByIdResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountAttributeByIdResult" type="tns:TransitAccountAttribute" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountAttributesCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountAttributesCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetAccountAttributesCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountAttributes">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="options" type="tns:ServiceQueryOptions" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountAttributesResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountAttributesResult" type="tns:ArrayOfTransitAccountAttribute" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="ArrayOfTransitAccountAttribute">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountAttribute" nillable="true" type="tns:TransitAccountAttribute" />
-        </s:sequence>
-      </s:complexType>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="DeleteAccountQuotaSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountQuota" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountQuotaSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountQuotaResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountQuotaByObjectNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountQuotaByObjectName" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountQuotaByObjectNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountQuotaByObjectNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountNumbersByAccountIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountNumbersByAccountIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountPropertyValueSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountPropertyValue" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountPropertyValueSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountPropertyValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValueByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValueByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValuesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValues" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValuesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValuesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValuesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValuesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValuesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountPropertyValuesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccountPropertyValues" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccountPropertyValuesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccountPropertyValuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountPropertyValueSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountPropertyValue" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountPropertyValueSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountPropertyValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountAttributeSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountAttribute" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrUpdateAccountAttributeSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountAttributeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAttributeByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountAttributeById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAttributeByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountAttributeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAttributesCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountAttributesCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAttributesCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountAttributesCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAttributesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountAttributes" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountAttributesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountAttributesResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteAccountAttributeSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountAttribute" />
   </wsdl:message>
@@ -3400,24 +3672,6 @@
   <wsdl:message name="GetAccountQuotasCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountQuotasCountResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteAccountQuotaSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteAccountQuota" />
-  </wsdl:message>
-  <wsdl:message name="DeleteAccountQuotaSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteAccountQuotaResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountQuotaByObjectNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountQuotaByObjectName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountQuotaByObjectNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountQuotaByObjectNameResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountNumbersByAccountIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountId" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountNumbersByAccountIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountIdResponse" />
-  </wsdl:message>
   <wsdl:message name="LoginSoapIn">
     <wsdl:part name="parameters" element="tns:Login" />
   </wsdl:message>
@@ -3435,6 +3689,18 @@
   </wsdl:message>
   <wsdl:message name="TryLoginOpenIdSoapOut">
     <wsdl:part name="parameters" element="tns:TryLoginOpenIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginFacebookSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginFacebook" />
+  </wsdl:message>
+  <wsdl:message name="LoginFacebookSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginFacebookResponse" />
+  </wsdl:message>
+  <wsdl:message name="TryLoginFacebookSoapIn">
+    <wsdl:part name="parameters" element="tns:TryLoginFacebook" />
+  </wsdl:message>
+  <wsdl:message name="TryLoginFacebookSoapOut">
+    <wsdl:part name="parameters" element="tns:TryLoginFacebookResponse" />
   </wsdl:message>
   <wsdl:message name="LoginMd5SoapIn">
     <wsdl:part name="parameters" element="tns:LoginMd5" />
@@ -3465,6 +3731,18 @@
   </wsdl:message>
   <wsdl:message name="CreateAccountWithOpenIdSoapOut">
     <wsdl:part name="parameters" element="tns:CreateAccountWithOpenIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountWithFacebookSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateAccountWithFacebook" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountWithFacebookSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateAccountWithFacebookResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountWithFacebookAndEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateAccountWithFacebookAndEmail" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountWithFacebookAndEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateAccountWithFacebookAndEmailResponse" />
   </wsdl:message>
   <wsdl:message name="GetOpenIdRedirectSoapIn">
     <wsdl:part name="parameters" element="tns:GetOpenIdRedirect" />
@@ -3525,6 +3803,12 @@
   </wsdl:message>
   <wsdl:message name="DeleteAccountSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountWithOptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountWithOptions" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountWithOptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountWithOptionsResponse" />
   </wsdl:message>
   <wsdl:message name="FindByEmailSoapIn">
     <wsdl:part name="parameters" element="tns:FindByEmail" />
@@ -3754,17 +4038,47 @@
   <wsdl:message name="DeleteAccountOpenIdSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteAccountOpenIdResponse" />
   </wsdl:message>
-  <wsdl:message name="CreateOrUpdateAccountOpenIdSoapIn">
-    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountOpenId" />
+  <wsdl:message name="CreateAccountOpenIdSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateAccountOpenId" />
   </wsdl:message>
-  <wsdl:message name="CreateOrUpdateAccountOpenIdSoapOut">
-    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountOpenIdResponse" />
+  <wsdl:message name="CreateAccountOpenIdSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateAccountOpenIdResponse" />
   </wsdl:message>
   <wsdl:message name="GetAccountOpenIdByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetAccountOpenIdById" />
   </wsdl:message>
   <wsdl:message name="GetAccountOpenIdByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountOpenIdByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFacebooksSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFacebooks" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFacebooksSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFacebooksResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFacebooksCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFacebooksCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFacebooksCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFacebooksCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFacebookSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFacebook" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAccountFacebookSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAccountFacebookResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountFacebookSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateAccountFacebook" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountFacebookSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateAccountFacebookResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFacebookByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountFacebookById" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountFacebookByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountFacebookByIdResponse" />
   </wsdl:message>
   <wsdl:message name="SearchAccountsSoapIn">
     <wsdl:part name="parameters" element="tns:SearchAccounts" />
@@ -3856,67 +4170,72 @@
   <wsdl:message name="GetAccountPropertyValueByNameSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByNameResponse" />
   </wsdl:message>
-  <wsdl:message name="CreateOrUpdateAccountPropertyValueSoapIn">
-    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountPropertyValue" />
-  </wsdl:message>
-  <wsdl:message name="CreateOrUpdateAccountPropertyValueSoapOut">
-    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountPropertyValueResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValueByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueById" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValueByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValuesSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValues" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValuesSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValuesResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValuesCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValuesCount" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValuesCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValuesCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAllAccountPropertyValuesSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllAccountPropertyValues" />
-  </wsdl:message>
-  <wsdl:message name="GetAllAccountPropertyValuesSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllAccountPropertyValuesResponse" />
-  </wsdl:message>
-  <wsdl:message name="DeleteAccountPropertyValueSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteAccountPropertyValue" />
-  </wsdl:message>
-  <wsdl:message name="DeleteAccountPropertyValueSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteAccountPropertyValueResponse" />
-  </wsdl:message>
-  <wsdl:message name="CreateOrUpdateAccountAttributeSoapIn">
-    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountAttribute" />
-  </wsdl:message>
-  <wsdl:message name="CreateOrUpdateAccountAttributeSoapOut">
-    <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountAttributeResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountAttributeByIdSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountAttributeById" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountAttributeByIdSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountAttributeByIdResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountAttributesCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountAttributesCount" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountAttributesCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountAttributesCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountAttributesSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountAttributes" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountAttributesSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountAttributesResponse" />
-  </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
+    <wsdl:operation name="DeleteAccountQuota">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a quota.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountQuotaSoapIn" />
+      <wsdl:output message="tns:DeleteAccountQuotaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountQuotaByObjectName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account quota by object name and account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountQuotaByObjectNameSoapIn" />
+      <wsdl:output message="tns:GetAccountQuotaByObjectNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountNumbersByAccountId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account numbers.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountNumbersByAccountIdSoapIn" />
+      <wsdl:output message="tns:GetAccountNumbersByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account property value.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountPropertyValueSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountPropertyValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValueById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account property value.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPropertyValueByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountPropertyValueByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValues">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account property values.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPropertyValuesSoapIn" />
+      <wsdl:output message="tns:GetAccountPropertyValuesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValuesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account property values count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPropertyValuesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountPropertyValuesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountPropertyValues">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account property values, including unfilled ones.</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccountPropertyValuesSoapIn" />
+      <wsdl:output message="tns:GetAllAccountPropertyValuesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountPropertyValue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account property value.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountPropertyValueSoapIn" />
+      <wsdl:output message="tns:DeleteAccountPropertyValueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountAttribute">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account attribute.</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrUpdateAccountAttributeSoapIn" />
+      <wsdl:output message="tns:CreateOrUpdateAccountAttributeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributeById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account attributes.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountAttributeByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountAttributeByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributesCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account attributes count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountAttributesCountSoapIn" />
+      <wsdl:output message="tns:GetAccountAttributesCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account attributes.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountAttributesSoapIn" />
+      <wsdl:output message="tns:GetAccountAttributesSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountAttribute">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account attribute.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountAttributeSoapIn" />
@@ -4287,21 +4606,6 @@
       <wsdl:input message="tns:GetAccountQuotasCountSoapIn" />
       <wsdl:output message="tns:GetAccountQuotasCountSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteAccountQuota">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a quota.</wsdl:documentation>
-      <wsdl:input message="tns:DeleteAccountQuotaSoapIn" />
-      <wsdl:output message="tns:DeleteAccountQuotaSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountQuotaByObjectName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account quota by object name and account id.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountQuotaByObjectNameSoapIn" />
-      <wsdl:output message="tns:GetAccountQuotaByObjectNameSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountNumbersByAccountId">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account numbers.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountNumbersByAccountIdSoapIn" />
-      <wsdl:output message="tns:GetAccountNumbersByAccountIdSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="Login">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login.</wsdl:documentation>
       <wsdl:input message="tns:LoginSoapIn" />
@@ -4316,6 +4620,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login to an account.</wsdl:documentation>
       <wsdl:input message="tns:TryLoginOpenIdSoapIn" />
       <wsdl:output message="tns:TryLoginOpenIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoginFacebook">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login to an account with a Facebook Connect identity.</wsdl:documentation>
+      <wsdl:input message="tns:LoginFacebookSoapIn" />
+      <wsdl:output message="tns:LoginFacebookSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TryLoginFacebook">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login to an account using a Facebook Connect identity.</wsdl:documentation>
+      <wsdl:input message="tns:TryLoginFacebookSoapIn" />
+      <wsdl:output message="tns:TryLoginFacebookSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="LoginMd5">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login using a password hash.</wsdl:documentation>
@@ -4341,6 +4655,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create an account with openid.</wsdl:documentation>
       <wsdl:input message="tns:CreateAccountWithOpenIdSoapIn" />
       <wsdl:output message="tns:CreateAccountWithOpenIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountWithFacebook">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create an account with facebook id.</wsdl:documentation>
+      <wsdl:input message="tns:CreateAccountWithFacebookSoapIn" />
+      <wsdl:output message="tns:CreateAccountWithFacebookSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountWithFacebookAndEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create an account with facebook id.</wsdl:documentation>
+      <wsdl:input message="tns:CreateAccountWithFacebookAndEmailSoapIn" />
+      <wsdl:output message="tns:CreateAccountWithFacebookAndEmailSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetOpenIdRedirect">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an openid redirect.</wsdl:documentation>
@@ -4391,6 +4715,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountSoapIn" />
       <wsdl:output message="tns:DeleteAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountWithOptions">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountWithOptionsSoapIn" />
+      <wsdl:output message="tns:DeleteAccountWithOptionsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="FindByEmail">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Find an account by e-mail address.</wsdl:documentation>
@@ -4582,15 +4911,40 @@
       <wsdl:input message="tns:DeleteAccountOpenIdSoapIn" />
       <wsdl:output message="tns:DeleteAccountOpenIdSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountOpenId">
+    <wsdl:operation name="CreateAccountOpenId">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add an openid.</wsdl:documentation>
-      <wsdl:input message="tns:CreateOrUpdateAccountOpenIdSoapIn" />
-      <wsdl:output message="tns:CreateOrUpdateAccountOpenIdSoapOut" />
+      <wsdl:input message="tns:CreateAccountOpenIdSoapIn" />
+      <wsdl:output message="tns:CreateAccountOpenIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAccountOpenIdById">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account openid.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountOpenIdByIdSoapIn" />
       <wsdl:output message="tns:GetAccountOpenIdByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebooks">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get facebook IDs.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFacebooksSoapIn" />
+      <wsdl:output message="tns:GetAccountFacebooksSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebooksCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get facebook id count.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFacebooksCountSoapIn" />
+      <wsdl:output message="tns:GetAccountFacebooksCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFacebook">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a facebook id.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAccountFacebookSoapIn" />
+      <wsdl:output message="tns:DeleteAccountFacebookSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountFacebook">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a facebook id.</wsdl:documentation>
+      <wsdl:input message="tns:CreateAccountFacebookSoapIn" />
+      <wsdl:output message="tns:CreateAccountFacebookSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebookById">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account facebook id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountFacebookByIdSoapIn" />
+      <wsdl:output message="tns:GetAccountFacebookByIdSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SearchAccounts">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Search accounts.</wsdl:documentation>
@@ -4667,59 +5021,126 @@
       <wsdl:input message="tns:GetAccountPropertyValueByNameSoapIn" />
       <wsdl:output message="tns:GetAccountPropertyValueByNameSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account property value.</wsdl:documentation>
-      <wsdl:input message="tns:CreateOrUpdateAccountPropertyValueSoapIn" />
-      <wsdl:output message="tns:CreateOrUpdateAccountPropertyValueSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValueById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get an account property value.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountPropertyValueByIdSoapIn" />
-      <wsdl:output message="tns:GetAccountPropertyValueByIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValues">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account property values.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountPropertyValuesSoapIn" />
-      <wsdl:output message="tns:GetAccountPropertyValuesSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValuesCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account property values count.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountPropertyValuesCountSoapIn" />
-      <wsdl:output message="tns:GetAccountPropertyValuesCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountPropertyValues">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account property values, including unfilled ones.</wsdl:documentation>
-      <wsdl:input message="tns:GetAllAccountPropertyValuesSoapIn" />
-      <wsdl:output message="tns:GetAllAccountPropertyValuesSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteAccountPropertyValue">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete an account property value.</wsdl:documentation>
-      <wsdl:input message="tns:DeleteAccountPropertyValueSoapIn" />
-      <wsdl:output message="tns:DeleteAccountPropertyValueSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountAttribute">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account attribute.</wsdl:documentation>
-      <wsdl:input message="tns:CreateOrUpdateAccountAttributeSoapIn" />
-      <wsdl:output message="tns:CreateOrUpdateAccountAttributeSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributeById">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account attributes.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountAttributeByIdSoapIn" />
-      <wsdl:output message="tns:GetAccountAttributeByIdSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributesCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account attributes count.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountAttributesCountSoapIn" />
-      <wsdl:output message="tns:GetAccountAttributesCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributes">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account attributes.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountAttributesSoapIn" />
-      <wsdl:output message="tns:GetAccountAttributesSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DeleteAccountQuota">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountQuota" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountQuotaByObjectName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotaByObjectName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountNumbersByAccountId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountPropertyValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValueById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValues">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValuesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValuesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountPropertyValues">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountPropertyValues" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountPropertyValue">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountPropertyValue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountAttribute">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountAttribute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributeById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributesCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributesCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributes">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountAttribute">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountAttribute" style="document" />
       <wsdl:input>
@@ -5386,33 +5807,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteAccountQuota">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountQuota" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountQuotaByObjectName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotaByObjectName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountNumbersByAccountId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -5433,6 +5827,24 @@
     </wsdl:operation>
     <wsdl:operation name="TryLoginOpenId">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/TryLoginOpenId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginFacebook">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/LoginFacebook" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TryLoginFacebook">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/TryLoginFacebook" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5478,6 +5890,24 @@
     </wsdl:operation>
     <wsdl:operation name="CreateAccountWithOpenId">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountWithOpenId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountWithFacebook">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountWithFacebook" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountWithFacebookAndEmail">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountWithFacebookAndEmail" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5568,6 +5998,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccount">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountWithOptions">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountWithOptions" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5917,8 +6356,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountOpenId">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountOpenId" style="document" />
+    <wsdl:operation name="CreateAccountOpenId">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountOpenId" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5928,6 +6367,51 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountOpenIdById">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountOpenIdById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebooks">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFacebooks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebooksCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFacebooksCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFacebook">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFacebook" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountFacebook">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountFacebook" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebookById">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFacebookById" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -6070,99 +6554,126 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountPropertyValue" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValueById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueById" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValues">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValues" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValuesCount">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValuesCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountPropertyValues">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountPropertyValues" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteAccountPropertyValue">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountPropertyValue" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountAttribute">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountAttribute" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributeById">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributeById" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributesCount">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributesCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributes">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributes" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="DeleteAccountQuota">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountQuota" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountQuotaByObjectName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotaByObjectName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountNumbersByAccountId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountPropertyValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValueById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValues">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValuesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValuesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccountPropertyValues">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountPropertyValues" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountPropertyValue">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountPropertyValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrUpdateAccountAttribute">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountAttribute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributeById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributeById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributesCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributesCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountAttributes">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountAttribute">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountAttribute" style="document" />
       <wsdl:input>
@@ -6829,33 +7340,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeleteAccountQuota">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountQuota" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountQuotaByObjectName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotaByObjectName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountNumbersByAccountId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -6876,6 +7360,24 @@
     </wsdl:operation>
     <wsdl:operation name="TryLoginOpenId">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/TryLoginOpenId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginFacebook">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/LoginFacebook" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TryLoginFacebook">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/TryLoginFacebook" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -6921,6 +7423,24 @@
     </wsdl:operation>
     <wsdl:operation name="CreateAccountWithOpenId">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountWithOpenId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountWithFacebook">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountWithFacebook" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountWithFacebookAndEmail">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountWithFacebookAndEmail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -7011,6 +7531,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteAccount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountWithOptions">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountWithOptions" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -7360,8 +7889,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountOpenId">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountOpenId" style="document" />
+    <wsdl:operation name="CreateAccountOpenId">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountOpenId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -7371,6 +7900,51 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountOpenIdById">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountOpenIdById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebooks">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFacebooks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebooksCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFacebooksCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAccountFacebook">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountFacebook" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccountFacebook">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateAccountFacebook" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountFacebookById">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountFacebookById" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -7506,96 +8080,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountPropertyValueByName">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountPropertyValue" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValueById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueById" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValues">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValues" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValuesCount">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValuesCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllAccountPropertyValues">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAllAccountPropertyValues" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteAccountPropertyValue">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountPropertyValue" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CreateOrUpdateAccountAttribute">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/CreateOrUpdateAccountAttribute" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributeById">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributeById" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributesCount">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributesCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountAttributes">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountAttributes" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

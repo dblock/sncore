@@ -536,12 +536,18 @@ namespace SnCore.Services
 
         public const int DefaultHourlyLimit = 30; // TODO: export into configuration settings
 
-        // messages sent by this user to those who aren't this user's friends
         public static IList<DiscussionPost> GetDiscussionPosts(ISession session, int account_id, DateTime limit)
         {
             return session.CreateQuery("FROM DiscussionPost p" +
                 string.Format(" WHERE p.AccountId = {0}", account_id) +
                 string.Format(" AND p.Created >= '{0}'", limit.ToString(DateTimeFormatInfo.InvariantInfo))
+                ).List<DiscussionPost>();
+        }
+
+        public static IList<DiscussionPost> GetDiscussionPosts(ISession session, int account_id)
+        {
+            return session.CreateQuery("FROM DiscussionPost p" +
+                string.Format(" WHERE p.AccountId = {0}", account_id)
                 ).List<DiscussionPost>();
         }
 

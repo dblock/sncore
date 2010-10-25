@@ -25,11 +25,11 @@ using System.Globalization;
 
 namespace SnCore.Services
 {
-    public class AccountDeleteOptions
+    public class TransitAccountDeleteOptions
     {
         public bool DeleteContent = false;
 
-        public AccountDeleteOptions()
+        public TransitAccountDeleteOptions()
         {
 
         }
@@ -903,69 +903,89 @@ namespace SnCore.Services
 
         public void DeleteContent(ManagedSecurityContext sec)
         {
-            ManagedDiscussion.FindAndDelete(
-                Session, mInstance.Id, typeof(Account), 0, sec);
+            ITransaction t = Session.BeginTransaction();
 
-            // delete places
-            foreach (Place place in Collection<Place>.GetSafeCollection(mInstance.Places))
+            try
             {
-                ManagedPlace mp = new ManagedPlace(Session, place);
-                mp.Delete(sec);
-            }
+                // delete associated discussions
+                ManagedDiscussion.FindAndDelete(
+                    Session, mInstance.Id, typeof(Account), 0, sec);
 
-            // deleteaccount events
-            foreach (AccountEvent accountevent in Collection<AccountEvent>.GetSafeCollection(mInstance.AccountEvents))
-            {
-                ManagedAccountEvent mp = new ManagedAccountEvent(Session, accountevent);
-                mp.Delete(sec);
-            }
-
-            // delete public discussions
-            foreach (Discussion d in Collection<Discussion>.GetSafeCollection(mInstance.Discussions))
-            {
-                if (!d.Personal)
+                // delete discussion posts
+                IList<DiscussionPost> posts = ManagedDiscussionPost.GetDiscussionPosts(Session, mInstance.Id);
+                foreach (DiscussionPost post in posts)
                 {
-                    ManagedDiscussion md = new ManagedDiscussion(Session, d);
-                    md.Delete(sec);
+                    ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session, post);
+                    m_post.Delete(sec);
                 }
-            }
 
-            // leave groups
-            foreach (AccountGroupAccount groupaccount in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+                // delete places
+                foreach (Place place in Collection<Place>.GetSafeCollection(mInstance.Places))
+                {
+                    ManagedPlace mp = new ManagedPlace(Session, place);
+                    mp.Delete(sec);
+                }
+
+                // deleteaccount events
+                foreach (AccountEvent accountevent in Collection<AccountEvent>.GetSafeCollection(mInstance.AccountEvents))
+                {
+                    ManagedAccountEvent mp = new ManagedAccountEvent(Session, accountevent);
+                    mp.Delete(sec);
+                }
+
+                // delete public discussions
+                foreach (Discussion d in Collection<Discussion>.GetSafeCollection(mInstance.Discussions))
+                {
+                    if (!d.Personal)
+                    {
+                        ManagedDiscussion md = new ManagedDiscussion(Session, d);
+                        md.Delete(sec);
+                    }
+                }
+
+                // leave groups
+                foreach (AccountGroupAccount groupaccount in Collection<AccountGroupAccount>.GetSafeCollection(mInstance.AccountGroupAccounts))
+                {
+                    ManagedAccountGroupAccount m_groupaccount = new ManagedAccountGroupAccount(Session, groupaccount);
+                    m_groupaccount.Delete(sec);
+                }
+
+                // delete group pictures
+                foreach (AccountGroupPicture grouppicture in Collection<AccountGroupPicture>.GetSafeCollection(mInstance.AccountGroupPictures))
+                {
+                    ManagedAccountGroupPicture m_grouppicture = new ManagedAccountGroupPicture(Session, grouppicture);
+                    m_grouppicture.Delete(sec);
+                }
+
+                // delete  place websites
+                foreach (PlaceWebsite placewebsite in Collection<PlaceWebsite>.GetSafeCollection(mInstance.PlaceWebsites))
+                {
+                    ManagedPlaceWebsite mpw = new ManagedPlaceWebsite(Session, placewebsite);
+                    mpw.Delete(sec);
+                }
+
+                // delete all group invitations to me, group requests are cascade-deleted
+                Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
+
+                // delete friends and friend requests
+                Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
+                Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
+
+                // delete features
+                ManagedFeature.Delete(Session, "Account", Id);
+
+                // delete blog authoring access
+                Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
+
+                // delete flags
+                Session.Delete(string.Format("from AccountFlag af where af.FlaggedAccount.Id = {0}", Id));
+                t.Commit();
+            }
+            catch
             {
-                ManagedAccountGroupAccount m_groupaccount = new ManagedAccountGroupAccount(Session, groupaccount);
-                m_groupaccount.Delete(sec);
+                t.Rollback();
+                throw;
             }
-
-            // delete group pictures
-            foreach (AccountGroupPicture grouppicture in Collection<AccountGroupPicture>.GetSafeCollection(mInstance.AccountGroupPictures))
-            {
-                ManagedAccountGroupPicture m_grouppicture = new ManagedAccountGroupPicture(Session, grouppicture);
-                m_grouppicture.Delete(sec);
-            }
-
-            // delete  place websites
-            foreach (PlaceWebsite placewebsite in Collection<PlaceWebsite>.GetSafeCollection(mInstance.PlaceWebsites))
-            {
-                ManagedPlaceWebsite mpw = new ManagedPlaceWebsite(Session, placewebsite);
-                mpw.Delete(sec);
-            }
-
-            // delete all group invitations to me, group requests are cascade-deleted
-            Session.Delete(string.Format("FROM AccountGroupAccountInvitation i WHERE i.Account.Id = {0}", Id));
-
-            // delete friends and friend requests
-            Session.Delete(string.Format("from AccountFriend f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
-            Session.Delete(string.Format("from AccountFriendRequest f where f.Account.Id = {0} or f.Keen.Id = {0}", Id));
-
-            // delete features
-            ManagedFeature.Delete(Session, "Account", Id);
-
-            // delete blog authoring access
-            Session.Delete(string.Format("from AccountBlogAuthor ba where ba.Account.Id = {0}", Id));
-
-            // delete flags
-            Session.Delete(string.Format("from AccountFlag af where af.FlaggedAccount.Id = {0}", Id));
         }
 
         public int Create(string name, string password, string emailaddress, DateTime birthday, ManagedSecurityContext sec)

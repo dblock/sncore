@@ -64,9 +64,9 @@ public partial class AccountDelete : AuthenticatedPage
             throw new Exception("Please check the \"I understand that this cannot be undone.\" box.");
         }
 
-        AccountDeleteOptions options = new AccountDeleteOptions();
+        TransitAccountDeleteOptions options = new TransitAccountDeleteOptions();
         options.DeleteContent = inputDeleteContent.Checked && SessionManager.IsAdministrator;
-        SessionManager.AccountService.DeleteAccount(SessionManager.Ticket, Account.Id, options);
+        SessionManager.AccountService.DeleteAccountWithOptions(SessionManager.Ticket, Account.Id, options);
         SessionManager.FlushCache();
         pnlAccount.Visible = false;
 
