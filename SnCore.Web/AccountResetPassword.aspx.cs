@@ -31,10 +31,10 @@ public partial class AccountResetPassword : Page
 
             if (SessionManager.IsLoggedIn)
             {
-                if (!SessionManager.HasVerifiedEmailAddress())
+                if (!SessionManager.HasVerified())
                 {
-                    ReportWarning("You don't have any verified e-mail addresses.\n" +
-                        "For security reasons you must add/confirm a valid e-mail address before you can reset your password.");
+                    ReportWarning("You don't have any verified e-mail addresses and/or profile photos.\n" +
+                        "You must add/confirm a valid e-mail address and upload a profile photo before resetting your password.");
 
                     panelReset.Enabled = false;
                 }

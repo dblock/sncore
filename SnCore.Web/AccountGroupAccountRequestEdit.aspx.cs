@@ -41,10 +41,10 @@ public partial class AccountGroupAccountRequestEdit : AuthenticatedPage
 
         SetDefaultButton(manageSave);
 
-        if (!SessionManager.HasVerifiedEmailAddress())
+        if (!SessionManager.HasVerified())
         {
-            ReportWarning("You don't have any verified e-mail addresses.\n" +
-                "You must add/confirm a valid e-mail address before joining groups.");
+            ReportWarning("You don't have any verified e-mail addresses and/or profile photos.\n" +
+                "You must add/confirm a valid e-mail address and upload a profile photo before joining groups.");
 
             manageSave.Enabled = false;
         }

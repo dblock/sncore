@@ -12,9 +12,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public AccountMessageFolderTest _folder = new AccountMessageFolderTest();
         public int _folder_id = 0;
         private AccountTest _account = new AccountTest();
-        private int _account_id = 0;
         private AccountTest _account2 = new AccountTest();
-        private int _account2_id = 0;
 
         [SetUp]
         public override void SetUp()
@@ -22,9 +20,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             _folder.SetUp();
             _folder_id = _folder.Create(_folder.GetTestTicket());
             _account.SetUp();
-            _account_id = _account.Create(GetAdminTicket());
             _account2.SetUp();
-            _account2_id = _account.Create(GetAdminTicket());
             base.SetUp();
         }
 
@@ -32,7 +28,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override void TearDown()
         {
             base.TearDown();
-            _account.Delete(GetAdminTicket(), _account_id);
+            _account2.TearDown();
             _account.TearDown();
             _folder.Delete(GetAdminTicket(), _folder_id);
             _folder.TearDown();
@@ -47,9 +43,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountMessage GetTransitInstance()
         {
             WebAccountService.TransitAccountMessage t_instance = new WebAccountService.TransitAccountMessage();
-            t_instance.AccountId = _folder._account_id;
+            t_instance.AccountId = _folder.GetTestAccountId();
             t_instance.RecepientAccountId = GetAdminAccount().Id;
-            t_instance.SenderAccountId = _folder._account_id;
+            t_instance.SenderAccountId = _folder.GetTestAccountId();
             t_instance.Subject = GetNewString();
             t_instance.Body = GetNewString();
             t_instance.AccountMessageFolderId = _folder_id;
@@ -168,7 +164,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             for (int i = 0; i < limit; i++)
             {
                 WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
-                t_message.RecepientAccountId = _account2_id;
+                t_message.RecepientAccountId = _account2.User.id;
                 t_message.Id = EndPoint.CreateOrUpdateAccountMessage(_folder.GetTestTicket(), t_message);
                 Console.WriteLine("{0}: Message: {1}", i, t_message.Id);
                 ids.Add(t_message.Id);
@@ -177,7 +173,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             try
             {
                 WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
-                t_message.RecepientAccountId = _account_id;
+                t_message.RecepientAccountId = _account.User.id;
                 t_message.Id = EndPoint.CreateOrUpdateAccountMessage(_folder.GetTestTicket(), t_message);
                 Console.WriteLine("Message: {0}", t_message.Id);
                 Assert.IsTrue(false, "Expected a quota exceeded exception.");
@@ -190,7 +186,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             // make these two friends
             WebSocialService.WebSocialService socialendpoint = new WebSocialService.WebSocialService();
-            int friend_request_id = socialendpoint.CreateOrUpdateAccountFriendRequest(_folder.GetTestTicket(), _account_id, GetNewString());
+            int friend_request_id = socialendpoint.CreateOrUpdateAccountFriendRequest(_folder.GetTestTicket(), _account.User.id, GetNewString());
             Console.WriteLine("Created friend request: {0}", friend_request_id);
             socialendpoint.AcceptAccountFriendRequest(GetAdminTicket(), friend_request_id, GetNewString());
 
@@ -198,7 +194,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             {
                 WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
-                t_message.RecepientAccountId = _account_id;
+                t_message.RecepientAccountId = _account.User.id;
                 t_message.Id = EndPoint.CreateOrUpdateAccountMessage(_folder.GetTestTicket(), t_message);
                 Console.WriteLine("Over quota friend message: {0}", t_message.Id);
                 ids.Add(t_message.Id);
@@ -210,14 +206,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
             // send to yet another user, quota still enforced, but the message sent to a friend doesn't count
             WebAccountService.TransitAccountMessage t_message2 = GetTransitInstance();
-            t_message2.RecepientAccountId = _account2_id;
+            t_message2.RecepientAccountId = _account2.User.id;
             t_message2.Id = EndPoint.CreateOrUpdateAccountMessage(_folder.GetTestTicket(), t_message2);
             Console.WriteLine("Message: {0}", t_message2.Id);
 
             try
             {
                 WebAccountService.TransitAccountMessage t_message = GetTransitInstance();
-                t_message.RecepientAccountId = _account2_id;
+                t_message.RecepientAccountId = _account2.User.id;
                 t_message.Id = EndPoint.CreateOrUpdateAccountMessage(_folder.GetTestTicket(), t_message);
                 Console.WriteLine("Message: {0}", t_message.Id);
                 Assert.IsTrue(false, "Expected a quota exceeded exception.");

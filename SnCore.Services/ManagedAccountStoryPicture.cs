@@ -256,7 +256,8 @@ namespace SnCore.Services
             base.Check(t_instance, sec);
             if (t_instance.Id == 0)
             {
-                sec.CheckVerifiedEmail();
+                sec.CheckVerified();
+
                 GetQuota(sec).Check<AccountStoryPicture, ManagedAccount.QuotaExceededException>(
                     Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountStoryPicture instance WHERE instance.AccountStory.Id = {0}",
                         mInstance.AccountStory.Id)).UniqueResult<int>());

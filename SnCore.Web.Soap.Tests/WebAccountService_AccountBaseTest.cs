@@ -8,47 +8,29 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 {
     public abstract class AccountBaseTest<TransitType> : WebServiceTest<TransitType, WebAccountServiceNoCache>
     {
-        public int _account_id = 0;
-        private string _ticket;
+        private AccountTest _account = new AccountTest();
 
         [SetUp]
         public override void SetUp()
         {
-            base.SetUp();
-            CreateTestUser();
-        }
-
-        private void CreateTestUser()
-        {
-            string email = GetNewEmailAddress();
-            // account endpoint
-            WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
-            // create an invitation from admin to a new user
-            WebAccountService.TransitAccountInvitation t_invitation = new WebAccountService.TransitAccountInvitation();
-            t_invitation.Email = email;
-            t_invitation.Code = GetNewString();
-            t_invitation.AccountId = GetAdminAccount().Id;
-            t_invitation.Id = endpoint.CreateOrUpdateAccountInvitation(GetAdminTicket(), t_invitation);
-            // create an account with the invitation
-            WebAccountService.TransitAccount t_account = new WebAccountService.TransitAccount();
-            t_account.Name = GetNewString();
-            t_account.Password = GetNewString();
-            t_account.Birthday = DateTime.UtcNow.AddYears(-10);
-            _ticket = EndPoint.CreateAccountWithInvitationAndLogin(t_invitation.Id, t_invitation.Code, t_account);
-            _account_id = EndPoint.GetAccountId(_ticket);
-            Console.WriteLine("New account: {0}", _account_id);
+            _account.SetUp();
         }
 
         [TearDown]
         public override void TearDown()
         {
-            DeleteUser(_account_id);
+            _account.TearDown();
             base.TearDown();
+        }
+
+        public int GetTestAccountId()
+        {
+            return _account.User.id;
         }
 
         public override string GetTestTicket()
         {
-            return _ticket;
+            return _account.User.ticket;
         }
 
         public AccountBaseTest(string one)
@@ -65,13 +47,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, _account_id, options };
+            object[] args = { ticket, _account.User.id, options };
             return args;
         }
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, _account_id };
+            object[] args = { ticket, _account.User.id };
             return args;
         }
     }

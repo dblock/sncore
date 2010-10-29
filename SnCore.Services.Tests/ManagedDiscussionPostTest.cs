@@ -80,6 +80,30 @@ namespace SnCore.Services.Tests
             }
         }
 
+        [Test, ExpectedException(typeof(ManagedAccount.NoVerifiedException))]
+        public void TestNoVerifiedEmailOrPicture()
+        {
+            ManagedAccount account = new ManagedAccount(Session);
+            try
+            {
+                string email = GetNewEmailAddress();
+                TransitAccount t_instance = new TransitAccount();
+                t_instance.Password = GetNewString();
+                t_instance.Name = GetNewString();
+                t_instance.Birthday = DateTime.UtcNow;
+                int account_id = account.Create(email, t_instance, GetSecurityContext());
+
+                TransitDiscussionPost t_post = GetTransitInstance();
+                t_post.AccountId = account.Id;
+                ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session);
+                m_post.CreateOrUpdate(t_post, account.GetSecurityContext());
+            }
+            finally
+            {
+                account.Delete(GetSecurityContext());
+            }
+        }
+
         [Test, ExpectedException(typeof(ManagedAccount.NoVerifiedEmailException))]
         public void TestNoVerifiedEmail()
         {
@@ -92,6 +116,33 @@ namespace SnCore.Services.Tests
                 t_instance.Name = GetNewString();
                 t_instance.Birthday = DateTime.UtcNow;
                 int account_id = account.Create(email, t_instance, GetSecurityContext());
+
+                account.AddDefaultPicture();
+
+                TransitDiscussionPost t_post = GetTransitInstance();
+                t_post.AccountId = account.Id;
+                ManagedDiscussionPost m_post = new ManagedDiscussionPost(Session);
+                m_post.CreateOrUpdate(t_post, account.GetSecurityContext());
+            }
+            finally
+            {
+                account.Delete(GetSecurityContext());
+            }
+        }
+
+        [Test, ExpectedException(typeof(ManagedAccount.NoAccountPictureException))]
+        public void TestNoPicture()
+        {
+            ManagedAccount account = new ManagedAccount(Session);
+            try
+            {
+                string email = GetNewEmailAddress();
+                TransitAccount t_instance = new TransitAccount();
+                t_instance.Password = GetNewString();
+                t_instance.Name = GetNewString();
+                t_instance.Birthday = DateTime.UtcNow;
+                int account_id = account.Create(email, t_instance, GetSecurityContext());
+                account.VerifyAllEmails();
 
                 TransitDiscussionPost t_post = GetTransitInstance();
                 t_post.AccountId = account.Id;

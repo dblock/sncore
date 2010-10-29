@@ -558,7 +558,7 @@ namespace SnCore.Services
             if (t_instance.Id != 0)
                 return;
 
-            sec.CheckVerifiedEmail();
+            sec.CheckVerified();
 
             int account_id = t_instance.GetOwner(Session, t_instance.AccountId, sec).Id;
 

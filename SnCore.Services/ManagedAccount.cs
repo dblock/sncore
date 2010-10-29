@@ -669,15 +669,32 @@ namespace SnCore.Services
             }
         }
 
-        public class NoVerifiedEmailException : Exception
+        public class NoVerifiedException : Exception
         {
-            public NoVerifiedEmailException()
-                : base("You don't have any verified e-mail addresses")
+            public NoVerifiedException()
+                : base("To help prevent spam, you must confirm your e-mail address and upload a picture before posting anything or making friends")
             {
 
             }
         }
 
+        public class NoVerifiedEmailException : Exception
+        {
+            public NoVerifiedEmailException()
+                : base("To help prevent spam, you must confirm your e-mail address before posting anything or making friends")
+            {
+
+            }
+        }
+
+        public class NoAccountPictureException : Exception
+        {
+            public NoAccountPictureException()
+                : base("To help prevent spam, you must upload a picture before posting anything or making friends")
+            {
+
+            }
+        }
 
         public class AccountNotFoundException : Exception
         {
@@ -1165,6 +1182,23 @@ namespace SnCore.Services
             return m.Id;
         }
 
+        public void AddDefaultPicture()
+        {
+            AccountPicture p = new AccountPicture();
+            p.Account = mInstance;
+            p.Bitmap = new byte[128];
+            p.Name = "default picture";
+            p.Position = 0;
+            p.Description = "";
+            p.Created = p.Modified = DateTime.UtcNow;
+            Session.Save(p);
+
+            if (mInstance.AccountPictures == null)
+                mInstance.AccountPictures = new List<AccountPicture>();
+
+            mInstance.AccountPictures.Add(p);
+        }
+
         public void VerifyAllEmails()
         {
             foreach (AccountEmail e in Collection<AccountEmail>.GetSafeCollection(mInstance.AccountEmails))
@@ -1175,6 +1209,12 @@ namespace SnCore.Services
                     mac.Verify(c.Code);
                 }
             }
+        }
+
+        public bool HasPicture(ManagedSecurityContext sec)
+        {
+            GetACL().Check(sec, DataOperation.Retreive);
+            return Collection<AccountPicture>.GetSafeCollection(mInstance.AccountPictures).Count > 0;
         }
 
         public bool HasVerifiedEmail(ManagedSecurityContext sec)
@@ -1676,7 +1716,7 @@ namespace SnCore.Services
 
         public int CreateAccountFriendRequest(ManagedSecurityContext sec, int friendid, string message)
         {
-            sec.CheckVerifiedEmail();
+            sec.CheckVerified();
 
             if (friendid == Id)
             {

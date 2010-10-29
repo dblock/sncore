@@ -1201,6 +1201,21 @@ namespace SnCore.WebServices
         }
 
         /// <summary>
+        /// Check whether a user has a profile picture.
+        /// </summary>
+        [WebMethod(Description = "Check whether the user has a profile photo.")]
+        public bool HasPicture(string ticket, int id)
+        {
+            using (SnCore.Data.Hibernate.Session.OpenConnection())
+            {
+                ISession session = SnCore.Data.Hibernate.Session.Current;
+                ManagedSecurityContext sec = new ManagedSecurityContext(session, ticket);
+                ManagedAccount a = new ManagedAccount(session, id);
+                return a.HasPicture(sec);
+            }
+        }
+
+        /// <summary>
         /// Return an active e-mail address.
         /// </summary>
         [WebMethod(Description = "Check whether the user has a verified e-mail address.")]

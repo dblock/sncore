@@ -59,17 +59,40 @@ namespace SnCore.Services
             return mAccount != null && mAccount.IsAdministrator;
         }
 
-        public void CheckVerifiedEmail()
+        private bool HasPicture()
+        {
+            return Collection<AccountPicture>.GetSafeCollection(mAccount.AccountPictures).Count > 0;
+        }
+
+        private bool HasVerifiedEmail()
         {
             foreach (AccountEmail email in Collection<AccountEmail>.GetSafeCollection(mAccount.AccountEmails))
             {
                 if (email.Verified)
                 {
-                    return;
+                    return true;
                 }
             }
 
-            throw new ManagedAccount.NoVerifiedEmailException();
+            return false;
+        }
+
+        public void CheckVerified()
+        {
+            if (IsAdministrator())
+                return;
+
+            bool hasVerifiedEmail = HasVerifiedEmail();
+            bool hasPicture = HasPicture();
+
+            if (! hasVerifiedEmail && ! hasPicture)
+                throw new ManagedAccount.NoVerifiedException();
+
+            if (! hasVerifiedEmail)
+                throw new ManagedAccount.NoVerifiedEmailException();
+
+            if (! hasPicture)
+                throw new ManagedAccount.NoAccountPictureException();
         }
     }
 }

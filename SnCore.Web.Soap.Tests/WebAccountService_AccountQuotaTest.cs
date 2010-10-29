@@ -29,7 +29,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountQuota GetTransitInstance()
         {
             WebAccountService.TransitAccountQuota t_instance = new WebAccountService.TransitAccountQuota();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.DataObjectName = "Place";
             t_instance.Limit = 10;
             return t_instance;
@@ -60,7 +60,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
             string ticket = base.GetTestTicket();
 
             WebAccountService.TransitAccountQuota t_instance = new WebAccountService.TransitAccountQuota();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.DataObjectName = "AccountWebsite";
             t_instance.Limit = 6;
             t_instance.Id = EndPoint.CreateOrUpdateAccountQuota(GetAdminTicket(), t_instance);

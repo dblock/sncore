@@ -201,7 +201,7 @@ namespace SnCore.Tools.Web
 
             result = RemoveMarkups(result);
 
-            result = string.Format("<a target=\"_blank\" href=\"{0}\">{1}</a>{2}",
+            result = string.Format("<a target=\"_blank\" href=\"{0}\" rel=\"nofollow\">{1}</a>{2}",
                 result,
                 shortenedresult,
                 afterresult);

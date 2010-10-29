@@ -378,7 +378,7 @@ namespace SnCore.Services
         protected override void Check(TransitPlacePicture t_instance, ManagedSecurityContext sec)
         {
             base.Check(t_instance, sec);
-            if (t_instance.Id == 0) sec.CheckVerifiedEmail();
+            if (t_instance.Id == 0) sec.CheckVerified();
         }
 
         public IList<Account> GetOwners()

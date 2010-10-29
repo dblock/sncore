@@ -42,7 +42,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountAttribute GetTransitInstance()
         {
             WebAccountService.TransitAccountAttribute t_instance = new WebAccountService.TransitAccountAttribute();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.Url = GetNewUri();
             t_instance.Value = GetNewString();
             t_instance.AttributeId = _attribute_id;

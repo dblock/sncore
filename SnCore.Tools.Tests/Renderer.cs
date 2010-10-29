@@ -24,7 +24,7 @@ namespace SnCore.Tools.Tests
             {
                 string output = Renderer.RenderHref(s);
                 Assert.AreEqual(
-                    string.Format("<a target=\"_blank\" href=\"{0}\">{1}</a>",
+                    string.Format("<a target=\"_blank\" href=\"{0}\" rel=\"nofollow\">{1}</a>",
                         s, s.IndexOf("?") >= 0 ? s.Substring(0, s.IndexOf("?")) + " ..." : s),
                     output);
             }

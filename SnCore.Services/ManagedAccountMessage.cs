@@ -382,7 +382,7 @@ namespace SnCore.Services
                 return;
 
             // verified e-mail required
-            sec.CheckVerifiedEmail();
+            sec.CheckVerified();
 
             // is the sender a friend of the receiver?
             int sender_id = t_instance.GetOwner(Session, t_instance.SenderAccountId, sec).Id;

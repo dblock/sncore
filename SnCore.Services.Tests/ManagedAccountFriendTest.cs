@@ -26,9 +26,11 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User 1", "testpassword", "foo1@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 b.Create("Test User 2", "testpassword", "foo2@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 b.VerifyAllEmails();
+                b.AddDefaultPicture();
 
                 a.CreateAccountFriendRequest(
                     AdminSecurityContext,

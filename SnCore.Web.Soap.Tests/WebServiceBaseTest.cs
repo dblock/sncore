@@ -44,10 +44,10 @@ namespace SnCore.Web.Soap.Tests
         {
             string email = GetNewEmailAddress();
             string password = GetNewString();
-            return CreateUserWithVerifiedEmailAddress(email, password);
+            return CreateUserWithVerifiedEmailAddressAndPicture(email, password);
         }
 
-        protected UserInfo CreateUserWithVerifiedEmailAddress(string email, string password)
+        private UserInfo CreateUserWithVerifiedEmailAddressAndPicture(string email, string password)
         {
             WebAccountService.WebAccountService endpoint = new WebAccountService.WebAccountService();
 
@@ -71,6 +71,12 @@ namespace SnCore.Web.Soap.Tests
             Console.WriteLine("Verified: {0}", verifiedemail);
             Assert.AreEqual(verifiedemail, result.email);
             Assert.IsTrue(endpoint.HasVerifiedEmail(result.ticket, result.id));
+
+            WebAccountService.TransitAccountPicture t_picture = new WebAccountService.TransitAccountPicture();
+            t_picture.AccountId = result.id;
+            t_picture.Bitmap = GetNewBitmap();
+            t_picture.Name = Guid.NewGuid().ToString();
+            endpoint.CreateOrUpdateAccountPicture(result.ticket, t_picture);
 
             return result;
         }
@@ -97,11 +103,6 @@ namespace SnCore.Web.Soap.Tests
         {
             WebAccountService.WebAccountService account_endpoint = new WebAccountService.WebAccountService();
             account_endpoint.DeleteAccount(GetAdminTicket(), id);
-        }
-
-        private void CreateUserAccount()
-        {
-            CreateUserWithVerifiedEmailAddress("user@localhost.com", "password");
         }
 
         public string Login(string email, string password)

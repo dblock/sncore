@@ -92,10 +92,10 @@ public partial class AccountMadLibInstanceEdit : AuthenticatedPage
         {
             linkCancel.NavigateUrl = ReturnUrl;
 
-            if (!SessionManager.HasVerifiedEmailAddress())
+            if (!SessionManager.HasVerified())
             {
-                ReportWarning("You don't have any verified e-mail addresses.\n" +
-                    "You must add/confirm a valid e-mail address before posting mad libs.");
+                ReportWarning("You don't have any verified e-mail addresses and/or profile photos.\n" +
+                    "You must add/confirm a valid e-mail address and upload a profile photo before posting mad libs.");
 
                 panelPost.Visible = false;
                 post.Enabled = false;

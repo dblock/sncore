@@ -26,12 +26,13 @@
    <tr>
     <td>
      <p>
-      But before you can post anything you will have to confirm your e-mail address. We have sent you an e-mail with instructions 
-      to do so. It may take a few minutes to arrive. Also Junk Mail filters may treat the confirmation e-mail as unwanted spam. 
-      Please make sure to double-check your Junk Mail folder.
+      Before you can post anything you will have to confirm your e-mail address and 
+      <a href="AccountPicturesManage.aspx">upload a profile photo</a>. We will send you an e-mail 
+      with a link to confirm your e-mail. Sometimes Junk Mail filters treat the confirmation
+      e-mail as unwanted spam. Please make sure to double-check your Junk Mail folder.
      </p>
      <p>
-      While you wait for that confirmation e-mail <a href="AccountPicturesManage.aspx">upload a profile picture</a> and 
+      While you wait for that confirmation e-mail <a href="AccountPicturesManage.aspx">upload a profile photo</a> and 
       <a href="AccountPreferencesManage.aspx">adjust your preferences</a>.  
      </p>   
     </td>
@@ -43,7 +44,7 @@
    <tr>
     <td>
      <p>
-      You can now <a href="AccountPicturesManage.aspx">upload a profile picture</a> and 
+      You can now <a href="AccountPicturesManage.aspx">upload a profile photo</a> and 
       <a href="AccountPreferencesManage.aspx">adjust your preferences</a>.
      </p>   
     </td>

@@ -32,10 +32,21 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
         }
 
+        [Test]
+        public void HasPictureTest()
+        {
+            Assert.IsTrue(EndPoint.HasPicture(_user.ticket, _user.id));
+            WebAccountService.TransitAccountPicture[] pictures = EndPoint.GetAccountPictures(
+                _user.ticket, _user.id, null, null);
+            Assert.AreEqual(1, pictures.Length);
+            EndPoint.DeleteAccountPicture(_user.ticket, pictures[0].Id);
+            Assert.IsFalse(EndPoint.HasPicture(_user.ticket, _user.id));
+        }
+
         public override WebAccountService.TransitAccountPicture GetTransitInstance()
         {
             WebAccountService.TransitAccountPicture t_instance = new WebAccountService.TransitAccountPicture();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.Description = GetNewString();
             t_instance.Name = GetNewString();
             t_instance.Bitmap = GetNewBitmap();
@@ -46,7 +57,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.AccountPicturesQueryOptions qopt = new WebAccountService.AccountPicturesQueryOptions();
             qopt.Hidden = true;
-            object[] args = { ticket, _account_id, qopt, options };
+            object[] args = { ticket, GetTestAccountId(), qopt, options };
             return args;
         }
 
@@ -54,7 +65,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             WebAccountService.AccountPicturesQueryOptions qopt = new WebAccountService.AccountPicturesQueryOptions();
             qopt.Hidden = true;
-            object[] args = { ticket, _account_id, qopt };
+            object[] args = { ticket, GetTestAccountId(), qopt };
             return args;
         }
 
@@ -98,9 +109,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         {
             // create a new user
             UserInfo user = CreateUserWithVerifiedEmailAddress();
-            // create pictures
+            // create pictures, there's a default one, so start at 1
             const int count = 7;
-            for (int i = 0; i < count; i++)
+            for (int i = 1; i < count; i++)
             {
                 WebAccountService.TransitAccountPicture t_instance = new WebAccountService.TransitAccountPicture();
                 t_instance.Bitmap = GetNewBitmap();

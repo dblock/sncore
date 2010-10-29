@@ -297,7 +297,7 @@ namespace SnCore.Services
             if (t_instance.Id != 0)
                 return;
 
-            sec.CheckVerifiedEmail();
+            sec.CheckVerified();
 
             // check whether the sender was flagged
             new ManagedQuota(ManagedAccountFlag.DefaultAccountFlagThreshold).Check<AccountFlag, ManagedAccountFlag.AccountFlaggedException>(

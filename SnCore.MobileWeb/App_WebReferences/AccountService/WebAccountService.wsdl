@@ -2,6 +2,21 @@
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.vestris.com/sncore/ns/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.vestris.com/sncore/ns/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.vestris.com/sncore/ns/">
+      <s:element name="GetAccountQuotasCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountQuotasCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAccountQuotasCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="DeleteAccountQuota">
         <s:complexType>
           <s:sequence>
@@ -70,11 +85,20 @@
           <s:element minOccurs="1" maxOccurs="1" name="AllCount" type="s:int" />
         </s:sequence>
       </s:complexType>
-      <s:element name="CreateOrUpdateAccountPropertyValue">
+      <s:element name="GetAccountPropertyValueByName">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="propertyvalue" type="tns:TransitAccountPropertyValue" />
+            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="propertyname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountPropertyValueByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPropertyValueByNameResult" type="tns:TransitAccountPropertyValue" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -101,6 +125,14 @@
           <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="CreateOrUpdateAccountPropertyValue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="propertyvalue" type="tns:TransitAccountPropertyValue" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateOrUpdateAccountPropertyValueResponse">
         <s:complexType>
           <s:sequence>
@@ -1677,21 +1709,6 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="TransitAccountQuota" nillable="true" type="tns:TransitAccountQuota" />
         </s:sequence>
       </s:complexType>
-      <s:element name="GetAccountQuotasCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountQuotasCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetAccountQuotasCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="Login">
         <s:complexType>
           <s:sequence>
@@ -2576,6 +2593,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="HasPicture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HasPictureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="HasPictureResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetActiveEmailAddress">
         <s:complexType>
           <s:sequence>
@@ -3131,25 +3163,14 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAccountPropertyValueByName">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ticket" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="accountid" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="groupname" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="propertyname" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAccountPropertyValueByNameResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAccountPropertyValueByNameResult" type="tns:TransitAccountPropertyValue" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetAccountQuotasCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountQuotasCount" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountQuotasCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountQuotasCountResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteAccountQuotaSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteAccountQuota" />
   </wsdl:message>
@@ -3167,6 +3188,12 @@
   </wsdl:message>
   <wsdl:message name="GetAccountNumbersByAccountIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountNumbersByAccountIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValueByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByName" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountPropertyValueByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByNameResponse" />
   </wsdl:message>
   <wsdl:message name="CreateOrUpdateAccountPropertyValueSoapIn">
     <wsdl:part name="parameters" element="tns:CreateOrUpdateAccountPropertyValue" />
@@ -3666,12 +3693,6 @@
   <wsdl:message name="GetAccountQuotasSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountQuotasResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAccountQuotasCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountQuotasCount" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountQuotasCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountQuotasCountResponse" />
-  </wsdl:message>
   <wsdl:message name="LoginSoapIn">
     <wsdl:part name="parameters" element="tns:Login" />
   </wsdl:message>
@@ -3990,6 +4011,12 @@
   <wsdl:message name="HasVerifiedEmailSoapOut">
     <wsdl:part name="parameters" element="tns:HasVerifiedEmailResponse" />
   </wsdl:message>
+  <wsdl:message name="HasPictureSoapIn">
+    <wsdl:part name="parameters" element="tns:HasPicture" />
+  </wsdl:message>
+  <wsdl:message name="HasPictureSoapOut">
+    <wsdl:part name="parameters" element="tns:HasPictureResponse" />
+  </wsdl:message>
   <wsdl:message name="GetActiveEmailAddressSoapIn">
     <wsdl:part name="parameters" element="tns:GetActiveEmailAddress" />
   </wsdl:message>
@@ -4164,13 +4191,12 @@
   <wsdl:message name="GetAccountsByPropertyValueCountSoapOut">
     <wsdl:part name="parameters" element="tns:GetAccountsByPropertyValueCountResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValueByNameSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByName" />
-  </wsdl:message>
-  <wsdl:message name="GetAccountPropertyValueByNameSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAccountPropertyValueByNameResponse" />
-  </wsdl:message>
   <wsdl:portType name="WebAccountServiceSoap">
+    <wsdl:operation name="GetAccountQuotasCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account quotas count by account id.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountQuotasCountSoapIn" />
+      <wsdl:output message="tns:GetAccountQuotasCountSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountQuota">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete a quota.</wsdl:documentation>
       <wsdl:input message="tns:DeleteAccountQuotaSoapIn" />
@@ -4185,6 +4211,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get account numbers.</wsdl:documentation>
       <wsdl:input message="tns:GetAccountNumbersByAccountIdSoapIn" />
       <wsdl:output message="tns:GetAccountNumbersByAccountIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValueByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a account property value by group and name.</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountPropertyValueByNameSoapIn" />
+      <wsdl:output message="tns:GetAccountPropertyValueByNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateOrUpdateAccountPropertyValue">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Create or update an account property value.</wsdl:documentation>
@@ -4601,11 +4632,6 @@
       <wsdl:input message="tns:GetAccountQuotasSoapIn" />
       <wsdl:output message="tns:GetAccountQuotasSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAccountQuotasCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get all account quotas count by account id.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountQuotasCountSoapIn" />
-      <wsdl:output message="tns:GetAccountQuotasCountSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="Login">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Login.</wsdl:documentation>
       <wsdl:input message="tns:LoginSoapIn" />
@@ -4871,6 +4897,11 @@
       <wsdl:input message="tns:HasVerifiedEmailSoapIn" />
       <wsdl:output message="tns:HasVerifiedEmailSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="HasPicture">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check whether the user has a profile photo.</wsdl:documentation>
+      <wsdl:input message="tns:HasPictureSoapIn" />
+      <wsdl:output message="tns:HasPictureSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetActiveEmailAddress">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check whether the user has a verified e-mail address.</wsdl:documentation>
       <wsdl:input message="tns:GetActiveEmailAddressSoapIn" />
@@ -5016,14 +5047,18 @@
       <wsdl:input message="tns:GetAccountsByPropertyValueCountSoapIn" />
       <wsdl:output message="tns:GetAccountsByPropertyValueCountSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValueByName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get a account property value by group and name.</wsdl:documentation>
-      <wsdl:input message="tns:GetAccountPropertyValueByNameSoapIn" />
-      <wsdl:output message="tns:GetAccountPropertyValueByNameSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebAccountServiceSoap" type="tns:WebAccountServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountQuotasCount">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotasCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountQuota">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountQuota" style="document" />
       <wsdl:input>
@@ -5044,6 +5079,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountNumbersByAccountId">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValueByName">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -5798,15 +5842,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAccountQuotasCount">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotasCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -6284,6 +6319,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="HasPicture">
+      <soap:operation soapAction="http://www.vestris.com/sncore/ns/HasPicture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetActiveEmailAddress">
       <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetActiveEmailAddress" style="document" />
       <wsdl:input>
@@ -6545,18 +6589,18 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValueByName">
-      <soap:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebAccountServiceSoap12" type="tns:WebAccountServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAccountQuotasCount">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotasCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteAccountQuota">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/DeleteAccountQuota" style="document" />
       <wsdl:input>
@@ -6577,6 +6621,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountNumbersByAccountId">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountNumbersByAccountId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountPropertyValueByName">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -7331,15 +7384,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAccountQuotasCount">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountQuotasCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Login">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/Login" style="document" />
       <wsdl:input>
@@ -7817,6 +7861,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="HasPicture">
+      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/HasPicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetActiveEmailAddress">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetActiveEmailAddress" style="document" />
       <wsdl:input>
@@ -8071,15 +8124,6 @@
     </wsdl:operation>
     <wsdl:operation name="GetAccountsByPropertyValueCount">
       <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountsByPropertyValueCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAccountPropertyValueByName">
-      <soap12:operation soapAction="http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -25,9 +25,10 @@ public class SessionManager : HostedSessionManager, IMarkupRendererHandler
     private string mTicket = string.Empty;
     private AccountService.TransitAccount mAccount = null;
 
-    public bool HasVerifiedEmailAddress()
+    public bool HasVerified()
     {
-        return GetBool<AccountService.TransitAccount, int>(AccountId, AccountService.HasVerifiedEmail);
+        return GetBool<AccountService.TransitAccount, int>(AccountId, AccountService.HasVerifiedEmail)
+            && GetBool<AccountService.TransitAccount, int>(AccountId, AccountService.HasPicture);
     }
 
     protected override int SessionTimeZone

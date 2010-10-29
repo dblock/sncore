@@ -22,14 +22,13 @@ public partial class AccountManage : AuthenticatedPage
 {
     private bool NotifyNoVerifiedEmail(object sender, EventArgs e)
     {
-        if (!SessionManager.HasVerifiedEmailAddress())
+        if (!SessionManager.HasVerified())
         {
             noticeVerifiedEmail.HtmlEncode = false;
-            noticeVerifiedEmail.Warning = "You don't have a verified e-mail address. " +
-                "You will only be able to post once you have verified your e-mail. " +
+            noticeVerifiedEmail.Warning = "You don't have a verified e-mail addresses and/or profile photos. " +
+                "To help prevent spam, you will only be able to post once you have verified your e-mail and <a href='AccountPicturesManage.aspx'>uploaded a profile photo</a>. " +
                 "If you haven't received a confirmation e-mail, please " +
-                "<a href='AccountEmailsManage.aspx'>double-check your address</a>. " +
-                "Now is also a good time to <a href='AccountPicturesManage.aspx'>upload a picture</a>.";
+                "<a href='AccountEmailsManage.aspx'>double-check your address</a>. ";                
             return true;
         }
         else

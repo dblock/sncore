@@ -116,10 +116,10 @@ public partial class PlaceEdit : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.HasVerifiedEmailAddress())
+        if (!SessionManager.HasVerified())
         {
-            ReportWarning("You don't have any verified e-mail addresses.\n" +
-                "You must add/confirm a valid e-mail address before submitting places.");
+            ReportWarning("You don't have any verified e-mail addresses and/or profile photos.\n" +
+                "You must add/confirm a valid e-mail address and upload a profile photo before editing places.");
 
             manageAdd.Enabled = false;
         }

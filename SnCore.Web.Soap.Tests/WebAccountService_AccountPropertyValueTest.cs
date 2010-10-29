@@ -40,7 +40,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountPropertyValue GetTransitInstance()
         {
             WebAccountService.TransitAccountPropertyValue t_instance = new WebAccountService.TransitAccountPropertyValue();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.AccountPropertyId = _property_id;
             t_instance.Value = GetNewString();
             return t_instance;
@@ -48,13 +48,13 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
 
         public override object[] GetArgs(string ticket, object options)
         {
-            object[] args = { ticket, _account_id, _property._group_id, options };
+            object[] args = { ticket, GetTestAccountId(), _property._group_id, options };
             return args;
         }
 
         public override object[] GetCountArgs(string ticket)
         {
-            object[] args = { ticket, _account_id, _property._group_id };
+            object[] args = { ticket, GetTestAccountId(), _property._group_id };
             return args;
         }
 

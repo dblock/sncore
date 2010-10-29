@@ -11,6 +11,14 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
     {
         private UserInfo _user = null;
 
+        public UserInfo User
+        {
+            get
+            {
+                return _user;
+            }
+        }
+
         public override void SetUp()
         {
             base.SetUp();

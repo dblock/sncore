@@ -18,7 +18,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountWebsite GetTransitInstance()
         {
             WebAccountService.TransitAccountWebsite t_instance = new WebAccountService.TransitAccountWebsite();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.Description = GetNewString();
             t_instance.Name = GetNewString();
             t_instance.Url = GetNewUri();

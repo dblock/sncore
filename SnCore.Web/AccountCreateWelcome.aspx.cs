@@ -19,7 +19,8 @@ public partial class AccountCreateWelcome : AuthenticatedPage
         if (!IsPostBack)
         {
             labelAccountName.Text = Render(SessionManager.Account.Name);
-            panelEmailConfirmed.Visible = SessionManager.HasVerifiedEmailAddress();
+            panelEmailConfirmed.Visible = SessionManager.GetBool<TransitAccount, int>(
+                SessionManager.AccountId, SessionManager.AccountService.HasVerifiedEmail);
             panelEmailNotConfirmed.Visible = ! panelEmailConfirmed.Visible;
         }
     }

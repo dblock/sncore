@@ -29,7 +29,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountRedirect GetTransitInstance()
         {
             WebAccountService.TransitAccountRedirect t_instance = new WebAccountService.TransitAccountRedirect();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.SourceUri = GetNewString().Replace('-', 'x');
             t_instance.TargetUri = GetNewString().Replace('-', 'x');
             return t_instance;

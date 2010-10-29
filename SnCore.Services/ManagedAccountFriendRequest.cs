@@ -290,7 +290,7 @@ namespace SnCore.Services
             base.Check(t_instance, sec);
             if (t_instance.Id == 0)
             {
-                sec.CheckVerifiedEmail();
+                sec.CheckVerified();
                 
                 // check number of account friend requests
                 GetQuota(sec).Check<AccountFriendRequest, ManagedAccount.QuotaExceededException>(

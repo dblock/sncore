@@ -143,8 +143,9 @@
  <table class="sncore_notice_warning">
   <tr>
    <td>
-    Before you can post anything you will have to confirm your e-mail address. We will
-    send you an e-mail to do so. Sometimes Junk Mail filters treat the confirmation
+    Before you can post anything you will have to confirm your e-mail address and 
+    <a href="AccountPicturesManage.aspx">upload a profile photo</a>. We will send you an e-mail 
+    with a link to confirm your e-mail. Sometimes Junk Mail filters treat the confirmation
     e-mail as unwanted spam. Please make sure to double-check your Junk Mail folder.
    </td>
   </tr>

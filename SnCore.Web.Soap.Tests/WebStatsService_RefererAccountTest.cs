@@ -47,6 +47,7 @@ namespace SnCore.Web.Soap.Tests.WebStatsServiceTests
         public void FindRefererAccountsTest()
         {
             WebAccountServiceTests.AccountWebsiteTest websitetest = new WebAccountServiceTests.AccountWebsiteTest();
+            websitetest.SetUp();
             WebAccountService.TransitAccountWebsite t_website = websitetest.GetTransitInstance();
             t_website.AccountId = _user.id;
             int website_id = websitetest.Create(_user.ticket, t_website);

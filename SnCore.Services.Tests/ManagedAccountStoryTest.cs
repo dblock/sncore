@@ -50,6 +50,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitAccountStory s = new TransitAccountStory();
                 s.Name = GetNewString();
@@ -73,6 +74,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitAccountStory s = new TransitAccountStory();
                 s.Name = GetNewString();

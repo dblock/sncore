@@ -82,9 +82,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         [Test]
         public void DefaultAccountFlagThresholdTest()
         {
-            string email = GetNewEmailAddress();
-            string password = GetNewString();
-            UserInfo user = CreateUserWithVerifiedEmailAddress(email, password);
+            UserInfo user = CreateUserWithVerifiedEmailAddress();
 
             WebAccountService.TransitAccountMessage t_message = new WebAccountService.TransitAccountMessage();
             t_message.SenderAccountId = user.id;

@@ -53,11 +53,15 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransitServiceOfAccountQuota))]
     public partial class WebAccountService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback GetAccountQuotasCountOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DeleteAccountQuotaOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountQuotaByObjectNameOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountNumbersByAccountIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAccountPropertyValueByNameOperationCompleted;
         
         private System.Threading.SendOrPostCallback CreateOrUpdateAccountPropertyValueOperationCompleted;
         
@@ -225,8 +229,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback GetAccountQuotasOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountQuotasCountOperationCompleted;
-        
         private System.Threading.SendOrPostCallback LoginOperationCompleted;
         
         private System.Threading.SendOrPostCallback LoginOpenIdOperationCompleted;
@@ -333,6 +335,8 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback HasVerifiedEmailOperationCompleted;
         
+        private System.Threading.SendOrPostCallback HasPictureOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetActiveEmailAddressOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountEmailConfirmationsCountOperationCompleted;
@@ -391,8 +395,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         private System.Threading.SendOrPostCallback GetAccountsByPropertyValueCountOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAccountPropertyValueByNameOperationCompleted;
-        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -432,6 +434,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        public event GetAccountQuotasCountCompletedEventHandler GetAccountQuotasCountCompleted;
+        
+        /// <remarks/>
         public event DeleteAccountQuotaCompletedEventHandler DeleteAccountQuotaCompleted;
         
         /// <remarks/>
@@ -439,6 +444,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         
         /// <remarks/>
         public event GetAccountNumbersByAccountIdCompletedEventHandler GetAccountNumbersByAccountIdCompleted;
+        
+        /// <remarks/>
+        public event GetAccountPropertyValueByNameCompletedEventHandler GetAccountPropertyValueByNameCompleted;
         
         /// <remarks/>
         public event CreateOrUpdateAccountPropertyValueCompletedEventHandler CreateOrUpdateAccountPropertyValueCompleted;
@@ -690,9 +698,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event GetAccountQuotasCompletedEventHandler GetAccountQuotasCompleted;
         
         /// <remarks/>
-        public event GetAccountQuotasCountCompletedEventHandler GetAccountQuotasCountCompleted;
-        
-        /// <remarks/>
         public event LoginCompletedEventHandler LoginCompleted;
         
         /// <remarks/>
@@ -852,6 +857,9 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event HasVerifiedEmailCompletedEventHandler HasVerifiedEmailCompleted;
         
         /// <remarks/>
+        public event HasPictureCompletedEventHandler HasPictureCompleted;
+        
+        /// <remarks/>
         public event GetActiveEmailAddressCompletedEventHandler GetActiveEmailAddressCompleted;
         
         /// <remarks/>
@@ -939,7 +947,35 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         public event GetAccountsByPropertyValueCountCompletedEventHandler GetAccountsByPropertyValueCountCompleted;
         
         /// <remarks/>
-        public event GetAccountPropertyValueByNameCompletedEventHandler GetAccountPropertyValueByNameCompleted;
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountQuotasCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAccountQuotasCount(string ticket, int id) {
+            object[] results = this.Invoke("GetAccountQuotasCount", new object[] {
+                        ticket,
+                        id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotasCountAsync(string ticket, int id) {
+            this.GetAccountQuotasCountAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountQuotasCountAsync(string ticket, int id, object userState) {
+            if ((this.GetAccountQuotasCountOperationCompleted == null)) {
+                this.GetAccountQuotasCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountQuotasCountOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountQuotasCount", new object[] {
+                        ticket,
+                        id}, this.GetAccountQuotasCountOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountQuotasCountOperationCompleted(object arg) {
+            if ((this.GetAccountQuotasCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountQuotasCountCompleted(this, new GetAccountQuotasCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/DeleteAccountQuota", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1032,6 +1068,41 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.GetAccountNumbersByAccountIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountNumbersByAccountIdCompleted(this, new GetAccountNumbersByAccountIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public TransitAccountPropertyValue GetAccountPropertyValueByName(string ticket, int accountid, string groupname, string propertyname) {
+            object[] results = this.Invoke("GetAccountPropertyValueByName", new object[] {
+                        ticket,
+                        accountid,
+                        groupname,
+                        propertyname});
+            return ((TransitAccountPropertyValue)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAccountPropertyValueByNameAsync(string ticket, int accountid, string groupname, string propertyname) {
+            this.GetAccountPropertyValueByNameAsync(ticket, accountid, groupname, propertyname, null);
+        }
+        
+        /// <remarks/>
+        public void GetAccountPropertyValueByNameAsync(string ticket, int accountid, string groupname, string propertyname, object userState) {
+            if ((this.GetAccountPropertyValueByNameOperationCompleted == null)) {
+                this.GetAccountPropertyValueByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPropertyValueByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetAccountPropertyValueByName", new object[] {
+                        ticket,
+                        accountid,
+                        groupname,
+                        propertyname}, this.GetAccountPropertyValueByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetAccountPropertyValueByNameOperationCompleted(object arg) {
+            if ((this.GetAccountPropertyValueByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAccountPropertyValueByNameCompleted(this, new GetAccountPropertyValueByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -3644,37 +3715,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountQuotasCount", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetAccountQuotasCount(string ticket, int id) {
-            object[] results = this.Invoke("GetAccountQuotasCount", new object[] {
-                        ticket,
-                        id});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountQuotasCountAsync(string ticket, int id) {
-            this.GetAccountQuotasCountAsync(ticket, id, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountQuotasCountAsync(string ticket, int id, object userState) {
-            if ((this.GetAccountQuotasCountOperationCompleted == null)) {
-                this.GetAccountQuotasCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountQuotasCountOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountQuotasCount", new object[] {
-                        ticket,
-                        id}, this.GetAccountQuotasCountOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountQuotasCountOperationCompleted(object arg) {
-            if ((this.GetAccountQuotasCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountQuotasCountCompleted(this, new GetAccountQuotasCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/Login", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string Login(string email, string password) {
             object[] results = this.Invoke("Login", new object[] {
@@ -5352,6 +5392,37 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/HasPicture", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool HasPicture(string ticket, int id) {
+            object[] results = this.Invoke("HasPicture", new object[] {
+                        ticket,
+                        id});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void HasPictureAsync(string ticket, int id) {
+            this.HasPictureAsync(ticket, id, null);
+        }
+        
+        /// <remarks/>
+        public void HasPictureAsync(string ticket, int id, object userState) {
+            if ((this.HasPictureOperationCompleted == null)) {
+                this.HasPictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnHasPictureOperationCompleted);
+            }
+            this.InvokeAsync("HasPicture", new object[] {
+                        ticket,
+                        id}, this.HasPictureOperationCompleted, userState);
+        }
+        
+        private void OnHasPictureOperationCompleted(object arg) {
+            if ((this.HasPictureCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.HasPictureCompleted(this, new HasPictureCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetActiveEmailAddress", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetActiveEmailAddress(string ticket, int id) {
             object[] results = this.Invoke("GetActiveEmailAddress", new object[] {
@@ -6268,41 +6339,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             if ((this.GetAccountsByPropertyValueCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAccountsByPropertyValueCountCompleted(this, new GetAccountsByPropertyValueCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.vestris.com/sncore/ns/GetAccountPropertyValueByName", RequestNamespace="http://www.vestris.com/sncore/ns/", ResponseNamespace="http://www.vestris.com/sncore/ns/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TransitAccountPropertyValue GetAccountPropertyValueByName(string ticket, int accountid, string groupname, string propertyname) {
-            object[] results = this.Invoke("GetAccountPropertyValueByName", new object[] {
-                        ticket,
-                        accountid,
-                        groupname,
-                        propertyname});
-            return ((TransitAccountPropertyValue)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAccountPropertyValueByNameAsync(string ticket, int accountid, string groupname, string propertyname) {
-            this.GetAccountPropertyValueByNameAsync(ticket, accountid, groupname, propertyname, null);
-        }
-        
-        /// <remarks/>
-        public void GetAccountPropertyValueByNameAsync(string ticket, int accountid, string groupname, string propertyname, object userState) {
-            if ((this.GetAccountPropertyValueByNameOperationCompleted == null)) {
-                this.GetAccountPropertyValueByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAccountPropertyValueByNameOperationCompleted);
-            }
-            this.InvokeAsync("GetAccountPropertyValueByName", new object[] {
-                        ticket,
-                        accountid,
-                        groupname,
-                        propertyname}, this.GetAccountPropertyValueByNameOperationCompleted, userState);
-        }
-        
-        private void OnGetAccountPropertyValueByNameOperationCompleted(object arg) {
-            if ((this.GetAccountPropertyValueByNameCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAccountPropertyValueByNameCompleted(this, new GetAccountPropertyValueByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -9537,6 +9573,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
+    public delegate void GetAccountQuotasCountCompletedEventHandler(object sender, GetAccountQuotasCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountQuotasCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountQuotasCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
     public delegate void DeleteAccountQuotaCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
@@ -9587,6 +9649,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((TransitAccountNumbers)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
+    public delegate void GetAccountPropertyValueByNameCompletedEventHandler(object sender, GetAccountPropertyValueByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAccountPropertyValueByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAccountPropertyValueByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public TransitAccountPropertyValue Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((TransitAccountPropertyValue)(this.results[0]));
             }
         }
     }
@@ -11377,32 +11465,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
-    public delegate void GetAccountQuotasCountCompletedEventHandler(object sender, GetAccountQuotasCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountQuotasCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountQuotasCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
     public delegate void LoginCompletedEventHandler(object sender, LoginCompletedEventArgs e);
     
     /// <remarks/>
@@ -12517,6 +12579,32 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
+    public delegate void HasPictureCompletedEventHandler(object sender, HasPictureCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class HasPictureCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal HasPictureCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
     public delegate void GetActiveEmailAddressCompletedEventHandler(object sender, GetActiveEmailAddressCompletedEventArgs e);
     
     /// <remarks/>
@@ -13155,32 +13243,6 @@ namespace SnCore.Web.Soap.Tests.WebAccountService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
-    public delegate void GetAccountPropertyValueByNameCompletedEventHandler(object sender, GetAccountPropertyValueByNameCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "2.0.50727.4927")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAccountPropertyValueByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAccountPropertyValueByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public TransitAccountPropertyValue Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((TransitAccountPropertyValue)(this.results[0]));
             }
         }
     }

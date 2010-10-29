@@ -30,7 +30,7 @@ namespace SnCore.Web.Soap.Tests.WebAccountServiceTests
         public override WebAccountService.TransitAccountMessageFolder GetTransitInstance()
         {
             WebAccountService.TransitAccountMessageFolder t_instance = new WebAccountService.TransitAccountMessageFolder();
-            t_instance.AccountId = _account_id;
+            t_instance.AccountId = GetTestAccountId();
             t_instance.Name = GetNewString();
             t_instance.System = false;
             return t_instance;

@@ -312,7 +312,7 @@ namespace SnCore.Services
             base.Check(t_instance, sec);
             if (t_instance.Id == 0)
             {
-                sec.CheckVerifiedEmail();
+                sec.CheckVerified();
                 GetQuota(sec).Check<AccountPlaceRequest, ManagedAccount.QuotaExceededException>(
                     Session.CreateQuery(string.Format("SELECT COUNT(*) FROM AccountPlaceRequest instance WHERE instance.Account.Id = {0}",
                         mInstance.Account.Id)).UniqueResult<int>());

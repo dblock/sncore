@@ -25,6 +25,7 @@ namespace SnCore.Services.Tests
                     _instance = new ManagedAccount(Session);
                     _instance.Create(GetNewString(), "password", string.Format("{0}@domain.com", Guid.NewGuid()), 
                         DateTime.UtcNow, AdminSecurityContext);
+                    // need verified e-mail to post
                     _instance.VerifyAllEmails();
                 }
                 return base.Instance;

@@ -155,10 +155,10 @@ public partial class DiscussionPostNew : AuthenticatedPage
             StackSiteMap(sitemapdata);
         }
 
-        if (!SessionManager.HasVerifiedEmailAddress())
+        if (!SessionManager.HasVerified())
         {
-            ReportWarning("You don't have any verified e-mail addresses.\n" +
-                "You must add/confirm a valid e-mail address before posting messages.");
+            ReportWarning("You don't have any verified e-mail addresses and/or profile photos.\n" +
+                "You must add/confirm a valid e-mail address and upload a profile photo before posting.");
 
             panelPost.Visible = false;
             post.Enabled = false;

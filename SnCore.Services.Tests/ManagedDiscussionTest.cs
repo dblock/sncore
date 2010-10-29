@@ -51,6 +51,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitDiscussion t = new TransitDiscussion();
                 t.Name = GetNewString();
@@ -79,6 +80,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = GetNewString();
@@ -112,6 +114,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = GetNewString();
@@ -154,6 +157,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = GetNewString();
@@ -201,6 +205,7 @@ namespace SnCore.Services.Tests
             {
                 a.Create("Test User", "testpassword", "foo@localhost.com", DateTime.UtcNow, AdminSecurityContext);
                 a.VerifyAllEmails();
+                a.AddDefaultPicture();
 
                 TransitDiscussion t_d = new TransitDiscussion();
                 t_d.Description = GetNewString();
