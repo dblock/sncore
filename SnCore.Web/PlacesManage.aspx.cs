@@ -25,7 +25,7 @@ public partial class PlacesManage : AuthenticatedPage
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("System Preferences", Request, "SystemPreferencesManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request.Url));
             StackSiteMap(sitemapdata);
         }
     }

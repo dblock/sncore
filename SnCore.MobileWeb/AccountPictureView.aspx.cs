@@ -25,7 +25,7 @@ public partial class AccountPictureView : Page
             GetPictureData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("AccountPicturesView.aspx?id={0}", a.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request.Url));

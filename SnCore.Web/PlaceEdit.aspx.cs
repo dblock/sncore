@@ -43,7 +43,7 @@ public partial class PlaceEdit : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
 
             DomainClass cs = SessionManager.GetDomainClass("Place");
             inputName.MaxLength = cs["Name"].MaxLengthInChars;

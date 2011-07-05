@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true"
- CodeFile="PlacesManage.aspx.cs" Inherits="PlacesManage" Title="Places" %>
+ CodeFile="PlacesManage.aspx.cs" Inherits="PlacesManage" Title="Eat Out" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <asp:Content ID="Content" ContentPlaceHolderID="AccountContentPlaceHolder" runat="Server">

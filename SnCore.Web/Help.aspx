@@ -11,6 +11,16 @@
     <img src="images/Item.gif" />
    </td>
    <td class="sncore_table_tr_td">
+    <asp:HyperLink ID="linkWhy" runat="server" NavigateUrl="Why.aspx" Text="What is this FoodCandy thing?" />
+    <br />
+    Here's how it all got started.
+   </td>
+  </tr>
+  <tr>
+   <td class="sncore_form_label">
+    <img src="images/Item.gif" />
+   </td>
+   <td class="sncore_table_tr_td">
     <a href="SiteMap.aspx">Site Map</a>
     <br />
     Quick links around the site.
@@ -117,7 +127,7 @@
    <td class="sncore_table_tr_td">
     <asp:HyperLink ID="linkPress" Text="Press" NavigateUrl="press" runat="server" />
     <br />
-    Press and cuts.
+    FoodCandy is getting popular. We certainly like it!
    </td>
   </tr>
  </table>

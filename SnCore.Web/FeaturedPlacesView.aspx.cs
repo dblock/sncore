@@ -26,7 +26,7 @@ public partial class FeaturedPlacesView : Page
             GetData();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Featured", Request.Url));
             StackSiteMap(sitemapdata);
         }

@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlacesView.aspx.cs"
- Inherits="PlacesView" Title="Places" %>
+ Inherits="PlacesView" Title="Eat Out" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
@@ -13,7 +13,7 @@
    <table cellpadding="0" cellspacing="0" class="sncore_table_noborder">
     <tr>
      <td>
-      <SnCore:Title ID="titlePlaces" Text="Places" runat="server" ExpandedSize="100">  
+      <SnCore:Title ID="titlePlaces" Text="Eat Out" runat="server" ExpandedSize="100">  
        <Template>
         <div class="sncore_title_paragraph">
          These are places in your city, contributed by other users. Participate! Click on a place, upload 

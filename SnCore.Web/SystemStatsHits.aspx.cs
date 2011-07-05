@@ -146,5 +146,4 @@ public partial class SystemStatsHits : AuthenticatedPage
     {
         SetChartType(ChartType.AccountDaily);
     }
-
 }

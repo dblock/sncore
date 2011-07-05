@@ -38,7 +38,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Account]'))
 CREATE FULLTEXT INDEX ON [dbo].[Account](
 [Name] LANGUAGE [English])
-KEY INDEX [PK_Account] ON [SnCore]
+KEY INDEX [PK_Account] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -57,7 +57,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[Account]'))
 CREATE FULLTEXT INDEX ON [dbo].[Account](
 [Name] LANGUAGE [English])
-KEY INDEX [PK_Account] ON [SnCore]
+KEY INDEX [PK_Account] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -366,7 +366,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[AccountBlogPost](
 [Body] LANGUAGE [English], 
 [Title] LANGUAGE [English])
-KEY INDEX [PK_AccountBlogPost] ON [SnCore]
+KEY INDEX [PK_AccountBlogPost] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -387,7 +387,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[AccountBlogPost](
 [Body] LANGUAGE [English], 
 [Title] LANGUAGE [English])
-KEY INDEX [PK_AccountBlogPost] ON [SnCore]
+KEY INDEX [PK_AccountBlogPost] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -726,7 +726,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[AccountFeedItem](
 [Description] LANGUAGE [English], 
 [Title] LANGUAGE [English])
-KEY INDEX [PK_AccountFeedItem] ON [SnCore]
+KEY INDEX [PK_AccountFeedItem] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -746,7 +746,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[AccountFeedItem](
 [Description] LANGUAGE [English], 
 [Title] LANGUAGE [English])
-KEY INDEX [PK_AccountFeedItem] ON [SnCore]
+KEY INDEX [PK_AccountFeedItem] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -1763,7 +1763,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountPropertyValue](
 [Value] LANGUAGE [English])
-KEY INDEX [PK_AccountPropertyValue] ON [SnCore]
+KEY INDEX [PK_AccountPropertyValue] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -1783,7 +1783,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountPropertyValue]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountPropertyValue](
 [Value] LANGUAGE [English])
-KEY INDEX [PK_AccountPropertyValue] ON [SnCore]
+KEY INDEX [PK_AccountPropertyValue] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -1977,7 +1977,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[AccountStory](
 [Name] LANGUAGE [English], 
 [Summary] LANGUAGE [English])
-KEY INDEX [PK_Story] ON [SnCore]
+KEY INDEX [PK_Story] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -2004,7 +2004,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[AccountStory](
 [Name] LANGUAGE [English], 
 [Summary] LANGUAGE [English])
-KEY INDEX [PK_Story] ON [SnCore]
+KEY INDEX [PK_Story] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -2076,7 +2076,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountSurveyAnswer](
 [Answer] LANGUAGE [English])
-KEY INDEX [PK_AccountSurveyAnswer] ON [SnCore]
+KEY INDEX [PK_AccountSurveyAnswer] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -2096,7 +2096,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountSurveyAnswer]'))
 CREATE FULLTEXT INDEX ON [dbo].[AccountSurveyAnswer](
 [Answer] LANGUAGE [English])
-KEY INDEX [PK_AccountSurveyAnswer] ON [SnCore]
+KEY INDEX [PK_AccountSurveyAnswer] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -2266,7 +2266,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[Bug](
 [Details] LANGUAGE [English], 
 [Subject] LANGUAGE [English])
-KEY INDEX [PK_Bug] ON [SnCore]
+KEY INDEX [PK_Bug] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -2292,7 +2292,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[Bug](
 [Details] LANGUAGE [English], 
 [Subject] LANGUAGE [English])
-KEY INDEX [PK_Bug] ON [SnCore]
+KEY INDEX [PK_Bug] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -3312,7 +3312,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
 [Body] LANGUAGE [English], 
 [Subject] LANGUAGE [English])
-KEY INDEX [PK_DiscussionPost] ON [SnCore]
+KEY INDEX [PK_DiscussionPost] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -3345,7 +3345,7 @@ IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJE
 CREATE FULLTEXT INDEX ON [dbo].[DiscussionPost](
 [Body] LANGUAGE [English], 
 [Subject] LANGUAGE [English])
-KEY INDEX [PK_DiscussionPost] ON [SnCore]
+KEY INDEX [PK_DiscussionPost] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -3690,7 +3690,7 @@ CREATE FULLTEXT INDEX ON [dbo].[Place](
 [Phone] LANGUAGE [English], 
 [Street] LANGUAGE [English], 
 [Zip] LANGUAGE [English])
-KEY INDEX [PK_Place] ON [SnCore]
+KEY INDEX [PK_Place] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -3716,7 +3716,7 @@ CREATE FULLTEXT INDEX ON [dbo].[Place](
 [Phone] LANGUAGE [English], 
 [Street] LANGUAGE [English], 
 [Zip] LANGUAGE [English])
-KEY INDEX [PK_Place] ON [SnCore]
+KEY INDEX [PK_Place] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -3840,7 +3840,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
 CREATE FULLTEXT INDEX ON [dbo].[PlaceName](
 [Name] LANGUAGE [English])
-KEY INDEX [PK_PlaceName] ON [SnCore]
+KEY INDEX [PK_PlaceName] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -3860,7 +3860,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlaceName]'))
 CREATE FULLTEXT INDEX ON [dbo].[PlaceName](
 [Name] LANGUAGE [English])
-KEY INDEX [PK_PlaceName] ON [SnCore]
+KEY INDEX [PK_PlaceName] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -4015,7 +4015,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
 CREATE FULLTEXT INDEX ON [dbo].[PlacePropertyValue](
 [Value] LANGUAGE [English])
-KEY INDEX [PK_PlacePropertyValue] ON [SnCore]
+KEY INDEX [PK_PlacePropertyValue] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -4035,7 +4035,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[PlacePropertyValue]'))
 CREATE FULLTEXT INDEX ON [dbo].[PlacePropertyValue](
 [Value] LANGUAGE [English])
-KEY INDEX [PK_PlacePropertyValue] ON [SnCore]
+KEY INDEX [PK_PlacePropertyValue] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -4832,7 +4832,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[TagWord]'))
 CREATE FULLTEXT INDEX ON [dbo].[TagWord](
 [Word] LANGUAGE [English])
-KEY INDEX [PK_TagWord] ON [SnCore]
+KEY INDEX [PK_TagWord] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO
@@ -4851,7 +4851,7 @@ GO
 IF not EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[TagWord]'))
 CREATE FULLTEXT INDEX ON [dbo].[TagWord](
 [Word] LANGUAGE [English])
-KEY INDEX [PK_TagWord] ON [SnCore]
+KEY INDEX [PK_TagWord] ON [FoodCandy]
 WITH CHANGE_TRACKING AUTO
 
 GO

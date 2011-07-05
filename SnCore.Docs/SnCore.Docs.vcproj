@@ -63,10 +63,6 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\Branch.dox"
-			>
-		</File>
-		<File
 			RelativePath=".\Contact.dox"
 			>
 		</File>
@@ -99,23 +95,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\License.dox"
-			>
-		</File>
-		<File
 			RelativePath=".\Logos.dox"
 			>
 		</File>
 		<File
 			RelativePath=".\Main.dox"
-			>
-		</File>
-		<File
-			RelativePath=".\NonCommercial.dox"
-			>
-		</File>
-		<File
-			RelativePath=".\Pricing.dox"
 			>
 		</File>
 		<File

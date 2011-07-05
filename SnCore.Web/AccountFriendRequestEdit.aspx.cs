@@ -30,7 +30,7 @@ public partial class AccountFriendRequestEdit : AuthenticatedPage
                 inputMessage.Text = "Dear " + account.Name + "\n\nI would like to be your friend.\n\nThanks!\n";
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode(account.Name, Request, string.Format("AccountView.aspx?id={0}", account.Id)));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Friend Request", Request.Url));
                 StackSiteMap(sitemapdata);

@@ -50,7 +50,7 @@
     <tr>
      <td colspan="2" class="sncore_table_tr_td">
       <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkPlaces" Text="places" runat="server" OnClick="linkAny_Click"/> 
-      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccounts" Text="people" runat="server" OnClick="linkAny_Click" />
+      | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccounts" Text="foodies" runat="server" OnClick="linkAny_Click" />
       | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkDiscussionPosts" Text="discussion posts" runat="server" OnClick="linkAny_Click"/> 
       | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountStories" Text="stories" runat="server" OnClick="linkAny_Click"/> 
       | <asp:LinkButton CausesValidation="false" CssClass="sncore_link" ID="linkAccountFeedItems" Text="syndicated blogs" runat="server" OnClick="linkAny_Click"/> 

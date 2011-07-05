@@ -34,7 +34,7 @@ public partial class AccountSurveyView : Page
                 accountLink.HRef = string.Format("AccountView.aspx?id={0}", a.Id);
                 this.Title = string.Format("{0}'s {1}", Renderer.Render(a.Name), Renderer.Render(s.Name));
 
-                sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode(a.Name, Request, string.Format("AccountView.aspx?id={0}", a.Id)));
             }
             else

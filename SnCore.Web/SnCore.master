@@ -6,9 +6,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
- <title>SnCore | sn foundation base</title>
+ <title>FoodCandy - friendster for foodies</title>
  <!-- NOEMAIL-START -->
  <link rel="stylesheet" type="text/css" href="Style.css" />
+ <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> 
+ <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
  <!-- NOEMAIL-END -->
  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 </head>
@@ -21,7 +23,7 @@
  <!-- NOEMAIL-END -->
   <div class="sncore_master_top">
    <a href="Default.aspx">
-    <img border="0" src="images/site/toplogo.jpg" alt="SnCore!" />
+    <img border="0" src="images/site/toplogo.jpg" alt="FoodCandy - friendster for foodies" />
    </a>
   </div>
   <!-- NOEMAIL-START -->
@@ -53,8 +55,14 @@
          <asp:ListItem>/AccountBlogEdit.aspx</asp:ListItem>        
          <asp:ListItem>/AccountBlogPost.aspx</asp:ListItem>        
          <asp:ListItem>/AccountFeedsManage.aspx</asp:ListItem>        
-         <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>        
+         <asp:ListItem>/AccountFeedWizard.aspx</asp:ListItem>     
+         <asp:ListItem>/AccountFeedItemMediasView.aspx</asp:ListItem>   
         </Downlights>
+       </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuVideos" Text="videos" NavigateUrl="AccountFeedItemMediasView.aspx">
+        <Highlights>
+         <asp:ListItem>/AccountFeedItemMedia.*</asp:ListItem>
+        </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
         runat="server" ID="menuPlaces" Text="<%$ Resources:Concepts, Places %>" NavigateUrl="PlacesView.aspx">
         <Highlights>
@@ -75,6 +83,8 @@
          <asp:ListItem>/Discuss.*</asp:ListItem>
         </Highlights>
        </SnCore:MenuItem><SnCore:MenuItem 
+        runat="server" ID="menuShop" CssClass="sncore_menu_item" Text="shop"
+        NavigateUrl="http://www.cafepress.com/foodcandy/" /><SnCore:MenuItem 
         runat="server" ID="menuLogin" Text="<%$ Resources:Concepts, Login %>" NavigateUrl="AccountLogin.aspx">
         <Highlights>
          <asp:ListItem>/AccountResetPassword.aspx</asp:ListItem>
@@ -154,10 +164,19 @@
   </div>
   <!-- NOEMAIL-START -->
   <asp:Panel ID="panelCounter" runat="server">
+<!-- Begin: Google Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4756101-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+<!-- end Google Analytics -->
   </asp:Panel>
   <asp:Panel ID="panelAds" runat="server">
-   <div id="ads" style="display: none; text-align: left;">
-   </div>
    <script type="text/javascript" src="ads.js"></script>
   </asp:Panel>
  </form>

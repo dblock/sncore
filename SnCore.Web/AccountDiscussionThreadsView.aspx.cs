@@ -92,7 +92,7 @@ public partial class AcountDiscussionThreadsView : Page
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Discussion Posts", Request.Url));
             StackSiteMap(sitemapdata);

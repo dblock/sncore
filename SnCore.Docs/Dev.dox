@@ -32,7 +32,7 @@ has been completely figured out for you.
  <li>Download and install a Subversion client from http://subversion.tigris.org/.
  <li>Create a new directory, eg. C:\\Source.
  <li>Anonymous read-only access is enabled. Please e-mail dblock at dblock dot org for write access.
- <li>Check out the source code with <em>svn checkout svn://svn.vestris.com/sncore</em>
+ <li>Check out the source code with <em>svn checkout svn://svn.vestris.com/foodcandy</em>
 </ol>
 
 \section dev_install Installation

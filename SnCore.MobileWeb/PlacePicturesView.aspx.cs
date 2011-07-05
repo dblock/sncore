@@ -34,7 +34,7 @@ public partial class PlacePicturesView : Page
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
             StackSiteMap(sitemapdata);

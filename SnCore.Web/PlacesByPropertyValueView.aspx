@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlacesByPropertyValueView.aspx.cs"
- Inherits="PlacesByPropertyValueView" Title="Places" %>
+ Inherits="PlacesByPropertyValueView" Title="Eat Out" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="PlacePropertyValuesView" Src="PlacePropertyValuesViewControl.ascx" %>

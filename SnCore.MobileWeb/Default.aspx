@@ -3,8 +3,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder" runat="Server">
  <ul>
-  <li><a href="AccountsView.aspx">People</a></li>
-  <li><a href="PlacesView.aspx">Places</a></li>
+  <li><a href="AccountsView.aspx">Foodies</a></li>
+  <li><a href="PlacesView.aspx">Eat Out</a></li>
   <li><a href="DiscussionsView.aspx">Discussions</a></li>
   <li><a href="AccountFeedItemsView.aspx">Blog Roll</a></li>
   <li><a href="AccountFeedsView.aspx">Blog Directory</a></li>

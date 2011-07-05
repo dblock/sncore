@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountsView.aspx.cs"
- Inherits="AccountsView" Title="People" %>
+ Inherits="AccountsView" Title="Foodies" %>
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
@@ -14,7 +14,7 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="titlePeople" Text="People" runat="server">
+      <SnCore:Title ID="titlePeople" Text="Foodies" runat="server">
        <Template>
         <div class="sncore_title_paragraph">
          This page shows all members, most active members first. You can also search people in your city
@@ -26,8 +26,8 @@
        </Template>
       </SnCore:Title>      
       <div class="sncore_h2sub">
-       <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All People" />
-       <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local People" />
+       <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Foodies" />
+       <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Foodies" />
        <asp:LinkButton ID="linkBloggers" OnClick="linkBloggers_Click" runat="server" Text="&#187; All Bloggers" />
        <a href="AccountGroupsView.aspx">&#187; Groups</a>
        <a href="AccountInvitationsManage.aspx">&#187; Invite a Friend</a>
@@ -124,7 +124,7 @@
       </td>
       <td class="sncore_form_value">
        <asp:CheckBox CssClass="sncore_form_checkbox" ID="checkboxPicturesOnly" runat="server"
-        Text="show people with pictures only" Checked="true" />
+        Text="show foodies with pictures only" Checked="true" />
       </td>
      </tr>
      <tr>

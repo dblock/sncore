@@ -9,7 +9,7 @@
   <td>
    <div class="sncore_h2">
     <a href='AccountsView.aspx'>
-      New People
+      New Foodies
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>

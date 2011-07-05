@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlacesView.aspx.cs"
- Inherits="PlacesView" Title="Places" %>
+ Inherits="PlacesView" Title="Eat Out" %>
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>

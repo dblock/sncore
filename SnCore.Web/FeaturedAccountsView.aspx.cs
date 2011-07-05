@@ -26,7 +26,7 @@ public partial class FeaturedAccountsView : Page
             GetData();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Featured", Request.Url));
             StackSiteMap(sitemapdata);
         }

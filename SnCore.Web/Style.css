@@ -27,7 +27,7 @@ a:hover { color: #cc3300; font-weight: bold; text-decoration: none; }
 .sncore_half_table { width: 95%; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_accountmenu_table { width: 150px; margin: 10px; border: 1px #eeeeee solid; }
 .sncore_half_inner_table { width: 95%; }
-.sncore_featured_table { width: 200px; }
+.sncore_featured_table { width: 155px; }
 .sncore_featured_tr_td { font-size: 10pt; padding: 2px; padding-top: 10px; text-align: center; }
 .sncore_table_tr_td_images { font-size: 10pt; padding: 2px; text-align: center; vertical-align: top; width: 150px; }
 .sncore_table_tr_td { font-size: 10pt; padding: 2px; }

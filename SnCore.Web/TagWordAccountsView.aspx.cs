@@ -28,7 +28,7 @@ public partial class TagWordAccountsView : Page
             gridManage.DataBind();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Tags", Request, "TagWordsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(word.Word, Request.Url));
             StackSiteMap(sitemapdata);

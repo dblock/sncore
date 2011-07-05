@@ -34,6 +34,13 @@
   OnClientClick="return confirm('Are you sure you want to delete this event?')"/>
  <asp:LinkButton runat="server" id="linkSummarize" Text="&#187; Summarize" OnClick="linkSummarize_Click"
   CausesValidation="false" />
+ <table class="sncore_notice_warning">
+  <tr>
+   <td>
+    Please don't post events that aren't related to food, they will be deleted.
+   </td>
+  </tr>
+ </table>
  <asp:ValidationSummary runat="server" ID="manageValidationSummary" CssClass="sncore_form_validator"
   ShowSummary="true" />
  <table class="sncore_account_table">

@@ -34,7 +34,7 @@ public partial class AccountAttributeEdit : AuthenticatedPage
                 SessionManager.Ticket, AccountId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(ta.Name, Request, string.Format("AccountView.aspx?id={0}", ta.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, string.Format("AccountAttributesManage.aspx?id={0}", ta.Id)));
 

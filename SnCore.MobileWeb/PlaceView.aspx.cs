@@ -53,7 +53,7 @@ public partial class PlaceView : Page
             }
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
             sitemapdata.AddRange(SiteMapDataAttribute.GetLocationAttributeNodes(Request, "PlacesView.aspx",
                 Place.Country, Place.State, Place.City, Place.Neighborhood, Place.Type));
             sitemapdata.Add(new SiteMapDataAttributeNode(Place.Name, Request.Url));

@@ -26,7 +26,7 @@ public partial class PlacesFavoritesView : Page
                 GetDataFavorites(sender, e);
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Favorites", Request.Url));
                 StackSiteMap(sitemapdata);
             }

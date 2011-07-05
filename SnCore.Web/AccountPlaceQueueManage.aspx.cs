@@ -33,7 +33,7 @@ public partial class AccountPlaceQueueManage : AuthenticatedPage
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "AccountPlacesManage.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "AccountPlacesManage.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Queue", Request.Url));
             StackSiteMap(sitemapdata);
         }

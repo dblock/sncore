@@ -42,41 +42,51 @@
    </table>
   </ContentTemplate>
  </asp:UpdatePanel>
- <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
-  <ContentTemplate>
-   <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
-    AllowCustomPaging="true" RepeatColumns="3" RepeatRows="2" RepeatDirection="Horizontal"
-    CssClass="sncore_table" ShowHeader="false" OnItemCommand="gridManage_ItemCommand"
-    OnDataBinding="gridManage_DataBinding">
-    <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
-     prevpagetext="Prev" horizontalalign="Center" />
-    <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
-    <ItemTemplate>
-     <a href="AccountFeedItemView.aspx?id=<%# Eval("AccountFeedItemId") %>">
-      <%# Renderer.CleanHtml(Eval("EmbeddedHtml")) %>
-     </a>
-     <div>
-      x-posted in 
-      <a href="AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>">
-       <%# base.Render(Eval("AccountFeedName")) %>
-      </a>
-     </div>
-     <div>
-      <a href="AccountFeedItemView.aspx?id=<%# Eval("AccountFeedItemId") %>">
-       <%# base.Render(Eval("AccountFeedItemTitle")) %>
-      </a>    
-     </div>
-     <div>
-      <asp:UpdatePanel ID='panelShowHide' UpdateMode="Conditional" runat="Server">
-       <ContentTemplate>
-        <asp:LinkButton Text='<%# (bool) Eval("Visible") ? "&#187; Hide" : "&#187; Show" %>' ID="linkToggleVisible" runat="server"
-         Visible='<%# base.IsEditing %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
-       </ContentTemplate>
-      </asp:UpdatePanel>
-     </div>
-     <br />
-    </ItemTemplate>
-   </SnCoreWebControls:PagedList>
-  </ContentTemplate>
- </asp:UpdatePanel>   
+ <table>
+  <tr>
+   <td valign="top">
+    <script src="http://admin.brightcove.com/js/experience_util.js" type="text/javascript"></script>
+    <script src="scripts/lxtvplayer.js" language="javascript"></script>
+   </td>
+   <td valign="top">
+    <asp:UpdatePanel runat="server" ID="panelGrid" UpdateMode="Conditional" RenderMode="Inline">
+     <ContentTemplate>
+      <SnCoreWebControls:PagedList CellPadding="4" runat="server" ID="gridManage"
+       AllowCustomPaging="true" RepeatColumns="1" RepeatRows="2" RepeatDirection="Horizontal"
+       ShowHeader="false" OnItemCommand="gridManage_ItemCommand"
+       OnDataBinding="gridManage_DataBinding">
+       <PagerStyle cssclass="sncore_table_pager" position="TopAndBottom" nextpagetext="Next"
+        prevpagetext="Prev" horizontalalign="Center" PageButtonCount="2" />
+       <ItemStyle CssClass="sncore_description" HorizontalAlign="Center" Width="25%" />
+       <ItemTemplate>
+        <a href="AccountFeedItemView.aspx?id=<%# Eval("AccountFeedItemId") %>">
+         <%# Renderer.CleanHtml(Eval("EmbeddedHtml")) %>
+        </a>
+        <div>
+         x-posted in 
+         <a href="AccountFeedView.aspx?id=<%# Eval("AccountFeedId") %>">
+          <%# base.Render(Eval("AccountFeedName")) %>
+         </a>
+        </div>
+        <div>
+         <a href="AccountFeedItemView.aspx?id=<%# Eval("AccountFeedItemId") %>">
+          <%# base.Render(Eval("AccountFeedItemTitle")) %>
+         </a>    
+        </div>
+        <div>
+         <asp:UpdatePanel ID='panelShowHide' UpdateMode="Conditional" runat="Server">
+          <ContentTemplate>
+           <asp:LinkButton Text='<%# (bool) Eval("Visible") ? "&#187; Hide" : "&#187; Show" %>' ID="linkToggleVisible" runat="server"
+            Visible='<%# base.IsEditing %>' CommandName="Toggle" CommandArgument='<%# Eval("Id") %>' />
+          </ContentTemplate>
+         </asp:UpdatePanel>
+        </div>
+        <br />
+       </ItemTemplate>
+      </SnCoreWebControls:PagedList>
+     </ContentTemplate>
+    </asp:UpdatePanel>   
+   </td>
+  </tr>
+ </table>
 </asp:Content>

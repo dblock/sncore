@@ -17,7 +17,7 @@ using System.Text;
 using System.Collections.Specialized;
 using SnCore.WebControls;
 
-[SiteMapDataAttribute("People")]
+[SiteMapDataAttribute("Foodies")]
 public partial class AccountsView : AccountPersonPage
 {
     public AccountsView()

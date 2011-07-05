@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCoreAccount.master" AutoEventWireup="true"
- CodeFile="AccountPlacesManage.aspx.cs" Inherits="AccountPlacesManage" Title="Places" %>
+ CodeFile="AccountPlacesManage.aspx.cs" Inherits="AccountPlacesManage" Title="Eat Out" %>
 
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
 <%@ Register TagPrefix="SnCore" TagName="AccountReminder" Src="AccountReminderControl.ascx" %>

@@ -17,6 +17,17 @@ BEGIN
  SET @property_id = SCOPE_IDENTITY()
 END
 
+DECLARE @property2_id int
+SELECT @property2_id = p.AccountProperty_Id FROM AccountProperty p
+WHERE p.Name = 'My Food' AND p.AccountPropertyGroup_Id = @group_id
+IF @property2_id IS NULL
+BEGIN
+ INSERT INTO AccountProperty ( [Name], [Description], [TypeName], [DefaultValue], [Publish], [AccountPropertyGroup_Id]) 
+ VALUES ( 'My Food', 'food that you enjoy eating, cooking or looking at', 'System.String', '', 1, @group_id )
+ SET @property2_id = SCOPE_IDENTITY()
+END
+
+
 IF EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'[dbo].[AccountProfile'))
 DROP FULLTEXT INDEX ON [dbo].[AccountProfile]
 
@@ -24,6 +35,10 @@ IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Accoun
 BEGIN
  INSERT INTO AccountPropertyValue ( [Account_Id], [AccountProperty_Id], [Value], [Created], [Modified] )
  SELECT Account_Id, @property_id, AboutSelf, Updated, Updated FROM AccountProfile
+
+ INSERT INTO AccountPropertyValue ( [Account_Id], [AccountProperty_Id], [Value], [Created], [Modified] )
+ SELECT Account_Id, @property2_id, AboutFood, Updated, Updated FROM AccountProfile
+
  DROP TABLE AccountProfile
 END
 

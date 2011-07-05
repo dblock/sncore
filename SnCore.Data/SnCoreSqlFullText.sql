@@ -1,7 +1,7 @@
 EXEC sp_fulltext_database enable
 GO
-IF NOT EXISTS ( SELECT * FROM sys.fulltext_catalogs WHERE name = 'SnCore' )
+IF NOT EXISTS ( SELECT * FROM sys.fulltext_catalogs WHERE name = 'FoodCandy' )
 BEGIN
- CREATE FULLTEXT CATALOG [SnCore] WITH ACCENT_SENSITIVITY = ON
+ CREATE FULLTEXT CATALOG [FoodCandy] WITH ACCENT_SENSITIVITY = ON
  END
 GO

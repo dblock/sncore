@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="SnCore" TagName="Notice" Src="NoticeControl.ascx" %>
 <div class="sncore_h2">
  <a href='Search.aspx'>
-   Tags
+   Food Stamps
   <img src="images/site/right.gif" border="0" />
  </a>
 </div>

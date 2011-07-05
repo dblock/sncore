@@ -8,7 +8,7 @@ if "%~1"=="" (
 pushd "%~dp0"
 setlocal ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 
-set SnCoreProjectName=SnCore
+set SnCoreProjectName=foodcandy.com
 
 set VisualStudioCmd=%ProgramFiles%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat
 

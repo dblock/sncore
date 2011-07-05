@@ -130,7 +130,7 @@
     <comment>link and name of events page</comment>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>help</value>
+    <value>?</value>
     <comment>link and name of help page</comment>
   </data>
   <data name="Home" xml:space="preserve">
@@ -158,11 +158,11 @@
     <comment>link and name of the personal page</comment>
   </data>
   <data name="People" xml:space="preserve">
-    <value>people</value>
+    <value>foodies</value>
     <comment>link and name of people page</comment>
   </data>
   <data name="Places" xml:space="preserve">
-    <value>places</value>
+    <value>eat out</value>
     <comment>link and name of places page</comment>
   </data>
 </root>

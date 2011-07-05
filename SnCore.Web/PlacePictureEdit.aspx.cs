@@ -31,7 +31,7 @@ public partial class PlacePictureEdit : AuthenticatedPage
             linkBack.NavigateUrl = string.Format("PlacePicturesManage.aspx?id={0}", PlaceId);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request, string.Format("PlacePicturesManage.aspx?id={0}", p.Id)));
 

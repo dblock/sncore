@@ -33,6 +33,7 @@
  </table>
  <div class="sncore_h2sub">
   <a href="DiscussionsView.aspx">&#187; All Discussions</a>
+  <a href="AccountStoriesView.aspx">&#187; Stories</a>
   <a href="DiscussionTopOfThreadsView.aspx">&#187; New Threads</a>
  </div>
  <asp:UpdatePanel runat="server" ID="panelThreads" UpdateMode="Always" RenderMode="Inline">

@@ -30,7 +30,7 @@ public partial class RefererAccountsView : AccountPersonPage
             GetData();
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode("Top Traffickers", Request.Url));
             StackSiteMap(sitemapdata);
         }

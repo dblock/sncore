@@ -50,7 +50,7 @@ public partial class PlaceAttributeEdit : AuthenticatedPage
 
             TransitPlace p = Place;
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(p.Name, Request, string.Format("PlaceView.aspx?id={0}", p.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request, string.Format("PlaceAttributesManage.aspx?id={0}", p.Id)));
 

@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="Default.aspx.cs"
- Inherits="_Default" Title="Welcome" %>
+ Inherits="_Default" Title="Food Social Network" %>
 
 <%@ Import Namespace="SnCore.Tools.Web" %>
 <%@ Register TagPrefix="SnCore" TagName="Title" Src="TitleControl.ascx" %>
@@ -24,10 +24,19 @@
  <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
    <td valign="top" width="*">
-    <SnCore:BlogView ID="websiteBlog" runat="server" />
-    <SnCore:AccountGroupFeaturedView id="featuredAccountGroup" runat="server" />
     <SnCore:AccountFeedItemsFeaturedView id="featuredAccountFeedItems" runat="server" />
-    <SnCore:Featured id="featured" runat="server" />
+    <table cellspacing="0" cellpadding="4" class="sncore_half_table">
+     <tr>
+      <td align="center">
+       <a href="Why.aspx"><img src="images/buttons/huh.gif" alt="What is this FoodCandy thing?" border="0" /></a>
+       <a href="AccountCreate.aspx"><img src="images/buttons/join.gif" alt="Join - It's free!" border="0" /></a>
+       <a href="DiscussionsView.aspx"><img src="images/buttons/discuss.gif" alt="Talk the talk with FoodCandy members." border="0" /></a>
+       <a href="AccountFeedItemImgsView.aspx"><img src="images/buttons/porn.gif" alt="Don't tell your mother. It's food porn." border="0" /></a>
+      </td>
+     </tr>
+    </table>
+    <SnCore:BlogView ID="websiteBlog" runat="server" ItemsCollapseAfter="0" />
+    <SnCore:AccountGroupFeaturedView id="featuredAccountGroup" runat="server" />
    </td>
    <td valign="top" width="333">
     <div id="panelRightFront">
@@ -39,6 +48,7 @@
      <SnCore:AccountsNewView ID="accountsNewMain" runat="server" Count="2" />
      <SnCore:DiscussionPostsNewView ID="discussionsNewMain" runat="server" HideIfOlder="5" />
     </div>
+    <SnCore:Featured id="featured" runat="server" />
    </td>
   </tr>
  </table>

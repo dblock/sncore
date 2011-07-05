@@ -37,6 +37,14 @@
    </td>
   </tr>
   <tr>
+   <td class="sncore_form_label">
+    GrafX:
+   </td>
+   <td class="sncore_form_value">
+    Josh (<a target="_blank" href="http://www.crowdedstudios.org/">crowdedstudios.org</a>)
+   </td>
+  </tr>
+  <tr>
    <td valign="top" class="sncore_form_label">
     Technology:
    </td>

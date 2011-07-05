@@ -1,28 +1,11 @@
-/*! \mainpage SnCore
+/*! \mainpage FoodCandy
 
-<b>SnCore</b> is a foundation for a generic social networking system. It can be branched and branded into a project tailored
-to specific end-user needs. But unlike other foundational projects SnCore does not aim to provide a black box solution. We 
-recognize that a sustainable business model includes maintaining full control over the the entire code base and 
-not just for branding. We recognize the need for a fully extensible data model, services and UI. When you get started with 
-SnCore, it's like being shot out of a cannon, at very low cost.
+<b>FoodCandy</b> is built on top of <a href="http://sncore.vestris.com/">SnCore</a>, a generic foundation for social networking systems.
 
 \section main_general General
 \li \subpage features
 \li \subpage logos
 \li \subpage faq
-
-\section main_install Deployment
-\li \subpage install
-\li \subpage settings
-\li \subpage redirect
-\li \subpage smtpsink
-
-\section main_dev Developer Reference
-\li <a class="el" href="Source/sncore">Browse Source Code</a>
-\li \subpage dev
-\li \subpage data
-\li \subpage unittests
-\li \subpage branch
 
 \section main_api Open API Reference
 \li \subpage SnCore::WebServices::WebSystemService "System Management Services"
@@ -44,11 +27,5 @@ SnCore, it's like being shot out of a cannon, at very low cost.
 \li \subpage SnCore::WebServices::WebMarketingService "Marketing Campaign Services"
 \li \subpage SnCore::WebServices::WebObjectService "Business Objects Services"
 \li \subpage SnCore::WebServices::ScriptServices "AJAX Completion Script Services"
-
-\section main_money Licensing
-\li \subpage license
-\li \subpage pricing
-\li \subpage noncommercial
-\li \subpage contact
 
 */

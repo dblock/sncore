@@ -26,7 +26,7 @@ public partial class AccountPlacesManage : AuthenticatedPage
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Me Me", Request, "AccountManage.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request.Url));
             StackSiteMap(sitemapdata);
         }
     }

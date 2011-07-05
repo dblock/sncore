@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="AccountFeedItemImgsView.aspx.cs"
- Inherits="AccountFeedItemImgsView" Title="Pictures" %>
+ Inherits="AccountFeedItemImgsView" Title="Food Porn" %>
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Import Namespace="SnCore.Tools.Web" %>
@@ -13,12 +13,12 @@
    <table cellpadding="0" cellspacing="0" width="784">
     <tr>
      <td>
-      <SnCore:Title ID="titlePictures" Text="Pictures" runat="server">  
+      <SnCore:Title ID="titlePictures" Text="Food Porn" runat="server">  
        <Template>
         <div class="sncore_title_paragraph">
          A picture is worth a thousand words. These pictures are extracted from 
          <a href="AccountFeedsView.aspx">syndicated blogs</a> and are updated several times a day.
-         Click on a picture to see the full blog post.
+         It's also called "food porn". Click on a picture to see the full blog post.
         </div>
         <div class="sncore_title_paragraph">
          Do you have a blog or a FlickR account? You can <a href="AccountFeedWizard.aspx">syndicate yours here</a>. It's free!
@@ -27,7 +27,7 @@
       </SnCore:Title>
       <div class="sncore_h2sub">
        <a href="AccountFeedsView.aspx">&#187; Blog Directory</a>
-       <a href="AccountFeedItemsView.aspx">&#187; Content</a>
+       <a href="AccountFeedItemsView.aspx">&#187; Blog Posts</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
        <SnCore:TellAFriend ID="linkTellAFriend" runat="server" />
        <asp:LinkButton ID="linkEdit" runat="server" OnClick="linkEdit_Click" Text="&#187; Edit" />

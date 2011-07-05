@@ -43,7 +43,7 @@ public partial class AccountFeedItemImgsView : AccountPersonPage
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
             sitemapdata.Add(new SiteMapDataAttributeNode("Blogs", Request, "AccountFeedItemsView.aspx"));
-            sitemapdata.Add(new SiteMapDataAttributeNode("Pictures", Request.Url));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Food Porn", Request.Url));
             StackSiteMap(sitemapdata);
         }
     }

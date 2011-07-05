@@ -11,9 +11,9 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace SnCore.DomainMail
+namespace FoodCandy.DomainMail
 {
-    [Guid("E6A74E11-7234-4096-B9E6-C65165B9B93F")]
+    [Guid("6782A8DE-234C-4dde-A53D-EF3B3C5DD314")]
     [ComVisible(true)]
     public class Sink : IMailTransportSubmission
     {

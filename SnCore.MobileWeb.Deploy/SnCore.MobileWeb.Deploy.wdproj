@@ -1,20 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+﻿<!-- 
   Microsoft Visual Studio 2005 Web Deployment Project 
   http://go.microsoft.com/fwlink/?LinkId=55111
 -->
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.30319</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9EE29072-1A8E-49DE-9DA4-CC71E36F9AC0}</ProjectGuid>
     <SourceWebPhysicalPath>..\SnCore.MobileWeb</SourceWebPhysicalPath>
-    <SourceWebProject>{629A5887-656E-4B93-870F-B5961F7528E2}|http://localhost/SnCoreMobileWeb</SourceWebProject>
-    <SourceWebVirtualPath>/SnCoreMobileWeb</SourceWebVirtualPath>
-    <SourceWebMetabasePath>/LM/W3SVC/1/ROOT/SnCoreMobileWeb/</SourceWebMetabasePath>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SourceWebProject>{629A5887-656E-4B93-870F-B5961F7528E2}|http://localhost/FoodCandyMobileWeb</SourceWebProject>
+    <SourceWebVirtualPath>/FoodCandyMobileWeb</SourceWebVirtualPath>
+    <SourceWebMetabasePath>/LM/W3SVC/1/ROOT/FoodCandyMobileWeb/</SourceWebMetabasePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -110,7 +108,7 @@
       <Name>Wilco.Web</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v10.0\Microsoft.WebDeployment.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v9.0\Microsoft.WebDeployment.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.WebDeployment.targets.
   <Target Name="BeforeBuild">

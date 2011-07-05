@@ -41,7 +41,7 @@ public partial class AccountAttributesManage : AuthenticatedPage
         if (!IsPostBack)
         {
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(Account.Name, Request, string.Format("AccountView.aspx?id={0}", Account.Id)));
             sitemapdata.Add(new SiteMapDataAttributeNode("Attributes", Request.Url));
 

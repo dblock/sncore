@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.Specialized;
 
-[SiteMapDataAttribute("People")]
+[SiteMapDataAttribute("Foodies")]
 public partial class AccountsView : Page
 {
     private LocationSelectorCountryStateCity mLocationSelector = null;

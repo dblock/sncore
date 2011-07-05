@@ -26,7 +26,7 @@ public partial class PlacesByPropertyValueView : Page
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}", Renderer.UrlEncode(GroupName))));
             sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName))));
             sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request, string.Format("PlacesByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue={2}", Renderer.UrlEncode(GroupName), Renderer.UrlEncode(PropertyName), Renderer.UrlEncode(PropertyValue))));

@@ -32,7 +32,7 @@ public partial class AccountPlaceRequestEdit : AuthenticatedPage
                 inputMessage.Text = "Hello,\n\nI work for this place and would like to manage content.\n\nThanks!\n";
 
                 SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-                sitemapdata.Add(new SiteMapDataAttributeNode("Places", Request, "PlacesView.aspx"));
+                sitemapdata.Add(new SiteMapDataAttributeNode("Eat Out", Request, "PlacesView.aspx"));
                 sitemapdata.Add(new SiteMapDataAttributeNode(place.Name, Request, string.Format("PlaceView.aspx?id={0}", place.Id)));
                 sitemapdata.Add(new SiteMapDataAttributeNode("Request Ownership", Request.Url));
                 StackSiteMap(sitemapdata);

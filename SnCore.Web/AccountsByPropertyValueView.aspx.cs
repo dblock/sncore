@@ -26,7 +26,7 @@ public partial class AccountsByPropertyValueView : Page
             GetData(sender, e);
 
             SiteMapDataAttribute sitemapdata = new SiteMapDataAttribute();
-            sitemapdata.Add(new SiteMapDataAttributeNode("People", Request, "AccountsView.aspx"));
+            sitemapdata.Add(new SiteMapDataAttributeNode("Foodies", Request, "AccountsView.aspx"));
             sitemapdata.Add(new SiteMapDataAttributeNode(GroupName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName=&PropertyValue=", GroupName)));
             sitemapdata.Add(new SiteMapDataAttributeNode(PropertyName, Request, string.Format("AccountsByPropertyValueView.aspx?GroupName={0}&PropertyName={1}&PropertyValue=", GroupName, PropertyName)));
             sitemapdata.Add(new SiteMapDataAttributeNode(PropertyValue, Request.Url));

@@ -29,7 +29,7 @@
       </SnCore:Title>
       <div class="sncore_h2sub">
        <a href="AccountFeedsView.aspx">&#187; Blog Directory</a>
-       <a href="AccountFeedItemImgsView.aspx">&#187; Pictures</a>
+       <a href="AccountFeedItemImgsView.aspx">&#187; Food Porn</a>
        <a href="AccountFeedItemMediasView.aspx">&#187; Podcasts &amp; Videos</a>
        <asp:LinkButton ID="linkAll" OnClick="linkAll_Click" runat="server" Text="&#187; All Posts" />
        <asp:LinkButton ID="linkLocal" OnClick="linkLocal_Click" runat="server" Text="&#187; All Local Posts" />

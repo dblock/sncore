@@ -1,7 +1,24 @@
 /*! \page logos Banners and Logos
 
-\section Top Logo
+\section logos_toplogo Top Logo
+
+Right click on a picture and choose <em>Save Target As</em>. Logos and graphics designed by Josh Sellers, 
+<a href="http://www.crowdedstudios.org">CrowdedStudios.org</a>.
 
 \image html toplogo.jpg
+
+
+\section logos_buttons Buttons and Links
+
+\image html foodcandy-button.gif
+
+\image html foodcandy-link.gif
+
+
+\section logos_transparent Transparent Logos
+
+\image html foodcandy-logo.gif
+
+\image html foodcandy-small.gif
 
 */

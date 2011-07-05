@@ -8,7 +8,7 @@
   <td>
    <div class="sncore_h2">
     <a href="DiscussionsView.aspx">
-      New Discussion Posts
+      Participate
      <img src="images/site/right.gif" border="0" />
     </a>
    </div>
@@ -31,7 +31,7 @@
 <SnCore:RssLink ID="linkRelThreadsRss" runat="server" NavigateUrl="DiscussionThreadsRss.aspx" 
  Title="New Discussion Posts" ButtonVisible="false" />
 <SnCoreWebControls:PagedList BorderWidth="0px" runat="server" ID="discussionView"
- RepeatColumns="1" RepeatRows="5" AllowCustomPaging="true" RepeatDirection="Horizontal"
+ RepeatColumns="1" RepeatRows="3" AllowCustomPaging="true" RepeatDirection="Horizontal"
  CssClass="sncore_half_table" ShowHeader="false">
  <ItemStyle CssClass="sncore_message_tr_td_halftable" />
  <ItemTemplate>

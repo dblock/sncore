@@ -354,7 +354,7 @@ BEGIN
   [Phone] LANGUAGE [English], 
   [Street] LANGUAGE [English], 
   [Zip] LANGUAGE [English])
- KEY INDEX [PK_Place] ON [SnCore]
+ KEY INDEX [PK_Place] ON [FoodCandy]
  WITH CHANGE_TRACKING AUTO
 
  ALTER TABLE dbo.Place DROP COLUMN [Website]

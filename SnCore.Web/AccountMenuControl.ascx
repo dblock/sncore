@@ -2,6 +2,7 @@
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/star.gif" /></td><td width="*"><a href="AccountView.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, PreviewMe %>" /></a></td></tr>
  <tr><td width="30" align="center"><img src="images/account/friends.gif" /></td><td width="*"><a href="AccountInvitationsManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, InviteFriends %>" /></a></td></tr>
+ <tr><td width="30" align="center"><img src="images/account/specials.gif" /></td><td width="*"><a href="/newsletter">FoodCandy Newsletter</a></td></tr>
 </table>
 <table class="sncore_accountmenu_table">
  <tr><td width="30" align="center"><img src="images/account/syndication.gif" /></td><td width="*"><a href="AccountFeedsManage.aspx"><asp:Literal runat="server" Text="<%$ Resources:Links, Syndication %>" /></a></td></tr>

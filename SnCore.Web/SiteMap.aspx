@@ -153,7 +153,6 @@
       <li><a href="AccountEmailsManage.aspx">E-Mails</a></li>
       <li><a href="AccountOpenIdsManage.aspx">Open Id</a></li>
       <li><a href="AccountWebSitesManage.aspx">Websites</a></li>
-      <li><a href="AccountLicenseEdit.aspx">License</a></li>
       <li><a href="AccountPlaceFavoritesManage.aspx">Favorite Places</a></li>
       <li><a href="AccountPlacesManage.aspx">Places</a></li>
       <li><a href="AccountPlaceChangeRequestsManage.aspx">Change Requests</a></li>

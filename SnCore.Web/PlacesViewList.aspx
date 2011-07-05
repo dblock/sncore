@@ -1,5 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/SnCore.master" AutoEventWireup="true" CodeFile="PlacesViewList.aspx.cs"
- Inherits="PlacesViewList" Title="Places" %>
+ Inherits="PlacesViewList" Title="Eat Out" %>
 
 <%@ Import Namespace="SnCore.Services" %>
 <%@ Register TagPrefix="SnCoreWebControls" Namespace="SnCore.WebControls" Assembly="SnCore.WebControls" %>
