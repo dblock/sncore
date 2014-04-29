@@ -285,15 +285,16 @@ namespace Gif.Components
 			if (remaining == 0)
 				return EOF;
 
-			--remaining;
-
-			int temp = curPixel + 1;
-			if ( temp < pixAry.GetUpperBound( 0 ))
+			if (curPixel < pixAry.Length)
 			{
-				byte pix = pixAry[curPixel++];
+				byte pix = pixAry[curPixel];
 
-				return pix & 0xff;
+				--remaining;
+				++curPixel;
+
+				return pix;
 			}
+
 			return 0xff;
 		}
 	
